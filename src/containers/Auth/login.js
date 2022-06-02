@@ -4,13 +4,38 @@ import { push } from "connected-react-router";
 // import * as actions from "../store/actions";
 import * as actions from "../../store/actions";
 import "./login.scss";
-import { FormattedMessage } from "react-intl";
+import { dateFilter } from "react-bootstrap-table2-filter";
+// import { FormattedMessage } from "react-intl";
 
 class Login extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      userName: " dao manh hung",
+      password: " secret",
+      isShowPassword: false,
+    };
   }
 
+  handleOnChangeUserName = (event) => {
+    this.setState({
+      userName: event.target.value,
+    });
+  };
+
+  handleOnChangePassword = (event) => {
+    this.setState({
+      password: event.target.value,
+    });
+  };
+
+  handleShowHidePassword = () => {
+    this.setState({
+      isShowPassword: !this.state.isShowPassword,
+    });
+  };
+
+  handleLogin = () => {};
   render() {
     return (
       <>
@@ -24,18 +49,35 @@ class Login extends Component {
                   type="text"
                   className="form-control"
                   placeholder="Enter your username"
+                  value={this.state.userName}
+                  onChange={(event) => this.handleOnChangeUserName(event)}
                 />
               </div>
               <div className="col-12 form-group login-input">
                 <label>Password:</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="Enter your password"
-                />
+                <div className="custom-input-password">
+                  <input
+                    type={this.state.isShowPassword ? "text" : "password"}
+                    className="form-control"
+                    placeholder="Enter your password"
+                    value={this.state.password}
+                    onChange={(event) => this.handleOnChangePassword(event)}
+                  />
+                  <span onClick={() => this.handleShowHidePassword()}>
+                    <i
+                      class={
+                        this.state.isShowPassword
+                          ? "fas fa-eye-slash"
+                          : "fas fa-eye"
+                      }
+                    ></i>
+                  </span>
+                </div>
               </div>
               <div className="col-12">
-                <button className="btn-login">Login</button>
+                <button className="btn-login" onClick={() => this.handleLogin}>
+                  Login
+                </button>
               </div>
               <div className="col-12 ">
                 <span className="forgot-password">Forgot your password</span>
@@ -44,9 +86,9 @@ class Login extends Component {
                 <span className="">Or login with</span>
               </div>
               <div className="col-12 social-login text-center">
-                <i class="fab fa-google-plus"></i>
-                <i class="fab fa-facebook"></i>
-                <i class="fab fa-twitter"></i>
+                <i className="fab fa-google-plus"></i>
+                <i className="fab fa-facebook"></i>
+                <i className="fab fa-twitter"></i>
               </div>
             </div>
           </div>
