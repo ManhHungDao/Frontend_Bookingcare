@@ -5,21 +5,23 @@ import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import "./login.scss";
 import { dateFilter } from "react-bootstrap-table2-filter";
+import { handleLoginApi } from "../../services/userService";
+
 // import { FormattedMessage } from "react-intl";
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: " dao manh hung",
-      password: " secret",
+      email: "daomanhhung1202@gmail.com",
+      password: "123456",
       isShowPassword: false,
     };
   }
 
   handleOnChangeUserName = (event) => {
     this.setState({
-      userName: event.target.value,
+      email: event.target.value,
     });
   };
 
@@ -35,7 +37,13 @@ class Login extends Component {
     });
   };
 
-  handleLogin = () => {};
+  handleLogin = async () => {
+    try {
+      await handleLoginApi(this.state.email, this.state.password)
+    } catch (error) {
+    console.log("🚀 ~ file: login.js ~ line 44 ~ Login ~ handleLogin= ~ error", error)
+    }
+  };
   render() {
     return (
       <>
@@ -49,7 +57,7 @@ class Login extends Component {
                   type="text"
                   className="form-control"
                   placeholder="Enter your username"
-                  value={this.state.userName}
+                  value={this.state.email}
                   onChange={(event) => this.handleOnChangeUserName(event)}
                 />
               </div>
@@ -75,7 +83,10 @@ class Login extends Component {
                 </div>
               </div>
               <div className="col-12">
-                <button className="btn-login" onClick={() => this.handleLogin}>
+                <button
+                  className="btn-login"
+                  onClick={() => this.handleLogin()}
+                >
                   Login
                 </button>
               </div>
