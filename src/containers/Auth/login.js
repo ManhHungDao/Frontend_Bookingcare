@@ -13,9 +13,10 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "daomanhhung1202@gmail.com",
+      email: "hungpepi2001@gmail.com",
       password: "123456",
       isShowPassword: false,
+      errMessage: "",
     };
   }
 
@@ -38,10 +39,26 @@ class Login extends Component {
   };
 
   handleLogin = async () => {
+    this.setState({
+      errMessage: "",
+    });
     try {
-      await handleLoginApi(this.state.email, this.state.password)
-    } catch (error) {
-    console.log("🚀 ~ file: login.js ~ line 44 ~ Login ~ handleLogin= ~ error", error)
+      const data = await handleLoginApi(this.state.email, this.state.password);
+      if (data && data.errCode !== 0) {
+        this.setState({
+          errMessage: data.message,
+        });
+      }
+      if (data && data.errCode === 0) {
+        this.props.userLoginSuccess(data.user);
+      }
+    } catch (e) {
+      if (e.response) {
+        if (e.response.data)
+          this.setState({
+            errMessage: e.response.data.message,
+          });
+      }
     }
   };
   render() {
@@ -82,6 +99,9 @@ class Login extends Component {
                   </span>
                 </div>
               </div>
+              <div className="col-12" style={{ color: "red" }}>
+                {this.state.errMessage}
+              </div>
               <div className="col-12">
                 <button
                   className="btn-login"
@@ -118,9 +138,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     navigate: (path) => dispatch(push(path)),
-    adminLoginSuccess: (adminInfo) =>
-      dispatch(actions.adminLoginSuccess(adminInfo)),
-    adminLoginFail: () => dispatch(actions.adminLoginFail()),
+    // userLoginFail: () => dispatch(actions.adminLoginFail()),
+    userLoginSuccess: (userInfo) =>
+      dispatch(actions.userLoginSuccess(userInfo)),
   };
 };
 
