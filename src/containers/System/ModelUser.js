@@ -5,73 +5,130 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 class ModelUser extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      address: "",
+    };
   }
 
   componentDidMount() {}
+
   toggle = () => {
     this.props.toggleFromParent();
+  };
+
+  handleOnChangInput = (event, id) => {
+    let copyState = { ...this.state };
+    copyState[id] = event.target.value;
+    this.setState({
+      ...copyState,
+    });
+  };
+  checkValidateInput = () => {
+    // let arrInput = ["email", "password", "firstName", "lastName", "address"];
+    const arrInput = Object.keys(this.state);
+    for (let i = 0; i < arrInput.length; i++)
+      if (!this.state[arrInput[i]]) {
+        alert(`Missing parameters ${arrInput[i]}`);
+        return false;
+      }
+    return true;
+  };
+  handleAddNewUser = () => {
+    const isValid = this.checkValidateInput();
+    if (isValid) {
+      this.props.createNewUser(this.state);
+    }
   };
   render() {
     return (
       <Modal
         size="lg"
         isOpen={this.props.isOpen}
-        toggle={() => this.toggle()}
-        className={"abcclassname"}
       >
         <ModalHeader toggle={() => this.toggle()}>
           Create A New User
         </ModalHeader>
         <ModalBody>
           <form>
-            <div class="row">
-              <div class="col">
-                <lable>Email</lable>
+            <div className="row">
+              <div className="col">
+                Email
                 <input
                   type="text"
-                  class="form-control"
-                  placeholder="First name"
+                  name="email"
+                  className="form-control"
+                  onChange={(event) => this.handleOnChangInput(event, "email")}
+                  value={this.state.email}
                 />
               </div>
-              <div class="col">
-                <lable>Password</lable>
+              <div className="col">
+                Password
                 <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Last name"
-                />
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col">
-                <lable>First Name</lable>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="First name"
-                />
-              </div>
-              <div class="col">
-                <lable>Last Name</lable>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Last name"
+                  type="password"
+                  name="password"
+                  className="form-control"
+                  onChange={(event) =>
+                    this.handleOnChangInput(event, "password")
+                  }
+                  value={this.state.password}
                 />
               </div>
             </div>
-            <div class="col mt-3">
-              <lable>Address</lable>
-              <input type="text" class="form-control" placeholder="Last name" />
+            <div className="row mt-3">
+              <div className="col">
+                First Name
+                <input
+                  type="text"
+                  name="firstName"
+                  className="form-control"
+                  onChange={(event) =>
+                    this.handleOnChangInput(event, "firstName")
+                  }
+                  value={this.state.firstName}
+                />
+              </div>
+              <div className="col">
+                Last Name
+                <input
+                  type="text"
+                  name="lastName"
+                  className="form-control"
+                  onChange={(event) =>
+                    this.handleOnChangInput(event, "lastName")
+                  }
+                  value={this.state.lastName}
+                />
+              </div>
+            </div>
+            <div className="col mt-3">
+              Address
+              <input
+                type="text"
+                name="address"
+                className="form-control"
+                onChange={(event) => this.handleOnChangInput(event, "address")}
+                value={this.state.address}
+              />
             </div>
           </form>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={() => this.toggle()}>
-            Do Something
+          <Button
+            color="primary"
+            className="px-3"
+            onClick={() => this.handleAddNewUser()}
+          >
+            Create
           </Button>
-          <Button color="secondary" onClick={() => this.toggle()}>
+          <Button
+            color="secondary"
+            className="px-3"
+            onClick={() => this.toggle()}
+          >
             Cancel
           </Button>
         </ModalFooter>

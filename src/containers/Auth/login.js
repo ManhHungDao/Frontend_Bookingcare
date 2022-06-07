@@ -5,7 +5,7 @@ import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import "./login.scss";
 import { dateFilter } from "react-bootstrap-table2-filter";
-import { handleLoginApi } from "../../services/userService";
+import { handleLoginApiService } from "../../services/userService";
 
 // import { FormattedMessage } from "react-intl";
 
@@ -43,7 +43,7 @@ class Login extends Component {
       errMessage: "",
     });
     try {
-      const data = await handleLoginApi(this.state.email, this.state.password);
+      const data = await handleLoginApiService(this.state.email, this.state.password);
       if (data && data.errCode !== 0) {
         this.setState({
           errMessage: data.message,
@@ -90,7 +90,7 @@ class Login extends Component {
                   />
                   <span onClick={() => this.handleShowHidePassword()}>
                     <i
-                      class={
+                      className={
                         this.state.isShowPassword
                           ? "fas fa-eye-slash"
                           : "fas fa-eye"

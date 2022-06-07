@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
-import { getAllUsers } from "../../services/userService";
+import {
+  getAllUsersService,
+  createNewUserService,
+} from "../../services/userService";
 import "./UserManage.scss";
 import ModelUser from "./ModelUser";
 class UserManage extends Component {
@@ -14,13 +17,17 @@ class UserManage extends Component {
   }
 
   async componentDidMount() {
-    let responce = await getAllUsers("All");
+    this.getAllUsersFormReact();
+  }
+
+  getAllUsersFormReact = async () => {
+    let responce = await getAllUsersService("All");
     if (responce && responce.errCode === 0) {
       this.setState({
         arrUsers: responce.user,
       });
     }
-  }
+  };
 
   handleAddNewUser = () => {
     this.setState({
@@ -34,6 +41,29 @@ class UserManage extends Component {
     });
   };
 
+  createNewUser = async (data) => {
+    try {
+      const responce = await createNewUserService(data);
+      console.log(
+        "🚀 ~ file: UserManage.js ~ line 47 ~ UserManage ~ createNewUser= ~ responce",
+        responce
+      );
+      if (responce && responce.errCode !== 0) {
+        alert(responce.message);
+      } else {
+        await this.getAllUsersFormReact();
+        this.setState({
+          isOpenModal: !this.state.isOpenModal,
+        });
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: UserManage.js ~ line 46 ~ UserManage ~ createNewUser= ~ error",
+        error
+      );
+    }
+  };
+
   render() {
     const arrUsers = this.state.arrUsers;
     return (
@@ -41,6 +71,7 @@ class UserManage extends Component {
         <ModelUser
           isOpen={this.state.isOpenModal}
           toggleFromParent={this.toggleUserModel}
+          createNewUser={this.createNewUser}
         />
         <div className="title text-center">Manage User With Manh Hung</div>
         <div className="mx-1  ">
@@ -54,35 +85,36 @@ class UserManage extends Component {
         </div>
         <div className="users-table mt-3 mx-1">
           <table id="customers">
-            <tr>
-              <th scope="col">Email</th>
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name</th>
-              <th scope="col">Address</th>
-              <th scope="col">Action</th>
-            </tr>
-            {arrUsers &&
-              arrUsers.map((item, index) => {
-                return (
-                  <>
-                    <tr>
-                      {" "}
+            <thead>
+              <tr>
+                <th scope="col">Email</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {arrUsers &&
+                arrUsers.map((item, index) => {
+                  return (
+                    <tr key={index}>
                       <td>{item.email}</td>
                       <td>{item.firstName}</td>
                       <td>{item.lastName}</td>
                       <td>{item.address}</td>
                       <td>
-                        <button className="btn btn-edit">
+                        <button className="btn btn-edit" onClick={() => {}}>
                           <i className="fas fa-pencil-alt"></i>
                         </button>
-                        <button className="btn btn-delete">
+                        <button className="btn btn-delete" onClick={() => {}}>
                           <i className="fas fa-trash"></i>
                         </button>
                       </td>
                     </tr>
-                  </>
-                );
-              })}
+                  );
+                })}
+            </tbody>
           </table>
         </div>
       </div>
