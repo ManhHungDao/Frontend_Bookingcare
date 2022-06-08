@@ -1,6 +1,7 @@
 .home-header-container {
   height: 60px;
   width: 100%;
+  margin: 11px 0px;
   padding: 0 50px;
   .home-header-content {
     width: 100%;
@@ -50,6 +51,133 @@
         font-size: 25px;
         color: #45c3d2;
         padding: 0 5px;
+      }
+    }
+  }
+}
+.home-header-banner {
+  background: url("../../assets/header-background.jpg");
+  height: 485px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  .content-up {
+    padding: 20px;
+    height: 50%;
+    .title {
+      color: white;
+      text-shadow: 1px 1px 1px #333;
+      font-size: 32px;
+      text-align: center;
+    }
+    .title1 {
+      font-weight: lighter;
+    }
+    .title2 {
+      margin-bottom: 20px;
+    }
+    .search {
+      margin-top: 60px;
+      text-align: center;
+      padding: 3px 20px;
+      border-radius: 30px;
+      background-color: #f7d800;
+      width: fit-content;
+      margin: 0 auto;
+      input {
+        background: transparent;
+        color: black;
+        border: none;
+        line-height: 45px;
+        outline: none;
+        width: 350px;
+      }
+      i {
+        margin-right: 15px;
+      }
+    }
+  }
+  .content-down {
+    height: 50%;
+    .options {
+      // background-image: linear-gradient(
+      //   rgba(255, 255, 255, 0.1),
+      //   rgba(255, 255, 255, 0.9),
+      //   rgba(255, 255, 255, 1)
+      // ) !important;
+      display: flex;
+      justify-content: space-around;
+      .options-child {
+        .wrap-child{
+          background-color: white ;
+          height: 40px;
+          border-radius: 15px;
+        }
+        .text-child {
+          margin-top: 5px;
+          text-align: center;
+          font-weight: bold;
+        }
+        .icon-child {
+        }
+        .child1 {
+          background: url("../../assets/icon-optinal/hospital.png");
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          height: 25px;
+        }
+        .child2 {
+          background: url("../../assets/icon-optinal/phone.png");
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          height: 37px;
+        }
+        .child3 {
+          background: url("../../assets/icon-optinal/khamtongquat.png");
+          background-position: center;
+          background-size: contain;
+          background-repeat: no-repeat;
+          height: 37px;
+        }
+        .child4 {
+          background: url("../../assets/icon-optinal/dichvuxetnghiem.png");
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          height: 37px;
+        }
+        .child5 {
+          background: url("../../assets/icon-optinal/suckhoetinhthan.png");
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          height: 37px;
+        }
+        .child6 {
+          background: url("../../assets/icon-optinal/khamnhakhoa.png");
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          height: 37px;
+        }
+        .child7 {
+          background: url("../../assets/icon-optinal/phau-thuat.jpg");
+          background-position: center;
+          background-size: contain;
+          background-repeat: no-repeat;
+          height: 37px;
+        }
+        .child8 {
+          background: url("../../assets/icon-optinal/khamtainha.png");
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          height: 37px;
+        }
       }
     }
   }
