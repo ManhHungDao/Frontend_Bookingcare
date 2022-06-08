@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { emitter } from "../../utils/emitter";
+
 class ModelUser extends Component {
   constructor(props) {
     super(props);
@@ -12,6 +14,19 @@ class ModelUser extends Component {
       lastName: "",
       address: "",
     };
+    this.listenToEmitter();
+  }
+
+  listenToEmitter() {
+    emitter.on("EVENT_CLEAR_MODAL_DATA", () => {
+      this.setState({
+        email: " ",
+        password: " ",
+        firstName: " ",
+        lastName: " ",
+        address: " ",
+      });
+    });
   }
 
   componentDidMount() {}
@@ -45,10 +60,7 @@ class ModelUser extends Component {
   };
   render() {
     return (
-      <Modal
-        size="lg"
-        isOpen={this.props.isOpen}
-      >
+      <Modal size="lg" isOpen={this.props.isOpen}>
         <ModalHeader toggle={() => this.toggle()}>
           Create A New User
         </ModalHeader>
@@ -58,7 +70,7 @@ class ModelUser extends Component {
               <div className="col">
                 Email
                 <input
-                  type="text"
+                  type="email"
                   name="email"
                   className="form-control"
                   onChange={(event) => this.handleOnChangInput(event, "email")}
