@@ -1,35 +1,29 @@
+import _ from "lodash";
 import React, { Component } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { emitter } from "../../utils/emitter";
 
-class ModelUser extends Component {
+class ModelEditUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       email: "",
-      password: "",
+      password: "hashpassword",
       firstName: "",
       lastName: "",
       address: "",
     };
-    this.listenToEmitter();
   }
 
-  listenToEmitter() {
-    emitter.on("EVENT_CLEAR_MODAL_DATA", () => {
+  componentDidMount() {
+    const user = this.props.currentUser;
+    if (user && !_.isEmpty(user)) {
       this.setState({
-        email: " ",
-        password: " ",
-        firstName: " ",
-        lastName: " ",
-        address: " ",
+        ...user,
       });
-    });
+    }
   }
-
-  componentDidMount() {}
 
   toggle = () => {
     this.props.toggleFromParent();
@@ -43,9 +37,7 @@ class ModelUser extends Component {
     });
   };
   checkValidateInput = () => {
-    // let arrInput = ["email", "password", "firstName", "lastName", "address"];
-    const arrInput = Object.keys(this.state);
-    console.log("🚀 ~ file: ModelUser.js ~ line 48 ~ ModelUser ~ this.state", this.state)
+    let arrInput = ["firstName", "lastName", "address"];
     for (let i = 0; i < arrInput.length; i++)
       if (!this.state[arrInput[i]]) {
         alert(`Missing parameters ${arrInput[i]}`);
@@ -53,24 +45,24 @@ class ModelUser extends Component {
       }
     return true;
   };
-  handleAddNewUser = () => {
+  handleSaveUser = () => {
     const isValid = this.checkValidateInput();
     if (isValid) {
-      this.props.createNewUser(this.state);
+      // call api edit user
+      this.props.editUser(this.state);
     }
   };
   render() {
     return (
       <Modal size="lg" isOpen={this.props.isOpen}>
-        <ModalHeader toggle={() => this.toggle()}>
-          Create A New User
-        </ModalHeader>
+        <ModalHeader toggle={() => this.toggle()}>Edit A New User</ModalHeader>
         <ModalBody>
           <form>
             <div className="row">
               <div className="col">
                 Email
                 <input
+                  disabled="true"
                   type="email"
                   name="email"
                   className="form-control"
@@ -81,6 +73,7 @@ class ModelUser extends Component {
               <div className="col">
                 Password
                 <input
+                  disabled="true"
                   type="password"
                   name="password"
                   className="form-control"
@@ -133,9 +126,9 @@ class ModelUser extends Component {
           <Button
             color="primary"
             className="px-3"
-            onClick={() => this.handleAddNewUser()}
+            onClick={() => this.handleSaveUser()}
           >
-            Create
+            Save Changes
           </Button>
           <Button
             color="secondary"
@@ -158,4 +151,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModelUser);
+export default connect(mapStateToProps, mapDispatchToProps)(ModelEditUser);

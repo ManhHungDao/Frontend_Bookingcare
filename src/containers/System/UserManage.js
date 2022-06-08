@@ -5,10 +5,12 @@ import {
   getAllUsersService,
   createNewUserService,
   deleteUserService,
+  editUserService,
 } from "../../services/userService";
 import "./UserManage.scss";
 import ModelUser from "./ModelUser";
 import { emitter } from "../../utils/emitter";
+import ModelEditUser from "./ModelEditUser";
 
 class UserManage extends Component {
   constructor(props) {
@@ -16,6 +18,8 @@ class UserManage extends Component {
     this.state = {
       arrUsers: [],
       isOpenModal: false,
+      isOpenEditModal: false,
+      userEdit: {},
     };
   }
 
@@ -44,6 +48,12 @@ class UserManage extends Component {
     });
   };
 
+  toggleUserEditModel = () => {
+    this.setState({
+      isOpenEditModal: !this.state.isOpenEditModal,
+    });
+  };
+
   createNewUser = async (data) => {
     try {
       const responce = await createNewUserService(data);
@@ -69,6 +79,9 @@ class UserManage extends Component {
       const response = await deleteUserService(userId);
       if (response && response.errCode === 0) {
         this.getAllUsersFormReact();
+        this.setState({
+          isOpenEditModal: false,
+        });
       } else {
         alert(response.message);
       }
@@ -80,6 +93,27 @@ class UserManage extends Component {
     }
   };
 
+  handleEditUser = (user) => {
+    this.setState({
+      isOpenEditModal: true,
+      userEdit: { ...user },
+    });
+  };
+
+  doEditUser = async (user) => {
+    try {
+      const res = await editUserService(user);
+      if (res && res.errCode === 0) {
+        this.getAllUsersFormReact();
+        this.setState({
+          isOpenEditModal: false,
+        });
+      } else {
+        alert(res.message);
+      }
+    } catch (error) {}
+  };
+
   render() {
     const arrUsers = this.state.arrUsers;
     return (
@@ -89,6 +123,14 @@ class UserManage extends Component {
           toggleFromParent={this.toggleUserModel}
           createNewUser={this.createNewUser}
         />
+        {this.state.isOpenEditModal && (
+          <ModelEditUser
+            isOpen={this.state.isOpenEditModal}
+            toggleFromParent={this.toggleUserEditModel}
+            currentUser={this.state.userEdit}
+            editUser={this.doEditUser}
+          />
+        )}
         <div className="title text-center">Manage User With Manh Hung</div>
         <div className="mx-1  ">
           <button
@@ -120,7 +162,12 @@ class UserManage extends Component {
                       <td>{item.lastName}</td>
                       <td>{item.address}</td>
                       <td>
-                        <button className="btn btn-edit" onClick={() => {}}>
+                        <button
+                          className="btn btn-edit"
+                          onClick={() => {
+                            this.handleEditUser(item);
+                          }}
+                        >
                           <i className="fas fa-pencil-alt"></i>
                         </button>
                         <button

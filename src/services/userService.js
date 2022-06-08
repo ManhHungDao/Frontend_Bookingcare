@@ -25,9 +25,14 @@ const deleteUserService = (userId) => {
   });
 };
 
+const editUserService = (user) => {
+  return axios.put(`/api/edit-user`, user);
+};
+
 export {
   handleLoginApiService,
   getAllUsersService,
   createNewUserService,
   deleteUserService,
+  editUserService,
 };
