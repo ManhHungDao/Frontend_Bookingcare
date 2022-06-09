@@ -101,6 +101,8 @@
   }
   .content-down {
     height: 50%;
+    padding: 0 150px;
+    position: relative;
     .options {
       // background-image: linear-gradient(
       //   rgba(255, 255, 255, 0.1),
@@ -110,73 +112,25 @@
       display: flex;
       justify-content: space-around;
       .options-child {
-        .wrap-child{
-          background-color: white ;
-          height: 40px;
-          border-radius: 15px;
-        }
+        cursor: pointer;
         .text-child {
           margin-top: 5px;
           text-align: center;
           font-weight: bold;
+          font-size: 16px;
+          &:hover {
+            color: #45c3d2;
+          }
         }
         .icon-child {
-        }
-        .child1 {
-          background: url("../../assets/icon-optinal/hospital.png");
-          background-size: contain;
+          margin: 0 auto;
+          background: #fff;
+          background-size: 32px;
           background-position: center;
           background-repeat: no-repeat;
-          height: 25px;
-        }
-        .child2 {
-          background: url("../../assets/icon-optinal/phone.png");
-          background-size: contain;
-          background-position: center;
-          background-repeat: no-repeat;
-          height: 37px;
-        }
-        .child3 {
-          background: url("../../assets/icon-optinal/khamtongquat.png");
-          background-position: center;
-          background-size: contain;
-          background-repeat: no-repeat;
-          height: 37px;
-        }
-        .child4 {
-          background: url("../../assets/icon-optinal/dichvuxetnghiem.png");
-          background-size: contain;
-          background-position: center;
-          background-repeat: no-repeat;
-          height: 37px;
-        }
-        .child5 {
-          background: url("../../assets/icon-optinal/suckhoetinhthan.png");
-          background-size: contain;
-          background-position: center;
-          background-repeat: no-repeat;
-          height: 37px;
-        }
-        .child6 {
-          background: url("../../assets/icon-optinal/khamnhakhoa.png");
-          background-size: contain;
-          background-position: center;
-          background-repeat: no-repeat;
-          height: 37px;
-        }
-        .child7 {
-          background: url("../../assets/icon-optinal/phau-thuat.jpg");
-          background-position: center;
-          background-size: contain;
-          background-repeat: no-repeat;
-          height: 37px;
-        }
-        .child8 {
-          background: url("../../assets/icon-optinal/khamtainha.png");
-          background-size: contain;
-          background-position: center;
-          background-repeat: no-repeat;
-          height: 37px;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
         }
       }
     }

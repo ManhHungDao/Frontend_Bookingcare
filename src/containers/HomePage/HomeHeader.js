@@ -3,6 +3,18 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import "./HomeHeader.scss";
 
+
+
+// import icon optianal
+import iconHospital from "../../assets/icon-optinal/hospital.png";
+import iconDichVuXetNghiem from "../../assets/icon-optinal/dichvuxetnghiem.png";
+import iconKhamNhaKhoa from "../../assets/icon-optinal/khamnhakhoa.png";
+import iconKhamTaiNha from "../../assets/icon-optinal/khamtainha.png";
+import iconKhamTongQuat from "../../assets/icon-optinal/khamtongquat.png";
+import iconPhauThuat from "../../assets/icon-optinal/phau-thuat.jpg";
+import iconDienThoai from "../../assets/icon-optinal/phone.png";
+import iconSucKhoeTinhThan from "../../assets/icon-optinal/suckhoetinhthan.png";
+
 class HomeHeader extends Component {
   render() {
     return (
@@ -57,55 +69,93 @@ class HomeHeader extends Component {
           <div className="content-down">
             <div className="options">
               <div className="options-child">
-                <div className="wrap-child">
-                  <div className="icon-child child1"></div>
-                </div>
+                  <div
+                    className="icon-child child1"
+                    style={{
+                      backgroundImage: `url(${iconHospital})`,
+                    }}
+                  ></div>
                 <div className="text-child">
                   Khám <br /> Chuyên khoa
                 </div>
               </div>
               <div className="options-child">
-                <div className="icon-child child2"></div>
+                <div
+                  className="icon-child "
+                  style={{
+                    backgroundImage: `url(${iconDienThoai})`,
+                  }}
+                ></div>
                 <div className="text-child">
                   Khám
                   <br /> từ xa
                 </div>
               </div>
               <div className="options-child">
-                <div className="icon-child child3"></div>
+                <div
+                  className="icon-child "
+                  style={{
+                    backgroundImage: `url(${iconKhamTongQuat})`,
+                  }}
+                ></div>
                 <div className="text-child">
                   Khám
                   <br /> tổng quát
                 </div>
               </div>
               <div className="options-child">
-                <div className="icon-child child4"></div>
+                <div
+                  className="icon-child "
+                  style={{
+                    backgroundImage: `url(${iconDichVuXetNghiem})`,
+                  }}
+                ></div>
                 <div className="text-child">
                   Xét nghiệm <br /> y học
                 </div>
               </div>
               <div className="options-child">
-                <div className="icon-child child5"></div>
+                <div
+                  className="icon-child "
+                  style={{
+                    backgroundImage: `url(${iconSucKhoeTinhThan})`,
+                  }}
+                ></div>
                 <div className="text-child">
                   Sức khỏe
                   <br /> tinh thần
                 </div>
               </div>
               <div className="options-child">
-                <div className="icon-child child6"></div>
+                <div
+                  className="icon-child "
+                  style={{
+                    backgroundImage: `url(${iconKhamNhaKhoa})`,
+                  }}
+                ></div>
                 <div className="text-child">
                   Khám
                   <br /> nha Khoa
                 </div>
               </div>
               <div className="options-child">
-                <div className="icon-child child7"></div>
+                <div
+                  className="icon-child "
+                  style={{
+                    backgroundImage: `url(${iconPhauThuat})`,
+                  }}
+                ></div>
                 <div className="text-child">
                   Gói <br /> phẫu thuật
                 </div>
               </div>
               <div className="options-child">
-                <div className="icon-child child8"></div>
+                <div
+                  className="icon-child "
+                  style={{
+                    backgroundImage: `url(${iconKhamTaiNha})`,
+                  }}
+                ></div>
                 <div className="text-child">
                   Sản phẩm
                   <br /> y tế
