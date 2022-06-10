@@ -57,15 +57,19 @@
 }
 .home-header-banner {
   background: url("../../assets/header-background.jpg");
-  height: 485px;
+  height: 550px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
   flex-direction: column;
   .content-up {
+    background-image: linear-gradient(
+      rgba(0, 0, 0, 0.25),
+      rgba(255, 255, 255, 0.1)
+    );
     padding: 20px;
-    height: 50%;
+    height: 65%;
     .title {
       color: white;
       text-shadow: 1px 1px 1px #333;
@@ -100,17 +104,19 @@
     }
   }
   .content-down {
-    height: 50%;
-    padding: 0 150px;
-    position: relative;
+    height: 35%;
+    display: flex;
+    justify-content: center;
     .options {
-      // background-image: linear-gradient(
-      //   rgba(255, 255, 255, 0.1),
-      //   rgba(255, 255, 255, 0.9),
-      //   rgba(255, 255, 255, 1)
-      // ) !important;
+      width: 100%;
+      background-image: linear-gradient(
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 255, 255, 1)
+      ) !important;
       display: flex;
       justify-content: space-around;
+      align-items: flex-end;
       .options-child {
         cursor: pointer;
         .text-child {
