@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { FormattedMessage } from "react-intl";
 import "./HomeHeader.scss";
-
-
 
 // import icon optianal
 import iconHospital from "../../assets/icon-optinal/hospital.png";
@@ -28,39 +27,64 @@ class HomeHeader extends Component {
             <div className="center-container">
               <div className="child-content">
                 <div>
-                  <b className="header-title">Chuyên khoa</b>
+                  <b className="header-title">
+                    <FormattedMessage id="home-header.specialty" />
+                  </b>
                 </div>
-                <span className="subs-title">Tìm bác sĩ theo chuyên khoa</span>
+                <span className="subs-title">
+                  <FormattedMessage id="home-header.search-doctor" />
+                </span>
               </div>
               <div className="child-content">
                 <div>
-                  <b className="header-title">Cơ sở y tế</b>
+                  <b className="header-title">
+                    <FormattedMessage id="home-header.health-facility" />
+                  </b>
                 </div>
-                <span className="subs-title">Chọn bệnh viện phòng khám</span>
+                <span className="subs-title">
+                  <FormattedMessage id="home-header.select-room" />
+                </span>
               </div>
               <div className="child-content">
                 <div>
-                  <b className="header-title">Bác sĩ</b>
+                  <b className="header-title">
+                    <FormattedMessage id="home-header.doctor" />
+                  </b>
                 </div>
-                <span className="subs-title">Chọn bác sĩ giỏi</span>
+                <span className="subs-title">
+                  <FormattedMessage id="home-header.select-doctor" />
+                </span>
               </div>
               <div className="child-content">
                 <div>
-                  <b className="header-title">Gói khám</b>
+                  <b className="header-title">
+                    {" "}
+                    <FormattedMessage id="home-header.fee" />
+                  </b>
                 </div>
-                <span className="subs-title">Khám sức khỏe tổng quát</span>
+                <span className="subs-title">
+                  <FormattedMessage id="home-header.check-health" />
+                </span>
               </div>
             </div>
             <div className="right-container">
-              <i className="fas fa-question-circle"></i>Hỗ trợ
-              <div className="flag">VN</div>
+              <i className="fas fa-question-circle"></i>
+              <span>
+                <FormattedMessage id="home-header.support" /> |
+              </span>
+              <div className="lang-vi">VN</div>
+              <div className="lang-en">EN</div>
             </div>
           </div>
         </div>
         <div className="home-header-banner">
           <div className="content-up">
-            <div className="title title1">NỀN TẢNG Y TẾ</div>
-            <div className="title title2">CHĂM SÓC SỨC KHỎE TOÀN DIỆN</div>
+            <div className="title title1">
+              <FormattedMessage id="banner.main-title" />
+            </div>
+            <div className="title title2">
+              <FormattedMessage id="banner.sub-title" />
+            </div>
             <div className="search">
               <i className="fas fa-search"></i>
               <input type="text" />
@@ -69,14 +93,14 @@ class HomeHeader extends Component {
           <div className="content-down">
             <div className="options">
               <div className="options-child">
-                  <div
-                    className="icon-child child1"
-                    style={{
-                      backgroundImage: `url(${iconHospital})`,
-                    }}
-                  ></div>
+                <div
+                  className="icon-child child1"
+                  style={{
+                    backgroundImage: `url(${iconHospital})`,
+                  }}
+                ></div>
                 <div className="text-child">
-                  Khám <br /> Chuyên khoa
+                  <FormattedMessage id="banner.optinal-1" />
                 </div>
               </div>
               <div className="options-child">
@@ -87,8 +111,7 @@ class HomeHeader extends Component {
                   }}
                 ></div>
                 <div className="text-child">
-                  Khám
-                  <br /> từ xa
+                  <FormattedMessage id="banner.optinal-2" />
                 </div>
               </div>
               <div className="options-child">
@@ -99,8 +122,7 @@ class HomeHeader extends Component {
                   }}
                 ></div>
                 <div className="text-child">
-                  Khám
-                  <br /> tổng quát
+                  <FormattedMessage id="banner.optinal-3" />
                 </div>
               </div>
               <div className="options-child">
@@ -111,7 +133,7 @@ class HomeHeader extends Component {
                   }}
                 ></div>
                 <div className="text-child">
-                  Xét nghiệm <br /> y học
+                  <FormattedMessage id="banner.optinal-4" />
                 </div>
               </div>
               <div className="options-child">
@@ -122,8 +144,7 @@ class HomeHeader extends Component {
                   }}
                 ></div>
                 <div className="text-child">
-                  Sức khỏe
-                  <br /> tinh thần
+                  <FormattedMessage id="banner.optinal-5" />
                 </div>
               </div>
               <div className="options-child">
@@ -134,8 +155,7 @@ class HomeHeader extends Component {
                   }}
                 ></div>
                 <div className="text-child">
-                  Khám
-                  <br /> nha Khoa
+                  <FormattedMessage id="banner.optinal-6" />
                 </div>
               </div>
               <div className="options-child">
@@ -146,7 +166,7 @@ class HomeHeader extends Component {
                   }}
                 ></div>
                 <div className="text-child">
-                  Gói <br /> phẫu thuật
+                  <FormattedMessage id="banner.optinal-7" />
                 </div>
               </div>
               <div className="options-child">
@@ -157,8 +177,7 @@ class HomeHeader extends Component {
                   }}
                 ></div>
                 <div className="text-child">
-                  Sản phẩm
-                  <br /> y tế
+                  <FormattedMessage id="banner.optinal-8" />
                 </div>
               </div>
             </div>
