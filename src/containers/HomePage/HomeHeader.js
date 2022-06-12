@@ -3,6 +3,9 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import "./HomeHeader.scss";
+import { languages } from "../../utils";
+
+import { changLanguageApp } from "../../store/actions";
 
 // import icon optianal
 import iconHospital from "../../assets/icon-optinal/hospital.png";
@@ -15,7 +18,16 @@ import iconDienThoai from "../../assets/icon-optinal/phone.png";
 import iconSucKhoeTinhThan from "../../assets/icon-optinal/suckhoetinhthan.png";
 
 class HomeHeader extends Component {
+  changeLanguage = (language) => {
+    this.props.changLanguageAppRedux(language);
+  };
+
   render() {
+    const language = this.props.language;
+    console.log(
+      "🚀 ~ file: HomeHeader.js ~ line 27 ~ HomeHeader ~ render ~ language",
+      language
+    );
     return (
       <>
         <div className="home-header-container">
@@ -58,7 +70,6 @@ class HomeHeader extends Component {
               <div className="child-content">
                 <div>
                   <b className="header-title">
-                    {" "}
                     <FormattedMessage id="home-header.fee" />
                   </b>
                 </div>
@@ -72,8 +83,24 @@ class HomeHeader extends Component {
               <span>
                 <FormattedMessage id="home-header.support" /> |
               </span>
-              <div className="lang-vi">VN</div>
-              <div className="lang-en">EN</div>
+              <div
+                className={
+                  language === languages.VI ? "lang-vi active" : "lang-vi"
+                }
+              >
+                <span onClick={() => this.changeLanguage(languages.VI)}>
+                  VN
+                </span>
+              </div>
+              <div
+                className={
+                  language === languages.EN ? "lang-en active" : "lang-en"
+                }
+              >
+                <span onClick={() => this.changeLanguage(languages.EN)}>
+                  EN
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -191,11 +218,14 @@ class HomeHeader extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
+    language: state.app.language,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    changLanguageAppRedux: (language) => dispatch(changLanguageApp(language)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);
