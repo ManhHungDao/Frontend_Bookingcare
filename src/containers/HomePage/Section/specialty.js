@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -8,8 +9,6 @@ import "./Specialty.scss";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// import img
-import imgCoXuongKhop from "../../../assets/specialty/co-xuong-khop.jpg";
 
 class Specialty extends Component {
   render() {
@@ -31,33 +30,31 @@ class Specialty extends Component {
             <div className="section-body">
               <Slider {...settings}>
                 <div className="section-body-content">
-                  <div>
-                    <img src={imgCoXuongKhop} alt="dsads" />
-                  </div>
+                 <div className="section-body-img"></div>
                   <div className="section-body-title">Cơ xương khớp</div>
                 </div>
                 <div className="section-body-content">
-                  <img src={imgCoXuongKhop} />
+                 <div className="section-body-img"></div>
                   <div className="section-body-title">Cơ xương khớp</div>
                 </div>
                 <div className="section-body-content">
-                  <img src={imgCoXuongKhop} />
+                 <div className="section-body-img"></div>
                   <div className="section-body-title">Cơ xương khớp</div>
                 </div>
                 <div className="section-body-content">
-                  <img src={imgCoXuongKhop} />
+                 <div className="section-body-img"></div>
                   <div className="section-body-title">Cơ xương khớp</div>
                 </div>
                 <div className="section-body-content">
-                  <img src={imgCoXuongKhop} />
+                 <div className="section-body-img"></div>
                   <div className="section-body-title">Cơ xương khớp</div>
                 </div>
                 <div className="section-body-content">
-                  <img src={imgCoXuongKhop} />
+                 <div className="section-body-img"></div>
                   <div className="section-body-title">Cơ xương khớp</div>
                 </div>
                 <div className="section-body-content">
-                  <img src={imgCoXuongKhop} />
+                 <div className="section-body-img"></div>
                   <div className="section-body-title">Cơ xương khớp</div>
                 </div>
               </Slider>
