@@ -8,9 +8,9 @@
     "select-doctor": "Select good doctor",
     "fee": "Health check package",
     "check-health": "General health check package",
-    "support":"Support"
+    "support": "Support"
   },
-  "banner":{
+  "banner": {
     "main-title": "MEDICAL BACKGROUND",
     "sub-title": "COMPREHENSIVE HEALTH CARE",
     "optinal-1": "Specialist medical examination",
@@ -22,7 +22,16 @@
     "optinal-7": "Surgery package",
     "optinal-8": "Medical products"
   },
-
+  "slide": {
+    "specialty": {
+      "skeletal_muscle": "Skeletal muscle",
+      "nerve": "Nerve",
+      "digest": "Digest",
+      "heart": "Heart",
+      "spine": "Spine",
+      "dermatology": "Dermatology"
+    }
+  },
   "common": {
     "add": "Add",
     "edit": "Edit",

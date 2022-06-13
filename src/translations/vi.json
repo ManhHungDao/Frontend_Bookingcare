@@ -22,6 +22,16 @@
     "optinal-7": "Gói phẫu thuật",
     "optinal-8": "Sản phẩm y tế"
   },
+  "slide": {
+    "specialty": {
+      "skeletal_muscle": "Cơ xương khớp",
+      "nerve": "Thần kinh",
+      "digest": "Tiêu hóa",
+      "heart":"Tim mạch",
+      "spine":"Cột sống",
+      "dermatology":"Da liệu"
+    }
+  },
   "common": {
     "add": "Thêm",
     "edit": "Sửa",

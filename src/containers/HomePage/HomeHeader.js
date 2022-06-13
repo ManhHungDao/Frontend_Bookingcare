@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import "./HomeHeader.scss";
 import { languages } from "../../utils";
-
 import { changLanguageApp } from "../../store/actions";
 
 // import icon optianal
@@ -24,10 +23,6 @@ class HomeHeader extends Component {
 
   render() {
     const language = this.props.language;
-    console.log(
-      "🚀 ~ file: HomeHeader.js ~ line 27 ~ HomeHeader ~ render ~ language",
-      language
-    );
     return (
       <>
         <div className="home-header-container">
