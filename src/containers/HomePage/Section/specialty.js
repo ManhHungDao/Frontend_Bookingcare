@@ -11,7 +11,7 @@ class Specialty extends Component {
   render() {
     return (
       <>
-        <div className="section-specialty">
+        <div className="section section-specialty">
           <div className="section-container">
             <div className="section-header">
               <div className="title-section">Cơ sở y tế nổi bật</div>
