@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import HomeHeader from "./HomeHeader.js";
 import Specialty from "./Section/specialty";
 import MedicalFacility from "./Section/MedicalFacility.js";
+import OutStandingDoctor from "./Section/OutStandingDoctor.js";
 import "./HomePage.scss";
 
 // import css slider
@@ -22,6 +23,7 @@ class HomePage extends Component {
         <HomeHeader />
         <Specialty settings={settings} />
         <MedicalFacility settings={settings} />
+        <OutStandingDoctor settings={settings} />
       </>
     );
   }
