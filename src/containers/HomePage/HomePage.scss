@@ -31,6 +31,7 @@
         float: right;
         padding: 10px 15px;
         display: block;
+        background-color: #ebebeb;
         text-transform: uppercase;
         cursor: pointer;
         &:hover {
@@ -110,4 +111,28 @@
   .bg-image {
     background-image: url("../../assets/handbook/150735-bac-si-kham-rang.jpg");
   }
+}
+
+.section-about {
+  height: fit-content !important;
+  .section-container {
+    padding-bottom: 45px;
+    .about-content {
+      .content-left,
+      .content-right {
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        width: 50%;
+      }
+    }
+  }
+}
+
+// home footer
+.home-footer {
+  background: #64b9e5;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
 }

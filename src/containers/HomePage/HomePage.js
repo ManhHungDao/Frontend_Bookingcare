@@ -5,6 +5,8 @@ import Specialty from "./Section/Specialty";
 import MedicalFacility from "./Section/MedicalFacility.js";
 import OutStandingDoctor from "./Section/OutStandingDoctor.js";
 import HandBook from "./Section/HandBook.js";
+import About from "./Section/About.js";
+import HomeFooter from "./HomeFooter";
 import "./HomePage.scss";
 
 // import css slider
@@ -26,6 +28,8 @@ class HomePage extends Component {
         <MedicalFacility settings={settings} />
         <OutStandingDoctor settings={settings} />
         <HandBook settings={settings} />
+        <About />
+        <HomeFooter />
       </>
     );
   }
