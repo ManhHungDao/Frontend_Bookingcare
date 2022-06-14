@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import HomeHeader from "./HomeHeader.js";
-import Specialty from "./Section/specialty";
+import Specialty from "./Section/Specialty";
 import MedicalFacility from "./Section/MedicalFacility.js";
 import OutStandingDoctor from "./Section/OutStandingDoctor.js";
+import HandBook from "./Section/HandBook.js";
 import "./HomePage.scss";
 
 // import css slider
@@ -24,6 +25,7 @@ class HomePage extends Component {
         <Specialty settings={settings} />
         <MedicalFacility settings={settings} />
         <OutStandingDoctor settings={settings} />
+        <HandBook settings={settings} />
       </>
     );
   }

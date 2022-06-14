@@ -15,9 +15,81 @@ class OutStandingDoctor extends Component {
             <div className="section-body">
               <Slider {...this.props.settings}>
                 <div className="section-customize">
-                  <div className="bg-image"></div>
-                  <div className="section-body-title">
-                    Hệ thống Y tế Thu Cúc 1
+                  <div className="outer-bg">
+                    <div className="bg-image"></div>
+                  </div>
+                  <div className="position text-center">
+                    <div className="section-body-title">
+                      Giáo sư, Tiến sĩ Mạnh Hùng
+                    </div>
+                    <div className="section-body-sub-title">
+                      Backend Developer
+                    </div>
+                  </div>
+                </div>
+                <div className="section-customize">
+                  <div className="outer-bg">
+                    <div className="bg-image"></div>
+                  </div>
+                  <div className="position text-center">
+                    <div className="section-body-title">
+                      Giáo sư, Tiến sĩ Mạnh Hùng
+                    </div>
+                    <div className="section-body-sub-title">
+                      Backend Developer
+                    </div>
+                  </div>
+                </div>
+                <div className="section-customize">
+                  <div className="outer-bg">
+                    <div className="bg-image"></div>
+                  </div>
+                  <div className="position text-center">
+                    <div className="section-body-title">
+                      Giáo sư, Tiến sĩ Mạnh Hùng
+                    </div>
+                    <div className="section-body-sub-title">
+                      Backend Developer
+                    </div>
+                  </div>
+                </div>
+                <div className="section-customize">
+                  <div className="outer-bg">
+                    <div className="bg-image"></div>
+                  </div>
+                  <div className="position text-center">
+                    <div className="section-body-title">
+                      Giáo sư, Tiến sĩ Mạnh Hùng
+                    </div>
+                    <div className="section-body-sub-title">
+                      Backend Developer
+                    </div>
+                  </div>
+                </div>
+                <div className="section-customize">
+                  <div className="outer-bg">
+                    <div className="bg-image"></div>
+                  </div>
+                  <div className="position text-center">
+                    <div className="section-body-title">
+                      Giáo sư, Tiến sĩ Mạnh Hùng
+                    </div>
+                    <div className="section-body-sub-title">
+                      Backend Developer
+                    </div>
+                  </div>
+                </div>
+                <div className="section-customize">
+                  <div className="outer-bg">
+                    <div className="bg-image"></div>
+                  </div>
+                  <div className="position text-center">
+                    <div className="section-body-title">
+                      Giáo sư, Tiến sĩ Mạnh Hùng
+                    </div>
+                    <div className="section-body-sub-title">
+                      Backend Developer
+                    </div>
                   </div>
                 </div>
               </Slider>
