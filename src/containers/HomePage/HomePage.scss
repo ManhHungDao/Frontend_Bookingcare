@@ -15,7 +15,6 @@
   }
 }
 
-
 .section {
   height: 330px;
   .section-container {
@@ -40,33 +39,43 @@
         }
       }
     }
+    .section-body {
+      text-align: center;
+      .section-customize {
+        cursor: pointer;
+        width: 278px !important;
+        &:hover .section-body-title {
+          color: #45c3d2;
+        }
+        .bg-image {
+          width: 278px;
+          height: 150px;
+          background-position: center center;
+          background-size: cover;
+          background-color: #eee;
+        }
+        .section-body-title {
+          float: left;
+          margin-top: 5px;
+          font-weight: lighter;
+          font-size: 12px;
+        }
+      }
+    }
   }
 }
 // specialty
 .section-specialty {
   background-color: #f5f5f5;
-  .section-body {
-    text-align: center;
-    .specialty-customize {
-      cursor: pointer;
-      width: 278px !important;
-      &:hover .section-body-title {
-        color: #45c3d2;
-      }
-      .bg-image {
-        width: 278px;
-        height: 150px;
-        background-image: url("../../assets/specialty/co-xuong-khop.jpg");
-        background-position: center center;
-        background-size: cover;
-        background-color: #eee;
-      }
-      .section-body-title {
-        float: left;
-        margin-top: 5px;
-        font-weight: lighter;
-        font-size: 12px;
-      }
-    }
+  .bg-image {
+    background-image: url("../../assets/specialty/co-xuong-khop.jpg");
+  }
+}
+
+.section-medical {
+  background-color: #ffff;
+  .bg-image {
+    background-image: url("../../assets/medical-facility/093035-benh-vien-thu-cuc-1.jpg");
+
   }
 }

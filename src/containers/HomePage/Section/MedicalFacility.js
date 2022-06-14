@@ -6,7 +6,7 @@ class MedicalFacility extends Component {
   render() {
     return (
       <>
-        <div className="section-specialty">
+        <div className="section section-medical">
           <div className="section-container">
             <div className="section-header">
               <div className="title-section">Cơ sở y tế nổi bật</div>
@@ -14,43 +14,43 @@ class MedicalFacility extends Component {
             </div>
             <div className="section-body">
               <Slider {...this.props.settings}>
-                <div className="specialty-customize">
+                <div className="section-customize">
                   <div className="bg-image"></div>
                   <div className="section-body-title">
                     Hệ thống Y tế Thu Cúc 1
                   </div>
                 </div>
-                <div className="specialty-customize">
+                <div className="section-customize">
                   <div className="bg-image"></div>
                   <div className="section-body-title">
                     Hệ thống Y tế Thu Cúc 12
                   </div>
                 </div>
-                <div className="specialty-customize">
+                <div className="section-customize">
                   <div className="bg-image"></div>
                   <div className="section-body-title">
                     Hệ thống Y tế Thu Cúc 13
                   </div>
                 </div>
-                <div className="specialty-customize">
+                <div className="section-customize">
                   <div className="bg-image"></div>
                   <div className="section-body-title">
                     Hệ thống Y tế Thu Cúc 14
                   </div>
                 </div>
-                <div className="specialty-customize">
+                <div className="section-customize">
                   <div className="bg-image"></div>
                   <div className="section-body-title">
                     Hệ thống Y tế Thu Cúc 15
                   </div>
                 </div>
-                <div className="specialty-customize">
+                <div className="section-customize">
                   <div className="bg-image"></div>
                   <div className="section-body-title">
                     Hệ thống Y tế Thu Cúc 16
                   </div>
                 </div>
-                <div className="specialty-customize">
+                <div className="section-customize">
                   <div className="bg-image"></div>
                   <div className="section-body-title">
                     Hệ thống Y tế Thu Cúc 17

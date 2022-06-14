@@ -21,7 +21,7 @@ class HomePage extends Component {
       <>
         <HomeHeader />
         <Specialty settings={settings} />
-        {/* <MedicalFacility settings={settings} /> */}
+        <MedicalFacility settings={settings} />
       </>
     );
   }
