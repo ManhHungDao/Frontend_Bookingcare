@@ -37,5 +37,18 @@
       "handbook": "Cẩm nang",
       "manage-handbook": "Quản lý cẩm nang"
     }
+  },
+  "manage-user": {
+    "title": "Thêm mới người dùng",
+    "address": "Địa chỉ",
+    "email": "Email",
+    "save": "Thêm mới",
+    "position": "Chức danh",
+    "role": "Vài trò",
+    "avatar": "Ảnh đại diện",
+    "firstName": "Họ",
+    "lastName": "Tên",
+    "phone-number": "Số điện thoại",
+    "gender": "Giới tính"
   }
 }
