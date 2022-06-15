@@ -69,9 +69,13 @@
                         }
                     }
                 }
-                &.active span {
-                    font-weight: 500;
-                    color: $colormain;
+                &.active {
+                    a{
+
+                        font-weight: 500;
+                        color: $colormain;
+                    }
+                    background-color: burlywood;
                 }
                 &:hover {
                     background-color: darken($bg-menu-color, 3);

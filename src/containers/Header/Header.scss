@@ -20,13 +20,16 @@
       font-size: $base-size + 1px;
     }
   }
+  .welcome{
+    padding-right: 30px;
+  }
   .languages {
-    position: relative;
+    // position: relative;
     .lang-en,
     .lang-vi {
       position: absolute;
-      top: 10px;
-      left: -20px;
+      top: 9px;
+      right: 36px;
       cursor: pointer;
       &.active {
         visibility: hidden;
