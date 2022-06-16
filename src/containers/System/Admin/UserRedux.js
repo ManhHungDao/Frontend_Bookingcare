@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import "./UserRedux.scss";
 import { languages } from "../../../utils";
-import { getAllCodeService } from "../../../services/userService";
+// import { getAllCodeService } from "../../../services/userService";
+import * as actions from "../../../store/actions";
 class UserRedux extends Component {
   constructor(props) {
     super(props);
@@ -14,33 +15,27 @@ class UserRedux extends Component {
     };
   }
 
-  async componentDidMount() {
-    try {
-      const resGender = await getAllCodeService("gender");
-      if (resGender && resGender.errCode === 0) {
-        this.setState({
-          genderArr: resGender.data,
-        });
-      }
+  componentDidMount() {
+    this.props.getGenderStart();
+    this.props.getPositionStart();
+    this.props.getRoleStart();
+  }
 
-      const resPos = await getAllCodeService("position");
-      if (resPos && resPos.errCode === 0) {
-        this.setState({
-          positionArr: resPos.data,
-        });
-      }
-
-      const resRole = await getAllCodeService("role");
-      if (resRole && resRole.errCode === 0) {
-        this.setState({
-          roleArr: resRole.data,
-        });
-      }
-    } catch (error) {
-      console.log(
-        "🚀 ~ file: UserRedux.js ~ line 27 ~ UserRedux ~ getListPosition= ~ error",
-        error
-      );
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.genders !== this.props.genders) {
+      this.setState({
+        genderArr: this.props.genders,
+      });
+    }
+    if (prevProps.positions !== this.props.positions) {
+      this.setState({
+        positionArr: this.props.positions,
+      });
+    }
+    if (prevProps.roles !== this.props.roles) {
+      this.setState({
+        roleArr: this.props.roles,
+      });
     }
   }
 
@@ -48,15 +43,17 @@ class UserRedux extends Component {
     const listPos = this.state.positionArr;
     const listRole = this.state.roleArr;
     const listGender = this.state.genderArr;
-    console.log(
-      "🚀 ~ file: UserRedux.js ~ line 51 ~ UserRedux ~ render ~ listGender",
-      listGender
-    );
+    const isLoadingGender = this.props.isLoadingGender;
+    const isLoadingPosition = this.props.isLoadingPosition;
+    const isLoadingRole = this.props.isLoadingRole;
     const language = this.props.language;
     return (
       <>
         <div className="user-redux-container">
           <div className="title">user redux manage</div>
+          <div>{isLoadingGender === true ? "loading gender" : ""}</div>
+          <div>{isLoadingPosition === true ? "loading position" : ""}</div>
+          <div>{isLoadingRole === true ? "loading role" : ""}</div>
           <div className="user-redux-body">
             <div className="wrapper rounded bg-white">
               <div className="h3">
@@ -178,11 +175,21 @@ class UserRedux extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    genders: state.admin.genders,
+    positions: state.admin.positions,
+    roles: state.admin.roles,
+    isLoadingGender: state.admin.isLoadingGender,
+    isLoadingPosition: state.admin.isLoadingPosition,
+    isLoadingRole: state.admin.isLoadingRole,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    getGenderStart: () => dispatch(actions.fetchGenderStart()),
+    getPositionStart: () => dispatch(actions.fetchPositionStart()),
+    getRoleStart: () => dispatch(actions.fetchRoleStart()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserRedux);
