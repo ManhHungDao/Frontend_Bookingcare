@@ -1,6 +1,9 @@
 /* eslint-disable no-lone-blocks */
 import actionTypes from "./actionTypes";
-import { getAllCodeService } from "../../services/userService";
+import {
+  getAllCodeService,
+  createNewUserService,
+} from "../../services/userService";
 
 // gender
 
@@ -98,4 +101,36 @@ export const fetchRoleSuccess = (roleList) => ({
 });
 export const fetchRoleFailed = () => ({
   type: actionTypes.FETCH_ROLE_FAILED,
+});
+// create new user
+
+export const createNewUser = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: actionTypes.FETCH_ROLE_START,
+      });
+      {
+        const res = await createNewUserService(data);
+        if (res && res.errCode === 0) {
+          dispatch(saveUserSuccess(res.data));
+        } else {
+          dispatch(saveUserFailed());
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 119 ~ return ~ error",
+        error
+      );
+      dispatch(saveUserFailed());
+    }
+  };
+};
+export const saveUserSuccess = () => ({
+  type: actionTypes.CREATE_USER_SUCCESS,
+});
+
+export const saveUserFailed = () => ({
+  type: actionTypes.CREATE_USER_FAILED,
 });

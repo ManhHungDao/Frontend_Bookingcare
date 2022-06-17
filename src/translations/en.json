@@ -49,6 +49,7 @@
     "firstName": "First Name",
     "lastName": "Last Name",
     "phone-number": "Phone Number",
-    "gender": "Gender"
+    "gender": "Gender",
+    "password": "Password"
   }
 }

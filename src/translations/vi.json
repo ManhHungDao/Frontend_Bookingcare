@@ -49,6 +49,7 @@
     "firstName": "Họ",
     "lastName": "Tên",
     "phone-number": "Số điện thoại",
-    "gender": "Giới tính"
+    "gender": "Giới tính",
+    "password":"Mật khẩu"
   }
 }

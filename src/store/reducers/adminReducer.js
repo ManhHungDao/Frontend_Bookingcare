@@ -74,6 +74,8 @@ const adminReducer = (state = initialState, action) => {
         ...state,
       };
     }
+    // create user
+    
     default:
       return state;
   }
