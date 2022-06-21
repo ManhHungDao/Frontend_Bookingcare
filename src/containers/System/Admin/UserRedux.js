@@ -27,6 +27,8 @@ class UserRedux extends Component {
       positionId: "",
       roleId: "",
       image: "",
+      // get id user edit
+      userEditId: "",
       // action user
       action: "",
     };
@@ -72,7 +74,7 @@ class UserRedux extends Component {
         positionId: listPos && listPos.length > 0 ? listPos[0].key : "",
         roleId: listRole && listRole.length > 0 ? listRole[0].key : "",
         image: "",
-        action:CRUD_ACTIONS.CREATE
+        action: CRUD_ACTIONS.CREATE,
       });
     }
   }
@@ -120,19 +122,36 @@ class UserRedux extends Component {
   handleSave = () => {
     const checkValidInPut = this.checkValidate();
     if (checkValidInPut === false) return;
-    const data = {
-      email: this.state.email,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      phoneNumber: this.state.phoneNumber,
-      password: this.state.password,
-      gender: this.state.gender,
-      positionId: this.state.positionId,
-      roleId: this.state.roleId,
-      image: this.state.image,
-      address: this.state.address,
-    };
-    this.props.createNewUser(data);
+    const { action } = this.state;
+    if (action === CRUD_ACTIONS.CREATE) {
+      this.props.createNewUser({
+        email: this.state.email,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        phoneNumber: this.state.phoneNumber,
+        password: this.state.password,
+        gender: this.state.gender,
+        positionId: this.state.positionId,
+        roleId: this.state.roleId,
+        image: this.state.image,
+        address: this.state.address,
+      });
+    }
+    if (action === CRUD_ACTIONS.EDIT) {
+      this.props.editUser({
+        id: this.state.userEditId,
+        email: this.state.email,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        phoneNumber: this.state.phoneNumber,
+        password: this.state.password,
+        gender: this.state.gender,
+        positionId: this.state.positionId,
+        roleId: this.state.roleId,
+        image: this.state.image,
+        address: this.state.address,
+      });
+    }
   };
 
   handleOnClickGender = (event) => {
@@ -156,6 +175,7 @@ class UserRedux extends Component {
   handleEditUser = (user) => {
     let copyState = { ...this.state };
     copyState = {
+      userEditId: user.id,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
@@ -280,7 +300,7 @@ class UserRedux extends Component {
                       disabled={
                         this.state.action === CRUD_ACTIONS.EDIT
                           ? "disabled"
-                          : false 
+                          : false
                       }
                       type="email"
                       className="form-control"
@@ -298,7 +318,7 @@ class UserRedux extends Component {
                       disabled={
                         this.state.action === CRUD_ACTIONS.EDIT
                           ? "disabled"
-                          : false 
+                          : false
                       }
                       type="password"
                       className="form-control"
@@ -451,7 +471,10 @@ const mapDispatchToProps = (dispatch) => {
     getGenderStart: () => dispatch(actions.fetchGenderStart()),
     getPositionStart: () => dispatch(actions.fetchPositionStart()),
     getRoleStart: () => dispatch(actions.fetchRoleStart()),
-    createNewUser: (data) => dispatch(actions.createNewUser(data)),
+    createNewUser: (user) => dispatch(actions.createNewUser(user)),
+    editUser: (user) => {
+      dispatch(actions.editUser(user));
+    },
   };
 };
 

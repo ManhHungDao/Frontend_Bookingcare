@@ -5,6 +5,7 @@ import {
   createNewUserService,
   getAllUsersService,
   deleteUserService,
+  editUserService,
 } from "../../services/userService";
 import { toast } from "react-toastify";
 // gender
@@ -194,4 +195,37 @@ export const fetchAllUserSuccess = (data) => ({
 });
 export const fetchAllUserFailed = () => ({
   type: actionTypes.FETCH_ALL_USERS_FAILED,
+});
+
+// edit user
+
+export const editUser = (user) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await editUserService(user);
+        if (res && res.errCode === 0) {
+          dispatch(editUserSuccess());
+          toast.success("Edit User Succeed!");
+          dispatch(fetchAllUserStart());
+        } else {
+          dispatch(editUserFailed());
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 215 ~ return ~ error",
+        error
+      );
+
+      dispatch(editUserFailed());
+    }
+  };
+};
+export const editUserSuccess = () => ({
+  type: actionTypes.EDIT_USER_SUCCESS,
+});
+
+export const editUserFailed = () => ({
+  type: actionTypes.EDIT_USER_FAILED,
 });
