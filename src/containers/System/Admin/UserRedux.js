@@ -6,6 +6,7 @@ import { languages } from "../../../utils";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import * as actions from "../../../store/actions";
+import TableManageUser from "./TableManageUser";
 class UserRedux extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +16,7 @@ class UserRedux extends Component {
       genderArr: [],
       previewImgUrl: "",
       isOpen: false,
+
       email: "",
       password: "",
       firstName: "",
@@ -54,6 +56,20 @@ class UserRedux extends Component {
         roleId: listRole && listRole.length > 0 ? listRole[0].key : "",
       });
     }
+    if (prevProps.users !== this.props.users) {
+      this.setState({
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        address: "",
+        gender: "",
+        positionId: "",
+        roleId: "",
+        image: "",
+      });
+    }
   }
 
   handleOnChangeImage = (event) => {
@@ -77,25 +93,26 @@ class UserRedux extends Component {
 
   checkValidate = () => {
     const arrCheck = [
-      "email",
-      "password",
       "firstName",
       "lastName",
+      "gender",
       "phoneNumber",
+      "email",
+      "password",
       "address",
     ];
     let isValid = true;
     for (let i = 0; i < arrCheck.length; i++) {
       if (!this.state[arrCheck[i]]) {
         isValid = false;
-        alert("This input is requied: ", arrCheck[i]);
+        alert(`${arrCheck[i]} required`);
         break;
       }
     }
     return isValid;
   };
 
-  handleSave = (event) => {
+  handleSave = () => {
     const checkValidInPut = this.checkValidate();
     if (checkValidInPut === false) return;
     const data = {
@@ -104,13 +121,13 @@ class UserRedux extends Component {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       phoneNumber: this.state.phoneNumber,
-      passaddressword: this.state.passaddressword,
+      password: this.state.password,
       gender: this.state.gender,
       positionId: this.state.positionId,
       roleId: this.state.roleId,
       image: this.state.image,
+      address: this.state.address,
     };
-    console.log("🚀 ~ file: UserRedux.js ~ line 113 ~ UserRedux ~ data", data)
     this.props.createNewUser(data);
   };
 
@@ -133,7 +150,7 @@ class UserRedux extends Component {
   };
   render() {
     const { positionArr, roleArr, genderArr } = this.state;
-    const { isLoadingGender, isLoadingPosition, isLoadingRole } = this.props;
+    // const { isLoadingGender, isLoadingPosition, isLoadingRole } = this.props;
     const language = this.props.language;
     const { email, password, firstName, lastName, phoneNumber, address } =
       this.state;
@@ -141,9 +158,9 @@ class UserRedux extends Component {
       <>
         <div className="user-redux-container">
           <div className="title">user redux manage</div>
-          <div>{isLoadingGender === true ? "loading gender" : ""}</div>
+          {/* <div>{isLoadingGender === true ? "loading gender" : ""}</div>
           <div>{isLoadingPosition === true ? "loading position" : ""}</div>
-          <div>{isLoadingRole === true ? "loading role" : ""}</div>
+          <div>{isLoadingRole === true ? "loading role" : ""}</div> */}
           <div className="user-redux-body">
             <div className="wrapper rounded bg-white">
               <div className="h3">
@@ -342,6 +359,9 @@ class UserRedux extends Component {
                   <FormattedMessage id="manage-user.save" />
                 </div>
               </div>
+              <div className="col-12 mt-md-0 mt-3">
+                <TableManageUser />
+              </div>
             </div>
           </div>
           {this.state.isOpen === true && (
@@ -362,9 +382,10 @@ const mapStateToProps = (state) => {
     genders: state.admin.genders,
     positions: state.admin.positions,
     roles: state.admin.roles,
-    isLoadingGender: state.admin.isLoadingGender,
-    isLoadingPosition: state.admin.isLoadingPosition,
-    isLoadingRole: state.admin.isLoadingRole,
+    // isLoadingGender: state.admin.isLoadingGender,
+    // isLoadingPosition: state.admin.isLoadingPosition,
+    // isLoadingRole: state.admin.isLoadingRole,
+    users: state.admin.users,
   };
 };
 

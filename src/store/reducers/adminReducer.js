@@ -4,30 +4,31 @@ const initialState = {
   genders: [],
   roles: [],
   positions: [],
-  isLoadingGender: false,
-  isLoadingPosition: false,
-  isLoadingRole: false,
+  // isLoadingGender: false,
+  // isLoadingPosition: false,
+  // isLoadingRole: false,
+  users: [],
 };
 
 const adminReducer = (state = initialState, action) => {
   switch (action.type) {
     // gender
     case actionTypes.FETCH_GENDER_START: {
-      state.isLoadingGender = true;
+      // state.isLoadingGender = true;
       return {
         ...state,
       };
     }
     case actionTypes.FETCH_GENDER_SUCCESS: {
       state.genders = action.data;
-      state.isLoadingGender = false;
+      // state.isLoadingGender = false;
       return {
         ...state,
       };
     }
     case actionTypes.FETCH_GENDER_FAILED: {
       state.genders = [];
-      state.isLoadingGender = false;
+      // state.isLoadingGender = false;
       return {
         ...state,
       };
@@ -74,8 +75,20 @@ const adminReducer = (state = initialState, action) => {
         ...state,
       };
     }
-    // create user
-    
+    // fetch all user
+    case actionTypes.FETCH_ALL_USERS_SUCCESS: {
+      state.users = action.users;
+      return {
+        ...state,
+      };
+    }
+    case actionTypes.FETCH_ALL_USERS_FAILED: {
+      state.roles = [];
+      return {
+        ...state,
+      };
+    }
+
     default:
       return state;
   }
