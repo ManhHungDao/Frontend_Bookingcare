@@ -57,6 +57,9 @@ class UserRedux extends Component {
       });
     }
     if (prevProps.users !== this.props.users) {
+      const listPos = this.props.positions;
+      const listRole = this.props.roles;
+
       this.setState({
         email: "",
         password: "",
@@ -64,9 +67,9 @@ class UserRedux extends Component {
         lastName: "",
         phoneNumber: "",
         address: "",
-        gender: "",
-        positionId: "",
-        roleId: "",
+        gender: "M",
+        positionId: listPos && listPos.length > 0 ? listPos[0].key : "",
+        roleId: listRole && listRole.length > 0 ? listRole[0].key : "",
         image: "",
       });
     }
@@ -117,7 +120,6 @@ class UserRedux extends Component {
     if (checkValidInPut === false) return;
     const data = {
       email: this.state.email,
-      password: this.state.password,
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       phoneNumber: this.state.phoneNumber,
@@ -152,8 +154,16 @@ class UserRedux extends Component {
     const { positionArr, roleArr, genderArr } = this.state;
     // const { isLoadingGender, isLoadingPosition, isLoadingRole } = this.props;
     const language = this.props.language;
-    const { email, password, firstName, lastName, phoneNumber, address } =
-      this.state;
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      phoneNumber,
+      address,
+      roleId,
+      positionId,
+    } = this.state;
     return (
       <>
         <div className="user-redux-container">
@@ -223,6 +233,7 @@ class UserRedux extends Component {
                                 type="radio"
                                 name="radio"
                                 value={item.key}
+                                checked={item.key === this.state.gender}
                                 onClick={(event) =>
                                   this.handleOnClickGender(event)
                                 }
@@ -290,6 +301,7 @@ class UserRedux extends Component {
                       onChange={(event) =>
                         this.handleOnChangeInput(event, "roleId")
                       }
+                      value={roleId}
                     >
                       {roleArr &&
                         roleArr.length > 0 &&
@@ -313,6 +325,7 @@ class UserRedux extends Component {
                       onChange={(event) =>
                         this.handleOnChangeInput(event, "positionId")
                       }
+                      value={positionId}
                     >
                       {positionArr &&
                         positionArr.length > 0 &&
