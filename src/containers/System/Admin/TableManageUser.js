@@ -21,6 +21,11 @@ class TableManageUser extends Component {
       });
     }
   }
+
+  handleDeleteUser = (id) => {
+    this.props.deleteUser(id);
+  };
+  handleEditUser = (userData) => {};
   render() {
     const arrUsers = this.state.users;
     return (
@@ -83,6 +88,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllUser: () => dispatch(actions.fetchAllUserStart()),
+    deleteUser: (id) => dispatch(actions.deleteUser(id)),
   };
 };
 

@@ -145,6 +145,7 @@ export const deleteUser = (id) => {
         if (res && res.errCode === 0) {
           dispatch(deleteUserSuccess());
           toast.success("Delete User Succeed!");
+          dispatch(fetchAllUserStart());
         } else {
           dispatch(deleteUserFailed());
         }
