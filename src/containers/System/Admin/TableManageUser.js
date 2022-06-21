@@ -26,8 +26,7 @@ class TableManageUser extends Component {
     this.props.deleteUser(id);
   };
   handleEditUser = (userData) => {
-  console.log("🚀 ~ file: TableManageUser.js ~ line 29 ~ TableManageUser ~ userData", userData)
-    
+    this.props.handleEditUser(userData);
   };
   render() {
     const arrUsers = this.state.users;

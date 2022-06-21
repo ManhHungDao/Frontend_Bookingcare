@@ -62,7 +62,7 @@ class ModelEditUser extends Component {
               <div className="col">
                 Email
                 <input
-                  disabled="true"
+                  disabled="disabled"
                   type="email"
                   name="email"
                   className="form-control"
@@ -73,7 +73,7 @@ class ModelEditUser extends Component {
               <div className="col">
                 Password
                 <input
-                  disabled="true"
+                  disabled="disabled"
                   type="password"
                   name="password"
                   className="form-control"

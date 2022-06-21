@@ -42,6 +42,7 @@
     "title": "Add New User",
     "address": "Address",
     "email": "Email",
+    "edit": "Save changed",
     "save": "Save",
     "position": "Position",
     "role": "Role",

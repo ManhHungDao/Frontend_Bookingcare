@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import "./UserRedux.scss";
-import { languages } from "../../../utils";
+import { languages, CRUD_ACTIONS } from "../../../utils";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import * as actions from "../../../store/actions";
@@ -27,6 +27,8 @@ class UserRedux extends Component {
       positionId: "",
       roleId: "",
       image: "",
+      // action user
+      action: "",
     };
   }
 
@@ -59,7 +61,6 @@ class UserRedux extends Component {
     if (prevProps.users !== this.props.users) {
       const listPos = this.props.positions;
       const listRole = this.props.roles;
-
       this.setState({
         email: "",
         password: "",
@@ -67,10 +68,11 @@ class UserRedux extends Component {
         lastName: "",
         phoneNumber: "",
         address: "",
-        gender: "M",
+        gender: "",
         positionId: listPos && listPos.length > 0 ? listPos[0].key : "",
         roleId: listRole && listRole.length > 0 ? listRole[0].key : "",
         image: "",
+        action:CRUD_ACTIONS.CREATE
       });
     }
   }
@@ -150,6 +152,27 @@ class UserRedux extends Component {
   handleOnChangeOption = (event) => {
     console.log(event.target);
   };
+
+  handleEditUser = (user) => {
+    let copyState = { ...this.state };
+    copyState = {
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phoneNumber: user.phoneNumber,
+      password: "password",
+      gender: user.gender,
+      positionId: user.positionId,
+      roleId: user.roleId,
+      image: user.image,
+      address: user.address,
+      action: CRUD_ACTIONS.EDIT,
+    };
+    this.setState({
+      ...copyState,
+    });
+  };
+
   render() {
     const { positionArr, roleArr, genderArr } = this.state;
     // const { isLoadingGender, isLoadingPosition, isLoadingRole } = this.props;
@@ -234,7 +257,7 @@ class UserRedux extends Component {
                                 name="radio"
                                 value={item.key}
                                 checked={item.key === this.state.gender}
-                                onClick={(event) =>
+                                onChange={(event) =>
                                   this.handleOnClickGender(event)
                                 }
                               />
@@ -254,6 +277,11 @@ class UserRedux extends Component {
                       <FormattedMessage id="manage-user.email" />
                     </label>
                     <input
+                      disabled={
+                        this.state.action === CRUD_ACTIONS.EDIT
+                          ? "disabled"
+                          : false 
+                      }
                       type="email"
                       className="form-control"
                       value={email}
@@ -267,6 +295,11 @@ class UserRedux extends Component {
                       <FormattedMessage id="manage-user.password" />
                     </label>
                     <input
+                      disabled={
+                        this.state.action === CRUD_ACTIONS.EDIT
+                          ? "disabled"
+                          : false 
+                      }
                       type="password"
                       className="form-control"
                       value={password}
@@ -366,14 +399,25 @@ class UserRedux extends Component {
                   </div>
                 </div>
                 <div
-                  className="btn btn-primary mt-3"
+                  className={
+                    this.state.action === CRUD_ACTIONS.EDIT
+                      ? "btn btn-warning mt-3"
+                      : "btn btn-primary mt-3"
+                  }
                   onClick={() => this.handleSave()}
                 >
-                  <FormattedMessage id="manage-user.save" />
+                  {this.state.action === CRUD_ACTIONS.EDIT ? (
+                    <FormattedMessage id="manage-user.edit" />
+                  ) : (
+                    <FormattedMessage id="manage-user.save" />
+                  )}
                 </div>
               </div>
               <div className="col-12 mt-md-0 mt-3">
-                <TableManageUser />
+                <TableManageUser
+                  handleEditUser={this.handleEditUser}
+                  action={this.state.action}
+                />
               </div>
             </div>
           </div>

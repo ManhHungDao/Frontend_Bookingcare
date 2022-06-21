@@ -43,6 +43,7 @@
     "address": "Địa chỉ",
     "email": "Email",
     "save": "Thêm mới",
+    "edit": "Lưu thay đổi",
     "position": "Chức danh",
     "role": "Vài trò",
     "avatar": "Ảnh đại diện",
@@ -50,6 +51,6 @@
     "lastName": "Tên",
     "phone-number": "Số điện thoại",
     "gender": "Giới tính",
-    "password":"Mật khẩu"
+    "password": "Mật khẩu"
   }
 }
