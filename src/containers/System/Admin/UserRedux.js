@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import "./UserRedux.scss";
-import { languages, CRUD_ACTIONS } from "../../../utils";
+import { languages, CRUD_ACTIONS, CommonUtils } from "../../../utils";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import * as actions from "../../../store/actions";
@@ -74,19 +74,21 @@ class UserRedux extends Component {
         positionId: listPos && listPos.length > 0 ? listPos[0].key : "",
         roleId: listRole && listRole.length > 0 ? listRole[0].key : "",
         image: "",
+        previewImgUrl: "",
         action: CRUD_ACTIONS.CREATE,
       });
     }
   }
 
-  handleOnChangeImage = (event) => {
+  handleOnChangeImage = async (event) => {
     const data = event.target.files;
     const file = data[0];
     if (file) {
+      let base64 = await CommonUtils.getBase64(file);
       const url = URL.createObjectURL(file);
       this.setState({
         previewImgUrl: url,
-        image: file,
+        image: base64,
       });
     }
   };
@@ -173,6 +175,11 @@ class UserRedux extends Component {
   };
 
   handleEditUser = (user) => {
+    let imgBase64 = "";
+    if (user.image) {
+      imgBase64 = new Buffer(user.image, "base64").toString("binary");
+    }
+
     let copyState = { ...this.state };
     copyState = {
       userEditId: user.id,
@@ -187,6 +194,7 @@ class UserRedux extends Component {
       image: user.image,
       address: user.address,
       action: CRUD_ACTIONS.EDIT,
+      previewImgUrl: imgBase64,
     };
     this.setState({
       ...copyState,
