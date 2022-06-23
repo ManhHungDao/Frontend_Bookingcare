@@ -52,5 +52,10 @@
     "phone-number": "Số điện thoại",
     "gender": "Giới tính",
     "password": "Mật khẩu"
+  },
+  "homepage": {
+    "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
+    "more-info": "Xem thêm",
+    "looking":"Tìm kiếm"
   }
 }

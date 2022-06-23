@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 // slide slick
 import Slider from "react-slick";
 import { languages } from "../../../utils";
-
+import { FormattedMessage } from "react-intl";
 import * as action from "../../../store/actions";
 class OutStandingDoctor extends Component {
   constructor(props) {
@@ -30,8 +30,12 @@ class OutStandingDoctor extends Component {
         <div className="section section-doctor">
           <div className="section-container">
             <div className="section-header">
-              <div className="title-section">Bác sĩ nổi bật tuần qua</div>
-              <div className="btn-section">Tìm kiếm</div>
+              <div className="title-section">
+                <FormattedMessage id="homepage.outstanding-doctor" />
+              </div>
+              <div className="btn-section">
+                <FormattedMessage id="homepage.looking" />
+              </div>
             </div>
             <div className="section-body">
               <Slider {...this.props.settings}>
