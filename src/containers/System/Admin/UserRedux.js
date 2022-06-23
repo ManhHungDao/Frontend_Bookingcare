@@ -23,7 +23,7 @@ class UserRedux extends Component {
       lastName: "",
       phoneNumber: "",
       address: "",
-      gender: "",
+      gender: "M",
       positionId: "",
       roleId: "",
       image: "",
@@ -50,14 +50,14 @@ class UserRedux extends Component {
       const listPos = this.props.positions;
       this.setState({
         positionArr: listPos,
-        positionId: listPos && listPos.length > 0 ? listPos[0].key : "",
+        positionId: listPos && listPos.length > 0 ? listPos[0].keyMap : "",
       });
     }
     if (prevProps.roles !== this.props.roles) {
       const listRole = this.props.roles;
       this.setState({
         roleArr: listRole,
-        roleId: listRole && listRole.length > 0 ? listRole[0].key : "",
+        roleId: listRole && listRole.length > 0 ? listRole[0].keyMap : "",
       });
     }
     if (prevProps.users !== this.props.users) {
@@ -70,9 +70,9 @@ class UserRedux extends Component {
         lastName: "",
         phoneNumber: "",
         address: "",
-        gender: "",
-        positionId: listPos && listPos.length > 0 ? listPos[0].key : "",
-        roleId: listRole && listRole.length > 0 ? listRole[0].key : "",
+        gender: "M",
+        positionId: listPos && listPos.length > 0 ? listPos[0].keyMap : "",
+        roleId: listRole && listRole.length > 0 ? listRole[0].keyMap : "",
         image: "",
         previewImgUrl: "",
         action: CRUD_ACTIONS.CREATE,

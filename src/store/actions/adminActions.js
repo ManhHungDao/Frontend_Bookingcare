@@ -6,7 +6,7 @@ import {
   getAllUsersService,
   deleteUserService,
   editUserService,
-  getTopDoctorHomeService
+  getTopDoctorHomeService,
 } from "../../services/userService";
 import { toast } from "react-toastify";
 // gender
@@ -19,9 +19,6 @@ export const fetchGenderStart = () => {
       });
       {
         const uses = await getAllCodeService("gender");
-        const doctors = await getTopDoctorHomeService('')
-        console.log("🚀 ~ file: adminActions.js ~ line 23 ~ return ~ doctors", doctors)
-        
         if (uses && uses.errCode === 0) {
           dispatch(fetchGenderSuccess(uses.data));
         } else {
@@ -232,4 +229,46 @@ export const editUserSuccess = () => ({
 
 export const editUserFailed = () => ({
   type: actionTypes.EDIT_USER_FAILED,
+});
+
+// fetch all top doctor home
+/* export const fetchTopDoctor = (limit) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await getTopDoctorHomeService(limit);
+      if (res && res.errCode === 0) {
+        dispatch(fetchAllDoctorSuccess(res.data));
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 243 ~ return ~ error",
+        error
+      );
+      dispatch(fetchAllDoctorFailed());
+    }
+  };
+}; */
+export const fetchTopDoctor = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await getTopDoctorHomeService();
+      if (res && res.errCode === 0) {
+        dispatch(fetchAllDoctorSuccess(res.data));
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 243 ~ return ~ error",
+        error
+      );
+      dispatch(fetchAllDoctorFailed());
+    }
+  };
+};
+export const fetchAllDoctorSuccess = (data) => ({
+  type: actionTypes.FETCH_TOP_DOCTORS_SUCCESS,
+  data: data,
+});
+
+export const fetchAllDoctorFailed = () => ({
+  type: actionTypes.FETCH_TOP_DOCTORS_FAILED,
 });
