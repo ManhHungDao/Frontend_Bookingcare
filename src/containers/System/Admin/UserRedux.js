@@ -279,12 +279,12 @@ class UserRedux extends Component {
                         genderArr.length > 0 &&
                         genderArr.map((item, index) => {
                           return (
-                            <label className="option ms-4" key={item.key}>
+                            <label className="option ms-4" key={item.keyMap}>
                               <input
                                 type="radio"
                                 name="radio"
-                                value={item.key}
-                                checked={item.key === this.state.gender}
+                                value={item.keyMap}
+                                checked={item.keyMap === this.state.gender}
                                 onChange={(event) =>
                                   this.handleOnClickGender(event)
                                 }
@@ -368,7 +368,7 @@ class UserRedux extends Component {
                         roleArr.length > 0 &&
                         roleArr.map((item, index) => {
                           return (
-                            <option key={item.key} value={item.key}>
+                            <option key={item.keyMap} value={item.keyMap}>
                               {language === languages.VI
                                 ? item.valueVI
                                 : item.valueEN}
@@ -392,7 +392,7 @@ class UserRedux extends Component {
                         positionArr.length > 0 &&
                         positionArr.map((item, index) => {
                           return (
-                            <option key={item.key} value={item.key}>
+                            <option key={item.keyMap} value={item.keyMap}>
                               {language === languages.VI
                                 ? item.valueVI
                                 : item.valueEN}

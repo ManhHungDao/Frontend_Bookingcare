@@ -6,6 +6,7 @@ import {
   getAllUsersService,
   deleteUserService,
   editUserService,
+  getTopDoctorHomeService
 } from "../../services/userService";
 import { toast } from "react-toastify";
 // gender
@@ -17,9 +18,12 @@ export const fetchGenderStart = () => {
         type: actionTypes.FETCH_GENDER_START,
       });
       {
-        const res = await getAllCodeService("gender");
-        if (res && res.errCode === 0) {
-          dispatch(fetchGenderSuccess(res.data));
+        const uses = await getAllCodeService("gender");
+        const doctors = await getTopDoctorHomeService('')
+        console.log("🚀 ~ file: adminActions.js ~ line 23 ~ return ~ doctors", doctors)
+        
+        if (uses && uses.errCode === 0) {
+          dispatch(fetchGenderSuccess(uses.data));
         } else {
           dispatch(fetchGenderFailed());
         }
