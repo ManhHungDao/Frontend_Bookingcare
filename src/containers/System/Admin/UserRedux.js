@@ -224,7 +224,7 @@ class UserRedux extends Component {
           <div>{isLoadingRole === true ? "loading role" : ""}</div> */}
           <div className="user-redux-body">
             <div className="wrapper rounded bg-white">
-              <div className="h3">
+              <div className="h4">
                 <FormattedMessage id="manage-user.title" />
               </div>
               <div className="form">
