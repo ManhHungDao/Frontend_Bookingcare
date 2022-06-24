@@ -3,16 +3,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./TableManageUser.scss";
 import * as actions from "../../../store/actions";
-import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
+
 import 'react-markdown-editor-lite/lib/index.css';
-
-
-const mdParser = new MarkdownIt(/* Markdown-it options */);
-
-function handleEditorChange({ html, text }) {
-  console.log('handleEditorChange', html, text);
-}
 
 ////
 class TableManageUser extends Component {
@@ -89,11 +81,7 @@ class TableManageUser extends Component {
             </table>
           </div>
         </div>
-        <MdEditor
-          style={{ height: "500px" }}
-          renderHTML={(text) => mdParser.render(text)}
-          onChange={handleEditorChange}
-        />
+       
       </>
     );
   }

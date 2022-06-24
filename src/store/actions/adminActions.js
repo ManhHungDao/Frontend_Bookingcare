@@ -5,7 +5,9 @@ import {
   createNewUserService,
   getAllUsersService,
   deleteUserService,
+  getAllDoctorService,
   editUserService,
+  postDetailDoctorService,
   getTopDoctorHomeService,
 } from "../../services/userService";
 import { toast } from "react-toastify";
@@ -272,3 +274,56 @@ export const fetchAllDoctorSuccess = (data) => ({
 export const fetchAllDoctorFailed = () => ({
   type: actionTypes.FETCH_TOP_DOCTORS_FAILED,
 });
+// fetch all doctor
+
+export const fetchAllDoctor = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await getAllDoctorService();
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.FETCH_ALL_DOCTOR_SUCCESS,
+          data: res,
+        });
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 289 ~ return ~ error",
+        error
+      );
+      dispatch({
+        type: actionTypes.FETCH_ALL_DOCTOR_FAILED,
+      });
+    }
+  };
+};
+
+// post detail doctor
+export const createDetailDoctor = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await postDetailDoctorService(data);
+        if (res && res.errCode === 0) {
+          dispatch({ type: actionTypes.POST_DETAIL_DOCTOR_SUCCESS });
+          toast.success("Create Detail Doctor Succeed!");
+        } else {
+          toast.success("Create Detail Doctor Failed!");
+          dispatch({
+            type: actionTypes.POST_DETAIL_DOCTOR_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 318 ~ return ~ error",
+        error
+      );
+      toast.success("Create Detail Doctor Failed!");
+      dispatch({
+        type: actionTypes.POST_DETAIL_DOCTOR_FAILED,
+      });
+    }
+  };
+};
+
