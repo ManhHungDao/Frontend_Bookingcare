@@ -9,6 +9,7 @@ import {
   editUserService,
   postDetailDoctorService,
   getTopDoctorHomeService,
+  getDetailInfoDoctor,
 } from "../../services/userService";
 import { toast } from "react-toastify";
 // gender
@@ -308,7 +309,7 @@ export const createDetailDoctor = (data) => {
           dispatch({ type: actionTypes.POST_DETAIL_DOCTOR_SUCCESS });
           toast.success("Create Detail Doctor Succeed!");
         } else {
-          toast.success("Create Detail Doctor Failed!");
+          toast.error("Create Detail Doctor Failed!");
           dispatch({
             type: actionTypes.POST_DETAIL_DOCTOR_FAILED,
           });
@@ -319,11 +320,40 @@ export const createDetailDoctor = (data) => {
         "🚀 ~ file: adminActions.js ~ line 318 ~ return ~ error",
         error
       );
-      toast.success("Create Detail Doctor Failed!");
+      toast.error("Create Detail Doctor Failed!");
       dispatch({
         type: actionTypes.POST_DETAIL_DOCTOR_FAILED,
       });
     }
   };
 };
-
+// get detail doctor
+export const fetchDetaiInfoDoctor = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await getDetailInfoDoctor(id);
+        if (res && res.errCode === 0) {
+          dispatch({
+            type: actionTypes.GET_DETAIL_DOCTOR_SUCCESS,
+            data: res.data,
+          });
+        } else {
+          toast.error("Get Detail Doctor Failed!");
+          dispatch({
+            type: actionTypes.GET_DETAIL_DOCTOR_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 347 ~ return ~ error",
+        error
+      );
+      toast.error("Get Detail Doctor Failed!");
+      dispatch({
+        type: actionTypes.GET_DETAIL_DOCTOR_FAILED,
+      });
+    }
+  };
+};

@@ -44,6 +44,9 @@ const actionTypes = Object.freeze({
   // post detail doctor
   POST_DETAIL_DOCTOR_SUCCESS: "POST_DETAIL_DOCTOR_SUCCESS",
   POST_DETAIL_DOCTOR_FAILED: "POST_DETAIL_DOCTOR_FAILED",
+  // get detail doctor
+  GET_DETAIL_DOCTOR_SUCCESS: "GET_DETAIL_DOCTOR_SUCCESS",
+  GET_DETAIL_DOCTOR_FAILED: "GET_DETAIL_DOCTOR_FAILED",
 });
 
 export default actionTypes;

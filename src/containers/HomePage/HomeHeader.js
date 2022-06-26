@@ -100,112 +100,114 @@ class HomeHeader extends Component {
             </div>
           </div>
         </div>
-        <div className="home-header-banner">
-          <div className="content-up">
-            <div className="title title1">
-              <FormattedMessage id="banner.main-title" />
+        {this.props.isShowBanner === true && (
+          <div className="home-header-banner">
+            <div className="content-up">
+              <div className="title title1">
+                <FormattedMessage id="banner.main-title" />
+              </div>
+              <div className="title title2">
+                <FormattedMessage id="banner.sub-title" />
+              </div>
+              <div className="search">
+                <i className="fas fa-search"></i>
+                <input type="text" placeholder="Tìm chuyên khoa khám bệnh" />
+              </div>
             </div>
-            <div className="title title2">
-              <FormattedMessage id="banner.sub-title" />
-            </div>
-            <div className="search">
-              <i className="fas fa-search"></i>
-              <input type="text" placeholder="Tìm chuyên khoa khám bệnh" />
+            <div className="content-down">
+              <div className="options">
+                <div className="options-child">
+                  <div
+                    className="icon-child child1"
+                    style={{
+                      backgroundImage: `url(${iconHospital})`,
+                    }}
+                  ></div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.optinal-1" />
+                  </div>
+                </div>
+                <div className="options-child">
+                  <div
+                    className="icon-child "
+                    style={{
+                      backgroundImage: `url(${iconDienThoai})`,
+                    }}
+                  ></div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.optinal-2" />
+                  </div>
+                </div>
+                <div className="options-child">
+                  <div
+                    className="icon-child "
+                    style={{
+                      backgroundImage: `url(${iconKhamTongQuat})`,
+                    }}
+                  ></div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.optinal-3" />
+                  </div>
+                </div>
+                <div className="options-child">
+                  <div
+                    className="icon-child "
+                    style={{
+                      backgroundImage: `url(${iconDichVuXetNghiem})`,
+                    }}
+                  ></div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.optinal-4" />
+                  </div>
+                </div>
+                <div className="options-child">
+                  <div
+                    className="icon-child "
+                    style={{
+                      backgroundImage: `url(${iconSucKhoeTinhThan})`,
+                    }}
+                  ></div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.optinal-5" />
+                  </div>
+                </div>
+                <div className="options-child">
+                  <div
+                    className="icon-child "
+                    style={{
+                      backgroundImage: `url(${iconKhamNhaKhoa})`,
+                    }}
+                  ></div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.optinal-6" />
+                  </div>
+                </div>
+                <div className="options-child">
+                  <div
+                    className="icon-child "
+                    style={{
+                      backgroundImage: `url(${iconPhauThuat})`,
+                    }}
+                  ></div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.optinal-7" />
+                  </div>
+                </div>
+                <div className="options-child">
+                  <div
+                    className="icon-child "
+                    style={{
+                      backgroundImage: `url(${iconKhamTaiNha})`,
+                    }}
+                  ></div>
+                  <div className="text-child">
+                    <FormattedMessage id="banner.optinal-8" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="content-down">
-            <div className="options">
-              <div className="options-child">
-                <div
-                  className="icon-child child1"
-                  style={{
-                    backgroundImage: `url(${iconHospital})`,
-                  }}
-                ></div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.optinal-1" />
-                </div>
-              </div>
-              <div className="options-child">
-                <div
-                  className="icon-child "
-                  style={{
-                    backgroundImage: `url(${iconDienThoai})`,
-                  }}
-                ></div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.optinal-2" />
-                </div>
-              </div>
-              <div className="options-child">
-                <div
-                  className="icon-child "
-                  style={{
-                    backgroundImage: `url(${iconKhamTongQuat})`,
-                  }}
-                ></div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.optinal-3" />
-                </div>
-              </div>
-              <div className="options-child">
-                <div
-                  className="icon-child "
-                  style={{
-                    backgroundImage: `url(${iconDichVuXetNghiem})`,
-                  }}
-                ></div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.optinal-4" />
-                </div>
-              </div>
-              <div className="options-child">
-                <div
-                  className="icon-child "
-                  style={{
-                    backgroundImage: `url(${iconSucKhoeTinhThan})`,
-                  }}
-                ></div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.optinal-5" />
-                </div>
-              </div>
-              <div className="options-child">
-                <div
-                  className="icon-child "
-                  style={{
-                    backgroundImage: `url(${iconKhamNhaKhoa})`,
-                  }}
-                ></div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.optinal-6" />
-                </div>
-              </div>
-              <div className="options-child">
-                <div
-                  className="icon-child "
-                  style={{
-                    backgroundImage: `url(${iconPhauThuat})`,
-                  }}
-                ></div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.optinal-7" />
-                </div>
-              </div>
-              <div className="options-child">
-                <div
-                  className="icon-child "
-                  style={{
-                    backgroundImage: `url(${iconKhamTaiNha})`,
-                  }}
-                ></div>
-                <div className="text-child">
-                  <FormattedMessage id="banner.optinal-8" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        )}
       </>
     );
   }
