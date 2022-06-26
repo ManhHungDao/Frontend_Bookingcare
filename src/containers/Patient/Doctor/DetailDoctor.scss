@@ -1,6 +1,7 @@
 .doctor-detail-container {
+  padding-top: 10px;
   .intro-doctor {
-    // display: flex;
+      display: flex;
     .left {
       width: 30%;
       background-repeat: no-repeat;
@@ -20,5 +21,9 @@
       .r-dowm {
       }
     }
+  }
+  .detail-info-doctor {
+    padding-top: 10px;
+    background-color:#f9f9f9;
   }
 }

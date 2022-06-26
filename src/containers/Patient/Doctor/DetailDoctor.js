@@ -40,29 +40,27 @@ class DetailDoctor extends Component {
       <>
         <HomeHeader isShowBanner={false} />
         <div className="doctor-detail-container grid">
-          <div className="intro-doctor grid">
-            <div className="grid__row">
-              <div
-                className="left bg-image"
-                style={{
-                  backgroundImage: `url(${
-                    detailDoctor.image && detailDoctor.image
-                      ? detailDoctor.image
-                      : ""
-                  })`,
-                }}
-              ></div>
-              <div className="right">
-                <div className="r-up">
-                  {language === languages.VI ? nameVI : nameEN}
-                </div>
-                <div className="r-dowm">
-                  {detailDoctor &&
-                    detailDoctor.Markdown &&
-                    detailDoctor.Markdown.description && (
-                      <div>{detailDoctor.Markdown.description} </div>
-                    )}
-                </div>
+          <div className="intro-doctor">
+            <div
+              className="left bg-image"
+              style={{
+                backgroundImage: `url(${
+                  detailDoctor.image && detailDoctor.image
+                    ? detailDoctor.image
+                    : ""
+                })`,
+              }}
+            ></div>
+            <div className="right">
+              <div className="r-up">
+                {language === languages.VI ? nameVI : nameEN}
+              </div>
+              <div className="r-dowm">
+                {detailDoctor &&
+                  detailDoctor.Markdown &&
+                  detailDoctor.Markdown.description && (
+                    <div>{detailDoctor.Markdown.description} </div>
+                  )}
               </div>
             </div>
           </div>
