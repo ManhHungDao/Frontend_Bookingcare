@@ -39,8 +39,8 @@ class DetailDoctor extends Component {
     return (
       <>
         <HomeHeader isShowBanner={false} />
-        <div className="doctor-detail-container grid">
-          <div className="intro-doctor">
+        <div className="doctor-detail-container ">
+          <div className="intro-doctor grid">
             <div
               className="left bg-image"
               style={{
@@ -64,20 +64,24 @@ class DetailDoctor extends Component {
               </div>
             </div>
           </div>
-          <div className="schedule-doctor"></div>
-          <div className="detail-info-doctor">
-            {detailDoctor &&
-              detailDoctor.Markdown &&
-              detailDoctor.Markdown.contentMarkdown && (
-                <div
-                  contentEditable="true"
-                  dangerouslySetInnerHTML={{
-                    __html: detailDoctor.Markdown.contentMarkdown,
-                  }}
-                ></div>
-              )}
+          <div className="schedule-doctor grid"></div>
+          <div className="bg-container">
+            <hr />
+            <div className="detail-info-doctor grid">
+              {detailDoctor &&
+                detailDoctor.Markdown &&
+                detailDoctor.Markdown.contentMarkdown && (
+                  <div
+                    contentEditable="true"
+                    dangerouslySetInnerHTML={{
+                      __html: detailDoctor.Markdown.contentMarkdown,
+                    }}
+                  ></div>
+                )}
+            </div>
+            <hr />
           </div>
-          <div className="comment-doctor"></div>
+          <div className="comment-doctor grid"></div>
         </div>
       </>
     );

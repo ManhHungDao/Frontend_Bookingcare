@@ -5,6 +5,7 @@ import { FormattedMessage } from "react-intl";
 import "./HomeHeader.scss";
 import { languages } from "../../utils";
 import { changLanguageApp } from "../../store/actions";
+import { withRouter } from "react-router-dom";
 
 // import icon optianal
 import iconHospital from "../../assets/icon-optinal/hospital.png";
@@ -20,17 +21,20 @@ class HomeHeader extends Component {
   changeLanguage = (language) => {
     this.props.changLanguageAppRedux(language);
   };
-
+  returnHome = () => {
+    if (this.props.history)
+      this.props.history.push(`/home`);
+  };
   render() {
     const language = this.props.language;
-    console.log('check user Info',this.props.userInfo)
+    console.log("check user Info", this.props.userInfo);
     return (
       <>
         <div className="home-header-container">
           <div className="home-header-content">
             <div className="left-container">
               <i className="fas fa-bars"></i>
-              <div className="header-logo"></div>
+              <div className="header-logo" onClick={this.returnHome}></div>
             </div>
             <div className="center-container">
               <div className="child-content">
@@ -226,4 +230,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(HomeHeader)
+);
