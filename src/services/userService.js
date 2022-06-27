@@ -47,6 +47,8 @@ const postDetailDoctorService = (data) => {
 const getDetailInfoDoctor = (id) => {
   return axios.get(`/api/get-detail-doctor-by-id?id=${id}`);
 };
+
+
 export {
   handleLoginApiService,
   getAllUsersService,

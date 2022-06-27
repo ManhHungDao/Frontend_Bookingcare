@@ -47,6 +47,10 @@ const actionTypes = Object.freeze({
   // get detail doctor
   GET_DETAIL_DOCTOR_SUCCESS: "GET_DETAIL_DOCTOR_SUCCESS",
   GET_DETAIL_DOCTOR_FAILED: "GET_DETAIL_DOCTOR_FAILED",
+
+  // get all hour
+  GET_SCHEDULE_TIME_SUCCESS: "GET_SCHEDULE_TIME_SUCCESS",
+  GET_SCHEDULE_TIME_FAILED: "GET_SCHEDULE_TIME_FAILED",
 });
 
 export default actionTypes;

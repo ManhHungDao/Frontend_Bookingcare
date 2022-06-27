@@ -357,3 +357,27 @@ export const fetchDetaiInfoDoctor = (id) => {
     }
   };
 };
+
+// fetch hour doctor
+
+export const fetchAllScheduleTime = () => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await getAllCodeService('time');
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.GET_SCHEDULE_TIME_SUCCESS,
+          data: res,
+        });
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 289 ~ return ~ error",
+        error
+      );
+      dispatch({
+        type: actionTypes.GET_SCHEDULE_TIME_FAILED,
+      });
+    }
+  };
+};

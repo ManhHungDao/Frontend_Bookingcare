@@ -430,8 +430,8 @@ class UserRedux extends Component {
                 <div
                   className={
                     this.state.action === CRUD_ACTIONS.EDIT
-                      ? "btn btn-warning mt-3"
-                      : "btn btn-primary mt-3"
+                      ? "btn btn-warning"
+                      : "btn btn-primary"
                   }
                   onClick={() => this.handleSave()}
                 >

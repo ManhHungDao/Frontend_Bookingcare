@@ -60,5 +60,11 @@
     "outstanding-doctor": "Famous doctor of the week",
     "more-info": "More information",
     "looking": "Looking"
+  },
+  "manage-schedu": {
+    "title": "Manage schedule medical examination",
+    "select-doctor": "Select doctor",
+    "select-day": "Select day",
+    "save":"Save"
   }
 }

@@ -43,7 +43,10 @@ class Login extends Component {
       errMessage: "",
     });
     try {
-      const data = await handleLoginApiService(this.state.email, this.state.password);
+      const data = await handleLoginApiService(
+        this.state.email,
+        this.state.password
+      );
       if (data && data.errCode !== 0) {
         this.setState({
           errMessage: data.message,
@@ -61,6 +64,12 @@ class Login extends Component {
       }
     }
   };
+
+  // handleKeyDown(event) {
+  //   if (event.keyCode === 13) {
+  //     this.handleLogin();
+  //   }
+  // }
   render() {
     return (
       <>
@@ -87,6 +96,7 @@ class Login extends Component {
                     placeholder="Enter your password"
                     value={this.state.password}
                     onChange={(event) => this.handleOnChangePassword(event)}
+                    // onKeyDown={this.handleKeyDown}
                   />
                   <span onClick={() => this.handleShowHidePassword()}>
                     <i
