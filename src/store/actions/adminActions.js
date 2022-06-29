@@ -10,6 +10,8 @@ import {
   postDetailDoctorService,
   getTopDoctorHomeService,
   getDetailInfoDoctor,
+  saveBulkScheduleDoctor,
+  getScheduleService,
 } from "../../services/userService";
 import { toast } from "react-toastify";
 // gender
@@ -363,7 +365,7 @@ export const fetchDetaiInfoDoctor = (id) => {
 export const fetchAllScheduleTime = () => {
   return async (dispatch, getState) => {
     try {
-      const res = await getAllCodeService('time');
+      const res = await getAllCodeService("time");
       if (res && res.errCode === 0) {
         dispatch({
           type: actionTypes.GET_SCHEDULE_TIME_SUCCESS,
@@ -378,6 +380,54 @@ export const fetchAllScheduleTime = () => {
       dispatch({
         type: actionTypes.GET_SCHEDULE_TIME_FAILED,
       });
+    }
+  };
+};
+
+// create bulk schedule doctor time
+export const createBulkScheduleDoctor = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await saveBulkScheduleDoctor(data);
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.POST_BULK_SCHEDULE_SUCCESS,
+        });
+        toast.success("Save Schedule Time Succeed!");
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 398 ~ return ~ error",
+        error
+      );
+      dispatch({
+        type: actionTypes.POST_BULK_SCHEDULE_FAILED,
+      });
+      toast.error("Save Schedule Time Failed!");
+    }
+  };
+};
+
+// get schedule with doctorId , date
+export const fetchScheduleWithConditional = (doctorid, date) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await getScheduleService(doctorid, date);
+      if (res && res.errCode === 0) {
+        dispatch({
+          type: actionTypes.GET_SCHEDULE_WITH_CONDITIONAL_SUCCESS,
+          data: res.data,
+        });
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 423 ~ return ~ error",
+        error
+      );
+      dispatch({
+        type: actionTypes.GET_SCHEDULE_WITH_CONDITIONAL_FAILED,
+      });
+      toast.error("Fetch Schedule Failed!");
     }
   };
 };

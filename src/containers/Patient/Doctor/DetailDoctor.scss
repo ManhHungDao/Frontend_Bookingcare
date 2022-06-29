@@ -22,14 +22,26 @@
       }
     }
   }
+  .schedule-doctor {
+    height: 300px;
+    display: flex;
+    .left {
+      width: 50%;
+      background-color: aqua;
+    }
+    .right {
+      width: 50%;
+      background-color: gray;
+    }
+  }
   .bg-container {
     width: 100%;
     background-color: #f9f9f9;
-    hr{
+    hr {
       height: 3px;
       color: #ddd;
     }
-    &::before{
+    &::before {
       border-bottom: 3px solid #ddd;
     }
     .detail-info-doctor {

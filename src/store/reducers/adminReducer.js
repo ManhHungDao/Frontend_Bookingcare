@@ -12,6 +12,7 @@ const initialState = {
   doctors: [],
   detailDoctor: {},
   allScheduleTime: [],
+  doctorSchedule: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -132,6 +133,17 @@ const adminReducer = (state = initialState, action) => {
     }
     case actionTypes.GET_SCHEDULE_TIME_FAILED: {
       state.allScheduleTime = [];
+      return {
+        ...state,
+      };
+    }
+    // fetch schedule with doctor id . date
+    case actionTypes.GET_SCHEDULE_WITH_CONDITIONAL_SUCCESS: {
+      state.doctorSchedule = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_SCHEDULE_WITH_CONDITIONAL_FAILED: {
+      state.doctorSchedule = [];
       return {
         ...state,
       };

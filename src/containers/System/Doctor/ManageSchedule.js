@@ -103,7 +103,8 @@ class ManageSchedule extends Component {
       toast.error("invalid Date!");
       return;
     }
-    currentDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER);
+    currentDate = new Date(currentDate).getTime();
+
     const selectedTime = allScheduleTime.filter(
       (item) => item.isSelected === true
     );
@@ -115,17 +116,15 @@ class ManageSchedule extends Component {
         result.push({
           doctorId: selectedDoctor.value,
           date: currentDate,
-          time: item.keyMap,
+          timeType: item.keyMap,
         });
       });
     }
-    console.log(result)
-    // toast.success("Succeed!");
-
-    console.log(
-      "🚀 ~ file: ManageSchedule.js ~ line 115 ~ ManageSchedule ~ result",
-      result
-    );
+    this.props.createBulkScheduleDoctor({
+      result,
+      doctorId: selectedDoctor.value,
+      date: currentDate,
+    });
   };
 
   render() {
@@ -202,6 +201,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllDoctor: () => dispatch(actions.fetchAllDoctor()),
     fetchAllScheduleTime: () => dispatch(actions.fetchAllScheduleTime()),
+    createBulkScheduleDoctor: (data) =>
+      dispatch(actions.createBulkScheduleDoctor(data)),
   };
 };
 

@@ -4,6 +4,7 @@ import * as actions from "../../../store/actions";
 import { languages } from "../../../utils";
 import HomeHeader from "../../HomePage/HomeHeader";
 import "./DetailDoctor.scss";
+import DoctorSchedule from "./DoctorSchedule";
 class DetailDoctor extends Component {
   constructor(props) {
     super(props);
@@ -64,7 +65,16 @@ class DetailDoctor extends Component {
               </div>
             </div>
           </div>
-          <div className="schedule-doctor grid"></div>
+          <div className="schedule-doctor grid">
+            <div className="left">
+              <DoctorSchedule
+                doctorId={
+                  detailDoctor && detailDoctor.id ? detailDoctor.id : -1
+                }
+              />
+            </div>
+            <div className="right"></div>
+          </div>
           <div className="bg-container">
             <hr />
             <div className="detail-info-doctor grid">
