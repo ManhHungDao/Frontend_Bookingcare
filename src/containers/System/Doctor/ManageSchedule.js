@@ -125,6 +125,12 @@ class ManageSchedule extends Component {
       doctorId: selectedDoctor.value,
       date: currentDate,
     });
+
+    allScheduleTime.map((item) => {
+      item.isSelected = false;
+      return item;
+    });
+    this.setState({ allScheduleTime});
   };
 
   render() {
@@ -133,14 +139,13 @@ class ManageSchedule extends Component {
     return (
       <>
         <div className="title">
-          <FormattedMessage id="manage-schedu.title" />
+          <FormattedMessage id="manage-schedule.title" />
         </div>
         <div className="wrapper">
           <div className="container">
             <div className="row">
               <div className="col-6 from-group">
-                <FormattedMessage id="manage-schedu.select-doctor" />
-
+                <FormattedMessage id="manage-schedule.select-doctor" />
                 <Select
                   value={selectedDoctor}
                   onChange={this.handleChange}
@@ -148,7 +153,7 @@ class ManageSchedule extends Component {
                 />
               </div>
               <div className="col-6 from-group">
-                <FormattedMessage id="manage-schedu.select-day" />
+                <FormattedMessage id="manage-schedule.select-day" />
                 <DatePicker
                   className="from-control"
                   onChange={this.handleOnchangDatePicker}
@@ -180,7 +185,7 @@ class ManageSchedule extends Component {
               className="btn btn-primary mt-5"
               onClick={() => this.handleSave()}
             >
-              <FormattedMessage id="manage-schedu.save" />
+              <FormattedMessage id="manage-schedule.save" />
             </button>
           </div>
         </div>

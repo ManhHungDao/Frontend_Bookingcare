@@ -16,6 +16,7 @@
   }
   .all-available {
     .text-calender {
+        padding-bottom: 10px;
       .calender {
         padding: 13px 0;
         display: block;
@@ -37,6 +38,7 @@
       grid-gap: 12px;
       gap: 12px;
       .btn {
+        min-width: 160px;
         background-color: #fff04b;
         border: none;
         outline: none;
@@ -50,5 +52,12 @@
       font-size: 20px;
     }
     }
+  }
+  .text-footer{
+    color: #535353;
+    font-weight: lighter;
+    font-size: 14px;
+    position: relative;
+    top: 1;
   }
 }

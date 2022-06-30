@@ -61,10 +61,18 @@
     "more-info": "More information",
     "looking": "Looking"
   },
-  "manage-schedu": {
+  "manage-schedule": {
     "title": "Manage schedule medical examination",
     "select-doctor": "Select doctor",
     "select-day": "Select day",
-    "save":"Save"
+    "save": "Save"
+  },
+  "patient": {
+    "detail-doctor": {
+      "schedule": "Schedule",
+      "notify": "No appointment.",
+      "choose": "Choose ",
+      "book-free": " and book (free)."
+    }
   }
 }

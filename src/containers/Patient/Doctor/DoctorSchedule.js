@@ -5,7 +5,7 @@ import { languages } from "../../../utils";
 import moment from "moment";
 import "./DoctorSchedule.scss";
 import localization from "moment/locale/vi";
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
+import { FormattedMessage } from "react-intl";
 
 class DoctorSchedule extends Component {
   constructor(props) {
@@ -18,7 +18,6 @@ class DoctorSchedule extends Component {
 
   componentDidMount() {
     this.setAllDay();
-    // this.fetchSchedule();
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
@@ -28,6 +27,9 @@ class DoctorSchedule extends Component {
       this.setState({
         doctorSchedule: this.props.doctorSchedule,
       });
+    }
+    if (this.props.doctorId !== prevProps.doctorId) {
+      this.fetchSchedule(this.state.allDays[0].value);
     }
   }
   capitalizeFirstLetter(string) {
@@ -39,13 +41,27 @@ class DoctorSchedule extends Component {
     for (let i = 0; i < 7; i++) {
       let object = {};
       if (this.props.language === languages.VI) {
-        const lable = moment(new Date()).add(i, "days").format("dddd - DD/MM");
-        object.lable = this.capitalizeFirstLetter(lable);
+        if (i === 0) {
+          const ddMM = moment(new Date()).format("DD/MM");
+          const lable = "Hôm nay - " + ddMM;
+          object.lable = lable;
+        } else {
+          const lable = moment(new Date())
+            .add(i, "days")
+            .format("dddd - DD/MM");
+          object.lable = this.capitalizeFirstLetter(lable);
+        }
       } else {
-        object.lable = moment(new Date())
-          .add(i, "days")
-          .locale("en")
-          .format("ddd - DD/MM");
+        if (i === 0) {
+          const ddMM = moment(new Date()).format("DD/MM");
+          const lable = "Today - " + ddMM;
+          object.lable = lable;
+        } else {
+          object.lable = moment(new Date())
+            .add(i, "days")
+            .locale("en")
+            .format("dddd - DD/MM");
+        }
       }
       object.value = moment(new Date()).add(i, "days").startOf("day").valueOf();
       allDays.push(object);
@@ -71,14 +87,18 @@ class DoctorSchedule extends Component {
         <div className="doctor-schelude-container">
           <div className="all-schedule">
             <select
-              className="old-select"
+              className="select"
               onChange={(event) => this.handleOnChangeSelect(event)}
             >
               {allDays &&
                 allDays.length > 0 &&
                 allDays.map((item, index) => {
                   return (
-                    <option className="sl-option" value={item.value} key={index}>
+                    <option
+                      className="sl-option"
+                      value={item.value}
+                      key={index}
+                    >
                       {item.lable}
                     </option>
                   );
@@ -89,25 +109,44 @@ class DoctorSchedule extends Component {
             <div className="text-calender">
               <div className="calender">
                 <i className="fas fa-calendar-alt"> </i>
-                <span>Lịch khám</span>
+                <span>
+                  <FormattedMessage id="patient.detail-doctor.schedule" />
+                </span>
               </div>
               <div className="time-content">
-                {doctorSchedule &&
-                  doctorSchedule.length > 0 ?
+                {doctorSchedule && doctorSchedule.length > 0 ? (
                   doctorSchedule.map((item, index) => {
                     let timeDisplay =
                       language === languages.VI
                         ? item.timeTypeData.valueVI
                         : item.timeTypeData.valueEN;
                     return (
-                      <button className="btn btn-warning" key={index}>
-                        {timeDisplay}
-                      </button>
+                      <>
+                        <button className="btn btn-warning" key={index}>
+                          {timeDisplay}
+                        </button>
+                      </>
                     );
-                  }) : <div className="notify">Không có lịch hẹn.</div>}
+                  })
+                ) : (
+                  <div className="notify">
+                    <FormattedMessage id="patient.detail-doctor.notify" />
+                  </div>
+                )}
               </div>
             </div>
           </div>
+          <span className="text-footer">
+            {doctorSchedule && doctorSchedule.length > 0 ? (
+              <div>
+                <FormattedMessage id="patient.detail-doctor.choose" />
+                <i className="far fa-hand-point-up"></i>
+                <FormattedMessage id="patient.detail-doctor.book-free" />
+              </div>
+            ) : (
+              ""
+            )}
+          </span>
         </div>
       </>
     );

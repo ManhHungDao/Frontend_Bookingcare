@@ -37,8 +37,8 @@
       "handbook": "Cẩm nang",
       "manage-handbook": "Quản lý cẩm nang"
     },
-    "doctor":{
-      "manage-schedule":"Quản lý kế hoạch khám bệnh"
+    "doctor": {
+      "manage-schedule": "Quản lý kế hoạch khám bệnh"
     }
   },
   "manage-user": {
@@ -59,12 +59,20 @@
   "homepage": {
     "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
     "more-info": "Xem thêm",
-    "looking":"Tìm kiếm"
+    "looking": "Tìm kiếm"
   },
-  "manage-schedu":{
-    "title":"Quản lý kế hoạch khám bệnh",
-    "select-doctor":"Chọn bác sĩ",
-    "select-day":"Chọn ngày",
-    "save":"Lưu lịch khám"
+  "manage-schedule": {
+    "title": "Quản lý kế hoạch khám bệnh",
+    "select-doctor": "Chọn bác sĩ",
+    "select-day": "Chọn ngày",
+    "save": "Lưu lịch khám"
+  },
+  "patient": {
+    "detail-doctor": {
+      "schedule": "Lịch khám",
+      "notify": "Không có lịch hẹn.",
+      "choose": "Chọn ",
+      "book-free": " và đặt (Phí đặt lịch 0đ)."
+    }
   }
 }
