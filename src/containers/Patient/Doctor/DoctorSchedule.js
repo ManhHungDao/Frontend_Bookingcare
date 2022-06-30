@@ -5,6 +5,7 @@ import { languages } from "../../../utils";
 import moment from "moment";
 import "./DoctorSchedule.scss";
 import localization from "moment/locale/vi";
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
 class DoctorSchedule extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class DoctorSchedule extends Component {
 
   componentDidMount() {
     this.setAllDay();
-      // this.fetchSchedule();
+    // this.fetchSchedule();
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
@@ -29,12 +30,17 @@ class DoctorSchedule extends Component {
       });
     }
   }
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   setAllDay = () => {
     let allDays = [];
     for (let i = 0; i < 7; i++) {
       let object = {};
       if (this.props.language === languages.VI) {
-        object.lable = moment(new Date()).add(i, "days").format("dddd - DD/MM");
+        const lable = moment(new Date()).add(i, "days").format("dddd - DD/MM");
+        object.lable = this.capitalizeFirstLetter(lable);
       } else {
         object.lable = moment(new Date())
           .add(i, "days")
@@ -56,15 +62,10 @@ class DoctorSchedule extends Component {
   };
   handleOnChangeSelect = (event) => {
     this.fetchSchedule(event.target.value);
-    // const doctorId = this.props.doctorId;
-    // if (doctorId && doctorId !== -1) {
-    //   const date = event.target.value;
-    //   console.log("🚀 ~ file: DoctorSchedule.js ~ line 55 ~ DoctorSchedule ~ date", date)
-    //   this.props.fetchScheduleWithConditional(doctorId, date);
-    // }
   };
   render() {
-    const { allDays } = this.state;
+    const { allDays, doctorSchedule } = this.state;
+    const { language } = this.props;
     return (
       <>
         <div className="doctor-schelude-container">
@@ -77,16 +78,37 @@ class DoctorSchedule extends Component {
                 allDays.length > 0 &&
                 allDays.map((item, index) => {
                   return (
-                    <option value={item.value} key={index}>
+                    <option className="sl-option" value={item.value} key={index}>
                       {item.lable}
                     </option>
                   );
                 })}
             </select>
           </div>
-          <div className="all-available"></div>
+          <div className="all-available">
+            <div className="text-calender">
+              <div className="calender">
+                <i className="fas fa-calendar-alt"> </i>
+                <span>Lịch khám</span>
+              </div>
+              <div className="time-content">
+                {doctorSchedule &&
+                  doctorSchedule.length > 0 ?
+                  doctorSchedule.map((item, index) => {
+                    let timeDisplay =
+                      language === languages.VI
+                        ? item.timeTypeData.valueVI
+                        : item.timeTypeData.valueEN;
+                    return (
+                      <button className="btn btn-warning" key={index}>
+                        {timeDisplay}
+                      </button>
+                    );
+                  }) : <div className="notify">Không có lịch hẹn.</div>}
+              </div>
+            </div>
+          </div>
         </div>
-        doctor schedule
       </>
     );
   }
