@@ -78,10 +78,18 @@
   "admin": {
     "manage-doctor": {
       "select-doctor": "Select doctor",
-      "intro":"Introductory information",
+      "intro": "Introductory information",
       "title": "Create doctor imformation",
-      "save":"Save",
-      "create":"Add"
+      "save": "Save",
+      "create": "Add",
+      "introduce_placeholder": "Introduce about doctor",
+      "select_doctor_placeholder": "Select doctor",
+      "select_price_placeholder": "Select price",
+      "select_payment_placeholder": "Select payment",
+      "select_province_placeholder": "Select province",
+      "select_nameclinic_placeholder": "Enter name clinic",
+      "select_addressclinic_placeholder": "Enter address clinic",
+      "select_note_placeholder": "Note"
     }
   }
 }

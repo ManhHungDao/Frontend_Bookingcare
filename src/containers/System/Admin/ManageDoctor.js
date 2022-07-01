@@ -155,7 +155,7 @@ class ManageDoctor extends Component {
       listDoctor: [],
     });
   };
-  handleChange = async (selectedDoctor) => {
+  handleChangeSelect = async (selectedDoctor) => {
     this.setState({ selectedDoctor });
 
     const res = await getDetailInfoDoctor(selectedDoctor.value);
@@ -190,7 +190,14 @@ class ManageDoctor extends Component {
     }
   };
   render() {
-    const { selectedDoctor, listDoctor, hasOldData } = this.state;
+    const {
+      selectedDoctor,
+      listDoctor,
+      hasOldData,
+      listPrice,
+      listPayment,
+      listProvince,
+    } = this.state;
     const { language } = this.props;
     return (
       <>
@@ -205,10 +212,10 @@ class ManageDoctor extends Component {
               </h4>
               <Select
                 value={selectedDoctor}
-                onChange={this.handleChange}
+                onChange={this.handleChangeSelect}
                 options={listDoctor}
                 placeholder={
-                  language === languages.VI ? "Chọn bác sĩ..." : "Select..."
+                  <FormattedMessage id="admin.manage-doctor.select_doctor_placeholder" />
                 }
               />
             </div>
@@ -220,21 +227,47 @@ class ManageDoctor extends Component {
                 value={this.state.description}
                 // onChange={(event) => this.handleChangeTextArea(event)}
                 onChange={this.handleChangeTextArea}
+                placeholder={
+                  language === languages.VI
+                    ? "Lời giới thiệu"
+                    : "Introduce about doctor"
+                }
               ></textarea>
             </div>
           </div>
           <div className="sub-doctor-info row">
             <div className="col-4 form-group">
               <label>Chọn giá</label>
-              <input className="form-control" />
+              <Select
+                value={selectedDoctor}
+                onChange={this.handleChangeSelect}
+                options={listPrice}
+                placeholder={
+                  <FormattedMessage id="admin.manage-doctor.select_price_placeholder" />
+                }
+              />
             </div>
             <div className="col-4 form-group">
               <label>Chọn phương thức thanh toán</label>
-              <input className="form-control" />
+              <Select
+                value={selectedDoctor}
+                onChange={this.handleChangeSelect}
+                options={listPayment}
+                placeholder={
+                  <FormattedMessage id="admin.manage-doctor.select_payment_placeholder" />
+                }
+              />
             </div>
             <div className="col-4 form-group">
               <label>Chọn tỉnh thành</label>
-              <input className="form-control" />
+              <Select
+                value={selectedDoctor}
+                onChange={this.handleChangeSelect}
+                options={listProvince}
+                placeholder={
+                  <FormattedMessage id="admin.manage-doctor.select_province_placeholder" />
+                }
+              />
             </div>
             <div className="col-4 form-group">
               <label>Tên phòng khám</label>
