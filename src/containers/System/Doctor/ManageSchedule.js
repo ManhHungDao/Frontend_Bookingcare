@@ -197,7 +197,7 @@ class ManageSchedule extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    doctors: state.admin.doctors,
+    doctors: state.admin.listDoctor,
     allScheduleTime: state.admin.allScheduleTime,
   };
 };

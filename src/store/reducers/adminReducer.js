@@ -9,10 +9,13 @@ const initialState = {
   // isLoadingRole: false,
   users: [],
   listTopDoctor: [],
-  doctors: [],
+  listDoctor: [],
   detailDoctor: {},
   allScheduleTime: [],
   doctorSchedule: [],
+  doctorPrice: [],
+  doctorPayment: [],
+  doctorProvince: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -106,11 +109,11 @@ const adminReducer = (state = initialState, action) => {
     }
     // fetch all doctor
     case actionTypes.FETCH_ALL_DOCTOR_SUCCESS: {
-      state.doctors = action.data;
+      state.listDoctor = action.data;
       return { ...state };
     }
     case actionTypes.FETCH_ALL_DOCTOR_FAILED: {
-      state.doctors = [];
+      state.listDoctor = [];
       return {
         ...state,
       };
@@ -144,6 +147,39 @@ const adminReducer = (state = initialState, action) => {
     }
     case actionTypes.GET_SCHEDULE_WITH_CONDITIONAL_FAILED: {
       state.doctorSchedule = [];
+      return {
+        ...state,
+      };
+    }
+    // fetch doctor price
+    case actionTypes.GET_DOCTOR_PRICE_SUCCEED: {
+      state.doctorPrice = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_DOCTOR_PRICE_FAILED: {
+      state.doctorPrice = [];
+      return {
+        ...state,
+      };
+    }
+    // fetch doctor payment
+    case actionTypes.GET_DOCTOR_PAYMENT_SUCCEED: {
+      state.doctorPayment = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_DOCTOR_PAYMENT_FAILED: {
+      state.doctorPayment = [];
+      return {
+        ...state,
+      };
+    }
+    // fetch doctor province
+    case actionTypes.GET_DOCTOR_PROVINCE_SUCCEED: {
+      state.doctorProvince = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_DOCTOR_PROVINCE_FAILED: {
+      state.doctorProvince = [];
       return {
         ...state,
       };

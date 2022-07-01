@@ -13,6 +13,8 @@ import {
   saveBulkScheduleDoctor,
   getScheduleService,
 } from "../../services/userService";
+import { TYPE } from "../../utils/constant";
+
 import { toast } from "react-toastify";
 // gender
 
@@ -430,4 +432,55 @@ export const fetchScheduleWithConditional = (doctorid, date) => {
       toast.error("Fetch Schedule Failed!");
     }
   };
+};
+
+// fetch doctor price
+export const fetchInfoDoctor = (type) => {
+  return async (dispatch, getState) => {
+    if (type === TYPE.PRICE) {
+      await getAllCodeService(TYPE.PRICE)
+        .then((result) => {
+          dispatch({
+            type: actionTypes.GET_DOCTOR_PRICE_SUCCEED,
+            data: result.data,
+          });
+        })
+        .catch(() => {
+          dispatch({
+            type: actionTypes.GET_DOCTOR_PRICE_FAILED,
+          });
+          toast.error(`Fetch ${type} Failed!`);
+        });
+    } else if (type === TYPE.PAYMENT) {
+      await getAllCodeService(TYPE.PAYMENT)
+        .then((result) => {
+          dispatch({
+            type: actionTypes.GET_DOCTOR_PAYMENT_SUCCEED,
+            data: result.data,
+          });
+        })
+        .catch(() => {
+          dispatch({
+            type: actionTypes.GET_DOCTOR_PAYMENT_FAILED,
+          });
+          toast.error(`Fetch ${type} Failed!`);
+        });
+    } else if (type === TYPE.PROVINCE) {
+      await getAllCodeService(TYPE.PROVINCE)
+        .then((result) => {
+          dispatch({
+            type: actionTypes.GET_DOCTOR_PROVINCE_SUCCEED,
+            data: result.data,
+          });
+        })
+        .catch(() => {
+          dispatch({
+            type: actionTypes.GET_DOCTOR_PROVINCE_FAILED,
+          });
+          toast.error(`Fetch ${type} Failed!`);
+        });
+    }
+  };
+
+
 };

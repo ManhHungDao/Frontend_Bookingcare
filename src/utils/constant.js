@@ -4,7 +4,7 @@ export const path = {
   LOGIN: "/login",
   LOG_OUT: "/logout",
   SYSTEM: "/system",
-  DOCTOR:"/doctor",
+  DOCTOR: "/doctor",
   DETAIL_DOCTOR: "/detail-doctor/:id",
 };
 
@@ -32,4 +32,15 @@ export const USER_ROLE = {
   ADMIN: "R1",
   DOCTOR: "R2",
   PATIENT: "R3",
+};
+
+export const TYPE = {
+  ROLE: "ROLE",
+  TIME: "TIME",
+  POSITION: "POSITION",
+  GENDER: "GENDER",
+  PRICE: "PRICE",
+  PROVINCE: "PROVINCE",
+  PAYMENT: "PAYMENT",
+  STATUS: "STATUS",
 };
