@@ -8,6 +8,8 @@ import {
   getAllDoctorService,
   editUserService,
   postDetailDoctorService,
+  postSubDetailDocTorService,
+  // getSubDetailInfoDoctor,
   getTopDoctorHomeService,
   getDetailInfoDoctor,
   saveBulkScheduleDoctor,
@@ -331,6 +333,35 @@ export const createDetailDoctor = (data) => {
     }
   };
 };
+
+// post sub detail doctor
+export const createSubDetailDoctor = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await postSubDetailDocTorService(data);
+        if (res && res.errCode === 0) {
+          dispatch({ type: actionTypes.POST_SUB_DETAIL_DOCTOR_SUCCESS });
+        } else {
+          toast.error("Create Sub Detail Doctor Failed!");
+          dispatch({
+            type: actionTypes.POST_SUB_DETAIL_DOCTOR_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 353 ~ return ~ error",
+        error
+      );
+      toast.error("Create Sub Detail Doctor Failed!");
+      dispatch({
+        type: actionTypes.POST_SUB_DETAIL_DOCTOR_FAILED,
+      });
+    }
+  };
+};
+
 // get detail doctor
 export const fetchDetaiInfoDoctor = (id) => {
   return async (dispatch, getState) => {
@@ -361,6 +392,8 @@ export const fetchDetaiInfoDoctor = (id) => {
     }
   };
 };
+
+
 
 // fetch hour doctor
 
@@ -481,6 +514,4 @@ export const fetchInfoDoctor = (type) => {
         });
     }
   };
-
-
 };

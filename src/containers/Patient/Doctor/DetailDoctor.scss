@@ -18,20 +18,20 @@
         font-weight: bold;
         padding-bottom: 10px;
       }
-      .r-dowm {
+      .r-down {
       }
     }
   }
   .schedule-doctor {
     padding-top: 10px;
-    height: 250px;
+    min-height: 250px;
     display: flex;
     .left {
       width: 50%;
     }
     .right {
       width: 50%;
-      background-color: gray;
+    
     }
   }
   .bg-container {

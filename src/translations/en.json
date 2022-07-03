@@ -78,6 +78,12 @@
   "admin": {
     "manage-doctor": {
       "select-doctor": "Select doctor",
+      "select-price": "Select price (USD)",
+      "select-province": "Select province",
+      "select-payment": " Select payment",
+      "name-clinic": "Name clinic",
+      "address-clinic": "Clinc's address",
+      "note": "Note",
       "intro": "Introductory information",
       "title": "Create doctor imformation",
       "save": "Save",

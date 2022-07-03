@@ -5,6 +5,7 @@ import { languages } from "../../../utils";
 import HomeHeader from "../../HomePage/HomeHeader";
 import "./DetailDoctor.scss";
 import DoctorSchedule from "./DoctorSchedule";
+import DoctorExtraInfo from "./DoctorExtraInfo";
 class DetailDoctor extends Component {
   constructor(props) {
     super(props);
@@ -56,7 +57,7 @@ class DetailDoctor extends Component {
               <div className="r-up">
                 {language === languages.VI ? nameVI : nameEN}
               </div>
-              <div className="r-dowm">
+              <div className="r-down">
                 {detailDoctor &&
                   detailDoctor.Markdown &&
                   detailDoctor.Markdown.description && (
@@ -73,7 +74,13 @@ class DetailDoctor extends Component {
                 }
               />
             </div>
-            <div className="right"></div>
+            <div className="right">
+              <DoctorExtraInfo
+                doctorId={
+                  detailDoctor && detailDoctor.id ? detailDoctor.id : -1
+                }
+              />
+            </div>
           </div>
           <div className="bg-container">
             <hr />
