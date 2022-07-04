@@ -11,12 +11,12 @@ const initialState = {
   listTopDoctor: [],
   listDoctor: [],
   detailDoctor: {},
-  // subDetailDoctor: {},
   allScheduleTime: [],
   doctorSchedule: [],
   doctorPrice: [],
   doctorPayment: [],
   doctorProvince: [],
+  extraInfoDoctor: {},
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -130,7 +130,7 @@ const adminReducer = (state = initialState, action) => {
         ...state,
       };
     }
- /*    // fetch sub detail doctor by id
+    /*    // fetch sub detail doctor by id
     case actionTypes.GET_SUB_DETAIL_DOCTOR_SUCCESS: {
       state.subDetailDoctor = action.data;
       return { ...state };
@@ -193,6 +193,17 @@ const adminReducer = (state = initialState, action) => {
     }
     case actionTypes.GET_DOCTOR_PROVINCE_FAILED: {
       state.doctorProvince = [];
+      return {
+        ...state,
+      };
+    }
+    // fetch extra info doctor
+    case actionTypes.GET_EXTRA_INFO_DOCTOR_SUCCEED: {
+      state.extraInfoDoctor = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_EXTRA_INFO_DOCTOR_FAILED: {
+      state.extraInfoDoctor = [];
       return {
         ...state,
       };

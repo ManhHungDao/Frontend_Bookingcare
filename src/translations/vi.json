@@ -74,6 +74,13 @@
       "choose": "Chọn ",
       "book-free": " và đặt (Phí đặt lịch 0đ)."
     }
+    ,"extra-info-doctor":{
+      "address":"Địa chỉ phòng khám",
+      "price":"Giá khám",
+      "payment":"Hình thức thanh toán: "
+      ,"detail":"Xem chi tiết",
+      "close":"Ẩn bảng giá"
+    }
   },
   "admin": {
     "manage-doctor": {

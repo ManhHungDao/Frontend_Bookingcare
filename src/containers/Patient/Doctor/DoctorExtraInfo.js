@@ -4,18 +4,30 @@ import * as actions from "../../../store/actions";
 import { languages } from "../../../utils";
 import "./DoctorExtraInfo.scss";
 import { FormattedMessage } from "react-intl";
+import NumberFormat from "react-number-format";
 
 class DoctorExtraInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isShowDetail: false,
+      isShowDetail: true,
+      extraInfoDoctor: {},
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    const doctorId = this.props.doctorId;
+    this.props.fetchExtraInfoDoctor(doctorId);
+  }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
+    }
+    if (this.props.extraInfoDoctor !== prevProps.extraInfoDoctor) {
+      const extraInfoDoctor = this.props.extraInfoDoctor;
+      if (extraInfoDoctor !== null)
+        this.setState({
+          extraInfoDoctor,
+        });
     }
   }
   handleShowHideDetail = () => {
@@ -25,46 +37,93 @@ class DoctorExtraInfo extends Component {
   };
   render() {
     const { language } = this.props;
-    const { isShowDetail } = this.state;
+    const { isShowDetail, extraInfoDoctor } = this.state;
+    const currentLang = language === languages.VI ? "valueVI" : "valueEN";
+    const price =
+      extraInfoDoctor && extraInfoDoctor.priceTypeData
+        ? extraInfoDoctor.priceTypeData[currentLang]
+        : "";
+    const typePayment =
+      extraInfoDoctor && extraInfoDoctor.paymentTypeData
+        ? extraInfoDoctor.paymentTypeData[currentLang]
+        : "";
     return (
       <>
         <div className="doctor-extra-info-contrainer">
           <div className="content-up">
-            <h5 className="content-title">địa chỉ khám</h5>
+            <h5 className="content-title">
+              <FormattedMessage id="patient.extra-info-doctor.address" />
+            </h5>
             <div className="content-name">
-              Phòng khám Bệnh viện Đại học Y Dược 1
+              {extraInfoDoctor && extraInfoDoctor.nameClinic
+                ? extraInfoDoctor.nameClinic
+                : ""}
+              {/* Phòng khám Bệnh viện Đại học Y Dược 1 */}
             </div>
             <div className="content-address">
-              20-22 Dương Quang Trung, Phường 12, Quận 10, Tp. HCM
+              {extraInfoDoctor && extraInfoDoctor.nameClinic
+                ? extraInfoDoctor.addressClinic
+                : ""}
             </div>
           </div>
           <hr />
           <div className="content-down">
             {isShowDetail ? (
               <div>
-                <h5 className="content-title">giá khám:</h5>
+                <h5 className="content-title">
+                  <FormattedMessage id="patient.extra-info-doctor.price" />
+                </h5>
                 <div className="content-price">
-                  <div className="name">Giá khám</div>
-                  <div className="price">250.000đ</div>
+                  <div className="up">
+                    <div className="name">
+                      <FormattedMessage id="patient.extra-info-doctor.price" />
+                    </div>
+                    <div className="price">
+                      <NumberFormat
+                        className="foo"
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        value={price}
+                        suffix={language === languages.VI ? "VNĐ" : "$"}
+                      />
+                    </div>
+                  </div>
+                  <div className="down">
+                    {extraInfoDoctor && extraInfoDoctor.note
+                      ? extraInfoDoctor.note
+                      : ""}
+                  </div>
                 </div>
                 <div className="content-info-payment">
-                  Phòng khám có thanh toán bằng hình thức tiền mặt và quẹt thẻ
+                  <span>
+                    <FormattedMessage id="patient.extra-info-doctor.payment" />
+                  </span>
+                  <span className="type-payment">{typePayment}</span>
                 </div>
                 <div
                   className="content-close"
                   onClick={this.handleShowHideDetail}
                 >
-                  Ẩn bảng giá
+                  <FormattedMessage id="patient.extra-info-doctor.close" />
                 </div>
               </div>
             ) : (
               <h5 className="content-title">
-                giá khám: 250.000d.
+                <span className="price">
+                  <FormattedMessage id="patient.extra-info-doctor.price" />:
+                </span>
+                <NumberFormat
+                  className="foo"
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  value={price}
+                  suffix={language === languages.VI ? "VNĐ" : "$"}
+                />
                 <span
                   className="view-detail"
                   onClick={this.handleShowHideDetail}
                 >
-                  Xem chi tiết
+                  <FormattedMessage id="patient.extra-info-doctor.detail" />
                 </span>
               </h5>
             )}
@@ -78,11 +137,14 @@ class DoctorExtraInfo extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    extraInfoDoctor: state.admin.extraInfoDoctor,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    fetchExtraInfoDoctor: (id) => dispatch(actions.fetchExtraInfoDoctor(id)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorExtraInfo);

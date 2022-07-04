@@ -68,18 +68,10 @@ class DetailDoctor extends Component {
           </div>
           <div className="schedule-doctor grid">
             <div className="left">
-              <DoctorSchedule
-                doctorId={
-                  detailDoctor && detailDoctor.id ? detailDoctor.id : -1
-                }
-              />
+              <DoctorSchedule doctorId={this.props.match.params.id} />
             </div>
             <div className="right">
-              <DoctorExtraInfo
-                doctorId={
-                  detailDoctor && detailDoctor.id ? detailDoctor.id : -1
-                }
-              />
+              <DoctorExtraInfo doctorId={this.props.match.params.id} />
             </div>
           </div>
           <div className="bg-container">

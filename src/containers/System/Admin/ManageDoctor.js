@@ -183,6 +183,7 @@ class ManageDoctor extends Component {
       nameClinic: "",
       addressClinic: "",
       listDoctor: [],
+      hasOldData: false,
     });
   };
 
@@ -237,6 +238,7 @@ class ManageDoctor extends Component {
         selectedPayment: selectedPayment,
         selectedProvince: selectedProvince,
         note: note,
+        hasOldData: true,
       });
     } else {
       this.setState({

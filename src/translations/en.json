@@ -73,6 +73,13 @@
       "notify": "No appointment.",
       "choose": "Choose ",
       "book-free": " and book (free)."
+    },
+    "extra-info-doctor": {
+      "address": "Clinic address",
+      "price": "Examination price",
+      "payment": "Payments: ",
+      "detail": "View details",
+      "close": "Hide details"
     }
   },
   "admin": {

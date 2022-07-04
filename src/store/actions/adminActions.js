@@ -9,8 +9,8 @@ import {
   editUserService,
   postDetailDoctorService,
   postSubDetailDocTorService,
-  // getSubDetailInfoDoctor,
   getTopDoctorHomeService,
+  getExtraInfoDoctorService,
   getDetailInfoDoctor,
   saveBulkScheduleDoctor,
   getScheduleService,
@@ -393,8 +393,6 @@ export const fetchDetaiInfoDoctor = (id) => {
   };
 };
 
-
-
 // fetch hour doctor
 
 export const fetchAllScheduleTime = () => {
@@ -467,51 +465,64 @@ export const fetchScheduleWithConditional = (doctorid, date) => {
   };
 };
 
-// fetch doctor price
+// fetch info doctor
 export const fetchInfoDoctor = (type) => {
+  let typeSucceed = "",
+    typeFailed = "";
+  if (type === TYPE.PRICE) {
+    typeSucceed = actionTypes.GET_DOCTOR_PRICE_SUCCEED;
+    typeFailed = actionTypes.GET_DOCTOR_PRICE_FAILED;
+  } else if (type === TYPE.PAYMENT) {
+    typeSucceed = actionTypes.GET_DOCTOR_PAYMENT_SUCCEED;
+    typeFailed = actionTypes.GET_DOCTOR_PAYMENT_FAILED;
+  } else if (type === TYPE.PROVINCE) {
+    typeSucceed = actionTypes.GET_DOCTOR_PROVINCE_SUCCEED;
+    typeFailed = actionTypes.GET_DOCTOR_PROVINCE_FAILED;
+  }
   return async (dispatch, getState) => {
-    if (type === TYPE.PRICE) {
-      await getAllCodeService(TYPE.PRICE)
-        .then((result) => {
-          dispatch({
-            type: actionTypes.GET_DOCTOR_PRICE_SUCCEED,
-            data: result.data,
-          });
-        })
-        .catch(() => {
-          dispatch({
-            type: actionTypes.GET_DOCTOR_PRICE_FAILED,
-          });
-          toast.error(`Fetch ${type} Failed!`);
+    await getAllCodeService(type)
+      .then((result) => {
+        dispatch({
+          type: typeSucceed,
+          data: result.data,
         });
-    } else if (type === TYPE.PAYMENT) {
-      await getAllCodeService(TYPE.PAYMENT)
-        .then((result) => {
-          dispatch({
-            type: actionTypes.GET_DOCTOR_PAYMENT_SUCCEED,
-            data: result.data,
-          });
-        })
-        .catch(() => {
-          dispatch({
-            type: actionTypes.GET_DOCTOR_PAYMENT_FAILED,
-          });
-          toast.error(`Fetch ${type} Failed!`);
+      })
+      .catch(() => {
+        dispatch({
+          type: typeFailed,
         });
-    } else if (type === TYPE.PROVINCE) {
-      await getAllCodeService(TYPE.PROVINCE)
-        .then((result) => {
+        toast.error(`Fetch ${type} Failed!`);
+      });
+  };
+};
+
+// fetch extra info doctor
+export const fetchExtraInfoDoctor = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await getExtraInfoDoctorService(id);
+        if (res && res.errCode === 0) {
           dispatch({
-            type: actionTypes.GET_DOCTOR_PROVINCE_SUCCEED,
-            data: result.data,
+            type: actionTypes.GET_EXTRA_INFO_DOCTOR_SUCCEED,
+            data: res.data,
           });
-        })
-        .catch(() => {
+        } else {
+          toast.error("Get Extra Info Doctor Failed!");
           dispatch({
-            type: actionTypes.GET_DOCTOR_PROVINCE_FAILED,
+            type: actionTypes.GET_EXTRA_INFO_DOCTOR_FAILED,
           });
-          toast.error(`Fetch ${type} Failed!`);
-        });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 518 ~ return ~ error",
+        error
+      );
+      toast.error("Get Extra Info Doctor Failed!");
+      dispatch({
+        type: actionTypes.GET_EXTRA_INFO_DOCTOR_FAILED,
+      });
     }
   };
 };
