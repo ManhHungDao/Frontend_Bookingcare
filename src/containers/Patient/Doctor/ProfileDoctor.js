@@ -48,7 +48,9 @@ class ProfileDoctor extends Component {
           <div>
             {time} - {this.capitalizeFirstLetter(date)}
           </div>
-          <div></div>
+          <div>
+            <FormattedMessage id="patient.booking-modal.price-booking" />
+          </div>
         </>
       );
     }

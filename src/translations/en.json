@@ -80,6 +80,20 @@
       "payment": "Payments: ",
       "detail": "View details",
       "close": "Hide details"
+    },
+    "booking-modal": {
+      "title": "Booking Information",
+      "name": "Name",
+      "gender": "Gender",
+      "email": "Email",
+      "address": "Address",
+      "phoneNumer": "Phone number",
+      "birthday": "Birthday",
+      "reason": "Reason",
+      "save": "Save",
+      "cancel": "Cancel",
+      "price": "Price",
+      "price-booking": "Free booking"
     }
   },
   "admin": {

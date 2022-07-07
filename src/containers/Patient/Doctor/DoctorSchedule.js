@@ -6,7 +6,7 @@ import moment from "moment";
 import "./DoctorSchedule.scss";
 import localization from "moment/locale/vi";
 import { FormattedMessage } from "react-intl";
-import BookingModal from "../Modal/BookingModal";
+import BookingModal from "./Modal/BookingModal";
 
 class DoctorSchedule extends Component {
   constructor(props) {

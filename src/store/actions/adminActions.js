@@ -14,6 +14,7 @@ import {
   getDetailInfoDoctor,
   saveBulkScheduleDoctor,
   getScheduleService,
+  postBookAppointmentService,
 } from "../../services/userService";
 import { TYPE } from "../../utils/constant";
 
@@ -35,10 +36,6 @@ export const fetchGenderStart = () => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 22 ~ return ~ error",
-        error
-      );
       dispatch(fetchGenderFailed());
     }
   };
@@ -68,10 +65,6 @@ export const fetchPositionStart = () => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 55 ~ return ~ error",
-        error
-      );
       dispatch(fetchPositionFailed());
     }
   };
@@ -100,10 +93,6 @@ export const fetchRoleStart = () => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 87 ~ return ~ error",
-        error
-      );
       dispatch(fetchRoleFailed());
     }
   };
@@ -130,11 +119,6 @@ export const createNewUser = (data) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 125 ~ return ~ error",
-        error
-      );
-
       dispatch(saveUserFailed());
     }
   };
@@ -162,10 +146,6 @@ export const deleteUser = (id) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 119 ~ return ~ error",
-        error
-      );
       dispatch(deleteUserFailed());
     }
   };
@@ -191,10 +171,6 @@ export const fetchAllUserStart = () => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 150 ~ return ~ error",
-        error
-      );
       dispatch(fetchAllUserFailed());
     }
   };
@@ -223,11 +199,6 @@ export const editUser = (user) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 215 ~ return ~ error",
-        error
-      );
-
       dispatch(editUserFailed());
     }
   };
@@ -249,10 +220,6 @@ export const editUserFailed = () => ({
         dispatch(fetchAllDoctorSuccess(res.data));
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 243 ~ return ~ error",
-        error
-      );
       dispatch(fetchAllDoctorFailed());
     }
   };
@@ -265,10 +232,6 @@ export const fetchTopDoctor = () => {
         dispatch(fetchAllDoctorSuccess(res.data));
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 243 ~ return ~ error",
-        error
-      );
       dispatch(fetchAllDoctorFailed());
     }
   };
@@ -294,10 +257,6 @@ export const fetchAllDoctor = () => {
         });
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 289 ~ return ~ error",
-        error
-      );
       dispatch({
         type: actionTypes.FETCH_ALL_DOCTOR_FAILED,
       });
@@ -322,10 +281,6 @@ export const createDetailDoctor = (data) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 318 ~ return ~ error",
-        error
-      );
       toast.error("Create Detail Doctor Failed!");
       dispatch({
         type: actionTypes.POST_DETAIL_DOCTOR_FAILED,
@@ -350,10 +305,6 @@ export const createSubDetailDoctor = (data) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 353 ~ return ~ error",
-        error
-      );
       toast.error("Create Sub Detail Doctor Failed!");
       dispatch({
         type: actionTypes.POST_SUB_DETAIL_DOCTOR_FAILED,
@@ -381,10 +332,6 @@ export const fetchDetaiInfoDoctor = (id) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 347 ~ return ~ error",
-        error
-      );
       toast.error("Get Detail Doctor Failed!");
       dispatch({
         type: actionTypes.GET_DETAIL_DOCTOR_FAILED,
@@ -406,10 +353,6 @@ export const fetchAllScheduleTime = () => {
         });
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 289 ~ return ~ error",
-        error
-      );
       dispatch({
         type: actionTypes.GET_SCHEDULE_TIME_FAILED,
       });
@@ -429,10 +372,6 @@ export const createBulkScheduleDoctor = (data) => {
         toast.success("Save Schedule Time Succeed!");
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 398 ~ return ~ error",
-        error
-      );
       dispatch({
         type: actionTypes.POST_BULK_SCHEDULE_FAILED,
       });
@@ -453,10 +392,6 @@ export const fetchScheduleWithConditional = (doctorid, date) => {
         });
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 423 ~ return ~ error",
-        error
-      );
       dispatch({
         type: actionTypes.GET_SCHEDULE_WITH_CONDITIONAL_FAILED,
       });
@@ -515,13 +450,39 @@ export const fetchExtraInfoDoctor = (id) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 518 ~ return ~ error",
-        error
-      );
       toast.error("Get Extra Info Doctor Failed!");
       dispatch({
         type: actionTypes.GET_EXTRA_INFO_DOCTOR_FAILED,
+      });
+    }
+  };
+};
+
+// post booking appointment
+
+export const createBookingAppointment = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await postBookAppointmentService(data);
+        if (res && res.errCode === 0) {
+          dispatch({ type: actionTypes.POST_BOOKING_APPOINTMENT_SUCCEED });
+          toast.success("Post Booking Appointment Doctor Succeed!");
+        } else {
+          toast.error("Post Booking Appointment Doctor Failed!");
+          dispatch({
+            type: actionTypes.POST_BOOKING_APPOINTMENT_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 481 ~ return ~ error",
+        error
+      );
+      toast.error("Post Booking Appointment Doctor Failed!");
+      dispatch({
+        type: actionTypes.POST_BOOKING_APPOINTMENT_FAILED,
       });
     }
   };

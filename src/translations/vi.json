@@ -73,13 +73,27 @@
       "notify": "Không có lịch hẹn.",
       "choose": "Chọn ",
       "book-free": " và đặt (Phí đặt lịch 0đ)."
-    }
-    ,"extra-info-doctor":{
-      "address":"Địa chỉ phòng khám",
-      "price":"Giá khám",
-      "payment":"Hình thức thanh toán: "
-      ,"detail":"Xem chi tiết",
-      "close":"Ẩn bảng giá"
+    },
+    "extra-info-doctor": {
+      "address": "Địa chỉ phòng khám",
+      "price": "Giá khám",
+      "payment": "Hình thức thanh toán: ",
+      "detail": "Xem chi tiết",
+      "close": "Ẩn bảng giá"
+    },
+    "booking-modal": {
+      "title": "Thông tin đặt lịch khám bệnh",
+      "name": "Họ và tên",
+      "gender": "Giới tính",
+      "email": "Email",
+      "address": "Địa chỉ",
+      "phoneNumer": "Số điện thoại",
+      "birthday": "Ngày sinh",
+      "reason": "Lý do khám",
+      "save": "Lưu lịch khám",
+      "cancel": "Thoát",
+      "price": "Giá khám",
+      "price-booking":"Miễn phí đặt lịch"
     }
   },
   "admin": {
