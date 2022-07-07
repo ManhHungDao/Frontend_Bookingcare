@@ -6,6 +6,7 @@ import moment from "moment";
 import "./DoctorSchedule.scss";
 import localization from "moment/locale/vi";
 import { FormattedMessage } from "react-intl";
+import BookingModal from "../Modal/BookingModal";
 
 class DoctorSchedule extends Component {
   constructor(props) {
@@ -13,6 +14,8 @@ class DoctorSchedule extends Component {
     this.state = {
       allDays: [],
       doctorSchedule: [],
+      isOpenModelBooking: false,
+      dataScheduleTimeModal: {},
     };
   }
 
@@ -60,7 +63,7 @@ class DoctorSchedule extends Component {
           object.lable = moment(new Date())
             .add(i, "days")
             .locale("en")
-            .format("dddd - DD/MM");
+            .format("ddd - DD/MM");
         }
       }
       object.value = moment(new Date()).add(i, "days").startOf("day").valueOf();
@@ -78,6 +81,19 @@ class DoctorSchedule extends Component {
   };
   handleOnChangeSelect = (event) => {
     this.fetchSchedule(event.target.value);
+  };
+
+  handleOnClickTime = (item) => {
+    this.setState({
+      isOpenModelBooking: !this.state.isOpenModelBooking,
+      dataScheduleTimeModal: item,
+    });
+  };
+
+  closeModalBooking = () => {
+    this.setState({
+      isOpenModelBooking: !this.state.isOpenModelBooking,
+    });
   };
   render() {
     const { allDays, doctorSchedule } = this.state;
@@ -121,11 +137,13 @@ class DoctorSchedule extends Component {
                         ? item.timeTypeData.valueVI
                         : item.timeTypeData.valueEN;
                     return (
-                      <>
-                        <button className="btn btn-warning" key={index}>
-                          {timeDisplay}
-                        </button>
-                      </>
+                      <button
+                        className="btn btn-warning"
+                        onClick={() => this.handleOnClickTime(item)}
+                        key={index}
+                      >
+                        {timeDisplay}
+                      </button>
                     );
                   })
                 ) : (
@@ -148,6 +166,12 @@ class DoctorSchedule extends Component {
             )}
           </span>
         </div>
+        <BookingModal
+          isOpenModelBooking={this.state.isOpenModelBooking}
+          closeModalBooking={this.closeModalBooking}
+          dataScheduleTimeModal={this.state.dataScheduleTimeModal}
+          doctor_info={this.props.doctor_info}
+        />
       </>
     );
   }

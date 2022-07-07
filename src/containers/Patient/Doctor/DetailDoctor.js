@@ -6,6 +6,7 @@ import HomeHeader from "../../HomePage/HomeHeader";
 import "./DetailDoctor.scss";
 import DoctorSchedule from "./DoctorSchedule";
 import DoctorExtraInfo from "./DoctorExtraInfo";
+import ProfileDoctor from "./ProfileDoctor";
 class DetailDoctor extends Component {
   constructor(props) {
     super(props);
@@ -32,46 +33,22 @@ class DetailDoctor extends Component {
   }
   render() {
     const { detailDoctor } = this.state;
-    let nameVI, nameEN;
-    if (detailDoctor && detailDoctor.positionData) {
-      nameVI = `${detailDoctor.positionData.valueVI} || ${detailDoctor.firstName} ${detailDoctor.lastName} `;
-      nameEN = `${detailDoctor.positionData.valueEN} || ${detailDoctor.lastName} ${detailDoctor.firstName}`;
-    }
+    const doctorId = this.props.match.params.id;
     const { language } = this.props;
     return (
       <>
         <HomeHeader isShowBanner={false} />
         <div className="doctor-detail-container ">
-          <div className="intro-doctor grid">
-            <div
-              className="left bg-image"
-              style={{
-                backgroundImage: `url(${
-                  detailDoctor.image && detailDoctor.image
-                    ? detailDoctor.image
-                    : ""
-                })`,
-              }}
-            ></div>
-            <div className="right">
-              <div className="r-up">
-                {language === languages.VI ? nameVI : nameEN}
-              </div>
-              <div className="r-down">
-                {detailDoctor &&
-                  detailDoctor.Markdown &&
-                  detailDoctor.Markdown.description && (
-                    <div>{detailDoctor.Markdown.description} </div>
-                  )}
-              </div>
-            </div>
-          </div>
+          <ProfileDoctor doctorId={doctorId} isShowDescription={true} />
           <div className="schedule-doctor grid">
             <div className="left">
-              <DoctorSchedule doctorId={this.props.match.params.id} />
+              <DoctorSchedule
+                doctorId={detailDoctor.id}
+                doctor_info={detailDoctor.Doctor_Info}
+              />
             </div>
             <div className="right">
-              <DoctorExtraInfo doctorId={this.props.match.params.id} />
+              <DoctorExtraInfo doctorId={doctorId} />
             </div>
           </div>
           <div className="bg-container">
