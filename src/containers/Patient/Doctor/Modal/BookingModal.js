@@ -9,6 +9,7 @@ import _ from "lodash";
 import ProfileDoctor from "../ProfileDoctor";
 import NumberFormat from "react-number-format";
 import DatePicker from "../../../../components/Input/DatePicker";
+import moment from "moment";
 
 class BookingModal extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class BookingModal extends Component {
       doctorId: "",
       genders: "",
       timeType: "",
+      dcotorName: "",
     };
   }
 
@@ -88,8 +90,41 @@ class BookingModal extends Component {
       </>
     );
   };
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  buildTimeBooking = (dataTime) => {
+    const { language } = this.props;
+    const date =
+      language === languages.VI
+        ? moment.unix(+dataTime.date / 1000).format("dddd - DD/MM/YYYY")
+        : moment
+            .unix(+dataTime.date / 1000)
+            .locale("en")
+            .format("ddd - MM/DD/YYYY");
+    const time =
+      language === languages.VI
+        ? dataTime.timeTypeData.valueVI
+        : dataTime.timeTypeData.valueEN;
+    if (dataTime && !_.isEmpty(dataTime)) {
+      return `${time} - ${this.capitalizeFirstLetter(date)}`;
+    }
+    return "";
+  };
+  buildNameDoctor = (dataTime) => {
+    const { language } = this.props;
+    if (dataTime && !_.isEmpty(dataTime)) {
+      const nameVI = `${dataTime.doctorData.firstName}${dataTime.doctorData.lastName} `;
+      const nameEN = `${dataTime.doctorData.lastName}${dataTime.doctorData.firstName}`;
+      const name = language === languages.VI ? nameVI : nameEN;
+      return name;
+    }
+    return "";
+  };
   handleSaveUser = () => {
     let date = new Date(this.state.birthday).getTime();
+    const timeString = this.buildTimeBooking(this.props.dataScheduleTimeModal);
+    const doctorName = this.buildNameDoctor(this.props.dataScheduleTimeModal);
     let data = {
       email: this.state.email,
       fullName: this.state.fullName,
@@ -100,6 +135,9 @@ class BookingModal extends Component {
       gender: this.state.gender,
       doctorId: this.state.doctorId,
       timeType: this.state.timeType,
+      language: this.props.language,
+      timeString: timeString,
+      doctorName: doctorName,
     };
     this.props.createBookingAppointment(data);
   };
@@ -120,7 +158,7 @@ class BookingModal extends Component {
             />
           </div>
           <div className="price">
-            <i className="fas fa-dot-circle"></i>{" "}
+            <i className="fas fa-dot-circle"></i>
             <FormattedMessage id="patient.booking-modal.price" />
             <span>{this.renderPrice()}</span>
           </div>

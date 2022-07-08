@@ -21,8 +21,9 @@ class ProfileDoctor extends Component {
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.detailDoctor !== this.props.detailDoctor) {
+      const detailDoctor = this.props.detailDoctor;
       this.setState({
-        detailDoctor: this.props.detailDoctor,
+        detailDoctor,
       });
     }
   }
