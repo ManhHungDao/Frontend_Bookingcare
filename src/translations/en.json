@@ -57,9 +57,10 @@
     "password": "Password"
   },
   "homepage": {
-    "outstanding-doctor": "Famous doctor of the week",
+    "outstanding-doctor": "Outstanding Doctor of the Week",
     "more-info": "More information",
-    "looking": "Looking"
+    "looking": "Looking",
+    "specialty-popular": "Popular specialties"
   },
   "manage-schedule": {
     "title": "Manage schedule medical examination",

@@ -3,63 +3,61 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import { languages } from "../../../utils";
+import * as action from "../../../store/actions";
 
 // slide slick
 import Slider from "react-slick";
 class Specialty extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      listSpecialty: [],
+    };
+  }
+  componentDidMount() {
+    this.props.getListSpecialtyHome();
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.listSpecialty !== prevProps.listSpecialty) {
+      this.setState({
+        listSpecialty: this.props.listSpecialty,
+      });
+    }
+  }
+
   render() {
+    let { listSpecialty } = this.state;
+
     return (
       <>
         <div className="section section-specialty">
           <div className="section-container">
             <div className="section-header">
-              <div className="title-section">Chuyên khoa phổ biến</div>
-              <div className="btn-section">Xem thêm</div>
+              <div className="title-section">
+                <FormattedMessage id="homepage.specialty-popular" />
+              </div>
+              <div className="btn-section">
+                <FormattedMessage id="homepage.looking" />
+              </div>
             </div>
             <div className="section-body">
               <Slider {...this.props.settings}>
-                <div className="section-customize">
-                  <div className="bg-image"></div>
-                  <div className="section-body-title">
-                    Hệ thống Y tế Thu Cúc 1
-                  </div>
-                </div>
-                <div className="section-customize">
-                  <div className="bg-image"></div>
-                  <div className="section-body-title">
-                    Hệ thống Y tế Thu Cúc 12
-                  </div>
-                </div>
-                <div className="section-customize">
-                  <div className="bg-image"></div>
-                  <div className="section-body-title">
-                    Hệ thống Y tế Thu Cúc 13
-                  </div>
-                </div>
-                <div className="section-customize">
-                  <div className="bg-image"></div>
-                  <div className="section-body-title">
-                    Hệ thống Y tế Thu Cúc 14
-                  </div>
-                </div>
-                <div className="section-customize">
-                  <div className="bg-image"></div>
-                  <div className="section-body-title">
-                    Hệ thống Y tế Thu Cúc 15
-                  </div>
-                </div>
-                <div className="section-customize">
-                  <div className="bg-image"></div>
-                  <div className="section-body-title">
-                    Hệ thống Y tế Thu Cúc 16
-                  </div>
-                </div>
-                <div className="section-customize">
-                  <div className="bg-image"></div>
-                  <div className="section-body-title">
-                    Hệ thống Y tế Thu Cúc 17
-                  </div>
-                </div>
+                {listSpecialty &&
+                  listSpecialty.length > 0 &&
+                  listSpecialty.map((item, index) => {
+                    return (
+                      <>
+                        <div key={index} className="section-customize">
+                          <div
+                            className="bg-image"
+                            style={{ backgroundImage: `url(${item.image})` }}
+                          ></div>
+                          <div className="section-body-title">{item.name}</div>
+                        </div>
+                      </>
+                    );
+                  })}
               </Slider>
             </div>
           </div>
@@ -71,13 +69,15 @@ class Specialty extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.user.isLoggedIn,
     language: state.app.language,
+    listSpecialty: state.admin.listSpecialty,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    getListSpecialtyHome: () => dispatch(action.getListSpecialtyHome()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Specialty);

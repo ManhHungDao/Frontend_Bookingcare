@@ -79,6 +79,11 @@ const postVerifyBooingService = (data) => {
 const postASpecialty = (data) => {
   return axios.post(`/api/create-specialty`, data);
 };
+
+const getListSpecialty = () => {
+  return axios.get(`/api/get-specialty`);
+};
+
 export {
   handleLoginApiService,
   getAllUsersService,
@@ -97,4 +102,5 @@ export {
   postBookAppointmentService,
   postVerifyBooingService,
   postASpecialty,
+  getListSpecialty,
 };

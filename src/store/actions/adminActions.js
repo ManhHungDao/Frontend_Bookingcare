@@ -17,6 +17,7 @@ import {
   postBookAppointmentService,
   postVerifyBooingService,
   postASpecialty,
+  getListSpecialty,
 } from "../../services/userService";
 import { TYPE } from "../../utils/constant";
 
@@ -549,6 +550,40 @@ export const createASpecialty = (data) => {
       toast.error("Create A New Specialty Failed!");
       dispatch({
         type: actionTypes.POST_SPECIALTY_FAILED,
+      });
+    }
+  };
+};
+
+// get list specialty
+
+export const getListSpecialtyHome = () => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await getListSpecialty();
+        if (res && res.errCode === 0) {
+          dispatch({
+            type: actionTypes.GET_LIST_SPECIALTY_SUCCEED,
+            data: res.data,
+          });
+          // toast.success("Get List Specialty Succeed!");
+        } else {
+          toast.error("Get List Specialty Failed!");
+          dispatch({
+            type: actionTypes.GET_LIST_SPECIALTY_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 576 ~ return ~ error",
+        error
+      );
+
+      toast.error("Get List Specialty Failed!");
+      dispatch({
+        type: actionTypes.GET_LIST_SPECIALTY_FAILED,
       });
     }
   };

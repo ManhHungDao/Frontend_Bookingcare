@@ -18,6 +18,7 @@ const initialState = {
   doctorProvince: [],
   extraInfoDoctor: {},
   statusVerify: false,
+  listSpecialty: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -215,6 +216,17 @@ const adminReducer = (state = initialState, action) => {
       return { ...state };
     }
     case actionTypes.POST_VERIFY_BOOKING_APPOINTMENT_FAILED: {
+      return {
+        ...state,
+      };
+    }
+    // get list specialty
+    case actionTypes.GET_LIST_SPECIALTY_SUCCEED: {
+      state.listSpecialty = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_LIST_SPECIALTY_FAILED: {
+      state.listSpecialty = [];
       return {
         ...state,
       };
