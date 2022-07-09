@@ -138,7 +138,7 @@ class ManageDoctor extends Component {
   };
 
   handleChangeTextArea = (event, name) => {
-    const copyState = { ...this.state };
+    let copyState = { ...this.state };
     copyState[name] = event.target.value;
     this.setState({
       ...copyState,

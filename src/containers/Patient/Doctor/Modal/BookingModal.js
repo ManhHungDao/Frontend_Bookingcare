@@ -53,8 +53,8 @@ class BookingModal extends Component {
   toggle = () => {
     this.props.closeModalBooking();
   };
-  handleOnChangeValue = (event, id) => {
-    const copyState = { ...this.state };
+  handleOnChangeInput = (event, id) => {
+    let copyState = { ...this.state };
     copyState[id] = event.target.value;
     this.setState({
       ...copyState,
@@ -171,7 +171,7 @@ class BookingModal extends Component {
               <input
                 className="form-control"
                 onChange={(event) =>
-                  this.handleOnChangeValue(event, "fullName")
+                  this.handleOnChangeInput(event, "fullName")
                 }
                 value={this.state.fullName}
               />
@@ -208,7 +208,7 @@ class BookingModal extends Component {
               </label>
               <input
                 className="form-control"
-                onChange={(event) => this.handleOnChangeValue(event, "email")}
+                onChange={(event) => this.handleOnChangeInput(event, "email")}
                 value={this.state.email}
               />
             </div>
@@ -218,7 +218,7 @@ class BookingModal extends Component {
               </label>
               <input
                 className="form-control"
-                onChange={(event) => this.handleOnChangeValue(event, "address")}
+                onChange={(event) => this.handleOnChangeInput(event, "address")}
                 value={this.state.address}
               />
             </div>
@@ -229,7 +229,7 @@ class BookingModal extends Component {
               <input
                 className="form-control"
                 onChange={(event) =>
-                  this.handleOnChangeValue(event, "phoneNumber")
+                  this.handleOnChangeInput(event, "phoneNumber")
                 }
                 value={this.state.phoneNumber}
               />
@@ -249,7 +249,7 @@ class BookingModal extends Component {
               </label>
               <input
                 className="form-control"
-                onChange={(event) => this.handleOnChangeValue(event, "reason")}
+                onChange={(event) => this.handleOnChangeInput(event, "reason")}
                 value={this.state.reason}
               />
             </div>
