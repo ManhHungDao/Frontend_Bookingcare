@@ -17,6 +17,7 @@ const initialState = {
   doctorPayment: [],
   doctorProvince: [],
   extraInfoDoctor: {},
+  statusVerify: false,
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -204,6 +205,16 @@ const adminReducer = (state = initialState, action) => {
     }
     case actionTypes.GET_EXTRA_INFO_DOCTOR_FAILED: {
       state.extraInfoDoctor = [];
+      return {
+        ...state,
+      };
+    }
+    // post verify booking
+    case actionTypes.POST_VERIFY_BOOKING_APPOINTMENT_SUCCEED: {
+      state.statusVerify = action.data;
+      return { ...state };
+    }
+    case actionTypes.POST_VERIFY_BOOKING_APPOINTMENT_FAILED: {
       return {
         ...state,
       };

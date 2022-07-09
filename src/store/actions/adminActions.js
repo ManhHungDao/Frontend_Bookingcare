@@ -15,6 +15,7 @@ import {
   saveBulkScheduleDoctor,
   getScheduleService,
   postBookAppointmentService,
+  postVerifyBooingService,
 } from "../../services/userService";
 import { TYPE } from "../../utils/constant";
 
@@ -483,6 +484,40 @@ export const createBookingAppointment = (data) => {
       toast.error("Post Booking Appointment Doctor Failed!");
       dispatch({
         type: actionTypes.POST_BOOKING_APPOINTMENT_FAILED,
+      });
+    }
+  };
+};
+// post verify booking appointment
+export const verifyBookingAppointment = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        let status = false;
+        const res = await postVerifyBooingService(data);
+        if (res && res.errCode === 0) {
+          // status = true;
+          dispatch({
+            type: actionTypes.POST_VERIFY_BOOKING_APPOINTMENT_SUCCEED,
+            data: true,
+          });
+          // toast.success("Verify Booking Appointment Doctor Succeed!");
+        } else {
+          // toast.error("Verify Booking Appointment Doctor Failed!");
+          dispatch({
+            type: actionTypes.POST_VERIFY_BOOKING_APPOINTMENT_FAILED,
+            data: false,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 510 ~ return ~ error",
+        error
+      );
+      toast.error("Verify Booking Appointment Doctor Failed!");
+      dispatch({
+        type: actionTypes.POST_VERIFY_BOOKING_APPOINTMENT_FAILED,
       });
     }
   };
