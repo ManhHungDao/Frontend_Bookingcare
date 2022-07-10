@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { languages } from "../../../utils";
 import * as action from "../../../store/actions";
+import { withRouter } from "react-router-dom";
 
 // slide slick
 import Slider from "react-slick";
@@ -25,7 +26,9 @@ class Specialty extends Component {
       });
     }
   }
-
+  handleViewDetailSpecialty = (doctor) => {
+    this.props.history.push(`/detail-specialty/${doctor.id}`);
+  };
   render() {
     let { listSpecialty } = this.state;
 
@@ -47,7 +50,11 @@ class Specialty extends Component {
                   listSpecialty.length > 0 &&
                   listSpecialty.map((item, index) => {
                     return (
-                      <div key={index} className="section-customize">
+                      <div
+                        key={index}
+                        className="section-customize"
+                        onClick={() => this.handleViewDetailSpecialty(item)}
+                      >
                         <div
                           className="bg-image"
                           style={{ backgroundImage: `url(${item.image})` }}
@@ -78,4 +85,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Specialty);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Specialty)
+);

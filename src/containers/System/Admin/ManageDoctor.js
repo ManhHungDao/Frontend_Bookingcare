@@ -177,8 +177,6 @@ class ManageDoctor extends Component {
       contentMarkdown: this.state.contentMarkdown,
       doctorId: this.state.selectedDoctor.value,
       description: this.state.description,
-      clinicId: this.state.selectedClinic.value,
-      specialtyId: this.state.selectedSpecialty.value,
       action: hasOldData ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
     };
     const subData = {
@@ -189,6 +187,8 @@ class ManageDoctor extends Component {
       nameClinic: this.state.nameClinic,
       addressClinic: this.state.addressClinic,
       note: this.state.note,
+      clinicId: this.state.selectedClinic.value,
+      specialtyId: this.state.selectedSpecialty.value,
     };
     this.props.createDetailDoctor(dataMain);
     this.props.createSubDetailDoctor(subData);
@@ -222,7 +222,8 @@ class ManageDoctor extends Component {
       selectedProvince = "",
       selectedClinic = "",
       selectedSpecialty = "";
-    const { listPayment, listPrice, listProvince } = this.state;
+    const { listPayment, listPrice, listProvince, listSpecialty, listClinic } =
+      this.state;
     if (detailDoctor) {
       if (
         Markdown &&
@@ -242,6 +243,7 @@ class ManageDoctor extends Component {
         Doctor_Info.paymentId &&
         Doctor_Info.priceId &&
         Doctor_Info.provinceId
+        // add condition for specialtyid & clinicid
       ) {
         addressClinic = Doctor_Info.addressClinic;
         nameClinic = Doctor_Info.nameClinic;
@@ -252,6 +254,7 @@ class ManageDoctor extends Component {
         selectedProvince = listProvince.find(
           (i) => i && i.value === provinceId
         );
+        selectedClinic = listSpecialty.find((i) => i && i.value === paymentId);
       }
       this.setState({
         contentHTML: contentHTML,
@@ -262,6 +265,7 @@ class ManageDoctor extends Component {
         selectedPrice: selectedPrice,
         selectedPayment: selectedPayment,
         selectedProvince: selectedProvince,
+        selectedSpecialty: selectedClinic,
         note: note,
         hasOldData: true,
       });
@@ -276,6 +280,8 @@ class ManageDoctor extends Component {
         selectedPrice: "",
         selectedPayment: "",
         selectedProvince: "",
+        selectedSpecialty: "",
+        selectedClinic: "",
         hasOldData: false,
       });
     }
