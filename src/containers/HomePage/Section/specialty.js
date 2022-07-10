@@ -16,7 +16,7 @@ class Specialty extends Component {
     };
   }
   componentDidMount() {
-    this.props.getListSpecialtyHome();
+    this.props.getSpecialtiesHome();
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.listSpecialty !== prevProps.listSpecialty) {
@@ -76,7 +76,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListSpecialtyHome: () => dispatch(action.getListSpecialtyHome()),
+    getSpecialtiesHome: () => dispatch(action.getSpecialtiesHome()),
   };
 };
 

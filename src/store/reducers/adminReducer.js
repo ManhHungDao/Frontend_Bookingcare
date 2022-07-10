@@ -19,6 +19,7 @@ const initialState = {
   extraInfoDoctor: {},
   statusVerify: false,
   listSpecialty: [],
+  listSpecialtyAdmin: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -221,16 +222,28 @@ const adminReducer = (state = initialState, action) => {
       };
     }
     // get list specialty
-    case actionTypes.GET_LIST_SPECIALTY_SUCCEED: {
+    case actionTypes.GET_SPECIALTIES_SUCCEED: {
       state.listSpecialty = action.data;
       return { ...state };
     }
-    case actionTypes.GET_LIST_SPECIALTY_FAILED: {
+    case actionTypes.GET_SPECIALTIES_FAILED: {
       state.listSpecialty = [];
       return {
         ...state,
       };
     }
+    // get list admin
+    case actionTypes.GET_LIST_SPECIALTY_SUCCEED: {
+      state.listSpecialtyAdmin = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_LIST_SPECIALTY_FAILED: {
+      state.listSpecialtyAdmin = [];
+      return {
+        ...state,
+      };
+    }
+
     default:
       return state;
   }

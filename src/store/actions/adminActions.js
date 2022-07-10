@@ -17,6 +17,7 @@ import {
   postBookAppointmentService,
   postVerifyBooingService,
   postASpecialty,
+  getSpecialties,
   getListSpecialty,
 } from "../../services/userService";
 import { TYPE } from "../../utils/constant";
@@ -555,23 +556,23 @@ export const createASpecialty = (data) => {
   };
 };
 
-// get list specialty
+// get specialties
 
-export const getListSpecialtyHome = () => {
+export const getSpecialtiesHome = () => {
   return async (dispatch, getState) => {
     try {
       {
-        const res = await getListSpecialty();
+        const res = await getSpecialties();
         if (res && res.errCode === 0) {
           dispatch({
-            type: actionTypes.GET_LIST_SPECIALTY_SUCCEED,
+            type: actionTypes.GET_SPECIALTIES_SUCCEED,
             data: res.data,
           });
           // toast.success("Get List Specialty Succeed!");
         } else {
-          toast.error("Get List Specialty Failed!");
+          toast.error("Get List Specialty Home Failed!");
           dispatch({
-            type: actionTypes.GET_LIST_SPECIALTY_FAILED,
+            type: actionTypes.GET_SPECIALTIES_FAILED,
           });
         }
       }
@@ -581,7 +582,39 @@ export const getListSpecialtyHome = () => {
         error
       );
 
-      toast.error("Get List Specialty Failed!");
+      toast.error("Get List Specialty Home Failed!");
+      dispatch({
+        type: actionTypes.GET_SPECIALTIES_FAILED,
+      });
+    }
+  };
+};
+// get list specialty
+
+export const getListSpecialtyAdmin = () => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await getListSpecialty();
+        if (res && res.errCode === 0) {
+          dispatch({
+            type: actionTypes.GET_LIST_SPECIALTY_SUCCEED,
+            data: res.data,
+          });
+        } else {
+          toast.error("Get List Specialty Admin Failed!");
+          dispatch({
+            type: actionTypes.GET_LIST_SPECIALTY_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 613 ~ return ~ error",
+        error
+      );
+
+      toast.error("Get List Specialty Admin Failed!");
       dispatch({
         type: actionTypes.GET_LIST_SPECIALTY_FAILED,
       });
