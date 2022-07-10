@@ -257,7 +257,7 @@ export const fetchAllDoctor = () => {
       if (res && res.errCode === 0) {
         dispatch({
           type: actionTypes.FETCH_ALL_DOCTOR_SUCCESS,
-          data: res,
+          data: res.data,
         });
       }
     } catch (error) {

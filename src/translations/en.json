@@ -99,8 +99,10 @@
   },
   "admin": {
     "manage-doctor": {
+      "select-specialty": "Select specialty",
       "select-doctor": "Select doctor",
       "select-price": "Select price (USD)",
+      "select-clinic": "Select clinic",
       "select-province": "Select province",
       "select-payment": " Select payment",
       "name-clinic": "Name clinic",
@@ -111,10 +113,12 @@
       "save": "Save",
       "create": "Add",
       "introduce_placeholder": "Introduce about doctor",
+      "select_specialty_placeholder": "Select specialty",
       "select_doctor_placeholder": "Select doctor",
       "select_price_placeholder": "Select price",
       "select_payment_placeholder": "Select payment",
       "select_province_placeholder": "Select province",
+      "select_clinic_placeholder": "Select clinic",
       "select_nameclinic_placeholder": "Enter name clinic",
       "select_addressclinic_placeholder": "Enter address clinic",
       "select_note_placeholder": "Note"

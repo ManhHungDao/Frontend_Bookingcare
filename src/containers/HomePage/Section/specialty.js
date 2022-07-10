@@ -47,15 +47,13 @@ class Specialty extends Component {
                   listSpecialty.length > 0 &&
                   listSpecialty.map((item, index) => {
                     return (
-                      <>
-                        <div key={index} className="section-customize">
-                          <div
-                            className="bg-image"
-                            style={{ backgroundImage: `url(${item.image})` }}
-                          ></div>
-                          <div className="section-body-title">{item.name}</div>
-                        </div>
-                      </>
+                      <div key={index} className="section-customize">
+                        <div
+                          className="bg-image"
+                          style={{ backgroundImage: `url(${item.image})` }}
+                        ></div>
+                        <div className="section-body-title">{item.name}</div>
+                      </div>
                     );
                   })}
               </Slider>

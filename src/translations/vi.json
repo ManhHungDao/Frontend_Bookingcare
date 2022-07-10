@@ -101,6 +101,8 @@
     "manage-doctor": {
       "title": "Tạo thông tin bác sĩ",
       "select-doctor": "Chọn bác sĩ",
+      "select-specialty": "Chọn chuyên khoa",
+      "select-clinic": "Chọn phòng khám",
       "select-price": "Chọn giá (VNĐ)",
       "select-province": "Chọn thành phố",
       "select-payment": "Chọn phương thức thanh toán",
@@ -112,6 +114,8 @@
       "create": "Tạo thông tin",
       "introduce_placeholder": "Lời giới thiệu",
       "select_doctor_placeholder": "Chọn bác sĩ",
+      "select_clinic_placeholder": "Chọn phòng khám",
+      "select_specialty_placeholder": "Chọn chuyên khoa",
       "select_price_placeholder": "Chọn giá",
       "select_payment_placeholder": "Chọn phương thức thanh toán",
       "select_province_placeholder": "Chọn thành phố",

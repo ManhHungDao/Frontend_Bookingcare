@@ -25,15 +25,15 @@ class ManageDoctor extends Component {
       description: "",
       hasOldData: false,
       listDoctor: [],
-      selectedDoctor: null,
+      selectedDoctor: "",
 
       // save to doctor info table
       listPrice: [],
-      selectedPrice: null,
+      selectedPrice: "",
       listPayment: [],
-      selectedPayment: null,
+      selectedPayment: "",
       listProvince: [],
-      selectedProvince: null,
+      selectedProvince: "",
       nameClinic: "",
       addressClinic: "",
       note: "",
@@ -63,7 +63,7 @@ class ManageDoctor extends Component {
 
     if (prevProps.listDoctor !== this.props.listDoctor) {
       let listDoctor = this.props.listDoctor;
-      const dataSelect = this.buildDataInputSelect(listDoctor.data, 1);
+      const dataSelect = this.buildDataInputSelect(listDoctor, 1);
       this.setState({
         listDoctor: dataSelect,
       });
@@ -99,7 +99,7 @@ class ManageDoctor extends Component {
     }
     if (prevProps.language !== this.props.language) {
       let { listDoctor, listPrice, listPayment, listProvince } = this.props;
-      const dataSelectDoctor = this.buildDataInputSelect(listDoctor.data, 1);
+      const dataSelectDoctor = this.buildDataInputSelect(listDoctor, 1);
       const dataSelectPayment = this.buildDataInputSelect(listPayment, 0);
       const dataSelectProvince = this.buildDataInputSelect(listProvince, 0);
       const dataSelectPrice = this.buildDataInputSelect(listPrice, 0);
@@ -170,13 +170,15 @@ class ManageDoctor extends Component {
       contentMarkdown: html,
     });
   };
-  handleSaveContent = () => {
+  handleSave = () => {
     let hasOldData = this.state.hasOldData;
     const dataMain = {
       contentHTML: this.state.contentHTML,
       contentMarkdown: this.state.contentMarkdown,
       doctorId: this.state.selectedDoctor.value,
       description: this.state.description,
+      clinicId: this.state.selectedClinic.value,
+      specialtyId: this.state.selectedSpecialty.value,
       action: hasOldData ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
     };
     const subData = {
@@ -194,15 +196,16 @@ class ManageDoctor extends Component {
     this.setState({
       contentHTML: "",
       contentMarkdown: "",
-      selectedDoctor: null,
-      selectedPrice: null,
-      selectedPayment: null,
-      selectedProvince: null,
+      selectedDoctor: "",
+      selectedPrice: "",
+      selectedPayment: "",
+      selectedProvince: "",
+      selectedClinic: "",
+      selectedSpecialty: "",
       note: "",
       description: "",
       nameClinic: "",
       addressClinic: "",
-      listDoctor: [],
       hasOldData: false,
     });
   };
@@ -216,7 +219,9 @@ class ManageDoctor extends Component {
       note = "",
       selectedPrice = "",
       selectedPayment = "",
-      selectedProvince = "";
+      selectedProvince = "",
+      selectedClinic = "",
+      selectedSpecialty = "";
     const { listPayment, listPrice, listProvince } = this.state;
     if (detailDoctor) {
       if (
@@ -268,9 +273,9 @@ class ManageDoctor extends Component {
         addressClinic: "",
         nameClinic: "",
         note: "",
-        selectedPrice: null,
-        selectedPayment: null,
-        selectedProvince: null,
+        selectedPrice: "",
+        selectedPayment: "",
+        selectedProvince: "",
         hasOldData: false,
       });
     }
@@ -333,17 +338,16 @@ class ManageDoctor extends Component {
                 </div>
                 <div className="col-6 form-group">
                   <h4>
-                    {/* <FormattedMessage id="admin.manage-doctor.select-doctor" /> */}
-                    chọn chuyên khoa
+                    <FormattedMessage id="admin.manage-doctor.select-specialty" />
                   </h4>
                   <Select
                     name="selectedSpecialty"
                     value={this.state.selectedSpecialty}
                     onChange={this.handleChangeSelect}
                     options={listSpecialty}
-                    // placeholder={
-                    //   <FormattedMessage id="admin.manage-doctor.select_doctor_placeholder" />
-                    // }
+                    placeholder={
+                      <FormattedMessage id="admin.manage-doctor.select_specialty_placeholder" />
+                    }
                   />
                 </div>
               </div>
@@ -354,7 +358,6 @@ class ManageDoctor extends Component {
               </h4>
               <textarea
                 value={this.state.description}
-                // onChange={(event) => this.handleChangeTextArea(event)}
                 onChange={(event) =>
                   this.handleChangeTextArea(event, "description")
                 }
@@ -369,17 +372,16 @@ class ManageDoctor extends Component {
           <div className="sub-doctor-info row">
             <div className="col-3 form-group mb-3">
               <label>
-                {/* <FormattedMessage id="admin.manage-doctor.select-price" /> */}
-                chọn phòng khám
+                <FormattedMessage id="admin.manage-doctor.select-clinic" />
               </label>
               <Select
                 name="selectedClinic"
                 value={this.state.selectedClinic}
                 onChange={this.handleChangeSelect}
                 options={this.state.listClinic}
-                // placeholder={
-                //   <FormattedMessage id="admin.manage-doctor.select_price_placeholder" />
-                // }
+                placeholder={
+                  <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
+                }
               />
             </div>
             <div className="col-3 form-group">
@@ -472,7 +474,7 @@ class ManageDoctor extends Component {
             className={
               !hasOldData ? "btn btn-primary mt-5" : "btn btn-warning mt-5"
             }
-            onClick={this.handleSaveContent}
+            onClick={this.handleSave}
           >
             {hasOldData ? (
               <FormattedMessage id="admin.manage-doctor.save" />
