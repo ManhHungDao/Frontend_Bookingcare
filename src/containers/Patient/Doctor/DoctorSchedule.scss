@@ -1,4 +1,5 @@
 .doctor-schelude-container {
+  display: contents;
   height: 100%;
   .all-schedule {
     select {
@@ -8,10 +9,12 @@
       color: #45c3d2;
       border-bottom: 1px solid black;
       padding: 7px 3px;
+      background-color: transparent;
       cursor: pointer;
       .sl-option {
         cursor: pointer;
       }
+      
     }
   }
   .all-available {

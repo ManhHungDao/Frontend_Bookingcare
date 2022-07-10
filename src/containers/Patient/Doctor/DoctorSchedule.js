@@ -26,13 +26,13 @@ class DoctorSchedule extends Component {
     if (this.props.language !== prevProps.language) {
       this.setAllDay();
     }
+    if (this.props.doctorId !== prevProps.doctorId) {
+      this.fetchSchedule(this.state.allDays[0].value);
+    }
     if (this.props.doctorSchedule !== prevProps.doctorSchedule) {
       this.setState({
         doctorSchedule: this.props.doctorSchedule,
       });
-    }
-    if (this.props.doctorId !== prevProps.doctorId) {
-      this.fetchSchedule(this.state.allDays[0].value);
     }
   }
   capitalizeFirstLetter(string) {

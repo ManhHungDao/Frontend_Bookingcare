@@ -27,7 +27,7 @@ class ManageSchedule extends Component {
   async componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.doctors !== this.props.doctors) {
       let listDoctor = this.props.doctors;
-      const dataSelect = this.buildDataInputSelect(listDoctor.data);
+      const dataSelect = this.buildDataInputSelect(listDoctor);
       this.setState({
         doctors: dataSelect,
       });
@@ -35,14 +35,14 @@ class ManageSchedule extends Component {
 
     if (prevProps.language !== this.props.language) {
       let listDoctor = this.props.doctors;
-      const dataSelect = this.buildDataInputSelect(listDoctor.data);
+      const dataSelect = this.buildDataInputSelect(listDoctor);
       this.setState({
         doctors: dataSelect,
       });
     }
 
     if (prevProps.allScheduleTime !== this.props.allScheduleTime) {
-      let data = this.props.allScheduleTime.data;
+      let data = this.props.allScheduleTime;
       if (data && data.length > 0) {
         data.map((item) => {
           item.isSelected = false;

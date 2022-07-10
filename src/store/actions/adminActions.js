@@ -353,7 +353,7 @@ export const fetchAllScheduleTime = () => {
       if (res && res.errCode === 0) {
         dispatch({
           type: actionTypes.GET_SCHEDULE_TIME_SUCCESS,
-          data: res,
+          data: res.data,
         });
       }
     } catch (error) {

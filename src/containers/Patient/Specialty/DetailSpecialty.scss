@@ -1,0 +1,32 @@
+body {
+  background-color: #f9f9f9;
+}
+.detail-specialy-container {
+  .section {
+    background-color: #fff;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+      rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    display: flex;
+    height: fit-content;
+    border-radius: 8px;
+    margin: 10px 0;
+    .info-doctor,
+    .schedule-doctor {
+      width: 50%;
+      height: 100%;
+    }
+    .schedule-doctor {
+      padding: 15px;
+      .btn.btn-warning {
+        background-color: #eee !important;
+        color: black !important;
+        outline: none !important;
+      }
+      .doctor-extra-info-contrainer {
+        border: none !important;
+        padding: 0 !important;
+      }
+    }
+  }
+}
+
