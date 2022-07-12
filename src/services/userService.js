@@ -87,7 +87,14 @@ const getSpecialties = () => {
 const getListSpecialty = () => {
   return axios.get(`/api/get-list-specialty`);
 };
-
+const getDetailSpecialty = (specialtyId) => {
+  return axios.get(`/api/get-detail-specialty?specialtyId=${specialtyId}`);
+};
+const getListDoctorSpecialty = (data) => {
+  return axios.get(
+    `/api/get-doctor-specialty?specialtyId=${data.specialtyId}?provinceId=${data.provinceId}`
+  );
+};
 export {
   handleLoginApiService,
   getAllUsersService,
@@ -108,4 +115,6 @@ export {
   postASpecialty,
   getSpecialties,
   getListSpecialty,
+  getDetailSpecialty,
+  getListDoctorSpecialty,
 };

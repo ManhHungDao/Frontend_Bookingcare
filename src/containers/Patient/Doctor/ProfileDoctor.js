@@ -7,6 +7,7 @@ import { FormattedMessage } from "react-intl";
 import _ from "lodash";
 import localization from "moment/locale/vi";
 import moment from "moment";
+import { getDetailInfoDoctor } from "../../../services/userService";
 
 class ProfileDoctor extends Component {
   constructor(props) {
@@ -15,7 +16,8 @@ class ProfileDoctor extends Component {
       detailDoctor: {},
     };
   }
-
+  /* 
+  // thay đổi từ get data from redux to get from userService
   componentDidMount() {
     this.props.fetchDetaiInfoDoctor(this.props.doctorId);
   }
@@ -25,6 +27,17 @@ class ProfileDoctor extends Component {
       this.setState({
         detailDoctor,
       });
+    }
+  } */
+
+  async componentDidMount() {
+    let doctorId = this.props.doctorId;
+    if (doctorId) {
+      const res = await getDetailInfoDoctor(doctorId);
+      if (res && res.errCode === 0)
+        this.setState({
+          detailDoctor: res.data,
+        });
     }
   }
   capitalizeFirstLetter(string) {
@@ -106,13 +119,13 @@ class ProfileDoctor extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    detailDoctor: state.admin.detailDoctor,
+    // detailDoctor: state.admin.detailDoctor,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchDetaiInfoDoctor: (id) => dispatch(actions.fetchDetaiInfoDoctor(id)),
+    // fetchDetaiInfoDoctor: (id) => dispatch(actions.fetchDetaiInfoDoctor(id)),
   };
 };
 

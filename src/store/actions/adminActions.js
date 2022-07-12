@@ -18,6 +18,8 @@ import {
   postVerifyBooingService,
   postASpecialty,
   getSpecialties,
+  getDetailSpecialty,
+  getListDoctorSpecialty,
   getListSpecialty,
 } from "../../services/userService";
 import { TYPE } from "../../utils/constant";
@@ -590,7 +592,6 @@ export const getSpecialtiesHome = () => {
   };
 };
 // get list specialty
-
 export const getListSpecialtyAdmin = () => {
   return async (dispatch, getState) => {
     try {
@@ -617,6 +618,70 @@ export const getListSpecialtyAdmin = () => {
       toast.error("Get List Specialty Admin Failed!");
       dispatch({
         type: actionTypes.GET_LIST_SPECIALTY_FAILED,
+      });
+    }
+  };
+};
+
+// get detail specialty
+export const getDetailSpecialtyHome = (specialtyId) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await getDetailSpecialty(specialtyId);
+        if (res && res.errCode === 0) {
+          dispatch({
+            type: actionTypes.GET_DETAIL_SPECIALTY_SUCCEED,
+            data: res.data,
+          });
+        } else {
+          toast.error("Get Detail Specialty Home Failed!");
+          dispatch({
+            type: actionTypes.GET_DETAIL_SPECIALTY_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 645 ~ return ~ error",
+        error
+      );
+
+      toast.error("Get Detail Specialty Home Failed!");
+      dispatch({
+        type: actionTypes.GET_DETAIL_SPECIALTY_FAILED,
+      });
+    }
+  };
+};
+
+// get list doctor specialty
+export const getListDoctorSpecialtyHome = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        console.log("🚀 ~ file: adminActions.js ~ line 664 ~ return ~ data", data)
+        const res = await getListDoctorSpecialty(data);
+        if (res && res.errCode === 0) {
+          dispatch({
+            type: actionTypes.GET_LIST_DOCTOR_SPECIALTY_SUCCEED,
+            data: res.data,
+          });
+        } else {
+          toast.error("Get List Doctor Specialty Home Failed!");
+          dispatch({
+            type: actionTypes.GET_LIST_DOCTOR_SPECIALTY_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 678 ~ return ~ error",
+        error
+      );
+      toast.error("Get List Doctor Specialty Home Failed!");
+      dispatch({
+        type: actionTypes.GET_LIST_DOCTOR_SPECIALTY_FAILED,
       });
     }
   };

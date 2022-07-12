@@ -7,6 +7,7 @@ import "./DoctorSchedule.scss";
 import localization from "moment/locale/vi";
 import { FormattedMessage } from "react-intl";
 import BookingModal from "./Modal/BookingModal";
+import { getScheduleService } from "../../../services/userService";
 
 class DoctorSchedule extends Component {
   constructor(props) {
@@ -29,11 +30,11 @@ class DoctorSchedule extends Component {
     if (this.props.doctorId !== prevProps.doctorId) {
       this.fetchSchedule(this.state.allDays[0].value);
     }
-    if (this.props.doctorSchedule !== prevProps.doctorSchedule) {
-      this.setState({
-        doctorSchedule: this.props.doctorSchedule,
-      });
-    }
+    // if (this.props.doctorSchedule !== prevProps.doctorSchedule) {
+    //   this.setState({
+    //     doctorSchedule: this.props.doctorSchedule,
+    //   });
+    // }
   }
   capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -73,10 +74,16 @@ class DoctorSchedule extends Component {
       allDays,
     });
   };
-  fetchSchedule = (date) => {
+  fetchSchedule = async (date) => {
     const doctorId = this.props.doctorId;
     if (doctorId && doctorId !== -1) {
-      this.props.fetchScheduleWithConditional(doctorId, date);
+      // this.props.fetchScheduleWithConditional(doctorId, date);
+      const res = await getScheduleService(doctorId, date);
+      if (res && res.errCode === 0) {
+        this.setState({
+          doctorSchedule: res.data,
+        });
+      }
     }
   };
   handleOnChangeSelect = (event) => {
@@ -180,14 +187,14 @@ class DoctorSchedule extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    doctorSchedule: state.admin.doctorSchedule,
+    // doctorSchedule: state.admin.doctorSchedule,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchScheduleWithConditional: (doctorId, date) =>
-      dispatch(actions.fetchScheduleWithConditional(doctorId, date)),
+    // fetchScheduleWithConditional: (doctorId, date) =>
+    //   dispatch(actions.fetchScheduleWithConditional(doctorId, date)),
   };
 };
 

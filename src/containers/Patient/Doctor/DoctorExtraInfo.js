@@ -5,7 +5,7 @@ import { languages } from "../../../utils";
 import "./DoctorExtraInfo.scss";
 import { FormattedMessage } from "react-intl";
 import NumberFormat from "react-number-format";
-
+import { getExtraInfoDoctorService } from "../../../services/userService";
 class DoctorExtraInfo extends Component {
   constructor(props) {
     super(props);
@@ -15,20 +15,28 @@ class DoctorExtraInfo extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const doctorId = this.props.doctorId;
-    this.props.fetchExtraInfoDoctor(doctorId);
+    // this.props.fetchExtraInfoDoctor(doctorId);
+    if (doctorId) {
+      const res = await getExtraInfoDoctorService(doctorId);
+      if (res && res.errCode === 0) {
+        this.setState({
+          extraInfoDoctor: res.data,
+        });
+      }
+    }
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
     }
-    if (this.props.extraInfoDoctor !== prevProps.extraInfoDoctor) {
-      const extraInfoDoctor = this.props.extraInfoDoctor;
-      if (extraInfoDoctor !== null)
-        this.setState({
-          extraInfoDoctor,
-        });
-    }
+    // if (this.props.extraInfoDoctor !== prevProps.extraInfoDoctor) {
+    //   const extraInfoDoctor = this.props.extraInfoDoctor;
+    //   if (extraInfoDoctor !== null)
+    //     this.setState({
+    //       extraInfoDoctor,
+    //     });
+    // }
   }
   handleShowHideDetail = () => {
     this.setState({
@@ -136,13 +144,13 @@ class DoctorExtraInfo extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    extraInfoDoctor: state.admin.extraInfoDoctor,
+    // extraInfoDoctor: state.admin.extraInfoDoctor,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchExtraInfoDoctor: (id) => dispatch(actions.fetchExtraInfoDoctor(id)),
+    // fetchExtraInfoDoctor: (id) => dispatch(actions.fetchExtraInfoDoctor(id)),
   };
 };
 

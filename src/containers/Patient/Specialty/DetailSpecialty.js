@@ -17,14 +17,33 @@ class DetailSpecialty extends Component {
       arrdoctorId: [15, 42, 41],
       listProvince: [],
       selectedProvince: "",
+      detailSpecialty: {},
+      listDoctorSpecialty: [],
     };
   }
 
   componentDidMount() {
+    const specialtyId = this.props.match.params.id;
     this.props.fetchInfoDoctor(TYPE.PROVINCE);
+    this.props.getDetailSpecialtyHome(specialtyId);
+    const data = {
+      specialtyId: this.props.match.params.id,
+      provinceId: null,
+    };
+    this.props.getListDoctorSpecialtyHome(data);
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
+    }
+    if (this.props.detailSpecialty !== prevProps.detailSpecialty) {
+      this.setState({
+        detailSpecialty: this.props.detailSpecialty,
+      });
+    }
+    if (this.props.listDoctorSpecialty !== prevProps.listDoctorSpecialty) {
+      this.setState({
+        listDoctorSpecialty: this.props.listDoctorSpecialty,
+      });
     }
     if (prevProps.listProvince !== this.props.listProvince) {
       let listProvince = this.props.listProvince;
@@ -56,6 +75,11 @@ class DetailSpecialty extends Component {
     this.setState({
       ...copyState,
     });
+    const data = {
+      specialtyId: this.props.match.params.id,
+      provinceId: selectedOption.value,
+    };
+    this.props.getListDoctorSpecialtyHome(data);
   };
   render() {
     const { language } = this.props;
@@ -103,12 +127,18 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     listProvince: state.admin.doctorProvince,
+    detailSpecialty: state.admin.detailSpecialty,
+    listDoctorSpecialty: state.admin.listDoctorSpecialty,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchInfoDoctor: (type) => dispatch(actions.fetchInfoDoctor(type)),
+    getDetailSpecialtyHome: (id) =>
+      dispatch(actions.getDetailSpecialtyHome(id)),
+    getListDoctorSpecialtyHome: (data) =>
+      dispatch(actions.getListDoctorSpecialtyHome(data)),
   };
 };
 
