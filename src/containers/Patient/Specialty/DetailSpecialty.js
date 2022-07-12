@@ -19,6 +19,7 @@ class DetailSpecialty extends Component {
       selectedProvince: "",
       detailSpecialty: {},
       listDoctorSpecialty: [],
+      isOpen: false,
     };
   }
 
@@ -28,7 +29,7 @@ class DetailSpecialty extends Component {
     this.props.getDetailSpecialtyHome(specialtyId);
     const data = {
       specialtyId: this.props.match.params.id,
-      provinceId: 'all',
+      provinceId: "all",
     };
     this.props.getListDoctorSpecialtyHome(data);
   }
@@ -69,25 +70,35 @@ class DetailSpecialty extends Component {
     return result;
   };
   handleChangeSelect = (selectedOption, name) => {
-    const stateName = name.name;
-    const copyState = { ...this.state };
-    copyState[stateName] = selectedOption;
-    this.setState({
-      ...copyState,
-    });
-    const data = {
+    let data = {
       specialtyId: this.props.match.params.id,
       provinceId: selectedOption.value,
     };
     this.props.getListDoctorSpecialtyHome(data);
+    const stateName = name.name;
+    const copyState = { ...this.state };
+    copyState[stateName] = selectedOption;
+
+    this.setState({
+      ...copyState,
+    });
+  };
+  handleSeeMore = () => {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
   };
   render() {
     const { language } = this.props;
-    const { arrdoctorId, detailSpecialty, listDoctorSpecialty } = this.state;
+    const { arrdoctorId, detailSpecialty, listDoctorSpecialty, isOpen } =
+      this.state;
     return (
       <>
         <HomeHeader />
-        <div className="detail-specialy grid">
+        <div
+          className="detail-specialy grid"
+          style={isOpen ? { height: "fit-content" } : {}}
+        >
           {detailSpecialty && detailSpecialty.contentMarkdown && (
             <div
               contentEditable="true"
@@ -97,9 +108,14 @@ class DetailSpecialty extends Component {
             ></div>
           )}
         </div>
+        <div className="for-more grid">
+          <span onClick={this.handleSeeMore}>
+            {isOpen ? "Ẩn bớt" : " Xem thêm"}
+          </span>
+        </div>
         <div className="body-container">
           <div className="detail-specialy-container grid">
-            <div style={{ width: "161px" }}>
+            <div style={{ width: "161px", paddingTop: "10px" }}>
               <Select
                 name="selectedProvince"
                 value={this.state.selectedProvince}

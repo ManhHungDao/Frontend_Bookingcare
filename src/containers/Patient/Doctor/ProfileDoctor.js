@@ -16,7 +16,7 @@ class ProfileDoctor extends Component {
       detailDoctor: {},
     };
   }
-  /* 
+/*   
   // thay đổi từ get data from redux to get from userService
   componentDidMount() {
     this.props.fetchDetaiInfoDoctor(this.props.doctorId);
@@ -34,6 +34,16 @@ class ProfileDoctor extends Component {
     let doctorId = this.props.doctorId;
     if (doctorId) {
       const res = await getDetailInfoDoctor(doctorId);
+      if (res && res.errCode === 0)
+        this.setState({
+          detailDoctor: res.data,
+        });
+    }
+  }
+
+  async componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.doctorId !== this.props.doctorId) {
+      const res = await getDetailInfoDoctor(this.props.doctorId);
       if (res && res.errCode === 0)
         this.setState({
           detailDoctor: res.data,
