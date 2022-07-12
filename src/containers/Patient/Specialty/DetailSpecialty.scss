@@ -1,10 +1,21 @@
-body {
+.detail-specialy {
+  height: 300px;
+  overflow: hidden;
+  background-color: #fff;
+  h3,
+  h2 {
+    font-size: 17px;
+    font-weight: 400;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+.body-container {
   background-color: #f9f9f9;
 }
 .detail-specialy-container {
-  Select .select {
-    width: 20px;
-  }
   .section {
     background-color: #fff;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,

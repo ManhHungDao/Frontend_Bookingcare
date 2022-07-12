@@ -91,8 +91,12 @@ const getDetailSpecialty = (specialtyId) => {
   return axios.get(`/api/get-detail-specialty?specialtyId=${specialtyId}`);
 };
 const getListDoctorSpecialty = (data) => {
+  console.log(
+    "🚀 ~ file: userService.js ~ line 94 ~ getListDoctorSpecialty ~ data",
+    data
+  );
   return axios.get(
-    `/api/get-doctor-specialty?specialtyId=${data.specialtyId}?provinceId=${data.provinceId}`
+    `/api/get-doctor-specialty?specialtyId=${data.specialtyId}&provinceId=${data.provinceId}`
   );
 };
 export {

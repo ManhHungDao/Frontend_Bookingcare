@@ -22,6 +22,10 @@ class DoctorSchedule extends Component {
 
   componentDidMount() {
     this.setAllDay();
+    const currentDay = new Date().getTime;
+    // if (!this.props.doctorId) {
+    //   this.fetchSchedule(this.state.allDays[0].value);
+    // }
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {

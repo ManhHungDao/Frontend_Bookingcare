@@ -28,7 +28,7 @@ class DetailSpecialty extends Component {
     this.props.getDetailSpecialtyHome(specialtyId);
     const data = {
       specialtyId: this.props.match.params.id,
-      provinceId: null,
+      provinceId: 'all',
     };
     this.props.getListDoctorSpecialtyHome(data);
   }
@@ -83,39 +83,54 @@ class DetailSpecialty extends Component {
   };
   render() {
     const { language } = this.props;
-    const { arrdoctorId } = this.state;
+    const { arrdoctorId, detailSpecialty, listDoctorSpecialty } = this.state;
     return (
       <>
         <HomeHeader />
-        <div className="detail-specialy-container grid">
-          <div style={{ width: "161px" }}>
-            <Select
-              name="selectedProvince"
-              value={this.state.selectedProvince}
-              onChange={this.handleChangeSelect}
-              options={this.state.listProvince}
-              placeholder={
-                <FormattedMessage id="admin.manage-doctor.select_province_placeholder" />
-              }
-            />
-          </div>
+        <div className="detail-specialy grid">
+          {detailSpecialty && detailSpecialty.contentMarkdown && (
+            <div
+              contentEditable="true"
+              dangerouslySetInnerHTML={{
+                __html: detailSpecialty.contentMarkdown,
+              }}
+            ></div>
+          )}
+        </div>
+        <div className="body-container">
           <div className="detail-specialy-container grid">
-            {arrdoctorId &&
-              arrdoctorId.length > 0 &&
-              arrdoctorId.map((item, index) => {
-                return (
-                  <div className="section" key={index}>
-                    <div className="info-doctor">
-                      <ProfileDoctor doctorId={item} isShowDescription={true} />
+            <div style={{ width: "161px" }}>
+              <Select
+                name="selectedProvince"
+                value={this.state.selectedProvince}
+                onChange={this.handleChangeSelect}
+                options={this.state.listProvince}
+                placeholder={
+                  <FormattedMessage id="admin.manage-doctor.select_province_placeholder" />
+                }
+              />
+            </div>
+            <div className="detail-specialy-container grid">
+              {listDoctorSpecialty &&
+                listDoctorSpecialty.length > 0 &&
+                listDoctorSpecialty.map((item, index) => {
+                  return (
+                    <div className="section" key={index}>
+                      <div className="info-doctor">
+                        <ProfileDoctor
+                          doctorId={item.doctorId}
+                          isShowDescription={true}
+                        />
+                      </div>
+                      <div className="schedule-doctor">
+                        <DoctorSchedule doctorId={item.doctorId} />
+                        <hr />
+                        <DoctorExtraInfo doctorId={item.doctorId} />
+                      </div>
                     </div>
-                    <div className="schedule-doctor">
-                      <DoctorSchedule doctorId={item} />
-                      <hr />
-                      <DoctorExtraInfo doctorId={item} />
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+            </div>
           </div>
         </div>
       </>
