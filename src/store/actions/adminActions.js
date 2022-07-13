@@ -21,6 +21,7 @@ import {
   getDetailSpecialty,
   getListDoctorSpecialty,
   getListSpecialty,
+  getListClinic,
 } from "../../services/userService";
 import { TYPE } from "../../utils/constant";
 
@@ -686,3 +687,36 @@ export const getListDoctorSpecialtyHome = (data) => {
     }
   };
 };
+
+
+// get list clinic admin
+export const getListClinicAdmin = () => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await getListClinic();
+        if (res && res.errCode === 0) {
+          dispatch({
+            type: actionTypes.GET_LIST_CLINIC_SUCCEED,
+            data: res.data,
+          });
+        } else {
+          toast.error("Get List Clinic Admin Failed!");
+          dispatch({
+            type: actionTypes.GET_LIST_CLINIC_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 678 ~ return ~ error",
+        error
+      );
+      toast.error("Get List Clinic Admin Failed!");
+      dispatch({
+        type: actionTypes.GET_LIST_CLINIC_FAILED,
+      });
+    }
+  };
+};
+

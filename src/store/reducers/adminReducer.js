@@ -22,6 +22,7 @@ const initialState = {
   listSpecialtyAdmin: [],
   detailSpecialty: {},
   listDoctorSpecialty: [],
+  listClinic: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -254,7 +255,8 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
       };
-    } // get list admin
+    }
+    // get list admin
     case actionTypes.GET_LIST_DOCTOR_SPECIALTY_SUCCEED: {
       state.listDoctorSpecialty = action.data;
       return { ...state };
@@ -265,13 +267,21 @@ const adminReducer = (state = initialState, action) => {
         ...state,
       };
     }
+    // get list clinic admin
+    case actionTypes.GET_LIST_CLINIC_SUCCEED: {
+      state.listClinic = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_LIST_CLINIC_FAILED: {
+      state.listClinic = [];
+      return {
+        ...state,
+      };
+    }
 
-
-    
     default:
       return state;
   }
 };
 
 export default adminReducer;
-

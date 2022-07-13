@@ -91,14 +91,19 @@ const getDetailSpecialty = (specialtyId) => {
   return axios.get(`/api/get-detail-specialty?specialtyId=${specialtyId}`);
 };
 const getListDoctorSpecialty = (data) => {
-  console.log(
-    "🚀 ~ file: userService.js ~ line 94 ~ getListDoctorSpecialty ~ data",
-    data
-  );
   return axios.get(
     `/api/get-doctor-specialty?specialtyId=${data.specialtyId}&provinceId=${data.provinceId}`
   );
 };
+
+const createANewClinic = (data) => {
+  return axios.post(`/api/create-clinic`, data);
+};
+
+const getListClinic = () => {
+  return axios.get(`/api/get-list-clinic`);
+};
+
 export {
   handleLoginApiService,
   getAllUsersService,
@@ -121,4 +126,6 @@ export {
   getListSpecialty,
   getDetailSpecialty,
   getListDoctorSpecialty,
+  createANewClinic,
+  getListClinic,
 };

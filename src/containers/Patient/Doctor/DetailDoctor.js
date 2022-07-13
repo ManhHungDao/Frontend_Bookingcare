@@ -45,6 +45,8 @@ class DetailDoctor extends Component {
               <DoctorSchedule
                 doctorId={detailDoctor.id}
                 doctor_info={detailDoctor.Doctor_Info}
+                isShowDescription={true}
+                isShowPrice={true}
               />
             </div>
             <div className="right">

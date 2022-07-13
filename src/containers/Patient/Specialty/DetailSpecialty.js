@@ -8,6 +8,7 @@ import HomeHeader from "../../HomePage/HomeHeader";
 import DoctorSchedule from "../Doctor/DoctorSchedule";
 import DoctorExtraInfo from "../Doctor/DoctorExtraInfo";
 import Select from "react-select";
+import { withRouter } from "react-router-dom";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
 
 class DetailSpecialty extends Component {
@@ -88,6 +89,9 @@ class DetailSpecialty extends Component {
       isOpen: !this.state.isOpen,
     });
   };
+  handleToDetailDoctor = (id) => {
+    if (this.props.history) this.props.history.push(`/detail-doctor/${id}`);
+  };
   render() {
     const { language } = this.props;
     const { arrdoctorId, detailSpecialty, listDoctorSpecialty, isOpen } =
@@ -132,14 +136,22 @@ class DetailSpecialty extends Component {
                 listDoctorSpecialty.map((item, index) => {
                   return (
                     <div className="section" key={index}>
-                      <div className="info-doctor">
+                      <div
+                        className="info-doctor"
+                        onDoubleClick={() =>
+                          this.handleToDetailDoctor(item.doctorId)
+                        }
+                      >
                         <ProfileDoctor
                           doctorId={item.doctorId}
                           isShowDescription={true}
                         />
                       </div>
                       <div className="schedule-doctor">
-                        <DoctorSchedule doctorId={item.doctorId} />
+                        <DoctorSchedule
+                          doctorId={item.doctorId}
+                          doctor_info={item}
+                        />
                         <hr />
                         <DoctorExtraInfo doctorId={item.doctorId} />
                       </div>
@@ -173,4 +185,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DetailSpecialty);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(DetailSpecialty)
+);

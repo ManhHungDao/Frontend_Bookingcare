@@ -142,7 +142,8 @@ class BookingModal extends Component {
     this.props.createBookingAppointment(data);
   };
   render() {
-    const { language, isOpenModelBooking, dataScheduleTimeModal } = this.props;
+    const { language, isOpenModelBooking, dataScheduleTimeModal, isShowPrice } =
+      this.props;
     const { genders, doctorId } = this.state;
     return (
       <>
@@ -157,11 +158,13 @@ class BookingModal extends Component {
               dataTime={dataScheduleTimeModal}
             />
           </div>
-          <div className="price">
-            <i className="fas fa-dot-circle"></i>
-            <FormattedMessage id="patient.booking-modal.price" />
-            <span>{this.renderPrice()}</span>
-          </div>
+          {isShowPrice && isShowPrice === true && (
+            <div className="price">
+              <i className="fas fa-dot-circle"></i>
+              <FormattedMessage id="patient.booking-modal.price" />
+              <span>{this.renderPrice()}</span>
+            </div>
+          )}
           <div className="price-examination"></div>
           <div className="row">
             <div className="col-6 form-group">

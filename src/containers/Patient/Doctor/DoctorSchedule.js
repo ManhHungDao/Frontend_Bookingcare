@@ -22,7 +22,9 @@ class DoctorSchedule extends Component {
 
   componentDidMount() {
     this.setAllDay();
-    const currentDay = new Date().getTime;
+    // render schedule doctor today when first time render
+    let firstDay = moment(new Date()).startOf("day").valueOf();
+    this.fetchSchedule(firstDay);
     // if (!this.props.doctorId) {
     //   this.fetchSchedule(this.state.allDays[0].value);
     // }
@@ -34,6 +36,9 @@ class DoctorSchedule extends Component {
     if (this.props.doctorId !== prevProps.doctorId) {
       this.fetchSchedule(this.state.allDays[0].value);
     }
+    /*  if (this.props.arrdoctorId !== prevProps.arrdoctorId) {
+      this.fetchSchedule(this.state.allDays[0].value);
+    } */
     // if (this.props.doctorSchedule !== prevProps.doctorSchedule) {
     //   this.setState({
     //     doctorSchedule: this.props.doctorSchedule,
@@ -108,7 +113,7 @@ class DoctorSchedule extends Component {
   };
   render() {
     const { allDays, doctorSchedule } = this.state;
-    const { language } = this.props;
+    const { language, isShowPrice } = this.props;
     return (
       <>
         <div className="doctor-schelude-container">
@@ -182,6 +187,7 @@ class DoctorSchedule extends Component {
           closeModalBooking={this.closeModalBooking}
           dataScheduleTimeModal={this.state.dataScheduleTimeModal}
           doctor_info={this.props.doctor_info}
+          isShowPrice={this.props.isShowPrice}
         />
       </>
     );

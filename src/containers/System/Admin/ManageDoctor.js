@@ -46,6 +46,7 @@ class ManageDoctor extends Component {
   componentDidMount() {
     this.props.fetchAllDoctor();
     this.props.getListSpecialtyAdmin();
+    this.props.getListClinicAdmin();
     this.props.fetchInfoDoctor(TYPE.PAYMENT);
     this.props.fetchInfoDoctor(TYPE.PRICE);
     this.props.fetchInfoDoctor(TYPE.PROVINCE);
@@ -95,6 +96,14 @@ class ManageDoctor extends Component {
       const dataSelect = this.buildDataInputSelect(listSpecialtyAdmin, 2);
       this.setState({
         listSpecialty: dataSelect,
+      });
+    }
+
+    if (prevProps.listClinic !== this.props.listClinic) {
+      const listClinic = this.props.listClinic;
+      const dataSelect = this.buildDataInputSelect(listClinic, 2);
+      this.setState({
+        listClinic: dataSelect,
       });
     }
     if (prevProps.language !== this.props.language) {
@@ -312,12 +321,14 @@ class ManageDoctor extends Component {
       selectedPrice,
       selectedProvince,
       selectedPayment,
+      selectedClinic,
       listDoctor,
       hasOldData,
       listPrice,
       listPayment,
       listProvince,
       listSpecialty,
+      listClinic,
     } = this.state;
     const { language } = this.props;
     return (
@@ -382,9 +393,9 @@ class ManageDoctor extends Component {
               </label>
               <Select
                 name="selectedClinic"
-                value={this.state.selectedClinic}
+                value={selectedClinic}
                 onChange={this.handleChangeSelect}
-                options={this.state.listClinic}
+                options={listClinic}
                 placeholder={
                   <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
                 }
@@ -503,6 +514,7 @@ const mapStateToProps = (state) => {
     listProvince: state.admin.doctorProvince,
     detailDoctor: state.admin.detailDoctor,
     listSpecialtyAdmin: state.admin.listSpecialtyAdmin,
+    listClinic: state.admin.listClinic,
   };
 };
 
@@ -515,6 +527,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.createSubDetailDoctor(data)),
     fetchDetaiInfoDoctor: (id) => dispatch(actions.fetchDetaiInfoDoctor(id)),
     getListSpecialtyAdmin: () => dispatch(actions.getListSpecialtyAdmin()),
+    getListClinicAdmin: () => dispatch(actions.getListClinicAdmin()),
   };
 };
 
