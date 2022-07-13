@@ -38,7 +38,8 @@
       "manage-handbook": "Manage handbook"
     },
     "doctor": {
-      "manage-schedule": "Manage doctor's shedule"
+      "manage-schedule": "Manage doctor's shedule",
+      "manage-patient": "Manage patient's shedule"
     }
   },
   "manage-user": {
@@ -62,7 +63,6 @@
     "looking": "Looking",
     "specialty-popular": "Popular specialties",
     "clinic-popular": "Popular clinics"
-
   },
   "manage-schedule": {
     "title": "Manage schedule medical examination",

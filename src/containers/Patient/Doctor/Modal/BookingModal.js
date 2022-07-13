@@ -122,7 +122,8 @@ class BookingModal extends Component {
     return "";
   };
   handleSaveUser = () => {
-    let date = new Date(this.state.birthday).getTime();
+    // let date = new Date(this.state.birthday).getTime();
+    let date = this.props.dataScheduleTimeModal.date;
     const timeString = this.buildTimeBooking(this.props.dataScheduleTimeModal);
     const doctorName = this.buildNameDoctor(this.props.dataScheduleTimeModal);
     let data = {
@@ -140,6 +141,15 @@ class BookingModal extends Component {
       doctorName: doctorName,
     };
     this.props.createBookingAppointment(data);
+    this.setState({
+      email: "",
+      fullName: "",
+      phoneNumber: "",
+      address: "",
+      reason: "",
+      birthday: "",
+      gender: "M",
+    });
   };
   render() {
     const { language, isOpenModelBooking, dataScheduleTimeModal, isShowPrice } =

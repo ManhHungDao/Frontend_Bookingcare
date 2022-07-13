@@ -38,7 +38,8 @@
       "manage-handbook": "Quản lý cẩm nang"
     },
     "doctor": {
-      "manage-schedule": "Quản lý kế hoạch khám bệnh"
+      "manage-schedule": "Quản lý kế hoạch khám bệnh",
+      "manage-patient": "Quản lý bệnh nhân khám bệnh"
     }
   },
   "manage-user": {
@@ -68,6 +69,11 @@
     "select-doctor": "Chọn bác sĩ",
     "select-day": "Chọn ngày",
     "save": "Lưu lịch khám"
+  },
+  "manage-patient":{
+    "title":"Quản lý bệnh nhân khám bệnh",
+    "save": "Lưu lịch khám"
+
   },
   "patient": {
     "detail-doctor": {

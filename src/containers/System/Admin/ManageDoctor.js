@@ -246,9 +246,9 @@ class ManageDoctor extends Component {
       }
       if (
         Doctor_Info &&
-        Doctor_Info.addressClinic &&
+/*         Doctor_Info.addressClinic &&
         Doctor_Info.nameClinic &&
-        Doctor_Info.note &&
+        Doctor_Info.note && */
         Doctor_Info.paymentId &&
         Doctor_Info.priceId &&
         Doctor_Info.provinceId
@@ -257,13 +257,15 @@ class ManageDoctor extends Component {
         addressClinic = Doctor_Info.addressClinic;
         nameClinic = Doctor_Info.nameClinic;
         note = Doctor_Info.note;
-        const { priceId, provinceId, paymentId } = Doctor_Info;
+        const { priceId, provinceId, paymentId, clinicId, specialtyId } =
+          Doctor_Info;
         selectedPayment = listPayment.find((i) => i && i.value === paymentId);
         selectedPrice = listPrice.find((i) => i && i.value === priceId);
         selectedProvince = listProvince.find(
           (i) => i && i.value === provinceId
         );
-        selectedClinic = listSpecialty.find((i) => i && i.value === paymentId);
+        selectedClinic = listClinic.find((i) => i && i.value === clinicId);
+        selectedSpecialty = listSpecialty.find((i) => i && i.value === specialtyId);
       }
       this.setState({
         contentHTML: contentHTML,
@@ -274,7 +276,8 @@ class ManageDoctor extends Component {
         selectedPrice: selectedPrice,
         selectedPayment: selectedPayment,
         selectedProvince: selectedProvince,
-        selectedSpecialty: selectedClinic,
+        selectedSpecialty: selectedSpecialty,
+        selectedClinic: selectedClinic,
         note: note,
         hasOldData: true,
       });
