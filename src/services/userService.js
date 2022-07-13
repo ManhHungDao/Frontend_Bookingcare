@@ -103,6 +103,17 @@ const createANewClinic = (data) => {
 const getListClinic = () => {
   return axios.get(`/api/get-list-clinic`);
 };
+const getListClinicHome = () => {
+  return axios.get(`/api/get-list-home-clinic`);
+};
+const getDetailClinic = (id) => {
+  return axios.get(`/api/get-detail-clinic?id=${id}`);
+};
+const getListDoctorClinic = (data) => {
+  return axios.get(
+    `/api/get-list-doctor-clinic?provinceId=${data.provinceId}&clinicId=${data.clinicId}`
+  );
+};
 
 export {
   handleLoginApiService,
@@ -128,4 +139,7 @@ export {
   getListDoctorSpecialty,
   createANewClinic,
   getListClinic,
+  getListClinicHome,
+  getDetailClinic,
+  getListDoctorClinic,
 };

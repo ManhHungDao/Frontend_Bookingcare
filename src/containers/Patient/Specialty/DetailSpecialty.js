@@ -15,7 +15,6 @@ class DetailSpecialty extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      arrdoctorId: [15, 42, 41],
       listProvince: [],
       selectedProvince: "",
       detailSpecialty: {},
@@ -94,7 +93,7 @@ class DetailSpecialty extends Component {
   };
   render() {
     const { language } = this.props;
-    const { arrdoctorId, detailSpecialty, listDoctorSpecialty, isOpen } =
+    const { detailSpecialty, listDoctorSpecialty, isOpen } =
       this.state;
     return (
       <>

@@ -73,9 +73,9 @@ class OutStandingDoctor extends Component {
                           <div className="section-body-title">
                             {language === languages.VI ? nameVI : nameEN}
                           </div>
-                          <div className="section-body-sub-title">
+                          {/* <div className="section-body-sub-title">
                             Backend Developer
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     );
