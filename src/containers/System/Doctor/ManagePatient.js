@@ -9,21 +9,23 @@ import { getAllPatientForDoctor } from "../../../services/userService";
 import moment from "moment";
 import localization from "moment/locale/vi";
 import { toast } from "react-toastify";
+import RemedyModal from "./RemedyModal";
+import { postSemery } from "../../../services/userService";
 
 class ManagePatient extends Component {
   constructor(props) {
     super(props);
     this.state = {
       //   currentDate: moment(new Date()).startOf("day").valueOf(),
-      currentDate: "",
+      currentDate: moment(new Date()).startOf("day").valueOf(),
       listPatient: [],
+      isOpenRemedyModal: false,
+      dataModal: {},
     };
   }
 
   componentDidMount() {
-    const currentDate = moment(new Date()).startOf("day").valueOf();
-    // const { currentDate } = this.state;
-    this.getDataPatient(currentDate);
+    this.getDataPatient(this.state.currentDate);
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
@@ -47,7 +49,11 @@ class ManagePatient extends Component {
       toast.error("Fetch list patient failed");
     }
   };
-
+  closeRemedyModal = () => {
+    this.setState({
+      isOpenRemedyModal: !this.state.isOpenRemedyModal,
+    });
+  };
   handleOnchangDatePicker = (date) => {
     this.setState({
       currentDate: date[0],
@@ -56,7 +62,38 @@ class ManagePatient extends Component {
     let formatDate = new Date(currentDate).getTime();
     this.getDataPatient(formatDate);
   };
+  handleConfirm = (item) => {
+  console.log("🚀 ~ file: ManagePatient.js ~ line 66 ~ ManagePatient ~ item", item)
+    this.setState({
+      isOpenRemedyModal: !this.state.isOpenRemedyModal,
+      dataModal: {
+        email: item.patientData.email,
+        fullname: item.patientData.firstName,
+        patientId: item.patientId,
+        timeType: item.timeType,
+        doctorId: item.doctorId,
+      },
+    });
+  };
 
+  handleSendRemedy = async (data) => {
+    const { dataModal } = this.state;
+    const dataSent = {
+      ...data,
+      doctorId: dataModal.doctorId,
+      patientId: dataModal.patientId,
+      timeType: dataModal.timeType,
+      language: this.props.language,
+    };
+    let res = await postSemery(dataSent);
+    if (res && res.errCode === 0) {
+      toast.success("Send semery succeed");
+      let { currentDate } = this.state;
+      let formatDate = new Date(currentDate).getTime();
+      this.getDataPatient(formatDate);
+      this.closeRemedyModal();
+    } else toast.error("Send semery failed");
+  };
   render() {
     const { language } = this.props;
     const { listPatient } = this.state;
@@ -107,12 +144,12 @@ class ManagePatient extends Component {
                       <td>{item.patientData.genderData.valueVI}</td>
                       <td>{item.timeTypeDataPatient.valueVI}</td>
                       <td>
-                        <butn className="btn btn-primary">
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => this.handleConfirm(item)}
+                        >
                           <FormattedMessage id="manage-patient.confirm" />
-                        </butn>
-                        <butn className="btn btn-warning">
-                          <FormattedMessage id="manage-patient.send-invoice" />
-                        </butn>
+                        </button>
                       </td>
                     </tr>
                   );
@@ -123,6 +160,12 @@ class ManagePatient extends Component {
             <h1>Không co data</h1>
           )}
         </div>
+        <RemedyModal
+          isOpen={this.state.isOpenRemedyModal}
+          closeRemedyModal={this.closeRemedyModal}
+          dataModal={this.state.dataModal}
+          sendRemedy={this.handleSendRemedy}
+        />
       </>
     );
   }

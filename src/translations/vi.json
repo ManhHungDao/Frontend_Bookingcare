@@ -78,8 +78,7 @@
     "gender": "Giới tính",
     "time": "Giờ khám",
     "actions": "Hàng động",
-    "confirm": "Xác nhận",
-    "send-invoice": "Gửi hóa đơn"
+    "confirm": "Xác nhận"
   },
   "patient": {
     "detail-doctor": {

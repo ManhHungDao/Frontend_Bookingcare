@@ -78,8 +78,7 @@
     "gender": "Gender",
     "time": "Time",
     "actions": "Actions",
-    "confirm": "Confirm",
-    "send-invoice": "Send invoice"
+    "confirm": "Confirm"
   },
   "patient": {
     "detail-doctor": {
