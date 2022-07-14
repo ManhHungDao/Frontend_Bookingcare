@@ -70,6 +70,17 @@
     "select-day": "Select day",
     "save": "Save"
   },
+  "manage-patient": {
+    "title": "Manage patient's booking",
+    "save": "Save",
+    "select-day": "Select day",
+    "name": "Full name",
+    "gender": "Gender",
+    "time": "Time",
+    "actions": "Actions",
+    "confirm": "Confirm",
+    "send-invoice": "Send invoice"
+  },
   "patient": {
     "detail-doctor": {
       "schedule": "Schedule",

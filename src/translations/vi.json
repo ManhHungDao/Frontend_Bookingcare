@@ -70,10 +70,16 @@
     "select-day": "Chọn ngày",
     "save": "Lưu lịch khám"
   },
-  "manage-patient":{
-    "title":"Quản lý bệnh nhân khám bệnh",
-    "save": "Lưu lịch khám"
-
+  "manage-patient": {
+    "title": "Quản lý bệnh nhân khám bệnh",
+    "save": "Lưu lịch khám",
+    "select-day": "Chọn ngày khám",
+    "name": "Họ và tên",
+    "gender": "Giới tính",
+    "time": "Giờ khám",
+    "actions": "Hàng động",
+    "confirm": "Xác nhận",
+    "send-invoice": "Gửi hóa đơn"
   },
   "patient": {
     "detail-doctor": {
@@ -101,7 +107,7 @@
       "save": "Lưu lịch khám",
       "cancel": "Thoát",
       "price": "Giá khám",
-      "price-booking":"Miễn phí đặt lịch"
+      "price-booking": "Miễn phí đặt lịch"
     }
   },
   "admin": {
