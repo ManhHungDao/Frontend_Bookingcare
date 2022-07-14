@@ -11,7 +11,7 @@ import localization from "moment/locale/vi";
 import { toast } from "react-toastify";
 import RemedyModal from "./RemedyModal";
 import { postSemery } from "../../../services/userService";
-
+import LoadingOverlay from "react-loading-overlay";
 class ManagePatient extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +21,7 @@ class ManagePatient extends Component {
       listPatient: [],
       isOpenRemedyModal: false,
       dataModal: {},
+      isShowLoading: false,
     };
   }
 
@@ -63,7 +64,6 @@ class ManagePatient extends Component {
     this.getDataPatient(formatDate);
   };
   handleConfirm = (item) => {
-  console.log("🚀 ~ file: ManagePatient.js ~ line 66 ~ ManagePatient ~ item", item)
     this.setState({
       isOpenRemedyModal: !this.state.isOpenRemedyModal,
       dataModal: {
@@ -78,6 +78,9 @@ class ManagePatient extends Component {
 
   handleSendRemedy = async (data) => {
     const { dataModal } = this.state;
+    this.setState({
+      isShowLoading: true,
+    });
     const dataSent = {
       ...data,
       doctorId: dataModal.doctorId,
@@ -88,84 +91,98 @@ class ManagePatient extends Component {
     let res = await postSemery(dataSent);
     if (res && res.errCode === 0) {
       toast.success("Send semery succeed");
+      this.setState({
+        isShowLoading: false,
+      });
       let { currentDate } = this.state;
       let formatDate = new Date(currentDate).getTime();
       this.getDataPatient(formatDate);
       this.closeRemedyModal();
-    } else toast.error("Send semery failed");
+    } else {
+      this.setState({
+        isShowLoading: false,
+      });
+      toast.error("Send semery failed");
+    }
   };
   render() {
     const { language } = this.props;
     const { listPatient } = this.state;
     return (
       <>
-        <div className="title pt-3">
-          <FormattedMessage id="manage-patient.title" />
-        </div>
-        <div className="manage-patient wrapper">
-          <div className="row mb-3">
-            <div className="col-6 form-group">
-              <span>
-                <FormattedMessage id="manage-patient.select-day" />
-              </span>
-              <DatePicker
-                className="from-control"
-                onChange={this.handleOnchangDatePicker}
-              />
-            </div>
+        <LoadingOverlay
+          active={this.state.isShowLoading}
+          spinner
+          text="Loading..."
+        >
+          <div className="title pt-3">
+            <FormattedMessage id="manage-patient.title" />
           </div>
-          {listPatient && listPatient.length > 0 ? (
-            <table>
-              <thead>
-                <tr>
-                  <th>STT</th>
-                  <th>Email</th>
-                  <th>
-                    <FormattedMessage id="manage-patient.name" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="manage-patient.gender" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="manage-patient.time" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="manage-patient.actions" />
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {listPatient.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{item.patientData.email}</td>
-                      <td>{item.patientData.firstName}</td>
-                      <td>{item.patientData.genderData.valueVI}</td>
-                      <td>{item.timeTypeDataPatient.valueVI}</td>
-                      <td>
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => this.handleConfirm(item)}
-                        >
-                          <FormattedMessage id="manage-patient.confirm" />
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          ) : (
-            <h1>Không co data</h1>
-          )}
-        </div>
-        <RemedyModal
-          isOpen={this.state.isOpenRemedyModal}
-          closeRemedyModal={this.closeRemedyModal}
-          dataModal={this.state.dataModal}
-          sendRemedy={this.handleSendRemedy}
-        />
+          <div className="manage-patient wrapper">
+            <div className="row mb-3">
+              <div className="col-6 form-group">
+                <span>
+                  <FormattedMessage id="manage-patient.select-day" />
+                </span>
+                <DatePicker
+                  className="from-control"
+                  onChange={this.handleOnchangDatePicker}
+                />
+              </div>
+            </div>
+            {listPatient && listPatient.length > 0 ? (
+              <table>
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Email</th>
+                    <th>
+                      <FormattedMessage id="manage-patient.name" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="manage-patient.gender" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="manage-patient.time" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="manage-patient.actions" />
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {listPatient.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{item.patientData.email}</td>
+                        <td>{item.patientData.firstName}</td>
+                        <td>{item.patientData.genderData.valueVI}</td>
+                        <td>{item.timeTypeDataPatient.valueVI}</td>
+                        <td>
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => this.handleConfirm(item)}
+                          >
+                            <FormattedMessage id="manage-patient.confirm" />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            ) : (
+              <h1>Không co data</h1>
+            )}
+          </div>
+          <RemedyModal
+            isOpen={this.state.isOpenRemedyModal}
+            closeRemedyModal={this.closeRemedyModal}
+            dataModal={this.state.dataModal}
+            sendRemedy={this.handleSendRemedy}
+          />
+        </LoadingOverlay>
       </>
     );
   }
