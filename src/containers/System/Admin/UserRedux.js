@@ -7,6 +7,7 @@ import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import * as actions from "../../../store/actions";
 import TableManageUser from "./TableManageUser";
+import validator from "validator";
 class UserRedux extends Component {
   constructor(props) {
     super(props);
@@ -31,6 +32,7 @@ class UserRedux extends Component {
       userEditId: "",
       // action user
       action: "",
+      errors: {},
     };
   }
 
@@ -101,29 +103,36 @@ class UserRedux extends Component {
   };
 
   checkValidate = () => {
-    const arrCheck = [
-      "firstName",
-      "lastName",
-      "gender",
-      "phoneNumber",
-      "email",
-      "password",
-      "address",
-    ];
-    let isValid = true;
-    for (let i = 0; i < arrCheck.length; i++) {
-      if (!this.state[arrCheck[i]]) {
-        isValid = false;
-        alert(`${arrCheck[i]} required`);
-        break;
-      }
+    let errors = {};
+    let { email, password, firstName, lastName, phoneNumber, address } =
+      this.state;
+    if (!email) errors.email = "Email must be entered";
+    if (!validator.isEmail(email)) {
+      errors.email = "Invalid email address";
     }
-    return isValid;
+    if (!password) errors.password = "Password must be entered";
+    if (!firstName) errors.firstName = "First name must be entered";
+    if (!lastName) errors.lastName = "Last name must be entered";
+    if (!phoneNumber) errors.phoneNumber = "Phone number must be entered";
+    if (!validator.isMobilePhone(phoneNumber))
+      errors.phoneNumber = "Invalid phone number";
+    if (!address) errors.address = "Address must be entered";
+    return errors;
+  };
+
+  isValid = (errors) => {
+    let keys = Object.keys(errors);
+    let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
+    return count === 0;
   };
 
   handleSave = () => {
-    const checkValidInPut = this.checkValidate();
-    if (checkValidInPut === false) return;
+    const errors = this.checkValidate();
+    const checkValidInPut = this.isValid(errors);
+    if (!checkValidInPut) {
+      this.setState({ errors });
+      return;
+    }
     const { action } = this.state;
     if (action === CRUD_ACTIONS.CREATE) {
       this.props.createNewUser({
@@ -165,6 +174,7 @@ class UserRedux extends Component {
   handleOnChangeInput = (event, id) => {
     let copyState = { ...this.state };
     copyState[id] = event.target.value;
+    copyState.errors[id] = "";
     this.setState({
       ...copyState,
     });
@@ -215,11 +225,15 @@ class UserRedux extends Component {
       address,
       roleId,
       positionId,
+      errors,
     } = this.state;
+    console.log(errors);
     return (
       <>
         <div className="user-redux-container">
-          <div className="title">user redux manage</div>
+          <div className="title">
+            <FormattedMessage id="menu.admin.crud-redux" />
+          </div>
           {/* <div>{isLoadingGender === true ? "loading gender" : ""}</div>
           <div>{isLoadingPosition === true ? "loading position" : ""}</div>
           <div>{isLoadingRole === true ? "loading role" : ""}</div> */}
@@ -242,6 +256,9 @@ class UserRedux extends Component {
                         this.handleOnChangeInput(event, "firstName")
                       }
                     />
+                    {errors.firstName && (
+                      <span className="text-danger">{errors.firstName}</span>
+                    )}
                   </div>
                   <div className="col-md-6 mt-md-0 mt-3">
                     <label>
@@ -255,6 +272,11 @@ class UserRedux extends Component {
                         this.handleOnChangeInput(event, "lastName")
                       }
                     />
+                    {errors.lastName ? (
+                      <span className="text-danger">{errors.lastName}</span>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
                 <div className="row">
@@ -270,6 +292,11 @@ class UserRedux extends Component {
                         this.handleOnChangeInput(event, "phoneNumber")
                       }
                     />
+                    {errors.phoneNumber ? (
+                      <span className="text-danger">{errors.phoneNumber}</span>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="col-md-6 mt-md-0 mt-3">
                     <label>
@@ -318,6 +345,9 @@ class UserRedux extends Component {
                         this.handleOnChangeInput(event, "email")
                       }
                     />
+                    {errors.email && (
+                      <span className="text-danger">{errors.email}</span>
+                    )}
                   </div>
                   <div className="col-md-6 mt-md-0 mt-3">
                     <label>
@@ -336,6 +366,9 @@ class UserRedux extends Component {
                         this.handleOnChangeInput(event, "password")
                       }
                     />
+                    {errors.password && (
+                      <span className="text-danger">{errors.password}</span>
+                    )}
                   </div>
                 </div>
                 <div className="row">
@@ -351,6 +384,9 @@ class UserRedux extends Component {
                         this.handleOnChangeInput(event, "address")
                       }
                     />
+                    {errors.address && (
+                      <span className="text-danger">{errors.address}</span>
+                    )}
                   </div>
                 </div>
                 <div className="row">
