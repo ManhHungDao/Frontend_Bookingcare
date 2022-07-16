@@ -12,5 +12,8 @@ table {
   }
 }
 div._loading_overlay_wrapper {
-position: unset;
+  position: unset;
+  ._loading_overlay_wrapper {
+    z-index: 10000;
+  }
 }
