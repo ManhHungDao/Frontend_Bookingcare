@@ -21,6 +21,7 @@ class ManageSpecialty extends Component {
       isOpen: false,
       previewImgUrl: "",
       name: "",
+      errors: {},
     };
   }
 
@@ -63,7 +64,38 @@ class ManageSpecialty extends Component {
       ...copyState,
     });
   };
+
+  checkValidate = () => {
+    let errors = {};
+    let { image, name, address, contentMarkdown } = this.state;
+    const { language } = this.props;
+    if (language === "en") {
+      if (!image) errors.image = "Upload image";
+      if (!name) errors.name = "Name must be entered";
+      if (!contentMarkdown)
+        errors.contentMarkdown = "Details specialty must be entered";
+    } else {
+      if (!image) errors.image = "Tải ảnh phòng khám";
+      if (!name) errors.name = "Tên không được bỏ trống";
+      if (!contentMarkdown)
+        errors.contentMarkdown = "Chi tiết không được bỏ trống";
+    }
+    return errors;
+  };
+
+  isValid = (errors) => {
+    let keys = Object.keys(errors);
+    let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
+    return count === 0;
+  };
+
   handleSave = () => {
+    const errors = this.checkValidate();
+    const checkValidInPut = this.isValid(errors);
+    if (!checkValidInPut) {
+      this.setState({ errors });
+      return;
+    }
     const data = {
       image: this.state.image,
       contentHTML: this.state.contentHTML,
@@ -81,30 +113,30 @@ class ManageSpecialty extends Component {
   };
   render() {
     const { language } = this.props;
-
+    let { errors } = this.state;
     return (
       <>
         <div className="specialty-title title mb-3">
-          {/* <FormattedMessage id="admin.manage-doctor.title" />
-           */}
-          Quản lý chuyên khoa
+          <FormattedMessage id="admin.manage-specialty.title" />
         </div>
         <div className="specialty-container wrapper">
           <div className="row">
             <div className="col-6 form-group">
               <label>
-                {/* <FormattedMessage id="patient.booking-modal.name" /> */}
-                tên chuyên khoa
+                <FormattedMessage id="admin.manage-specialty.name" />
               </label>
               <input
                 className="form-control"
                 onChange={(event) => this.handleOnChangeInput(event, "name")}
                 value={this.state.name}
               />
+              {errors.name && (
+                <span className="text-danger">{errors.name}</span>
+              )}
             </div>
             <div className="col-6 form-group">
               <label>
-                <FormattedMessage id="manage-user.avatar" />
+                <FormattedMessage id="admin.manage-specialty.image" />
               </label>
               <input
                 id="previewImg"
@@ -114,7 +146,8 @@ class ManageSpecialty extends Component {
               />
               <div className="preview-img-container">
                 <label className="lable-upload" htmlFor="previewImg">
-                  Tải ảnh
+                  <FormattedMessage id="admin.manage-specialty.upload" />
+
                   <i className="fas fa-upload"></i>
                 </label>
                 <div
@@ -125,14 +158,21 @@ class ManageSpecialty extends Component {
                   onClick={() => this.openReviewImage()}
                 ></div>
               </div>
+              {errors.image && (
+                <span className="text-danger">{errors.image}</span>
+              )}
             </div>
             <div className="col-12 form-group">
+              <FormattedMessage id="admin.manage-specialty.details" />
               <MdEditor
                 style={{ height: "fit-content" }}
                 renderHTML={(text) => mdParser.render(text)}
                 onChange={this.handleEditorChange}
                 value={this.state.contentHTML}
               />
+              {errors.contentMarkdown && (
+                <span className="text-danger">{errors.contentMarkdown}</span>
+              )}
             </div>
           </div>
           <button

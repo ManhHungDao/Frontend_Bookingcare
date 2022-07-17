@@ -54,7 +54,8 @@
     "lastName": "Tên",
     "phone-number": "Số điện thoại",
     "gender": "Giới tính",
-    "password": "Mật khẩu"
+    "password": "Mật khẩu",
+    "upload":"Tải ảnh"
   },
   "homepage": {
     "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
@@ -120,6 +121,7 @@
       "name-clinic": "Tên phòng khám",
       "address-clinic": "Địa chỉ phòng khám",
       "note": "Ghi chú",
+      "detail": "Thông tin chi tiết",
       "intro": "Thông tin giới thiệu",
       "save": "Lưu thông tin",
       "create": "Tạo thông tin",
@@ -133,6 +135,21 @@
       "select_nameclinic_placeholder": "Nhập tên phòng khám",
       "select_addressclinic_placeholder": "Nhập địa chỉ phòng khám",
       "select_note_placeholder": "Nhập ghi chú"
+    },
+    "manage-clinic": {
+      "title": "Quản lý phòng khám",
+      "name": "Tên phòng khám",
+      "address": "Địa chỉ phòng khám",
+      "image": "Ảnh phòng khám",
+      "upload": "Tải ảnh",
+      "details": "Chi tiết phòng khám"
+    },
+    "manage-specialty": {
+      "title": "Quản lý chuyên khoa",
+      "name": "Tên chuyên khoa",
+      "image": "Ảnh chuyên khoa",
+      "upload": "Tải ảnh",
+      "details": "Chi tiết chuyên khoa"
     }
   }
 }

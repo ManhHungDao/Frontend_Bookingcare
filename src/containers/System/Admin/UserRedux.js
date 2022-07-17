@@ -106,17 +106,32 @@ class UserRedux extends Component {
     let errors = {};
     let { email, password, firstName, lastName, phoneNumber, address } =
       this.state;
-    if (!email) errors.email = "Email must be entered";
-    if (!validator.isEmail(email)) {
-      errors.email = "Invalid email address";
+    const { language } = this.props;
+    if (language === "en") {
+      if (!email) errors.email = "Email must be entered";
+      if (!validator.isEmail(email)) {
+        errors.email = "Invalid email address";
+      }
+      if (!password) errors.password = "Password must be entered";
+      if (!firstName) errors.firstName = "First name must be entered";
+      if (!lastName) errors.lastName = "Last name must be entered";
+      if (!phoneNumber) errors.phoneNumber = "Phone number must be entered";
+      if (!validator.isMobilePhone(phoneNumber))
+        errors.phoneNumber = "Invalid phone number";
+      if (!address) errors.address = "Address must be entered";
+    } else {
+      if (!email) errors.email = "Email không được trống";
+      if (!validator.isEmail(email)) {
+        errors.email = "Email không hợp lệ";
+      }
+      if (!password) errors.password = "Mật khẩu không được trống ";
+      if (!firstName) errors.firstName = "Họ không được trống";
+      if (!lastName) errors.lastName = "Tên không được trống";
+      if (!phoneNumber) errors.phoneNumber = "Số điện thoại không được trống";
+      if (!validator.isMobilePhone(phoneNumber))
+        errors.phoneNumber = "Số điện thoại không hợp lệ";
+      if (!address) errors.address = "Địa chỉ không được trống ";
     }
-    if (!password) errors.password = "Password must be entered";
-    if (!firstName) errors.firstName = "First name must be entered";
-    if (!lastName) errors.lastName = "Last name must be entered";
-    if (!phoneNumber) errors.phoneNumber = "Phone number must be entered";
-    if (!validator.isMobilePhone(phoneNumber))
-      errors.phoneNumber = "Invalid phone number";
-    if (!address) errors.address = "Address must be entered";
     return errors;
   };
 
@@ -450,7 +465,7 @@ class UserRedux extends Component {
                     />
                     <div className="preview-img-container">
                       <label className="lable-upload" htmlFor="previewImg">
-                        Tải ảnh
+                        <FormattedMessage id="manage-user.upload" />
                         <i className="fas fa-upload"></i>
                       </label>
                       <div

@@ -54,7 +54,8 @@
     "lastName": "Last Name",
     "phone-number": "Phone Number",
     "gender": "Gender",
-    "password": "Password"
+    "password": "Password",
+    "upload": "Upload"
   },
   "homepage": {
     "outstanding-doctor": "Outstanding Doctor of the Week",
@@ -119,6 +120,7 @@
       "name-clinic": "Name clinic",
       "address-clinic": "Clinc's address",
       "note": "Note",
+      "detail": "Details",
       "intro": "Introductory information",
       "title": "Create doctor imformation",
       "save": "Save",
@@ -133,6 +135,21 @@
       "select_nameclinic_placeholder": "Enter name clinic",
       "select_addressclinic_placeholder": "Enter address clinic",
       "select_note_placeholder": "Note"
+    },
+    "manage-clinic": {
+      "title": "Manage Clinics",
+      "name": "Clinic's name",
+      "address": "Clinic's address",
+      "image": "Image",
+      "upload": "Upload",
+      "details": "Details"
+    },
+    "manage-specialty": {
+      "title": "Manage Specialties",
+      "name": "Specialty's Name",
+      "image": "Iamge",
+      "upload": "Upload",
+      "details": "Details"
     }
   }
 }

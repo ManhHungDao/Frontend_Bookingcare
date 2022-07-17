@@ -24,6 +24,7 @@ class ManageClinic extends Component {
       previewImgUrl: "",
       name: "",
       address: "",
+      errors: {},
     };
   }
 
@@ -62,11 +63,45 @@ class ManageClinic extends Component {
   handleOnChangeInput = (event, id) => {
     let copyState = { ...this.state };
     copyState[id] = event.target.value;
+    copyState.errors[id] = "";
     this.setState({
       ...copyState,
     });
   };
+
+  checkValidate = () => {
+    let errors = {};
+    let { image, name, address, contentMarkdown } = this.state;
+    const { language } = this.props;
+    if (language === "en") {
+      if (!image) errors.image = "Upload image";
+      if (!name) errors.name = "Name must be entered";
+      if (!address) errors.address = "Address must be entered";
+      if (!contentMarkdown)
+        errors.contentMarkdown = "Details clinic must be entered";
+    } else {
+      if (!image) errors.image = "Tải ảnh phòng khám";
+      if (!name) errors.name = "Tên không được bỏ trống";
+      if (!address) errors.address = "Địa chỉ không được bỏ trống";
+      if (!contentMarkdown)
+        errors.contentMarkdown = "Chi tiết phòng khám không được bỏ trống";
+    }
+    return errors;
+  };
+
+  isValid = (errors) => {
+    let keys = Object.keys(errors);
+    let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
+    return count === 0;
+  };
+
   handleSave = async () => {
+    const errors = this.checkValidate();
+    const checkValidInPut = this.isValid(errors);
+    if (!checkValidInPut) {
+      this.setState({ errors });
+      return;
+    }
     const data = {
       image: this.state.image,
       contentHTML: this.state.contentHTML,
@@ -91,41 +126,43 @@ class ManageClinic extends Component {
   };
   render() {
     const { language } = this.props;
-
+    let { errors } = this.state;
     return (
       <>
         <div className="specialty-title title mb-3">
-          {/* <FormattedMessage id="admin.manage-doctor.title" />
-           */}
-          Quản lý phòng khám
+          <FormattedMessage id="admin.manage-clinic.title" />
         </div>
         <div className="specialty-container wrapper">
           <div className="row">
             <div className="col-6 form-group">
               <label>
-                {/* <FormattedMessage id="patient.booking-modal.name" /> */}
-                tên phòng khám
+                <FormattedMessage id="admin.manage-clinic.name" />
               </label>
               <input
                 className="form-control"
                 onChange={(event) => this.handleOnChangeInput(event, "name")}
                 value={this.state.name}
               />
+              {errors.name && (
+                <span className="text-danger">{errors.name}</span>
+              )}
             </div>
             <div className="col-6 form-group mb-3">
               <label>
-                {/* <FormattedMessage id="patient.booking-modal.name" /> */}
-                Địa chỉ phòng khám
+                <FormattedMessage id="admin.manage-clinic.address" />
               </label>
               <input
                 className="form-control"
                 onChange={(event) => this.handleOnChangeInput(event, "address")}
                 value={this.state.address}
               />
+              {errors.address && (
+                <span className="text-danger">{errors.address}</span>
+              )}
             </div>
             <div className="col-6 form-group">
               <label>
-                <FormattedMessage id="manage-user.avatar" />
+                <FormattedMessage id="admin.manage-clinic.image" />
               </label>
               <input
                 id="previewImg"
@@ -135,7 +172,7 @@ class ManageClinic extends Component {
               />
               <div className="preview-img-container">
                 <label className="lable-upload" htmlFor="previewImg">
-                  Tải ảnh
+                  <FormattedMessage id="admin.manage-clinic.upload" />
                   <i className="fas fa-upload"></i>
                 </label>
                 <div
@@ -146,25 +183,32 @@ class ManageClinic extends Component {
                   onClick={() => this.openReviewImage()}
                 ></div>
               </div>
+              {errors.image && (
+                <span className="text-danger">{errors.image}</span>
+              )}
             </div>
 
             <div className="col-12 form-group">
+              <FormattedMessage id="admin.manage-clinic.details" />
               <MdEditor
                 style={{ height: "fit-content" }}
                 renderHTML={(text) => mdParser.render(text)}
                 onChange={this.handleEditorChange}
                 value={this.state.contentHTML}
               />
+              {errors.contentMarkdown && (
+                <span className="text-danger">{errors.contentMarkdown}</span>
+              )}
             </div>
+            <button
+              className="btn btn-primary mt-5"
+              onClick={() => {
+                this.handleSave();
+              }}
+            >
+              save
+            </button>
           </div>
-          <button
-            className="btn btn-primary mt-5"
-            onClick={() => {
-              this.handleSave();
-            }}
-          >
-            save
-          </button>
         </div>
         {this.state.isOpen === true && (
           <Lightbox

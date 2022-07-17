@@ -73,13 +73,13 @@ class ManageSchedule extends Component {
   };
 
   handleChange = async (selectedDoctor) => {
-    this.setState({ selectedDoctor:selectedDoctor});
+    this.setState({ selectedDoctor: selectedDoctor, errors: {} });
   };
 
   handleOnchangDatePicker = (date) => {
-    const data = 
     this.setState({
       currentDate: date[0],
+      errors: {},
     });
   };
 
@@ -97,18 +97,35 @@ class ManageSchedule extends Component {
   checkValidate = () => {
     let errors = {};
     let { selectedDoctor, currentDate, allScheduleTime } = this.state;
-    if (_.isEmpty(selectedDoctor)) {
-      errors.selectedDoctor = "Doctor must be choosed!";
-    }
+    const { language } = this.props;
+    if (language === "en") {
+      if (_.isEmpty(selectedDoctor)) {
+        errors.selectedDoctor = "Doctor must be choosed!";
+      }
 
-    if (!currentDate) {
-      errors.currentDate = "invalid Date!";
-    }
-    const selectedTime = allScheduleTime.filter(
-      (item) => item.isSelected === true
-    );
-    if (_.isEmpty(selectedTime)) {
-      errors.allScheduleTime = "Schedule is empty!";
+      if (!currentDate) {
+        errors.currentDate = "Invalid Date!";
+      }
+      const selectedTime = allScheduleTime.filter(
+        (item) => item.isSelected === true
+      );
+      if (_.isEmpty(selectedTime)) {
+        errors.allScheduleTime = "Schedule is empty!";
+      }
+    } else {
+      if (_.isEmpty(selectedDoctor)) {
+        errors.selectedDoctor = "Cần chọn bác sĩ!";
+      }
+
+      if (!currentDate) {
+        errors.currentDate = "Ngày không hợp lệ!";
+      }
+      const selectedTime = allScheduleTime.filter(
+        (item) => item.isSelected === true
+      );
+      if (_.isEmpty(selectedTime)) {
+        errors.allScheduleTime = "Lịch khám trống!";
+      }
     }
     return errors;
   };
@@ -206,9 +223,9 @@ class ManageSchedule extends Component {
                     );
                   })}
               </div>
-                {errors.allScheduleTime && (
-                  <span className="text-danger">{errors.allScheduleTime}</span>
-                )}
+              {errors.allScheduleTime && (
+                <span className="text-danger">{errors.allScheduleTime}</span>
+              )}
             </div>
             <button
               className="btn btn-primary mt-5"
