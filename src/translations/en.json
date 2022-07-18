@@ -130,6 +130,7 @@
       "select_doctor_placeholder": "Select doctor",
       "select_price_placeholder": "Select price",
       "select_payment_placeholder": "Select payment",
+      "find": "Find user",
       "select_province_placeholder": "Select province",
       "select_clinic_placeholder": "Select clinic",
       "select_nameclinic_placeholder": "Enter name clinic",

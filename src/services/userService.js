@@ -5,6 +5,7 @@ const handleLoginApiService = (email, password) => {
 };
 
 const getAllUsersService = (inputId) => {
+console.log("🚀 ~ file: userService.js ~ line 8 ~ getAllUsersService ~ inputId", inputId)
   return axios.get(`/api/get-all-user?id=${inputId}`);
   // return axios.get(`/api/get-all-user`, {
   //   data: {
@@ -24,6 +25,7 @@ const deleteUserService = (userId) => {
     },
   });
 };
+
 
 const editUserService = (user) => {
   return axios.put(`/api/edit-user`, user);
@@ -124,6 +126,10 @@ const postSemery = (data) => {
   return axios.post(`/api/send-remedy`, data);
 };
 
+const updateClinic = (data) => {
+  return axios.put(`/api/update-detail-clinic`, data);
+};
+
 export {
   handleLoginApiService,
   getAllUsersService,
@@ -153,4 +159,5 @@ export {
   getListDoctorClinic,
   getAllPatientForDoctor,
   postSemery,
+  updateClinic,
 };

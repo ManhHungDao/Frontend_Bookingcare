@@ -42,3 +42,11 @@
   border: none;
   font-size: 27px;
 }
+.my-custom-scrollbar {
+  // position: relative;
+  height: 300px;
+  overflow: auto;
+}
+.table-wrapper-scroll-y {
+  display: block;
+}

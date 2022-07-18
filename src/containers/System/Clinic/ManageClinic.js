@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import { languages, CommonUtils } from "../../../utils";
+import { languages, CommonUtils, CRUD_ACTIONS } from "../../../utils";
 import "./ManageClinic.scss";
 import { FormattedMessage } from "react-intl";
 import MarkdownIt from "markdown-it";
@@ -13,6 +13,7 @@ import Select from "react-select";
 import { toast } from "react-toastify";
 import { getDetailClinic } from "../../../services/userService";
 import _ from "lodash";
+import { updateClinic, getListClinicHome } from "../../../services/userService";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -30,22 +31,22 @@ class ManageClinic extends Component {
       errors: {},
       selectedClinic: "",
       listClinic: [],
+      listDetailClinic: [],
       detailClinic: {},
     };
   }
 
-  componentDidMount() {
-    this.props.getListClinicAdmin();
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.language !== prevProps.language) {
-    }
-    if (prevProps.listClinic !== this.props.listClinic) {
-      const listClinic = this.props.listClinic;
-      const dataSelect = this.buildDataInputSelect(listClinic);
+  async componentDidMount() {
+    let res = await getListClinicHome();
+    if (res && res.errCode === 0) {
+      const dataSelect = this.buildDataInputSelect(res.data);
       this.setState({
         listClinic: dataSelect,
       });
+    }
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.language !== prevProps.language) {
     }
     if (prevState.selectedClinic !== this.state.selectedClinic) {
       let id = this.state.selectedClinic.value;
@@ -169,19 +170,38 @@ class ManageClinic extends Component {
       name: this.state.name,
       address: this.state.address,
     };
-    const res = await createANewClinic(data);
-    if (res && res.errCode === 0) {
-      toast.success("create a new clinic succeed");
-      this.setState({
-        contentHTML: "",
-        contentMarkdown: "",
-        name: "",
-        image: "",
-        previewImgUrl: "",
-        address: "",
-      });
+    if (_.isEmpty(this.state.selectedClinic)) {
+      const res = await createANewClinic(data);
+      if (res && res.errCode === 0) {
+        toast.success("create a new alinic succeed");
+        this.setState({
+          contentHTML: "",
+          contentMarkdown: "",
+          name: "",
+          image: "",
+          previewImgUrl: "",
+          address: "",
+          selectedClinic: "",
+        });
+      } else {
+        toast.error("create a new alinic failed");
+      }
     } else {
-      toast.error("create a new clinic failed");
+      const res = await updateClinic(data);
+      if (res && res.errCode === 0) {
+        toast.success("update alinic succeed");
+        this.setState({
+          contentHTML: "",
+          contentMarkdown: "",
+          name: "",
+          image: "",
+          previewImgUrl: "",
+          address: "",
+          selectedClinic: "",
+        });
+      } else {
+        toast.error("update alinic failed");
+      }
     }
   };
   render() {
@@ -305,13 +325,13 @@ class ManageClinic extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    listClinic: state.admin.listClinic,
+    // listClinic: state.admin.listClinic,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListClinicAdmin: () => dispatch(actions.getListClinicAdmin()),
+    // getListClinicAdmin: () => dispatch(actions.getListClinicAdmin()),
   };
 };
 

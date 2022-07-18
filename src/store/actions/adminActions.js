@@ -72,6 +72,7 @@ export const fetchPositionStart = () => {
         }
       }
     } catch (error) {
+      console.log("🚀 ~ file: adminActions.js ~ line 75 ~ return ~ error", error)
       dispatch(fetchPositionFailed());
     }
   };
@@ -100,6 +101,7 @@ export const fetchRoleStart = () => {
         }
       }
     } catch (error) {
+      console.log("🚀 ~ file: adminActions.js ~ line 103 ~ return ~ error", error)
       dispatch(fetchRoleFailed());
     }
   };
@@ -166,11 +168,11 @@ export const deleteUserFailed = () => ({
 });
 
 // fetch all user
-export const fetchAllUserStart = () => {
+export const fetchAllUserStart = (type) => {
   return async (dispatch, getState) => {
     try {
       {
-        const res = await getAllUsersService("All");
+        const res = await getAllUsersService(type);
         if (res && res.errCode === 0) {
           dispatch(fetchAllUserSuccess(res.user.reverse()));
         } else {
@@ -200,7 +202,7 @@ export const editUser = (user) => {
         if (res && res.errCode === 0) {
           dispatch(editUserSuccess());
           toast.success("Edit User Succeed!");
-          dispatch(fetchAllUserStart());
+          dispatch(fetchAllUserStart('All'));
         } else {
           dispatch(editUserFailed());
         }
@@ -719,4 +721,5 @@ export const getListClinicAdmin = () => {
     }
   };
 };
+
 

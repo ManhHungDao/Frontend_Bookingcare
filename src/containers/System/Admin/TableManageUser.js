@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import "./TableManageUser.scss";
 import * as actions from "../../../store/actions";
 
-import 'react-markdown-editor-lite/lib/index.css';
+import "react-markdown-editor-lite/lib/index.css";
 
 ////
 class TableManageUser extends Component {
@@ -15,7 +15,7 @@ class TableManageUser extends Component {
     };
   }
   componentDidMount() {
-    this.props.fetchAllUser();
+    this.props.fetchAllUser('All');
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.users !== this.props.users) {
@@ -34,7 +34,7 @@ class TableManageUser extends Component {
   render() {
     const arrUsers = this.state.users;
     return (
-      <>
+      <div className="table-wrapper-scroll-y my-custom-scrollbar">
         <div className="users-container">
           <div className="users-table mt-3 mx-1">
             <table id="customers">
@@ -81,8 +81,7 @@ class TableManageUser extends Component {
             </table>
           </div>
         </div>
-       
-      </>
+      </div>
     );
   }
 }
@@ -95,7 +94,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllUser: () => dispatch(actions.fetchAllUserStart()),
+    fetchAllUser: (type) => dispatch(actions.fetchAllUserStart(type)),
     deleteUser: (id) => dispatch(actions.deleteUser(id)),
   };
 };

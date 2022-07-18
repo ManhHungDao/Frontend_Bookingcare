@@ -8,6 +8,9 @@ import "react-image-lightbox/style.css";
 import * as actions from "../../../store/actions";
 import TableManageUser from "./TableManageUser";
 import validator from "validator";
+import Select from "react-select";
+import { getAllUsersService } from "../../../services/userService";
+
 class UserRedux extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +36,10 @@ class UserRedux extends Component {
       // action user
       action: "",
       errors: {},
+
+      selectedUser: "",
+      listUser: [],
+      detailUser: {},
     };
   }
 
@@ -43,6 +50,28 @@ class UserRedux extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevState.detailUser !== this.state.detailUser) {
+      let data = this.state.detailUser;
+      let copyState = { ...this.state };
+      copyState = {
+        userEditId: data.id,
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phoneNumber: data.phoneNumber,
+        password: "password",
+        gender: data.gender,
+        positionId: data.positionId,
+        roleId: data.roleId,
+        image: data.image,
+        address: data.address,
+        action: CRUD_ACTIONS.EDIT,
+        previewImgUrl: data.image,
+      };
+      this.setState({
+        ...copyState,
+      });
+    }
     if (prevProps.genders !== this.props.genders) {
       this.setState({
         genderArr: this.props.genders,
@@ -63,24 +92,48 @@ class UserRedux extends Component {
       });
     }
     if (prevProps.users !== this.props.users) {
-      const listPos = this.props.positions;
-      const listRole = this.props.roles;
+      const dataSelectDoctor = this.buildDataInputSelect(this.props.users);
       this.setState({
-        email: "",
-        password: "",
-        firstName: "",
-        lastName: "",
-        phoneNumber: "",
-        address: "",
-        gender: "M",
-        positionId: listPos && listPos.length > 0 ? listPos[0].keyMap : "",
-        roleId: listRole && listRole.length > 0 ? listRole[0].keyMap : "",
-        image: "",
-        previewImgUrl: "",
-        action: CRUD_ACTIONS.CREATE,
+        listUser: dataSelectDoctor,
       });
     }
   }
+
+  buildDataInputSelect = (data) => {
+    let result = [];
+    let { language } = this.props;
+    if (data && data.length > 0) {
+      let lableVi, lableEn, object;
+      data.forEach((item) => {
+        lableVi = `${item.firstName} ${item.lastName}`;
+        lableEn = `${item.lastName} ${item.firstName}`;
+        object = {
+          label: language === languages.VI ? lableVi : lableEn,
+          value: item.id,
+        };
+        result.push(object);
+      });
+    }
+    return result;
+  };
+
+  fillDataInput = async (id) => {
+    const res = await getAllUsersService(id);
+    if (res && res.errCode === 0) {
+      this.setState({
+        detailUser: res.user,
+        action: CRUD_ACTIONS.EDIT,
+        userEditId: id,
+      });
+    }
+  };
+
+  handleChangeSelect = (selectedOption, name) => {
+    this.setState({
+      selectedUser: selectedOption,
+    });
+    this.fillDataInput(selectedOption.value);
+  };
 
   handleOnChangeImage = async (event) => {
     const data = event.target.files;
@@ -144,40 +197,51 @@ class UserRedux extends Component {
   handleSave = () => {
     const errors = this.checkValidate();
     const checkValidInPut = this.isValid(errors);
+    const listPos = this.props.positions;
+    const listRole = this.props.roles;
     if (!checkValidInPut) {
       this.setState({ errors });
       return;
     }
     const { action } = this.state;
+    let data = {
+      email: this.state.email,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      phoneNumber: this.state.phoneNumber,
+      password: this.state.password,
+      gender: this.state.gender,
+      positionId: this.state.positionId,
+      roleId: this.state.roleId,
+      image: this.state.image,
+      address: this.state.address,
+    };
     if (action === CRUD_ACTIONS.CREATE) {
       this.props.createNewUser({
-        email: this.state.email,
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        phoneNumber: this.state.phoneNumber,
-        password: this.state.password,
-        gender: this.state.gender,
-        positionId: this.state.positionId,
-        roleId: this.state.roleId,
-        image: this.state.image,
-        address: this.state.address,
+        ...data,
       });
     }
     if (action === CRUD_ACTIONS.EDIT) {
       this.props.editUser({
         id: this.state.userEditId,
-        email: this.state.email,
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        phoneNumber: this.state.phoneNumber,
-        password: this.state.password,
-        gender: this.state.gender,
-        positionId: this.state.positionId,
-        roleId: this.state.roleId,
-        image: this.state.image,
-        address: this.state.address,
+        ...data,
       });
     }
+    this.setState({
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      address: "",
+      gender: "M",
+      positionId: listPos && listPos.length > 0 ? listPos[0].keyMap : "",
+      roleId: listRole && listRole.length > 0 ? listRole[0].keyMap : "",
+      image: "",
+      previewImgUrl: "",
+      action: "",
+      listUser: "",
+    });
   };
 
   handleOnClickGender = (event) => {
@@ -194,17 +258,10 @@ class UserRedux extends Component {
       ...copyState,
     });
   };
-
   handleOnChangeOption = (event) => {
     console.log(event.target);
   };
-
   handleEditUser = (user) => {
-    let imgBase64 = "";
-    if (user.image) {
-      imgBase64 = new Buffer(user.image, "base64").toString("binary");
-    }
-
     let copyState = { ...this.state };
     copyState = {
       userEditId: user.id,
@@ -216,11 +273,10 @@ class UserRedux extends Component {
       gender: user.gender,
       positionId: user.positionId,
       roleId: user.roleId,
-      image: imgBase64,
-      // image: user.image,
+      image: user.image,
       address: user.address,
       action: CRUD_ACTIONS.EDIT,
-      previewImgUrl: imgBase64,
+      previewImgUrl: user.image,
     };
     this.setState({
       ...copyState,
@@ -242,7 +298,6 @@ class UserRedux extends Component {
       positionId,
       errors,
     } = this.state;
-    console.log(errors);
     return (
       <>
         <div className="user-redux-container">
@@ -254,8 +309,21 @@ class UserRedux extends Component {
           <div>{isLoadingRole === true ? "loading role" : ""}</div> */}
           <div className="user-redux-body">
             <div className="wrapper rounded bg-white">
-              <div className="h4">
-                <FormattedMessage id="manage-user.title" />
+              <div className="header-manage-users">
+                <div className="h4">
+                  <FormattedMessage id="manage-user.title" />
+                </div>
+                <div className="find-user">
+                  <Select
+                    name="selectedUser"
+                    value={this.state.selectedUser}
+                    onChange={this.handleChangeSelect}
+                    options={this.state.listUser}
+                    placeholder={
+                      <FormattedMessage id="admin.manage-doctor.find" />
+                    }
+                  />
+                </div>
               </div>
               <div className="form">
                 <div className="row">

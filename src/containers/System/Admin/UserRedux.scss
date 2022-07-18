@@ -7,10 +7,17 @@
     display: block;
     padding-bottom: 0.2rem;
   }
+  .header-manage-users {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .find-user {
+      min-width: 270px;
+    }
+  }
   .form {
     .row {
       padding: 0.6rem 0;
-      padding: 0;
       .form-control {
         box-shadow: none;
       }
@@ -89,9 +96,9 @@
       border-radius: 50%;
     }
   }
-  .col-md-6.mt-md-0.mt-3 {
-    padding-bottom: 20px;
-  }
+  // .col-md-6.mt-md-0.mt-3 {
+  //   padding-bottom: 20px;
+  // }
 }
 #sub {
   display: block;
