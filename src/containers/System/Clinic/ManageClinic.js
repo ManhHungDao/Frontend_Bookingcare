@@ -9,7 +9,10 @@ import MdEditor from "react-markdown-editor-lite";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import { createANewClinic } from "../../../services/userService";
+import Select from "react-select";
 import { toast } from "react-toastify";
+import { getDetailClinic } from "../../../services/userService";
+import _ from "lodash";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -25,15 +28,72 @@ class ManageClinic extends Component {
       name: "",
       address: "",
       errors: {},
+      selectedClinic: "",
+      listClinic: [],
+      detailClinic: {},
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.getListClinicAdmin();
+  }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
     }
+    if (prevProps.listClinic !== this.props.listClinic) {
+      const listClinic = this.props.listClinic;
+      const dataSelect = this.buildDataInputSelect(listClinic);
+      this.setState({
+        listClinic: dataSelect,
+      });
+    }
+    if (prevState.selectedClinic !== this.state.selectedClinic) {
+      let id = this.state.selectedClinic.value;
+      this.getDetailClinic(id);
+    }
+    if (prevState.detailClinic !== this.state.detailClinic) {
+      this.fillDatainput(this.state.detailClinic);
+    }
   }
+  buildDataInputSelect = (data) => {
+    let result = [];
+    if (data && data.length > 0) {
+      let object;
+      data.forEach((item) => {
+        object = {
+          label: item.name,
+          value: item.id,
+        };
+        result.push(object);
+      });
+    }
+    return result;
+  };
 
+  handleChangeSelect = (selectedOption) => {
+    this.setState({
+      selectedClinic: selectedOption,
+    });
+  };
+
+  getDetailClinic = async (id) => {
+    const res = await getDetailClinic(id);
+    if (res && res.errCode === 0)
+      this.setState({
+        detailClinic: res.data,
+      });
+  };
+  fillDatainput = (data) => {
+    if (!_.isEmpty(data)) {
+      this.setState({
+        name: data.name,
+        address: data.address,
+        previewImgUrl: data.image,
+        contentMarkdown: data.contentMarkdown,
+        contentHTML: data.contentHTML,
+      });
+    }
+  };
   handleOnChangeImage = async (event) => {
     const data = event.target.files;
     const file = data[0];
@@ -135,6 +195,19 @@ class ManageClinic extends Component {
         <div className="specialty-container wrapper">
           <div className="row">
             <div className="col-6 form-group">
+              <span>
+                <FormattedMessage id="admin.manage-doctor.select-clinic" />
+              </span>
+              <Select
+                value={this.state.selectedClinic}
+                onChange={this.handleChangeSelect}
+                options={this.state.listClinic}
+                placeholder={
+                  <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
+                }
+              />
+            </div>
+            <div className="col-6 form-group">
               <label>
                 <FormattedMessage id="admin.manage-clinic.name" />
               </label>
@@ -201,12 +274,20 @@ class ManageClinic extends Component {
               )}
             </div>
             <button
-              className="btn btn-primary mt-5"
+              className={
+                this.state.selectedClinic
+                  ? "btn btn-primary mt-5"
+                  : "btn btn-warning mt-5"
+              }
               onClick={() => {
                 this.handleSave();
               }}
             >
-              save
+              {this.state.selectedClinic ? (
+                <FormattedMessage id="admin.manage-clinic.save" />
+              ) : (
+                <FormattedMessage id="admin.manage-clinic.add" />
+              )}
             </button>
           </div>
         </div>
@@ -224,11 +305,14 @@ class ManageClinic extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    listClinic: state.admin.listClinic,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    getListClinicAdmin: () => dispatch(actions.getListClinicAdmin()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageClinic);

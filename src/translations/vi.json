@@ -55,7 +55,7 @@
     "phone-number": "Số điện thoại",
     "gender": "Giới tính",
     "password": "Mật khẩu",
-    "upload":"Tải ảnh"
+    "upload": "Tải ảnh"
   },
   "homepage": {
     "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
@@ -142,7 +142,9 @@
       "address": "Địa chỉ phòng khám",
       "image": "Ảnh phòng khám",
       "upload": "Tải ảnh",
-      "details": "Chi tiết phòng khám"
+      "details": "Chi tiết phòng khám",
+      "save": "Lưu",
+      "add": "Thêm mới"
     },
     "manage-specialty": {
       "title": "Quản lý chuyên khoa",

@@ -142,7 +142,9 @@
       "address": "Clinic's address",
       "image": "Image",
       "upload": "Upload",
-      "details": "Details"
+      "details": "Details",
+      "save": "Lưu",
+      "add": "Thêm mới"
     },
     "manage-specialty": {
       "title": "Manage Specialties",

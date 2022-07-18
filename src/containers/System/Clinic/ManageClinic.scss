@@ -20,8 +20,11 @@
         background-size: contain;
       }
     }
-    button.btn.btn-primary.mt-5 {
-      width: 60px;
+    button.btn {
+      width: fit-content;
+    }
+    .col-6.form-group {
+      padding-bottom: 20px;
     }
   }
 }
