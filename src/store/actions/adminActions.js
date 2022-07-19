@@ -22,6 +22,7 @@ import {
   getListDoctorSpecialty,
   getListSpecialty,
   getListClinic,
+  getListClinicHomeService,
 } from "../../services/userService";
 import { TYPE } from "../../utils/constant";
 
@@ -72,7 +73,10 @@ export const fetchPositionStart = () => {
         }
       }
     } catch (error) {
-      console.log("🚀 ~ file: adminActions.js ~ line 75 ~ return ~ error", error)
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 75 ~ return ~ error",
+        error
+      );
       dispatch(fetchPositionFailed());
     }
   };
@@ -101,7 +105,10 @@ export const fetchRoleStart = () => {
         }
       }
     } catch (error) {
-      console.log("🚀 ~ file: adminActions.js ~ line 103 ~ return ~ error", error)
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 103 ~ return ~ error",
+        error
+      );
       dispatch(fetchRoleFailed());
     }
   };
@@ -121,7 +128,7 @@ export const createNewUser = (data) => {
         const res = await createNewUserService(data);
         if (res && res.errCode === 0) {
           dispatch(saveUserSuccess(res.data));
-          dispatch(fetchAllUserStart());
+          dispatch(fetchAllUserStart("All"));
           toast.success("Create A New User Succeed!");
         } else {
           dispatch(saveUserFailed());
@@ -149,7 +156,7 @@ export const deleteUser = (id) => {
         if (res && res.errCode === 0) {
           dispatch(deleteUserSuccess());
           toast.success("Delete User Succeed!");
-          dispatch(fetchAllUserStart());
+          dispatch(fetchAllUserStart("All"));
         } else {
           dispatch(deleteUserFailed());
         }
@@ -202,7 +209,7 @@ export const editUser = (user) => {
         if (res && res.errCode === 0) {
           dispatch(editUserSuccess());
           toast.success("Edit User Succeed!");
-          dispatch(fetchAllUserStart('All'));
+          dispatch(fetchAllUserStart("All"));
         } else {
           dispatch(editUserFailed());
         }
@@ -663,7 +670,10 @@ export const getListDoctorSpecialtyHome = (data) => {
   return async (dispatch, getState) => {
     try {
       {
-        console.log("🚀 ~ file: adminActions.js ~ line 664 ~ return ~ data", data)
+        console.log(
+          "🚀 ~ file: adminActions.js ~ line 664 ~ return ~ data",
+          data
+        );
         const res = await getListDoctorSpecialty(data);
         if (res && res.errCode === 0) {
           dispatch({
@@ -689,7 +699,6 @@ export const getListDoctorSpecialtyHome = (data) => {
     }
   };
 };
-
 
 // get list clinic admin
 export const getListClinicAdmin = () => {
@@ -722,4 +731,33 @@ export const getListClinicAdmin = () => {
   };
 };
 
-
+// get list clinic home
+export const getListClinicHome = () => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await getListClinicHomeService();
+        if (res && res.errCode === 0) {
+          dispatch({
+            type: actionTypes.GET_LIST_CLINIC_HOME_SUCCEED,
+            data: res.data,
+          });
+        } else {
+          toast.error("Get List Clinic Home Failed!");
+          dispatch({
+            type: actionTypes.GET_LIST_CLINIC_HOME_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 678 ~ return ~ error",
+        error
+      );
+      toast.error("Get List Clinic Home Failed!");
+      dispatch({
+        type: actionTypes.GET_LIST_CLINIC_HOME_FAILED,
+      });
+    }
+  };
+};

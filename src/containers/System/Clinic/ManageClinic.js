@@ -13,7 +13,11 @@ import Select from "react-select";
 import { toast } from "react-toastify";
 import { getDetailClinic } from "../../../services/userService";
 import _ from "lodash";
-import { updateClinic, getListClinicHome } from "../../../services/userService";
+import {
+  updateClinic,
+  deleteClinicService,
+} from "../../../services/userService";
+import TableManageClinic from "./TableManageClinic";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -36,24 +40,23 @@ class ManageClinic extends Component {
     };
   }
 
-  async componentDidMount() {
-    let res = await getListClinicHome();
-    if (res && res.errCode === 0) {
-      const dataSelect = this.buildDataInputSelect(res.data);
-      this.setState({
-        listClinic: dataSelect,
-      });
-    }
-  }
+  componentDidMount() {}
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
     }
+
     if (prevState.selectedClinic !== this.state.selectedClinic) {
       let id = this.state.selectedClinic.value;
       this.getDetailClinic(id);
     }
     if (prevState.detailClinic !== this.state.detailClinic) {
       this.fillDatainput(this.state.detailClinic);
+    }
+    if (this.props.listClinic !== prevProps.listClinic) {
+      const dataSelect = this.buildDataInputSelect(this.props.listClinic);
+      this.setState({
+        listClinic: dataSelect,
+      });
     }
   }
   buildDataInputSelect = (data) => {
@@ -87,8 +90,10 @@ class ManageClinic extends Component {
   fillDatainput = (data) => {
     if (!_.isEmpty(data)) {
       this.setState({
+        idEditClinic: data.id,
         name: data.name,
         address: data.address,
+        image: data.image,
         previewImgUrl: data.image,
         contentMarkdown: data.contentMarkdown,
         contentHTML: data.contentHTML,
@@ -124,7 +129,6 @@ class ManageClinic extends Component {
   handleOnChangeInput = (event, id) => {
     let copyState = { ...this.state };
     copyState[id] = event.target.value;
-    copyState.errors[id] = "";
     this.setState({
       ...copyState,
     });
@@ -156,6 +160,16 @@ class ManageClinic extends Component {
     return count === 0;
   };
 
+  handleDeleteClinic = async (id) => {
+    const res = await deleteClinicService(id);
+    if (res && res.errCode === 0) {
+      toast.success("Delete Clinic Succeed");
+      this.props.getListClinicHome();
+    }
+  };
+  handleEditClinic = async (data) => {
+    this.fillDatainput(data);
+  };
   handleSave = async () => {
     const errors = this.checkValidate();
     const checkValidInPut = this.isValid(errors);
@@ -170,7 +184,7 @@ class ManageClinic extends Component {
       name: this.state.name,
       address: this.state.address,
     };
-    if (_.isEmpty(this.state.selectedClinic)) {
+    if (!this.state.idEditClinic) {
       const res = await createANewClinic(data);
       if (res && res.errCode === 0) {
         toast.success("create a new alinic succeed");
@@ -182,12 +196,14 @@ class ManageClinic extends Component {
           previewImgUrl: "",
           address: "",
           selectedClinic: "",
+          errors: "",
         });
+        this.props.getListClinicHome();
       } else {
         toast.error("create a new alinic failed");
       }
     } else {
-      const res = await updateClinic(data);
+      const res = await updateClinic({ ...data, id: this.state.idEditClinic });
       if (res && res.errCode === 0) {
         toast.success("update alinic succeed");
         this.setState({
@@ -198,14 +214,15 @@ class ManageClinic extends Component {
           previewImgUrl: "",
           address: "",
           selectedClinic: "",
+          errors: "",
         });
+        this.props.getListClinicHome();
       } else {
         toast.error("update alinic failed");
       }
     }
   };
   render() {
-    const { language } = this.props;
     let { errors } = this.state;
     return (
       <>
@@ -214,18 +231,20 @@ class ManageClinic extends Component {
         </div>
         <div className="specialty-container wrapper">
           <div className="row">
-            <div className="col-6 form-group">
-              <span>
-                <FormattedMessage id="admin.manage-doctor.select-clinic" />
-              </span>
-              <Select
-                value={this.state.selectedClinic}
-                onChange={this.handleChangeSelect}
-                options={this.state.listClinic}
-                placeholder={
-                  <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
-                }
-              />
+            <div className="header-manage">
+              <h4 className="header-title">
+                <FormattedMessage id="admin.manage-clinic.title-header" />
+              </h4>
+              <div className="find-clinic">
+                <Select
+                  value={this.state.selectedClinic}
+                  onChange={this.handleChangeSelect}
+                  options={this.state.listClinic}
+                  placeholder={
+                    <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
+                  }
+                />
+              </div>
             </div>
             <div className="col-6 form-group">
               <label>
@@ -295,7 +314,7 @@ class ManageClinic extends Component {
             </div>
             <button
               className={
-                this.state.selectedClinic
+                this.state.idEditClinic
                   ? "btn btn-primary mt-5"
                   : "btn btn-warning mt-5"
               }
@@ -303,13 +322,17 @@ class ManageClinic extends Component {
                 this.handleSave();
               }}
             >
-              {this.state.selectedClinic ? (
+              {this.state.idEditClinic ? (
                 <FormattedMessage id="admin.manage-clinic.save" />
               ) : (
                 <FormattedMessage id="admin.manage-clinic.add" />
               )}
             </button>
           </div>
+          <TableManageClinic
+            deleteClinic={this.handleDeleteClinic}
+            editClinic={this.handleEditClinic}
+          />
         </div>
         {this.state.isOpen === true && (
           <Lightbox
@@ -325,13 +348,13 @@ class ManageClinic extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    // listClinic: state.admin.listClinic,
+    listClinic: state.admin.listClinicHome,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // getListClinicAdmin: () => dispatch(actions.getListClinicAdmin()),
+    getListClinicHome: () => dispatch(actions.getListClinicHome()),
   };
 };
 

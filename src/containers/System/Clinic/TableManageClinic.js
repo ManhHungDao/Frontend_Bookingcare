@@ -1,54 +1,47 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
-import "./TableManageUser.scss";
+import "./TableManageClinic.scss";
 import * as actions from "../../../store/actions";
 
-import "react-markdown-editor-lite/lib/index.css";
-
-////
 class TableManageUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [],
+      listClinic: [],
     };
   }
-  componentDidMount() {
-    this.props.fetchAllUser("All");
+   componentDidMount() {
+   this.props.getListClinicHome();
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.users !== this.props.users) {
+    if (prevProps.listClinic !== this.props.listClinic) {
       this.setState({
-        users: this.props.users,
+        listClinic: this.props.listClinic,
       });
     }
   }
 
-  handleDeleteUser = (id) => {
-    this.props.deleteUser(id);
+  handleDeleteClinic = (id) => {
+    this.props.deleteClinic(id);
   };
-  handleEditUser = (userData) => {
-    this.props.handleEditUser(userData);
+  handleEditClinic = (userData) => {
+    this.props.editClinic(userData);
   };
   render() {
-    const arrUsers = this.state.users;
+    const { listClinic } = this.state;
     return (
       <div className="table-wrapper-scroll-y my-custom-scrollbar">
-        <div className="users-container">
-          <div className="users-table mt-3 mx-1">
+        <div className="clinic-container">
+          <div className="clinic-table mt-3 mx-1">
             <table id="customers">
               <thead>
                 <tr>
-                  <th className="col-2">Email</th>
                   <th className="col-2">
-                    <FormattedMessage id="manage-user.firstName" />
-                  </th>
-                  <th className="col-2">
-                    <FormattedMessage id="manage-user.lastName" />
+                    <FormattedMessage id="admin.manage-clinic.name" />
                   </th>
                   <th className="col-3">
-                    <FormattedMessage id="manage-user.address" />
+                    <FormattedMessage id="admin.manage-clinic.address" />
                   </th>
                   <th className="col-1">
                     <FormattedMessage id="manage-user.action" />
@@ -56,19 +49,17 @@ class TableManageUser extends Component {
                 </tr>
               </thead>
               <tbody>
-                {arrUsers &&
-                  arrUsers.map((item, index) => {
+                {listClinic &&
+                  listClinic.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td>{item.email}</td>
-                        <td>{item.firstName}</td>
-                        <td>{item.lastName}</td>
+                        <td>{item.name}</td>
                         <td>{item.address}</td>
                         <td>
                           <button
                             className="btn btn-edit"
                             onClick={() => {
-                              this.handleEditUser(item);
+                              this.handleEditClinic(item);
                             }}
                           >
                             <i className="fas fa-pencil-alt"></i>
@@ -76,7 +67,7 @@ class TableManageUser extends Component {
                           <button
                             className="btn btn-delete"
                             onClick={() => {
-                              this.handleDeleteUser(item.id);
+                              this.handleDeleteClinic(item.id);
                             }}
                           >
                             <i className="fas fa-trash"></i>
@@ -96,14 +87,14 @@ class TableManageUser extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.admin.users,
+    listClinic: state.admin.listClinicHome,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllUser: (type) => dispatch(actions.fetchAllUserStart(type)),
-    deleteUser: (id) => dispatch(actions.deleteUser(id)),
+    getListClinicHome: () => dispatch(actions.getListClinicHome()),
+    // deleteUser: (id) => dispatch(actions.deleteUser(id)),
   };
 };
 

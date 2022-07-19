@@ -5,7 +5,10 @@ const handleLoginApiService = (email, password) => {
 };
 
 const getAllUsersService = (inputId) => {
-console.log("🚀 ~ file: userService.js ~ line 8 ~ getAllUsersService ~ inputId", inputId)
+  console.log(
+    "🚀 ~ file: userService.js ~ line 8 ~ getAllUsersService ~ inputId",
+    inputId
+  );
   return axios.get(`/api/get-all-user?id=${inputId}`);
   // return axios.get(`/api/get-all-user`, {
   //   data: {
@@ -25,7 +28,6 @@ const deleteUserService = (userId) => {
     },
   });
 };
-
 
 const editUserService = (user) => {
   return axios.put(`/api/edit-user`, user);
@@ -105,7 +107,7 @@ const createANewClinic = (data) => {
 const getListClinic = () => {
   return axios.get(`/api/get-list-clinic`);
 };
-const getListClinicHome = () => {
+const getListClinicHomeService = () => {
   return axios.get(`/api/get-list-home-clinic`);
 };
 const getDetailClinic = (id) => {
@@ -128,6 +130,10 @@ const postSemery = (data) => {
 
 const updateClinic = (data) => {
   return axios.put(`/api/update-detail-clinic`, data);
+};
+
+const deleteClinicService = (id) => {
+  return axios.delete(`/api/delete-clinic?id=${id}`);
 };
 
 export {
@@ -154,10 +160,11 @@ export {
   getListDoctorSpecialty,
   createANewClinic,
   getListClinic,
-  getListClinicHome,
+  getListClinicHomeService,
   getDetailClinic,
   getListDoctorClinic,
   getAllPatientForDoctor,
   postSemery,
   updateClinic,
+  deleteClinicService,
 };

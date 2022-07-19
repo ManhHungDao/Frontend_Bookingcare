@@ -4,7 +4,7 @@ import { languages } from "../../../utils";
 import { connect } from "react-redux";
 // slide slick
 import Slider from "react-slick";
-import { getListClinicHome } from "../../../services/userService";
+import { getListClinicHomeService } from "../../../services/userService";
 import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 class MedicalFacility extends Component {
@@ -15,7 +15,7 @@ class MedicalFacility extends Component {
     };
   }
   async componentDidMount() {
-    const res = await getListClinicHome();
+    const res = await getListClinicHomeService();
     if (res && res.errCode === 0) {
       this.setState({
         listClinic: res.data,
@@ -76,7 +76,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+
+    
+  };
 };
 
 export default withRouter(

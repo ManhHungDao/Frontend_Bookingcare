@@ -55,7 +55,8 @@
     "phone-number": "Phone Number",
     "gender": "Gender",
     "password": "Password",
-    "upload": "Upload"
+    "upload": "Upload",
+    "action": "Action"
   },
   "homepage": {
     "outstanding-doctor": "Outstanding Doctor of the Week",
@@ -138,6 +139,7 @@
       "select_note_placeholder": "Note"
     },
     "manage-clinic": {
+      "title-header": "Add new clinic",
       "title": "Manage Clinics",
       "name": "Clinic's name",
       "address": "Clinic's address",

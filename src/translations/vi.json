@@ -55,7 +55,8 @@
     "phone-number": "Số điện thoại",
     "gender": "Giới tính",
     "password": "Mật khẩu",
-    "upload": "Tải ảnh"
+    "upload": "Tải ảnh",
+    "action":"Hành động"
   },
   "homepage": {
     "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
@@ -139,6 +140,7 @@
     },
     "manage-clinic": {
       "title": "Quản lý phòng khám",
+      "title-header":"Thêm mới phòng khám",
       "name": "Tên phòng khám",
       "address": "Địa chỉ phòng khám",
       "image": "Ảnh phòng khám",
