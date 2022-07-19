@@ -141,8 +141,8 @@
     "manage-clinic": {
       "title-header": "Add new clinic",
       "title": "Manage Clinics",
-      "name": "Clinic's name",
-      "address": "Clinic's address",
+      "name": "Clinic name",
+      "address": "Clinic address",
       "image": "Image",
       "upload": "Upload",
       "details": "Details",
@@ -151,8 +151,8 @@
     },
     "manage-specialty": {
       "title": "Manage Specialties",
-      "name": "Specialty's Name",
-      "image": "Iamge",
+      "name": "Specialty Name",
+      "image": "Image",
       "upload": "Upload",
       "details": "Details"
     }

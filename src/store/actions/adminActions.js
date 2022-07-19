@@ -16,6 +16,7 @@ import {
   getScheduleService,
   postBookAppointmentService,
   postVerifyBooingService,
+  getListSpecialtyByClinicIdService,
   postASpecialty,
   getSpecialties,
   getDetailSpecialty,
@@ -757,6 +758,37 @@ export const getListClinicHome = () => {
       toast.error("Get List Clinic Home Failed!");
       dispatch({
         type: actionTypes.GET_LIST_CLINIC_HOME_FAILED,
+      });
+    }
+  };
+};
+
+// GET LIST SPECIALTY BY CLINIC ID
+export const getListSpecialtyByClinicId = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await getListSpecialtyByClinicIdService(id);
+        if (res && res.errCode === 0) {
+          dispatch({
+            type: actionTypes.GET_LIST_SPECIALTY_BY_CLINICID_SUCCEED,
+            data: res.data,
+          });
+        } else {
+          toast.error("Get List Clinic By ClinicId Failed!");
+          dispatch({
+            type: actionTypes.GET_LIST_SPECIALTY_BY_CLINICID_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 785 ~ return ~ error",
+        error
+      );
+      toast.error("Get List Clinic By ClinicId Failed!");
+      dispatch({
+        type: actionTypes.GET_LIST_SPECIALTY_BY_CLINICID_FAILED,
       });
     }
   };

@@ -8,7 +8,13 @@ import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
-
+import Select from "react-select";
+import TableManageSpecialty from "./TableManageSpecialty";
+import {
+  deleteSpecialtyService,
+  updateSpecialtyService,
+} from "../../../services/userService";
+import { toast } from "react-toastify";
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageSpecialty extends Component {
@@ -22,6 +28,9 @@ class ManageSpecialty extends Component {
       previewImgUrl: "",
       name: "",
       errors: {},
+      listClinic: [],
+      selectedClinic: "",
+      idClinicEdit: "",
     };
   }
 
@@ -29,8 +38,42 @@ class ManageSpecialty extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
     }
+    if (this.props.listClinic !== prevProps.listClinic) {
+      const dataSelect = this.buildDataInputSelect(this.props.listClinic);
+      this.setState({
+        listClinic: dataSelect,
+      });
+    }
   }
-
+  clearState = () => {
+    this.setState({
+      contentHTML: "",
+      contentMarkdown: "",
+      name: "",
+      image: "",
+      previewImgUrl: "",
+      errors: {},
+    });
+  };
+  buildDataInputSelect = (data) => {
+    let result = [];
+    if (data && data.length > 0) {
+      let object;
+      data.forEach((item) => {
+        object = {
+          label: item.name,
+          value: item.id,
+        };
+        result.push(object);
+      });
+    }
+    return result;
+  };
+  handleChangeSelect = (selectedOption) => {
+    this.setState({
+      selectedClinic: selectedOption,
+    });
+  };
   handleOnChangeImage = async (event) => {
     const data = event.target.files;
     const file = data[0];
@@ -89,31 +132,56 @@ class ManageSpecialty extends Component {
     return count === 0;
   };
 
-  handleSave = () => {
+  deleteSpecialty = async (id) => {
+    const res = await deleteSpecialtyService(id);
+    if (res && res.errCode === 0) {
+      toast.success("Delete Specialty Succeed");
+      let clinicId = this.state.selectedClinic.value;
+      this.props.getListSpecialtyByClinicId(clinicId);
+    } else toast.error("Delete Specialty Failed");
+  };
+  editSpecialty = async (data) => {
+    this.setState({
+      name: data.name,
+      image: data.image,
+      previewImgUrl: data.image,
+      contentMarkdown: data.contentMarkdown,
+      contentHTML: data.contentHTML,
+      idClinicEdit: data.id,
+    });
+  };
+  handleSave = async () => {
     const errors = this.checkValidate();
     const checkValidInPut = this.isValid(errors);
     if (!checkValidInPut) {
       this.setState({ errors });
       return;
     }
-    const data = {
+    let selectClinic = this.state.selectedClinic;
+    let clinicId = selectClinic.value ? selectClinic.value : null;
+    let data = {
       image: this.state.image,
       contentHTML: this.state.contentHTML,
       contentMarkdown: this.state.contentMarkdown,
       name: this.state.name,
     };
-    this.props.createASpecialty(data);
-    this.setState({
-      contentHTML: "",
-      contentMarkdown: "",
-      name: "",
-      image: "",
-      previewImgUrl: "",
-    });
+    if (!this.state.idClinicEdit)
+      this.props.createASpecialty({ ...data, clinicId });
+    else {
+      const res = await updateSpecialtyService({
+        ...data,
+        id: this.state.idClinicEdit,
+      });
+      if (res && res.errCode === 0) {
+        toast.success("Update Specialty Succeed");
+      } else toast.error("Update Specialty Failed");
+    }
+    this.props.getListSpecialtyByClinicId(clinicId);
+    this.clearState();
   };
   render() {
     const { language } = this.props;
-    let { errors } = this.state;
+    let { errors, selectedClinic } = this.state;
     return (
       <>
         <div className="specialty-title title mb-3">
@@ -121,6 +189,19 @@ class ManageSpecialty extends Component {
         </div>
         <div className="specialty-container wrapper">
           <div className="row">
+            <div className="specilalty-container">
+              {selectedClinic && <h4>{selectedClinic.label}</h4>}
+              <div className="find-clinic">
+                <Select
+                  value={this.state.selectedClinic}
+                  onChange={this.handleChangeSelect}
+                  options={this.state.listClinic}
+                  placeholder={
+                    <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
+                  }
+                />
+              </div>
+            </div>
             <div className="col-6 form-group">
               <label>
                 <FormattedMessage id="admin.manage-specialty.name" />
@@ -183,6 +264,11 @@ class ManageSpecialty extends Component {
           >
             save
           </button>
+          <TableManageSpecialty
+            clinicId={this.state.selectedClinic.value}
+            deleteSpecialty={this.deleteSpecialty}
+            editSpecialty={this.editSpecialty}
+          />
         </div>
         {this.state.isOpen === true && (
           <Lightbox
@@ -198,12 +284,16 @@ class ManageSpecialty extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    listClinic: state.admin.listClinicHome,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     createASpecialty: (data) => dispatch(actions.createASpecialty(data)),
+    getListClinicHome: () => dispatch(actions.getListClinicHome()),
+    getListSpecialtyByClinicId: (id) =>
+      dispatch(actions.getListSpecialtyByClinicId(id)),
   };
 };
 

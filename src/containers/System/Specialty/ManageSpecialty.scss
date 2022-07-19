@@ -1,10 +1,18 @@
 .specialty-container {
   .row {
+    .specilalty-container {
+      display: flex;
+      .find-clinic {
+        margin-left: auto;
+        min-width: 270px;
+      }
+    }
+    float: none;
     .preview-img-container {
       display: flex;
       label.lable-upload {
         display: block;
-        height: fit-content; 
+        height: fit-content;
         width: fit-content;
         padding: 8px;
         border-radius: 3px;

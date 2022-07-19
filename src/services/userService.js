@@ -136,10 +136,25 @@ const deleteClinicService = (id) => {
   return axios.delete(`/api/delete-clinic?id=${id}`);
 };
 
+const getListSpecialtyByClinicIdService = (id) => {
+  return axios.get(`/api/get-list-specialty-by-clinicId?id=${id}`);
+};
+
+const deleteSpecialtyService = (id) => {
+  return axios.delete(`/api/delete-specialty?id=${id}`);
+};
+
+const updateSpecialtyService = (data) => {
+  return axios.put(`/api/update-specialty`, data);
+};
+
 export {
+  deleteSpecialtyService,
+  updateSpecialtyService,
   handleLoginApiService,
   getAllUsersService,
   createNewUserService,
+  getListSpecialtyByClinicIdService,
   deleteUserService,
   editUserService,
   getAllCodeService,
