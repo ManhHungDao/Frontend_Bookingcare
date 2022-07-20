@@ -2,6 +2,7 @@
 import actionTypes from "./actionTypes";
 import {
   getAllCodeService,
+  getDetailClinicService,
   createNewUserService,
   getAllUsersService,
   deleteUserService,
@@ -24,6 +25,7 @@ import {
   getListSpecialty,
   getListClinic,
   getListClinicHomeService,
+  createDetailClinicService,
 } from "../../services/userService";
 import { TYPE } from "../../utils/constant";
 
@@ -74,10 +76,6 @@ export const fetchPositionStart = () => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 75 ~ return ~ error",
-        error
-      );
       dispatch(fetchPositionFailed());
     }
   };
@@ -106,10 +104,6 @@ export const fetchRoleStart = () => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 103 ~ return ~ error",
-        error
-      );
       dispatch(fetchRoleFailed());
     }
   };
@@ -493,10 +487,6 @@ export const createBookingAppointment = (data) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 481 ~ return ~ error",
-        error
-      );
       toast.error("Post Booking Appointment Doctor Failed!");
       dispatch({
         type: actionTypes.POST_BOOKING_APPOINTMENT_FAILED,
@@ -527,10 +517,6 @@ export const verifyBookingAppointment = (data) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 510 ~ return ~ error",
-        error
-      );
       toast.error("Verify Booking Appointment Doctor Failed!");
       dispatch({
         type: actionTypes.POST_VERIFY_BOOKING_APPOINTMENT_FAILED,
@@ -557,10 +543,6 @@ export const createASpecialty = (data) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 545 ~ return ~ error",
-        error
-      );
       toast.error("Create A New Specialty Failed!");
       dispatch({
         type: actionTypes.POST_SPECIALTY_FAILED,
@@ -590,11 +572,6 @@ export const getSpecialtiesHome = () => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 576 ~ return ~ error",
-        error
-      );
-
       toast.error("Get List Specialty Home Failed!");
       dispatch({
         type: actionTypes.GET_SPECIALTIES_FAILED,
@@ -621,11 +598,6 @@ export const getListSpecialtyAdmin = () => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 613 ~ return ~ error",
-        error
-      );
-
       toast.error("Get List Specialty Admin Failed!");
       dispatch({
         type: actionTypes.GET_LIST_SPECIALTY_FAILED,
@@ -653,11 +625,6 @@ export const getDetailSpecialtyHome = (specialtyId) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 645 ~ return ~ error",
-        error
-      );
-
       toast.error("Get Detail Specialty Home Failed!");
       dispatch({
         type: actionTypes.GET_DETAIL_SPECIALTY_FAILED,
@@ -671,10 +638,6 @@ export const getListDoctorSpecialtyHome = (data) => {
   return async (dispatch, getState) => {
     try {
       {
-        console.log(
-          "🚀 ~ file: adminActions.js ~ line 664 ~ return ~ data",
-          data
-        );
         const res = await getListDoctorSpecialty(data);
         if (res && res.errCode === 0) {
           dispatch({
@@ -689,10 +652,6 @@ export const getListDoctorSpecialtyHome = (data) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 678 ~ return ~ error",
-        error
-      );
       toast.error("Get List Doctor Specialty Home Failed!");
       dispatch({
         type: actionTypes.GET_LIST_DOCTOR_SPECIALTY_FAILED,
@@ -720,10 +679,6 @@ export const getListClinicAdmin = () => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 678 ~ return ~ error",
-        error
-      );
       toast.error("Get List Clinic Admin Failed!");
       dispatch({
         type: actionTypes.GET_LIST_CLINIC_FAILED,
@@ -751,10 +706,6 @@ export const getListClinicHome = () => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 678 ~ return ~ error",
-        error
-      );
       toast.error("Get List Clinic Home Failed!");
       dispatch({
         type: actionTypes.GET_LIST_CLINIC_HOME_FAILED,
@@ -782,13 +733,67 @@ export const getListSpecialtyByClinicId = (id) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 785 ~ return ~ error",
-        error
-      );
       toast.error("Get List Clinic By ClinicId Failed!");
       dispatch({
         type: actionTypes.GET_LIST_SPECIALTY_BY_CLINICID_FAILED,
+      });
+    }
+  };
+};
+
+// create detail clinic
+export const createDetailClinic = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await createDetailClinicService(data);
+        if (res && res.errCode === 0) {
+          dispatch({
+            type: actionTypes.POST_DETAIL_CLINIC_SUCCEED,
+          });
+          toast.success("Create Detail Clinic Succeed!");
+        } else {
+          toast.error("Create Detail Clinic Failed!");
+          dispatch({
+            type: actionTypes.POST_DETAIL_CLINIC_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      toast.error("Create Detail Clinic Failed!");
+      dispatch({
+        type: actionTypes.POST_DETAIL_CLINIC_FAILED,
+      });
+    }
+  };
+};
+
+// get detail clinic
+export const getDetailClinic = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await getDetailClinicService(data);
+        if (res && res.errCode === 0) {
+          dispatch({
+            type: actionTypes.GET_DETAIL_CLINIC_SUCCEED,
+            data: res.data,
+          });
+        } else {
+          toast.error("Get Detail Clinic Failed!");
+          dispatch({
+            type: actionTypes.GET_DETAIL_CLINIC_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 793 ~ return ~ error",
+        error
+      );
+      toast.error("Get Detail Clinic Failed!");
+      dispatch({
+        type: actionTypes.GET_DETAIL_CLINIC_FAILED,
       });
     }
   };

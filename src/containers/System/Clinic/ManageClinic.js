@@ -21,6 +21,16 @@ import TableManageClinic from "./TableManageClinic";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
+const options = [
+  { value: "bookingMarkdown", label: "Detail Booking" },
+  { value: "introduceMarkdown", label: "Detail Introduce" },
+  { value: "strengthMarkdown", label: "Detail Strengths" },
+  { value: "equipmentMarkdown", label: "Detail Equipment" },
+  { value: "serviceMarkdown", label: "Detail Services" },
+  { value: "locationMarkdown", label: "Detail Location" },
+  { value: "examinationMarkdown", label: "Detail Examination" },
+];
+
 class ManageClinic extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +47,8 @@ class ManageClinic extends Component {
       listClinic: [],
       listDetailClinic: [],
       detailClinic: {},
+      //
+      isShowDetailMarkdown: false,
     };
   }
 
@@ -74,7 +86,7 @@ class ManageClinic extends Component {
     return result;
   };
 
-  handleChangeSelect = (selectedOption) => {
+  handleChangeSelectClinic = (selectedOption) => {
     this.setState({
       selectedClinic: selectedOption,
     });
@@ -167,6 +179,12 @@ class ManageClinic extends Component {
       this.props.getListClinicHome();
     }
   };
+  handleChangeSelectDetail = () => {
+
+    this.setState({
+      isShowDetailMarkdown: true,
+    });
+  };
   handleEditClinic = async (data) => {
     this.fillDatainput(data);
   };
@@ -238,7 +256,7 @@ class ManageClinic extends Component {
               <div className="find-clinic">
                 <Select
                   value={this.state.selectedClinic}
-                  onChange={this.handleChangeSelect}
+                  onChange={this.handleChangeSelectClinic}
                   options={this.state.listClinic}
                   placeholder={
                     <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
@@ -299,15 +317,29 @@ class ManageClinic extends Component {
                 <span className="text-danger">{errors.image}</span>
               )}
             </div>
-
             <div className="col-12 form-group">
-              <FormattedMessage id="admin.manage-clinic.details" />
-              <MdEditor
-                style={{ height: "fit-content" }}
-                renderHTML={(text) => mdParser.render(text)}
-                onChange={this.handleEditorChange}
-                value={this.state.contentHTML}
-              />
+              <div className="findDetails">
+                <Select
+                  // value={this.state.selectedClinic}
+                  onChange={this.handleChangeSelectDetail}
+                  options={options}
+                  // placeholder={
+                  //   <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
+                  // }
+                  placeholder="add detail"
+                />
+              </div>
+              {/* <FormattedMessage id="admin.manage-clinic.details" /> */}
+              {this.state.isShowDetailMarkdown && (
+                <>
+                  <MdEditor
+                    style={{ height: "fit-content" }}
+                    renderHTML={(text) => mdParser.render(text)}
+                    onChange={this.handleEditorChange}
+                    value={this.state.contentHTML}
+                  />
+                </>
+              )}
               {errors.contentMarkdown && (
                 <span className="text-danger">{errors.contentMarkdown}</span>
               )}
@@ -349,12 +381,14 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     listClinic: state.admin.listClinicHome,
+    
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getListClinicHome: () => dispatch(actions.getListClinicHome()),
+    createDetailClinic: (data) => dispatch(actions.createDetailClinic(data)),
   };
 };
 

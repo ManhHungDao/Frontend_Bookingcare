@@ -25,6 +25,7 @@ const initialState = {
   listClinic: [],
   listClinicHome: [],
   listSpecialtyByClinic: [],
+  detailClinic: {},
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -298,6 +299,17 @@ const adminReducer = (state = initialState, action) => {
     }
     case actionTypes.GET_LIST_SPECIALTY_BY_CLINICID_FAILED: {
       state.listSpecialtyByClinic = [];
+      return {
+        ...state,
+      };
+    }
+
+    // create detail clinic
+    case actionTypes.GET_DETAIL_CLINIC_SUCCEED: {
+      state.detailClinic = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_DETAIL_CLINIC_FAILED: {
       return {
         ...state,
       };

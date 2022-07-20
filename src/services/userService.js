@@ -148,8 +148,18 @@ const updateSpecialtyService = (data) => {
   return axios.put(`/api/update-specialty`, data);
 };
 
+const createDetailClinicService = (data) => {
+  return axios.post(`/api/create-detail-clinic`, data);
+};
+
+const getDetailClinicService = (clinicId) => {
+  return axios.get(`/api/get-detail-clinic?clinicId=${clinicId}`);
+};
+
 export {
   deleteSpecialtyService,
+  getDetailClinicService,
+  createDetailClinicService,
   updateSpecialtyService,
   handleLoginApiService,
   getAllUsersService,
