@@ -110,8 +110,8 @@ const getListClinic = () => {
 const getListClinicHomeService = () => {
   return axios.get(`/api/get-list-home-clinic`);
 };
-const getDetailClinic = (id) => {
-  return axios.get(`/api/get-detail-clinic?id=${id}`);
+const getClinic = (id) => {
+  return axios.get(`/api/get-clinic?id=${id}`);
 };
 const getListDoctorClinic = (data) => {
   return axios.get(
@@ -152,8 +152,8 @@ const createDetailClinicService = (data) => {
   return axios.post(`/api/create-detail-clinic`, data);
 };
 
-const getDetailClinicService = (clinicId) => {
-  return axios.get(`/api/get-detail-clinic?clinicId=${clinicId}`);
+const getDetailClinicService = (id) => {
+  return axios.get(`/api/get-detail-clinic?id=${id}`);
 };
 
 export {
@@ -186,7 +186,7 @@ export {
   createANewClinic,
   getListClinic,
   getListClinicHomeService,
-  getDetailClinic,
+  getClinic,
   getListDoctorClinic,
   getAllPatientForDoctor,
   postSemery,

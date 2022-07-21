@@ -10,10 +10,7 @@ import DoctorExtraInfo from "../Doctor/DoctorExtraInfo";
 import Select from "react-select";
 import { withRouter } from "react-router-dom";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
-import {
-  getDetailClinic,
-  getListDoctorClinic,
-} from "../../../services/userService";
+import { getClinic, getListDoctorClinic } from "../../../services/userService";
 import { toast } from "react-toastify";
 class DetailClinic extends Component {
   constructor(props) {
@@ -34,7 +31,7 @@ class DetailClinic extends Component {
       clinicId: this.props.match.params.id,
       provinceId: "all",
     };
-    const resDetail = await getDetailClinic(clinicId);
+    const resDetail = await getClinic(clinicId);
     if (resDetail && resDetail.errCode === 0) {
       this.setState({
         detailClinic: resDetail.data,

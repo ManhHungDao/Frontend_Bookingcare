@@ -70,6 +70,7 @@ class ManageSpecialty extends Component {
     return result;
   };
   handleChangeSelect = (selectedOption) => {
+    this.clearState();
     this.setState({
       selectedClinic: selectedOption,
     });

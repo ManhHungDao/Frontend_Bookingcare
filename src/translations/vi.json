@@ -34,7 +34,8 @@
       "specialty": "Chuyên khoa",
       "manage-specialty": "Quản lý chuyên khoa",
       "handbook": "Cẩm nang",
-      "manage-handbook": "Quản lý cẩm nang"
+      "manage-handbook": "Quản lý cẩm nang",
+      "manage-detail-clinic": "Quản lý chi tiết phòng khám"
     },
     "doctor": {
       "manage-schedule": "Quản lý kế hoạch khám bệnh",
@@ -56,7 +57,7 @@
     "gender": "Giới tính",
     "password": "Mật khẩu",
     "upload": "Tải ảnh",
-    "action":"Hành động"
+    "action": "Hành động"
   },
   "homepage": {
     "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
@@ -140,14 +141,24 @@
     },
     "manage-clinic": {
       "title": "Quản lý phòng khám",
-      "title-header":"Thêm mới phòng khám",
+      "title-header": "Thêm mới phòng khám",
       "name": "Tên phòng khám",
       "address": "Địa chỉ phòng khám",
       "image": "Ảnh phòng khám",
       "upload": "Tải ảnh",
-      "details": "Chi tiết phòng khám",
+      "introduce": "Giới thiệu phòng khám",
       "save": "Lưu",
       "add": "Thêm mới"
+    },
+    "manage-detail-clinic": {
+      "title": "Quản lý chi tiết phòng khám",
+      "note": "Ghi chú",
+      "booking": "Chi tiết đặt kịch",
+      "strengths": "Chi tiết thế mạnh chuyên môn",
+      "location": "Chi tiết vị trí",
+      "examination": "Chi tiết quy trình khám",
+      "equipment": "Chi tiết trang thiết bị",
+      "service": "Chi tiết dịch vụ"
     },
     "manage-specialty": {
       "title": "Quản lý chuyên khoa",

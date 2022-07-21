@@ -34,7 +34,8 @@
       "specialty": "Specialties",
       "manage-specialty": "Manage specialties",
       "handbook": "Handbook",
-      "manage-handbook": "Manage handbook"
+      "manage-handbook": "Manage handbook",
+      "manage-detail-clinic": "Manage detail clinic"
     },
     "doctor": {
       "manage-schedule": "Manage doctor's shedule",
@@ -145,9 +146,19 @@
       "address": "Clinic address",
       "image": "Image",
       "upload": "Upload",
-      "details": "Details",
+      "introduce": "Clinic introduction",
       "save": "Lưu",
       "add": "Thêm mới"
+    },
+    "manage-detail-clinic": {
+      "title": "Manage detail clinic",
+      "note": "Note",
+      "booking": "Detail booking",
+      "strengths": "Detail strengths",
+      "location": "Detail location",
+      "examination": "Detail examination",
+      "equipment": "Detail equipment",
+      "service": "Detail service"
     },
     "manage-specialty": {
       "title": "Manage Specialties",

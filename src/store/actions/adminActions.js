@@ -769,11 +769,11 @@ export const createDetailClinic = (data) => {
 };
 
 // get detail clinic
-export const getDetailClinic = (data) => {
+export const getDetailClinic = (id) => {
   return async (dispatch, getState) => {
     try {
       {
-        const res = await getDetailClinicService(data);
+        const res = await getDetailClinicService(id);
         if (res && res.errCode === 0) {
           dispatch({
             type: actionTypes.GET_DETAIL_CLINIC_SUCCEED,

@@ -11,7 +11,7 @@ import "react-image-lightbox/style.css";
 import { createANewClinic } from "../../../services/userService";
 import Select from "react-select";
 import { toast } from "react-toastify";
-import { getDetailClinic } from "../../../services/userService";
+import { getClinic } from "../../../services/userService";
 import _ from "lodash";
 import {
   updateClinic,
@@ -20,16 +20,6 @@ import {
 import TableManageClinic from "./TableManageClinic";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
-
-const options = [
-  { value: "bookingMarkdown", label: "Detail Booking" },
-  { value: "introduceMarkdown", label: "Detail Introduce" },
-  { value: "strengthMarkdown", label: "Detail Strengths" },
-  { value: "equipmentMarkdown", label: "Detail Equipment" },
-  { value: "serviceMarkdown", label: "Detail Services" },
-  { value: "locationMarkdown", label: "Detail Location" },
-  { value: "examinationMarkdown", label: "Detail Examination" },
-];
 
 class ManageClinic extends Component {
   constructor(props) {
@@ -46,9 +36,6 @@ class ManageClinic extends Component {
       selectedClinic: "",
       listClinic: [],
       listDetailClinic: [],
-      detailClinic: {},
-      //
-      isShowDetailMarkdown: false,
     };
   }
 
@@ -59,7 +46,7 @@ class ManageClinic extends Component {
 
     if (prevState.selectedClinic !== this.state.selectedClinic) {
       let id = this.state.selectedClinic.value;
-      this.getDetailClinic(id);
+      this.getClinic(id);
     }
     if (prevState.detailClinic !== this.state.detailClinic) {
       this.fillDatainput(this.state.detailClinic);
@@ -92,8 +79,8 @@ class ManageClinic extends Component {
     });
   };
 
-  getDetailClinic = async (id) => {
-    const res = await getDetailClinic(id);
+  getClinic = async (id) => {
+    const res = await getClinic(id);
     if (res && res.errCode === 0)
       this.setState({
         detailClinic: res.data,
@@ -133,6 +120,7 @@ class ManageClinic extends Component {
   };
 
   handleEditorChange = ({ html, text }) => {
+  console.log("🚀 ~ file: ManageClinic.js ~ line 123 ~ ManageClinic ~ { html, text }", { html, text })
     this.setState({
       contentHTML: text,
       contentMarkdown: html,
@@ -178,12 +166,6 @@ class ManageClinic extends Component {
       toast.success("Delete Clinic Succeed");
       this.props.getListClinicHome();
     }
-  };
-  handleChangeSelectDetail = () => {
-
-    this.setState({
-      isShowDetailMarkdown: true,
-    });
   };
   handleEditClinic = async (data) => {
     this.fillDatainput(data);
@@ -318,28 +300,14 @@ class ManageClinic extends Component {
               )}
             </div>
             <div className="col-12 form-group">
-              <div className="findDetails">
-                <Select
-                  // value={this.state.selectedClinic}
-                  onChange={this.handleChangeSelectDetail}
-                  options={options}
-                  // placeholder={
-                  //   <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
-                  // }
-                  placeholder="add detail"
-                />
-              </div>
-              {/* <FormattedMessage id="admin.manage-clinic.details" /> */}
-              {this.state.isShowDetailMarkdown && (
-                <>
-                  <MdEditor
-                    style={{ height: "fit-content" }}
-                    renderHTML={(text) => mdParser.render(text)}
-                    onChange={this.handleEditorChange}
-                    value={this.state.contentHTML}
-                  />
-                </>
-              )}
+              <FormattedMessage id="admin.manage-clinic.introduce" />
+
+              <MdEditor
+                style={{ height: "fit-content" }}
+                renderHTML={(text) => mdParser.render(text)}
+                onChange={this.handleEditorChange}
+                value={this.state.contentHTML}
+              />
               {errors.contentMarkdown && (
                 <span className="text-danger">{errors.contentMarkdown}</span>
               )}
@@ -381,7 +349,6 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     listClinic: state.admin.listClinicHome,
-    
   };
 };
 
