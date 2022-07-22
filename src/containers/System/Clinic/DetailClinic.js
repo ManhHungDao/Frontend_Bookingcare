@@ -2,17 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import { languages, CommonUtils, CRUD_ACTIONS } from "../../../utils";
-import "./ManageClinic.scss";
+import "./DetailClinic.scss";
 import { FormattedMessage } from "react-intl";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
-import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
-import { createANewClinic } from "../../../services/userService";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import _ from "lodash";
-import TableManageClinic from "./TableManageClinic";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -26,39 +23,28 @@ const options = [
   { value: "examinationHTML", label: "Detail Examination" },
 ];
 
-class ManageClinic extends Component {
+class DetailClinic extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      image: "",
-      contentHTML: "",
-      contentMarkdown: "",
-      isOpen: false,
-      previewImgUrl: "",
-      name: "",
-      address: "",
       selectedClinic: "",
       listClinic: [],
-      listDetailClinic: [],
       //
       isShowDetailMarkdown: false,
-      selectedDetailValue: "",
-      details: {
-        bookingMarkdown: "",
-        bookingHTML: "",
-        noteMarkdown: "",
-        noteHTML: "",
-        strengthMarkdown: "",
-        strengthHTML: "",
-        equipmentMarkdown: "",
-        equipmentHTML: "",
-        serviceMarkdown: "",
-        serviceHTML: "",
-        locationMarkdown: "",
-        locationHTML: "",
-        examinationMarkdown: "",
-        examinationHTML: "",
-      },
+      bookingMarkdown: "",
+      bookingHTML: "",
+      noteMarkdown: "",
+      noteHTML: "",
+      strengthMarkdown: "",
+      strengthHTML: "",
+      equipmentMarkdown: "",
+      equipmentHTML: "",
+      serviceMarkdown: "",
+      serviceHTML: "",
+      locationMarkdown: "",
+      locationHTML: "",
+      examinationMarkdown: "",
+      examinationHTML: "",
     };
   }
 
@@ -80,7 +66,7 @@ class ManageClinic extends Component {
   fillDataInput = (data) => {
     this.clearState();
     if (!data) return;
-    let details = {
+    this.setState({
       bookingMarkdown: data.bookingMarkdown ? data.bookingMarkdown : "",
       bookingHTML: data.bookingHTML ? data.bookingHTML : "",
       noteMarkdown: data.noteMarkdown ? data.noteMarkdown : "",
@@ -97,15 +83,24 @@ class ManageClinic extends Component {
         ? data.examinationMarkdown
         : "",
       examinationHTML: data.examinationHTML ? data.examinationHTML : "",
-    };
-    this.setState({
-      details: { ...details },
     });
   };
   clearState = () => {
     this.setState({
-      contentHTML: "",
-      contentMarkdown: "",
+      bookingMarkdown: "",
+      bookingHTML: "",
+      noteMarkdown: "",
+      noteHTML: "",
+      strengthMarkdown: "",
+      strengthHTML: "",
+      equipmentMarkdown: "",
+      equipmentHTML: "",
+      serviceMarkdown: "",
+      serviceHTML: "",
+      locationMarkdown: "",
+      locationHTML: "",
+      examinationMarkdown: "",
+      examinationHTML: "",
     });
   };
   buildDataInputSelect = (data) => {
@@ -130,66 +125,62 @@ class ManageClinic extends Component {
     });
   };
 
-  handleEditorChange = ({ html, text }) => {
-    let { details } = this.state;
-    const select = this.state.selectedDetailValue;
-    if (select === "bookingHTML") {
-      details[select] = text;
-      details["bookingHTML"] = html;
-    }
-    if (select === "noteHTML") {
-      details[select] = text;
-      details["noteHTML"] = html;
-    }
-    if (select === "strengthHTML") {
-      details[select] = text;
-      details["strengthHTML"] = html;
-    }
-    if (select === "equipmentHTML") {
-      details[select] = text;
-      details["equipmentHTML"] = html;
-    }
-    if (select === "serviceHTML") {
-      details[select] = text;
-      details["serviceHTML"] = html;
-    }
-    if (select === "locationHTML") {
-      details[select] = text;
-      details["locationHTML"] = html;
-    }
-    if (select === "examinationHTML") {
-      details[select] = text;
-      details["examinationHTML"] = html;
-    }
-    this.setState({
-      contentHTML: text,
-      contentMarkdown: html,
-      details: { ...details },
-    });
-  };
-  handleChangeSelectDetail = (selectedOption) => {
-    this.setState({
-      isShowDetailMarkdown: true,
-      selectedDetailValue: selectedOption.value,
-      contentHTML: "",
-      contentMarkdown: "",
-    });
+  handleEditorChange = ({ html, text }, name) => {
+    if (name === "noteHTML")
+      this.setState({
+        noteHTML: text,
+        noteMarkdown: html,
+      });
+    if (name === "bookingHTML")
+      this.setState({
+        bookingHTML: text,
+        bookingMarkdown: html,
+      });
+    if (name === "strengthHTML")
+      this.setState({
+        strengthHTML: text,
+        strengthMarkdown: html,
+      });
+    if (name === "equipmentHTML")
+      this.setState({
+        equipmentHTML: text,
+        equipmentMarkdown: html,
+      });
+    if (name === "serviceHTML")
+      this.setState({
+        serviceHTML: text,
+        serviceMarkdown: html,
+      });
+    if (name === "locationHTML")
+      this.setState({
+        locationHTML: text,
+        locationMarkdown: html,
+      });
+    if (name === "examinationHTML")
+      this.setState({
+        examinationHTML: text,
+        examinationMarkdown: html,
+      });
   };
   renderContentMarkdown = () => {
-    let select = this.state.selectedDetailValue;
-    let value = this.state.details[select];
     return (
       <>
-        {this.state.isShowDetailMarkdown && (
-          <>
-            <MdEditor
-              style={{ height: "fit-content" }}
-              renderHTML={(text) => mdParser.render(text)}
-              onChange={this.handleEditorChange}
-              value={this.state.contentHTML}
-            />
-          </>
-        )}
+        {options.map((item, index) => {
+          let value = item.value;
+          return (
+            <div key={index} className="mt-3">
+              <span> {item.label}</span>
+              <MdEditor
+                style={{ height: "fit-content" }}
+                renderHTML={(text) => mdParser.render(text)}
+                onChange={({ html, text }) => {
+                  this.handleEditorChange({ html, text }, item.value);
+                }}
+                value={this.state[value]}
+              />
+            </div>
+          );
+        })}
       </>
     );
   };
@@ -198,7 +189,20 @@ class ManageClinic extends Component {
     const clinicid = this.state.selectedClinic.value;
     const data = {
       id: clinicid,
-      ...this.state.details,
+      bookingMarkdown: this.state.bookingMarkdown,
+      bookingHTML: this.state.bookingHTML,
+      noteMarkdown: this.state.noteMarkdown,
+      noteHTML: this.state.noteHTML,
+      strengthMarkdown: this.state.strengthMarkdown,
+      strengthHTML: this.state.strengthHTML,
+      equipmentMarkdown: this.state.equipmentMarkdown,
+      equipmentHTML: this.state.equipmentHTML,
+      serviceMarkdown: this.state.serviceMarkdown,
+      serviceHTML: this.state.serviceHTML,
+      locationMarkdown: this.state.locationMarkdown,
+      locationHTML: this.state.locationHTML,
+      examinationMarkdown: this.state.examinationMarkdown,
+      examinationHTML: this.state.examinationHTML,
     };
     this.props.createDetailClinic(data);
     this.clearState();
@@ -229,17 +233,6 @@ class ManageClinic extends Component {
             </div>
 
             <div className="col-12 form-group">
-              <div className="findDetails">
-                <Select
-                  // value={this.state.selectedClinic}
-                  onChange={this.handleChangeSelectDetail}
-                  options={options}
-                  // placeholder={
-                  //   <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
-                  // }
-                  placeholder="add detail"
-                />
-              </div>
               {this.renderContentMarkdown()}
             </div>
             <button
@@ -274,4 +267,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageClinic);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailClinic);
