@@ -13,6 +13,7 @@ class TableManageUser extends Component {
   }
   componentDidMount() {
     this.props.getListClinicHome();
+    this.props.getListSpecialtyByClinicId("All");
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.clinicId !== this.props.clinicId) {

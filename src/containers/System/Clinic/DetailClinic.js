@@ -14,13 +14,13 @@ import _ from "lodash";
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 const options = [
-  { value: "noteHTML", label: "Note" },
-  { value: "bookingHTML", label: "Detail Booking" },
-  { value: "strengthHTML", label: "Detail Strengths" },
-  { value: "equipmentHTML", label: "Detail Equipment" },
-  { value: "serviceHTML", label: "Detail Services" },
-  { value: "locationHTML", label: "Detail Location" },
-  { value: "examinationHTML", label: "Detail Examination" },
+  { value: "noteMarkdown", label: "Note" },
+  { value: "bookingMarkdown", label: "Detail Booking" },
+  { value: "strengthMarkdown", label: "Detail Strengths" },
+  { value: "equipmentMarkdown", label: "Detail Equipment" },
+  { value: "serviceMarkdown", label: "Detail Services" },
+  { value: "locationMarkdown", label: "Detail Location" },
+  { value: "examinationMarkdown", label: "Detail Examination" },
 ];
 
 class DetailClinic extends Component {
@@ -126,40 +126,40 @@ class DetailClinic extends Component {
   };
 
   handleEditorChange = ({ html, text }, name) => {
-    if (name === "noteHTML")
+    if (name === "noteMarkdown")
       this.setState({
-        noteHTML: text,
-        noteMarkdown: html,
+        noteMarkdown: text,
+        noteHTML: html,
       });
-    if (name === "bookingHTML")
+    if (name === "bookingMarkdown")
       this.setState({
-        bookingHTML: text,
-        bookingMarkdown: html,
+        bookingHTML: html,
+        bookingMarkdown: text,
       });
-    if (name === "strengthHTML")
+    if (name === "strengthMarkdown")
       this.setState({
-        strengthHTML: text,
-        strengthMarkdown: html,
+        strengthHTML: html,
+        strengthMarkdown: text,
       });
-    if (name === "equipmentHTML")
+    if (name === "equipmentMarkdown")
       this.setState({
-        equipmentHTML: text,
-        equipmentMarkdown: html,
+        equipmentHTML: html,
+        equipmentMarkdown: text,
       });
-    if (name === "serviceHTML")
+    if (name === "serviceMarkdown")
       this.setState({
-        serviceHTML: text,
-        serviceMarkdown: html,
+        serviceHTML: html,
+        serviceMarkdown: text,
       });
-    if (name === "locationHTML")
+    if (name === "locationMarkdown")
       this.setState({
-        locationHTML: text,
-        locationMarkdown: html,
+        locationHTML: html,
+        locationMarkdown: text,
       });
-    if (name === "examinationHTML")
+    if (name === "examinationMarkdown")
       this.setState({
-        examinationHTML: text,
-        examinationMarkdown: html,
+        examinationHTML: html,
+        examinationMarkdown: text,
       });
   };
   renderContentMarkdown = () => {

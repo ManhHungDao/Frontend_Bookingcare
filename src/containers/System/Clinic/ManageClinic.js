@@ -94,8 +94,8 @@ class ManageClinic extends Component {
         address: data.address,
         image: data.image,
         previewImgUrl: data.image,
-        contentMarkdown: data.contentMarkdown,
-        contentHTML: data.contentHTML,
+        contentMarkdown: data.introduceMarkdown,
+        contentHTML: data.introduceHTML,
       });
     }
   };
@@ -120,10 +120,9 @@ class ManageClinic extends Component {
   };
 
   handleEditorChange = ({ html, text }) => {
-  console.log("🚀 ~ file: ManageClinic.js ~ line 123 ~ ManageClinic ~ { html, text }", { html, text })
     this.setState({
-      contentHTML: text,
-      contentMarkdown: html,
+      contentHTML: html,
+      contentMarkdown: text,
     });
   };
   handleOnChangeInput = (event, id) => {
@@ -306,7 +305,7 @@ class ManageClinic extends Component {
                 style={{ height: "fit-content" }}
                 renderHTML={(text) => mdParser.render(text)}
                 onChange={this.handleEditorChange}
-                value={this.state.contentHTML}
+                value={this.state.contentMarkdown}
               />
               {errors.contentMarkdown && (
                 <span className="text-danger">{errors.contentMarkdown}</span>

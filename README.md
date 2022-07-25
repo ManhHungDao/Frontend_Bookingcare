@@ -1,1 +1,5 @@
 - lấy lịch khám bệnh bác sĩ theo khung giờ đã tạo được đẩy lên từ DB
+- tạo chuyên khoa theo có trugn tâm khám và không
+- check sửa chuyên khoa
+- tạo thông tin chuyên khoa đã xóa.
+- sửa template detai specialty

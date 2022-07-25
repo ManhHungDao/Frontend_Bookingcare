@@ -93,8 +93,7 @@ class DetailSpecialty extends Component {
   };
   render() {
     const { language } = this.props;
-    const { detailSpecialty, listDoctorSpecialty, isOpen } =
-      this.state;
+    const { detailSpecialty, listDoctorSpecialty, isOpen } = this.state;
     return (
       <>
         <HomeHeader />
@@ -102,11 +101,11 @@ class DetailSpecialty extends Component {
           className="detail-specialy grid"
           style={isOpen ? { height: "fit-content" } : {}}
         >
-          {detailSpecialty && detailSpecialty.contentMarkdown && (
+          {detailSpecialty && detailSpecialty.contentHTML && (
             <div
               contentEditable="true"
               dangerouslySetInnerHTML={{
-                __html: detailSpecialty.contentMarkdown,
+                __html: detailSpecialty.contentHTML,
               }}
             ></div>
           )}

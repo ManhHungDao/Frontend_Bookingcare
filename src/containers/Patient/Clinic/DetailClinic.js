@@ -113,11 +113,11 @@ class DetailClinic extends Component {
           className="detail-specialy grid"
           style={isOpen ? { height: "fit-content" } : {}}
         >
-          {detailClinic && detailClinic.contentMarkdown && (
+          {detailClinic && detailClinic.introduceHTML && (
             <div
               contentEditable="true"
               dangerouslySetInnerHTML={{
-                __html: detailClinic.contentMarkdown,
+                __html: detailClinic.introduceHTML,
               }}
             ></div>
           )}

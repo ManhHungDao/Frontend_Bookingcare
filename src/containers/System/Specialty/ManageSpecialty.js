@@ -31,6 +31,7 @@ class ManageSpecialty extends Component {
       listClinic: [],
       selectedClinic: "",
       idClinicEdit: "",
+      idSpecialtyEdit: "",
     };
   }
 
@@ -53,6 +54,8 @@ class ManageSpecialty extends Component {
       image: "",
       previewImgUrl: "",
       errors: {},
+      idClinicEdit: "",
+      idSpecialtyEdit: "",
     });
   };
   buildDataInputSelect = (data) => {
@@ -97,8 +100,8 @@ class ManageSpecialty extends Component {
 
   handleEditorChange = ({ html, text }) => {
     this.setState({
-      contentHTML: text,
-      contentMarkdown: html,
+      contentHTML: html,
+      contentMarkdown: text,
     });
   };
   handleOnChangeInput = (event, id) => {
@@ -146,9 +149,10 @@ class ManageSpecialty extends Component {
       name: data.name,
       image: data.image,
       previewImgUrl: data.image,
-      contentMarkdown: data.contentMarkdown,
-      contentHTML: data.contentHTML,
-      idClinicEdit: data.id,
+      contentMarkdown: data.detailMarkdown,
+      contentHTML: data.detailHTML,
+      idClinicEdit: data.clinicId ? data.clinicId : "",
+      idSpecialtyEdit: data.id,
     });
   };
   handleSave = async () => {
@@ -166,16 +170,45 @@ class ManageSpecialty extends Component {
       contentMarkdown: this.state.contentMarkdown,
       name: this.state.name,
     };
-    if (!this.state.idClinicEdit)
-      this.props.createASpecialty({ ...data, clinicId });
-    else {
+    // no select list clinic
+    if (
+      !this.state.idClinicEdit &&
+      !this.state.idSpecialtyEdit &&
+      !this.state.selectedClinic
+    )
+      this.props.createASpecialty(data);
+    if (
+      !this.state.idClinicEdit &&
+      this.state.idSpecialtyEdit &&
+      !this.state.selectedClinic
+    ) {
+      const res = await updateSpecialtyService({
+        ...data,
+        id: this.state.idSpecialtyEdit,
+        isEditWithClinic: false,
+      });
+      if (res && res.errCode === 0) toast.success("Update Specialty Succeed");
+      else toast.error("Update Specialty Failed");
+    }
+    // selected clinic
+    if (
+      !this.state.idClinicEdit &&
+      !this.state.idSpecialtyEdit &&
+      this.state.selectedClinic
+    )
+      this.props.createASpecialty({
+        ...data,
+        clinicId: this.state.selectedClinic.value,
+      });
+
+    if (this.state.idClinicEdit && this.state.selectedClinic) {
       const res = await updateSpecialtyService({
         ...data,
         id: this.state.idClinicEdit,
+        isEditWithClinic: true,
       });
-      if (res && res.errCode === 0) {
-        toast.success("Update Specialty Succeed");
-      } else toast.error("Update Specialty Failed");
+      if (res && res.errCode === 0) toast.success("Update Specialty Succeed");
+      else toast.error("Update Specialty Failed");
     }
     this.props.getListSpecialtyByClinicId(clinicId);
     this.clearState();
@@ -250,7 +283,7 @@ class ManageSpecialty extends Component {
                 style={{ height: "fit-content" }}
                 renderHTML={(text) => mdParser.render(text)}
                 onChange={this.handleEditorChange}
-                value={this.state.contentHTML}
+                value={this.state.contentMarkdown}
               />
               {errors.contentMarkdown && (
                 <span className="text-danger">{errors.contentMarkdown}</span>
