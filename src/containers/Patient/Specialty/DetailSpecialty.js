@@ -101,11 +101,11 @@ class DetailSpecialty extends Component {
           className="detail-specialy grid"
           style={isOpen ? { height: "fit-content" } : {}}
         >
-          {detailSpecialty && detailSpecialty.contentHTML && (
+          {detailSpecialty && detailSpecialty.detailHTML && (
             <div
               contentEditable="true"
               dangerouslySetInnerHTML={{
-                __html: detailSpecialty.contentHTML,
+                __html: detailSpecialty.detailHTML,
               }}
             ></div>
           )}

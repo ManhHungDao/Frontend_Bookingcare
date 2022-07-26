@@ -12,7 +12,7 @@ import { languages } from "../../../utils";
 import { FormattedMessage } from "react-intl";
 import { CRUD_ACTIONS, TYPE } from "../../../utils/constant";
 import _ from "lodash";
-const mdParser = new MarkdownIt(/* Markdown-it options */);
+const mdParser = new MarkdownIt(/* Detail_doctor-it options */);
 
 class ManageDoctor extends Component {
   constructor(props) {
@@ -23,7 +23,6 @@ class ManageDoctor extends Component {
       contentHTML: "",
       contentMarkdown: "",
       description: "",
-      hasOldData: false,
       listDoctor: [],
       selectedDoctor: "",
 
@@ -60,8 +59,8 @@ class ManageDoctor extends Component {
         detailDoctor: detailDoctor,
       });
       // set state first select
-      const { Markdown, Doctor_Info } = detailDoctor;
-      this.fillDataState(detailDoctor, Markdown, Doctor_Info);
+      const { Detail_doctor, Doctor_Info } = detailDoctor;
+      this.fillDataState(detailDoctor, Detail_doctor, Doctor_Info);
     }
 
     if (prevProps.listDoctor !== this.props.listDoctor) {
@@ -181,8 +180,8 @@ class ManageDoctor extends Component {
       errors: { contentMarkdown: "" },
     };
     this.setState({
-      contentHTML: text,
-      contentMarkdown: html,
+      contentHTML: html,
+      contentMarkdown: text,
       ...errors,
     });
   };
@@ -221,8 +220,10 @@ class ManageDoctor extends Component {
       if (!selectedDoctor) errors.selectedDoctor = "Chọn bác sĩ";
       if (!selectedClinic) errors.selectedClinic = "Chọn phòng khám";
       if (!selectedSpecialty) errors.selectedSpecialty = "Chọn chuyên ngành";
-      if (!description) errors.description = "Giới thiệu bác sĩ không được bỏ trống";
-      if (!contentMarkdown) errors.contentMarkdown = "Chi tiết bác sĩ không được bỏ trống";
+      if (!description)
+        errors.description = "Giới thiệu bác sĩ không được bỏ trống";
+      if (!contentMarkdown)
+        errors.contentMarkdown = "Chi tiết bác sĩ không được bỏ trống";
     }
     return errors;
   };
@@ -238,13 +239,11 @@ class ManageDoctor extends Component {
       this.setState({ errors });
       return;
     }
-    let hasOldData = this.state.hasOldData;
     const dataMain = {
       contentHTML: this.state.contentHTML,
       contentMarkdown: this.state.contentMarkdown,
       doctorId: this.state.selectedDoctor.value,
       description: this.state.description,
-      action: hasOldData ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
     };
     const subData = {
       doctorId: this.state.selectedDoctor.value,
@@ -269,11 +268,11 @@ class ManageDoctor extends Component {
       selectedSpecialty: "",
       note: "",
       description: "",
-      hasOldData: false,
     });
   };
 
-  fillDataState = (detailDoctor, Markdown, Doctor_Info) => {
+  fillDataState = (detailDoctor, Detail_doctor, Doctor_Info) => {
+  console.log("🚀 ~ file: ManageDoctor.js ~ line 275 ~ ManageDoctor ~ Detail_doctor", Detail_doctor)
     let contentHTML = "",
       contentMarkdown = "",
       description = "",
@@ -287,23 +286,20 @@ class ManageDoctor extends Component {
       this.state;
     if (detailDoctor) {
       if (
-        Markdown &&
-        Markdown.contentHTML &&
-        Markdown.contentMarkdown &&
-        Markdown.description
+        Detail_doctor &&
+        Detail_doctor.detailHTML &&
+        Detail_doctor.detailMarkdown &&
+        Detail_doctor.description
       ) {
-        contentHTML = Markdown.contentHTML;
-        contentMarkdown = Markdown.contentMarkdown;
-        description = Markdown.description;
+        contentHTML = Detail_doctor.detailHTML;
+        contentMarkdown = Detail_doctor.detailMarkdown;
+        description = Detail_doctor.description;
       }
       if (
         Doctor_Info &&
-        /*         Doctor_Info.addressClinic &&
-        Doctor_Info.note && */
         Doctor_Info.paymentId &&
         Doctor_Info.priceId &&
         Doctor_Info.provinceId
-        // add condition for specialtyid & clinicid
       ) {
         note = Doctor_Info.note;
         const { priceId, provinceId, paymentId, clinicId, specialtyId } =
@@ -328,7 +324,6 @@ class ManageDoctor extends Component {
         selectedSpecialty: selectedSpecialty,
         selectedClinic: selectedClinic,
         note: note,
-        hasOldData: true,
         errors: {},
       });
     } else {
@@ -342,20 +337,16 @@ class ManageDoctor extends Component {
         selectedProvince: "",
         selectedSpecialty: "",
         selectedClinic: "",
-        hasOldData: false,
       });
     }
   };
 
   handleSelectDoctor = (selectedDoctor) => {
-    // set state select doctor
     this.setState({ selectedDoctor });
-    // call api fetch detail doctor service
     this.props.fetchDetaiInfoDoctor(selectedDoctor.value);
-
     const { detailDoctor } = this.state;
-    const { Markdown, Doctor_Info } = detailDoctor;
-    this.fillDataState(detailDoctor, Markdown, Doctor_Info);
+    const { Detail_doctor, Doctor_Info } = detailDoctor;
+    this.fillDataState(detailDoctor, Detail_doctor, Doctor_Info);
   };
 
   handleChangeSelect = (selectedOption, name) => {
@@ -375,7 +366,6 @@ class ManageDoctor extends Component {
       selectedPayment,
       selectedClinic,
       listDoctor,
-      hasOldData,
       listPrice,
       listPayment,
       listProvince,
@@ -527,23 +517,14 @@ class ManageDoctor extends Component {
               style={{ height: "fit-content" }}
               renderHTML={(text) => mdParser.render(text)}
               onChange={this.handleEditorChange}
-              value={this.state.contentHTML}
+              value={this.state.contentMarkdown}
             />
             {errors.contentMarkdown && (
               <span className="text-danger">{errors.contentMarkdown}</span>
             )}
           </div>
-          <button
-            className={
-              !hasOldData ? "btn btn-primary mt-5" : "btn btn-warning mt-5"
-            }
-            onClick={this.handleSave}
-          >
-            {hasOldData ? (
-              <FormattedMessage id="admin.manage-doctor.save" />
-            ) : (
-              <FormattedMessage id="admin.manage-doctor.create" />
-            )}
+          <button className="btn btn-primary mt-5" onClick={this.handleSave}>
+            <FormattedMessage id="admin.manage-doctor.save" />
           </button>
         </div>
       </>

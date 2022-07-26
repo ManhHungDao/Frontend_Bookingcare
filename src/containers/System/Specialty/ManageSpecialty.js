@@ -141,7 +141,10 @@ class ManageSpecialty extends Component {
     if (res && res.errCode === 0) {
       toast.success("Delete Specialty Succeed");
       let clinicId = this.state.selectedClinic.value;
-      this.props.getListSpecialtyByClinicId(clinicId);
+      if (clinicId) this.props.getListSpecialtyByClinicId(clinicId);
+      else {
+        this.props.getListSpecialtyByClinicId("All");
+      }
     } else toast.error("Delete Specialty Failed");
   };
   editSpecialty = async (data) => {
@@ -162,8 +165,6 @@ class ManageSpecialty extends Component {
       this.setState({ errors });
       return;
     }
-    let selectClinic = this.state.selectedClinic;
-    let clinicId = selectClinic.value ? selectClinic.value : null;
     let data = {
       image: this.state.image,
       contentHTML: this.state.contentHTML,
@@ -171,46 +172,39 @@ class ManageSpecialty extends Component {
       name: this.state.name,
     };
     // no select list clinic
-    if (
-      !this.state.idClinicEdit &&
-      !this.state.idSpecialtyEdit &&
-      !this.state.selectedClinic
-    )
-      this.props.createASpecialty(data);
-    if (
-      !this.state.idClinicEdit &&
-      this.state.idSpecialtyEdit &&
-      !this.state.selectedClinic
-    ) {
-      const res = await updateSpecialtyService({
-        ...data,
-        id: this.state.idSpecialtyEdit,
-        isEditWithClinic: false,
-      });
-      if (res && res.errCode === 0) toast.success("Update Specialty Succeed");
-      else toast.error("Update Specialty Failed");
+    if (!this.state.selectedClinic) {
+      if (!this.state.idClinicEdit && !this.state.idSpecialtyEdit)
+        await this.props.createASpecialty(data);
+      if (!this.state.idClinicEdit && this.state.idSpecialtyEdit) {
+        const res = await updateSpecialtyService({
+          ...data,
+          idSpecialtyEdit: this.state.idSpecialtyEdit,
+        });
+        if (res && res.errCode === 0) toast.success("Update Specialty Succeed");
+        else toast.error("Update Specialty Failed");
+      }
+      await this.props.getListSpecialtyByClinicId("All");
     }
     // selected clinic
-    if (
-      !this.state.idClinicEdit &&
-      !this.state.idSpecialtyEdit &&
-      this.state.selectedClinic
-    )
-      this.props.createASpecialty({
-        ...data,
-        clinicId: this.state.selectedClinic.value,
-      });
-
-    if (this.state.idClinicEdit && this.state.selectedClinic) {
-      const res = await updateSpecialtyService({
-        ...data,
-        id: this.state.idClinicEdit,
-        isEditWithClinic: true,
-      });
-      if (res && res.errCode === 0) toast.success("Update Specialty Succeed");
-      else toast.error("Update Specialty Failed");
+    else if (this.state.selectedClinic) {
+      if (!this.state.idClinicEdit && !this.state.idSpecialtyEdit)
+        await this.props.createASpecialty({
+          ...data,
+          clinicId: this.state.selectedClinic.value,
+        });
+      if (this.state.idClinicEdit) {
+        const res = await updateSpecialtyService({
+          ...data,
+          idClinicEdit: this.state.idClinicEdit,
+          idSpecialtyEdit: this.state.idSpecialtyEdit,
+        });
+        if (res && res.errCode === 0) toast.success("Update Specialty Succeed");
+        else toast.error("Update Specialty Failed");
+      }
+      await this.props.getListSpecialtyByClinicId(
+        this.state.selectedClinic.value
+      );
     }
-    this.props.getListSpecialtyByClinicId(clinicId);
     this.clearState();
   };
   render() {
