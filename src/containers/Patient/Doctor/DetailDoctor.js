@@ -57,12 +57,12 @@ class DetailDoctor extends Component {
             <hr />
             <div className="detail-info-doctor grid">
               {detailDoctor &&
-                detailDoctor.Markdown &&
-                detailDoctor.Markdown.contentMarkdown && (
+                detailDoctor.Detail_doctor &&
+                detailDoctor.Detail_doctor.detailHTML && (
                   <div
                     contentEditable="true"
                     dangerouslySetInnerHTML={{
-                      __html: detailDoctor.Markdown.contentMarkdown,
+                      __html: detailDoctor.Detail_doctor.detailHTML,
                     }}
                   ></div>
                 )}

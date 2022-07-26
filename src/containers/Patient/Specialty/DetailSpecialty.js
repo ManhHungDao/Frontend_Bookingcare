@@ -112,7 +112,11 @@ class DetailSpecialty extends Component {
         </div>
         <div className="for-more grid">
           <span onClick={this.handleSeeMore}>
-            {isOpen ? "Ẩn bớt" : " Xem thêm"}
+            {isOpen ? (
+              <FormattedMessage id="patient.detail-doctor.hide" />
+            ) : (
+              <FormattedMessage id="patient.detail-doctor.show" />
+            )}
           </span>
         </div>
         <div className="body-container">

@@ -87,7 +87,15 @@
       "schedule": "Schedule",
       "notify": "No appointment.",
       "choose": "Choose ",
-      "book-free": " and book (free)."
+      "book-free": " and book (free).",
+      "booking": "booking",
+      "strengths": "strengths",
+      "location": "location",
+      "examination": "examination",
+      "equipment": "equipment",
+      "service": "service",
+      "show": "View more",
+      "hide": "Hide"
     },
     "extra-info-doctor": {
       "address": "Clinic address",

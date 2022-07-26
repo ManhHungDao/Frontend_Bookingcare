@@ -87,7 +87,15 @@
       "schedule": "Lịch khám",
       "notify": "Không có lịch hẹn.",
       "choose": "Chọn ",
-      "book-free": " và đặt (Phí đặt lịch 0đ)."
+      "book-free": " và đặt (Phí đặt lịch 0đ).",
+      "introduce": "Giới thiệu",
+      "strengths": "Thế mạnh chuyên môn",
+      "location": "Vị trí",
+      "examination": "Quy trình khám",
+      "equipment": "Trang thiết bị",
+      "service": "Dịch vụ",
+      "show":"Xem thêm",
+      "hide":"Ẩn bớt"
     },
     "extra-info-doctor": {
       "address": "Địa chỉ phòng khám",

@@ -110,9 +110,9 @@ class ProfileDoctor extends Component {
               {isShowDescription ? (
                 <>
                   {detailDoctor &&
-                    detailDoctor.Markdown &&
-                    detailDoctor.Markdown.description && (
-                      <div>{detailDoctor.Markdown.description} </div>
+                    detailDoctor.Detail_doctor &&
+                    detailDoctor.Detail_doctor.description && (
+                      <div>{detailDoctor.Detail_doctor.description} </div>
                     )}
                 </>
               ) : (

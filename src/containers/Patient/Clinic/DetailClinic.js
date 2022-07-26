@@ -12,15 +12,17 @@ import { withRouter } from "react-router-dom";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
 import { getClinic, getListDoctorClinic } from "../../../services/userService";
 import { toast } from "react-toastify";
+import _ from "lodash";
 class DetailClinic extends Component {
   constructor(props) {
     super(props);
     this.state = {
       listProvince: [],
       selectedProvince: "",
-      detailClinic: {},
+      clinic: {},
       listDoctorClinic: [],
       isOpen: false,
+      detailClinic: {},
     };
   }
 
@@ -34,7 +36,7 @@ class DetailClinic extends Component {
     const resDetail = await getClinic(clinicId);
     if (resDetail && resDetail.errCode === 0) {
       this.setState({
-        detailClinic: resDetail.data,
+        clinic: resDetail.data,
       });
     } else {
       toast.error("Get detail clinic failed");
@@ -47,6 +49,7 @@ class DetailClinic extends Component {
     } else {
       toast.error("Get list doctor clinic failed");
     }
+    await this.props.getDetailClinic(clinicId);
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
@@ -56,6 +59,11 @@ class DetailClinic extends Component {
       const dataSelect = this.buildDataInputSelect(listProvince);
       this.setState({
         listProvince: dataSelect,
+      });
+    }
+    if (prevProps.detailClinic !== this.props.detailClinic) {
+      this.setState({
+        detailClinic: this.props.detailClinic,
       });
     }
   }
@@ -105,7 +113,7 @@ class DetailClinic extends Component {
   };
   render() {
     const { language } = this.props;
-    const { detailClinic, listDoctorClinic, isOpen } = this.state;
+    const { clinic, listDoctorClinic, isOpen } = this.state;
     return (
       <>
         <HomeHeader />
@@ -113,18 +121,95 @@ class DetailClinic extends Component {
           className="detail-specialy grid"
           style={isOpen ? { height: "fit-content" } : {}}
         >
-          {detailClinic && detailClinic.introduceHTML && (
+          {clinic && clinic.introduceHTML && (
             <div
               contentEditable="true"
               dangerouslySetInnerHTML={{
-                __html: detailClinic.introduceHTML,
+                __html: clinic.introduceHTML,
               }}
             ></div>
+          )}
+          {this.state.detailClinic.bookingHTML && (
+            <div
+              contentEditable="true"
+              dangerouslySetInnerHTML={{
+                __html: this.state.detailClinic.bookingHTML,
+              }}
+            ></div>
+          )}
+          {this.state.detailClinic.strengthHTML && (
+            <>
+              <h3 className="detail-title">
+                <FormattedMessage id="patient.detail-doctor.strengths" />
+              </h3>
+              <div
+                contentEditable="true"
+                dangerouslySetInnerHTML={{
+                  __html: this.state.detailClinic.strengthHTML,
+                }}
+              ></div>
+            </>
+          )}
+          {this.state.detailClinic.equipmentHTML && (
+            <>
+              <h3 className="detail-title">
+                <FormattedMessage id="patient.detail-doctor.equipment" />
+              </h3>
+              <div
+                contentEditable="true"
+                dangerouslySetInnerHTML={{
+                  __html: this.state.detailClinic.equipmentHTML,
+                }}
+              ></div>
+            </>
+          )}
+          {this.state.detailClinic.serviceHTML && (
+            <>
+              <h3 className="detail-title">
+                <FormattedMessage id="patient.detail-doctor.service" />
+              </h3>
+              <div
+                contentEditable="true"
+                dangerouslySetInnerHTML={{
+                  __html: this.state.detailClinic.serviceHTML,
+                }}
+              ></div>
+            </>
+          )}
+          {this.state.detailClinic.locationHTML && (
+            <>
+              <h3 className="detail-title">
+                <FormattedMessage id="patient.detail-doctor.location" />
+              </h3>
+              <div
+                contentEditable="true"
+                dangerouslySetInnerHTML={{
+                  __html: this.state.detailClinic.locationHTML,
+                }}
+              ></div>
+            </>
+          )}
+          {this.state.detailClinic.examinationHTML && (
+            <>
+              <h3 className="detail-title">
+                <FormattedMessage id="patient.detail-doctor.examination" />
+              </h3>
+              <div
+                contentEditable="true"
+                dangerouslySetInnerHTML={{
+                  __html: this.state.detailClinic.examinationHTML,
+                }}
+              ></div>
+            </>
           )}
         </div>
         <div className="for-more grid">
           <span onClick={this.handleSeeMore}>
-            {isOpen ? "Ẩn bớt" : " Xem thêm"}
+            {isOpen ? (
+              <FormattedMessage id="patient.detail-doctor.hide" />
+            ) : (
+              <FormattedMessage id="patient.detail-doctor.show" />
+            )}
           </span>
         </div>
         <div className="body-container">
@@ -180,12 +265,14 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     listProvince: state.admin.doctorProvince,
+    detailClinic: state.admin.detailClinic,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchInfoDoctor: (type) => dispatch(actions.fetchInfoDoctor(type)),
+    getDetailClinic: (id) => dispatch(actions.getDetailClinic(id)),
   };
 };
 
