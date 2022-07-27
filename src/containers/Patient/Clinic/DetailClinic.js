@@ -12,6 +12,7 @@ import { withRouter } from "react-router-dom";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
 import { getClinic, getListDoctorClinic } from "../../../services/userService";
 import { toast } from "react-toastify";
+import HomeFooter from "../../HomePage/HomeFooter";
 import _ from "lodash";
 class DetailClinic extends Component {
   constructor(props) {
@@ -108,6 +109,11 @@ class DetailClinic extends Component {
       isOpen: !this.state.isOpen,
     });
   };
+  handleOpenSeeMore = () => {
+    this.setState({
+      isOpen: true,
+    });
+  };
   handleToDetailDoctor = (id) => {
     if (this.props.history) this.props.history.push(`/detail-doctor/${id}`);
   };
@@ -127,6 +133,58 @@ class DetailClinic extends Component {
           </div>
           <div className="left">{text}</div>
         </div>
+      </div>
+    );
+  };
+  renderMenuBar = () => {
+    let menuList = [];
+    const { detailClinic, clinic } = this.state;
+    if (clinic.introduceHTML)
+      menuList.push({
+        name: "Giới thiệu chung",
+        id: "#introduce",
+      });
+    if (detailClinic.strengthHTML)
+      menuList.push({
+        name: "Thế mạnh chuyên môn",
+        id: "#strength",
+      });
+    if (detailClinic.equipmentHTML)
+      menuList.push({
+        name: "Trang thiết bị",
+        id: "#equipment",
+      });
+    if (detailClinic.serviceHTML)
+      menuList.push({
+        name: "Dịch vụ",
+        id: "#service",
+      });
+    if (detailClinic.locationHTML)
+      menuList.push({
+        name: "Vị trí",
+        id: "#location",
+      });
+    if (detailClinic.examinationHTML)
+      menuList.push({
+        name: "Quy trình khám",
+        id: "#examination",
+      });
+    return (
+      <ul className="menu-detail">
+        {menuList.map((item, index) => {
+          return (
+            <li key={index} onClick={this.handleOpenSeeMore}>
+              <a href={item.id}>{item.name}</a>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  };
+  renderBooking = () => {
+    return (
+      <div className="clinic-booking">
+        <span className="select-specialty">Chọn chuyên khoa</span>
       </div>
     );
   };
@@ -159,6 +217,7 @@ class DetailClinic extends Component {
             </div>
           </div>
         </div>
+        {this.renderMenuBar()}
 
         <div className="detail-container">
           <div
@@ -177,7 +236,7 @@ class DetailClinic extends Component {
               ></div>
             )}
 
-            <h3 className="detail-title">
+            <h3 className="detail-title" id="introduce">
               <FormattedMessage id="patient.detail-doctor.introduce" />
             </h3>
             {clinic && clinic.introduceHTML && (
@@ -198,7 +257,7 @@ class DetailClinic extends Component {
             )}
             {this.state.detailClinic.strengthHTML && (
               <>
-                <h3 className="detail-title">
+                <h3 className="detail-title" id="strength">
                   <FormattedMessage id="patient.detail-doctor.strengths" />
                 </h3>
                 <div
@@ -211,7 +270,7 @@ class DetailClinic extends Component {
             )}
             {this.state.detailClinic.equipmentHTML && (
               <>
-                <h3 className="detail-title">
+                <h3 className="detail-title" id="equipment">
                   <FormattedMessage id="patient.detail-doctor.equipment" />
                 </h3>
                 <div
@@ -224,7 +283,7 @@ class DetailClinic extends Component {
             )}
             {this.state.detailClinic.serviceHTML && (
               <>
-                <h3 className="detail-title">
+                <h3 className="detail-title" id="service">
                   <FormattedMessage id="patient.detail-doctor.service" />
                 </h3>
                 <div
@@ -237,7 +296,7 @@ class DetailClinic extends Component {
             )}
             {this.state.detailClinic.locationHTML && (
               <>
-                <h3 className="detail-title">
+                <h3 className="detail-title" id="location">
                   <FormattedMessage id="patient.detail-doctor.location" />
                 </h3>
                 <div
@@ -250,7 +309,7 @@ class DetailClinic extends Component {
             )}
             {this.state.detailClinic.examinationHTML && (
               <>
-                <h3 className="detail-title">
+                <h3 className="detail-title" id="examination">
                   <FormattedMessage id="patient.detail-doctor.examination" />
                 </h3>
                 <div
@@ -316,6 +375,8 @@ class DetailClinic extends Component {
             </div>
           </div>
         </div>
+        <HomeFooter />
+        {this.renderBooking()}
       </>
     );
   }

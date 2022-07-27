@@ -154,7 +154,7 @@ class ManageClinic extends Component {
 
   checkValidate = () => {
     let errors = {};
-    let { image, name, address, contentMarkdown } = this.state;
+    let { image, name, address, contentMarkdown,logo } = this.state;
     const { language } = this.props;
     if (language === "en") {
       if (!image) errors.image = "Upload image";
@@ -164,6 +164,7 @@ class ManageClinic extends Component {
         errors.contentMarkdown = "Details clinic must be entered";
     } else {
       if (!image) errors.image = "Tải ảnh phòng khám";
+      if (!logo) errors.logo = "Tải ảnh đại diện phòng khám";
       if (!name) errors.name = "Tên không được bỏ trống";
       if (!address) errors.address = "Địa chỉ không được bỏ trống";
       if (!contentMarkdown)
@@ -345,8 +346,8 @@ class ManageClinic extends Component {
                   onClick={() => this.openReview("logo")}
                 ></div>
               </div>
-              {errors.image && (
-                <span className="text-danger">{errors.image}</span>
+              {errors.logo && (
+                <span className="text-danger">{errors.logo}</span>
               )}
             </div>
             <div className="col-12 form-group">

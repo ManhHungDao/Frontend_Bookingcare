@@ -478,16 +478,16 @@ export const createBookingAppointment = (data) => {
         const res = await postBookAppointmentService(data);
         if (res && res.errCode === 0) {
           dispatch({ type: actionTypes.POST_BOOKING_APPOINTMENT_SUCCEED });
-          toast.success("Post Booking Appointment Doctor Succeed!");
+          toast.success("Booking Appointment Doctor Succeed!");
         } else {
-          toast.error("Post Booking Appointment Doctor Failed!");
+          toast.error("Booking Appointment Doctor Failed!");
           dispatch({
             type: actionTypes.POST_BOOKING_APPOINTMENT_FAILED,
           });
         }
       }
     } catch (error) {
-      toast.error("Post Booking Appointment Doctor Failed!");
+      toast.error("Booking Appointment Doctor Failed!");
       dispatch({
         type: actionTypes.POST_BOOKING_APPOINTMENT_FAILED,
       });
