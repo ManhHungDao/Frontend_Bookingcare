@@ -156,7 +156,8 @@
       "upload": "Upload",
       "introduce": "Clinic introduction",
       "save": "Lưu",
-      "add": "Thêm mới"
+      "add": "Add",
+      "logo": "Logo"
     },
     "manage-detail-clinic": {
       "title": "Manage detail clinic",

@@ -156,7 +156,8 @@
       "upload": "Tải ảnh",
       "introduce": "Giới thiệu phòng khám",
       "save": "Lưu",
-      "add": "Thêm mới"
+      "add": "Thêm mới",
+      "logo":"Ảnh đại diện phòng khám"
     },
     "manage-detail-clinic": {
       "title": "Quản lý chi tiết phòng khám",

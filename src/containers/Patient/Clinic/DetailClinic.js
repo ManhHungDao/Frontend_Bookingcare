@@ -111,106 +111,166 @@ class DetailClinic extends Component {
   handleToDetailDoctor = (id) => {
     if (this.props.history) this.props.history.push(`/detail-doctor/${id}`);
   };
+  renderNodeClinic = () => {
+    let text;
+    if (this.props.language === languages.VI)
+      text =
+        "BookingCare là Nền tảng Y tế chăm sóc sức khỏe toàn diện hàng đầu Việt Nam kết nối người dùng với trên 150 bệnh viện - phòng khám uy tín, hơn 1,000 bác sĩ chuyên khoa giỏi và hàng nghìn dịch vụ, sản phẩm y tế chất lượng cao.";
+    else
+      text = `BookingCare is the leading comprehensive healthcare platform in Vietnam connecting users with 150 prestigious hospitals - clinics, more than 1,000 good specialists and high quality medical products, services and products.`;
+
+    return (
+      <div>
+        <div className="note-bookingcare">
+          <div className="right">
+            <i className="fas fa-lightbulb"></i>
+          </div>
+          <div className="left">{text}</div>
+        </div>
+      </div>
+    );
+  };
   render() {
     const { language } = this.props;
     const { clinic, listDoctorClinic, isOpen } = this.state;
     return (
       <>
         <HomeHeader />
-        <div
-          className="detail-specialy grid"
-          style={isOpen ? { height: "fit-content" } : {}}
-        >
-          {clinic && clinic.introduceHTML && (
+        <div className="header-clinic-container grid">
+          <div
+            className="bg-clinic"
+            style={{
+              backgroundImage: `url(${clinic.image})`,
+            }}
+          ></div>
+          <div className="wrap-clinic">
             <div
-              contentEditable="true"
-              dangerouslySetInnerHTML={{
-                __html: clinic.introduceHTML,
+              className="lg-clinic"
+              style={{
+                backgroundImage: `url(${clinic.logo})`,
               }}
             ></div>
-          )}
-          {this.state.detailClinic.bookingHTML && (
-            <div
-              contentEditable="true"
-              dangerouslySetInnerHTML={{
-                __html: this.state.detailClinic.bookingHTML,
-              }}
-            ></div>
-          )}
-          {this.state.detailClinic.strengthHTML && (
-            <>
-              <h3 className="detail-title">
-                <FormattedMessage id="patient.detail-doctor.strengths" />
-              </h3>
-              <div
-                contentEditable="true"
-                dangerouslySetInnerHTML={{
-                  __html: this.state.detailClinic.strengthHTML,
-                }}
-              ></div>
-            </>
-          )}
-          {this.state.detailClinic.equipmentHTML && (
-            <>
-              <h3 className="detail-title">
-                <FormattedMessage id="patient.detail-doctor.equipment" />
-              </h3>
-              <div
-                contentEditable="true"
-                dangerouslySetInnerHTML={{
-                  __html: this.state.detailClinic.equipmentHTML,
-                }}
-              ></div>
-            </>
-          )}
-          {this.state.detailClinic.serviceHTML && (
-            <>
-              <h3 className="detail-title">
-                <FormattedMessage id="patient.detail-doctor.service" />
-              </h3>
-              <div
-                contentEditable="true"
-                dangerouslySetInnerHTML={{
-                  __html: this.state.detailClinic.serviceHTML,
-                }}
-              ></div>
-            </>
-          )}
-          {this.state.detailClinic.locationHTML && (
-            <>
-              <h3 className="detail-title">
-                <FormattedMessage id="patient.detail-doctor.location" />
-              </h3>
-              <div
-                contentEditable="true"
-                dangerouslySetInnerHTML={{
-                  __html: this.state.detailClinic.locationHTML,
-                }}
-              ></div>
-            </>
-          )}
-          {this.state.detailClinic.examinationHTML && (
-            <>
-              <h3 className="detail-title">
-                <FormattedMessage id="patient.detail-doctor.examination" />
-              </h3>
-              <div
-                contentEditable="true"
-                dangerouslySetInnerHTML={{
-                  __html: this.state.detailClinic.examinationHTML,
-                }}
-              ></div>
-            </>
-          )}
+            <div className="info-clinic">
+              <div className="name-clinic">{clinic.name}</div>
+              <div className="address-clinic">
+                <i className="fas fa-map-marker-alt"></i>
+                <span>{clinic.address}</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="for-more grid">
-          <span onClick={this.handleSeeMore}>
-            {isOpen ? (
-              <FormattedMessage id="patient.detail-doctor.hide" />
-            ) : (
-              <FormattedMessage id="patient.detail-doctor.show" />
+
+        <div className="detail-container">
+          <div
+            className="detail-specialy grid"
+            style={isOpen ? { height: "fit-content" } : {}}
+          >
+            {this.renderNodeClinic()}
+
+            {this.state.detailClinic.noteHTML && (
+              <div
+                className="note-clinic"
+                contentEditable="true"
+                dangerouslySetInnerHTML={{
+                  __html: this.state.detailClinic.noteHTML,
+                }}
+              ></div>
             )}
-          </span>
+
+            <h3 className="detail-title">
+              <FormattedMessage id="patient.detail-doctor.introduce" />
+            </h3>
+            {clinic && clinic.introduceHTML && (
+              <div
+                contentEditable="true"
+                dangerouslySetInnerHTML={{
+                  __html: clinic.introduceHTML,
+                }}
+              ></div>
+            )}
+            {this.state.detailClinic.bookingHTML && (
+              <div
+                contentEditable="true"
+                dangerouslySetInnerHTML={{
+                  __html: this.state.detailClinic.bookingHTML,
+                }}
+              ></div>
+            )}
+            {this.state.detailClinic.strengthHTML && (
+              <>
+                <h3 className="detail-title">
+                  <FormattedMessage id="patient.detail-doctor.strengths" />
+                </h3>
+                <div
+                  contentEditable="true"
+                  dangerouslySetInnerHTML={{
+                    __html: this.state.detailClinic.strengthHTML,
+                  }}
+                ></div>
+              </>
+            )}
+            {this.state.detailClinic.equipmentHTML && (
+              <>
+                <h3 className="detail-title">
+                  <FormattedMessage id="patient.detail-doctor.equipment" />
+                </h3>
+                <div
+                  contentEditable="true"
+                  dangerouslySetInnerHTML={{
+                    __html: this.state.detailClinic.equipmentHTML,
+                  }}
+                ></div>
+              </>
+            )}
+            {this.state.detailClinic.serviceHTML && (
+              <>
+                <h3 className="detail-title">
+                  <FormattedMessage id="patient.detail-doctor.service" />
+                </h3>
+                <div
+                  contentEditable="true"
+                  dangerouslySetInnerHTML={{
+                    __html: this.state.detailClinic.serviceHTML,
+                  }}
+                ></div>
+              </>
+            )}
+            {this.state.detailClinic.locationHTML && (
+              <>
+                <h3 className="detail-title">
+                  <FormattedMessage id="patient.detail-doctor.location" />
+                </h3>
+                <div
+                  contentEditable="true"
+                  dangerouslySetInnerHTML={{
+                    __html: this.state.detailClinic.locationHTML,
+                  }}
+                ></div>
+              </>
+            )}
+            {this.state.detailClinic.examinationHTML && (
+              <>
+                <h3 className="detail-title">
+                  <FormattedMessage id="patient.detail-doctor.examination" />
+                </h3>
+                <div
+                  contentEditable="true"
+                  dangerouslySetInnerHTML={{
+                    __html: this.state.detailClinic.examinationHTML,
+                  }}
+                ></div>
+              </>
+            )}
+          </div>
+          <div className="for-more grid">
+            <span onClick={this.handleSeeMore}>
+              {isOpen ? (
+                <FormattedMessage id="patient.detail-doctor.hide" />
+              ) : (
+                <FormattedMessage id="patient.detail-doctor.show" />
+              )}
+            </span>
+          </div>
         </div>
         <div className="body-container">
           <div className="detail-specialy-container grid">

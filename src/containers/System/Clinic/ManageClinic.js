@@ -29,6 +29,7 @@ class ManageClinic extends Component {
       contentHTML: "",
       contentMarkdown: "",
       isOpen: false,
+      isOpenLogo: false,
       previewImgUrl: "",
       name: "",
       address: "",
@@ -36,6 +37,8 @@ class ManageClinic extends Component {
       selectedClinic: "",
       listClinic: [],
       listDetailClinic: [],
+      logo: "",
+      previewLogoUrl: "",
     };
   }
 
@@ -93,30 +96,46 @@ class ManageClinic extends Component {
         name: data.name,
         address: data.address,
         image: data.image,
+        logo: data.logo,
         previewImgUrl: data.image,
+        previewLogoUrl: data.logo,
         contentMarkdown: data.introduceMarkdown,
         contentHTML: data.introduceHTML,
       });
     }
   };
-  handleOnChangeImage = async (event) => {
+  handleOnChangeImage = async (event, name) => {
     const data = event.target.files;
     const file = data[0];
     if (file) {
       let base64 = await CommonUtils.getBase64(file);
       const url = URL.createObjectURL(file);
-      this.setState({
-        previewImgUrl: url,
-        image: base64,
-      });
+      if (name === "image")
+        this.setState({
+          previewImgUrl: url,
+          image: base64,
+        });
+      else if (name === "logo") {
+        this.setState({
+          previewLogoUrl: url,
+          logo: base64,
+        });
+      }
     }
   };
 
-  openReviewImage = () => {
-    if (!this.state.previewImgUrl) return;
-    this.setState({
-      isOpen: true,
-    });
+  openReview = (name) => {
+    if (name === "image") {
+      if (!this.state.previewImgUrl) return;
+      this.setState({
+        isOpen: true,
+      });
+    } else if (name === "logo") {
+      if (!this.state.previewLogoUrl) return;
+      this.setState({
+        isOpenLogo: true,
+      });
+    }
   };
 
   handleEditorChange = ({ html, text }) => {
@@ -182,6 +201,7 @@ class ManageClinic extends Component {
       contentMarkdown: this.state.contentMarkdown,
       name: this.state.name,
       address: this.state.address,
+      logo: this.state.logo,
     };
     if (!this.state.idEditClinic) {
       const res = await createANewClinic(data);
@@ -196,6 +216,8 @@ class ManageClinic extends Component {
           address: "",
           selectedClinic: "",
           errors: "",
+          logo: "",
+          previewLogoUrl: "",
         });
         this.props.getListClinicHome();
       } else {
@@ -214,6 +236,8 @@ class ManageClinic extends Component {
           address: "",
           selectedClinic: "",
           errors: "",
+          logo: "",
+          previewLogoUrl: "",
         });
         this.props.getListClinicHome();
       } else {
@@ -279,7 +303,7 @@ class ManageClinic extends Component {
                 id="previewImg"
                 type="file"
                 hidden
-                onChange={(event) => this.handleOnChangeImage(event)}
+                onChange={(event) => this.handleOnChangeImage(event, "image")}
               />
               <div className="preview-img-container">
                 <label className="lable-upload" htmlFor="previewImg">
@@ -291,7 +315,34 @@ class ManageClinic extends Component {
                   style={{
                     backgroundImage: `url(${this.state.previewImgUrl})`,
                   }}
-                  onClick={() => this.openReviewImage()}
+                  onClick={() => this.openReview("image")}
+                ></div>
+              </div>
+              {errors.image && (
+                <span className="text-danger">{errors.image}</span>
+              )}
+            </div>
+            <div className="col-6 form-group">
+              <label>
+                <FormattedMessage id="admin.manage-clinic.logo" />
+              </label>
+              <input
+                id="previewLogo"
+                type="file"
+                hidden
+                onChange={(event) => this.handleOnChangeImage(event, "logo")}
+              />
+              <div className="preview-img-container">
+                <label className="lable-upload" htmlFor="previewLogo">
+                  <FormattedMessage id="admin.manage-clinic.upload" />
+                  <i className="fas fa-upload"></i>
+                </label>
+                <div
+                  className="preview-image"
+                  style={{
+                    backgroundImage: `url(${this.state.previewLogoUrl})`,
+                  }}
+                  onClick={() => this.openReview("logo")}
                 ></div>
               </div>
               {errors.image && (
@@ -337,6 +388,12 @@ class ManageClinic extends Component {
           <Lightbox
             mainSrc={this.state.previewImgUrl}
             onCloseRequest={() => this.setState({ isOpen: false })}
+          />
+        )}
+        {this.state.isOpenLogo === true && (
+          <Lightbox
+            mainSrc={this.state.previewLogoUrl}
+            onCloseRequest={() => this.setState({ isOpenLogo: false })}
           />
         )}
       </>
