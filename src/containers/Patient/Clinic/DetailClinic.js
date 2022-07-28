@@ -141,32 +141,32 @@ class DetailClinic extends Component {
     const { detailClinic, clinic } = this.state;
     if (clinic.introduceHTML)
       menuList.push({
-        name: "Giới thiệu chung",
+        name: <FormattedMessage id="patient.detail-doctor.introduce" />,
         id: "#introduce",
       });
     if (detailClinic.strengthHTML)
       menuList.push({
-        name: "Thế mạnh chuyên môn",
+        name: <FormattedMessage id="patient.detail-doctor.strengths" />,
         id: "#strength",
       });
     if (detailClinic.equipmentHTML)
       menuList.push({
-        name: "Trang thiết bị",
+        name: <FormattedMessage id="patient.detail-doctor.equipment" />,
         id: "#equipment",
       });
     if (detailClinic.serviceHTML)
       menuList.push({
-        name: "Dịch vụ",
+        name: <FormattedMessage id="patient.detail-doctor.service" />,
         id: "#service",
       });
     if (detailClinic.locationHTML)
       menuList.push({
-        name: "Vị trí",
+        name: <FormattedMessage id="patient.detail-doctor.location" />,
         id: "#location",
       });
     if (detailClinic.examinationHTML)
       menuList.push({
-        name: "Quy trình khám",
+        name: <FormattedMessage id="patient.detail-doctor.examination" />,
         id: "#examination",
       });
     return (
@@ -184,7 +184,9 @@ class DetailClinic extends Component {
   renderBooking = () => {
     return (
       <div className="clinic-booking">
-        <span className="select-specialty">Chọn chuyên khoa</span>
+        <span className="select-specialty">
+          <FormattedMessage id="patient.detail-doctor.select-specialty" />
+        </span>
       </div>
     );
   };

@@ -44,6 +44,10 @@ export const adminMenu = [
         name: "menu.admin.manage-specialty",
         link: "/system/manage-specialty",
       },
+      {
+        name: "menu.admin.manage-detail-specialty",
+        link: "/system/manage-detail-specialty",
+      },
     ],
   },
   {

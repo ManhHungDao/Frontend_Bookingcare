@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import { languages, CommonUtils, CRUD_ACTIONS } from "../../../utils";
-import "./DetailClinic.scss";
+import "./ManageDetailClinic.scss";
 import { FormattedMessage } from "react-intl";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
@@ -14,13 +14,34 @@ import _ from "lodash";
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 const options = [
-  { value: "noteMarkdown", label: "Note" },
-  { value: "bookingMarkdown", label: "Detail Booking" },
-  { value: "strengthMarkdown", label: "Detail Strengths" },
-  { value: "equipmentMarkdown", label: "Detail Equipment" },
-  { value: "serviceMarkdown", label: "Detail Services" },
-  { value: "locationMarkdown", label: "Detail Location" },
-  { value: "examinationMarkdown", label: "Detail Examination" },
+  {
+    value: "noteMarkdown",
+    label: <FormattedMessage id="admin.manage-detail-clinic.note" />,
+  },
+  {
+    value: "bookingMarkdown",
+    label: <FormattedMessage id="admin.manage-detail-clinic.booking" />,
+  },
+  {
+    value: "strengthMarkdown",
+    label: <FormattedMessage id="admin.manage-detail-clinic.strengths" />,
+  },
+  {
+    value: "equipmentMarkdown",
+    label: <FormattedMessage id="admin.manage-detail-clinic.equipment" />,
+  },
+  {
+    value: "serviceMarkdown",
+    label: <FormattedMessage id="admin.manage-detail-clinic.service" />,
+  },
+  {
+    value: "locationMarkdown",
+    label: <FormattedMessage id="admin.manage-detail-clinic.location" />,
+  },
+  {
+    value: "examinationMarkdown",
+    label: <FormattedMessage id="admin.manage-detail-clinic.examination" />,
+  },
 ];
 
 class DetailClinic extends Component {
