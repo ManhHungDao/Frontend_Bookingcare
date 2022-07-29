@@ -91,7 +91,7 @@ const getSpecialties = () => {
 const getListSpecialty = () => {
   return axios.get(`/api/get-list-specialty`);
 };
-const getDetailSpecialty = (specialtyId) => {
+const getSpecialty = (specialtyId) => {
   return axios.get(`/api/get-detail-specialty?specialtyId=${specialtyId}`);
 };
 const getListDoctorSpecialty = (data) => {
@@ -156,7 +156,18 @@ const getDetailClinicService = (id) => {
   return axios.get(`/api/get-detail-clinic?id=${id}`);
 };
 
+const createDetailSpecialty = (data) => {
+  return axios.post(`/api/create-detail-specialty`, data);
+};
+
+const getDetailSpecialty = (clinicId, specialtyId) => {
+  return axios.get(
+    `/api/get-detailSpecialty?clinicId=${clinicId}&specialtyId=${specialtyId}`
+  );
+};
 export {
+  getDetailSpecialty,
+  createDetailSpecialty,
   deleteSpecialtyService,
   getDetailClinicService,
   createDetailClinicService,
@@ -181,7 +192,7 @@ export {
   postASpecialty,
   getSpecialties,
   getListSpecialty,
-  getDetailSpecialty,
+  getSpecialty,
   getListDoctorSpecialty,
   createANewClinic,
   getListClinic,

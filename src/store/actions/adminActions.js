@@ -20,7 +20,7 @@ import {
   getListSpecialtyByClinicIdService,
   postASpecialty,
   getSpecialties,
-  getDetailSpecialty,
+  getSpecialty,
   getListDoctorSpecialty,
   getListSpecialty,
   getListClinic,
@@ -611,7 +611,7 @@ export const getDetailSpecialtyHome = (specialtyId) => {
   return async (dispatch, getState) => {
     try {
       {
-        const res = await getDetailSpecialty(specialtyId);
+        const res = await getSpecialty(specialtyId);
         if (res && res.errCode === 0) {
           dispatch({
             type: actionTypes.GET_DETAIL_SPECIALTY_SUCCEED,

@@ -10,6 +10,10 @@ import "react-image-lightbox/style.css";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import _ from "lodash";
+import {
+  createDetailSpecialty,
+  getDetailSpecialty,
+} from "../../../services/userService";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -52,15 +56,14 @@ class ManageDetailSpecialty extends Component {
   }
 
   componentDidMount() {
-    this.props.getListSpecialtyAdmin();
     this.props.getListClinicAdmin();
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
     }
-    if (this.props.listSpecialtyAdmin !== prevProps.listSpecialtyAdmin) {
-      const listSpecialtyAdmin = this.props.listSpecialtyAdmin;
-      const dataSelect = this.buildDataInputSelect(listSpecialtyAdmin);
+    if (this.props.listSpecialty !== prevProps.listSpecialty) {
+      const listSpecialty = this.props.listSpecialty;
+      const dataSelect = this.buildDataInputSelect(listSpecialty);
       this.setState({
         listSpecialty: dataSelect,
       });
@@ -160,13 +163,62 @@ class ManageDetailSpecialty extends Component {
       </>
     );
   };
-  handleChangeSelect = (selectedOption, name) => {
-    const stateName = name.name;
-    const copyState = { ...this.state };
-    copyState[stateName] = selectedOption;
+  fillDataInput = (data) => {
+    this.clearState();
+    if (!data) return;
     this.setState({
-      ...copyState,
+      treatmentMarkdown: data.treatmentMarkdown ? data.treatmentMarkdown : "",
+      treatmentHTML: data.treatmentHTML ? data.treatmentHTML : "",
+      strengthMarkdown: data.strengthMarkdown ? data.strengthMarkdown : "",
+      strengthHTML: data.strengthHTML ? data.strengthHTML : "",
+      serviceMarkdown: data.serviceMarkdown ? data.serviceMarkdown : "",
+      serviceHTML: data.serviceHTML ? data.serviceHTML : "",
+      examinationMarkdown: data.examinationMarkdown
+        ? data.examinationMarkdown
+        : "",
+      examinationHTML: data.examinationHTML ? data.examinationHTML : "",
     });
+  };
+  handleChangeSelectClinic = async (selectedOption) => {
+    await this.props.getListSpecialtyByClinicId(selectedOption.value);
+    this.setState({
+      selectedClinic: selectedOption,
+      selectedSpecialty: "",
+    });
+  };
+  handleChangeSelectSpecialty = async (selectedOption) => {
+    const clinicId = this.state.selectedClinic.value;
+    const specialtyId = selectedOption.value;
+    const res = await getDetailSpecialty(clinicId, specialtyId);
+    if (res && res.errCode === 0) {
+      this.fillDataInput(res.data);
+    } else {
+      toast.error("Get Detail Specialty Failed");
+    }
+    this.setState({
+      selectedSpecialty: selectedOption,
+    });
+  };
+  handleSave = async () => {
+    const data = {
+      treatmentMarkdown: this.state.treatmentMarkdown,
+      treatmentHTML: this.state.treatmentHTML,
+      strengthMarkdown: this.state.strengthMarkdown,
+      strengthHTML: this.state.strengthHTML,
+      serviceMarkdown: this.state.serviceMarkdown,
+      serviceHTML: this.state.serviceHTML,
+      examinationMarkdown: this.state.examinationMarkdown,
+      examinationHTML: this.state.examinationHTML,
+      clinicId: this.state.selectedClinic.value,
+      specialtyId: this.state.selectedSpecialty.value,
+    };
+    const res = await createDetailSpecialty(data);
+    if (res && res.errCode === 0) {
+      toast.success("Upload Detail Specialty Succeed");
+      this.clearState();
+    } else {
+      toast.error("Upload Detail Specialty Failed");
+    }
   };
   render() {
     return (
@@ -180,9 +232,8 @@ class ManageDetailSpecialty extends Component {
               <div className="find-option">
                 <div className="find-clinic">
                   <Select
-                    name="selectedClinic"
                     value={this.state.selectedClinic}
-                    onChange={this.handleChangeSelect}
+                    onChange={this.handleChangeSelectClinic}
                     options={this.state.listClinic}
                     placeholder={
                       <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
@@ -191,9 +242,8 @@ class ManageDetailSpecialty extends Component {
                 </div>
                 <div className="find-specialty">
                   <Select
-                    name="selectedSpecialty"
                     value={this.state.selectedSpecialty}
-                    onChange={this.handleChangeSelect}
+                    onChange={this.handleChangeSelectSpecialty}
                     options={this.state.listSpecialty}
                     isDisabled={!this.state.selectedClinic ? true : ""}
                     placeholder={
@@ -212,7 +262,7 @@ class ManageDetailSpecialty extends Component {
               onClick={() => {
                 this.handleSave();
               }}
-              disabled={!this.state.selectedClinic ? "disabled" : false}
+              disabled={!this.state.selectedSpecialty ? "disabled" : false}
             >
               <FormattedMessage id="admin.manage-clinic.save" />
             </button>
@@ -226,15 +276,16 @@ class ManageDetailSpecialty extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    listSpecialtyAdmin: state.admin.listSpecialtyAdmin,
     listClinic: state.admin.listClinic,
+    listSpecialty: state.admin.listSpecialtyByClinic,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListSpecialtyAdmin: () => dispatch(actions.getListSpecialtyAdmin()),
     getListClinicAdmin: () => dispatch(actions.getListClinicAdmin()),
+    getListSpecialtyByClinicId: (id) =>
+      dispatch(actions.getListSpecialtyByClinicId(id)),
   };
 };
 
