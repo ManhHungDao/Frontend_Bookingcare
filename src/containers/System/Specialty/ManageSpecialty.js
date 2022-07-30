@@ -30,12 +30,14 @@ class ManageSpecialty extends Component {
       errors: {},
       listClinic: [],
       selectedClinic: "",
-      idClinicEdit: "",
+      // idClinicEdit: "",
       idSpecialtyEdit: "",
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.scrollToTop();
+  }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
     }
@@ -45,7 +47,14 @@ class ManageSpecialty extends Component {
         listClinic: dataSelect,
       });
     }
+    this.scrollToTop();
   }
+  scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   clearState = () => {
     this.setState({
       contentHTML: "",
@@ -114,15 +123,15 @@ class ManageSpecialty extends Component {
 
   checkValidate = () => {
     let errors = {};
-    let { image, name, address, contentMarkdown } = this.state;
+    let { image, name, contentMarkdown } = this.state;
     const { language } = this.props;
     if (language === "en") {
-      if (!image) errors.image = "Upload image";
+      // if (!image) errors.image = "Upload image";
       if (!name) errors.name = "Name must be entered";
       if (!contentMarkdown)
         errors.contentMarkdown = "Details specialty must be entered";
     } else {
-      if (!image) errors.image = "Tải ảnh phòng khám";
+      // if (!image) errors.image = "Tải ảnh phòng khám";
       if (!name) errors.name = "Tên không được bỏ trống";
       if (!contentMarkdown)
         errors.contentMarkdown = "Chi tiết không được bỏ trống";
@@ -154,7 +163,6 @@ class ManageSpecialty extends Component {
       previewImgUrl: data.image,
       contentMarkdown: data.detailMarkdown,
       contentHTML: data.detailHTML,
-      idClinicEdit: data.clinicId ? data.clinicId : "",
       idSpecialtyEdit: data.id,
     });
   };
@@ -171,14 +179,15 @@ class ManageSpecialty extends Component {
       contentMarkdown: this.state.contentMarkdown,
       name: this.state.name,
     };
+    const idSpecialtyEdit = this.state.idSpecialtyEdit;
+
     // no select list clinic
     if (!this.state.selectedClinic) {
-      if (!this.state.idClinicEdit && !this.state.idSpecialtyEdit)
-        await this.props.createASpecialty(data);
-      if (!this.state.idClinicEdit && this.state.idSpecialtyEdit) {
+      if (!idSpecialtyEdit) await this.props.createASpecialty(data);
+      else {
         const res = await updateSpecialtyService({
           ...data,
-          idSpecialtyEdit: this.state.idSpecialtyEdit,
+          idSpecialtyEdit: idSpecialtyEdit,
         });
         if (res && res.errCode === 0) toast.success("Update Specialty Succeed");
         else toast.error("Update Specialty Failed");
@@ -187,25 +196,25 @@ class ManageSpecialty extends Component {
     }
     // selected clinic
     else if (this.state.selectedClinic) {
-      if (!this.state.idClinicEdit && !this.state.idSpecialtyEdit)
+      const clinicId = this.state.selectedClinic.value;
+      if (!idSpecialtyEdit)
         await this.props.createASpecialty({
           ...data,
-          clinicId: this.state.selectedClinic.value,
+          clinicId: clinicId,
         });
-      if (this.state.idClinicEdit) {
+      else {
         const res = await updateSpecialtyService({
           ...data,
-          idClinicEdit: this.state.idClinicEdit,
-          idSpecialtyEdit: this.state.idSpecialtyEdit,
+          idClinicEdit: clinicId,
+          idSpecialtyEdit: idSpecialtyEdit,
         });
         if (res && res.errCode === 0) toast.success("Update Specialty Succeed");
         else toast.error("Update Specialty Failed");
       }
-      await this.props.getListSpecialtyByClinicId(
-        this.state.selectedClinic.value
-      );
+      await this.props.getListSpecialtyByClinicId(clinicId);
     }
     this.clearState();
+    this.scrollToTop();
   };
   render() {
     const { language } = this.props;
