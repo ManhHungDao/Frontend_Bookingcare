@@ -10,11 +10,15 @@ import DoctorExtraInfo from "../Doctor/DoctorExtraInfo";
 import Select from "react-select";
 import { withRouter } from "react-router-dom";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
-import { getClinic, getListDoctorClinic } from "../../../services/userService";
+import {
+  getClinic,
+  getListDoctorClinic,
+  getDetailSpecialty,
+} from "../../../services/userService";
 import { toast } from "react-toastify";
 import HomeFooter from "../../HomePage/HomeFooter";
 import _ from "lodash";
-class DetailClinic extends Component {
+class DetailClinicSpecialty extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,48 +27,44 @@ class DetailClinic extends Component {
       clinic: {},
       listDoctorClinic: [],
       isOpen: false,
-      detailClinic: {},
+      detailSpecialty: {},
+      specialty: {},
     };
   }
 
   async componentDidMount() {
-    const clinicId = this.props.match.params.id;
-    this.props.fetchInfoDoctor(TYPE.PROVINCE);
-    const data = {
-      clinicId: this.props.match.params.id,
-      provinceId: "all",
-    };
-    const resDetail = await getClinic(clinicId);
-    if (resDetail && resDetail.errCode === 0) {
+    const { clinicId, specialtyId } = this.props.match.params;
+    this.props.getDetailSpecialtyHome(specialtyId);
+    const resSpe = await getDetailSpecialty(specialtyId);
+    if (resSpe && resSpe.errCode === 0) {
       this.setState({
-        clinic: resDetail.data,
+        detailSpecialty: resSpe.data,
       });
     } else {
-      toast.error("Get detail clinic failed");
+      toast.error("Get Detail Specialty Failed");
     }
-    const res = await getListDoctorClinic(data);
-    if (res && res.errCode === 0) {
+    const resCli = await getClinic(clinicId);
+    if (resCli && resCli.errCode === 0)
       this.setState({
-        listDoctorClinic: res.data,
+        clinic: resCli.data,
       });
-    } else {
-      toast.error("Get list doctor clinic failed");
+    else {
+      toast.error("Get Detail Clinic Failed");
     }
-    await this.props.getDetailClinic(clinicId);
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
+    }
+    if (this.props.specialty !== prevProps.specialty) {
+      this.setState({
+        specialty: this.props.specialty,
+      });
     }
     if (prevProps.listProvince !== this.props.listProvince) {
       let listProvince = this.props.listProvince;
       const dataSelect = this.buildDataInputSelect(listProvince);
       this.setState({
         listProvince: dataSelect,
-      });
-    }
-    if (prevProps.detailClinic !== this.props.detailClinic) {
-      this.setState({
-        detailClinic: this.props.detailClinic,
       });
     }
   }
@@ -114,9 +114,6 @@ class DetailClinic extends Component {
       isOpen: true,
     });
   };
-  handleToDetailDoctor = (id) => {
-    if (this.props.history) this.props.history.push(`/detail-doctor/${id}`);
-  };
   renderNodeClinic = () => {
     let text;
     if (this.props.language === languages.VI)
@@ -138,36 +135,31 @@ class DetailClinic extends Component {
   };
   renderMenuBar = () => {
     let menuList = [];
-    const { detailClinic, clinic } = this.state;
+    const { detailSpecialty, clinic } = this.state;
     if (clinic.introduceHTML)
       menuList.push({
         name: <FormattedMessage id="patient.detail-doctor.introduce" />,
         id: "#introduce",
       });
-    if (detailClinic.strengthHTML)
-      menuList.push({
-        name: <FormattedMessage id="patient.detail-doctor.strengths" />,
-        id: "#strength",
-      });
-    if (detailClinic.equipmentHTML)
-      menuList.push({
-        name: <FormattedMessage id="patient.detail-doctor.equipment" />,
-        id: "#equipment",
-      });
-    if (detailClinic.serviceHTML)
+    if (detailSpecialty.serviceHTML)
       menuList.push({
         name: <FormattedMessage id="patient.detail-doctor.service" />,
         id: "#service",
       });
-    if (detailClinic.locationHTML)
+    if (detailSpecialty.strengthHTML)
       menuList.push({
-        name: <FormattedMessage id="patient.detail-doctor.location" />,
-        id: "#location",
+        name: <FormattedMessage id="patient.detail-doctor.strengths" />,
+        id: "#strength",
       });
-    if (detailClinic.examinationHTML)
+    if (detailSpecialty.treatmentHTML)
+      menuList.push({
+        name: <FormattedMessage id="patient.detail-doctor.treatment" />,
+        id: "#treatment",
+      });
+    if (detailSpecialty.examinationHTML)
       menuList.push({
         name: <FormattedMessage id="patient.detail-doctor.examination" />,
-        id: "#examination",
+        id: "#service",
       });
     return (
       <ul className="menu-detail">
@@ -181,27 +173,9 @@ class DetailClinic extends Component {
       </ul>
     );
   };
-  handleChooseSpecialty = () => {
-    if (this.props.history && this.state.clinic)
-      this.props.history.push(
-        `/table-clinic-specialty/${this.state.clinic.id}`
-      );
-  };
-  renderBooking = () => {
-    return (
-      <div
-        className="clinic-booking"
-        onClick={() => this.handleChooseSpecialty()}
-      >
-        <span className="select-specialty">
-          <FormattedMessage id="patient.detail-doctor.select-specialty" />
-        </span>
-      </div>
-    );
-  };
   render() {
     const { language } = this.props;
-    const { clinic, listDoctorClinic, isOpen } = this.state;
+    const { clinic, specialty, isOpen } = this.state;
     return (
       <>
         <HomeHeader />
@@ -220,7 +194,9 @@ class DetailClinic extends Component {
               }}
             ></div>
             <div className="info-clinic">
-              <div className="name-clinic">{clinic.name}</div>
+              <div className="name-clinic">
+                {specialty.name},{clinic.name}
+              </div>
               <div className="address-clinic">
                 <i className="fas fa-map-marker-alt"></i>
                 <span>{clinic.address}</span>
@@ -229,24 +205,43 @@ class DetailClinic extends Component {
           </div>
         </div>
         {this.renderMenuBar()}
-
         <div className="detail-container">
           <div
             className="detail-specialy grid"
-            style={isOpen ? { height: "fit-content" } : {}}
+            style={isOpen ? { height: "fit-content" } : { height: "380px" }}
           >
             {this.renderNodeClinic()}
-
-            {this.state.detailClinic.noteHTML && (
-              <div
-                className="note-clinic"
-                contentEditable="true"
-                dangerouslySetInnerHTML={{
-                  __html: this.state.detailClinic.noteHTML,
-                }}
-              ></div>
-            )}
-
+            <div className="note-clinic">
+              <p>
+                Nhằm đáp ứng nhu cầu sử dụng dịch vụ y tế chất lượng cao, Bệnh
+                viện Việt Đức cung cấp dịch vụ khám theo yêu cầu.
+              </p>
+              <p>
+                Từ nay, người bệnh có thể đặt khám {this.state.specialty.name}
+                thể thao tại Khu khám bệnh theo yêu cầu, Bệnh viện Hữu nghị Việt
+                Đức thông qua hệ thống đặt khám BookingCare.
+              </p>
+              <ul>
+                <li>
+                  Được lựa chọn các giáo sư, tiến sĩ, bác sĩ chuyên khoa giàu
+                  kinh nghiệm
+                </li>
+                <li>
+                  Hỗ trợ đặt khám trực tuyến trước khi đi khám (miễn phí đặt
+                  lịch)
+                </li>
+                <li>
+                  Giảm thời gian chờ đợi khi làm thủ tục khám và ưu tiên khám
+                  trước
+                </li>
+                <li>Nhận được hướng dẫn chi tiết sau khi đặt lịch</li>
+              </ul>
+              <p>
+                Sau khi đặt lịch, người bệnh sẽ nhận được hướng dẫn chi tiết về
+                sự chuẩn bị cả TRƯỚC và TRONG KHI KHÁM để hành trình đi khám
+                thuận tiện và hiệu quả hơn.
+              </p>
+            </div>
             <h3 className="detail-title" id="introduce">
               <FormattedMessage id="patient.detail-doctor.introduce" />
             </h3>
@@ -258,41 +253,7 @@ class DetailClinic extends Component {
                 }}
               ></div>
             )}
-            {this.state.detailClinic.bookingHTML && (
-              <div
-                contentEditable="true"
-                dangerouslySetInnerHTML={{
-                  __html: this.state.detailClinic.bookingHTML,
-                }}
-              ></div>
-            )}
-            {this.state.detailClinic.strengthHTML && (
-              <>
-                <h3 className="detail-title" id="strength">
-                  <FormattedMessage id="patient.detail-doctor.strengths" />
-                </h3>
-                <div
-                  contentEditable="true"
-                  dangerouslySetInnerHTML={{
-                    __html: this.state.detailClinic.strengthHTML,
-                  }}
-                ></div>
-              </>
-            )}
-            {this.state.detailClinic.equipmentHTML && (
-              <>
-                <h3 className="detail-title" id="equipment">
-                  <FormattedMessage id="patient.detail-doctor.equipment" />
-                </h3>
-                <div
-                  contentEditable="true"
-                  dangerouslySetInnerHTML={{
-                    __html: this.state.detailClinic.equipmentHTML,
-                  }}
-                ></div>
-              </>
-            )}
-            {this.state.detailClinic.serviceHTML && (
+            {this.state.detailSpecialty.serviceHTML && (
               <>
                 <h3 className="detail-title" id="service">
                   <FormattedMessage id="patient.detail-doctor.service" />
@@ -300,25 +261,38 @@ class DetailClinic extends Component {
                 <div
                   contentEditable="true"
                   dangerouslySetInnerHTML={{
-                    __html: this.state.detailClinic.serviceHTML,
+                    __html: this.state.detailSpecialty.serviceHTML,
                   }}
                 ></div>
               </>
             )}
-            {this.state.detailClinic.locationHTML && (
+            {this.state.detailSpecialty.strengthHTML && (
               <>
-                <h3 className="detail-title" id="location">
-                  <FormattedMessage id="patient.detail-doctor.location" />
+                <h3 className="detail-title" id="strength">
+                  <FormattedMessage id="patient.detail-doctor.strengths" />
                 </h3>
                 <div
                   contentEditable="true"
                   dangerouslySetInnerHTML={{
-                    __html: this.state.detailClinic.locationHTML,
+                    __html: this.state.detailSpecialty.strengthHTML,
                   }}
                 ></div>
               </>
             )}
-            {this.state.detailClinic.examinationHTML && (
+            {this.state.detailSpecialty.treatmentHTML && (
+              <>
+                <h3 className="detail-title" id="treatment">
+                  <FormattedMessage id="patient.detail-doctor.treatment" />
+                </h3>
+                <div
+                  contentEditable="true"
+                  dangerouslySetInnerHTML={{
+                    __html: this.state.detailSpecialty.treatmentHTML,
+                  }}
+                ></div>
+              </>
+            )}
+            {this.state.detailSpecialty.examinationHTML && (
               <>
                 <h3 className="detail-title" id="examination">
                   <FormattedMessage id="patient.detail-doctor.examination" />
@@ -326,7 +300,7 @@ class DetailClinic extends Component {
                 <div
                   contentEditable="true"
                   dangerouslySetInnerHTML={{
-                    __html: this.state.detailClinic.examinationHTML,
+                    __html: this.state.detailSpecialty.examinationHTML,
                   }}
                 ></div>
               </>
@@ -342,52 +316,8 @@ class DetailClinic extends Component {
             </span>
           </div>
         </div>
-        <div className="body-container">
-          <div className="detail-specialy-container grid">
-            <div style={{ width: "161px", paddingTop: "10px" }}>
-              <Select
-                name="selectedProvince"
-                value={this.state.selectedProvince}
-                onChange={this.handleChangeSelect}
-                options={this.state.listProvince}
-                placeholder={
-                  <FormattedMessage id="admin.manage-doctor.select_province_placeholder" />
-                }
-              />
-            </div>
-            <div className="detail-specialy-container grid">
-              {listDoctorClinic &&
-                listDoctorClinic.length > 0 &&
-                listDoctorClinic.map((item, index) => {
-                  return (
-                    <div className="section" key={index}>
-                      <div
-                        className="info-doctor"
-                        onDoubleClick={() =>
-                          this.handleToDetailDoctor(item.doctorId)
-                        }
-                      >
-                        <ProfileDoctor
-                          doctorId={item.doctorId}
-                          isShowDescription={true}
-                        />
-                      </div>
-                      <div className="schedule-doctor">
-                        <DoctorSchedule
-                          doctorId={item.doctorId}
-                          doctor_info={item}
-                        />
-                        <hr />
-                        <DoctorExtraInfo doctorId={item.doctorId} />
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
-        </div>
+
         <HomeFooter />
-        {this.renderBooking()}
       </>
     );
   }
@@ -397,17 +327,17 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     listProvince: state.admin.doctorProvince,
-    detailClinic: state.admin.detailClinic,
+    specialty: state.admin.detailSpecialty,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInfoDoctor: (type) => dispatch(actions.fetchInfoDoctor(type)),
-    getDetailClinic: (id) => dispatch(actions.getDetailClinic(id)),
+    getDetailSpecialtyHome: (id) =>
+      dispatch(actions.getDetailSpecialtyHome(id)),
   };
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(DetailClinic)
+  connect(mapStateToProps, mapDispatchToProps)(DetailClinicSpecialty)
 );

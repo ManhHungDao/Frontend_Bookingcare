@@ -160,10 +160,8 @@ const createDetailSpecialty = (data) => {
   return axios.post(`/api/create-detail-specialty`, data);
 };
 
-const getDetailSpecialty = (clinicId, specialtyId) => {
-  return axios.get(
-    `/api/get-detailSpecialty?clinicId=${clinicId}&specialtyId=${specialtyId}`
-  );
+const getDetailSpecialty = (id) => {
+  return axios.get(`/api/get-detailSpecialty?specialtyId=${id}`);
 };
 export {
   getDetailSpecialty,

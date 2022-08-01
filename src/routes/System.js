@@ -32,6 +32,7 @@ class System extends Component {
                 path="/system/manage-detail-specialty"
                 component={ManageDetailSpecialty}
               />
+              
               <Route
                 component={() => {
                   return <Redirect to={systemMenuPath} />;

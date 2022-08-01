@@ -21,7 +21,7 @@ class HomeFooter extends Component {
                 28 Thành Thái, Dịch Vọng, Cầu Giấy, Hà Nội
               </p>
               <p>
-                <i class="fas fa-check"></i>
+                <i className="fas fa-check"></i>
                 ĐKKD số: 0106790291. Sở KHĐT Hà Nội cấp ngày 16/03/2015
               </p>
             </div>
