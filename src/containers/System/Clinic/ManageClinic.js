@@ -8,14 +8,14 @@ import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
-import { createANewClinic } from "../../../services/userService";
 import Select from "react-select";
 import { toast } from "react-toastify";
-import { getClinic } from "../../../services/userService";
 import _ from "lodash";
 import {
   updateClinic,
   deleteClinicService,
+  getClinic,
+  createANewClinic,
 } from "../../../services/userService";
 import TableManageClinic from "./TableManageClinic";
 

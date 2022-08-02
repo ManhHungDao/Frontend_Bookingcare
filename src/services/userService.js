@@ -163,7 +163,30 @@ const createDetailSpecialty = (data) => {
 const getDetailSpecialty = (id) => {
   return axios.get(`/api/get-detailSpecialty?specialtyId=${id}`);
 };
+
+const createAHandbook = (data) => {
+  return axios.post(`/api/create-handbook`, data);
+};
+const getAHandbook = (id) => {
+  return axios.get(`/api/get-handbook?id=${id}`);
+};
+const getListHandbook = () => {
+  return axios.get(`/api/get-list-handbook`);
+};
+const editHandbook = (data) => {
+  return axios.put(`/api/update-handbook`, data);
+};
+
+const deleteHandbook = (id) => {
+  return axios.delete(`/api/delete-handbook?id=${id}`);
+};
+
 export {
+  deleteHandbook,
+  editHandbook,
+  getAHandbook,
+  getListHandbook,
+  createAHandbook,
   getDetailSpecialty,
   createDetailSpecialty,
   deleteSpecialtyService,

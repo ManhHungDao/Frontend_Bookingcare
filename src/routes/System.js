@@ -8,6 +8,8 @@ import ManageSpecialty from "../containers/System/Specialty/ManageSpecialty";
 import ManageClinic from "../containers/System/Clinic/ManageClinic";
 import ManageDetailClinic from "../containers/System/Clinic/ManageDetailClinic";
 import ManageDetailSpecialty from "../containers/System/Specialty/ManageDetailSpecialty";
+import ManageHandbook from "../containers/System/Handbook/ManageHandbook";
+
 class System extends Component {
   render() {
     const { systemMenuPath, isLoggedIn } = this.props;
@@ -21,6 +23,10 @@ class System extends Component {
               <Route path="/system/manage-doctor" component={ManageDoctor} />
               <Route path="/system/manage-clinic" component={ManageClinic} />
               <Route
+                path="/system/manage-handbook"
+                component={ManageHandbook}
+              />
+              <Route
                 path="/system/manage-detail-clinic"
                 component={ManageDetailClinic}
               />
@@ -32,7 +38,7 @@ class System extends Component {
                 path="/system/manage-detail-specialty"
                 component={ManageDetailSpecialty}
               />
-              
+
               <Route
                 component={() => {
                   return <Redirect to={systemMenuPath} />;
