@@ -187,9 +187,8 @@ class ManageDetailSpecialty extends Component {
     });
   };
   handleChangeSelectSpecialty = async (selectedOption) => {
-    const clinicId = this.state.selectedClinic.value;
     const specialtyId = selectedOption.value;
-    const res = await getDetailSpecialty(clinicId, specialtyId);
+    const res = await getDetailSpecialty(specialtyId);
     if (res && res.errCode === 0) {
       this.fillDataInput(res.data);
     } else {

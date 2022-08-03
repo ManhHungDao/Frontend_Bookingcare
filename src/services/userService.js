@@ -181,7 +181,25 @@ const deleteHandbook = (id) => {
   return axios.delete(`/api/delete-handbook?id=${id}`);
 };
 
+const createDetailHandbook = (data) => {
+  return axios.post(`/api/create-detail-handbook`, data);
+};
+
+const getDetailHandbook = (data) => {
+  return axios.get(`/api/get-detail-handbook`, data);
+};
+const updateDetailHandbook = (data) => {
+  return axios.put(`/api/update-detail-handbook`, data);
+};
+const deleteDetailHandbook = (data) => {
+  return axios.post(`/api/delete-detail-handbook`, data);
+};
+
 export {
+  deleteDetailHandbook,
+  updateDetailHandbook,
+  getDetailHandbook,
+  createDetailHandbook,
   deleteHandbook,
   editHandbook,
   getAHandbook,

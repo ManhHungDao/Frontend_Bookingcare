@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import "./ManageDetailhandbook.scss";
+import "./ManageDetailHandbook.scss";
 import { FormattedMessage } from "react-intl";
 import Lightbox from "react-image-lightbox";
 import { languages, CommonUtils, CRUD_ACTIONS } from "../../../utils";
@@ -10,7 +10,13 @@ import MarkdownIt from "markdown-it";
 import { toast } from "react-toastify";
 import Select from "react-select";
 import MdEditor from "react-markdown-editor-lite";
-import { getListHandbook } from "../../../services/userService";
+import {
+  deleteDetailHandbook,
+  updateDetailHandbook,
+  getDetailHandbook,
+  createDetailHandbook,
+  getListHandbook,
+} from "../../../services/userService";
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageDetailHandbook extends Component {
@@ -27,6 +33,7 @@ class ManageDetailHandbook extends Component {
       contentMarkdown: "",
       selectedHandbook: "",
       listHandbook: "",
+      idEditDetailHandbook: "",
     };
   }
 
@@ -95,9 +102,58 @@ class ManageDetailHandbook extends Component {
       selectedHandbook: selectedOption,
     });
   };
+  clearState = () => {
+    this.setState({
+      title: "",
+      note: "",
+      description: "",
+      contentMarkdown: "",
+      image: "",
+      previewImg: "",
+      contentHTML: "",
+    });
+  };
+  fillDataInput = (data) => {
+    this.setState({
+      title: data.title,
+      note: data.note,
+      description: data.description,
+      contentMarkdown: data.contentMarkdown,
+      image: data.image,
+      previewImg: data.image,
+      contentHTML: data.contentHTML,
+    });
+  };
+  handleSave = async () => {
+    const data = {
+      // handbookId: this.state.selectedHandbook.value,
+      title: this.state.title,
+      note: this.state.note,
+      description: this.state.description,
+      contentMarkdown: this.state.contentMarkdown,
+      contentHTML: this.state.contentHTML,
+      image: this.state.image,
+    };
+    if (!this.state.idEditDetailHandbook) {
+      const res = await createDetailHandbook({
+        ...data,
+        handbookId: this.state.selectedHandbook.value,
+      });
+      if (res && res.errCode === 0) {
+        toast.success("Create Detail Handbook Succeed");
+        this.clearState();
+      } else toast.error("Create Detail Handbook Failed");
+    } else {
+      const res = await getDetailHandbook({
+        ...data,
+        id: this.state.idEditDetailHandbook,
+      });
+      if (res && res.errCode === 0) {
+        this.fillDataInput(res.data);
+      } else toast.error("Get Detail Handbook Failed");
+    }
+  };
   render() {
-    const { language } = this.props;
-
     return (
       <>
         <div className="title">
@@ -194,7 +250,10 @@ class ManageDetailHandbook extends Component {
               {/* {errors.contentMarkdown && (
                 <span className="text-danger">{errors.contentMarkdown}</span>
               )} */}
-              <button className="btn btn-primary mt-3">
+              <button
+                className="btn btn-primary mt-3"
+                onClick={() => this.handleSave()}
+              >
                 <FormattedMessage id="admin.manage-clinic.save" />
               </button>
             </div>
