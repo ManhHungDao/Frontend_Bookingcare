@@ -36,7 +36,8 @@
       "handbook": "Handbook",
       "manage-handbook": "Manage handbook",
       "manage-detail-clinic": "Manage detail clinic",
-      "manage-detail-specialty": "Manage detail specialty"
+      "manage-detail-specialty": "Manage detail specialty",
+      "manage-detail-handbook": "Manage detail handbook"
     },
     "doctor": {
       "manage-schedule": "Manage doctor's shedule",
@@ -159,7 +160,7 @@
       "image": "Image",
       "upload": "Upload",
       "introduce": "Clinic introduction",
-      "save": "Lưu",
+      "save": "Save",
       "add": "Add",
       "logo": "Logo"
     },
@@ -186,6 +187,18 @@
       "trengths": "Detail strengths",
       "services": "Detail services",
       "examination": "Detail examination process"
+    },
+    "manage-handbook": {
+      "title": "Manage handbook",
+      "name": "Handbook name",
+      "save": "Save"
+    },
+    "manage-detail-handbook": {
+      "title": "Manage detail handbook",
+      "name": "Title handbook",
+      "image": "Image",
+      "content": "Content",
+      "placeholer": "Select handbook"
     }
   }
 }

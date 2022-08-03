@@ -89,10 +89,14 @@ class ManageHandbook extends Component {
     const { listHandbook } = this.state;
     return (
       <>
-        <div className="title">Manage handbook</div>
+        <div className="title">
+          <FormattedMessage id="admin.manage-handbook.title" />
+        </div>
         <div className="handbook-container wrapper">
           <div className="add-info mb-5">
-            <label className="name">name</label>
+            <label className="name">
+              <FormattedMessage id="admin.manage-handbook.name" />
+            </label>
             <input
               className="input-name form-control"
               onChange={(event) => this.handleOnChangeName(event)}
@@ -104,7 +108,7 @@ class ManageHandbook extends Component {
                 onClick={() => this.handleSave()}
                 disabled={!this.state.name ? "disabled" : false}
               >
-                add new
+                <FormattedMessage id="admin.manage-handbook.save" />
               </button>
             </div>
           </div>
@@ -113,7 +117,7 @@ class ManageHandbook extends Component {
               <thead>
                 <tr>
                   <th className="col-2">
-                    <FormattedMessage id="admin.manage-clinic.name" />
+                    <FormattedMessage id="admin.manage-handbook.name" />
                   </th>
                   <th className="col-1">
                     <FormattedMessage id="manage-user.action" />
