@@ -255,9 +255,8 @@ class ManageDetailSpecialty extends Component {
 
             <div className="col-12 form-group">
               {this.renderContentMarkdown()}
-            </div>
             <button
-              className="btn btn-primary mt-5"
+              className="btn btn-primary mt-3"
               onClick={() => {
                 this.handleSave();
               }}
@@ -265,6 +264,7 @@ class ManageDetailSpecialty extends Component {
             >
               <FormattedMessage id="admin.manage-clinic.save" />
             </button>
+            </div>
           </div>
         </div>
       </>

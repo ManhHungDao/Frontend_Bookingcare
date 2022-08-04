@@ -26,6 +26,7 @@ import {
   getListClinic,
   getListClinicHomeService,
   createDetailClinicService,
+  getListDetailHandbookService,
 } from "../../services/userService";
 import { TYPE } from "../../utils/constant";
 
@@ -794,6 +795,38 @@ export const getDetailClinic = (id) => {
       toast.error("Get Detail Clinic Failed!");
       dispatch({
         type: actionTypes.GET_DETAIL_CLINIC_FAILED,
+      });
+    }
+  };
+};
+
+// GET LIST DETAIL HAND BOOK
+
+export const getListDetialHandbook = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await getListDetailHandbookService(id);
+        if (res && res.errCode === 0) {
+          dispatch({
+            type: actionTypes.GET_LIST_DETAIL_HANDBOOK_SUCCEED,
+            data: res.data,
+          });
+        } else {
+          toast.error("Get Detail Handbook Failed!");
+          dispatch({
+            type: actionTypes.GET_LIST_DETAIL_HANDBOOK_FAILED,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 823 ~ return ~ error",
+        error
+      );
+      toast.error("Get Detail Handbook Failed!");
+      dispatch({
+        type: actionTypes.GET_LIST_DETAIL_HANDBOOK_FAILED,
       });
     }
   };

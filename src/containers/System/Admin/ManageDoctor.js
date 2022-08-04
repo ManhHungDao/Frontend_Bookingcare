@@ -272,7 +272,10 @@ class ManageDoctor extends Component {
   };
 
   fillDataState = (detailDoctor, Detail_doctor, Doctor_Info) => {
-  console.log("🚀 ~ file: ManageDoctor.js ~ line 275 ~ ManageDoctor ~ Detail_doctor", Detail_doctor)
+    console.log(
+      "🚀 ~ file: ManageDoctor.js ~ line 275 ~ ManageDoctor ~ Detail_doctor",
+      Detail_doctor
+    );
     let contentHTML = "",
       contentMarkdown = "",
       description = "",
@@ -522,10 +525,15 @@ class ManageDoctor extends Component {
             {errors.contentMarkdown && (
               <span className="text-danger">{errors.contentMarkdown}</span>
             )}
+            <div className="col-12 from-group" style={{ padding: 0 }}>
+              <button
+                className="btn btn-primary mt-3"
+                onClick={this.handleSave}
+              >
+                <FormattedMessage id="admin.manage-doctor.save" />
+              </button>
+            </div>
           </div>
-          <button className="btn btn-primary mt-5" onClick={this.handleSave}>
-            <FormattedMessage id="admin.manage-doctor.save" />
-          </button>
         </div>
       </>
     );

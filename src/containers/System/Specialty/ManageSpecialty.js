@@ -291,21 +291,21 @@ class ManageSpecialty extends Component {
               {errors.contentMarkdown && (
                 <span className="text-danger">{errors.contentMarkdown}</span>
               )}
+              <button
+                className="btn btn-primary mt-3 mb-3"
+                onClick={() => {
+                  this.handleSave();
+                }}
+              >
+                <FormattedMessage id="admin.manage-clinic.save" />
+              </button>
             </div>
-            <button
-              className="btn btn-primary mt-3"
-              onClick={() => {
-                this.handleSave();
-              }}
-            >
-              <FormattedMessage id="admin.manage-clinic.save" />
-            </button>
+            <TableManageSpecialty
+              clinicId={this.state.selectedClinic.value}
+              deleteSpecialty={this.deleteSpecialty}
+              editSpecialty={this.editSpecialty}
+            />
           </div>
-          <TableManageSpecialty
-            clinicId={this.state.selectedClinic.value}
-            deleteSpecialty={this.deleteSpecialty}
-            editSpecialty={this.editSpecialty}
-          />
         </div>
         {this.state.isOpen === true && (
           <Lightbox

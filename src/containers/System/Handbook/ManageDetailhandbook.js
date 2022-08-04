@@ -17,15 +17,15 @@ import {
   createDetailHandbook,
   getListHandbook,
 } from "../../../services/userService";
+import TableManageHandbook from "./TableManageHandbook";
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageDetailHandbook extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      references: "",
       title: "",
-      previewImg: "",
+      previewImgUrl: "",
       description: "",
       note: "",
       image: "",
@@ -109,8 +109,9 @@ class ManageDetailHandbook extends Component {
       description: "",
       contentMarkdown: "",
       image: "",
-      previewImg: "",
+      previewImgUrl: "",
       contentHTML: "",
+      idEditDetailHandbook: "",
     });
   };
   fillDataInput = (data) => {
@@ -120,13 +121,26 @@ class ManageDetailHandbook extends Component {
       description: data.description,
       contentMarkdown: data.contentMarkdown,
       image: data.image,
-      previewImg: data.image,
+      previewImgUrl: data.image,
       contentHTML: data.contentHTML,
+    });
+  };
+
+  deleteClinic = async (id) => {
+    const res = await deleteDetailHandbook(id);
+    if (res && res.errCode === 0) {
+      toast.success("Delete Detail Handbook Succeed");
+      this.props.getListDetialHandbook(this.state.selectedHandbook.value);
+    } else toast.error("Delete Detail Handbook Failed");
+  };
+  editClinic = (data) => {
+    this.fillDataInput(data);
+    this.setState({
+      idEditDetailHandbook: data.id,
     });
   };
   handleSave = async () => {
     const data = {
-      // handbookId: this.state.selectedHandbook.value,
       title: this.state.title,
       note: this.state.note,
       description: this.state.description,
@@ -144,14 +158,15 @@ class ManageDetailHandbook extends Component {
         this.clearState();
       } else toast.error("Create Detail Handbook Failed");
     } else {
-      const res = await getDetailHandbook({
+      const res = await updateDetailHandbook({
         ...data,
         id: this.state.idEditDetailHandbook,
       });
       if (res && res.errCode === 0) {
-        this.fillDataInput(res.data);
-      } else toast.error("Get Detail Handbook Failed");
+        toast.success("Update Detail Handbook Succeed");
+      } else toast.error("Update Detail Handbook Failed");
     }
+    this.props.getListDetialHandbook(this.state.selectedHandbook.value);
   };
   render() {
     return (
@@ -194,7 +209,7 @@ class ManageDetailHandbook extends Component {
             </div>
             <div className="col-6 form-group">
               <input
-                id="previewImg"
+                id="previewImgUrl"
                 type="file"
                 hidden
                 onChange={(event) => this.handleOnChangeImage(event)}
@@ -203,7 +218,7 @@ class ManageDetailHandbook extends Component {
                 <FormattedMessage id="admin.manage-detail-handbook.image" />
               </label>
               <div className="preview-img-container">
-                <label className="lable-upload" htmlFor="previewImg">
+                <label className="lable-upload" htmlFor="previewImgUrl">
                   <FormattedMessage id="admin.manage-clinic.upload" />
                   <i className="fas fa-upload"></i>
                 </label>
@@ -251,11 +266,25 @@ class ManageDetailHandbook extends Component {
                 <span className="text-danger">{errors.contentMarkdown}</span>
               )} */}
               <button
-                className="btn btn-primary mt-3"
+                className={
+                  this.state.idEditDetailHandbook
+                    ? "btn btn-primary mt-3 mb-3"
+                    : "btn btn-warning mt-3 mb-3"
+                }
                 onClick={() => this.handleSave()}
               >
-                <FormattedMessage id="admin.manage-clinic.save" />
+                {this.state.idEditDetailHandbook ? (
+                  <FormattedMessage id="admin.manage-clinic.save" />
+                ) : (
+                  <FormattedMessage id="admin.manage-clinic.add" />
+                )}
+                {/* <FormattedMessage id="admin.manage-clinic.save" /> */}
               </button>
+              <TableManageHandbook
+                handbookId={this.state.selectedHandbook.value}
+                deleteClinic={this.deleteClinic}
+                editClinic={this.editClinic}
+              />
             </div>
           </div>
         </div>
@@ -277,7 +306,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    getListDetialHandbook: (id) => dispatch(actions.getListDetialHandbook(id)),
+  };
 };
 
 export default connect(

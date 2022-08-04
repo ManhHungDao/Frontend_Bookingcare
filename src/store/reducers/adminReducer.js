@@ -26,6 +26,7 @@ const initialState = {
   listClinicHome: [],
   listSpecialtyByClinic: [],
   detailClinic: {},
+  listDetailHandbook: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -304,7 +305,7 @@ const adminReducer = (state = initialState, action) => {
       };
     }
 
-    // create detail clinic
+    // get detail clinic
     case actionTypes.GET_DETAIL_CLINIC_SUCCEED: {
       state.detailClinic = action.data;
       return { ...state };
@@ -314,6 +315,17 @@ const adminReducer = (state = initialState, action) => {
         ...state,
       };
     }
+    // get detail handbook
+    case actionTypes.GET_LIST_DETAIL_HANDBOOK_SUCCEED: {
+      state.listDetailHandbook = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_LIST_DETAIL_HANDBOOK_FAILED: {
+      return {
+        ...state,
+      };
+    }
+
     default:
       return state;
   }

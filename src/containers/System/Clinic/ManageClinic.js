@@ -154,7 +154,7 @@ class ManageClinic extends Component {
 
   checkValidate = () => {
     let errors = {};
-    let { image, name, address, contentMarkdown,logo } = this.state;
+    let { image, name, address, contentMarkdown, logo } = this.state;
     const { language } = this.props;
     if (language === "en") {
       if (!image) errors.image = "Upload image";
@@ -363,27 +363,29 @@ class ManageClinic extends Component {
                 <span className="text-danger">{errors.contentMarkdown}</span>
               )}
             </div>
-            <button
-              className={
-                this.state.idEditClinic
-                  ? "btn btn-primary mt-5"
-                  : "btn btn-warning mt-5"
-              }
-              onClick={() => {
-                this.handleSave();
-              }}
-            >
-              {this.state.idEditClinic ? (
-                <FormattedMessage id="admin.manage-clinic.save" />
-              ) : (
-                <FormattedMessage id="admin.manage-clinic.add" />
-              )}
-            </button>
+            <div className="col-12 from-group">
+              <button
+                className={
+                  this.state.idEditClinic
+                    ? "btn btn-primary mt-3 mb-3"
+                    : "btn btn-warning mt-3 mb-3"
+                }
+                onClick={() => {
+                  this.handleSave();
+                }}
+              >
+                {this.state.idEditClinic ? (
+                  <FormattedMessage id="admin.manage-clinic.save" />
+                ) : (
+                  <FormattedMessage id="admin.manage-clinic.add" />
+                )}
+              </button>
+            </div>
+              <TableManageClinic
+                deleteClinic={this.handleDeleteClinic}
+                editClinic={this.handleEditClinic}
+              />
           </div>
-          <TableManageClinic
-            deleteClinic={this.handleDeleteClinic}
-            editClinic={this.handleEditClinic}
-          />
         </div>
         {this.state.isOpen === true && (
           <Lightbox
