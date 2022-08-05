@@ -20,6 +20,7 @@ class ManageHandbook extends Component {
     this.state = {
       name: "",
       listHandbook: [],
+      listHandbookSearch: [],
       idEdit: "",
     };
   }
@@ -35,6 +36,7 @@ class ManageHandbook extends Component {
     if (res && res.errCode === 0)
       this.setState({
         listHandbook: res.data,
+        listHandbookSearch: res.data,
       });
     else toast.error("Get List Handbook Failed");
   };
@@ -85,15 +87,29 @@ class ManageHandbook extends Component {
       this.fetchListHandbook();
     } else toast.error("Update Handbook Failed");
   };
+  handleSearch = (event) => {
+    let input = event.target.value;
+    let dataSearch = this.state.listHandbook;
+    if (input === "")
+      this.setState({
+        listHandbookSearch: this.state.listHandbook,
+      });
+    dataSearch = dataSearch.filter((e) => {
+      return e.name.toLowerCase().includes(input.toLowerCase());
+    });
+    this.setState({
+      listHandbookSearch: dataSearch,
+    });
+  };
   render() {
-    const { listHandbook } = this.state;
+    const { listHandbookSearch } = this.state;
     return (
       <>
         <div className="title">
           <FormattedMessage id="admin.manage-handbook.title" />
         </div>
         <div className="handbook-container wrapper">
-          <div className="add-info mb-5">
+          <div className="add-info mp-3">
             <label className="name">
               <FormattedMessage id="admin.manage-handbook.name" />
             </label>
@@ -112,6 +128,13 @@ class ManageHandbook extends Component {
               </button>
             </div>
           </div>
+          <div className="search">
+            <input
+              className="form-control"
+              placeholder="lọc cẩm nang"
+              onChange={(event) => this.handleSearch(event)}
+            />
+          </div>
           <div className="list-handbook">
             <table id="customers">
               <thead>
@@ -125,8 +148,8 @@ class ManageHandbook extends Component {
                 </tr>
               </thead>
               <tbody>
-                {listHandbook &&
-                  listHandbook.map((item, index) => {
+                {listHandbookSearch &&
+                  listHandbookSearch.map((item, index) => {
                     return (
                       <tr key={item.id}>
                         <td>{item.name}</td>

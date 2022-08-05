@@ -98,6 +98,7 @@ class ManageDetailHandbook extends Component {
     });
   };
   handleChangeSelect = (selectedOption) => {
+    this.clearState();
     this.setState({
       selectedHandbook: selectedOption,
     });

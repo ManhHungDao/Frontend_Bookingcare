@@ -11,7 +11,7 @@ class TableManageHandbook extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listDetialHandbook: [],
+      listDetailHandbook: [],
     };
   }
 
@@ -27,7 +27,7 @@ class TableManageHandbook extends Component {
     }
     if (this.props.listDetailHandbook !== prevProps.listDetailHandbook) {
       this.setState({
-        listDetialHandbook: this.props.listDetailHandbook,
+        listDetailHandbook: this.props.listDetailHandbook,
       });
     }
   }
@@ -39,9 +39,9 @@ class TableManageHandbook extends Component {
   };
   render() {
     const { language } = this.props;
-    const { listDetialHandbook } = this.state;
+    const { listDetailHandbook } = this.state;
     return (
-      <>
+      <div className="table-wrapper-scroll-y my-custom-scrollbar">
         <table id="customers">
           <thead>
             <tr>
@@ -54,8 +54,8 @@ class TableManageHandbook extends Component {
             </tr>
           </thead>
           <tbody>
-            {listDetialHandbook &&
-              listDetialHandbook.map((item, index) => {
+            {listDetailHandbook &&
+              listDetailHandbook.map((item, index) => {
                 return (
                   <tr key={item.id}>
                     <td>{item.title}</td>
@@ -82,7 +82,7 @@ class TableManageHandbook extends Component {
               })}
           </tbody>
         </table>
-      </>
+      </div>
     );
   }
 }
