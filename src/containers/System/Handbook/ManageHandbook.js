@@ -22,6 +22,7 @@ class ManageHandbook extends Component {
       listHandbook: [],
       listHandbookSearch: [],
       idEdit: "",
+      isSearch: false,
     };
   }
   async componentDidMount() {
@@ -101,18 +102,25 @@ class ManageHandbook extends Component {
       listHandbookSearch: dataSearch,
     });
   };
+  handleOpenSearch = () => [
+    this.setState({
+      isSearch: !this.state.isSearch,
+    }),
+  ];
   render() {
     const { listHandbookSearch } = this.state;
+    const placeHolserSearch =
+      this.props.language === languages.VI ? "Lọc cẩm nang" : "Filter handbook";
     return (
       <>
         <div className="title">
           <FormattedMessage id="admin.manage-handbook.title" />
         </div>
         <div className="handbook-container wrapper">
-          <div className="add-info mp-3">
-            <label className="name">
+          <div className="add-info">
+            <div className="name">
               <FormattedMessage id="admin.manage-handbook.name" />
-            </label>
+            </div>
             <input
               className="input-name form-control"
               onChange={(event) => this.handleOnChangeName(event)}
@@ -120,7 +128,7 @@ class ManageHandbook extends Component {
             />
             <div>
               <button
-                className="btn btn-primary"
+                className="btn btn-primary "
                 onClick={() => this.handleSave()}
                 disabled={!this.state.name ? "disabled" : false}
               >
@@ -128,19 +136,23 @@ class ManageHandbook extends Component {
               </button>
             </div>
           </div>
-          <div className="search">
-            <input
-              className="form-control"
-              placeholder="lọc cẩm nang"
-              onChange={(event) => this.handleSearch(event)}
-            />
-          </div>
           <div className="list-handbook">
             <table id="customers">
               <thead>
                 <tr>
                   <th className="col-2">
-                    <FormattedMessage id="admin.manage-handbook.name" />
+                    <div className="row-name">
+                      <FormattedMessage id="admin.manage-handbook.name" />
+                      <i
+                        className="fas fa-search"
+                        onClick={() => this.handleOpenSearch()}
+                      ></i>
+                    </div>
+                    <input
+                      className="search-input"
+                      type={this.state.isSearch ? "" : "hidden"}
+                      onChange={(event) => this.handleSearch(event)}
+                    />
                   </th>
                   <th className="col-1">
                     <FormattedMessage id="manage-user.action" />
