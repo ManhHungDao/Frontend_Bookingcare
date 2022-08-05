@@ -9,12 +9,12 @@ import MdEditor from "react-markdown-editor-lite";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import Select from "react-select";
-import TableManageSpecialty from "./TableManageSpecialty";
 import {
   deleteSpecialtyService,
   updateSpecialtyService,
 } from "../../../services/userService";
 import { toast } from "react-toastify";
+import TableManage from "../TableManage";
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageSpecialty extends Component {
@@ -32,14 +32,23 @@ class ManageSpecialty extends Component {
       selectedClinic: "",
       // idClinicEdit: "",
       idSpecialtyEdit: "",
+      isSearch: false,
+      listSpecialtyByClinic: [],
+      listSpecialtyByClinicSearch: [],
     };
   }
 
   componentDidMount() {
-    this.scrollToTop();
+    this.props.getListClinicHome();
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
+    }
+    if (this.props.listSpecialtyByClinic !== prevProps.listSpecialtyByClinic) {
+      this.setState({
+        listSpecialtyByClinic: this.props.listSpecialtyByClinic,
+        listSpecialtyByClinicSearch: this.props.listSpecialtyByClinic,
+      });
     }
     if (this.props.listClinic !== prevProps.listClinic) {
       const dataSelect = this.buildDataInputSelect(this.props.listClinic);
@@ -47,14 +56,8 @@ class ManageSpecialty extends Component {
         listClinic: dataSelect,
       });
     }
-    this.scrollToTop();
   }
-  scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+
   clearState = () => {
     this.setState({
       contentHTML: "",
@@ -83,6 +86,7 @@ class ManageSpecialty extends Component {
   };
   handleChangeSelect = (selectedOption) => {
     this.clearState();
+    this.props.getListSpecialtyByClinicId(selectedOption.value);
     this.setState({
       selectedClinic: selectedOption,
     });
@@ -106,7 +110,11 @@ class ManageSpecialty extends Component {
       isOpen: true,
     });
   };
-
+  handleOpenSearch = () => {
+    this.setState({
+      isSearch: !this.state.isSearch,
+    });
+  };
   handleEditorChange = ({ html, text }) => {
     this.setState({
       contentHTML: html,
@@ -120,7 +128,19 @@ class ManageSpecialty extends Component {
       ...copyState,
     });
   };
-
+  handleSearch = (input) => {
+    let dataSearch = this.state.listSpecialtyByClinic;
+    if (input === "")
+      this.setState({
+        listSpecialtyByClinicSearch: this.state.listSpecialtyByClinic,
+      });
+    dataSearch = dataSearch.filter((e) => {
+      return e.name.toLowerCase().includes(input.toLowerCase());
+    });
+    this.setState({
+      listSpecialtyByClinicSearch: dataSearch,
+    });
+  };
   checkValidate = () => {
     let errors = {};
     let { image, name, contentMarkdown } = this.state;
@@ -300,10 +320,14 @@ class ManageSpecialty extends Component {
                 <FormattedMessage id="admin.manage-clinic.save" />
               </button>
             </div>
-            <TableManageSpecialty
-              clinicId={this.state.selectedClinic.value}
-              deleteSpecialty={this.deleteSpecialty}
-              editSpecialty={this.editSpecialty}
+
+            <TableManage
+              listRender={this.state.listSpecialtyByClinicSearch}
+              handleEdit={this.editSpecialty}
+              handleDelete={this.deleteSpecialty}
+              handleSearch={this.handleSearch}
+              handleOpenSearch={this.handleOpenSearch}
+              isSearch={this.state.isSearch}
             />
           </div>
         </div>
@@ -322,6 +346,7 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     listClinic: state.admin.listClinicHome,
+    listSpecialtyByClinic: state.admin.listSpecialtyByClinic,
   };
 };
 

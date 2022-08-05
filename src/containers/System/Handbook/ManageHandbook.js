@@ -13,6 +13,7 @@ import {
   editHandbook,
 } from "../../../services/userService";
 import _ from "lodash";
+import TableManage from "../TableManage";
 
 class ManageHandbook extends Component {
   constructor(props) {
@@ -88,8 +89,7 @@ class ManageHandbook extends Component {
       this.fetchListHandbook();
     } else toast.error("Update Handbook Failed");
   };
-  handleSearch = (event) => {
-    let input = event.target.value;
+  handleSearch = (input) => {
     let dataSearch = this.state.listHandbook;
     if (input === "")
       this.setState({
@@ -102,11 +102,11 @@ class ManageHandbook extends Component {
       listHandbookSearch: dataSearch,
     });
   };
-  handleOpenSearch = () => [
+  handleOpenSearch = () => {
     this.setState({
       isSearch: !this.state.isSearch,
-    }),
-  ];
+    });
+  };
   render() {
     const { listHandbookSearch } = this.state;
     const placeHolserSearch =
@@ -137,57 +137,14 @@ class ManageHandbook extends Component {
             </div>
           </div>
           <div className="list-handbook">
-            <table id="customers">
-              <thead>
-                <tr>
-                  <th className="col-2">
-                    <div className="row-name">
-                      <FormattedMessage id="admin.manage-handbook.name" />
-                      <i
-                        className="fas fa-search"
-                        onClick={() => this.handleOpenSearch()}
-                      ></i>
-                    </div>
-                    <input
-                      className="search-input"
-                      type={this.state.isSearch ? "" : "hidden"}
-                      onChange={(event) => this.handleSearch(event)}
-                    />
-                  </th>
-                  <th className="col-1">
-                    <FormattedMessage id="manage-user.action" />
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {listHandbookSearch &&
-                  listHandbookSearch.map((item, index) => {
-                    return (
-                      <tr key={item.id}>
-                        <td>{item.name}</td>
-                        <td>
-                          <button
-                            className="btn btn-edit"
-                            onClick={() => {
-                              this.handleEdit(item);
-                            }}
-                          >
-                            <i className="fas fa-pencil-alt"></i>
-                          </button>
-                          <button
-                            className="btn btn-delete"
-                            onClick={() => {
-                              this.handleDelete(item.id);
-                            }}
-                          >
-                            <i className="fas fa-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
+            <TableManage
+              listRender={this.state.listHandbookSearch}
+              handleEdit={this.handleEdit}
+              handleDelete={this.handleDelete}
+              handleSearch={this.handleSearch}
+              handleOpenSearch={this.handleOpenSearch}
+              isSearch={this.state.isSearch}
+            />
           </div>
         </div>
       </>

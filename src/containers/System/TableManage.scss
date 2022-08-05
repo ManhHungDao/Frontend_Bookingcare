@@ -1,4 +1,4 @@
-#customers {
+#table {
   border-collapse: collapse;
   font-family: Arial, Helvetica, sans-serif;
   width: 100%;
@@ -30,17 +30,11 @@
   border: none;
   outline: none;
   background: transparent;
-  color: orange;
+  color: rgb(70, 70, 70);
   &:hover {
     background-color: transparent !important;
     color: orange !important;
   }
-}
-.close {
-  background-color: transparent !important;
-  color: white;
-  border: none;
-  font-size: 27px;
 }
 .my-custom-scrollbar {
   // position: relative;
@@ -49,4 +43,5 @@
 }
 .table-wrapper-scroll-y {
   display: block;
+  height: 200px;
 }

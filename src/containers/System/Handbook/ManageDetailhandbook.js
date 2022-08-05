@@ -17,7 +17,7 @@ import {
   createDetailHandbook,
   getListHandbook,
 } from "../../../services/userService";
-import TableManageHandbook from "./TableManageHandbook";
+import TableManage from "../TableManage";
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageDetailHandbook extends Component {
@@ -34,6 +34,9 @@ class ManageDetailHandbook extends Component {
       selectedHandbook: "",
       listHandbook: "",
       idEditDetailHandbook: "",
+      isSearch: false,
+      listDetailHandbook: [],
+      listDetailHandbookSearch: [],
     };
   }
 
@@ -48,6 +51,16 @@ class ManageDetailHandbook extends Component {
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
+    }
+    if (this.state.selectedHandbook !== prevState.selectedHandbook) {
+      const handbookId = this.state.selectedHandbook.value;
+      this.props.getListDetialHandbook(handbookId);
+    }
+    if (this.props.listDetailHandbook !== prevState.listDetailHandbook) {
+      this.setState({
+        listDetailHandbook: this.props.listDetailHandbook,
+        listDetailHandbookSearch: this.props.listDetailHandbook,
+      });
     }
   }
 
@@ -71,6 +84,11 @@ class ManageDetailHandbook extends Component {
     // copyState.errors[name] = "";
     this.setState({
       ...copyState,
+    });
+  };
+  handleOpenSearch = () => {
+    this.setState({
+      isSearch: !this.state.isSearch,
     });
   };
   handleEditorChange = ({ html, text }) => {
@@ -126,7 +144,19 @@ class ManageDetailHandbook extends Component {
       contentHTML: data.contentHTML,
     });
   };
-
+  handleSearch = (input) => {
+    let dataSearch = this.state.listDetailHandbook;
+    if (input === "")
+      this.setState({
+        listDetailHandbookSearch: this.state.listDetailHandbook,
+      });
+    dataSearch = dataSearch.filter((e) => {
+      return e.title.toLowerCase().includes(input.toLowerCase());
+    });
+    this.setState({
+      listDetailHandbookSearch: dataSearch,
+    });
+  };
   deleteClinic = async (id) => {
     const res = await deleteDetailHandbook(id);
     if (res && res.errCode === 0) {
@@ -279,12 +309,14 @@ class ManageDetailHandbook extends Component {
                 ) : (
                   <FormattedMessage id="admin.manage-clinic.add" />
                 )}
-                {/* <FormattedMessage id="admin.manage-clinic.save" /> */}
               </button>
-              <TableManageHandbook
-                handbookId={this.state.selectedHandbook.value}
-                deleteClinic={this.deleteClinic}
-                editClinic={this.editClinic}
+              <TableManage
+                listRender={this.state.listDetailHandbookSearch}
+                handleEdit={this.editClinic}
+                handleDelete={this.deleteClinic}
+                handleSearch={this.handleSearch}
+                handleOpenSearch={this.handleOpenSearch}
+                isSearch={this.state.isSearch}
               />
             </div>
           </div>
@@ -303,6 +335,7 @@ class ManageDetailHandbook extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    listDetailHandbook: state.admin.listDetailHandbook,
   };
 };
 
