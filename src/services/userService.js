@@ -5,10 +5,6 @@ const handleLoginApiService = (email, password) => {
 };
 
 const getAllUsersService = (inputId) => {
-  console.log(
-    "🚀 ~ file: userService.js ~ line 8 ~ getAllUsersService ~ inputId",
-    inputId
-  );
   return axios.get(`/api/get-all-user?id=${inputId}`);
   // return axios.get(`/api/get-all-user`, {
   //   data: {

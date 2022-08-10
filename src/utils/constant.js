@@ -12,6 +12,7 @@ export const path = {
   TABLE_CLINIC_SPECIALTY: "/table-clinic-specialty/:id",
   DETAIL_CLINIC_SPECIALTY:
     "/detail-clinic-specialty/clinicId=:clinicId/specialtyId=:specialtyId",
+  RENDER_LIST: "/render-list/:type",
 };
 
 export const languages = {
@@ -49,4 +50,8 @@ export const TYPE = {
   PROVINCE: "PROVINCE",
   PAYMENT: "PAYMENT",
   STATUS: "STATUS",
+  SPECIALTY: "specialty",
+  PACKET: "packet",
+  CLINIC: "clinic",
+  DOCTOR: "doctor",
 };

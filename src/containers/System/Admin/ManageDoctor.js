@@ -272,10 +272,6 @@ class ManageDoctor extends Component {
   };
 
   fillDataState = (detailDoctor, Detail_doctor, Doctor_Info) => {
-    console.log(
-      "🚀 ~ file: ManageDoctor.js ~ line 275 ~ ManageDoctor ~ Detail_doctor",
-      Detail_doctor
-    );
     let contentHTML = "",
       contentMarkdown = "",
       description = "",

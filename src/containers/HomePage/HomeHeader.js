@@ -22,8 +22,10 @@ class HomeHeader extends Component {
     this.props.changLanguageAppRedux(language);
   };
   returnHome = () => {
-    if (this.props.history)
-      this.props.history.push(`/home`);
+    if (this.props.history) this.props.history.push(`/home`);
+  };
+  renderListSelect = (type) => {
+    if (this.props.history) this.props.history.push(`/render-list/${type}`);
   };
   render() {
     const language = this.props.language;
@@ -36,7 +38,12 @@ class HomeHeader extends Component {
               <div className="header-logo" onClick={this.returnHome}></div>
             </div>
             <div className="center-container">
-              <div className="child-content">
+              <div
+                className="child-content"
+                onClick={() => {
+                  this.renderListSelect("specialty");
+                }}
+              >
                 <div>
                   <b className="header-title">
                     <FormattedMessage id="home-header.specialty" />
@@ -46,7 +53,12 @@ class HomeHeader extends Component {
                   <FormattedMessage id="home-header.search-doctor" />
                 </span>
               </div>
-              <div className="child-content">
+              <div
+                className="child-content"
+                onClick={() => {
+                  this.renderListSelect("clinic");
+                }}
+              >
                 <div>
                   <b className="header-title">
                     <FormattedMessage id="home-header.health-facility" />
@@ -56,7 +68,12 @@ class HomeHeader extends Component {
                   <FormattedMessage id="home-header.select-room" />
                 </span>
               </div>
-              <div className="child-content">
+              <div
+                className="child-content"
+                onClick={() => {
+                  this.renderListSelect("doctor");
+                }}
+              >
                 <div>
                   <b className="header-title">
                     <FormattedMessage id="home-header.doctor" />
@@ -66,7 +83,12 @@ class HomeHeader extends Component {
                   <FormattedMessage id="home-header.select-doctor" />
                 </span>
               </div>
-              <div className="child-content">
+              <div
+                className="child-content"
+                onClick={() => {
+                  this.renderListSelect("packet");
+                }}
+              >
                 <div>
                   <b className="header-title">
                     <FormattedMessage id="home-header.fee" />

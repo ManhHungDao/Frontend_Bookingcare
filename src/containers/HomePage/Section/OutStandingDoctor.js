@@ -51,12 +51,6 @@ class OutStandingDoctor extends Component {
                   arrDoctor.map((item, index) => {
                     let nameVI = `${item.positionData.valueVI} || ${item.firstName} ${item.lastName} `;
                     let nameEN = `${item.positionData.valueEN} || ${item.lastName} ${item.firstName}`;
-                    let imgBase64 = "";
-                    if (item.image) {
-                      imgBase64 = new Buffer(item.image, "base64").toString(
-                        "binary"
-                      );
-                    }
                     return (
                       <div
                         className="section-customize"
@@ -66,7 +60,7 @@ class OutStandingDoctor extends Component {
                         <div className="outer-bg">
                           <div
                             className="bg-image"
-                            style={{ backgroundImage: `url(${imgBase64})` }}
+                            style={{ backgroundImage: `url(${item.image})` }}
                           ></div>
                         </div>
                         <div className="position text-center">

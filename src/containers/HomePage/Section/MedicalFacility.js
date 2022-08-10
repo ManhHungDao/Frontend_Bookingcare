@@ -7,6 +7,8 @@ import Slider from "react-slick";
 import { getListClinicHomeService } from "../../../services/userService";
 import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
+import * as actions from "../../../store/actions";
+
 class MedicalFacility extends Component {
   constructor(props) {
     super(props);
@@ -14,14 +16,14 @@ class MedicalFacility extends Component {
       listClinic: [],
     };
   }
-  async componentDidMount() {
-    const res = await getListClinicHomeService();
-    if (res && res.errCode === 0) {
+  componentDidMount() {
+    this.props.getListClinicHome();
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.listClinic !== prevProps.listClinic) {
       this.setState({
-        listClinic: res.data,
+        listClinic: this.props.listClinic,
       });
-    } else {
-      toast.error("get list clinic home failed");
     }
   }
   handleViewDetailClinic = (clinic) => {
@@ -72,13 +74,13 @@ class MedicalFacility extends Component {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
+    listClinic: state.admin.listClinicHome,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
-    
+    getListClinicHome: () => dispatch(actions.getListClinicHome()),
   };
 };
 
