@@ -17,6 +17,7 @@ class RenderList extends Component {
       listRender: [],
       listRenderSearch: [],
       isSearch: false,
+      textSearch: "",
     };
   }
 
@@ -53,16 +54,18 @@ class RenderList extends Component {
       //   }
       case TYPE.CLINIC: {
         this.setState({
-          listRenderSearch: this.props.listSpecialty,
+          listRenderSearch: this.props.listClinic,
           listRender: this.props.listClinic,
           isSearch: true,
+          textSearch: "",
         });
         break;
       }
       case TYPE.DOCTOR: {
         this.setState({
           isSearch: true,
-          listRenderSearch: this.props.listSpecialty,
+          listRenderSearch: this.props.listDoctor,
+          textSearch: "",
           listRender: this.props.listDoctor,
         });
         break;
@@ -114,18 +117,38 @@ class RenderList extends Component {
   };
   handleSearch = (event) => {
     let input = event.target.value;
+    this.setState({
+      textSearch: input,
+    });
+    const type = this.props.match.params.type;
     let dataSearch = this.state.listRender;
     if (input === "")
       this.setState({
         listRenderSearch: this.state.listRender,
       });
-    dataSearch = dataSearch.filter((e) => {
-      return e.name.toLowerCase().includes(input.toLowerCase());
-    });
+    if (type === TYPE.DOCTOR)
+      dataSearch = dataSearch.filter((e) => {
+        return e.lastName.toLowerCase().includes(input.toLowerCase());
+      });
+    else
+      dataSearch = dataSearch.filter((e) => {
+        return e.name.toLowerCase().includes(input.toLowerCase());
+      });
     this.setState({
       listRenderSearch: dataSearch,
     });
   };
+  //   renderName = () => {
+  //     const type = this.props.match.params.type;
+  //     if (type === TYPE.DOCTOR)
+  //       return (
+  //         <div>
+  //           <label className="name">
+  //             {item.name ? item.name : `${item.firstName + " " + item.lastName}`}
+  //           </label>
+  //         </div>
+  //       );
+  //   };
   render() {
     const { language } = this.props;
     const { listRenderSearch, isSearch } = this.state;
@@ -138,6 +161,7 @@ class RenderList extends Component {
               className="search"
               placeholder={this.renderPlaceHolder()}
               onChange={(event) => this.handleSearch(event)}
+              value={this.state.textSearch}
             />
           </div>
         )}
@@ -159,11 +183,26 @@ class RenderList extends Component {
                       style={{ backgroundImage: `url(${item.image})` }}
                     ></div>
                   )}
-                  <label className="name">
-                    {item.name
-                      ? item.name
-                      : `${item.firstName + " " + item.lastName}`}
-                  </label>
+                  <div className="name">
+                    {item.positionData && (
+                      <label>
+                        {this.props.language === languages.VI
+                          ? `${item.positionData.valueVI}  `
+                          : `${item.positionData.valueEN}  `}
+                      </label>
+                    )}
+                    <lable>
+                      {item.name
+                        ? item.name
+                        : `${" " + item.firstName + " " + item.lastName}`}
+                    </lable>
+                    {item.Doctor_Info &&
+                      item.Doctor_Info.doctorSpecialtyData && (
+                        <lable className="sub-title">
+                          {item.Doctor_Info.doctorSpecialtyData.name}
+                        </lable>
+                      )}
+                  </div>
                 </div>
               );
             })}

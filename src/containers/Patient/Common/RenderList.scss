@@ -30,6 +30,11 @@
     .name {
       cursor: pointer;
       font-size: 15px;
+      .sub-title{
+        display: block;
+        font-size: 12px;
+        padding-top: 10px;
+      }
     }
     .image {
       background: center center no-repeat;
