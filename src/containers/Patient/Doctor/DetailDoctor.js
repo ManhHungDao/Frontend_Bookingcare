@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import { languages } from "../../../utils";
-import HomeHeader from "../../HomePage/HomeHeader";
+import SubHeader from "../../HomePage/SubHeader";
 import "./DetailDoctor.scss";
 import DoctorSchedule from "./DoctorSchedule";
 import DoctorExtraInfo from "./DoctorExtraInfo";
@@ -37,7 +37,7 @@ class DetailDoctor extends Component {
     const { language } = this.props;
     return (
       <>
-        <HomeHeader isShowBanner={false} />
+        <SubHeader isShowSupport={true} />
         <div className="doctor-detail-container ">
           <ProfileDoctor doctorId={doctorId} isShowDescription={true} />
           <div className="schedule-doctor grid">

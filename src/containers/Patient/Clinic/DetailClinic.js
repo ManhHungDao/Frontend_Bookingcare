@@ -4,7 +4,7 @@ import * as actions from "../../../store/actions";
 import { languages, TYPE } from "../../../utils";
 import "./DetailClinic.scss";
 import { FormattedMessage } from "react-intl";
-import HomeHeader from "../../HomePage/HomeHeader";
+import SubHeader from "../../HomePage/SubHeader";
 import DoctorSchedule from "../Doctor/DoctorSchedule";
 import DoctorExtraInfo from "../Doctor/DoctorExtraInfo";
 import Select from "react-select";
@@ -204,7 +204,7 @@ class DetailClinic extends Component {
     const { clinic, listDoctorClinic, isOpen } = this.state;
     return (
       <>
-        <HomeHeader />
+        <SubHeader isShowSupport={true} />
         <div className="header-clinic-container grid">
           <div
             className="bg-clinic"

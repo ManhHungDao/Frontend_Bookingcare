@@ -4,7 +4,7 @@ import * as actions from "../../../store/actions";
 import { languages, TYPE } from "../../../utils";
 import "./DetailSpecialty.scss";
 import { FormattedMessage } from "react-intl";
-import HomeHeader from "../../HomePage/HomeHeader";
+import SubHeader from "../../HomePage/SubHeader";
 import DoctorSchedule from "../Doctor/DoctorSchedule";
 import DoctorExtraInfo from "../Doctor/DoctorExtraInfo";
 import Select from "react-select";
@@ -96,7 +96,7 @@ class DetailSpecialty extends Component {
     const { detailSpecialty, listDoctorSpecialty, isOpen } = this.state;
     return (
       <>
-        <HomeHeader />
+        <SubHeader isShowSupport={true} />
         <div
           className="detail-specialy grid"
           style={isOpen ? { height: "fit-content" } : {}}

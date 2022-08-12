@@ -1,0 +1,30 @@
+.sub-menu {
+//   background-color: #45c3d2 !important;
+  .home-header-content {
+    display: flex;
+    justify-content: space-between;
+    .left-container {
+      cursor: default;
+      .title-content {
+        padding-left: 10px;
+        font-weight: 600;
+        // color: #fff;
+        font-size: 18px;
+      }
+      .fas{
+        cursor: pointer;
+      }
+    }
+    // .right-container {
+    //   .lang-vi,
+    //   .lang-en {
+    //     &.active {
+    //       color: #fff;
+    //     }
+    //   }
+    // }
+    // .fas {
+    //   color: #fff !important;
+    // }
+  }
+}

@@ -5,9 +5,8 @@ import * as actions from "../../../store/actions";
 import { languages } from "../../../utils";
 import "./RenderList.scss";
 import { FormattedMessage } from "react-intl";
-import HomeHeader from "../../HomePage/HomeHeader";
 import { TYPE } from "../../../utils";
-import HomeFooter from "../../HomePage/HomeFooter";
+import SubHeader from "../../HomePage/SubHeader";
 import { getSpecialties } from "../../../services/userService";
 
 class RenderList extends Component {
@@ -154,7 +153,7 @@ class RenderList extends Component {
     const { listRenderSearch, isSearch } = this.state;
     return (
       <>
-        <HomeHeader />
+        <SubHeader />
         {isSearch && (
           <div className="search-bar">
             <input
@@ -191,16 +190,16 @@ class RenderList extends Component {
                           : `${item.positionData.valueEN}  `}
                       </label>
                     )}
-                    <lable>
+                    <span>
                       {item.name
                         ? item.name
                         : `${" " + item.firstName + " " + item.lastName}`}
-                    </lable>
+                    </span>
                     {item.Doctor_Info &&
                       item.Doctor_Info.doctorSpecialtyData && (
-                        <lable className="sub-title">
+                        <span className="sub-title">
                           {item.Doctor_Info.doctorSpecialtyData.name}
-                        </lable>
+                        </span>
                       )}
                   </div>
                 </div>

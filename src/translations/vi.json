@@ -9,7 +9,11 @@
     "fee": "Gói khám",
     "check-health": "Khám sức khỏe tổng quát",
     "support": "Hỗ trợ",
-    "welcome": "Xin chào "
+    "welcome": "Xin chào ",
+    "sub-specialty": "Chuyên khoa",
+    "sub-packet": "Gói khám tổng quát",
+    "sub-clinic": "Bệnh viện, phòng khám",
+    "sub-doctor": "Bác sĩ"
   },
   "banner": {
     "main-title": "NỀN TẢNG Y TẾ",
