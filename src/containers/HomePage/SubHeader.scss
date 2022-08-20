@@ -1,5 +1,5 @@
 .sub-menu {
-//   background-color: #45c3d2 !important;
+  background-color: #45c3d2 !important;
   .home-header-content {
     display: flex;
     justify-content: space-between;
@@ -8,23 +8,23 @@
       .title-content {
         padding-left: 10px;
         font-weight: 600;
-        // color: #fff;
+        color: #fff;
         font-size: 18px;
       }
       .fas{
         cursor: pointer;
       }
     }
-    // .right-container {
-    //   .lang-vi,
-    //   .lang-en {
-    //     &.active {
-    //       color: #fff;
-    //     }
-    //   }
-    // }
-    // .fas {
-    //   color: #fff !important;
-    // }
+    .right-container {
+      .lang-vi,
+      .lang-en {
+        &.active {
+          color: #fff !important;
+        }
+      }
+    }
+    .fas {
+      color: #fff !important;
+    }
   }
 }

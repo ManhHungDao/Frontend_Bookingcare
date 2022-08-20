@@ -70,7 +70,9 @@
     "more-info": "More information",
     "looking": "Looking",
     "specialty-popular": "Popular specialties",
-    "clinic-popular": "Popular clinics"
+    "clinic-popular": "Popular clinics",
+    "handbook": "Handbooks",
+    "view-all": "All posts"
   },
   "manage-schedule": {
     "title": "Manage schedule medical examination",

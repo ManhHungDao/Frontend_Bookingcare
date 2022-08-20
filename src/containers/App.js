@@ -26,6 +26,7 @@ import VerifyEmail from "../containers/HomePage/VerifyEmail";
 import TableSpecialtyClinic from "./Patient/Clinic/TableSpecialtyClinic";
 import DetailClinicSpecialty from "./Patient/Clinic/DetailClinicSpecialty";
 import RenderList from "./Patient/Common/RenderList";
+import DetailHandbook from "./Patient/Handbook/DetailHandbook";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -74,6 +75,10 @@ class App extends Component {
                     component={DetailSpecialty}
                   />
                   <Route path={path.DETAIL_CLINIC} component={DetailClinic} />
+                  <Route
+                    path={path.DETAIL_HANDBOOK}
+                    component={DetailHandbook}
+                  />
                   <Route path={path.VERIFY_BOOKING} component={VerifyEmail} />
                   <Route
                     path={path.TABLE_CLINIC_SPECIALTY}

@@ -29,6 +29,10 @@ class HomeHeader extends Component {
   };
   render() {
     const language = this.props.language;
+    const placeHolder =
+      this.props.language === languages.VI
+        ? "Tìm chuyên khoa khám bệnh"
+        : "Find specialties";
     return (
       <>
         <div className="home-header-container">
@@ -136,7 +140,11 @@ class HomeHeader extends Component {
               </div>
               <div className="search">
                 <i className="fas fa-search"></i>
-                <input type="text" placeholder="Tìm chuyên khoa khám bệnh" />
+                <input
+                  className="input-search"
+                  type="text"
+                  placeholder={placeHolder}
+                />
               </div>
             </div>
             <div className="content-down">

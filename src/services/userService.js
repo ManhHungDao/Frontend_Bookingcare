@@ -181,8 +181,8 @@ const createDetailHandbook = (data) => {
   return axios.post(`/api/create-detail-handbook`, data);
 };
 
-const getDetailHandbook = (data) => {
-  return axios.get(`/api/get-detail-handbook`, data);
+const getDetailHandbook = (id) => {
+  return axios.get(`/api/get-detail-handbook?id=${id}`);
 };
 const getListDetailHandbookService = (id) => {
   return axios.get(`/api/get-list-detail-handbook?id=${id}`);
@@ -193,8 +193,16 @@ const updateDetailHandbook = (data) => {
 const deleteDetailHandbook = (id) => {
   return axios.delete(`/api/delete-detail-handbook?id=${id}`);
 };
+const getHandBookHome = () => {
+  return axios.get(`/api/get-handbook-home`);
+};
+const getRelatedHandbook = (id) => {
+  return axios.get(`/api/get-related-handbook?id=${id}`);
+};
 
 export {
+  getRelatedHandbook,
+  getHandBookHome,
   getListDetailHandbookService,
   deleteDetailHandbook,
   updateDetailHandbook,

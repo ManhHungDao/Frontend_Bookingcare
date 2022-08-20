@@ -40,9 +40,15 @@ class ManageSpecialty extends Component {
 
   componentDidMount() {
     this.props.getListClinicHome();
+    this.props.getSpecialtiesHome();
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
+    }
+    if (this.props.listSpecialty !== prevProps.listSpecialty) {
+      this.setState({
+        listSpecialtyByClinicSearch: this.props.listSpecialty,
+      });
     }
     if (this.props.listSpecialtyByClinic !== prevProps.listSpecialtyByClinic) {
       this.setState({
@@ -234,7 +240,6 @@ class ManageSpecialty extends Component {
       await this.props.getListSpecialtyByClinicId(clinicId);
     }
     this.clearState();
-    this.scrollToTop();
   };
   render() {
     const { language } = this.props;
@@ -347,12 +352,14 @@ const mapStateToProps = (state) => {
     language: state.app.language,
     listClinic: state.admin.listClinicHome,
     listSpecialtyByClinic: state.admin.listSpecialtyByClinic,
+    listSpecialty: state.admin.listSpecialty,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     createASpecialty: (data) => dispatch(actions.createASpecialty(data)),
+    getSpecialtiesHome: () => dispatch(actions.getSpecialtiesHome()),
     getListClinicHome: () => dispatch(actions.getListClinicHome()),
     getListSpecialtyByClinicId: (id) =>
       dispatch(actions.getListSpecialtyByClinicId(id)),

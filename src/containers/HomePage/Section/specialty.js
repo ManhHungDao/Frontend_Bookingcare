@@ -48,7 +48,7 @@ class Specialty extends Component {
                 className="btn-section"
                 onClick={() => this.handleClickViewMore()}
               >
-                <FormattedMessage id="homepage.looking" />
+                <FormattedMessage id="homepage.more-info" />
               </div>
             </div>
             <div className="section-body">
