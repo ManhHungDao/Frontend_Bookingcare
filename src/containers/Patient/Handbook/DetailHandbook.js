@@ -6,19 +6,17 @@ import "./DetailHandbook.scss";
 import { FormattedMessage } from "react-intl";
 import HomeHeader from "../../HomePage/HomeHeader";
 import { toast } from "react-toastify";
+import { withRouter } from "react-router-dom";
 import HomeFooter from "../../HomePage/HomeFooter";
-import {
-  getDetailHandbook,
-  getRelatedHandbook,
-  getListHandbook,
-} from "../../../services/userService";
+import ListNameHandbook from "./ListNameHandbook";
+import RelatedHandbook from "./RelatedHandbook";
+import { getDetailHandbook } from "../../../services/userService";
 
 class DetailHandbook extends Component {
   constructor(props) {
     super(props);
     this.state = {
       detailHandbook: "",
-      relatedHandBook: "",
       listHandbook: [],
     };
   }
@@ -33,32 +31,15 @@ class DetailHandbook extends Component {
     } else {
       toast.error("Get Detail Handbook Failed");
     }
-
-    const resListHB = await getListHandbook();
-    if (resListHB && resListHB.errCode === 0) {
-      this.setState({
-        listHandbook: resListHB.data,
-      });
-    } else {
-      toast.error("Get Detail Handbook Failed");
-    }
   }
-  async componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
     }
-    if (this.state.detailHandbook !== prevState.detailHandbook) {
-      const res = await getRelatedHandbook(
-        this.state.detailHandbook.handbookId
-      );
-      if (res && res.errCode === 0) {
-        this.setState({
-          relatedHandBook: res.data,
-        });
-      } else {
-        toast.error("Get Related Handbook Failed");
-      }
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.componentDidMount();
     }
   }
+
   renderNoteHandbook = () => {
     let content;
     if (this.props.language === languages.VI)
@@ -75,9 +56,11 @@ class DetailHandbook extends Component {
       </div>
     );
   };
+
+
   render() {
     const { language } = this.props;
-    const { detailHandbook, relatedHandBook, listHandbook } = this.state;
+    const { detailHandbook } = this.state;
     return (
       <>
         <HomeHeader />
@@ -105,42 +88,8 @@ class DetailHandbook extends Component {
             <div className="detail-handbook"></div>
           </div>
         </div>
-        <div className="handbook-related grid">
-          <ul className="list-handbook-related">
-            <h1 className="title-related">Bài viết liên quan</h1>
-            {relatedHandBook &&
-              relatedHandBook.length > 0 &&
-              relatedHandBook.map((item, index) => {
-                return (
-                  <li className="handbook-related_item" key={index}>
-                    <div
-                      className="item-image"
-                      style={{ backgroundImage: `url(${item.image})` }}
-                    ></div>
-                    {/* <img className="item-image" src={item.image} /> */}
-                    <h4 className="item-title">
-                      {item.title ? item.title : ""}
-                    </h4>
-                  </li>
-                );
-              })}
-          </ul>
-          <hr className="seperate-section" />
-        </div>
-        <div className="list-handbook grid">
-          <p className="list-handbook-title">danh mục cẩm nang</p>
-          <div className="list-handbook-container">
-            {listHandbook &&
-              listHandbook.length > 0 &&
-              listHandbook.map((item, index) => {
-                return (
-                  <p className="item-name-handbook" key={index}>
-                    {item.name}
-                  </p>
-                );
-              })}
-          </div>
-        </div>
+        <RelatedHandbook handbookId={this.props.match.params.id} />
+        <ListNameHandbook />
         <HomeFooter />
       </>
     );
@@ -157,4 +106,6 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DetailHandbook);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(DetailHandbook)
+);

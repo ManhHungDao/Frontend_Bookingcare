@@ -27,6 +27,7 @@ import TableSpecialtyClinic from "./Patient/Clinic/TableSpecialtyClinic";
 import DetailClinicSpecialty from "./Patient/Clinic/DetailClinicSpecialty";
 import RenderList from "./Patient/Common/RenderList";
 import DetailHandbook from "./Patient/Handbook/DetailHandbook";
+import ListPostHandbook from "./Patient/Handbook/ListPostHandbook";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -89,6 +90,10 @@ class App extends Component {
                     component={DetailClinicSpecialty}
                   />
                   <Route path={path.RENDER_LIST} component={RenderList} />
+                  <Route
+                    path={path.LIST_POST_HANDBOOK}
+                    component={ListPostHandbook}
+                  />
                 </Switch>
               </CustomScrollbars>
             </span>
