@@ -70,8 +70,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // getListSpecialtyByClinicId: (id) =>
-    //   dispatch(actions.getListSpecialtyByClinicId(id)),
   };
 };
 

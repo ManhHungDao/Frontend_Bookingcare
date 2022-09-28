@@ -19,8 +19,6 @@ class DetailClinic extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listProvince: [],
-      selectedProvince: "",
       clinic: {},
       listDoctorClinic: [],
       isOpen: false,
@@ -31,9 +29,8 @@ class DetailClinic extends Component {
 
   async componentDidMount() {
     const clinicId = this.props.match.params.id;
-    // this.props.fetchInfoDoctor(TYPE.PROVINCE);
     const data = {
-      clinicId: this.props.match.params.id,
+      clinicId: clinicId,
       provinceId: "all",
     };
     this.getDataSpecialtySlinic();
@@ -59,13 +56,7 @@ class DetailClinic extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
     }
-    if (prevProps.listProvince !== this.props.listProvince) {
-      let listProvince = this.props.listProvince;
-      const dataSelect = this.buildDataInputSelect(listProvince);
-      this.setState({
-        listProvince: dataSelect,
-      });
-    }
+
     if (prevProps.detailClinic !== this.props.detailClinic) {
       this.getDataSpecialtySlinic();
       this.setState({
@@ -82,42 +73,6 @@ class DetailClinic extends Component {
     });
   };
 
-  buildDataInputSelect = (data) => {
-    let result = [];
-    let { language } = this.props;
-    let lableVi, lableEn, object;
-    data.forEach((item) => {
-      lableVi = `${item.valueVI}`;
-      lableEn = `${item.valueEN}`;
-      object = {
-        label: language === languages.VI ? lableVi : lableEn,
-        value: item.keyMap,
-      };
-      result.push(object);
-    });
-    return result;
-  };
-  handleChangeSelect = async (selectedOption, name) => {
-    let data = {
-      clinicId: this.props.match.params.id,
-      provinceId: selectedOption.value,
-    };
-    const res = await getListDoctorClinic(data);
-    if (res && res.errCode === 0) {
-      this.setState({
-        listDoctorClinic: res.data,
-      });
-    } else {
-      toast.error("Get list doctor clinic failed");
-    }
-    const stateName = name.name;
-    const copyState = { ...this.state };
-    copyState[stateName] = selectedOption;
-
-    this.setState({
-      ...copyState,
-    });
-  };
   handleSeeMore = () => {
     this.setState({
       isOpen: !this.state.isOpen,
@@ -201,20 +156,7 @@ class DetailClinic extends Component {
         `/table-clinic-specialty/${this.state.clinic.id}`
       );
   };
-  // renderBooking = () => {
-  //   return (
-  //     <div
-  //       className="clinic-booking"
-  //       onClick={() => this.handleChooseSpecialty()}
-  //     >
-  //       <span className="select-specialty">
-  //         <FormattedMessage id="patient.detail-doctor.select-specialty" />
-  //       </span>
-  //     </div>
-  //   );
-  // };
   render() {
-    const { language } = this.props;
     const { clinic, listDoctorClinic, isOpen } = this.state;
     return (
       <>
@@ -358,17 +300,6 @@ class DetailClinic extends Component {
         </div>
         <div className="body-container">
           <div className="detail-specialy-container grid">
-            <div style={{ width: "161px", paddingTop: "10px" }}>
-              <Select
-                name="selectedProvince"
-                value={this.state.selectedProvince}
-                onChange={this.handleChangeSelect}
-                options={this.state.listProvince}
-                placeholder={
-                  <FormattedMessage id="admin.manage-doctor.select_province_placeholder" />
-                }
-              />
-            </div>
             <div className="detail-specialy-container grid">
               {listDoctorClinic &&
                 listDoctorClinic.length > 0 &&
@@ -405,7 +336,6 @@ class DetailClinic extends Component {
           handleChooseSpecialty={this.handleChooseSpecialty}
           isShow={this.state.isShowSpeciatyClinic}
         />
-        {/* {this.renderBooking()} */}
       </>
     );
   }
@@ -414,7 +344,6 @@ class DetailClinic extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    listProvince: state.admin.doctorProvince,
     detailClinic: state.admin.detailClinic,
     listSpecialty: state.admin.listSpecialtyByClinic,
   };
@@ -422,7 +351,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // fetchInfoDoctor: (type) => dispatch(actions.fetchInfoDoctor(type)),
     getDetailClinic: (id) => dispatch(actions.getDetailClinic(id)),
     getListSpecialtyByClinicId: (id) =>
       dispatch(actions.getListSpecialtyByClinicId(id)),
@@ -432,5 +360,3 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(DetailClinic)
 );
-
-// chỉnh lại không lấy doctor province nữa
