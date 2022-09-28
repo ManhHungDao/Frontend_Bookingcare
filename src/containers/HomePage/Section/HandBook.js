@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import { withRouter } from "react-router-dom";
 import { getHandBookHome } from "../../../services/userService";
 // slide slick
 import { toast } from "react-toastify";
@@ -25,7 +26,10 @@ class HandBook extends Component {
     }
   }
   componentDidUpdate() {}
+  handleViewDetailClinic = (id) => {
+    this.props.history.push(`/detail-handbook/${id}`);
 
+  };
   render() {
     const settings = {
       dots: false,
@@ -47,7 +51,7 @@ class HandBook extends Component {
                 <FormattedMessage id="homepage.view-all" />
               </div>
             </div>
-            <div className="section-body">
+            <div className="section-body body-handbook">
               <Slider {...settings}>
                 {listHandbook &&
                   listHandbook.length > 0 &&
@@ -56,14 +60,13 @@ class HandBook extends Component {
                       <div
                         key={index}
                         className="section-customize"
-                        // onClick={() => this.handleViewDetailClinic(item)}
+                        onClick={() => this.handleViewDetailClinic(item.id)}
                       >
-                        <div className="title-handbook">{item.title}</div>
                         <div
                           className="bg-image"
                           style={{ backgroundImage: `url(${item.image})` }}
                         ></div>
-                        {/* <span className="title-handbook">{item.title}</span> */}
+                        <div className="section-body-title">{item.title}</div>
                       </div>
                     );
                   })}
@@ -87,4 +90,6 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HandBook);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(HandBook)
+);

@@ -20,6 +20,7 @@ class ManageHandbook extends Component {
     super(props);
     this.state = {
       name: "",
+      note: "",
       listHandbook: [],
       listHandbookSearch: [],
       idEdit: "",
@@ -42,20 +43,22 @@ class ManageHandbook extends Component {
       });
     else toast.error("Get List Handbook Failed");
   };
-  handleOnChangeName = (event) => {
+  handleOnChangeInput = (event, name) => {
     this.setState({
-      name: event.target.value,
+      [name]: event.target.value,
     });
   };
   handleSave = async () => {
     if (!this.state.idEdit) {
       const data = {
         name: this.state.name,
+        note: this.state.note,
       };
       const res = await createAHandbook(data);
       if (res && res.errCode === 0) {
         this.setState({
           name: "",
+          note: "",
           idEdit: "",
         });
         toast.success("Create Handbook Succeed");
@@ -64,10 +67,12 @@ class ManageHandbook extends Component {
     } else {
       const res = await editHandbook({
         name: this.state.name,
+        note: this.state.note,
         id: this.state.idEdit,
       });
       if (res && res.errCode === 0) {
         this.setState({
+          note: "",
           name: "",
           idEdit: "",
         });
@@ -77,12 +82,17 @@ class ManageHandbook extends Component {
     }
   };
   handleEdit = async (data) => {
-    this.setState({ name: data.name, idEdit: data.id });
+    this.setState({
+      name: data.name,
+      note: data.note ? data.note : "",
+      idEdit: data.id,
+    });
   };
   handleDelete = async (id) => {
     const res = await deleteHandbook(id);
     if (res && res.errCode === 0) {
       this.setState({
+        note: "",
         name: "",
       });
       toast.success("Create Handbook Succeed");
@@ -117,34 +127,44 @@ class ManageHandbook extends Component {
           <FormattedMessage id="admin.manage-handbook.title" />
         </div>
         <div className="handbook-container wrapper">
-          <div className="add-info">
-            <div className="name">
-              <FormattedMessage id="admin.manage-handbook.name" />
+          <div className="add-info row">
+            <div className="col-6 form-group">
+              <span className="name">
+                <FormattedMessage id="admin.manage-handbook.name" />
+              </span>
+              <input
+                className="form-control"
+                onChange={(event) => this.handleOnChangeInput(event, "name")}
+                value={this.state.name}
+              />
             </div>
-            <input
-              className="input-name form-control"
-              onChange={(event) => this.handleOnChangeName(event)}
-              value={this.state.name}
-            />
+            <div className="col-6 form-group">
+              <span className="name">Ghi chú</span>
+              <input
+                className="form-control"
+                onChange={(event) => this.handleOnChangeInput(event, "note")}
+                value={this.state.note}
+              />
+            </div>
             <div>
               <button
-                className="btn btn-primary "
+                className="btn btn-primary mt-5"
                 onClick={() => this.handleSave()}
                 disabled={!this.state.name ? "disabled" : false}
               >
                 <FormattedMessage id="admin.manage-handbook.save" />
               </button>
             </div>
-          </div>
-          <div className="list-handbook">
-            <TableManage
-              listRender={this.state.listHandbookSearch}
-              handleEdit={this.handleEdit}
-              handleDelete={this.handleDelete}
-              handleSearch={this.handleSearch}
-              handleOpenSearch={this.handleOpenSearch}
-              isSearch={this.state.isSearch}
-            />
+            <div className="list-handbook">
+              <TableManage
+                listRender={this.state.listHandbookSearch}
+                handleEdit={this.handleEdit}
+                handleDelete={this.handleDelete}
+                handleSearch={this.handleSearch}
+                handleOpenSearch={this.handleOpenSearch}
+                isSearch={this.state.isSearch}
+              />
+            </div>
           </div>
         </div>
       </>

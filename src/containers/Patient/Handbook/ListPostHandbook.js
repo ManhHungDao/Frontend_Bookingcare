@@ -35,9 +35,9 @@ class ListPostHandbook extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
     }
-   if (this.props.match.params.id !== prevProps.match.params.id) {
-     this.componentDidMount();
-   }
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.componentDidMount();
+    }
   }
 
   render() {
@@ -46,10 +46,23 @@ class ListPostHandbook extends Component {
     return (
       <>
         <SubHeader />
-        {handbook && <div className="handbook-name">{handbook.name}</div>}
-        {/*  add note handbook  */}
-        <RelatedHandbook handbookId={this.props.match.params.id} />
-        <ListNameHandbook />
+        <div className="handbook-header-container">
+          {handbook && (
+            <div className="handbook-header">
+              <div className="grid">
+                <h1 className="handbook-name">{handbook.name}</h1>
+                <div className="handbook-note">
+                  {handbook.note ? handbook.note : ""}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <RelatedHandbook
+            handbookId={this.props.match.params.id}
+          />
+          <ListNameHandbook />
+        </div>
         <HomeFooter />
       </>
     );

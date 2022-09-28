@@ -42,7 +42,11 @@ class RelatedHandbook extends Component {
     return (
       <div className="handbook-related grid">
         <ul className="list-handbook-related">
-          <h1 className="title-related">Bài viết liên quan</h1>
+          {this.props.isShowHeader && (
+            <h1 className="title-related">
+              <FormattedMessage id="admin.manage-handbook.related_post" />
+            </h1>
+          )}
           {relatedHandBook &&
             relatedHandBook.length > 0 &&
             relatedHandBook.map((item, index) => {

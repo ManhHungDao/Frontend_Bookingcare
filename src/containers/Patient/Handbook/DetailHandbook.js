@@ -57,7 +57,6 @@ class DetailHandbook extends Component {
     );
   };
 
-
   render() {
     const { language } = this.props;
     const { detailHandbook } = this.state;
@@ -88,7 +87,10 @@ class DetailHandbook extends Component {
             <div className="detail-handbook"></div>
           </div>
         </div>
-        <RelatedHandbook handbookId={this.props.match.params.id} />
+        <RelatedHandbook
+          handbookId={this.props.match.params.id}
+          isShowHeader={true}
+        />
         <ListNameHandbook />
         <HomeFooter />
       </>

@@ -17,8 +17,9 @@ class TableSpecialtyClinic extends Component {
   }
 
   componentDidMount() {
-    const clinicId = this.props.match.params.id;
-    this.props.getListSpecialtyByClinicId(clinicId);
+    this.setState({
+      listSpecialty: this.props.listSpecialty,
+    });
   }
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
@@ -69,8 +70,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListSpecialtyByClinicId: (id) =>
-      dispatch(actions.getListSpecialtyByClinicId(id)),
+    // getListSpecialtyByClinicId: (id) =>
+    //   dispatch(actions.getListSpecialtyByClinicId(id)),
   };
 };
 

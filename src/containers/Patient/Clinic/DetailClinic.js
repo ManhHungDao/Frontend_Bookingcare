@@ -13,6 +13,7 @@ import ProfileDoctor from "../Doctor/ProfileDoctor";
 import { getClinic, getListDoctorClinic } from "../../../services/userService";
 import { toast } from "react-toastify";
 import HomeFooter from "../../HomePage/HomeFooter";
+import SelectSpecialtyClinic from "./SelectSpecialtyClinic";
 import _ from "lodash";
 class DetailClinic extends Component {
   constructor(props) {
@@ -24,16 +25,18 @@ class DetailClinic extends Component {
       listDoctorClinic: [],
       isOpen: false,
       detailClinic: {},
+      isShowSpeciatyClinic: false,
     };
   }
 
   async componentDidMount() {
     const clinicId = this.props.match.params.id;
-    this.props.fetchInfoDoctor(TYPE.PROVINCE);
+    // this.props.fetchInfoDoctor(TYPE.PROVINCE);
     const data = {
       clinicId: this.props.match.params.id,
       provinceId: "all",
     };
+    this.getDataSpecialtySlinic();
     const resDetail = await getClinic(clinicId);
     if (resDetail && resDetail.errCode === 0) {
       this.setState({
@@ -52,6 +55,7 @@ class DetailClinic extends Component {
     }
     await this.props.getDetailClinic(clinicId);
   }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
     }
@@ -63,11 +67,21 @@ class DetailClinic extends Component {
       });
     }
     if (prevProps.detailClinic !== this.props.detailClinic) {
+      this.getDataSpecialtySlinic();
       this.setState({
         detailClinic: this.props.detailClinic,
       });
     }
   }
+
+  getDataSpecialtySlinic = () => {
+    const clinicId = this.props.match.params.id;
+    this.props.getListSpecialtyByClinicId(clinicId);
+    this.setState({
+      isShowSpeciatyClinic: this.props.listSpecialty.length > 0,
+    });
+  };
+
   buildDataInputSelect = (data) => {
     let result = [];
     let { language } = this.props;
@@ -187,18 +201,18 @@ class DetailClinic extends Component {
         `/table-clinic-specialty/${this.state.clinic.id}`
       );
   };
-  renderBooking = () => {
-    return (
-      <div
-        className="clinic-booking"
-        onClick={() => this.handleChooseSpecialty()}
-      >
-        <span className="select-specialty">
-          <FormattedMessage id="patient.detail-doctor.select-specialty" />
-        </span>
-      </div>
-    );
-  };
+  // renderBooking = () => {
+  //   return (
+  //     <div
+  //       className="clinic-booking"
+  //       onClick={() => this.handleChooseSpecialty()}
+  //     >
+  //       <span className="select-specialty">
+  //         <FormattedMessage id="patient.detail-doctor.select-specialty" />
+  //       </span>
+  //     </div>
+  //   );
+  // };
   render() {
     const { language } = this.props;
     const { clinic, listDoctorClinic, isOpen } = this.state;
@@ -387,7 +401,11 @@ class DetailClinic extends Component {
           </div>
         </div>
         <HomeFooter />
-        {this.renderBooking()}
+        <SelectSpecialtyClinic
+          handleChooseSpecialty={this.handleChooseSpecialty}
+          isShow={this.state.isShowSpeciatyClinic}
+        />
+        {/* {this.renderBooking()} */}
       </>
     );
   }
@@ -398,16 +416,21 @@ const mapStateToProps = (state) => {
     language: state.app.language,
     listProvince: state.admin.doctorProvince,
     detailClinic: state.admin.detailClinic,
+    listSpecialty: state.admin.listSpecialtyByClinic,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInfoDoctor: (type) => dispatch(actions.fetchInfoDoctor(type)),
+    // fetchInfoDoctor: (type) => dispatch(actions.fetchInfoDoctor(type)),
     getDetailClinic: (id) => dispatch(actions.getDetailClinic(id)),
+    getListSpecialtyByClinicId: (id) =>
+      dispatch(actions.getListSpecialtyByClinicId(id)),
   };
 };
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(DetailClinic)
 );
+
+// chỉnh lại không lấy doctor province nữa

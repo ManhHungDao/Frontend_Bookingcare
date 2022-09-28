@@ -196,7 +196,8 @@
     "manage-handbook": {
       "title": "Quản lý cẩm nang",
       "name": "Tên cẩm nang",
-      "save": "Lưu"
+      "save": "Lưu",
+      "related_post": "Bài viết liên quan"
     },
     "manage-detail-handbook": {
       "title": "Quản lý chi tiết cẩm nang",

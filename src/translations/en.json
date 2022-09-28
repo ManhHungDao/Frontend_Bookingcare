@@ -197,7 +197,8 @@
     "manage-handbook": {
       "title": "Manage handbook",
       "name": "Handbook name",
-      "save": "Save"
+      "save": "Save",
+      "related_post": "Related posts"
     },
     "manage-detail-handbook": {
       "title": "Manage detail handbook",
