@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import { languages, TYPE } from "../../../utils";
+import { languages } from "../../../utils";
 import "./DetailClinic.scss";
 import { FormattedMessage } from "react-intl";
 import SubHeader from "../../HomePage/SubHeader";
 import DoctorSchedule from "../Doctor/DoctorSchedule";
 import DoctorExtraInfo from "../Doctor/DoctorExtraInfo";
-import Select from "react-select";
 import { withRouter } from "react-router-dom";
-import ProfileDoctor from "../Doctor/ProfileDoctor";
+import RenderNote from "./RenderNote";
 import {
   getClinic,
   getListDoctorClinic,
@@ -114,25 +113,6 @@ class DetailClinicSpecialty extends Component {
       isOpen: true,
     });
   };
-  renderNodeClinic = () => {
-    let text;
-    if (this.props.language === languages.VI)
-      text =
-        "BookingCare là Nền tảng Y tế chăm sóc sức khỏe toàn diện hàng đầu Việt Nam kết nối người dùng với trên 150 bệnh viện - phòng khám uy tín, hơn 1,000 bác sĩ chuyên khoa giỏi và hàng nghìn dịch vụ, sản phẩm y tế chất lượng cao.";
-    else
-      text = `BookingCare is the leading comprehensive healthcare platform in Vietnam connecting users with 150 prestigious hospitals - clinics, more than 1,000 good specialists and high quality medical products, services and products.`;
-
-    return (
-      <div>
-        <div className="note-bookingcare">
-          <div className="right">
-            <i className="fas fa-lightbulb"></i>
-          </div>
-          <div className="left">{text}</div>
-        </div>
-      </div>
-    );
-  };
   renderMenuBar = () => {
     let menuList = [];
     const { detailSpecialty, clinic } = this.state;
@@ -210,7 +190,7 @@ class DetailClinicSpecialty extends Component {
             className="detail-specialy grid"
             style={isOpen ? { height: "fit-content" } : { height: "380px" }}
           >
-            {this.renderNodeClinic()}
+            <RenderNote curLang={this.props.language} />
             <div className="note-clinic">
               <p>
                 Nhằm đáp ứng nhu cầu sử dụng dịch vụ y tế chất lượng cao, Bệnh

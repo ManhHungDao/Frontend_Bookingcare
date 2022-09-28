@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import { languages, TYPE } from "../../../utils";
 import "./DetailClinic.scss";
 import { FormattedMessage } from "react-intl";
 import SubHeader from "../../HomePage/SubHeader";
 import DoctorSchedule from "../Doctor/DoctorSchedule";
 import DoctorExtraInfo from "../Doctor/DoctorExtraInfo";
-import Select from "react-select";
 import { withRouter } from "react-router-dom";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
 import { getClinic, getListDoctorClinic } from "../../../services/userService";
@@ -15,6 +13,9 @@ import { toast } from "react-toastify";
 import HomeFooter from "../../HomePage/HomeFooter";
 import SelectSpecialtyClinic from "./SelectSpecialtyClinic";
 import _ from "lodash";
+import RenderNote from "./RenderNote";
+import RenderMenuBar from "./RenderMenuBar";
+
 class DetailClinic extends Component {
   constructor(props) {
     super(props);
@@ -78,32 +79,22 @@ class DetailClinic extends Component {
       isOpen: !this.state.isOpen,
     });
   };
+
   handleOpenSeeMore = () => {
     this.setState({
       isOpen: true,
     });
   };
+
   handleToDetailDoctor = (id) => {
     if (this.props.history) this.props.history.push(`/detail-doctor/${id}`);
   };
-  renderNodeClinic = () => {
-    let text;
-    if (this.props.language === languages.VI)
-      text =
-        "BookingCare là Nền tảng Y tế chăm sóc sức khỏe toàn diện hàng đầu Việt Nam kết nối người dùng với trên 150 bệnh viện - phòng khám uy tín, hơn 1,000 bác sĩ chuyên khoa giỏi và hàng nghìn dịch vụ, sản phẩm y tế chất lượng cao.";
-    else
-      text = `BookingCare is the leading comprehensive healthcare platform in Vietnam connecting users with 150 prestigious hospitals - clinics, more than 1,000 good specialists and high quality medical products, services and products.`;
 
-    return (
-      <div>
-        <div className="note-bookingcare">
-          <div className="right">
-            <i className="fas fa-lightbulb"></i>
-          </div>
-          <div className="left">{text}</div>
-        </div>
-      </div>
-    );
+  handleChooseSpecialty = () => {
+    if (this.props.history && this.state.clinic)
+      this.props.history.push(
+        `/table-clinic-specialty/${this.state.clinic.id}`
+      );
   };
   renderMenuBar = () => {
     let menuList = [];
@@ -150,12 +141,6 @@ class DetailClinic extends Component {
       </ul>
     );
   };
-  handleChooseSpecialty = () => {
-    if (this.props.history && this.state.clinic)
-      this.props.history.push(
-        `/table-clinic-specialty/${this.state.clinic.id}`
-      );
-  };
   render() {
     const { clinic, listDoctorClinic, isOpen } = this.state;
     return (
@@ -185,13 +170,12 @@ class DetailClinic extends Component {
           </div>
         </div>
         {this.renderMenuBar()}
-
         <div className="detail-container">
           <div
             className="detail-specialy grid"
             style={isOpen ? { height: "fit-content" } : {}}
           >
-            {this.renderNodeClinic()}
+            <RenderNote curLang={this.props.language} />
 
             {this.state.detailClinic.noteHTML && (
               <div
