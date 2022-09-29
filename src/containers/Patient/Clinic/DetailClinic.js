@@ -4,20 +4,14 @@ import * as actions from "../../../store/actions";
 import "./DetailClinic.scss";
 import { FormattedMessage } from "react-intl";
 import SubHeader from "../../HomePage/SubHeader";
-import DoctorSchedule from "../Doctor/DoctorSchedule";
-import DoctorExtraInfo from "../Doctor/DoctorExtraInfo";
 import { withRouter } from "react-router-dom";
-import ProfileDoctor from "../Doctor/ProfileDoctor";
-import {
-  getClinic,
-  getListDoctorClinic,
-  getDetailSpecialty,
-} from "../../../services/userService";
+import { getClinic, getDetailSpecialty } from "../../../services/userService";
 import { toast } from "react-toastify";
 import HomeFooter from "../../HomePage/HomeFooter";
 import SelectSpecialtyClinic from "./SelectSpecialtyClinic";
 import _ from "lodash";
 import RenderNote from "./RenderNote";
+import RenderDoctocs from "./RenderDoctocs";
 import RenderMenuBar from "./RenderMenuBar";
 
 class DetailClinic extends Component {
@@ -260,8 +254,11 @@ class DetailClinic extends Component {
             <div className="detail-specialy-container grid"></div>
           </div>
         </div>
+        {this.state.isShowDetailSpecialty && (
+          <RenderDoctocs clinicId={this.props.match.params.clinicId} />
+        )}
         <HomeFooter />
-        {!this.isShowDetailSpecialty && (
+        {!this.state.isShowDetailSpecialty && (
           <SelectSpecialtyClinic
             handleChooseSpecialty={this.handleChooseSpecialty}
             isShow={this.state.isShowSelectSpeciaty}
