@@ -8,7 +8,11 @@ import DoctorSchedule from "../Doctor/DoctorSchedule";
 import DoctorExtraInfo from "../Doctor/DoctorExtraInfo";
 import { withRouter } from "react-router-dom";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
-import { getClinic, getListDoctorClinic } from "../../../services/userService";
+import {
+  getClinic,
+  getListDoctorClinic,
+  getDetailSpecialty,
+} from "../../../services/userService";
 import { toast } from "react-toastify";
 import HomeFooter from "../../HomePage/HomeFooter";
 import SelectSpecialtyClinic from "./SelectSpecialtyClinic";
@@ -20,57 +24,73 @@ class DetailClinic extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      clinic: {},
-      listDoctorClinic: [],
       isOpen: false,
       detailClinic: {},
-      isShowSpeciatyClinic: false,
+      isShowSelectSpeciaty: false,
+      isShowDetailSpecialty: false,
+      // render data
+      dataHeader: {},
+      dataContent: {},
+      // render detai clinic
+      // show list doctor of specialty or clinic
+      isShowListDoctor: false,
+      listDoctor: [],
     };
   }
 
-  async componentDidMount() {
-    const clinicId = this.props.match.params.id;
-    const data = {
-      clinicId: clinicId,
-      provinceId: "all",
-    };
-    this.getDataSpecialtySlinic();
+  componentDidMount() {
+    this.renderDetail();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.detailClinic !== this.props.detailClinic) {
+      this.setState({
+        dataContent: this.props.detailClinic,
+      });
+      this.isShowSelectSpecialty(this.props.match.params.clinicId);
+    }
+  }
+
+  renderDetail = () => {
+    const { clinicId, specialtyId } = this.props.match.params;
+    if (specialtyId) {
+      this.getDataHeader(clinicId);
+      this.getDetailSpecialtyClinic(specialtyId);
+    } else {
+      this.isShowSelectSpecialty(clinicId);
+      this.getDataHeader(clinicId);
+      this.props.getDetailClinic();
+    }
+  };
+
+  getDataHeader = async (clinicId) => {
     const resDetail = await getClinic(clinicId);
     if (resDetail && resDetail.errCode === 0) {
       this.setState({
-        clinic: resDetail.data,
+        dataHeader: resDetail.data,
       });
     } else {
       toast.error("Get detail clinic failed");
     }
-    const res = await getListDoctorClinic(data);
+    await this.props.getDetailClinic(clinicId);
+  };
+
+  getDetailSpecialtyClinic = async (specialtyId) => {
+    const res = await getDetailSpecialty(specialtyId);
     if (res && res.errCode === 0) {
       this.setState({
-        listDoctorClinic: res.data,
+        dataContent: res.data,
+        isShowDetailSpecialty: true,
       });
     } else {
-      toast.error("Get list doctor clinic failed");
+      toast.error("Get Detail Specialty Failed");
     }
-    await this.props.getDetailClinic(clinicId);
-  }
+  };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.language !== prevProps.language) {
-    }
-
-    if (prevProps.detailClinic !== this.props.detailClinic) {
-      this.getDataSpecialtySlinic();
-      this.setState({
-        detailClinic: this.props.detailClinic,
-      });
-    }
-  }
-
-  getDataSpecialtySlinic = () => {
-    const clinicId = this.props.match.params.id;
+  isShowSelectSpecialty = (clinicId) => {
     this.props.getListSpecialtyByClinicId(clinicId);
     this.setState({
-      isShowSpeciatyClinic: this.props.listSpecialty.length > 0,
+      isShowSelectSpeciaty: this.props.listSpecialty.length > 0,
     });
   };
 
@@ -91,58 +111,12 @@ class DetailClinic extends Component {
   };
 
   handleChooseSpecialty = () => {
-    if (this.props.history && this.state.clinic)
-      this.props.history.push(
-        `/table-clinic-specialty/${this.state.clinic.id}`
-      );
-  };
-  renderMenuBar = () => {
-    let menuList = [];
-    const { detailClinic, clinic } = this.state;
-    if (clinic.introduceHTML)
-      menuList.push({
-        name: <FormattedMessage id="patient.detail-doctor.introduce" />,
-        id: "#introduce",
-      });
-    if (detailClinic.strengthHTML)
-      menuList.push({
-        name: <FormattedMessage id="patient.detail-doctor.strengths" />,
-        id: "#strength",
-      });
-    if (detailClinic.equipmentHTML)
-      menuList.push({
-        name: <FormattedMessage id="patient.detail-doctor.equipment" />,
-        id: "#equipment",
-      });
-    if (detailClinic.serviceHTML)
-      menuList.push({
-        name: <FormattedMessage id="patient.detail-doctor.service" />,
-        id: "#service",
-      });
-    if (detailClinic.locationHTML)
-      menuList.push({
-        name: <FormattedMessage id="patient.detail-doctor.location" />,
-        id: "#location",
-      });
-    if (detailClinic.examinationHTML)
-      menuList.push({
-        name: <FormattedMessage id="patient.detail-doctor.examination" />,
-        id: "#examination",
-      });
-    return (
-      <ul className="menu-detail">
-        {menuList.map((item, index) => {
-          return (
-            <li key={index} onClick={this.handleOpenSeeMore}>
-              <a href={item.id}>{item.name}</a>
-            </li>
-          );
-        })}
-      </ul>
-    );
+    const { dataContent } = this.state;
+    if (this.props.history && dataContent)
+      this.props.history.push(`/table-clinic-specialty/${dataContent.id}`);
   };
   render() {
-    const { clinic, listDoctorClinic, isOpen } = this.state;
+    const { dataContent, dataHeader, isOpen } = this.state;
     return (
       <>
         <SubHeader isShowSupport={true} />
@@ -150,26 +124,25 @@ class DetailClinic extends Component {
           <div
             className="bg-clinic"
             style={{
-              backgroundImage: `url(${clinic.image})`,
+              backgroundImage: `url(${dataHeader.image})`,
             }}
           ></div>
           <div className="wrap-clinic">
             <div
               className="lg-clinic"
               style={{
-                backgroundImage: `url(${clinic.logo})`,
+                backgroundImage: `url(${dataHeader.logo})`,
               }}
             ></div>
             <div className="info-clinic">
-              <div className="name-clinic">{clinic.name}</div>
+              <div className="name-clinic">{dataHeader.name}</div>
               <div className="address-clinic">
                 <i className="fas fa-map-marker-alt"></i>
-                <span>{clinic.address}</span>
+                <span>{dataHeader.address}</span>
               </div>
             </div>
           </div>
         </div>
-        {this.renderMenuBar()}
         <div className="detail-container">
           <div
             className="detail-specialy grid"
@@ -177,12 +150,12 @@ class DetailClinic extends Component {
           >
             <RenderNote curLang={this.props.language} />
 
-            {this.state.detailClinic.noteHTML && (
+            {dataContent && dataContent.noteHTML && (
               <div
                 className="note-clinic"
                 contentEditable="true"
                 dangerouslySetInnerHTML={{
-                  __html: this.state.detailClinic.noteHTML,
+                  __html: dataContent.noteHTML,
                 }}
               ></div>
             )}
@@ -190,23 +163,23 @@ class DetailClinic extends Component {
             <h3 className="detail-title" id="introduce">
               <FormattedMessage id="patient.detail-doctor.introduce" />
             </h3>
-            {clinic && clinic.introduceHTML && (
+            {dataHeader && dataHeader.introduceHTML && (
               <div
                 contentEditable="true"
                 dangerouslySetInnerHTML={{
-                  __html: clinic.introduceHTML,
+                  __html: dataHeader.introduceHTML,
                 }}
               ></div>
             )}
-            {this.state.detailClinic.bookingHTML && (
+            {dataContent && dataContent.bookingHTML && (
               <div
                 contentEditable="true"
                 dangerouslySetInnerHTML={{
-                  __html: this.state.detailClinic.bookingHTML,
+                  __html: dataContent.bookingHTML,
                 }}
               ></div>
             )}
-            {this.state.detailClinic.strengthHTML && (
+            {dataContent && dataContent.strengthHTML && (
               <>
                 <h3 className="detail-title" id="strength">
                   <FormattedMessage id="patient.detail-doctor.strengths" />
@@ -214,12 +187,12 @@ class DetailClinic extends Component {
                 <div
                   contentEditable="true"
                   dangerouslySetInnerHTML={{
-                    __html: this.state.detailClinic.strengthHTML,
+                    __html: dataContent.strengthHTML,
                   }}
                 ></div>
               </>
             )}
-            {this.state.detailClinic.equipmentHTML && (
+            {dataContent && dataContent.equipmentHTML && (
               <>
                 <h3 className="detail-title" id="equipment">
                   <FormattedMessage id="patient.detail-doctor.equipment" />
@@ -227,12 +200,12 @@ class DetailClinic extends Component {
                 <div
                   contentEditable="true"
                   dangerouslySetInnerHTML={{
-                    __html: this.state.detailClinic.equipmentHTML,
+                    __html: dataContent.equipmentHTML,
                   }}
                 ></div>
               </>
             )}
-            {this.state.detailClinic.serviceHTML && (
+            {dataContent && dataContent.serviceHTML && (
               <>
                 <h3 className="detail-title" id="service">
                   <FormattedMessage id="patient.detail-doctor.service" />
@@ -240,12 +213,12 @@ class DetailClinic extends Component {
                 <div
                   contentEditable="true"
                   dangerouslySetInnerHTML={{
-                    __html: this.state.detailClinic.serviceHTML,
+                    __html: dataContent.serviceHTML,
                   }}
                 ></div>
               </>
             )}
-            {this.state.detailClinic.locationHTML && (
+            {dataContent && dataContent.locationHTML && (
               <>
                 <h3 className="detail-title" id="location">
                   <FormattedMessage id="patient.detail-doctor.location" />
@@ -253,12 +226,12 @@ class DetailClinic extends Component {
                 <div
                   contentEditable="true"
                   dangerouslySetInnerHTML={{
-                    __html: this.state.detailClinic.locationHTML,
+                    __html: dataContent.locationHTML,
                   }}
                 ></div>
               </>
             )}
-            {this.state.detailClinic.examinationHTML && (
+            {dataContent && dataContent.examinationHTML && (
               <>
                 <h3 className="detail-title" id="examination">
                   <FormattedMessage id="patient.detail-doctor.examination" />
@@ -266,7 +239,7 @@ class DetailClinic extends Component {
                 <div
                   contentEditable="true"
                   dangerouslySetInnerHTML={{
-                    __html: this.state.detailClinic.examinationHTML,
+                    __html: dataContent.examinationHTML,
                   }}
                 ></div>
               </>
@@ -284,42 +257,16 @@ class DetailClinic extends Component {
         </div>
         <div className="body-container">
           <div className="detail-specialy-container grid">
-            <div className="detail-specialy-container grid">
-              {listDoctorClinic &&
-                listDoctorClinic.length > 0 &&
-                listDoctorClinic.map((item, index) => {
-                  return (
-                    <div className="section" key={index}>
-                      <div
-                        className="info-doctor"
-                        onDoubleClick={() =>
-                          this.handleToDetailDoctor(item.doctorId)
-                        }
-                      >
-                        <ProfileDoctor
-                          doctorId={item.doctorId}
-                          isShowDescription={true}
-                        />
-                      </div>
-                      <div className="schedule-doctor">
-                        <DoctorSchedule
-                          doctorId={item.doctorId}
-                          doctor_info={item}
-                        />
-                        <hr />
-                        <DoctorExtraInfo doctorId={item.doctorId} />
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
+            <div className="detail-specialy-container grid"></div>
           </div>
         </div>
         <HomeFooter />
-        <SelectSpecialtyClinic
-          handleChooseSpecialty={this.handleChooseSpecialty}
-          isShow={this.state.isShowSpeciatyClinic}
-        />
+        {!this.isShowDetailSpecialty && (
+          <SelectSpecialtyClinic
+            handleChooseSpecialty={this.handleChooseSpecialty}
+            isShow={this.state.isShowSelectSpeciaty}
+          />
+        )}
       </>
     );
   }

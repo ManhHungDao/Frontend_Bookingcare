@@ -24,7 +24,6 @@ import HomePage from "./HomePage/HomePage";
 import Doctor from "../routes/Doctor";
 import VerifyEmail from "../containers/HomePage/VerifyEmail";
 import TableSpecialtyClinic from "./Patient/Clinic/TableSpecialtyClinic";
-import DetailClinicSpecialty from "./Patient/Clinic/DetailClinicSpecialty";
 import RenderList from "./Patient/Common/RenderList";
 import DetailHandbook from "./Patient/Handbook/DetailHandbook";
 import ListPostHandbook from "./Patient/Handbook/ListPostHandbook";
@@ -87,7 +86,7 @@ class App extends Component {
                   />
                   <Route
                     path={path.DETAIL_CLINIC_SPECIALTY}
-                    component={DetailClinicSpecialty}
+                    component={DetailClinic}
                   />
                   <Route path={path.RENDER_LIST} component={RenderList} />
                   <Route
