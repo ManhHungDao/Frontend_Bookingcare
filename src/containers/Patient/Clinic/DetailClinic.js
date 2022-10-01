@@ -38,22 +38,19 @@ class DetailClinic extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.detailClinic !== this.props.detailClinic) {
-      this.setState({
-        dataContent: this.props.detailClinic,
-      });
-      this.isShowSelectSpecialty(this.props.match.params.clinicId);
+      const { clinicId } = this.props.match.params;
+      this.isShowSelectSpecialty(clinicId);
     }
+
   }
 
   renderDetail = () => {
     const { clinicId, specialtyId } = this.props.match.params;
+    this.getDataHeader(clinicId);
     if (specialtyId) {
-      this.getDataHeader(clinicId);
       this.getDetailSpecialtyClinic(specialtyId);
     } else {
       this.isShowSelectSpecialty(clinicId);
-      this.getDataHeader(clinicId);
-      this.props.getDetailClinic();
     }
   };
 
@@ -66,7 +63,7 @@ class DetailClinic extends Component {
     } else {
       toast.error("Get detail clinic failed");
     }
-    await this.props.getDetailClinic(clinicId);
+    this.props.getDetailClinic(clinicId);
   };
 
   getDetailSpecialtyClinic = async (specialtyId) => {
@@ -88,15 +85,13 @@ class DetailClinic extends Component {
     });
   };
 
-  handleSeeMore = () => {
+  handleSeeMore = (check = false) => {
+    if (check === true)
+      this.setState({
+        isOpen: true,
+      });
     this.setState({
       isOpen: !this.state.isOpen,
-    });
-  };
-
-  handleOpenSeeMore = () => {
-    this.setState({
-      isOpen: true,
     });
   };
 
@@ -105,9 +100,9 @@ class DetailClinic extends Component {
   };
 
   handleChooseSpecialty = () => {
-    const { dataContent } = this.state;
-    if (this.props.history && dataContent)
-      this.props.history.push(`/table-clinic-specialty/${dataContent.id}`);
+    const { dataHeader } = this.state;
+    if (this.props.history && dataHeader)
+      this.props.history.push(`/table-clinic-specialty/${dataHeader.id}`);
   };
   render() {
     const { dataContent, dataHeader, isOpen } = this.state;
@@ -143,7 +138,10 @@ class DetailClinic extends Component {
             style={isOpen ? { height: "fit-content" } : {}}
           >
             <RenderNote curLang={this.props.language} />
-
+            {/* <RenderMenuBar
+              handleSeeMore={this.handleSeeMore}
+              list={this.state.dataContent ? this.state.dataContent : ""}
+            /> */}
             {dataContent && dataContent.noteHTML && (
               <div
                 className="note-clinic"

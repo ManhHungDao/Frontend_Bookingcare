@@ -2,69 +2,73 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { FormattedMessage } from "react-intl";
+import _ from "lodash";
 
 const keyMenu = [
   {
     value: "serviceHTML",
     id: "#service",
-    name: <FormattedMessage id="patient.detail-doctor.service" />,
   },
   {
     value: "strengthHTML",
     id: "#strength",
-    name: <FormattedMessage id="patient.detail-doctor.strengths" />,
   },
   {
     value: "equipmentHTML",
     id: "#equipment",
-    name: <FormattedMessage id="patient.detail-doctor.equipment" />,
   },
   {
     value: "locationHTML",
     id: "#location",
-    name: <FormattedMessage id="patient.detail-doctor.location" />,
   },
   {
     value: "treatmentHTML",
     id: "#treatment",
-    name: <FormattedMessage id="patient.detail-doctor.treatment" />,
   },
   {
     value: "examinationHTML",
     id: "#examination",
-    name: <FormattedMessage id="patient.detail-doctor.examination" />,
   },
 ];
-
-const RenderMenuBar = ({ handleOpenSeeMore }) => {
-  //   useEffect(() => {
-  //     let itemMenu = [];
-  //     itemMenu.push({
-  //       id: "#introduce",
-  //       name: <FormattedMessage id="patient.detail-doctor.introduce" />,
-  //     });
-  //     const listKey = Object.keys(data);
-  //     listKey.forEach((item) => {
-  //       keyMenu.forEach((element) => {
-  //         if (element.value === item) {
-  //           itemMenu.push({
-  //             name: item.name,
-  //             id: item.id,
-  //           });
-  //         }
-  //       });
-  //     });
-  //     setMenu(itemMenu);
-  //   }, [data]);
+const RenderMenuBar = ({ list, handleSeeMore }) => {
+  const [menu, setMenu] = useState([]);
+  useEffect(() => {
+    if (!list || _.isEmpty(list)) return;
+    const SetMenu = () => {
+      let itemMenu = [];
+      itemMenu.push({
+        id: "#introduce",
+        value: "introduce",
+      });
+      let keys = Object.keys(list);
+      console.log(
+        "🚀 ~ file: RenderMenuBar.js ~ line 43 ~ useEffect ~ keys",
+        keys
+      );
+      keys.forEach((item) => {
+        keyMenu.forEach((element) => {
+          if (element.value === item) {
+            itemMenu.push({
+              id: element.id,
+              value: element.value,
+            });
+          }
+        });
+      });
+      setMenu(itemMenu);
+      console.log("menu", menu);
+    };
+    SetMenu();
+  }, [list]);
   return (
     <ul className="menu-detail">
-      {keyMenu.map((item, index) => {
+      {/* {menu.map((item, index) => {
         return (
-          <li key={index} onClick={handleOpenSeeMore()}>
+          <li key={index} onClick={handleSeeMore(true)}>
             <a href={item.id}>{item.name}</a>
           </li>
         );
-      })}
+      })} */}
     </ul>
   );
 };
