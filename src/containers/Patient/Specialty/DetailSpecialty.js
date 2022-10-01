@@ -96,7 +96,10 @@ class DetailSpecialty extends Component {
     const { detailSpecialty, listDoctorSpecialty, isOpen } = this.state;
     return (
       <>
-        <SubHeader isShowSupport={true} />
+        <SubHeader
+          isShowSupport={true}
+          name={detailSpecialty?.name ? detailSpecialty.name : ""}
+        />
         <div
           className="detail-specialy grid"
           style={isOpen ? { height: "fit-content" } : {}}

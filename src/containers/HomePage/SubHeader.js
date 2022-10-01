@@ -9,6 +9,10 @@ import { withRouter } from "react-router-dom";
 import { TYPE } from "../../utils";
 
 class SubHeader extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
   changeLanguage = (language) => {
     this.props.changLanguageAppRedux(language);
   };
@@ -32,17 +36,14 @@ class SubHeader extends Component {
       }
       case TYPE.PACKET: {
         type = <FormattedMessage id="home-header.sub-packet" />;
-
         break;
       }
       case TYPE.CLINIC: {
         type = <FormattedMessage id="home-header.sub-clinic" />;
-
         break;
       }
       case TYPE.DOCTOR: {
         type = <FormattedMessage id="home-header.sub-doctor" />;
-
         break;
       }
     }
@@ -60,6 +61,11 @@ class SubHeader extends Component {
                 onClick={this.props.history.goBack}
               ></i>
               {this.rendeTitleContent()}
+              {this.props.name ? (
+                <div className="title-content">{this.props.name}</div>
+              ) : (
+                " "
+              )}
             </div>
             {this.props.isShowSupport && (
               <div className="right-container">

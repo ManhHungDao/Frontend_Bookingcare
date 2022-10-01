@@ -41,7 +41,6 @@ class DetailClinic extends Component {
       const { clinicId } = this.props.match.params;
       this.isShowSelectSpecialty(clinicId);
     }
-
   }
 
   renderDetail = () => {
@@ -108,7 +107,14 @@ class DetailClinic extends Component {
     const { dataContent, dataHeader, isOpen } = this.state;
     return (
       <>
-        <SubHeader isShowSupport={true} />
+        <SubHeader
+          isShowSupport={true}
+          name={
+            dataContent.detailSpecialtyData?.name
+              ? dataContent.detailSpecialtyData.name
+              : dataHeader.name
+          }
+        />
         <div className="header-clinic-container grid">
           <div
             className="bg-clinic"
@@ -124,7 +130,12 @@ class DetailClinic extends Component {
               }}
             ></div>
             <div className="info-clinic">
-              <div className="name-clinic">{dataHeader.name}</div>
+              <div className="name-clinic">
+                {dataContent.detailSpecialtyData?.name
+                  ? dataContent.detailSpecialtyData.name + ", "
+                  : ""}
+                {dataHeader.name}
+              </div>
               <div className="address-clinic">
                 <i className="fas fa-map-marker-alt"></i>
                 <span>{dataHeader.address}</span>
