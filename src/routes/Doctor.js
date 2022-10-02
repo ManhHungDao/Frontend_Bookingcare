@@ -6,7 +6,7 @@ import ManageSchedule from "../containers/System/Doctor/ManageSchedule";
 import ManagePatient from "../containers/System/Doctor/ManagePatient";
 class Doctor extends Component {
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, doctorMenuPath } = this.props;
 
     return (
       <>
@@ -19,6 +19,11 @@ class Doctor extends Component {
                 component={ManageSchedule}
               />
               <Route path="/doctor/manage-patient" component={ManagePatient} />
+              <Route
+                component={() => {
+                  return <Redirect to={doctorMenuPath} />;
+                }}
+              />
             </Switch>
           </div>
         </div>
@@ -29,6 +34,7 @@ class Doctor extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    doctorMenuPath: state.app.doctorMenuPath,
     isLoggedIn: state.user.isLoggedIn,
   };
 };

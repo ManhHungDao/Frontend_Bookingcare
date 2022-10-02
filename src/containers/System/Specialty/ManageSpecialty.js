@@ -184,12 +184,12 @@ class ManageSpecialty extends Component {
   };
   editSpecialty = async (data) => {
     this.setState({
-      name: data.name,
-      image: data.image,
-      previewImgUrl: data.image,
-      contentMarkdown: data.detailMarkdown,
-      contentHTML: data.detailHTML,
-      idSpecialtyEdit: data.id,
+      name: data.name ? data.name : "",
+      image: data.image ? data.image : "",
+      previewImgUrl: data.image ? data.image : "",
+      contentMarkdown: data.detailMarkdown ? data.detailMarkdown : "",
+      contentHTML: data.detailHTML ? data.detailHTML : "",
+      idSpecialtyEdit: data.id ? data.id : "",
     });
   };
   handleSave = async () => {

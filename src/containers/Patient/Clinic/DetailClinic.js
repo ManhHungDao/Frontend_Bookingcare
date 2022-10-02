@@ -37,9 +37,15 @@ class DetailClinic extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.detailClinic !== this.props.detailClinic) {
+    if (
+      prevProps.detailClinic !== this.props.detailClinic &&
+      !this.state.isShowDetailSpecialty
+    ) {
       const { clinicId } = this.props.match.params;
       this.isShowSelectSpecialty(clinicId);
+      this.setState({
+        dataContent: this.props.detailClinic,
+      });
     }
   }
 
@@ -146,13 +152,9 @@ class DetailClinic extends Component {
         <div className="detail-container">
           <div
             className="detail-specialy grid"
-            style={isOpen ? { height: "fit-content" } : {}}
+            style={{ height: "fit-content" }}
           >
             <RenderNote curLang={this.props.language} />
-            {/* <RenderMenuBar
-              handleSeeMore={this.handleSeeMore}
-              list={this.state.dataContent ? this.state.dataContent : ""}
-            /> */}
             {dataContent && dataContent.noteHTML && (
               <div
                 className="note-clinic"
@@ -174,6 +176,18 @@ class DetailClinic extends Component {
                 }}
               ></div>
             )}
+          </div>
+        </div>
+        <div className="detail-container">
+          <div
+            className="detail-specialy grid"
+            style={isOpen ? { height: "fit-content" } : {}}
+          >
+            {/* <RenderMenuBar
+              handleSeeMore={this.handleSeeMore}
+              list={this.state.dataContent ? this.state.dataContent : ""}
+            /> */}
+
             {dataContent && dataContent.bookingHTML && (
               <div
                 contentEditable="true"

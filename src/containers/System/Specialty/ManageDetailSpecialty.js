@@ -185,6 +185,7 @@ class ManageDetailSpecialty extends Component {
       selectedClinic: selectedOption,
       selectedSpecialty: "",
     });
+    this.clearState();
   };
   handleChangeSelectSpecialty = async (selectedOption) => {
     const specialtyId = selectedOption.value;
@@ -255,15 +256,15 @@ class ManageDetailSpecialty extends Component {
 
             <div className="col-12 form-group">
               {this.renderContentMarkdown()}
-            <button
-              className="btn btn-primary mt-3"
-              onClick={() => {
-                this.handleSave();
-              }}
-              disabled={!this.state.selectedSpecialty ? "disabled" : false}
-            >
-              <FormattedMessage id="admin.manage-clinic.save" />
-            </button>
+              <button
+                className="btn btn-primary mt-3"
+                onClick={() => {
+                  this.handleSave();
+                }}
+                disabled={!this.state.selectedSpecialty ? "disabled" : false}
+              >
+                <FormattedMessage id="admin.manage-clinic.save" />
+              </button>
             </div>
           </div>
         </div>
