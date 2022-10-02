@@ -4,11 +4,12 @@ import "./ManageSchedule.scss";
 import { FormattedMessage } from "react-intl";
 import Select from "react-select";
 import * as actions from "../../../store/actions";
-import { languages, dateFormat } from "../../../utils";
+import { languages } from "../../../utils";
 import DatePicker from "../../../components/Input/DatePicker";
-import moment from "moment";
-import { toast } from "react-toastify";
 import _ from "lodash";
+import { USER_ROLE } from "../../../utils";
+import { getScheduleService } from "../../../services/userService";
+import moment from "moment";
 
 class ManageSchedule extends Component {
   constructor(props) {
@@ -54,6 +55,9 @@ class ManageSchedule extends Component {
         allScheduleTime: data,
       });
     }
+    if (prevState.currentDate !== this.state.currentDate) {
+      if (this.state.currentDate !== "") this.fetchSchedule();
+    }
   }
   buildDataInputSelect = (data) => {
     let result = [];
@@ -76,10 +80,49 @@ class ManageSchedule extends Component {
     this.setState({ selectedDoctor: selectedDoctor, errors: {} });
   };
 
+  fetchSchedule = async () => {
+    let { userInfo } = this.props;
+    let doctorId =
+      userInfo && userInfo.roleId === USER_ROLE.DOCTOR
+        ? userInfo.id
+        : this.state.selectedDoctor.value;
+    let date = new Date(this.state.currentDate).getTime();
+    const res = await getScheduleService(doctorId, date);
+
+    let { allScheduleTime } = this.state;
+    if (res && res.errCode === 0) {
+      let time = res.data;
+      console.log(
+        "🚀 ~ file: ManageSchedule.js ~ line 94 ~ ManageSchedule ~ fetchSchedule= ~ time",
+        time
+      );
+      if (
+        allScheduleTime &&
+        allScheduleTime.length > 0 &&
+        time &&
+        time.length > 0
+      ) {
+        time.forEach((i) => {
+          allScheduleTime.map((item) => {
+            if (item.keyMap === i.timeType) item.isSelected = true;
+            return item;
+          });
+        });
+        this.setState({ allScheduleTime });
+        console.log(this.state.allScheduleTime);
+      }
+    }
+  };
   handleOnchangDatePicker = (date) => {
+    let { allScheduleTime } = this.state;
+    allScheduleTime.map((item) => {
+      item.isSelected = false;
+      return item;
+    });
     this.setState({
       currentDate: date[0],
       errors: {},
+      allScheduleTime,
     });
   };
 
@@ -99,9 +142,9 @@ class ManageSchedule extends Component {
     let { selectedDoctor, currentDate, allScheduleTime } = this.state;
     const { language } = this.props;
     if (language === "en") {
-      if (_.isEmpty(selectedDoctor)) {
-        errors.selectedDoctor = "Doctor must be choosed!";
-      }
+      // if (_.isEmpty(selectedDoctor)) {
+      //   errors.selectedDoctor = "Doctor must be choosed!";
+      // }
 
       if (!currentDate) {
         errors.currentDate = "Invalid Date!";
@@ -113,9 +156,9 @@ class ManageSchedule extends Component {
         errors.allScheduleTime = "Schedule is empty!";
       }
     } else {
-      if (_.isEmpty(selectedDoctor)) {
-        errors.selectedDoctor = "Cần chọn bác sĩ!";
-      }
+      // if (_.isEmpty(selectedDoctor)) {
+      //   errors.selectedDoctor = "Cần chọn bác sĩ!";
+      // }
 
       if (!currentDate) {
         errors.currentDate = "Ngày không hợp lệ!";
@@ -149,9 +192,12 @@ class ManageSchedule extends Component {
     const selectedTime = allScheduleTime.filter(
       (item) => item.isSelected === true
     );
+    let { userInfo } = this.props;
+    let doctorId =
+      userInfo.roleId === USER_ROLE.DOCTOR ? userInfo.id : selectedDoctor.value;
     selectedTime.forEach((item) => {
       result.push({
-        doctorId: selectedDoctor.value,
+        doctorId: doctorId,
         date: currentDate,
         timeType: item.keyMap,
       });
@@ -159,7 +205,7 @@ class ManageSchedule extends Component {
 
     this.props.createBulkScheduleDoctor({
       result,
-      doctorId: selectedDoctor.value,
+      doctorId: doctorId,
       date: currentDate,
     });
 
@@ -172,7 +218,7 @@ class ManageSchedule extends Component {
 
   render() {
     const { selectedDoctor, doctors, allScheduleTime, errors } = this.state;
-    let { language } = this.props;
+    let { language, userInfo } = this.props;
     return (
       <>
         <div className="title">
@@ -181,17 +227,19 @@ class ManageSchedule extends Component {
         <div className="wrapper">
           <div className="container">
             <div className="row">
-              <div className="col-6 from-group">
-                <FormattedMessage id="manage-schedule.select-doctor" />
-                <Select
-                  value={selectedDoctor}
-                  onChange={this.handleChange}
-                  options={doctors}
-                />
-                {errors.selectedDoctor && (
-                  <span className="text-danger">{errors.selectedDoctor}</span>
-                )}
-              </div>
+              {userInfo && userInfo.roleId === USER_ROLE.ADMIN && (
+                <div className="col-6 from-group">
+                  <FormattedMessage id="manage-schedule.select-doctor" />
+                  <Select
+                    value={selectedDoctor}
+                    onChange={this.handleChange}
+                    options={doctors}
+                  />
+                  {errors.selectedDoctor && (
+                    <span className="text-danger">{errors.selectedDoctor}</span>
+                  )}
+                </div>
+              )}
               <div className="col-6 from-group">
                 <FormattedMessage id="manage-schedule.select-day" />
                 <DatePicker
@@ -245,6 +293,7 @@ const mapStateToProps = (state) => {
     language: state.app.language,
     doctors: state.admin.listDoctor,
     allScheduleTime: state.admin.allScheduleTime,
+    userInfo: state.user.userInfo,
   };
 };
 
