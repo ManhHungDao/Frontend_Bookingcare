@@ -16,7 +16,7 @@ class ManageSchedule extends Component {
     super(props);
     this.state = {
       doctors: [],
-      selectedDoctor: null,
+      selectedDoctor: "",
       currentDate: "",
       allScheduleTime: [],
       errors: {},
@@ -56,7 +56,8 @@ class ManageSchedule extends Component {
       });
     }
     if (prevState.currentDate !== this.state.currentDate) {
-      if (this.state.currentDate !== "") this.fetchSchedule();
+      if (this.state.currentDate !== "" && this.state.selectedDoctor !== "")
+        this.fetchSchedule();
     }
   }
   buildDataInputSelect = (data) => {
@@ -92,10 +93,6 @@ class ManageSchedule extends Component {
     let { allScheduleTime } = this.state;
     if (res && res.errCode === 0) {
       let time = res.data;
-      console.log(
-        "🚀 ~ file: ManageSchedule.js ~ line 94 ~ ManageSchedule ~ fetchSchedule= ~ time",
-        time
-      );
       if (
         allScheduleTime &&
         allScheduleTime.length > 0 &&
@@ -115,14 +112,18 @@ class ManageSchedule extends Component {
   };
   handleOnchangDatePicker = (date) => {
     let { allScheduleTime } = this.state;
-    allScheduleTime.map((item) => {
-      item.isSelected = false;
-      return item;
-    });
+    if (this.state.selectedDoctor !== "") {
+      allScheduleTime.map((item) => {
+        item.isSelected = false;
+        return item;
+      });
+      this.setState({
+        allScheduleTime,
+      });
+    }
     this.setState({
       currentDate: date[0],
       errors: {},
-      allScheduleTime,
     });
   };
 
