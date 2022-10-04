@@ -45,19 +45,9 @@ class ManageSchedule extends Component {
 
     if (prevProps.allScheduleTime !== this.props.allScheduleTime) {
       let data = this.props.allScheduleTime;
-      if (data && data.length > 0) {
-        data.map((item) => {
-          item.isSelected = false;
-          return item;
-        });
-      }
       this.setState({
         allScheduleTime: data,
       });
-    }
-    if (prevState.currentDate !== this.state.currentDate) {
-      if (this.state.currentDate !== "" && this.state.selectedDoctor !== "")
-        this.fetchSchedule();
     }
   }
   buildDataInputSelect = (data) => {
@@ -82,9 +72,11 @@ class ManageSchedule extends Component {
   };
 
   fetchSchedule = async () => {
+    if (this.state.currentDate === "" && this.state.selectedDoctor === "")
+      return;
     let { userInfo } = this.props;
     let doctorId =
-      userInfo && userInfo.roleId === USER_ROLE.DOCTOR
+      userInfo?.roleId === USER_ROLE.DOCTOR
         ? userInfo.id
         : this.state.selectedDoctor.value;
     let date = new Date(this.state.currentDate).getTime();
@@ -106,25 +98,21 @@ class ManageSchedule extends Component {
           });
         });
         this.setState({ allScheduleTime });
-        console.log(this.state.allScheduleTime);
       }
     }
   };
   handleOnchangDatePicker = (date) => {
     let { allScheduleTime } = this.state;
-    if (this.state.selectedDoctor !== "") {
-      allScheduleTime.map((item) => {
-        item.isSelected = false;
-        return item;
-      });
-      this.setState({
-        allScheduleTime,
-      });
-    }
+    allScheduleTime.map((item) => {
+      item.isSelected = false;
+      return item;
+    });
     this.setState({
       currentDate: date[0],
       errors: {},
+      allScheduleTime,
     });
+    this.fetchSchedule();
   };
 
   handleClickBtnTime = (time) => {
