@@ -9,7 +9,7 @@
   display: flex;
   .login-conainer {
     // height: 80%;
-    height:fit-content;
+    height: fit-content;
     width: 400px;
     background-color: white;
     border-radius: 25px;
@@ -71,8 +71,25 @@
       }
     }
     .forgot-password {
+      // color: gray;
+      // padding: 20px;
+      border: none;
+      background-color: transparent;
+      text-align: right;
+      float: right;
       color: gray;
-      padding: 20px;
+      cursor: pointer;
+      &:hover {
+        color: #000;
+      }
+    }
+    .forgot-password-container{
+      .btn-otp{
+        font-size: 1.3rem;
+        color: white;
+        font-weight: 700;
+        text-align: center;
+      }
     }
     .social-login {
       i {

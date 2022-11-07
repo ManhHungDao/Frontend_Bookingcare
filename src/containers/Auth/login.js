@@ -17,10 +17,10 @@ class Login extends Component {
       isShowPassword: false,
       errMessage: "",
       isShowForgetPass: false,
-      emailForgetPass: "qhao74154@gmail.com",
+      emailForgetPass: "",
       codeOTP: "",
       isShowinputUpdatepass: false,
-      newPass:""
+      newPass: "",
     };
   }
   handleOnChangeUserName = (event) => {
@@ -34,15 +34,15 @@ class Login extends Component {
       password: event.target.value,
     });
   };
-  handleemailForgetPass = (event,id) => {
-    if(id=="emailForgetPass")
-    this.setState({
-      emailForgetPass: event.target.value,
-    });
-    if(id=="newPass")
-    this.setState({
-      newPass: event.target.value,
-    });
+  handleemailForgetPass = (event, id) => {
+    if (id == "emailForgetPass")
+      this.setState({
+        emailForgetPass: event.target.value,
+      });
+    if (id == "newPass")
+      this.setState({
+        newPass: event.target.value,
+      });
   };
 
   handleShowHidePassword = () => {
@@ -82,9 +82,9 @@ class Login extends Component {
   //     this.handleLogin();
   //   }
   // }
-  handleisShowForgetPass = (status) => {
+  handleisShowForgetPass = () => {
     this.setState({
-      isShowForgetPass: !status,
+      isShowForgetPass: !this.state.isShowForgetPass,
     });
   };
 
@@ -96,15 +96,15 @@ class Login extends Component {
     handleemailForgetPass(email, otp);
   };
   handleCheckOTP = (otp) => {
-    if (this.state.codeOTP == otp) {
+    if (this.state.codeOTP === otp) {
       this.setState({
         isShowinputUpdatepass: true,
       });
     }
   };
-  
+
   handleupdatePass = (pass) => {
-    updatePass(this.state.emailForgetPass,pass)
+    updatePass(this.state.emailForgetPass, pass);
     toast.success("Cập nhật password thành công");
   };
   render() {
@@ -113,95 +113,127 @@ class Login extends Component {
         <div className="login-backround">
           <div className="login-conainer">
             <div className="login-content row">
-              <div className="col-12 text-login">Login</div>
-              <div className="col-12 form-group login-input">
-                <label>Username:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter your username"
-                  value={this.state.email}
-                  onChange={(event) => this.handleOnChangeUserName(event)}
-                />
-              </div>
-              <div className="col-12 form-group login-input">
-                <label>Password:</label>
-                <div className="custom-input-password">
-                  <input
-                    type={this.state.isShowPassword ? "text" : "password"}
-                    className="form-control"
-                    placeholder="Enter your password"
-                    value={this.state.password}
-                    onChange={(event) => this.handleOnChangePassword(event)}
-                    // onKeyDown={this.handleKeyDown}
-                  />
-                  <span onClick={() => this.handleShowHidePassword()}>
-                    <i
-                      className={
-                        this.state.isShowPassword
-                          ? "fas fa-eye-slash"
-                          : "fas fa-eye"
+              {this.state.isShowForgetPass ? (
+                <div className="forgot-password-container">
+                  <div className="col-12 form-group login-input">
+                    <label htmlFor="forgetpass">Enter your email:</label>
+                    <input
+                      onChange={(event) =>
+                        this.handleemailForgetPass(event, "emailForgetPass")
                       }
-                    ></i>
-                  </span>
-                </div>
-              </div>
-              <div className="col-12" style={{ color: "red" }}>
-                {this.state.errMessage}
-              </div>
-              <div className="col-12">
-                <button
-                  className="btn-login"
-                  onClick={() => this.handleLogin()}
-                >
-                  Login
-                </button>
-              </div>
-              <div className="col-12 ">
-                <button
-                  onClick={() => {
-                    this.handleisShowForgetPass(this.state.isShowForgetPass);
-                  }}
-                  className="forgot-password"
-                >
-                  Forgot your password
-                </button>
-              </div>
-              {this.state.isShowForgetPass && (
-                <div>
-                  <input
-                    onChange={(event) => this.handleemailForgetPass(event,"emailForgetPass")}
-                    type="email"
-                    name=""
-                    value={this.state.emailForgetPass}
-                  />
+                      type="email"
+                      name="forgetpass"
+                      className="form-control"
+                      value={this.state.emailForgetPass}
+                    />
+                  </div>
                   <button
-                    className="btn"
+                    className="btn btn-info btn-otp"
                     onClick={() =>
                       this.handleSendMail(this.state.emailForgetPass)
                     }
                   >
-                    Send mail
+                    Gửi mã OTP
                   </button>
-
-                  <input
-                    onChange={(event) =>
-                      this.handleCheckOTP(event.target.value)
-                    }
-                    type="text"
-                  />
+                  <div className="col-12 form-group login-input">
+                    <label htmlFor="OTP">OTP:</label>
+                    <input
+                      name="OTP"
+                      className="form-control"
+                      onChange={(event) =>
+                        this.handleCheckOTP(event.target.value)
+                      }
+                      type="text"
+                    />
+                  </div>
+                  <div className="col-12 ">
+                    <span
+                      onClick={() => {
+                        this.handleisShowForgetPass();
+                      }}
+                      className="forgot-password"
+                    >
+                      Login
+                    </span>
+                  </div>
                   {this.state.isShowinputUpdatepass && (
-                    <div>
-                      <input type="text" value={this.state.newPass} onChange={(event) => this.handleemailForgetPass(event,"newPass")} />
+                    <div className="pt-3">
+                      <label htmlFor="OTP">Nhập mật khẩu mới :</label>
+                      <input
+                        type="text"
+                        value={this.state.newPass}
+                        onChange={(event) =>
+                          this.handleemailForgetPass(event, "newPass")
+                        }
+                      />
                       <button
-                        className="btn"
-                        onClick={() => this.handleupdatePass(this.state.newPass)}
+                        className="mt-4 p-3 btn btn-primary"
+                        onClick={() =>
+                          this.handleupdatePass(this.state.newPass)
+                        }
                       >
-                        Doi pass
+                        Đổi mật khẩu
                       </button>
                     </div>
                   )}
                 </div>
+              ) : (
+                <>
+                  {/* <div className="col-12 text-login">Login</div> */}
+                  <div className="col-12 form-group login-input">
+                    <label>Username:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter your username"
+                      value={this.state.email}
+                      onChange={(event) => this.handleOnChangeUserName(event)}
+                    />
+                  </div>
+                  <div className="col-12 form-group login-input">
+                    <label>Password:</label>
+                    <div className="custom-input-password">
+                      <input
+                        type={this.state.isShowPassword ? "text" : "password"}
+                        className="form-control"
+                        placeholder="Enter your password"
+                        value={this.state.password}
+                        onChange={(event) => this.handleOnChangePassword(event)}
+                        // onKeyDown={this.handleKeyDown}
+                      />
+                      <span onClick={() => this.handleShowHidePassword()}>
+                        <i
+                          className={
+                            this.state.isShowPassword
+                              ? "fas fa-eye-slash"
+                              : "fas fa-eye"
+                          }
+                        ></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-12" style={{ color: "red" }}>
+                    {this.state.errMessage}
+                  </div>
+                  <div className="col-12">
+                    <button
+                      className="btn-login"
+                      onClick={() => this.handleLogin()}
+                    >
+                      Login
+                    </button>
+                  </div>
+                  <div className="col-12 ">
+                    <span
+                      onClick={() => {
+                        this.handleisShowForgetPass();
+                      }}
+                      className="forgot-password"
+                    >
+                      Forgot your password
+                    </span>
+                  </div>
+                </>
               )}
 
               {/*  <div className="col-12 mt-3 text-center">
