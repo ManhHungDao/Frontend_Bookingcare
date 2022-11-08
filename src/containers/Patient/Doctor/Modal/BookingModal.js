@@ -10,6 +10,7 @@ import ProfileDoctor from "../ProfileDoctor";
 import NumberFormat from "react-number-format";
 import DatePicker from "../../../../components/Input/DatePicker";
 import moment from "moment";
+import validator from "validator";
 
 class BookingModal extends Component {
   constructor(props) {
@@ -25,7 +26,8 @@ class BookingModal extends Component {
       doctorId: "",
       genders: "",
       timeType: "",
-      dcotorName: "",
+      doctorName: "",
+      errors: {},
     };
   }
 
@@ -50,6 +52,39 @@ class BookingModal extends Component {
       }
     }
   }
+  checkValidate = () => {
+    let errors = {};
+    let { email, fullName, phoneNumber, address, birthday, reason } =
+      this.state;
+    const { language } = this.props;
+    if (language === "en") {
+      if (!email) errors.email = "Email must be entered";
+      if (!validator.isEmail(email)) {
+        errors.email = "Invalid email address";
+      }
+      if (!fullName) errors.fullName = "Name must be entered";
+      if (!phoneNumber) errors.phoneNumber = "Phone number must be entered";
+      if (!validator.isMobilePhone(phoneNumber))
+        errors.phoneNumber = "Invalid phone number";
+      if (!address) errors.address = "Address must be entered";
+      if (!birthday) errors.birthday = "Birthday must be entered";
+      if (!reason) errors.reason = "Reason must be entered";
+    } else {
+      if (!email) errors.email = "Email không được trống";
+      if (!validator.isEmail(email)) {
+        errors.email = "Email không hợp lệ";
+      }
+      if (!fullName) errors.fullName = "Tên không được trống";
+      if (!phoneNumber) errors.phoneNumber = "Số điện thoại không được trống";
+      if (!validator.isMobilePhone(phoneNumber))
+        errors.phoneNumber = "Số điện thoại không hợp lệ";
+      if (!address) errors.address = "Địa chỉ không được trống";
+      if (!birthday) errors.birthday = "Ngày sinh không được trống";
+      if (!reason) errors.reason = "Lý do khám không được trống";
+    }
+    return errors;
+  };
+
   toggle = () => {
     this.props.closeModalBooking();
   };
@@ -121,8 +156,19 @@ class BookingModal extends Component {
     }
     return "";
   };
+  isValid = (errors) => {
+    let keys = Object.keys(errors);
+    let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
+    return count === 0;
+  };
+
   handleSaveUser = () => {
-    // let date = new Date(this.state.birthday).getTime();
+    const errors = this.checkValidate();
+    const checkValidInPut = this.isValid(errors);
+    if (!checkValidInPut) {
+      this.setState({ errors });
+      return;
+    }
     let date = this.props.dataScheduleTimeModal.date;
     const timeString = this.buildTimeBooking(this.props.dataScheduleTimeModal);
     const doctorName = this.buildNameDoctor(this.props.dataScheduleTimeModal);
@@ -154,7 +200,7 @@ class BookingModal extends Component {
   render() {
     const { language, isOpenModelBooking, dataScheduleTimeModal, isShowPrice } =
       this.props;
-    const { genders, doctorId } = this.state;
+    const { genders, doctorId, errors } = this.state;
     return (
       <>
         <Modal size="lg" isOpen={isOpenModelBooking} centered>
@@ -188,6 +234,9 @@ class BookingModal extends Component {
                 }
                 value={this.state.fullName}
               />
+              {errors.fullName && (
+                <span className="text-danger">{errors.fullName}</span>
+              )}
             </div>
             <div className="col-6 form-group">
               <label>
@@ -224,6 +273,9 @@ class BookingModal extends Component {
                 onChange={(event) => this.handleOnChangeInput(event, "email")}
                 value={this.state.email}
               />
+              {errors.email && (
+                <span className="text-danger">{errors.email}</span>
+              )}
             </div>
             <div className="col-6 form-group">
               <label>
@@ -234,6 +286,9 @@ class BookingModal extends Component {
                 onChange={(event) => this.handleOnChangeInput(event, "address")}
                 value={this.state.address}
               />
+              {errors.address && (
+                <span className="text-danger">{errors.address}</span>
+              )}
             </div>
             <div className="col-6 form-group">
               <label>
@@ -246,15 +301,23 @@ class BookingModal extends Component {
                 }
                 value={this.state.phoneNumber}
               />
+              {errors.phoneNumber && (
+                <span className="text-danger">{errors.phoneNumber}</span>
+              )}
             </div>
             <div className="col-6 form-group">
               <label>
                 <FormattedMessage id="patient.booking-modal.birthday" />
               </label>
-              <DatePicker
+             <div className="custom-style-datepicker">
+             <DatePicker
                 onChange={this.handleOnchangDatePicker}
                 value={this.state.birthday}
               />
+             </div>
+              {errors.birthday && (
+                <span className="text-danger">{errors.birthday}</span>
+              )}
             </div>
             <div className="col-12 form-group">
               <label>
@@ -265,6 +328,9 @@ class BookingModal extends Component {
                 onChange={(event) => this.handleOnChangeInput(event, "reason")}
                 value={this.state.reason}
               />
+              {errors.reason && (
+                <span className="text-danger">{errors.reason}</span>
+              )}
             </div>
           </div>
           <ModalFooter>

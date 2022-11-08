@@ -30,3 +30,7 @@
   transition: all 100ms;
   box-sizing: border-box;
 }
+
+.custom-style-datepicker .flatpickr-input {
+  min-height: 34px;
+}
