@@ -199,15 +199,20 @@ const getHandBookHome = () => {
 const getRelatedHandbook = (id) => {
   return axios.get(`/api/get-related-handbook?id=${id}`);
 };
-const handleemailForgetPass = (email,otp) => {
-  return axios.post("/api/forgetpass", { email,otp});
+const checkMailExist = (email) => {
+  return axios.post("/api/checkMailExist", { email });
 };
-const updatePass = (email,password) => {
-  return axios.post("/api/updatePass", { email,password});
+
+const handleemailForgetPass = (email, otp) => {
+  return axios.post("/api/forgetpass", { email, otp });
+};
+const updatePass = (email, password) => {
+  return axios.post("/api/updatePass", { email, password });
 };
 
 export {
   updatePass,
+  checkMailExist,
   handleemailForgetPass,
   getRelatedHandbook,
   getHandBookHome,

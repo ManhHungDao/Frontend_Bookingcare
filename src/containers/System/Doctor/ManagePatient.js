@@ -131,21 +131,21 @@ class ManagePatient extends Component {
               </div>
             </div>
             {listPatient && listPatient.length > 0 ? (
-              <table>
+              <table className="table" style={{ verticalAlign: "middle" }}>
                 <thead>
-                  <tr>
-                    <th>STT</th>
-                    <th>Email</th>
-                    <th>
+                  <tr className="table-info">
+                    <th scope="col">STT</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">
                       <FormattedMessage id="manage-patient.name" />
                     </th>
-                    <th>
+                    <th scope="col">
                       <FormattedMessage id="manage-patient.gender" />
                     </th>
-                    <th>
+                    <th scope="col">
                       <FormattedMessage id="manage-patient.time" />
                     </th>
-                    <th>
+                    <th scope="col">
                       <FormattedMessage id="manage-patient.actions" />
                     </th>
                   </tr>
@@ -154,10 +154,10 @@ class ManagePatient extends Component {
                   {listPatient.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td>{index + 1}</td>
+                        <th scope="row">{index + 1}</th>
                         <td>{item.patientData.email}</td>
                         <td>{item.patientData.firstName}</td>
-                        <td>{item.patientData.genderData.valueVI}</td>
+                        <td>{item.patientData.genderDataPatient.valueVI}</td>
                         <td>{item.timeTypeDataPatient.valueVI}</td>
                         <td>
                           <button

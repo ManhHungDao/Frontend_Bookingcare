@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
-import { handleemailForgetPass, updatePass } from "../../services/userService";
+import {
+  handleemailForgetPass,
+  updatePass,
+  checkMailExist,
+} from "../../services/userService";
 import "./login.scss";
 // import { dateFilter } from "react-bootstrap-table2-filter";
 import { handleLoginApiService } from "../../services/userService";
@@ -19,6 +23,7 @@ class Login extends Component {
       isShowForgetPass: false,
       emailForgetPass: "",
       codeOTP: "",
+      otp: "",
       isShowinputUpdatepass: false,
       newPass: "",
     };
@@ -34,12 +39,12 @@ class Login extends Component {
       password: event.target.value,
     });
   };
-  handleemailForgetPass = (event, id) => {
-    if (id == "emailForgetPass")
+  handleemailForgetPass = (event, name) => {
+    if (name === "emailForgetPass")
       this.setState({
         emailForgetPass: event.target.value,
       });
-    if (id == "newPass")
+    if (name === "newPass")
       this.setState({
         newPass: event.target.value,
       });
@@ -77,35 +82,50 @@ class Login extends Component {
       }
     }
   };
-  // handleKeyDown(event) {
-  //   if (event.keyCode === 13) {
-  //     this.handleLogin();
-  //   }
-  // }
+
   handleisShowForgetPass = () => {
     this.setState({
       isShowForgetPass: !this.state.isShowForgetPass,
     });
   };
 
-  handleSendMail = (email) => {
+  handleSendMail = async (email) => {
+    const res = await checkMailExist(email);
+    if (res && res.errCode === 0 && res.message === false) {
+      toast.error(`Email doen't existed`);
+      return;
+    }
+    this.setState({
+      isShowinputUpdatepass: !this.state.isShowinputUpdatepass,
+    });
     let otp = Math.floor(Math.random() * (9999 - 1000)) + 1000;
     this.setState({
       codeOTP: otp,
     });
     handleemailForgetPass(email, otp);
   };
-  handleCheckOTP = (otp) => {
-    if (this.state.codeOTP === otp) {
-      this.setState({
-        isShowinputUpdatepass: true,
-      });
-    }
+
+  hadnleOnChangeInputOtp = (value) => {
+    this.setState({
+      otp: value,
+    });
   };
 
-  handleupdatePass = (pass) => {
-    updatePass(this.state.emailForgetPass, pass);
-    toast.success("Cập nhật password thành công");
+  handleupdatePass = async (pass) => {
+    if (this.state.codeOTP !== this.state.otp) {
+      toast.error("Wrong OTP");
+      return;
+    }
+    if (this.state.newPass === "") {
+      toast.error("Invalid Password");
+      return;
+    }
+    const res = await updatePass(this.state.emailForgetPass, pass);
+    if (res && res.errCode !== 1 && res.errCode !== -1)
+      toast.success("Update password success");
+    else {
+      toast.error("Update password failed");
+    }
   };
   render() {
     return (
@@ -127,25 +147,51 @@ class Login extends Component {
                       value={this.state.emailForgetPass}
                     />
                   </div>
+                  <div className="col-12" style={{ color: "red" }}>
+                    {this.state.errMessage}
+                  </div>
                   <button
-                    className="btn btn-info btn-otp"
+                    className="btn btn-primary"
                     onClick={() =>
                       this.handleSendMail(this.state.emailForgetPass)
                     }
                   >
-                    Gửi mã OTP
+                    Send OTP
                   </button>
-                  <div className="col-12 form-group login-input">
-                    <label htmlFor="OTP">OTP:</label>
-                    <input
-                      name="OTP"
-                      className="form-control"
-                      onChange={(event) =>
-                        this.handleCheckOTP(event.target.value)
-                      }
-                      type="text"
-                    />
-                  </div>
+                  {this.state.isShowinputUpdatepass && (
+                    <>
+                      <div className="col-12 form-group login-input">
+                        <label htmlFor="OTP">OTP:</label>
+                        <input
+                          name="OTP"
+                          className="form-control"
+                          onChange={(event) =>
+                            this.hadnleOnChangeInputOtp(event.target.value)
+                          }
+                          type="text"
+                        />
+                      </div>
+                      <div className="col-12 form-group login-input">
+                        <label htmlFor="OTP">Nhập mật khẩu mới :</label>
+                        <input
+                          className="form-control"
+                          type="text"
+                          value={this.state.newPass}
+                          onChange={(event) =>
+                            this.handleemailForgetPass(event, "newPass")
+                          }
+                        />
+                        <button
+                          className="btn btn-primary mt-2"
+                          onClick={() =>
+                            this.handleupdatePass(this.state.newPass)
+                          }
+                        >
+                          Change Password
+                        </button>
+                      </div>
+                    </>
+                  )}
                   <div className="col-12 ">
                     <span
                       onClick={() => {
@@ -156,26 +202,6 @@ class Login extends Component {
                       Login
                     </span>
                   </div>
-                  {this.state.isShowinputUpdatepass && (
-                    <div className="pt-3">
-                      <label htmlFor="OTP">Nhập mật khẩu mới :</label>
-                      <input
-                        type="text"
-                        value={this.state.newPass}
-                        onChange={(event) =>
-                          this.handleemailForgetPass(event, "newPass")
-                        }
-                      />
-                      <button
-                        className="mt-4 p-3 btn btn-primary"
-                        onClick={() =>
-                          this.handleupdatePass(this.state.newPass)
-                        }
-                      >
-                        Đổi mật khẩu
-                      </button>
-                    </div>
-                  )}
                 </div>
               ) : (
                 <>
