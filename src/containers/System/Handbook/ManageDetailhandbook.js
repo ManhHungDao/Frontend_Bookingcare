@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import "./ManageDetailHandbook.scss";
+import "./ManageDetailhandbook.scss";
 import { FormattedMessage } from "react-intl";
 import Lightbox from "react-image-lightbox";
 import { languages, CommonUtils, CRUD_ACTIONS } from "../../../utils";
@@ -13,7 +13,6 @@ import MdEditor from "react-markdown-editor-lite";
 import {
   deleteDetailHandbook,
   updateDetailHandbook,
-  getDetailHandbook,
   createDetailHandbook,
   getListHandbook,
 } from "../../../services/userService";

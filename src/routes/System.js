@@ -9,7 +9,7 @@ import ManageClinic from "../containers/System/Clinic/ManageClinic";
 import ManageDetailClinic from "../containers/System/Clinic/ManageDetailClinic";
 import ManageDetailSpecialty from "../containers/System/Specialty/ManageDetailSpecialty";
 import ManageHandbook from "../containers/System/Handbook/ManageHandbook";
-import ManageDetailHandbook from "../containers/System/Handbook/ManageDetailHandbook";
+import ManageDetailHandbook from "../containers/System/Handbook/ManageDetailhandbook.js";
 import { USER_ROLE } from "../utils/constant";
 
 class System extends Component {
@@ -19,41 +19,41 @@ class System extends Component {
       <>
         {isLoggedIn && <Header />}
         {/* {userInfo && userInfo.roleId === USER_ROLE.ADMIN && ( */}
-          <div className="system-container">
-            <div className="system-list">
-              <Switch>
-                <Route path="/system/user-manage" component={UserRedux} />
-                <Route path="/system/manage-doctor" component={ManageDoctor} />
-                <Route path="/system/manage-clinic" component={ManageClinic} />
-                <Route
-                  path="/system/manage-handbook"
-                  component={ManageHandbook}
-                />
-                <Route
-                  path="/system/manage-detail-clinic"
-                  component={ManageDetailClinic}
-                />
-                <Route
-                  path="/system/manage-specialty"
-                  component={ManageSpecialty}
-                />
-                <Route
-                  path="/system/manage-detail-specialty"
-                  component={ManageDetailSpecialty}
-                />
-                <Route
-                  path="/system/manage-detail-handbook"
-                  component={ManageDetailHandbook}
-                />
+        <div className="system-container">
+          <div className="system-list">
+            <Switch>
+              <Route path="/system/user-manage" component={UserRedux} />
+              <Route path="/system/manage-doctor" component={ManageDoctor} />
+              <Route path="/system/manage-clinic" component={ManageClinic} />
+              <Route
+                path="/system/manage-handbook"
+                component={ManageHandbook}
+              />
+              <Route
+                path="/system/manage-detail-clinic"
+                component={ManageDetailClinic}
+              />
+              <Route
+                path="/system/manage-specialty"
+                component={ManageSpecialty}
+              />
+              <Route
+                path="/system/manage-detail-specialty"
+                component={ManageDetailSpecialty}
+              />
+              <Route
+                path="/system/manage-detail-handbook"
+                component={ManageDetailHandbook}
+              />
 
-                <Route
-                  component={() => {
-                    return <Redirect to={systemMenuPath} />;
-                  }}
-                />
-              </Switch>
-            </div>
+              <Route
+                component={() => {
+                  return <Redirect to={systemMenuPath} />;
+                }}
+              />
+            </Switch>
           </div>
+        </div>
         {/* )} */}
       </>
     );

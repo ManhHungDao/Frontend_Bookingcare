@@ -2,7 +2,6 @@
   "name": "react-app-manhhung",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ManhHungDao.github.io/Frontend_Bookingcare/",
   "dependencies": {
     "@formatjs/intl-pluralrules": "^3.5.6",
     "@formatjs/intl-relativetimeformat": "^7.3.6",
@@ -10,7 +9,6 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "connected-react-router": "^6.9.1",
-    "gh-pages": "^4.0.0",
     "lodash": "^4.17.21",
     "markdown-it": "12.1.0",
     "moment": "^2.29.0",
@@ -51,9 +49,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
