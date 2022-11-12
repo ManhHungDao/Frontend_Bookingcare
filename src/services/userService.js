@@ -203,11 +203,15 @@ const checkMailExist = (email) => {
   return axios.post("/api/checkMailExist", { email });
 };
 
-const handleemailForgetPass = (email, otp) => {
-  return axios.post("/api/forgetpass", { email, otp });
+const handleemailForgetPass = (email,otp) => {
+  return axios.post("/api/forgetpass", { email,otp});
 };
-const updatePass = (email, password) => {
-  return axios.post("/api/updatePass", { email, password });
+const updatePass = (email,password) => {
+  return axios.post("/api/updatePass", { email,password});
+};
+
+const createPacketService = (data) => {
+  return axios.post("/api/createPacket", data);
 };
 
 export {
@@ -263,4 +267,5 @@ export {
   postSemery,
   updateClinic,
   deleteClinicService,
+  createPacketService,
 };

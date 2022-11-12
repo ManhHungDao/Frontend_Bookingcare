@@ -9,7 +9,10 @@ import ManageClinic from "../containers/System/Clinic/ManageClinic";
 import ManageDetailClinic from "../containers/System/Clinic/ManageDetailClinic";
 import ManageDetailSpecialty from "../containers/System/Specialty/ManageDetailSpecialty";
 import ManageHandbook from "../containers/System/Handbook/ManageHandbook";
-import ManageDetailHandbook from "../containers/System/Handbook/ManageDetailhandbook.js";
+import ManageDetailHandbook from "../containers/System/Handbook/ManageDetailhandbook"; //commnet nek
+import Packet_examination from "../containers/System/Packet_examination/Packet_examination";
+
+// import ManageDetailHandbook from "../containers/"
 import { USER_ROLE } from "../utils/constant";
 
 class System extends Component {
@@ -44,6 +47,10 @@ class System extends Component {
               <Route
                 path="/system/manage-detail-handbook"
                 component={ManageDetailHandbook}
+              />
+               <Route
+                path="/system/packet_examination"
+                component={Packet_examination}
               />
 
               <Route
