@@ -79,12 +79,14 @@
 }
 .home-header-banner {
   background: url("../../assets/header-background.jpg");
-  height: 550px;
-  background-position: center;
+  background-position: center -75px;
   background-repeat: no-repeat;
   background-size: cover;
+  object-fit: cover;
   display: flex;
   flex-direction: column;
+  min-height: 70vh;
+  position: relative;
   .content-up {
     background-image: linear-gradient(
       rgba(0, 0, 0, 0.25),
@@ -92,7 +94,8 @@
     );
     padding: 20px;
     height: 65%;
-    
+    padding-top: 80px;
+
     .title {
       color: white;
       text-shadow: 1px 1px 1px #333;
@@ -118,7 +121,6 @@
         // left: 50%;
         transform: translate(135%, -50%);
         z-index: 2;
-   
       }
       .input_search {
         padding: 5px 25px 5px 35px;
@@ -147,7 +149,6 @@
         .css-1wa3eu0-placeholder {
           color: rgb(77, 75, 75);
           font-size: 15px;
-          cursor: text;
         }
       }
     }
@@ -174,16 +175,20 @@
     // }
   }
   .content-down {
-    height: 35%;
-    display: flex;
-    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    // display: flex;
+    // justify-content: center;
     .options {
       width: 100%;
-      background-image: linear-gradient(
-        rgba(255, 255, 255, 0.1),
-        rgba(255, 255, 255, 0.9),
-        rgba(255, 255, 255, 1)
-      ) !important;
+      // background-image: linear-gradient(
+      //   rgba(255, 255, 255, 0.1),
+      //   rgba(255, 255, 255, 0.9),
+      //   rgba(255, 255, 255, 1)
+      // ) !important;
+      background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), white) !important;
       display: flex;
       justify-content: space-around;
       align-items: flex-end;
