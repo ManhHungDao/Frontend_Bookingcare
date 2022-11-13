@@ -92,7 +92,7 @@ class Login extends Component {
   handleSendMail = async (email) => {
     const res = await checkMailExist(email);
     if (res && res.errCode === 0 && res.message === false) {
-      toast.error(`Email doen't existed`);
+      toast.error(`Email is not exist`);
       return;
     }
     this.setState({

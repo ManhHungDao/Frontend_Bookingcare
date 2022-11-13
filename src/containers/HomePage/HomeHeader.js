@@ -43,8 +43,8 @@ class HomeHeader extends Component {
     const language = this.props.language;
     const placeHolder =
       this.props.language === languages.VI
-        ? "Tìm chuyên khoa khám bệnh"
-        : "Find specialties";
+        ? "Tìm chuyên khoa khám bệnh..."
+        : "Find specialties...";
     return (
       <>
         <div className="home-header-container">
