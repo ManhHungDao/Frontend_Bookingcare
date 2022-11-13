@@ -11,7 +11,7 @@ class About extends Component {
     return (
       <>
         <div className="section section-about">
-          <div className="section-container">
+          <div className="container">
             <div className="section-header">
               <div className="title-section">
                 Truyền thông nói về BookingCare

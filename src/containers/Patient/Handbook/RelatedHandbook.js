@@ -22,12 +22,17 @@ class RelatedHandbook extends Component {
     if (this.props.handbookId !== prevProps.handbookId) {
       this.getRelatedhandbook(this.props.handbookId);
     }
+    if (this.props.hideId !== prevProps.hideId) {
+      this.getRelatedhandbook(this.props.handbookId);
+    }
   }
   getRelatedhandbook = async (id) => {
     const res = await getRelatedHandbook(id);
     if (res && res.errCode === 0) {
+      let data = res.data;
+      if (this.props.hideId) data = data.filter((s) => s.id !== this.props.hideId);
       this.setState({
-        relatedHandBook: res.data,
+        relatedHandBook: data,
       });
     } else {
       toast.error("Get Related Handbook Failed");

@@ -88,8 +88,9 @@ class DetailHandbook extends Component {
           </div>
         </div>
         <RelatedHandbook
-          handbookId={this.props.match.params.id}
+          handbookId={this.state.detailHandbook.handbookId}
           isShowHeader={true}
+          hideId={this.state.detailHandbook.id}
         />
         <ListNameHandbook />
         <HomeFooter />

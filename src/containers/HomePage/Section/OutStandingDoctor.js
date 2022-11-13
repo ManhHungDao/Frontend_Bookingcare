@@ -37,7 +37,7 @@ class OutStandingDoctor extends Component {
     return (
       <>
         <div className="section section-doctor">
-          <div className="section-container">
+          <div className="container">
             <div className="section-header">
               <div className="title-section">
                 <FormattedMessage id="homepage.outstanding-doctor" />

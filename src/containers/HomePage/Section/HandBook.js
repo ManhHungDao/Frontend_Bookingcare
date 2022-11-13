@@ -30,6 +30,9 @@ class HandBook extends Component {
     this.props.history.push(`/detail-handbook/${id}`);
 
   };
+  handleClickViewMore = () => {
+    if (this.props.history) this.props.history.push(`/handbook`);
+  };
   render() {
     const settings = {
       dots: false,
@@ -42,12 +45,14 @@ class HandBook extends Component {
     return (
       <>
         <div className="section section-handbook">
-          <div className="section-container">
+          <div className="container">
             <div className="section-header">
               <div className="title-section">
                 <FormattedMessage id="homepage.handbook" />
               </div>
-              <div className="btn-section">
+              <div className="btn-section"
+               onClick={() => this.handleClickViewMore()}
+              >
                 <FormattedMessage id="homepage.view-all" />
               </div>
             </div>

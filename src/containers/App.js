@@ -27,6 +27,7 @@ import TableSpecialtyClinic from "./Patient/Clinic/TableSpecialtyClinic";
 import RenderList from "./Patient/Common/RenderList";
 import DetailHandbook from "./Patient/Handbook/DetailHandbook";
 import ListPostHandbook from "./Patient/Handbook/ListPostHandbook";
+import ViewAllHandbook from "./Patient/Handbook/ViewAllHandbook";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -75,6 +76,7 @@ class App extends Component {
                     component={DetailSpecialty}
                   />
                   <Route path={path.DETAIL_CLINIC} component={DetailClinic} />
+                  <Route path={path.HANDBOOK} component={ViewAllHandbook} />
                   <Route
                     path={path.DETAIL_HANDBOOK}
                     component={DetailHandbook}

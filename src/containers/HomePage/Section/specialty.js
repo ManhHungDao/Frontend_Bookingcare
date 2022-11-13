@@ -39,7 +39,7 @@ class Specialty extends Component {
     return (
       <>
         <div className="section section-specialty">
-          <div className="section-container">
+          <div className="container">
             <div className="section-header">
               <div className="title-section">
                 <FormattedMessage id="homepage.specialty-popular" />
