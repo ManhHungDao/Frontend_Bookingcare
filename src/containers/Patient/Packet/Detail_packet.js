@@ -6,7 +6,7 @@ import "./Detail_packet.scss";
 import { FormattedMessage } from "react-intl";
 import { getDetailPacketByID } from "../../../services/userService";
 import SubHeader from "../../HomePage/SubHeader";
-
+import InfoPacket from "./InfoPacket";
 class Detail_packet extends Component {
   constructor(props) {
     super(props);
@@ -33,38 +33,52 @@ class Detail_packet extends Component {
     return (
       <>
         <SubHeader name={detailPacket.title} />
-        <div className="page">
-          <div className="row ms-5 mt-5">
-            <img className="imgpacket col-2" src={detailPacket.image} />
-            <div className="col-8">
-              <div className="title">
-                <b>{detailPacket.title}</b>
+        <div className="">
+          <div className="layout">
+            <div className="grid detail-packet-container">
+              <div className="row packet-header-info">
+                <img className="imgpacket col-2" src={detailPacket.image} />
+                <div className="col-10">
+                  <p>{detailPacket.title}</p>
+                  <span className="description">
+                    {detailPacket.description}
+                  </span>
+                </div>
               </div>
-              <div className="description col-11 ">
-                {detailPacket.description}
+              <div className="schedule-doctor">
+                <div className="left"></div>
+                <div className="right">
+                  <InfoPacket />
+                </div>
+              </div>
+
+              <div className="">
+                <b>ĐỊA CHỈ GÓI</b>
+                <div>
+                  Phòng khám Đa khoa Olympus Gia Mỹ 33 Nguyễn Huy Lượng, Phường
+                  14, Quận Bình Thạnh, TP. Hồ Chí Minh GIÁ GÓI:
+                  2.210.000đ2.410.000đ.
+                  <span>Xem chi tiết</span>
+                </div>
               </div>
             </div>
           </div>
-          <div className="col-4 mt-5 address1">
-            <b>ĐỊA CHỈ GÓI</b>
-            <div>
-              Phòng khám Đa khoa Olympus Gia Mỹ 33 Nguyễn Huy Lượng, Phường 14,
-              Quận Bình Thạnh, TP. Hồ Chí Minh GIÁ GÓI: 2.210.000đ2.410.000đ.
-            </div>{" "}
-            Xem chi tiết
-          </div>
-          <div className="col-5 markdown">
-            <div>
-              {detailPacket && detailPacket.contentHTML && (
-                <div
-                  contentEditable="false"
-                  dangerouslySetInnerHTML={{
-                    __html: detailPacket.contentHTML,
-                  }}
-                ></div>
-              )}
+          <div className="layout">
+            <div className="grid ">
+              <div className="col-5 markdown">
+                <div>
+                  {detailPacket && detailPacket.contentHTML && (
+                    <div
+                      contentEditable="false"
+                      dangerouslySetInnerHTML={{
+                        __html: detailPacket.contentHTML,
+                      }}
+                    ></div>
+                  )}
+                </div>
+                tổng quát
+              </div>
             </div>
-            tổng quát
           </div>
         </div>
       </>
