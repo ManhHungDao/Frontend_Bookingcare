@@ -214,7 +214,30 @@ const createPacketService = (data) => {
   return axios.post("/api/createPacket", data);
 };
 
+const deletePacketService = (id) => {
+  return axios.delete(`/api/delete-packet?id=${id}`);
+};
+// updatePacketService
+const updatePacketService = (data) => {
+  return axios.post(`/api/update-packet`, data);
+};
+const getAllPacketService = () => {
+  return axios.get("/api/getAllPacket");
+};
+const getDetailPacketByID = (id) => {
+  return axios.get(`/api/getDetailPacket/${id}`);
+};
+
+const getPacketByDanhMucService = (id) => {
+  return axios.get(`/api/getPacketByDanhMuc?typepacket=${id}`);
+};
+
 export {
+  getPacketByDanhMucService,
+  getDetailPacketByID,
+  getAllPacketService,
+  updatePacketService,
+  deletePacketService,
   updatePass,
   checkMailExist,
   handleemailForgetPass,

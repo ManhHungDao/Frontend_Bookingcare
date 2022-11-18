@@ -65,17 +65,13 @@ export const adminMenu = [
     ],
   },//dong thu 5
   {
-    //quan ly cẩm nang
-    name: "menu.admin.manage-packet-examination",
+    //quan ly goi kham
+    name: "menu.admin.packet",
     menus: [
       {
-        name: "menu.admin.create-packet-examination",
+        name: "menu.admin.manage-packet-examination",
         link: "/system/packet_examination",
-      },
-      {
-        name: "menu.admin.manage-detail-handbook",
-        link: "/system/manage-detail-handbook",
-      },
+      }
     ],
   },
 ];

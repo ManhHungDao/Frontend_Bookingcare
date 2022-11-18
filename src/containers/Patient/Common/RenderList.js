@@ -7,7 +7,8 @@ import "./RenderList.scss";
 import { FormattedMessage } from "react-intl";
 import { TYPE } from "../../../utils";
 import SubHeader from "../../HomePage/SubHeader";
-import { getSpecialties } from "../../../services/userService";
+import { getSpecialties } from "../../../services/userService"; //day
+import { withRouter } from "react-router-dom";
 
 class RenderList extends Component {
   constructor(props) {
@@ -46,11 +47,11 @@ class RenderList extends Component {
         });
         break;
       }
-      //   case TYPE.PACKET: {
-      //     res = await
-      //     break;
+        case TYPE.PACKET: {
+          if (this.props.history) this.props.history.push(`/render-list/packet`);
+          break;
 
-      //   }
+        }
       case TYPE.CLINIC: {
         this.setState({
           listRenderSearch: this.props.listClinic,
@@ -229,4 +230,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RenderList);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(RenderList)
+);
