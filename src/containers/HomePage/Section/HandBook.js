@@ -16,7 +16,7 @@ class HandBook extends Component {
   }
 
   async componentDidMount() {
-    const res = await getHandBookHome();
+    const res = await getHandBookHome(5,0);
     if (res && res.errCode === 0) {
       this.setState({
         listHandbook: res.data,

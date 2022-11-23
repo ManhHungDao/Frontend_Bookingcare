@@ -7,6 +7,7 @@ import { FormattedMessage } from "react-intl";
 import { getDetailPacketByID } from "../../../services/userService";
 import SubHeader from "../../HomePage/SubHeader";
 import InfoPacket from "./InfoPacket";
+import HomeFooter from "../../HomePage/HomeFooter";
 class Detail_packet extends Component {
   constructor(props) {
     super(props);
@@ -81,6 +82,7 @@ class Detail_packet extends Component {
             </div>
           </div>
         </div>
+        <HomeFooter/>
       </>
     );
   }

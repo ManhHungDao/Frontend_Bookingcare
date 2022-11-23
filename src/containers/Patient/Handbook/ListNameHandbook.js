@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { toast } from "react-toastify";
 import { getListHandbook } from "../../../services/userService";
+import HomeHeader from "../../HomePage/HomeHeader";
 
 class ListNameHandbook extends Component {
   constructor(props) {

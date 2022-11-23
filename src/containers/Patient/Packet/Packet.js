@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
@@ -8,7 +9,7 @@ import {
 import SubHeader from "../../HomePage/SubHeader";
 import "./Packet.scss";
 import { FormattedMessage } from "react-intl";
-
+import HomeFooter from "../../HomePage/HomeFooter";
 // import { FormattedMessage } from "react-intl";
 
 class Packet extends Component {
@@ -71,6 +72,10 @@ class Packet extends Component {
     this.props.history.push(`/detail-packet/${id}`);
   };
 
+  handleClickViewMore = ()=>{
+    
+  }
+
   render() {
     const { language } = this.props;
     let listPacket1 = this.state.listPacket;
@@ -97,6 +102,7 @@ class Packet extends Component {
                 listDanhMuc1.map((item) => {
                   return (
                     <div
+                      key={item.id}
                       className="col-3 itemCardDanhMuc"
                       onClick={() => {
                         this.getPacketByDanhMuc(item.value);
@@ -125,7 +131,8 @@ class Packet extends Component {
               {listPacket1 != "" &&
                 listPacket1.map((item) => {
                   return (
-                    <div key={item.id} 
+                    <div
+                      key={item.id}
                       onClick={() => {
                         this.handleViewDetail(item.id);
                       }}
@@ -159,6 +166,7 @@ class Packet extends Component {
             </div>
           </div>
         </div>
+        <HomeFooter />
       </>
     );
   }

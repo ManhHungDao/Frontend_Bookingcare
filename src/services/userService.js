@@ -193,8 +193,8 @@ const updateDetailHandbook = (data) => {
 const deleteDetailHandbook = (id) => {
   return axios.delete(`/api/delete-detail-handbook?id=${id}`);
 };
-const getHandBookHome = () => {
-  return axios.get(`/api/get-handbook-home`);
+const getHandBookHome = (limit, offset) => {
+  return axios.get(`/api/get-handbook-home?limit=${limit}&offset=${offset}`);
 };
 const getRelatedHandbook = (id) => {
   return axios.get(`/api/get-related-handbook?id=${id}`);
@@ -203,11 +203,11 @@ const checkMailExist = (email) => {
   return axios.post("/api/checkMailExist", { email });
 };
 
-const handleemailForgetPass = (email,otp) => {
-  return axios.post("/api/forgetpass", { email,otp});
+const handleemailForgetPass = (email, otp) => {
+  return axios.post("/api/forgetpass", { email, otp });
 };
-const updatePass = (email,password) => {
-  return axios.post("/api/updatePass", { email,password});
+const updatePass = (email, password) => {
+  return axios.post("/api/updatePass", { email, password });
 };
 
 const createPacketService = (data) => {
