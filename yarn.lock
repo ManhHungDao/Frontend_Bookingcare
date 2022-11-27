@@ -10143,6 +10143,14 @@
     "regenerator-runtime" "^0.13.7"
     "whatwg-fetch" "^3.4.1"
 
+"react-async-script@^1.1.1":
+  "integrity" "sha512-bCpkbm9JiAuMGhkqoAiC0lLkb40DJ0HOEJIku+9JDjxX3Rcs+ztEOG13wbrOskt3n2DTrjshhaQ/iay+SnGg5Q=="
+  "resolved" "https://registry.npmjs.org/react-async-script/-/react-async-script-1.2.0.tgz"
+  "version" "1.2.0"
+  dependencies:
+    "hoist-non-react-statics" "^3.3.0"
+    "prop-types" "^15.5.0"
+
 "react-auth-wrapper@^1.0.0":
   "integrity" "sha512-277lFUnbZKNADgL3pHRSa/W6PYGdh6kiEMYMucOMe3rFT5qDYvp60XrcWYvZY3zJ2vfDL4ZQ7YIvdITmgHoZTw=="
   "resolved" "https://registry.npmjs.org/react-auth-wrapper/-/react-auth-wrapper-1.0.0.tgz"
@@ -10233,6 +10241,14 @@
   dependencies:
     "flatpickr" "^4.6.2"
     "prop-types" "^15.5.10"
+
+"react-google-recaptcha@^2.1.0":
+  "integrity" "sha512-K9jr7e0CWFigi8KxC3WPvNqZZ47df2RrMAta6KmRoE4RUi7Ys6NmNjytpXpg4HI/svmQJLKR+PncEPaNJ98DqQ=="
+  "resolved" "https://registry.npmjs.org/react-google-recaptcha/-/react-google-recaptcha-2.1.0.tgz"
+  "version" "2.1.0"
+  dependencies:
+    "prop-types" "^15.5.0"
+    "react-async-script" "^1.1.1"
 
 "react-image-lightbox@5.1.1":
   "integrity" "sha512-GprldD8AqpRb2hsOdns3sI7Xeo9hJlcybDxuli4RB+ml1J/GaFaUuRkT/7IrTLv2+4vkR74ahz2LD0HOUHI7wA=="

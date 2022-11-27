@@ -11,6 +11,7 @@ import NumberFormat from "react-number-format";
 import DatePicker from "../../../../components/Input/DatePicker";
 import moment from "moment";
 import validator from "validator";
+import ReCAPTCHA from "react-google-recaptcha";
 
 class BookingModal extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class BookingModal extends Component {
       timeType: "",
       doctorName: "",
       errors: {},
+      verfied: false,
     };
   }
 
@@ -197,6 +199,11 @@ class BookingModal extends Component {
       gender: "M",
     });
   };
+  onChange = (value) => {
+    this.setState({
+      verfied: true,
+    });
+  };
   render() {
     const { language, isOpenModelBooking, dataScheduleTimeModal, isShowPrice } =
       this.props;
@@ -309,17 +316,17 @@ class BookingModal extends Component {
               <label>
                 <FormattedMessage id="patient.booking-modal.birthday" />
               </label>
-             <div className="custom-style-datepicker">
-             <DatePicker
-                onChange={this.handleOnchangDatePicker}
-                value={this.state.birthday}
-              />
-             </div>
+              <div className="custom-style-datepicker">
+                <DatePicker
+                  onChange={this.handleOnchangDatePicker}
+                  value={this.state.birthday}
+                />
+              </div>
               {errors.birthday && (
                 <span className="text-danger">{errors.birthday}</span>
               )}
             </div>
-            <div className="col-12 form-group">
+            <div className="col-12 form-group mb-3">
               <label>
                 <FormattedMessage id="patient.booking-modal.reason" />
               </label>
@@ -332,12 +339,17 @@ class BookingModal extends Component {
                 <span className="text-danger">{errors.reason}</span>
               )}
             </div>
+          <ReCAPTCHA
+            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+            onChange={this.onChange}
+          />
           </div>
           <ModalFooter>
             <Button
               color="primary"
               className="px-3"
               onClick={() => this.handleSaveUser()}
+              disabled={!this.state.verfied}
             >
               <FormattedMessage id="patient.booking-modal.save" />
             </Button>

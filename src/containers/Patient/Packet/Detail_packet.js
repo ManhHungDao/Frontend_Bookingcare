@@ -30,7 +30,7 @@ class Detail_packet extends Component {
 
   render() {
     const { language } = this.props;
-    let detailPacket = this.state.detailPacket;
+    let { detailPacket } = this.state;
     return (
       <>
         <SubHeader name={detailPacket.title} />
@@ -49,17 +49,22 @@ class Detail_packet extends Component {
               <div className="schedule-doctor">
                 <div className="left"></div>
                 <div className="right">
-                  <InfoPacket />
-                </div>
-              </div>
-
-              <div className="">
-                <b>ĐỊA CHỈ GÓI</b>
-                <div>
-                  Phòng khám Đa khoa Olympus Gia Mỹ 33 Nguyễn Huy Lượng, Phường
-                  14, Quận Bình Thạnh, TP. Hồ Chí Minh GIÁ GÓI:
-                  2.210.000đ2.410.000đ.
-                  <span>Xem chi tiết</span>
+                  <InfoPacket
+                    packetAddress={
+                      detailPacket?.Clinic?.address
+                        ? detailPacket.Clinic.address
+                        : ""
+                    }
+                    packetName={
+                      detailPacket?.Clinic?.name ? detailPacket.Clinic.name : ""
+                    }
+                    packetPrice={detailPacket.price}
+                    language={language}
+                    packetNote={detailPacket.price ? detailPacket.price : ""}
+                    TypePayment={
+                      detailPacket.typepacket ? detailPacket.typepacket : ""
+                    }
+                  />
                 </div>
               </div>
             </div>
@@ -82,7 +87,7 @@ class Detail_packet extends Component {
             </div>
           </div>
         </div>
-        <HomeFooter/>
+        <HomeFooter />
       </>
     );
   }

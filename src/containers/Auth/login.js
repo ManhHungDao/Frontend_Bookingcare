@@ -107,7 +107,7 @@ class Login extends Component {
 
   hadnleOnChangeInputOtp = (value) => {
     this.setState({
-      otp: value,
+      otp: parseInt(value),
     });
   };
 
