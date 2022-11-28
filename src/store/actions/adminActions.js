@@ -244,7 +244,10 @@ export const fetchTopDoctor = () => {
         dispatch(fetchAllDoctorSuccess(res.data));
       }
     } catch (error) {
-      console.log("🚀 ~ file: adminActions.js ~ line 247 ~ return ~ error", error)
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 247 ~ return ~ error",
+        error
+      );
       dispatch(fetchAllDoctorFailed());
     }
   };
@@ -501,7 +504,6 @@ export const verifyBookingAppointment = (data) => {
   return async (dispatch, getState) => {
     try {
       {
-        let status = false;
         const res = await postVerifyBooingService(data);
         if (res && res.errCode === 0) {
           // status = true;
@@ -574,7 +576,10 @@ export const getSpecialtiesHome = () => {
         }
       }
     } catch (error) {
-      console.log("🚀 ~ file: adminActions.js ~ line 576 ~ return ~ error", error)
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 576 ~ return ~ error",
+        error
+      );
       toast.error("Get List Specialty Home Failed!");
       dispatch({
         type: actionTypes.GET_SPECIALTIES_FAILED,
@@ -709,7 +714,10 @@ export const getListClinicHome = () => {
         }
       }
     } catch (error) {
-      console.log("🚀 ~ file: adminActions.js ~ line 711 ~ return ~ error", error)
+      console.log(
+        "🚀 ~ file: adminActions.js ~ line 711 ~ return ~ error",
+        error
+      );
       toast.error("Get List Clinic Home Failed!");
       dispatch({
         type: actionTypes.GET_LIST_CLINIC_HOME_FAILED,

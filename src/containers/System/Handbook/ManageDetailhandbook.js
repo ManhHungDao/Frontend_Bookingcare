@@ -4,7 +4,7 @@ import * as actions from "../../../store/actions";
 import "./ManageDetailhandbook.scss";
 import { FormattedMessage } from "react-intl";
 import Lightbox from "react-image-lightbox";
-import { languages, CommonUtils, CRUD_ACTIONS } from "../../../utils";
+import { CommonUtils } from "../../../utils";
 import "react-image-lightbox/style.css";
 import MarkdownIt from "markdown-it";
 import { toast } from "react-toastify";

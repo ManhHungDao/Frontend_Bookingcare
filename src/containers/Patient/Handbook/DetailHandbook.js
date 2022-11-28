@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
 import { languages } from "../../../utils";
 import "./DetailHandbook.scss";
-import { FormattedMessage } from "react-intl";
 import HomeHeader from "../../HomePage/HomeHeader";
 import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
@@ -58,7 +56,6 @@ class DetailHandbook extends Component {
   };
 
   render() {
-    const { language } = this.props;
     const { detailHandbook } = this.state;
     return (
       <>

@@ -13,11 +13,10 @@ import ManageDetailHandbook from "../containers/System/Handbook/ManageDetailhand
 import Packet_examination from "../containers/System/Packet_examination/Packet_examination";
 
 // import ManageDetailHandbook from "../containers/"
-import { USER_ROLE } from "../utils/constant";
 
 class System extends Component {
   render() {
-    const { systemMenuPath, isLoggedIn, userInfo } = this.props;
+    const { systemMenuPath, isLoggedIn } = this.props;
     return (
       <>
         {isLoggedIn && <Header />}
@@ -48,7 +47,7 @@ class System extends Component {
                 path="/system/manage-detail-handbook"
                 component={ManageDetailHandbook}
               />
-               <Route
+              <Route
                 path="/system/packet_examination"
                 component={Packet_examination}
               />

@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import { languages, CommonUtils, CRUD_ACTIONS } from "../../../utils";
 import "./ManageDetailClinic.scss";
 import { FormattedMessage } from "react-intl";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import "react-image-lightbox/style.css";
 import Select from "react-select";
-import { toast } from "react-toastify";
-import _ from "lodash";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -255,15 +252,15 @@ class DetailClinic extends Component {
 
             <div className="col-12 form-group">
               {this.renderContentMarkdown()}
-            <button
-              className="btn btn-primary mt-3"
-              onClick={() => {
-                this.handleSave();
-              }}
-              disabled={!this.state.selectedClinic ? "disabled" : false}
-            >
-              <FormattedMessage id="admin.manage-clinic.save" />
-            </button>
+              <button
+                className="btn btn-primary mt-3"
+                onClick={() => {
+                  this.handleSave();
+                }}
+                disabled={!this.state.selectedClinic ? "disabled" : false}
+              >
+                <FormattedMessage id="admin.manage-clinic.save" />
+              </button>
             </div>
           </div>
         </div>

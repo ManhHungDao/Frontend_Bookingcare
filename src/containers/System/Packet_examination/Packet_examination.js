@@ -6,6 +6,7 @@ import "./Packet_examination.scss";
 import { FormattedMessage } from "react-intl";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
+import Lightbox from "react-image-lightbox";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import {
@@ -15,8 +16,6 @@ import {
   updatePacketService,
 } from "../../../services/userService";
 import TableManage from "./TableManage";
-import Lightbox from "react-image-lightbox";
-const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class Packet_examination extends Component {
   constructor(props) {
@@ -54,8 +53,6 @@ class Packet_examination extends Component {
         //   listPacket: listPacket1.data,
       });
     }
-    // console.log("listPacket", this.state.listPacket[0]);
-    // console.log("prevState.listPacket", prevState.listPacket[0]);
   }
   fetchDatable = async () => {
     let listPacket = await getAllPacketService();
@@ -65,7 +62,7 @@ class Packet_examination extends Component {
   };
   deleteSpecialty = async (id) => {
     let res = await deletePacketService(id);
-    if (res.errCode == 0) {
+    if (res.errCode === 0) {
       this.fetchDatable();
       toast.success("Xóa gói khám thành công");
     } else toast.error("Xóa gói khám thất bại");
@@ -73,12 +70,12 @@ class Packet_examination extends Component {
 
   editPacket = async (data) => {
     let selectedPacket = this.props.listClinic.filter(
-      (i) => i && i.id == data.clinicId
+      (i) => i && i.id === data.clinicId
     );
     let { name: label, id: value } = selectedPacket[0];
     let selectedClinic = { label, value };
     let selectedType = this.state.options.filter(
-      (i) => i && i.value == data.typepacket
+      (i) => i && i.value === data.typepacket
     );
 
     this.setState({
@@ -134,7 +131,7 @@ class Packet_examination extends Component {
     };
     if (!this.state.isEdit) {
       let res = await createPacketService(data);
-      if (res.errCode == 0) {
+      if (res.errCode === 0) {
         toast.success("Tạo gói khám thành công");
         this.clearState();
         this.fetchDatable();
@@ -142,8 +139,7 @@ class Packet_examination extends Component {
     } else {
       data.id = this.state.clinicIdEdit;
       let res = await updatePacketService(data);
-      console.log("res  ========", res);
-      if (res.errCode == 0) {
+      if (res.errCode === 0) {
         toast.success("Chỉnh sửa gói khám thành công");
         this.clearState();
         this.setState({
@@ -205,13 +201,16 @@ class Packet_examination extends Component {
       ...copyState,
     });
   };
-
+  openReview = () => {
+    if (!this.state.previewImgUrl) return;
+    this.setState({
+      isOpen: true,
+    });
+  };
   render() {
     const mdParser = new MarkdownIt(/* Markdown-it options */);
-
     let optionsClinic = this.buildDataInputSelect(this.props.listClinic);
     let { listPacket } = this.state;
-
     return (
       <div className="container">
         <div className=" my-3 row p-0">
@@ -284,7 +283,6 @@ class Packet_examination extends Component {
               value={this.state.selectedType}
               onChange={this.handleChangeSelectType}
               options={this.state.options}
-              // placeholder={<FormattedMessage id="admin.manage-doctor.find" />}
               placeholder={<FormattedMessage id="admin.manage-packet.Type" />}
             />
           </div>
@@ -309,7 +307,7 @@ class Packet_examination extends Component {
                 style={{
                   backgroundImage: `url(${this.state.previewImgUrl})`,
                 }}
-                onClick={() => this.openReview("logo")}
+                onClick={() => this.openReview()}
               ></div>
             </div>
           </div>
@@ -353,6 +351,12 @@ class Packet_examination extends Component {
             handleEdit={this.editPacket}
             handleDelete={this.deleteSpecialty}
             className="mt-4"
+          />
+        )}
+        {this.state.isOpen === true && (
+          <Lightbox
+            mainSrc={this.state.previewImgUrl}
+            onCloseRequest={() => this.setState({ isOpen: false })}
           />
         )}
       </div>

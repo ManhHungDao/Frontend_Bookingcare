@@ -1,9 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
-import { languages } from "../../../utils";
-import { FormattedMessage } from "react-intl";
-import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getHandBookHome } from "../../../services/userService";

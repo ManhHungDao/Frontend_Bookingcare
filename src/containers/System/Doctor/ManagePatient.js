@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
-import { languages } from "../../../utils";
 import "./ManagePatient.scss";
 import { FormattedMessage } from "react-intl";
 import DatePicker from "../../../components/Input/DatePicker";
@@ -106,7 +104,6 @@ class ManagePatient extends Component {
     }
   };
   render() {
-    const { language } = this.props;
     const { listPatient } = this.state;
     return (
       <>

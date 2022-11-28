@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import { languages, CommonUtils } from "../../../utils";
+import { CommonUtils } from "../../../utils";
 import "./ManageSpecialty.scss";
 import { FormattedMessage } from "react-intl";
 import MarkdownIt from "markdown-it";
@@ -149,7 +149,7 @@ class ManageSpecialty extends Component {
   };
   checkValidate = () => {
     let errors = {};
-    let { image, name, contentMarkdown } = this.state;
+    let { name, contentMarkdown } = this.state;
     const { language } = this.props;
     if (language === "en") {
       // if (!image) errors.image = "Upload image";
@@ -242,7 +242,6 @@ class ManageSpecialty extends Component {
     this.clearState();
   };
   render() {
-    const { language } = this.props;
     let { errors, selectedClinic } = this.state;
     return (
       <>

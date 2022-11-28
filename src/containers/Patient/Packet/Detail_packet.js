@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
-import { languages } from "../../../utils";
 import "./Detail_packet.scss";
-import { FormattedMessage } from "react-intl";
 import { getDetailPacketByID } from "../../../services/userService";
 import SubHeader from "../../HomePage/SubHeader";
 import InfoPacket from "./InfoPacket";
@@ -38,7 +35,11 @@ class Detail_packet extends Component {
           <div className="layout">
             <div className="grid detail-packet-container">
               <div className="row packet-header-info">
-                <img className="imgpacket col-2" src={detailPacket.image} />
+                <img
+                  className="imgpacket col-2"
+                  src={detailPacket.image}
+                  alt=""
+                />
                 <div className="col-10">
                   <p>{detailPacket.title}</p>
                   <span className="description">

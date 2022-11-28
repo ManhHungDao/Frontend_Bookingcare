@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
 import { languages } from "../../../utils";
 import moment from "moment";
 import "./DoctorSchedule.scss";
@@ -113,7 +112,7 @@ class DoctorSchedule extends Component {
   };
   render() {
     const { allDays, doctorSchedule } = this.state;
-    const { language, isShowPrice } = this.props;
+    const { language } = this.props;
     return (
       <>
         <div className="doctor-schelude-container">

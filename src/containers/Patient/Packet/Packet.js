@@ -72,15 +72,10 @@ class Packet extends Component {
     this.props.history.push(`/detail-packet/${id}`);
   };
 
-  handleClickViewMore = ()=>{
-    
-  }
+  handleClickViewMore = () => {};
 
   render() {
-    const { language } = this.props;
-    let listPacket1 = this.state.listPacket;
-    let listDanhMuc1 = this.state.listDanhMuc;
-    console.log(listDanhMuc1);
+    let { listPacket, listDanhMuc } = this.state;
     return (
       <>
         <SubHeader name={"Gói khám"} isShowSupport={true} />
@@ -98,8 +93,8 @@ class Packet extends Component {
               </div>
             </div>
             <div className="cardDanhMuc">
-              {listDanhMuc1 &&
-                listDanhMuc1.map((item) => {
+              {listDanhMuc &&
+                listDanhMuc.map((item) => {
                   return (
                     <div
                       key={item.id}
@@ -128,8 +123,8 @@ class Packet extends Component {
               </div>
             </div>
             <div className="detail-packet row">
-              {listPacket1 != "" &&
-                listPacket1.map((item) => {
+              {listPacket !== "" &&
+                listPacket.map((item) => {
                   return (
                     <div
                       key={item.id}

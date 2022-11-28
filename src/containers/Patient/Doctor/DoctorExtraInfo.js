@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
 import { languages } from "../../../utils";
 import "./DoctorExtraInfo.scss";
 import { FormattedMessage } from "react-intl";
@@ -27,7 +26,7 @@ class DoctorExtraInfo extends Component {
       }
     }
   }
- async componentDidUpdate(prevProps, prevState, snapshot) {
+  async componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.language !== prevProps.language) {
     }
     if (prevProps.doctorId !== this.props.doctorId) {

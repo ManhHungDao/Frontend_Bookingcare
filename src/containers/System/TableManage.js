@@ -35,7 +35,6 @@ class TableManange extends Component {
     this.props.handleDelete(id);
   };
   render() {
-    const { language } = this.props;
     const { listRender } = this.state;
 
     return (

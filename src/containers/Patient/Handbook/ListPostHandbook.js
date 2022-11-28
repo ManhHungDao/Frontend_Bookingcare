@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
-import { languages } from "../../../utils";
 import "./ListPostHandbook.scss";
-import { FormattedMessage } from "react-intl";
 import SubHeader from "../../HomePage/SubHeader";
 import HomeFooter from "../../HomePage/HomeFooter";
 import ListNameHandbook from "./ListNameHandbook";
@@ -41,8 +38,7 @@ class ListPostHandbook extends Component {
   }
 
   render() {
-    const { language } = this.props;
-    const { handbook, relatedHandBook } = this.state;
+    const { handbook } = this.state;
     return (
       <>
         <SubHeader />
@@ -58,9 +54,7 @@ class ListPostHandbook extends Component {
             </div>
           )}
 
-          <RelatedHandbook
-            handbookId={this.props.match.params.id}
-          />
+          <RelatedHandbook handbookId={this.props.match.params.id} />
           <ListNameHandbook />
         </div>
         <HomeFooter />

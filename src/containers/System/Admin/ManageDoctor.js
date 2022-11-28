@@ -10,8 +10,7 @@ import "./ManageDoctor.scss";
 import Select from "react-select";
 import { languages } from "../../../utils";
 import { FormattedMessage } from "react-intl";
-import { CRUD_ACTIONS, TYPE } from "../../../utils/constant";
-import _ from "lodash";
+import { TYPE } from "../../../utils/constant";
 const mdParser = new MarkdownIt(/* Detail_doctor-it options */);
 
 class ManageDoctor extends Component {
@@ -372,7 +371,6 @@ class ManageDoctor extends Component {
       listClinic,
       errors,
     } = this.state;
-    const { language } = this.props;
     return (
       <>
         <div className="doctor-title title">

@@ -9,10 +9,9 @@ import { getClinic, getDetailSpecialty } from "../../../services/userService";
 import { toast } from "react-toastify";
 import HomeFooter from "../../HomePage/HomeFooter";
 import SelectSpecialtyClinic from "./SelectSpecialtyClinic";
-import _ from "lodash";
 import RenderNote from "./RenderNote";
 import RenderDoctocs from "./RenderDoctocs";
-import RenderMenuBar from "./RenderMenuBar";
+// import RenderMenuBar from "./RenderMenuBar";
 
 class DetailClinic extends Component {
   constructor(props) {

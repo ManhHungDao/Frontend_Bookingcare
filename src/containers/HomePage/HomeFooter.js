@@ -1,12 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { FormattedMessage } from "react-intl";
 import "./HomeFooter.scss";
 
-// slide slick
-import Slider from "react-slick";
 class HomeFooter extends Component {
   render() {
     return (

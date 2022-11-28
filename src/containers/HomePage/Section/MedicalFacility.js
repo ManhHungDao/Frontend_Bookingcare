@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
-import { languages } from "../../../utils";
 import { connect } from "react-redux";
 // slide slick
 import Slider from "react-slick";
-import { getListClinicHomeService } from "../../../services/userService";
 import { withRouter } from "react-router-dom";
-import { toast } from "react-toastify";
 import * as actions from "../../../store/actions";
 
 class MedicalFacility extends Component {

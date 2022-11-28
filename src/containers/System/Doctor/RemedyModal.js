@@ -4,7 +4,6 @@ import "./RemedyModal.scss";
 import { CommonUtils } from "../../../utils";
 import { FormattedMessage } from "react-intl";
 import { Button, Modal, ModalHeader, ModalFooter } from "reactstrap";
-import moment from "moment";
 
 class RemedyModal extends Component {
   constructor(props) {
@@ -57,7 +56,6 @@ class RemedyModal extends Component {
     this.props.sendRemedy(this.state);
   };
   render() {
-    const { language, dataModal } = this.props;
     return (
       <>
         <Modal size="md" isOpen={this.props.isOpen} centered>

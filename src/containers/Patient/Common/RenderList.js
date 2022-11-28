@@ -1,13 +1,10 @@
 /* eslint-disable default-case */
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
 import { languages } from "../../../utils";
 import "./RenderList.scss";
-import { FormattedMessage } from "react-intl";
 import { TYPE } from "../../../utils";
 import SubHeader from "../../HomePage/SubHeader";
-import { getSpecialties } from "../../../services/userService"; //day
 import { withRouter } from "react-router-dom";
 
 class RenderList extends Component {
@@ -47,11 +44,10 @@ class RenderList extends Component {
         });
         break;
       }
-        case TYPE.PACKET: {
-          if (this.props.history) this.props.history.push(`/render-list/packet`);
-          break;
-
-        }
+      case TYPE.PACKET: {
+        if (this.props.history) this.props.history.push(`/render-list/packet`);
+        break;
+      }
       case TYPE.CLINIC: {
         this.setState({
           listRenderSearch: this.props.listClinic,
@@ -150,7 +146,6 @@ class RenderList extends Component {
   //       );
   //   };
   render() {
-    const { language } = this.props;
     const { listRenderSearch, isSearch } = this.state;
     return (
       <>

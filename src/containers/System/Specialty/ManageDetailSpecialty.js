@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import { languages, CommonUtils, CRUD_ACTIONS } from "../../../utils";
 import "./ManageDetailSpecialty.scss";
 import { FormattedMessage } from "react-intl";
 import MarkdownIt from "markdown-it";
@@ -9,7 +8,6 @@ import MdEditor from "react-markdown-editor-lite";
 import "react-image-lightbox/style.css";
 import Select from "react-select";
 import { toast } from "react-toastify";
-import _ from "lodash";
 import {
   createDetailSpecialty,
   getDetailSpecialty,

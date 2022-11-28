@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { languages } from "../../utils";
 // import "./VerifyEmail.scss";
-import { FormattedMessage } from "react-intl";
 import * as actions from "../../store/actions";
 import HomeHeader from "./HomeHeader";
 class VerifyEmail extends Component {

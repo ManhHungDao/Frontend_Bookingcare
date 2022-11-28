@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
-import { languages } from "../../../utils";
 import "./ListNameHandbook.scss";
 import { withRouter } from "react-router-dom";
-import { FormattedMessage } from "react-intl";
 import { toast } from "react-toastify";
 import { getListHandbook } from "../../../services/userService";
-import HomeHeader from "../../HomePage/HomeHeader";
 
 class ListNameHandbook extends Component {
   constructor(props) {
@@ -35,7 +31,6 @@ class ListNameHandbook extends Component {
     this.props.history.push(`/list-post-handbook/${id}`);
   };
   render() {
-    const { language } = this.props;
     const { listHandbook } = this.state;
 
     return (

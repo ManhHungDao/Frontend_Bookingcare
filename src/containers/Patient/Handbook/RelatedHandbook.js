@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
-import { languages } from "../../../utils";
 import { FormattedMessage } from "react-intl";
 import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
@@ -30,7 +28,8 @@ class RelatedHandbook extends Component {
     const res = await getRelatedHandbook(id);
     if (res && res.errCode === 0) {
       let data = res.data;
-      if (this.props.hideId) data = data.filter((s) => s.id !== this.props.hideId);
+      if (this.props.hideId)
+        data = data.filter((s) => s.id !== this.props.hideId);
       this.setState({
         relatedHandBook: data,
       });
@@ -42,7 +41,6 @@ class RelatedHandbook extends Component {
     this.props.history.push(`/detail-handbook/${id}`);
   };
   render() {
-    const { language } = this.props;
     const { relatedHandBook } = this.state;
     return (
       <div className="handbook-related grid">

@@ -1,9 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
-import { languages } from "../../../utils";
 import * as action from "../../../store/actions";
 import { withRouter } from "react-router-dom";
 

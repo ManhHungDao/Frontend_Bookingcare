@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import "./HomeHeader.scss";
@@ -36,7 +35,6 @@ class HomeHeader extends Component {
   };
 
   render() {
-    console.log(this.props.listSpecialty);
     const options = this.props.listSpecialty.map((item) => {
       return { label: item.name, value: item.id };
     });

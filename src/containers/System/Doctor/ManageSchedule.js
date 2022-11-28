@@ -9,7 +9,6 @@ import DatePicker from "../../../components/Input/DatePicker";
 import _ from "lodash";
 import { USER_ROLE } from "../../../utils";
 import { getScheduleService } from "../../../services/userService";
-import moment from "moment";
 
 class ManageSchedule extends Component {
   constructor(props) {
@@ -128,7 +127,7 @@ class ManageSchedule extends Component {
 
   checkValidate = () => {
     let errors = {};
-    let { selectedDoctor, currentDate, allScheduleTime } = this.state;
+    let { currentDate, allScheduleTime } = this.state;
     const { language } = this.props;
     if (language === "en") {
       // if (_.isEmpty(selectedDoctor)) {

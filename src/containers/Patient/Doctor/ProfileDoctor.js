@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
 import { languages } from "../../../utils";
 import "./ProfileDoctor.scss";
 import { FormattedMessage } from "react-intl";
@@ -16,7 +15,7 @@ class ProfileDoctor extends Component {
       detailDoctor: {},
     };
   }
-/*   
+  /*   
   // thay đổi từ get data from redux to get from userService
   componentDidMount() {
     this.props.fetchDetaiInfoDoctor(this.props.doctorId);

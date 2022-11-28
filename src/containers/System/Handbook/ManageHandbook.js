@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
-import { languages } from "../../../utils";
 import "./ManageHandbook.scss";
 import { FormattedMessage } from "react-intl";
-import Select from "react-select";
 import { toast } from "react-toastify";
 import {
   deleteHandbook,
@@ -12,7 +9,6 @@ import {
   createAHandbook,
   editHandbook,
 } from "../../../services/userService";
-import _ from "lodash";
 import TableManage from "../TableManage";
 
 class ManageHandbook extends Component {
@@ -118,9 +114,8 @@ class ManageHandbook extends Component {
     });
   };
   render() {
-    const { listHandbookSearch } = this.state;
-    const placeHolserSearch =
-      this.props.language === languages.VI ? "Lọc cẩm nang" : "Filter handbook";
+    // const placeHolserSearch =
+    //   this.props.language === languages.VI ? "Lọc cẩm nang" : "Filter handbook";
     return (
       <>
         <div className="title">

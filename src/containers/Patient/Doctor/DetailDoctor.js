@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import { languages } from "../../../utils";
 import SubHeader from "../../HomePage/SubHeader";
 import "./DetailDoctor.scss";
 import DoctorSchedule from "./DoctorSchedule";
@@ -34,7 +33,6 @@ class DetailDoctor extends Component {
   render() {
     const { detailDoctor } = this.state;
     const doctorId = this.props.match.params.id;
-    const { language } = this.props;
     return (
       <>
         <SubHeader isShowSupport={true} />

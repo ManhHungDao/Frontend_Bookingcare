@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import { languages, CommonUtils, CRUD_ACTIONS } from "../../../utils";
+import { CommonUtils } from "../../../utils";
 import "./ManageClinic.scss";
 import { FormattedMessage } from "react-intl";
 import MarkdownIt from "markdown-it";
@@ -381,10 +381,10 @@ class ManageClinic extends Component {
                 )}
               </button>
             </div>
-              <TableManageClinic
-                deleteClinic={this.handleDeleteClinic}
-                editClinic={this.handleEditClinic}
-              />
+            <TableManageClinic
+              deleteClinic={this.handleDeleteClinic}
+              editClinic={this.handleEditClinic}
+            />
           </div>
         </div>
         {this.state.isOpen === true && (

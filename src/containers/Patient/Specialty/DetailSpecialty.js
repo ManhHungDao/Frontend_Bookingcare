@@ -92,7 +92,6 @@ class DetailSpecialty extends Component {
     if (this.props.history) this.props.history.push(`/detail-doctor/${id}`);
   };
   render() {
-    const { language } = this.props;
     const { detailSpecialty, listDoctorSpecialty, isOpen } = this.state;
     return (
       <>
