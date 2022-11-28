@@ -151,7 +151,7 @@ class Packet_examination extends Component {
         });
         this.fetchDatable();
       } else toast.error("Chỉnh sửa gói khám thất bại");
-      console.log(data.type)
+      console.log(data.type);
     }
   };
 
@@ -211,33 +211,46 @@ class Packet_examination extends Component {
 
     let optionsClinic = this.buildDataInputSelect(this.props.listClinic);
     let { listPacket } = this.state;
-    
+
     return (
       <div className="container">
-        <div className=" my-3 row">
+        <div className=" my-3 row p-0">
           <div className="centerTitle">
             <h2
-              style={{ width: "100%", color: "#0071ba", margin: "auto",fontSize:"25px",fontWeight: "bold" }}
+              style={{
+                width: "100%",
+                color: "#0071ba",
+                margin: "auto",
+                fontSize: "25px",
+                fontWeight: "bold",
+              }}
               className="mb-5"
             >
-               <FormattedMessage id="admin.manage-packet.title" />
+              <FormattedMessage id="admin.manage-packet.title" />
             </h2>
           </div>
 
           <div className=" col-4 form-group">
-            <label htmlFor="clinicName"> <FormattedMessage id="admin.manage-packet.selectClinic" /></label>
+            <label htmlFor="clinicName">
+              {" "}
+              <FormattedMessage id="admin.manage-packet.selectClinic" />
+            </label>
             <Select
               name="clinicName"
               // className="form-control"
               value={this.state.selectedClinic}
               onChange={this.handleChangeSelectClinic}
               options={optionsClinic}
-              placeholder={<FormattedMessage id="admin.manage-packet.selectClinic" />}
+              placeholder={
+                <FormattedMessage id="admin.manage-packet.selectClinic" />
+              }
             />
           </div>
 
           <div className="col-4 form-group ">
-            <label htmlFor="title">{<FormattedMessage id="admin.manage-packet.selectName" />}</label>
+            <label htmlFor="title">
+              {<FormattedMessage id="admin.manage-packet.selectName" />}
+            </label>
             <input
               onChange={(event) => {
                 this.handleOnChangeInput(event, "title");
@@ -249,7 +262,9 @@ class Packet_examination extends Component {
             />
           </div>
           <div className="col-4 form-group">
-            <label htmlFor="price">{<FormattedMessage id="admin.manage-packet.selectPrice" />}</label>
+            <label htmlFor="price">
+              {<FormattedMessage id="admin.manage-packet.selectPrice" />}
+            </label>
             <input
               onChange={(event) => {
                 this.handleOnChangeInput(event, "price");
@@ -260,8 +275,10 @@ class Packet_examination extends Component {
               name="price"
             />
           </div>
-          <div className=" col-4 form-group bottomm">
-            <label htmlFor="clinicName">{<FormattedMessage id="admin.manage-packet.Type" />}</label>
+          <div className=" col-4 form-group mt-3">
+            <label htmlFor="clinicName">
+              {<FormattedMessage id="admin.manage-packet.Type" />}
+            </label>
             <Select
               name="clinicName"
               value={this.state.selectedType}
@@ -272,8 +289,34 @@ class Packet_examination extends Component {
             />
           </div>
 
-          <div className="col-4 form-group bottomm">
-            <label htmlFor="description">{<FormattedMessage id="admin.manage-packet.description" />}</label>
+          <div className="col-6 form-group mt-3">
+            <label>
+              <FormattedMessage id="admin.manage-clinic.logo" />
+            </label>
+            <input
+              id="previewLogo"
+              type="file"
+              hidden
+              onChange={(event) => this.handleOnChangeImage(event, "logo")}
+            />
+            <div className="preview-img-container">
+              <label className="lable-upload" htmlFor="previewLogo">
+                <FormattedMessage id="admin.manage-clinic.upload" />
+                <i className="fas fa-upload"></i>
+              </label>
+              <div
+                className="preview-image"
+                style={{
+                  backgroundImage: `url(${this.state.previewImgUrl})`,
+                }}
+                onClick={() => this.openReview("logo")}
+              ></div>
+            </div>
+          </div>
+          <div className="col-12 form-group">
+            <label htmlFor="description">
+              {<FormattedMessage id="admin.manage-packet.description" />}
+            </label>
             <textarea
               name="description"
               className="form-control"
@@ -286,39 +329,8 @@ class Packet_examination extends Component {
             ></textarea>
             {/* <input type="text"  name="description" /> */}
           </div>
-          <div className="row col-4 form-group bottomm row">
-            <input
-              id="previewImgUrl"
-              type="file"
-              hidden
-              onChange={(event) => this.handleOnChangeImage(event)}
-              className="col-3"
-            />
-            <label className="col-3">
-              {/* <FormattedMessage id="admin.manage-detail-handbook.image" /> */}
-              {<FormattedMessage id="admin.manage-packet.image" />} :
-            </label>
-            <div className="col-7">
-              <label className="lable-upload" htmlFor="previewImgUrl">
-                <FormattedMessage id="admin.manage-clinic.upload" />
-                <i className="fas fa-upload"></i>
-              </label>
-              <div
-                className="preview-image col-4"
-                style={{
-                  backgroundImage: `url(${this.state.previewImgUrl})`,
-                  backgroundSize: `100% 100%`,
-                  width: "300px",
-                  height: "200px",
-                  objectFit: "contain",
-                  backgroundRepeat: "no-repeat",
-                }}
-                // onClick={() => this.openReview()}
-              ></div>
-            </div>
-          </div>
         </div>
-
+        <FormattedMessage id="admin.manage-packet.details" />
         <MdEditor
           style={{ height: "500px" }}
           renderHTML={(text) => mdParser.render(text)}
@@ -326,10 +338,14 @@ class Packet_examination extends Component {
           value={this.state.contentMarkdown}
         />
         <button
-          className={this.state.isEdit?"btn btn-warning mt-2 p-2":"btn btn-primary mt-2 p-2"}
+          className={
+            this.state.isEdit
+              ? "btn btn-warning mt-2 p-2"
+              : "btn btn-primary mt-2 p-2"
+          }
           onClick={this.createPacket}
         >
-          {this.state.isEdit===true?"Chỉnh sửa":"Tạo gói khám"}
+          {this.state.isEdit === true ? "Chỉnh sửa" : "Tạo gói khám"}
         </button>
         {listPacket && listPacket.length && (
           <TableManage

@@ -216,7 +216,8 @@
       "selectPrice": "Giá",
       "Type": "Loại",
       "description": "Mô tả",
-      "image": "Hình ảnh"
+      "image": "Hình ảnh",
+      "details": "Chi tiết gói khám"
     }
   }
 }

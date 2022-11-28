@@ -38,7 +38,7 @@
       "specialty": "Specialties",
       "manage-specialty": "Manage specialties",
       "handbook": "Handbook",
-      "packet":"Packet",
+      "packet": "Packet",
       "manage-handbook": "Manage handbook",
       "manage-detail-clinic": "Manage detail clinic",
       "manage-detail-specialty": "Manage detail specialty",
@@ -159,7 +159,6 @@
       "select_nameclinic_placeholder": "Enter name clinic",
       "select_addressclinic_placeholder": "Enter address clinic",
       "select_note_placeholder": "Note"
-      
     },
     "manage-clinic": {
       "title-header": "Add new clinic",
@@ -218,7 +217,8 @@
       "selectPrice": "Price",
       "Type": "Type",
       "description": "Description",
-      "image": "Image"
+      "image": "Image",
+      "details": "Details"
     }
   }
 }
