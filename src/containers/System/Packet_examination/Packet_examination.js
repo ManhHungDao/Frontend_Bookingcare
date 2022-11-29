@@ -16,6 +16,7 @@ import {
   updatePacketService,
 } from "../../../services/userService";
 import TableManage from "./TableManage";
+// import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 
 class Packet_examination extends Component {
   constructor(props) {
@@ -230,8 +231,8 @@ class Packet_examination extends Component {
           </div>
 
           <div className=" col-4 form-group">
+            {/* <CKEditorFieldBasic/> */}
             <label htmlFor="clinicName">
-              {" "}
               <FormattedMessage id="admin.manage-packet.selectClinic" />
             </label>
             <Select
