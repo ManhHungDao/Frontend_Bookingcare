@@ -45,7 +45,7 @@ class ListPostHandbook extends Component {
         <div className="handbook-header-container">
           {handbook && (
             <div className="handbook-header">
-              <div className="grid">
+              <div className="container">
                 <h1 className="handbook-name">{handbook.name}</h1>
                 <div className="handbook-note">
                   {handbook.note ? handbook.note : ""}

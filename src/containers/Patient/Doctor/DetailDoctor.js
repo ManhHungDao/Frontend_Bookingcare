@@ -39,7 +39,7 @@ class DetailDoctor extends Component {
         <SubHeader isShowSupport={true} />
         <div className="doctor-detail-container ">
           <ProfileDoctor doctorId={doctorId} isShowDescription={true} />
-          <div className="schedule-doctor grid">
+          <div className="schedule-doctor container">
             <div className="left">
               <DoctorSchedule
                 doctorId={detailDoctor.id}
@@ -54,7 +54,7 @@ class DetailDoctor extends Component {
           </div>
           <div className="bg-container">
             <hr />
-            <div className="detail-info-doctor grid">
+            <div className="detail-info-doctor container">
               {detailDoctor &&
                 detailDoctor.Detail_doctor &&
                 detailDoctor.Detail_doctor.detailHTML && (
@@ -68,7 +68,7 @@ class DetailDoctor extends Component {
             </div>
             <hr />
           </div>
-          <div className="comment-doctor grid"></div>
+          <div className="comment-doctor container"></div>
         </div>
         <HomeFooter />
       </>

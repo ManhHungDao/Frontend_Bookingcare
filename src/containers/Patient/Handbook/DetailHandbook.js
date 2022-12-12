@@ -60,7 +60,7 @@ class DetailHandbook extends Component {
     return (
       <>
         <HomeHeader />
-        <div className="handbook-container grid">
+        <div className="handbook-container container">
           <h1 className="handbook-title">
             {detailHandbook.title ? detailHandbook.title : ""}
           </h1>

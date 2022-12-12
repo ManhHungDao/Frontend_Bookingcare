@@ -35,7 +35,7 @@ class ListNameHandbook extends Component {
 
     return (
       <>
-        <div className="list-handbook grid">
+        <div className="list-handbook container">
           <p className="list-handbook-title">danh mục cẩm nang</p>
           <div className="list-handbook-container">
             {listHandbook &&

@@ -90,7 +90,7 @@ class ProfileDoctor extends Component {
     }
     return (
       <>
-        <div className="intro-doctor grid">
+        <div className="intro-doctor container">
           <div
             className="left "
             style={{

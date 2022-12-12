@@ -151,13 +151,15 @@ class RenderList extends Component {
       <>
         <SubHeader />
         {isSearch && (
-          <div className="search-bar container">
-            <input
-              className="search"
-              placeholder={this.renderPlaceHolder()}
-              onChange={(event) => this.handleSearch(event)}
-              value={this.state.textSearch}
-            />
+          <div className="search-bar ">
+            <div className="container">
+              <input
+                className="search "
+                placeholder={this.renderPlaceHolder()}
+                onChange={(event) => this.handleSearch(event)}
+                value={this.state.textSearch}
+              />
+            </div>
           </div>
         )}
         <div className="list-render container">

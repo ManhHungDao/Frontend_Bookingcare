@@ -10,6 +10,7 @@ import DoctorExtraInfo from "../Doctor/DoctorExtraInfo";
 import Select from "react-select";
 import { withRouter } from "react-router-dom";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
+import HomeFooter from "../../HomePage/HomeFooter";
 
 class DetailSpecialty extends Component {
   constructor(props) {
@@ -100,7 +101,7 @@ class DetailSpecialty extends Component {
           name={detailSpecialty?.name ? detailSpecialty.name : ""}
         />
         <div
-          className="detail-specialy grid"
+          className="detail-specialy container"
           style={isOpen ? { height: "fit-content" } : {}}
         >
           {detailSpecialty && detailSpecialty.detailHTML && (
@@ -112,7 +113,7 @@ class DetailSpecialty extends Component {
             ></div>
           )}
         </div>
-        <div className="for-more grid">
+        <div className="for-more container">
           <span onClick={this.handleSeeMore}>
             {isOpen ? (
               <FormattedMessage id="patient.detail-doctor.hide" />
@@ -122,7 +123,7 @@ class DetailSpecialty extends Component {
           </span>
         </div>
         <div className="body-container">
-          <div className="detail-specialy-container grid">
+          <div className="detail-specialy-container container">
             <div style={{ width: "161px", paddingTop: "10px" }}>
               <Select
                 name="selectedProvince"
@@ -134,7 +135,7 @@ class DetailSpecialty extends Component {
                 }
               />
             </div>
-            <div className="detail-specialy-container grid">
+            <div className="detail-specialy-container container">
               {listDoctorSpecialty &&
                 listDoctorSpecialty.length > 0 &&
                 listDoctorSpecialty.map((item, index) => {
@@ -165,6 +166,7 @@ class DetailSpecialty extends Component {
             </div>
           </div>
         </div>
+        <HomeFooter />
       </>
     );
   }

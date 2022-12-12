@@ -33,7 +33,7 @@ class Detail_packet extends Component {
         <SubHeader name={detailPacket.title} />
         <div className="">
           <div className="layout">
-            <div className="grid detail-packet-container">
+            <div className="container detail-packet-container">
               <div className="row packet-header-info">
                 <img
                   className="imgpacket col-2"
@@ -71,7 +71,7 @@ class Detail_packet extends Component {
             </div>
           </div>
           <div className="layout">
-            <div className="grid ">
+            <div className="container ">
               <div className="col-5 markdown">
                 <div>
                   {detailPacket && detailPacket.contentHTML && (

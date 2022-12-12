@@ -261,7 +261,7 @@ class DetailClinic extends Component {
               </>
             )}
           </div>
-          <div className="for-more grid">
+          <div className="for-more container">
             <span onClick={this.handleSeeMore}>
               {isOpen ? (
                 <FormattedMessage id="patient.detail-doctor.hide" />
@@ -272,8 +272,8 @@ class DetailClinic extends Component {
           </div>
         </div>
         <div className="body-container">
-          <div className="detail-specialy-container grid">
-            <div className="detail-specialy-container grid"></div>
+          <div className="detail-specialy-container container">
+            <div className="detail-specialy-container container"></div>
           </div>
         </div>
         {this.state.isShowDetailSpecialty && (

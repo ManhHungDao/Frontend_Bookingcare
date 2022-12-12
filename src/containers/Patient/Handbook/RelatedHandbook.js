@@ -43,7 +43,7 @@ class RelatedHandbook extends Component {
   render() {
     const { relatedHandBook } = this.state;
     return (
-      <div className="handbook-related grid">
+      <div className="handbook-related container">
         <ul className="list-handbook-related">
           {this.props.isShowHeader && (
             <h1 className="title-related">

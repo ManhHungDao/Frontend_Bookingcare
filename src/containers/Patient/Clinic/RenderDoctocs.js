@@ -25,7 +25,7 @@ const RenderDoctocs = ({ clinicId }) => {
 
   return (
     <div className="body-container">
-      <div className="detail-specialy-container grid">
+      <div className="detail-specialy-container container">
         {listDoctor &&
           listDoctor.length > 0 &&
           listDoctor.map((item, index) => {
