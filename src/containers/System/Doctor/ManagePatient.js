@@ -170,7 +170,8 @@ class ManagePatient extends Component {
                 </tbody>
               </table>
             ) : (
-              <h1>Không co data</h1>
+              // <h1>Không co data</h1>
+              <span></span>
             )}
           </div>
           <RemedyModal
