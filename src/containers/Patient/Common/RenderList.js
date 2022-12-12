@@ -151,7 +151,7 @@ class RenderList extends Component {
       <>
         <SubHeader />
         {isSearch && (
-          <div className="search-bar">
+          <div className="search-bar container">
             <input
               className="search"
               placeholder={this.renderPlaceHolder()}
@@ -160,7 +160,7 @@ class RenderList extends Component {
             />
           </div>
         )}
-        <div className="list-render">
+        <div className="list-render container">
           {listRenderSearch &&
             listRenderSearch.length > 0 &&
             listRenderSearch.map((item) => {

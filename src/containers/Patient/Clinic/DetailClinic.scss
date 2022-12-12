@@ -4,6 +4,7 @@
     height: 300px;
     background-position: center;
     background-repeat: no-repeat;
+    background-size: 100%;
   }
   .wrap-clinic {
     width: 100%;
@@ -17,11 +18,13 @@
       background-size: contain;
       width: 180px;
       height: 80px;
-      margin: 0 10px 0 20px;
+      border: 1px solid #ddd;
+      // margin: 0 10px 0 20px;
     }
     .info-clinic {
-      width: 70%;
-      height: 90%;
+      // width: 70%;
+      // height: 90%;
+      margin-left: 15px;
       .name-clinic {
         font-size: 20px;
         padding-bottom: 25px;
@@ -130,5 +133,14 @@
     &:hover {
       opacity: 0.5;
     }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .name-clinic {
+    padding: 0 !important;
+  }
+  .bg-clinic {
+    height: 190px !important;
   }
 }

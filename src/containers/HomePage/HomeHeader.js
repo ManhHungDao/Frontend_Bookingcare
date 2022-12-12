@@ -46,7 +46,7 @@ class HomeHeader extends Component {
     return (
       <>
         <div className="home-header-container">
-          <div className="home-header-content">
+          <div className="home-header-content container">
             <div className="left-container">
               <i className="fas fa-bars"></i>
               <div className="header-logo" onClick={this.returnHome}></div>
@@ -115,7 +115,7 @@ class HomeHeader extends Component {
             </div>
             <div className="right-container">
               <i className="fas fa-question-circle"></i>
-              <span>
+              <span className="support-text">
                 <FormattedMessage id="home-header.support" /> |
               </span>
               <div

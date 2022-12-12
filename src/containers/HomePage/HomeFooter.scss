@@ -1,9 +1,11 @@
 .footer-container {
   background: #efefef;
-  height: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  .container {
+    // height: 250px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .company-info {
     width: 30%;
     .lg {
@@ -36,4 +38,16 @@
   color: #fff;
   padding: 10px;
   text-align: center;
+  p {
+    margin: 0;
+  }
+}
+@media screen and (max-width: 576px) {
+  .container {
+    flex-direction: column;
+    .company-info,
+    .company-headquarters {
+      width: 100%;
+    }
+  }
 }

@@ -6,7 +6,7 @@ const SelectSpecialtyClinic = ({ handleChooseSpecialty, isShow }) => {
     <>
       {isShow && (
         <div className="clinic-booking" onClick={() => handleChooseSpecialty()}>
-          <span className="select-specialty">
+          <span className="select-specialty container">
             <FormattedMessage id="patient.detail-doctor.select-specialty" />
           </span>
         </div>

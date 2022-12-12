@@ -6,8 +6,8 @@ import "./HomeFooter.scss";
 class HomeFooter extends Component {
   render() {
     return (
-      <>
-        <div className="footer-container">
+      <div className="footer-container">
+        <div className="container">
           <div className="company-info">
             <div className="lg"></div>
             <div className="address">
@@ -40,7 +40,7 @@ class HomeFooter extends Component {
         <div className="author">
           <p>&copy; 2022 Đào Mạnh Hùng.</p>
         </div>
-      </>
+      </div>
     );
   }
 }

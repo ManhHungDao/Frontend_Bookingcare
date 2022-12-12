@@ -53,8 +53,8 @@ class SubHeader extends Component {
     const language = this.props.language;
     return (
       <>
-        <div className="home-header-container sub-menu">
-          <div className="home-header-content ">
+        <div className="home-header-container sub-menu ">
+          <div className="home-header-content container">
             <div className="left-container ">
               <i
                 className="fas fa-arrow-circle-left"
@@ -70,7 +70,7 @@ class SubHeader extends Component {
             {this.props.isShowSupport && (
               <div className="right-container">
                 <i className="fas fa-question-circle"></i>
-                <span>
+                <span className="support-text">
                   <FormattedMessage id="home-header.support" /> |
                 </span>
                 <div

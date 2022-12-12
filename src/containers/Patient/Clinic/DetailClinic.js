@@ -120,7 +120,7 @@ class DetailClinic extends Component {
               : dataHeader.name
           }
         />
-        <div className="header-clinic-container grid">
+        <div className="header-clinic-container container">
           <div
             className="bg-clinic"
             style={{
@@ -150,7 +150,7 @@ class DetailClinic extends Component {
         </div>
         <div className="detail-container">
           <div
-            className="detail-specialy grid"
+            className="detail-specialy container"
             style={{ height: "fit-content" }}
           >
             <RenderNote curLang={this.props.language} />
@@ -179,7 +179,7 @@ class DetailClinic extends Component {
         </div>
         <div className="detail-container">
           <div
-            className="detail-specialy grid"
+            className="detail-specialy container"
             style={isOpen ? { height: "fit-content" } : {}}
           >
             {/* <RenderMenuBar
