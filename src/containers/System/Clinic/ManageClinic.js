@@ -18,6 +18,7 @@ import {
   createANewClinic,
 } from "../../../services/userService";
 import TableManageClinic from "./TableManageClinic";
+import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -25,6 +26,7 @@ class ManageClinic extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      content: "",
       image: "",
       contentHTML: "",
       contentMarkdown: "",
@@ -353,11 +355,15 @@ class ManageClinic extends Component {
             <div className="col-12 form-group">
               <FormattedMessage id="admin.manage-clinic.introduce" />
 
-              <MdEditor
+              {/* <MdEditor
                 style={{ height: "fit-content" }}
                 renderHTML={(text) => mdParser.render(text)}
                 onChange={this.handleEditorChange}
                 value={this.state.contentMarkdown}
+              /> */}
+              <CKEditorFieldBasic
+                value={this.state.content}
+                onChange={this.handleChangeEditor}
               />
               {errors.contentMarkdown && (
                 <span className="text-danger">{errors.contentMarkdown}</span>

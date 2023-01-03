@@ -17,6 +17,7 @@ import {
   getListHandbook,
 } from "../../../services/userService";
 import TableManage from "../TableManage";
+import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageDetailHandbook extends Component {
@@ -36,6 +37,7 @@ class ManageDetailHandbook extends Component {
       isSearch: false,
       listDetailHandbook: [],
       listDetailHandbookSearch: [],
+      content: "",
     };
   }
 
@@ -198,6 +200,11 @@ class ManageDetailHandbook extends Component {
     }
     this.props.getListDetialHandbook(this.state.selectedHandbook.value);
   };
+  handleChangeEditor = (content) => {
+    this.setState({
+      content,
+    });
+  };
   render() {
     return (
       <>
@@ -285,6 +292,11 @@ class ManageDetailHandbook extends Component {
               ></textarea>
             </div>
             <div className="col-12 form-group mt-5">
+              <CKEditorFieldBasic
+                value={this.state.content}
+                onChange={this.handleChangeEditor}
+              />
+              {/*      <div className="col-12 form-group mt-5">
               <FormattedMessage id="admin.manage-detail-handbook.content" />
               <MdEditor
                 style={{ height: "fit-content" }}
@@ -292,14 +304,14 @@ class ManageDetailHandbook extends Component {
                 onChange={this.handleEditorChange}
                 value={this.state.contentMarkdown}
               />
-              {/* {errors.contentMarkdown && (
-                <span className="text-danger">{errors.contentMarkdown}</span>
-              )} */}
+             
+              </div> */}
+
               <button
                 className={
                   this.state.idEditDetailHandbook
-                    ? "btn btn-primary mt-3 mb-3"
-                    : "btn btn-warning mt-3 mb-3"
+                    ? "btn btn-primary mt-3 "
+                    : "btn btn-warning mt-3 "
                 }
                 onClick={() => this.handleSave()}
               >

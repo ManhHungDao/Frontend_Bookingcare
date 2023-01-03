@@ -16,7 +16,7 @@ import {
   updatePacketService,
 } from "../../../services/userService";
 import TableManage from "./TableManage";
-// import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
+import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 
 class Packet_examination extends Component {
   constructor(props) {
@@ -330,12 +330,16 @@ class Packet_examination extends Component {
           </div>
         </div>
         <FormattedMessage id="admin.manage-packet.details" />
-        <MdEditor
+        {/* <MdEditor
           style={{ height: "500px" }}
           renderHTML={(text) => mdParser.render(text)}
           onChange={this.handleEditorChange}
           value={this.state.contentMarkdown}
-        />
+        /> */}
+         <CKEditorFieldBasic 
+                value={this.state.content}
+                onChange={this.handleChangeEditor}
+              />
         <button
           className={
             this.state.isEdit

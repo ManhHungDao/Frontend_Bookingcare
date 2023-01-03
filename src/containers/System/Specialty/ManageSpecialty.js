@@ -15,6 +15,8 @@ import {
 } from "../../../services/userService";
 import { toast } from "react-toastify";
 import TableManage from "../TableManage";
+import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
+
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageSpecialty extends Component {
@@ -35,6 +37,7 @@ class ManageSpecialty extends Component {
       isSearch: false,
       listSpecialtyByClinic: [],
       listSpecialtyByClinicSearch: [],
+      content:''
     };
   }
 
@@ -306,11 +309,15 @@ class ManageSpecialty extends Component {
             </div>
             <div className="col-12 form-group">
               <FormattedMessage id="admin.manage-specialty.details" />
-              <MdEditor
+              {/* <MdEditor
                 style={{ height: "fit-content" }}
                 renderHTML={(text) => mdParser.render(text)}
                 onChange={this.handleEditorChange}
                 value={this.state.contentMarkdown}
+              /> */}
+              <CKEditorFieldBasic
+                value={this.state.content}
+                onChange={this.handleChangeEditor}
               />
               {errors.contentMarkdown && (
                 <span className="text-danger">{errors.contentMarkdown}</span>

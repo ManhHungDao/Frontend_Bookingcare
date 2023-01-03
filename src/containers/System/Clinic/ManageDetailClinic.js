@@ -7,6 +7,7 @@ import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import "react-image-lightbox/style.css";
 import Select from "react-select";
+import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -63,6 +64,7 @@ class DetailClinic extends Component {
       locationHTML: "",
       examinationMarkdown: "",
       examinationHTML: "",
+      content: "",
     };
   }
 
@@ -246,12 +248,19 @@ class DetailClinic extends Component {
                   placeholder={
                     <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
                   }
+                  styles={{
+                    menu: (provided) => ({ ...provided, zIndex: 9999 }),
+                  }}
                 />
               </div>
             </div>
 
-            <div className="col-12 form-group">
-              {this.renderContentMarkdown()}
+            <div className="col-12 form-group mt-3">
+              {/* {this.renderContentMarkdown()} */}
+              <CKEditorFieldBasic 
+                value={this.state.content}
+                onChange={this.handleChangeEditor}
+              />
               <button
                 className="btn btn-primary mt-3"
                 onClick={() => {

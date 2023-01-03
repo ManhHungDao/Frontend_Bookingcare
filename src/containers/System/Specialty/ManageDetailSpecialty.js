@@ -12,27 +12,28 @@ import {
   createDetailSpecialty,
   getDetailSpecialty,
 } from "../../../services/userService";
+import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
-const options = [
-  {
-    value: "treatmentMarkdown",
-    label: <FormattedMessage id="admin.manage-detail-specialty.treament" />,
-  },
-  {
-    value: "strengthMarkdown",
-    label: <FormattedMessage id="admin.manage-detail-specialty.trengths" />,
-  },
-  {
-    value: "serviceMarkdown",
-    label: <FormattedMessage id="admin.manage-detail-specialty.services" />,
-  },
-  {
-    value: "examinationMarkdown",
-    label: <FormattedMessage id="admin.manage-detail-specialty.examination" />,
-  },
-];
+// const options = [
+//   {
+//     value: "treatmentMarkdown",
+//     label: <FormattedMessage id="admin.manage-detail-specialty.treament" />,
+//   },
+//   {
+//     value: "strengthMarkdown",
+//     label: <FormattedMessage id="admin.manage-detail-specialty.trengths" />,
+//   },
+//   {
+//     value: "serviceMarkdown",
+//     label: <FormattedMessage id="admin.manage-detail-specialty.services" />,
+//   },
+//   {
+//     value: "examinationMarkdown",
+//     label: <FormattedMessage id="admin.manage-detail-specialty.examination" />,
+//   },
+// ];
 
 class ManageDetailSpecialty extends Component {
   constructor(props) {
@@ -42,14 +43,15 @@ class ManageDetailSpecialty extends Component {
       listClinic: [],
       selectedSpecialty: "",
       listSpecialty: [],
-      treatmentMarkdown: "",
-      treatmentHTML: "",
-      strengthMarkdown: "",
-      strengthHTML: "",
-      serviceMarkdown: "",
-      serviceHTML: "",
-      examinationMarkdown: "",
-      examinationHTML: "",
+      // treatmentMarkdown: "",
+      // treatmentHTML: "",
+      // strengthMarkdown: "",
+      // strengthHTML: "",
+      // serviceMarkdown: "",
+      // serviceHTML: "",
+      // examinationMarkdown: "",
+      // examinationHTML: "",
+      content: "",
     };
   }
 
@@ -139,28 +141,28 @@ class ManageDetailSpecialty extends Component {
         examinationMarkdown: text,
       });
   };
-  renderContentMarkdown = () => {
-    return (
-      <>
-        {options.map((item, index) => {
-          let value = item.value;
-          return (
-            <div key={index} className="mt-3">
-              <span> {item.label}</span>
-              <MdEditor
-                style={{ height: "fit-content" }}
-                renderHTML={(text) => mdParser.render(text)}
-                onChange={({ html, text }) => {
-                  this.handleEditorChange({ html, text }, item.value);
-                }}
-                value={this.state[value]}
-              />
-            </div>
-          );
-        })}
-      </>
-    );
-  };
+  // renderContentMarkdown = () => {
+  //   return (
+  //     <>
+  //       {options.map((item, index) => {
+  //         let value = item.value;
+  //         return (
+  //           <div key={index} className="mt-3">
+  //             <span> {item.label}</span>
+  //             <MdEditor
+  //               style={{ height: "fit-content" }}
+  //               renderHTML={(text) => mdParser.render(text)}
+  //               onChange={({ html, text }) => {
+  //                 this.handleEditorChange({ html, text }, item.value);
+  //               }}
+  //               value={this.state[value]}
+  //             />
+  //           </div>
+  //         );
+  //       })}
+  //     </>
+  //   );
+  // };
   fillDataInput = (data) => {
     this.clearState();
     if (!data) return;
@@ -236,6 +238,9 @@ class ManageDetailSpecialty extends Component {
                     placeholder={
                       <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
                     }
+                    styles={{
+                      menu: (provided) => ({ ...provided, zIndex: 9999 }),
+                    }}
                   />
                 </div>
                 <div className="find-specialty">
@@ -247,13 +252,20 @@ class ManageDetailSpecialty extends Component {
                     placeholder={
                       <FormattedMessage id="admin.manage-doctor.select_specialty_placeholder" />
                     }
+                    styles={{
+                      menu: (provided) => ({ ...provided, zIndex: 9999 }),
+                    }}
                   />
                 </div>
               </div>
             </div>
 
-            <div className="col-12 form-group">
-              {this.renderContentMarkdown()}
+            <div className="col-12 form-group mt-5">
+              {/* {this.renderContentMarkdown()} */}
+              <CKEditorFieldBasic
+                value={this.state.content}
+                onChange={this.handleChangeEditor}
+              />
               <button
                 className="btn btn-primary mt-3"
                 onClick={() => {

@@ -183,12 +183,11 @@ const CKEditorFieldBasic = ({ value, onChange }) => {
           );
       }}
       editor={Editor}
-      data={`daodsaafsd sdhfkjdshkfdsjkfdsfjk`}
-    //   data={value}
+      data={value}
       config={defaultConfig}
       onChange={(event, editor) => {
         const data = editor.getData();
-        // onChange(data);
+        onChange(data);
       }}
       //   onBlur={(event, editor) => {
       //     console.log("Blur.", editor);

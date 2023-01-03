@@ -141,7 +141,7 @@ class ManageHandbook extends Component {
                 value={this.state.note}
               />
             </div>
-            <div>
+            <div className="col-12 form-group">
               <button
                 className="btn btn-primary mt-5"
                 onClick={() => this.handleSave()}
@@ -150,7 +150,7 @@ class ManageHandbook extends Component {
                 <FormattedMessage id="admin.manage-handbook.save" />
               </button>
             </div>
-            <div className="list-handbook">
+            <div className="col-12 form-group">
               <TableManage
                 listRender={this.state.listHandbookSearch}
                 handleEdit={this.handleEdit}

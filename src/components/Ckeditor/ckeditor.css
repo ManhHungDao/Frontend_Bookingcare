@@ -1,6 +1,10 @@
 
 .ck-rounded-corners .ck.ck-editor__editable:not(.ck-editor__nested-editable), .ck.ck-editor__editable.ck-rounded-corners:not(.ck-editor__nested-editable) {
     border: 1px solid #ddd;
+    min-height: 300px;
+}
+.ck.ck-toolbar>.ck-toolbar__items {
+    /* background-color: #ddd; */
 }
 :root {
     --ck-sample-base-spacing: 2em;
@@ -12,6 +16,5 @@
     --ck-sample-editor-min-height: 400px;
     --ck-sample-editor-z-index: 10;
     --ck-body-wrapper-z-index: 100000;
-    /* --ck-z-modal:10000; */
-    --ck-z-default: 100 !important;
+    --ck-z-default: 11 !important;
 }
