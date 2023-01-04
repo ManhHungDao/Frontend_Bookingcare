@@ -3,15 +3,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./ManageDoctor.scss";
 import * as actions from "../../../store/actions";
-import MarkdownIt from "markdown-it";
-import MdEditor from "react-markdown-editor-lite";
+
 import "react-markdown-editor-lite/lib/index.css";
 import "./ManageDoctor.scss";
 import Select from "react-select";
 import { languages } from "../../../utils";
 import { FormattedMessage } from "react-intl";
 import { TYPE } from "../../../utils/constant";
-const mdParser = new MarkdownIt(/* Detail_doctor-it options */);
+import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 
 class ManageDoctor extends Component {
   constructor(props) {
@@ -19,8 +18,7 @@ class ManageDoctor extends Component {
     this.state = {
       detailDoctor: {},
       // save to markdown table
-      contentHTML: "",
-      contentMarkdown: "",
+      content: "",
       description: "",
       listDoctor: [],
       selectedDoctor: "",
@@ -174,17 +172,21 @@ class ManageDoctor extends Component {
       ...copyState,
     });
   };
-  handleEditorChange = ({ html, text }) => {
+  /*   handleEditorChange = ({ html, text }) => {
     let errors = {
       errors: { contentMarkdown: "" },
     };
     this.setState({
-      contentHTML: html,
+      content: html,
       contentMarkdown: text,
       ...errors,
     });
+  }; */
+  handleEditorChange = (content) => {
+    this.setState({
+      content,
+    });
   };
-
   checkValidate = () => {
     let errors = {};
     let {
@@ -195,7 +197,7 @@ class ManageDoctor extends Component {
       selectedClinic,
       selectedSpecialty,
       description,
-      contentMarkdown,
+      content,
     } = this.state;
     const { language } = this.props;
     if (language === "en") {
@@ -209,8 +211,7 @@ class ManageDoctor extends Component {
         errors.selectedSpecialty = "Specialty must be selected";
       if (!description)
         errors.description = "Descriptions doctor must be entered";
-      if (!contentMarkdown)
-        errors.contentMarkdown = "Details doctor must be entered";
+      if (!content) errors.content = "Details doctor must be entered";
     } else {
       if (!selectedPrice) errors.selectedPrice = "Chọn giá khám";
       if (!selectedPayment)
@@ -221,8 +222,7 @@ class ManageDoctor extends Component {
       if (!selectedSpecialty) errors.selectedSpecialty = "Chọn chuyên ngành";
       if (!description)
         errors.description = "Giới thiệu bác sĩ không được bỏ trống";
-      if (!contentMarkdown)
-        errors.contentMarkdown = "Chi tiết bác sĩ không được bỏ trống";
+      if (!content) errors.content = "Chi tiết bác sĩ không được bỏ trống";
     }
     return errors;
   };
@@ -239,8 +239,7 @@ class ManageDoctor extends Component {
       return;
     }
     const dataMain = {
-      contentHTML: this.state.contentHTML,
-      contentMarkdown: this.state.contentMarkdown,
+      content: this.state.content,
       doctorId: this.state.selectedDoctor.value,
       description: this.state.description,
     };
@@ -257,8 +256,7 @@ class ManageDoctor extends Component {
     this.props.createSubDetailDoctor(subData);
     this.props.fetchAllDoctor();
     this.setState({
-      contentHTML: "",
-      contentMarkdown: "",
+      content: "",
       selectedDoctor: "",
       selectedPrice: "",
       selectedPayment: "",
@@ -271,8 +269,7 @@ class ManageDoctor extends Component {
   };
 
   fillDataState = (detailDoctor, Detail_doctor, Doctor_Info) => {
-    let contentHTML = "",
-      contentMarkdown = "",
+    let content = "",
       description = "",
       note = "",
       selectedPrice = "",
@@ -289,8 +286,7 @@ class ManageDoctor extends Component {
         Detail_doctor.detailMarkdown &&
         Detail_doctor.description
       ) {
-        contentHTML = Detail_doctor.detailHTML;
-        contentMarkdown = Detail_doctor.detailMarkdown;
+        content = Detail_doctor.detailHTML;
         description = Detail_doctor.description;
       }
       if (
@@ -313,8 +309,7 @@ class ManageDoctor extends Component {
         );
       }
       this.setState({
-        contentHTML: contentHTML,
-        contentMarkdown: contentMarkdown,
+        content: content,
         description: description,
         selectedPrice: selectedPrice,
         selectedPayment: selectedPayment,
@@ -326,8 +321,7 @@ class ManageDoctor extends Component {
       });
     } else {
       this.setState({
-        contentHTML: "",
-        contentMarkdown: "",
+        content: "",
         description: "",
         note: "",
         selectedPrice: "",
@@ -507,19 +501,17 @@ class ManageDoctor extends Component {
                 value={this.state.note}
               ></textarea>
             </div>
+            <div className="col-12 from-group" >
             <label className="detail">
               <FormattedMessage id="admin.manage-doctor.detail" />
             </label>
-            <MdEditor
-              style={{ height: "fit-content" }}
-              renderHTML={(text) => mdParser.render(text)}
-              onChange={this.handleEditorChange}
-              value={this.state.contentMarkdown}
-            />
-            {errors.contentMarkdown && (
-              <span className="text-danger">{errors.contentMarkdown}</span>
+            <CKEditorFieldBasic
+                value={this.state.content}
+                onChange={this.handleEditorChange}
+              />
+            {errors.content && (
+              <span className="text-danger">{errors.content}</span>
             )}
-            <div className="col-12 from-group" style={{ padding: 0 }}>
               <button
                 className="btn btn-primary mt-3"
                 onClick={this.handleSave}

@@ -179,7 +179,8 @@
       "location": "Chi tiết vị trí",
       "examination": "Chi tiết quy trình khám",
       "equipment": "Chi tiết trang thiết bị",
-      "service": "Chi tiết dịch vụ"
+      "service": "Chi tiết dịch vụ",
+      "detail":"Chi tiết"
     },
     "manage-specialty": {
       "title": "Quản lý chuyên khoa",

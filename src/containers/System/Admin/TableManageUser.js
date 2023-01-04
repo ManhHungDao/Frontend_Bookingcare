@@ -6,7 +6,6 @@ import * as actions from "../../../store/actions";
 
 import "react-markdown-editor-lite/lib/index.css";
 
-////
 class TableManageUser extends Component {
   constructor(props) {
     super(props);

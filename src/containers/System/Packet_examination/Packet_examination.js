@@ -4,8 +4,6 @@ import * as actions from "../../../store/actions";
 import { CommonUtils } from "../../../utils";
 import "./Packet_examination.scss";
 import { FormattedMessage } from "react-intl";
-import MarkdownIt from "markdown-it";
-import MdEditor from "react-markdown-editor-lite";
 import Lightbox from "react-image-lightbox";
 import Select from "react-select";
 import { toast } from "react-toastify";
@@ -25,8 +23,7 @@ class Packet_examination extends Component {
       price: "",
       selectedClinic: "",
       selectedType: "",
-      contentHTML: "",
-      contentMarkdown: "",
+      content: "",
       title: "",
       previewImgUrl: "",
       image: "",
@@ -83,12 +80,11 @@ class Packet_examination extends Component {
       title: data.title ? data.title : "",
       image: data.image ? data.image : "",
       previewImgUrl: data.image ? data.image : "",
-      contentMarkdown: data.contentMarkdown ? data.contentMarkdown : "",
+      content: data.content ? data.content : "",
       price: data.price ? data.price : "",
       description: data.description ? data.description : "",
       selectedClinic: selectedClinic,
       selectedType: selectedType[0],
-      contentHTML: data.contentHTML ? data.contentHTML : "",
       clinicIdEdit: data.id,
       isEdit: true,
     });
@@ -123,8 +119,7 @@ class Packet_examination extends Component {
     let data = {
       price: this.state.price,
       clinicId: this.state.selectedClinic.value,
-      contentHTML: this.state.contentHTML,
-      contentMarkdown: this.state.contentMarkdown,
+      content: this.state.content,
       title: this.state.title,
       image: this.state.image,
       type: this.state.selectedType.value,
@@ -157,12 +152,11 @@ class Packet_examination extends Component {
       price: "",
       selectedClinic: "",
       selectedType: "",
-      contentMarkdown: "",
+      content: "",
       title: "",
       previewImgUrl: "",
       image: "",
       description: "",
-      contentHTML: "",
     });
   };
 
@@ -189,10 +183,9 @@ class Packet_examination extends Component {
     });
   };
 
-  handleEditorChange = ({ html, text }) => {
+  handleEditorChange = (content) => {
     this.setState({
-      contentHTML: html,
-      contentMarkdown: text,
+      content,
     });
   };
   handleOnChangeInput = (event, id) => {
@@ -209,7 +202,6 @@ class Packet_examination extends Component {
     });
   };
   render() {
-    const mdParser = new MarkdownIt(/* Markdown-it options */);
     let optionsClinic = this.buildDataInputSelect(this.props.listClinic);
     let { listPacket } = this.state;
     return (
@@ -231,7 +223,6 @@ class Packet_examination extends Component {
           </div>
 
           <div className=" col-4 form-group">
-            {/* <CKEditorFieldBasic/> */}
             <label htmlFor="clinicName">
               <FormattedMessage id="admin.manage-packet.selectClinic" />
             </label>
@@ -326,20 +317,13 @@ class Packet_examination extends Component {
               cols="30"
               rows="10"
             ></textarea>
-            {/* <input type="text"  name="description" /> */}
           </div>
         </div>
         <FormattedMessage id="admin.manage-packet.details" />
-        {/* <MdEditor
-          style={{ height: "500px" }}
-          renderHTML={(text) => mdParser.render(text)}
+        <CKEditorFieldBasic
+          value={this.state.content}
           onChange={this.handleEditorChange}
-          value={this.state.contentMarkdown}
-        /> */}
-         <CKEditorFieldBasic 
-                value={this.state.content}
-                onChange={this.handleChangeEditor}
-              />
+        />
         <button
           className={
             this.state.isEdit
@@ -373,8 +357,6 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     listClinic: state.admin.listClinic,
-    // listSpecialtyByClinic: state.admin.listSpecialtyByClinic,
-    // listSpecialty: state.admin.listSpecialty,
   };
 };
 

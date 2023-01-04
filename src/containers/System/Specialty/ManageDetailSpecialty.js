@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import "./ManageDetailSpecialty.scss";
 import { FormattedMessage } from "react-intl";
-import MarkdownIt from "markdown-it";
-import MdEditor from "react-markdown-editor-lite";
 import "react-image-lightbox/style.css";
 import Select from "react-select";
 import { toast } from "react-toastify";
@@ -14,27 +12,6 @@ import {
 } from "../../../services/userService";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 
-const mdParser = new MarkdownIt(/* Markdown-it options */);
-
-// const options = [
-//   {
-//     value: "treatmentMarkdown",
-//     label: <FormattedMessage id="admin.manage-detail-specialty.treament" />,
-//   },
-//   {
-//     value: "strengthMarkdown",
-//     label: <FormattedMessage id="admin.manage-detail-specialty.trengths" />,
-//   },
-//   {
-//     value: "serviceMarkdown",
-//     label: <FormattedMessage id="admin.manage-detail-specialty.services" />,
-//   },
-//   {
-//     value: "examinationMarkdown",
-//     label: <FormattedMessage id="admin.manage-detail-specialty.examination" />,
-//   },
-// ];
-
 class ManageDetailSpecialty extends Component {
   constructor(props) {
     super(props);
@@ -43,14 +20,6 @@ class ManageDetailSpecialty extends Component {
       listClinic: [],
       selectedSpecialty: "",
       listSpecialty: [],
-      // treatmentMarkdown: "",
-      // treatmentHTML: "",
-      // strengthMarkdown: "",
-      // strengthHTML: "",
-      // serviceMarkdown: "",
-      // serviceHTML: "",
-      // examinationMarkdown: "",
-      // examinationHTML: "",
       content: "",
     };
   }
@@ -79,30 +48,14 @@ class ManageDetailSpecialty extends Component {
   clearState = () => {
     this.setState({
       selectedSpecialty: "",
-      treatmentMarkdown: "",
-      treatmentHTML: "",
-      strengthMarkdown: "",
-      strengthHTML: "",
-      serviceMarkdown: "",
-      serviceHTML: "",
-      examinationMarkdown: "",
-      examinationHTML: "",
+      content: "",
     });
   };
   fillDataInput = (data) => {
     this.clearState();
     if (!data) return;
     this.setState({
-      treatmentMarkdown: data.treatmentMarkdown ? data.treatmentMarkdown : "",
-      treatmentHTML: data.treatmentHTML ? data.treatmentHTML : "",
-      strengthMarkdown: data.strengthMarkdown ? data.strengthMarkdown : "",
-      strengthHTML: data.strengthHTML ? data.strengthHTML : "",
-      serviceMarkdown: data.serviceMarkdown ? data.serviceMarkdown : "",
-      serviceHTML: data.serviceHTML ? data.serviceHTML : "",
-      examinationMarkdown: data.examinationMarkdown
-        ? data.examinationMarkdown
-        : "",
-      examinationHTML: data.examinationHTML ? data.examinationHTML : "",
+      content: data.content ? data.content : "",
     });
   };
   buildDataInputSelect = (data) => {
@@ -119,66 +72,7 @@ class ManageDetailSpecialty extends Component {
     }
     return result;
   };
-  handleEditorChange = ({ html, text }, name) => {
-    if (name === "treatmentMarkdown")
-      this.setState({
-        treatmentHTML: html,
-        treatmentMarkdown: text,
-      });
-    if (name === "strengthMarkdown")
-      this.setState({
-        strengthHTML: html,
-        strengthMarkdown: text,
-      });
-    if (name === "serviceMarkdown")
-      this.setState({
-        serviceHTML: html,
-        serviceMarkdown: text,
-      });
-    if (name === "examinationMarkdown")
-      this.setState({
-        examinationHTML: html,
-        examinationMarkdown: text,
-      });
-  };
-  // renderContentMarkdown = () => {
-  //   return (
-  //     <>
-  //       {options.map((item, index) => {
-  //         let value = item.value;
-  //         return (
-  //           <div key={index} className="mt-3">
-  //             <span> {item.label}</span>
-  //             <MdEditor
-  //               style={{ height: "fit-content" }}
-  //               renderHTML={(text) => mdParser.render(text)}
-  //               onChange={({ html, text }) => {
-  //                 this.handleEditorChange({ html, text }, item.value);
-  //               }}
-  //               value={this.state[value]}
-  //             />
-  //           </div>
-  //         );
-  //       })}
-  //     </>
-  //   );
-  // };
-  fillDataInput = (data) => {
-    this.clearState();
-    if (!data) return;
-    this.setState({
-      treatmentMarkdown: data.treatmentMarkdown ? data.treatmentMarkdown : "",
-      treatmentHTML: data.treatmentHTML ? data.treatmentHTML : "",
-      strengthMarkdown: data.strengthMarkdown ? data.strengthMarkdown : "",
-      strengthHTML: data.strengthHTML ? data.strengthHTML : "",
-      serviceMarkdown: data.serviceMarkdown ? data.serviceMarkdown : "",
-      serviceHTML: data.serviceHTML ? data.serviceHTML : "",
-      examinationMarkdown: data.examinationMarkdown
-        ? data.examinationMarkdown
-        : "",
-      examinationHTML: data.examinationHTML ? data.examinationHTML : "",
-    });
-  };
+
   handleChangeSelectClinic = async (selectedOption) => {
     await this.props.getListSpecialtyByClinicId(selectedOption.value);
     this.setState({
@@ -200,19 +94,7 @@ class ManageDetailSpecialty extends Component {
     });
   };
   handleSave = async () => {
-    const data = {
-      treatmentMarkdown: this.state.treatmentMarkdown,
-      treatmentHTML: this.state.treatmentHTML,
-      strengthMarkdown: this.state.strengthMarkdown,
-      strengthHTML: this.state.strengthHTML,
-      serviceMarkdown: this.state.serviceMarkdown,
-      serviceHTML: this.state.serviceHTML,
-      examinationMarkdown: this.state.examinationMarkdown,
-      examinationHTML: this.state.examinationHTML,
-      clinicId: this.state.selectedClinic.value,
-      specialtyId: this.state.selectedSpecialty.value,
-    };
-    const res = await createDetailSpecialty(data);
+    const res = await createDetailSpecialty({ content: this.state.content });
     if (res && res.errCode === 0) {
       toast.success("Upload Detail Specialty Succeed");
       this.clearState();
@@ -261,7 +143,7 @@ class ManageDetailSpecialty extends Component {
             </div>
 
             <div className="col-12 form-group mt-5">
-              {/* {this.renderContentMarkdown()} */}
+              <FormattedMessage id="admin.manage-doctor.detail" />
               <CKEditorFieldBasic
                 value={this.state.content}
                 onChange={this.handleChangeEditor}

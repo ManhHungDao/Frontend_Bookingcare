@@ -4,8 +4,6 @@ import * as actions from "../../../store/actions";
 import { CommonUtils } from "../../../utils";
 import "./ManageSpecialty.scss";
 import { FormattedMessage } from "react-intl";
-import MarkdownIt from "markdown-it";
-import MdEditor from "react-markdown-editor-lite";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import Select from "react-select";
@@ -17,15 +15,12 @@ import { toast } from "react-toastify";
 import TableManage from "../TableManage";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 
-const mdParser = new MarkdownIt(/* Markdown-it options */);
-
 class ManageSpecialty extends Component {
   constructor(props) {
     super(props);
     this.state = {
       image: "",
-      contentHTML: "",
-      contentMarkdown: "",
+      content: "",
       isOpen: false,
       previewImgUrl: "",
       name: "",
@@ -37,7 +32,6 @@ class ManageSpecialty extends Component {
       isSearch: false,
       listSpecialtyByClinic: [],
       listSpecialtyByClinicSearch: [],
-      content:''
     };
   }
 
@@ -69,8 +63,7 @@ class ManageSpecialty extends Component {
 
   clearState = () => {
     this.setState({
-      contentHTML: "",
-      contentMarkdown: "",
+      content: "",
       name: "",
       image: "",
       previewImgUrl: "",
@@ -124,11 +117,8 @@ class ManageSpecialty extends Component {
       isSearch: !this.state.isSearch,
     });
   };
-  handleEditorChange = ({ html, text }) => {
-    this.setState({
-      contentHTML: html,
-      contentMarkdown: text,
-    });
+  handleEditorChange = (content) => {
+    this.setState({ content });
   };
   handleOnChangeInput = (event, id) => {
     let copyState = { ...this.state };
@@ -152,18 +142,16 @@ class ManageSpecialty extends Component {
   };
   checkValidate = () => {
     let errors = {};
-    let { name, contentMarkdown } = this.state;
+    let { name, content } = this.state;
     const { language } = this.props;
     if (language === "en") {
       // if (!image) errors.image = "Upload image";
       if (!name) errors.name = "Name must be entered";
-      if (!contentMarkdown)
-        errors.contentMarkdown = "Details specialty must be entered";
+      if (!content) errors.content = "Details specialty must be entered";
     } else {
       // if (!image) errors.image = "Tải ảnh phòng khám";
       if (!name) errors.name = "Tên không được bỏ trống";
-      if (!contentMarkdown)
-        errors.contentMarkdown = "Chi tiết không được bỏ trống";
+      if (!content) errors.content = "Chi tiết không được bỏ trống";
     }
     return errors;
   };
@@ -190,8 +178,7 @@ class ManageSpecialty extends Component {
       name: data.name ? data.name : "",
       image: data.image ? data.image : "",
       previewImgUrl: data.image ? data.image : "",
-      contentMarkdown: data.detailMarkdown ? data.detailMarkdown : "",
-      contentHTML: data.detailHTML ? data.detailHTML : "",
+      content: data.content ? data.content : "",
       idSpecialtyEdit: data.id ? data.id : "",
     });
   };
@@ -204,8 +191,7 @@ class ManageSpecialty extends Component {
     }
     let data = {
       image: this.state.image,
-      contentHTML: this.state.contentHTML,
-      contentMarkdown: this.state.contentMarkdown,
+      content: this.state.content,
       name: this.state.name,
     };
     const idSpecialtyEdit = this.state.idSpecialtyEdit;
@@ -309,18 +295,12 @@ class ManageSpecialty extends Component {
             </div>
             <div className="col-12 form-group">
               <FormattedMessage id="admin.manage-specialty.details" />
-              {/* <MdEditor
-                style={{ height: "fit-content" }}
-                renderHTML={(text) => mdParser.render(text)}
-                onChange={this.handleEditorChange}
-                value={this.state.contentMarkdown}
-              /> */}
               <CKEditorFieldBasic
                 value={this.state.content}
                 onChange={this.handleChangeEditor}
               />
-              {errors.contentMarkdown && (
-                <span className="text-danger">{errors.contentMarkdown}</span>
+              {errors.content && (
+                <span className="text-danger">{errors.content}</span>
               )}
               <button
                 className="btn btn-primary mt-3 mb-3"

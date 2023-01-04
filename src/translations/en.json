@@ -180,7 +180,9 @@
       "location": "Detail location",
       "examination": "Detail examination process",
       "equipment": "Detail equipments",
-      "service": "Detail services"
+      "service": "Detail services",
+      "detail":"Detail"
+
     },
     "manage-specialty": {
       "title": "Manage Specialties",

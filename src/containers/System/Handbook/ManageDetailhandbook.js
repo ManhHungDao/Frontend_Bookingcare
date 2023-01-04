@@ -6,10 +6,8 @@ import { FormattedMessage } from "react-intl";
 import Lightbox from "react-image-lightbox";
 import { CommonUtils } from "../../../utils";
 import "react-image-lightbox/style.css";
-import MarkdownIt from "markdown-it";
 import { toast } from "react-toastify";
 import Select from "react-select";
-import MdEditor from "react-markdown-editor-lite";
 import {
   deleteDetailHandbook,
   updateDetailHandbook,
@@ -18,7 +16,6 @@ import {
 } from "../../../services/userService";
 import TableManage from "../TableManage";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
-const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageDetailHandbook extends Component {
   constructor(props) {
@@ -26,18 +23,15 @@ class ManageDetailHandbook extends Component {
     this.state = {
       title: "",
       previewImgUrl: "",
-      description: "",
       note: "",
       image: "",
-      contentHTML: "",
-      contentMarkdown: "",
+      content: "",
       selectedHandbook: "",
       listHandbook: "",
       idEditDetailHandbook: "",
       isSearch: false,
       listDetailHandbook: [],
       listDetailHandbookSearch: [],
-      content: "",
     };
   }
 
@@ -82,7 +76,6 @@ class ManageDetailHandbook extends Component {
   handleChangeTextArea = (event, name) => {
     let copyState = { ...this.state };
     copyState[name] = event.target.value;
-    // copyState.errors[name] = "";
     this.setState({
       ...copyState,
     });
@@ -90,12 +83,6 @@ class ManageDetailHandbook extends Component {
   handleOpenSearch = () => {
     this.setState({
       isSearch: !this.state.isSearch,
-    });
-  };
-  handleEditorChange = ({ html, text }) => {
-    this.setState({
-      contentHTML: html,
-      contentMarkdown: text,
     });
   };
   handleOnChangeImage = async (event) => {
@@ -126,11 +113,9 @@ class ManageDetailHandbook extends Component {
     this.setState({
       title: "",
       note: "",
-      description: "",
-      contentMarkdown: "",
       image: "",
       previewImgUrl: "",
-      contentHTML: "",
+      content: "",
       idEditDetailHandbook: "",
     });
   };
@@ -138,11 +123,9 @@ class ManageDetailHandbook extends Component {
     this.setState({
       title: data.title,
       note: data.note,
-      description: data.description,
-      contentMarkdown: data.contentMarkdown,
       image: data.image,
       previewImgUrl: data.image,
-      contentHTML: data.contentHTML,
+      content: data.content,
     });
   };
   handleSearch = (input) => {
@@ -175,9 +158,7 @@ class ManageDetailHandbook extends Component {
     const data = {
       title: this.state.title,
       note: this.state.note,
-      description: this.state.description,
-      contentMarkdown: this.state.contentMarkdown,
-      contentHTML: this.state.contentHTML,
+      content: this.state.content,
       image: this.state.image,
     };
     if (!this.state.idEditDetailHandbook) {
@@ -268,45 +249,21 @@ class ManageDetailHandbook extends Component {
                 ></div>
               </div>
             </div>
-            <div className="col-6 form-group">
-              <label>
-                <FormattedMessage id="admin.manage-doctor.intro" />
-              </label>
-              <textarea
-                value={this.state.description}
-                onChange={(event) =>
-                  this.handleChangeTextArea(event, "description")
-                }
-              ></textarea>
-              {/* {errors.description && (
-                <span className="text-danger">{errors.description}</span>
-              )} */}
-            </div>
-            <div className="col-6 form-group" id="note">
+            <div className="col-12 form-group" id="note">
               <label>
                 <FormattedMessage id="admin.manage-doctor.note" />
               </label>
-              <textarea
-                onChange={(event) => this.handleChangeTextArea(event, "note")}
-                value={this.state.note}
-              ></textarea>
-            </div>
-            <div className="col-12 form-group mt-5">
               <CKEditorFieldBasic
                 value={this.state.content}
                 onChange={this.handleChangeEditor}
               />
-              {/*      <div className="col-12 form-group mt-5">
-              <FormattedMessage id="admin.manage-detail-handbook.content" />
-              <MdEditor
-                style={{ height: "fit-content" }}
-                renderHTML={(text) => mdParser.render(text)}
-                onChange={this.handleEditorChange}
-                value={this.state.contentMarkdown}
+            </div>
+            <div className="col-12 form-group mt-5">
+              <FormattedMessage id="admin.manage-doctor.detail" />
+              <CKEditorFieldBasic
+                value={this.state.content}
+                onChange={this.handleChangeEditor}
               />
-             
-              </div> */}
-
               <button
                 className={
                   this.state.idEditDetailHandbook

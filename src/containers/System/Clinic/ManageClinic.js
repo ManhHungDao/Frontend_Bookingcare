@@ -4,8 +4,6 @@ import * as actions from "../../../store/actions";
 import { CommonUtils } from "../../../utils";
 import "./ManageClinic.scss";
 import { FormattedMessage } from "react-intl";
-import MarkdownIt from "markdown-it";
-import MdEditor from "react-markdown-editor-lite";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 import Select from "react-select";
@@ -20,16 +18,12 @@ import {
 import TableManageClinic from "./TableManageClinic";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 
-const mdParser = new MarkdownIt(/* Markdown-it options */);
-
 class ManageClinic extends Component {
   constructor(props) {
     super(props);
     this.state = {
       content: "",
       image: "",
-      contentHTML: "",
-      contentMarkdown: "",
       isOpen: false,
       isOpenLogo: false,
       previewImgUrl: "",
@@ -101,8 +95,6 @@ class ManageClinic extends Component {
         logo: data.logo,
         previewImgUrl: data.image,
         previewLogoUrl: data.logo,
-        contentMarkdown: data.introduceMarkdown,
-        contentHTML: data.introduceHTML,
       });
     }
   };
@@ -140,10 +132,9 @@ class ManageClinic extends Component {
     }
   };
 
-  handleEditorChange = ({ html, text }) => {
+  handleEditorChange = (content) => {
     this.setState({
-      contentHTML: html,
-      contentMarkdown: text,
+      content,
     });
   };
   handleOnChangeInput = (event, id) => {
@@ -156,21 +147,21 @@ class ManageClinic extends Component {
 
   checkValidate = () => {
     let errors = {};
-    let { image, name, address, contentMarkdown, logo } = this.state;
+    let { image, name, address, content, logo } = this.state;
     const { language } = this.props;
     if (language === "en") {
       if (!image) errors.image = "Upload image";
       if (!name) errors.name = "Name must be entered";
       if (!address) errors.address = "Address must be entered";
-      if (!contentMarkdown)
-        errors.contentMarkdown = "Details clinic must be entered";
+      if (!content)
+        errors.content = "Details clinic must be entered";
     } else {
       if (!image) errors.image = "Tải ảnh phòng khám";
       if (!logo) errors.logo = "Tải ảnh đại diện phòng khám";
       if (!name) errors.name = "Tên không được bỏ trống";
       if (!address) errors.address = "Địa chỉ không được bỏ trống";
-      if (!contentMarkdown)
-        errors.contentMarkdown = "Chi tiết phòng khám không được bỏ trống";
+      if (!content)
+        errors.content = "Chi tiết phòng khám không được bỏ trống";
     }
     return errors;
   };
@@ -200,8 +191,6 @@ class ManageClinic extends Component {
     }
     const data = {
       image: this.state.image,
-      contentHTML: this.state.contentHTML,
-      contentMarkdown: this.state.contentMarkdown,
       name: this.state.name,
       address: this.state.address,
       logo: this.state.logo,
@@ -211,8 +200,7 @@ class ManageClinic extends Component {
       if (res && res.errCode === 0) {
         toast.success("create a new alinic succeed");
         this.setState({
-          contentHTML: "",
-          contentMarkdown: "",
+          content: "",
           name: "",
           image: "",
           previewImgUrl: "",
@@ -231,8 +219,7 @@ class ManageClinic extends Component {
       if (res && res.errCode === 0) {
         toast.success("update alinic succeed");
         this.setState({
-          contentHTML: "",
-          contentMarkdown: "",
+          content: "",
           name: "",
           image: "",
           previewImgUrl: "",
@@ -354,19 +341,12 @@ class ManageClinic extends Component {
             </div>
             <div className="col-12 form-group">
               <FormattedMessage id="admin.manage-clinic.introduce" />
-
-              {/* <MdEditor
-                style={{ height: "fit-content" }}
-                renderHTML={(text) => mdParser.render(text)}
-                onChange={this.handleEditorChange}
-                value={this.state.contentMarkdown}
-              /> */}
               <CKEditorFieldBasic
                 value={this.state.content}
-                onChange={this.handleChangeEditor}
+                onChange={this.handleEditorChange}
               />
-              {errors.contentMarkdown && (
-                <span className="text-danger">{errors.contentMarkdown}</span>
+              {errors.content && (
+                <span className="text-danger">{errors.content}</span>
               )}
             </div>
             <div className="col-12 from-group">
