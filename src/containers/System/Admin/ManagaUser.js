@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
-import "./UserRedux.scss";
+import "./ManagaUser.scss";
 import { languages, CRUD_ACTIONS, CommonUtils } from "../../../utils";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
@@ -11,7 +11,7 @@ import validator from "validator";
 import Select from "react-select";
 import { getAllUsersService } from "../../../services/userService";
 
-class UserRedux extends Component {
+class ManagaUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -88,7 +88,7 @@ class UserRedux extends Component {
       const listRole = this.props.roles;
       this.setState({
         roleArr: listRole,
-        roleId: listRole && listRole.length > 0 ? listRole[0].keyMap : "",
+        roleId: listRole && listRole.length > 0 ? listRole[1].keyMap : "",
       });
     }
     if (prevProps.users !== this.props.users) {
@@ -96,6 +96,19 @@ class UserRedux extends Component {
       this.setState({
         listUser: dataSelectDoctor,
       });
+    }
+    if (this.state.roleId !== prevState.roleId) {
+      if (this.state.roleId === "R1") {
+        this.setState({
+          positionArr: [],
+        });
+      } else if (this.state.roleId === "R2") {
+        const listPos = this.props.positions;
+        this.setState({
+          positionArr: listPos,
+          positionId: listPos && listPos.length > 0 ? listPos[0].keyMap : "",
+        });
+      }
     }
   }
 
@@ -606,4 +619,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserRedux);
+export default connect(mapStateToProps, mapDispatchToProps)(ManagaUser);

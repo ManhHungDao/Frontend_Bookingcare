@@ -383,6 +383,9 @@ class ManageDoctor extends Component {
                 placeholder={
                   <FormattedMessage id="admin.manage-doctor.select_doctor_placeholder" />
                 }
+                styles={{
+                  menu: (provided) => ({ ...provided, zIndex: 9999 }),
+                }}
               />
               {errors.selectedDoctor && (
                 <span className="text-danger">{errors.selectedDoctor}</span>
@@ -400,6 +403,9 @@ class ManageDoctor extends Component {
                 placeholder={
                   <FormattedMessage id="admin.manage-doctor.select_specialty_placeholder" />
                 }
+                styles={{
+                  menu: (provided) => ({ ...provided, zIndex: 9999 }),
+                }}
               />
               {errors.selectedSpecialty && (
                 <span className="text-danger">{errors.selectedSpecialty}</span>
@@ -417,6 +423,9 @@ class ManageDoctor extends Component {
                 placeholder={
                   <FormattedMessage id="admin.manage-doctor.select_clinic_placeholder" />
                 }
+                styles={{
+                  menu: (provided) => ({ ...provided, zIndex: 9999 }),
+                }}
               />
               {errors.selectedClinic && (
                 <span className="text-danger">{errors.selectedClinic}</span>
@@ -434,6 +443,9 @@ class ManageDoctor extends Component {
                 placeholder={
                   <FormattedMessage id="admin.manage-doctor.select_price_placeholder" />
                 }
+                styles={{
+                  menu: (provided) => ({ ...provided, zIndex: 9999 }),
+                }}
               />
               {errors.selectedPrice && (
                 <span className="text-danger">{errors.selectedPrice}</span>
@@ -451,6 +463,9 @@ class ManageDoctor extends Component {
                 placeholder={
                   <FormattedMessage id="admin.manage-doctor.select_payment_placeholder" />
                 }
+                styles={{
+                  menu: (provided) => ({ ...provided, zIndex: 9999 }),
+                }}
               />
               {errors.selectedPayment && (
                 <span className="text-danger">{errors.selectedPayment}</span>
@@ -468,6 +483,9 @@ class ManageDoctor extends Component {
                 placeholder={
                   <FormattedMessage id="admin.manage-doctor.select_province_placeholder" />
                 }
+                styles={{
+                  menu: (provided) => ({ ...provided, zIndex: 9999 }),
+                }}
               />
               {errors.selectedProvince && (
                 <span className="text-danger">{errors.selectedProvince}</span>
@@ -501,17 +519,17 @@ class ManageDoctor extends Component {
                 value={this.state.note}
               ></textarea>
             </div>
-            <div className="col-12 from-group" >
-            <label className="detail">
-              <FormattedMessage id="admin.manage-doctor.detail" />
-            </label>
-            <CKEditorFieldBasic
+            <div className="col-12 from-group">
+              <label className="detail">
+                <FormattedMessage id="admin.manage-doctor.detail" />
+              </label>
+              <CKEditorFieldBasic
                 value={this.state.content}
                 onChange={this.handleEditorChange}
               />
-            {errors.content && (
-              <span className="text-danger">{errors.content}</span>
-            )}
+              {errors.content && (
+                <span className="text-danger">{errors.content}</span>
+              )}
               <button
                 className="btn btn-primary mt-3"
                 onClick={this.handleSave}
