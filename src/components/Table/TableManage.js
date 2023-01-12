@@ -2,13 +2,13 @@ import React, { Component, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import "./TableManageUser.scss";
-import * as actions from "../../../store/actions";
+import * as actions from "../../store/actions";
 import { useEffect } from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
-import ModalInfo from "./ModalInfo";
+// import ModalInfo from "./ModalInfo";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -17,49 +17,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import ConfirmModal from "../../../components/ConfirmModal";
+import ConfirmModal from "../ConfirmModal";
 
-const columns = [
-  {
-    id: "email",
-    label: <FormattedMessage id="manage-user.email" />,
-    flex: 1,
-  },
-  {
-    id: "firstName",
-    label: <FormattedMessage id="manage-user.firstName" />,
-    flex: 1,
-  },
-  {
-    id: "lastName",
-    label: <FormattedMessage id="manage-user.lastName" />,
-    flex: 1,
-  },
-  {
-    id: "phoneNumber",
-    label: <FormattedMessage id="manage-user.phone-number" />,
-    flex: 1,
-  },
-  {
-    id: "address",
-    label: <FormattedMessage id="manage-user.address" />,
-    flex: 1,
-  },
-  {
-    id: "action",
-    label: <FormattedMessage id="manage-user.action" />,
-    width: 150,
-  },
-];
-
-const TableManageUser = (props) => {
-  const [users, setUsers] = useState([]);
+const TableManageUser = ({ columns, dataInput }) => {
+  const [data, setData] = useState([]);
   const [listSeach, setListSeach] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [userEdit, setUserEdit] = useState({});
-  const [userDelete, setUserDelete] = useState({});
+  const [dataEdit, setDataEdit] = useState({});
+  const [dataDelete, setDataDelete] = useState({});
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -74,59 +41,40 @@ const TableManageUser = (props) => {
   };
 
   useEffect(() => {
-    props.fetchAllUser("All");
+    if (dataInput) setData(dataInput);
   }, []);
-
-  useEffect(() => {
-    let listUser = props.users.map((i) => {
-      return {
-        id: i.id,
-        email: i.email,
-        firstName: i.firstName,
-        lastName: i.lastName,
-        phoneNumber: i.phoneNumber,
-        address: i.address,
-        image: i.image,
-        positionId: i.positionId,
-        roleId: i.roleId,
-        gender: i.gender,
-      };
-    });
-    setUsers(listUser);
-    setListSeach(listUser);
-  }, [props.users]);
-  useEffect(() => {
-    let data = users;
-    let dataSearch = data.filter((e) => {
-      return e.lastName.toLowerCase().includes(searchTerm.toLowerCase());
-    });
-    setListSeach(dataSearch);
-  }, [searchTerm]);
+  //   useEffect(() => {
+  //     let temp = data;
+  //     let dataSearch = temp.filter((e) => {
+  //       return e.lastName.toLowerCase().includes(searchTerm.toLowerCase());
+  //     });
+  //     setListSeach(dataSearch);
+  //   }, [searchTerm]);
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleAddUser = () => {
+  const handleAdd = () => {
     setOpenModal(!openModal);
-    // setUserEdit({});
+    // setDataEdit({});
     setIsAdd(true);
   };
-  const handleEditUser = (user) => {
-    setUserEdit(user);
+  const handleEdit = (user) => {
+    setDataEdit(user);
     setIsAdd(false);
     setOpenModal(!openModal);
   };
-  const handleDeleteUser = (user) => {
-    setUserDelete(user);
+  const handleDelete = (user) => {
+    setDataDelete(user);
     setIsOpenConfirmModal(true);
   };
   const closeModal = () => {
     setOpenModal(false);
     setIsOpenConfirmModal(false);
   };
-  const deleteUser = () => {
-    alert("deleteuser");
-    setUserDelete({});
+  const deleteData = () => {
+    alert("delete data");
+    setDataDelete({});
   };
   return (
     <>
@@ -153,7 +101,7 @@ const TableManageUser = (props) => {
             <Button
               variant="contained"
               color="success"
-              onClick={handleAddUser}
+              onClick={handleAdd}
               style={{ height: "fit-content" }}
             >
               <FormattedMessage id="manage-user.add" />
@@ -202,7 +150,7 @@ const TableManageUser = (props) => {
                                     <button
                                       className="btn btn-edit"
                                       onClick={() => {
-                                        handleEditUser(row);
+                                        handleEdit(row);
                                       }}
                                     >
                                       <i className="fas fa-edit"></i>
@@ -210,7 +158,7 @@ const TableManageUser = (props) => {
                                     <button
                                       className="btn btn-delete"
                                       onClick={() => {
-                                        handleDeleteUser(row);
+                                        handleDelete(row);
                                       }}
                                     >
                                       <i className="fas fa-trash"></i>
@@ -240,18 +188,19 @@ const TableManageUser = (props) => {
           </div>
         </div>
       </div>
-      <ModalInfo
+      {/* <ModalInfo
         openModal={openModal}
         closeModal={closeModal}
-        userEdit={userEdit}
+        dataEdit={dataEdit}
         isAddNewUser={isAdd}
-      />
+      /> */}
       <ConfirmModal
         openModal={isOpenConfirmModal}
         closeModal={closeModal}
-        idDelete={userDelete ? userDelete.id : ""}
-        content={userDelete.firstName + " " + userDelete.lastName}
-        handleConfirm={deleteUser}
+        idDelete={dataDelete ? dataDelete.id : ""}
+        // content={dataDelete.firstName + " " + dataDelete.lastName}
+        content="test data"
+        handleConfirm={deleteData}
       />
     </>
   );

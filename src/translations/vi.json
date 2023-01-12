@@ -54,7 +54,7 @@
     "title": "Thêm mới người dùng",
     "address": "Địa chỉ",
     "email": "Email",
-    "save": "Thêm mới",
+    "add": "Thêm mới",
     "edit": "Lưu thay đổi",
     "position": "Chức danh",
     "role": "Vài trò",
@@ -67,7 +67,9 @@
     "upload": "Tải ảnh",
     "action": "Hành động",
     "search": "Tìm kiếm",
-    "delete": "Xóa"
+    "delete": "Xóa",
+    "save": "Lưu",
+    "cancel": "Thoát"
   },
   "homepage": {
     "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
@@ -171,7 +173,9 @@
       "introduce": "Giới thiệu phòng khám",
       "save": "Lưu",
       "add": "Thêm mới",
-      "logo": "Ảnh đại diện phòng khám"
+      "logo": "Ảnh đại diện phòng khám",
+      "edit": "Chỉnh sửa",
+      "editDetail":"Chỉnh sửa chi tiết"
     },
     "manage-detail-clinic": {
       "title": "Quản lý chi tiết phòng khám",
@@ -222,5 +226,8 @@
       "image": "Hình ảnh",
       "details": "Chi tiết gói khám"
     }
+  },
+  "modal": {
+    "title": "Thông báo xóa"
   }
 }

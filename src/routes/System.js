@@ -5,7 +5,7 @@ import TableManageUser from "../containers/System/Admin/TableManageUser";
 import Header from "../containers/Header/Header";
 import ManageDoctor from "../containers/System/Admin/ManageDoctor";
 import ManageSpecialty from "../containers/System/Specialty/ManageSpecialty";
-import ManageClinic from "../containers/System/Clinic/ManageClinic";
+import TableManageClinic from "../containers/System/Clinic/TableManageClinic";
 import ManageDetailClinic from "../containers/System/Clinic/ManageDetailClinic";
 import ManageDetailSpecialty from "../containers/System/Specialty/ManageDetailSpecialty";
 import ManageHandbook from "../containers/System/Handbook/ManageHandbook";
@@ -26,7 +26,7 @@ class System extends Component {
             <Switch>
               <Route path="/system/user-manage" component={TableManageUser} />
               <Route path="/system/manage-doctor" component={ManageDoctor} />
-              <Route path="/system/manage-clinic" component={ManageClinic} />
+              <Route path="/system/manage-clinic" component={TableManageClinic} />
               <Route
                 path="/system/manage-handbook"
                 component={ManageHandbook}

@@ -1,121 +1,245 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import "./TableManageClinic.scss";
 import * as actions from "../../../store/actions";
+import { useEffect } from "react";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import ConfirmModal from "../../../components/ConfirmModal";
+import ModalAddEditClinic from "./ModalAddEditClinic";
 
-class TableManageUser extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      listClinic: [],
-      listClinicSearCh: [],
-      isSearch: false,
-    };
-  }
-  componentDidMount() {
-    this.props.getListClinicHome();
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.listClinic !== this.props.listClinic) {
-      this.setState({
-        listClinic: this.props.listClinic,
-        listClinicSearCh: this.props.listClinic,
-      });
-    }
-  }
-  handleOpenSearch = () => {
-    this.setState({
-      isSearch: !this.state.isSearch,
+const columns = [
+  {
+    id: "name",
+    label: <FormattedMessage id="admin.manage-clinic.name" />,
+    flex: 1,
+  },
+  {
+    id: "address",
+    label: <FormattedMessage id="admin.manage-clinic.address" />,
+    flex: 1,
+  },
+  {
+    id: "editDetail",
+    label: <FormattedMessage id="admin.manage-clinic.edit" />,
+    flex: 1,
+  },
+  {
+    id: "action",
+    label: <FormattedMessage id="manage-user.action" />,
+    width: 150,
+  },
+];
+
+const TableManageClinic = (props) => {
+  const [listClinic, setListClinic] = useState([]);
+  const [listClinicSearCh, setListClinicSearCh] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [isAdd, setIsAdd] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [dataEdit, setDataEdit] = useState({});
+  const [dataDelete, setDataDelete] = useState({});
+
+  useEffect(() => {
+    props.getListClinicHome();
+  }, []);
+
+  useEffect(() => {
+    setListClinic(props.listClinic);
+    setListClinicSearCh(props.listClinic);
+  }, [props.listClinic]);
+  useEffect(() => {
+    let data = listClinic;
+    let dataSearch = data.filter((e) => {
+      return e.name.toLowerCase().includes(searchTerm.toLowerCase());
     });
+    setListClinicSearCh(dataSearch);
+  }, [searchTerm]);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
   };
-  handleDeleteClinic = (id) => {
-    this.props.deleteClinic(id);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
-  handleEditClinic = (userData) => {
-    this.props.editClinic(userData);
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
-  handleSearch = (event) => {
-    let input = event.target.value;
-    let dataSearch = this.state.listClinic;
-    if (input === "")
-      this.setState({
-        listClinicSearCh: this.state.listClinic,
-      });
-    dataSearch = dataSearch.filter((e) => {
-      return e.name.toLowerCase().includes(input.toLowerCase());
-    });
-    this.setState({
-      listClinicSearCh: dataSearch,
-    });
+
+  const handleAdd = () => {
+    setOpenModal(!openModal);
+    // setDataEdit({});
+    setIsAdd(true);
   };
-  render() {
-    const { listClinicSearCh } = this.state;
-    return (
-      <div className="table-wrapper-scroll-y my-custom-scrollbar">
-        <div className="clinic-container">
-          <div className="clinic-table mt-3 mx-1">
-            <table id="customers">
-              <thead>
-                <tr>
-                  <th className="col-2">
-                    <div className="row-name">
-                      <FormattedMessage id="admin.manage-clinic.name" />
-                      <i
-                        className="fas fa-search"
-                        onClick={() => this.handleOpenSearch()}
-                      ></i>
-                    </div>
-                    <input
-                      className="search-input"
-                      type={this.state.isSearch ? "" : "hidden"}
-                      onChange={(event) => this.handleSearch(event)}
-                    />
-                  </th>
-                  <th className="col-3">
-                    <FormattedMessage id="admin.manage-clinic.address" />
-                  </th>
-                  <th className="col-1">
-                    <FormattedMessage id="manage-user.action" />
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {listClinicSearCh &&
-                  listClinicSearCh.map((item, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{item.name}</td>
-                        <td>{item.address}</td>
-                        <td>
-                          <button
-                            className="btn btn-edit"
-                            onClick={() => {
-                              this.handleEditClinic(item);
-                            }}
-                          >
-                            <i className="fas fa-pencil-alt"></i>
-                          </button>
-                          <button
-                            className="btn btn-delete"
-                            onClick={() => {
-                              this.handleDeleteClinic(item.id);
-                            }}
-                          >
-                            <i className="fas fa-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
+  const handleEdit = (user) => {
+    setDataEdit(user);
+    setIsAdd(false);
+    setOpenModal(!openModal);
+  };
+  const handleDelete = (user) => {
+    setDataDelete(user);
+    setIsOpenConfirmModal(true);
+  };
+  const closeModal = () => {
+    setOpenModal(false);
+    setIsOpenConfirmModal(false);
+  };
+  const deleteData = () => {
+    alert("delete data");
+    setDataDelete({});
+  };
+  return (
+    <>
+      <div className="container">
+        <div className="title">
+          <FormattedMessage id="admin.manage-clinic.title" />
+        </div>
+        <div className="row">
+          <div className="col-12 d-lg-flex align-items-lg-center justify-content-end gap-5 mb-2">
+            <TextField
+              id="input-with-icon-textfield"
+              label={<FormattedMessage id="manage-user.search" />}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              variant="standard"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+            <Button
+              variant="contained"
+              color="success"
+              onClick={handleAdd}
+              style={{ height: "fit-content" }}
+            >
+              <FormattedMessage id="manage-user.add" />
+            </Button>
+          </div>
+          <div className="col-12 p-0 ">
+            <TableContainer component={Paper}>
+              <Table
+                sx={{ minWidth: 650 }}
+                size="small"
+                aria-label="simple table"
+              >
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        align="center"
+                        style={{ minWidth: column.minWidth }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {listClinicSearCh
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => {
+                      return (
+                        <TableRow
+                          hover
+                          role="checkbox"
+                          tabIndex={-1}
+                          key={row.code}
+                        >
+                          {columns.map((column) => {
+                            const value = row[column.id];
+                            return (
+                              <TableCell key={column.id} align={column.align}>
+                                {column.format && typeof value === "number"
+                                  ? column.format(value)
+                                  : value}
+                                {column.id === "action" ? (
+                                  <>
+                                    <button
+                                      className="btn btn-edit"
+                                      onClick={() => {
+                                        handleEdit(row);
+                                      }}
+                                    >
+                                      <i className="fas fa-edit"></i>
+                                    </button>
+                                    <button
+                                      className="btn btn-delete"
+                                      onClick={() => {
+                                        handleDelete(row);
+                                      }}
+                                    >
+                                      <i className="fas fa-trash"></i>
+                                    </button>
+                                  </>
+                                ) : (
+                                  ""
+                                )}
+                                {column.id === "editDetail" ? (
+                                  <span className="editDetail">
+                                    <FormattedMessage id="admin.manage-clinic.editDetail" />
+                                  </span>
+                                ) : (
+                                  ""
+                                )}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={listClinicSearCh.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
           </div>
         </div>
       </div>
-    );
-  }
-}
+      <ModalAddEditClinic
+        openModal={openModal}
+        closeModal={closeModal}
+        dataEdit={dataEdit}
+        isAddNewUser={isAdd}
+      />
+      <ConfirmModal
+        openModal={isOpenConfirmModal}
+        closeModal={closeModal}
+        idDelete={dataDelete ? dataDelete.id : ""}
+        content={dataDelete.name}
+        handleConfirm={deleteData}
+      />
+    </>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -130,4 +254,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableManageUser);
+export default connect(mapStateToProps, mapDispatchToProps)(TableManageClinic);

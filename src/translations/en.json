@@ -67,7 +67,9 @@
     "upload": "Upload",
     "action": "Action",
     "search": "Search",
-    "delete": "Delete"
+    "delete": "Delete",
+    "add": "Add",
+    "cancel": "Cancel"
   },
   "homepage": {
     "outstanding-doctor": "Outstanding Doctor of the Week",
@@ -172,7 +174,9 @@
       "introduce": "Clinic introduction",
       "save": "Save",
       "add": "Add",
-      "logo": "Logo"
+      "logo": "Logo",
+      "edit": "Edit",
+      "editDetail": "Edit detail"
     },
     "manage-detail-clinic": {
       "title": "Manage detail clinic",
@@ -223,5 +227,8 @@
       "image": "Image",
       "details": "Details"
     }
+  },
+  "modal": {
+    "title": "Delete confirmation"
   }
 }

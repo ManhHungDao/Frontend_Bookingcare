@@ -2,15 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { languages, CRUD_ACTIONS, CommonUtils } from "../../../utils";
-import Lightbox from "react-image-lightbox";
-import "react-image-lightbox/style.css";
 import * as actions from "../../../store/actions";
 import validator from "validator";
-import Select from "react-select";
 import { getAllUsersService } from "../../../services/userService";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-class ManageUser extends Component {
+class ModalInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +16,6 @@ class ManageUser extends Component {
       genderArr: [],
       previewImgUrl: "",
       isOpen: false,
-
       email: "",
       password: "",
       firstName: "",
@@ -30,15 +26,7 @@ class ManageUser extends Component {
       positionId: "",
       roleId: "",
       image: "",
-      // get id user edit
-      userEditId: "",
-      // action user
-      action: "",
       errors: {},
-
-      selectedUser: "",
-      listUser: [],
-      detailUser: {},
       openModal: false,
     };
   }
@@ -50,28 +38,6 @@ class ManageUser extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevState.detailUser !== this.state.detailUser) {
-      let data = this.state.detailUser;
-      let copyState = { ...this.state };
-      copyState = {
-        userEditId: data.id,
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        phoneNumber: data.phoneNumber,
-        password: "password",
-        gender: data.gender,
-        positionId: data.positionId,
-        roleId: data.roleId,
-        image: data.image,
-        address: data.address,
-        action: CRUD_ACTIONS.EDIT,
-        previewImgUrl: data.image,
-      };
-      this.setState({
-        ...copyState,
-      });
-    }
     if (prevProps.genders !== this.props.genders) {
       this.setState({
         genderArr: this.props.genders,
@@ -91,16 +57,11 @@ class ManageUser extends Component {
         roleId: listRole && listRole.length > 0 ? listRole[1].keyMap : "",
       });
     }
-    if (prevProps.users !== this.props.users) {
-      const dataSelectDoctor = this.buildDataInputSelect(this.props.users);
-      this.setState({
-        listUser: dataSelectDoctor,
-      });
-    }
     if (this.state.roleId !== prevState.roleId) {
       if (this.state.roleId === "R1") {
         this.setState({
           positionArr: [],
+          positionId: "",
         });
       } else if (this.state.roleId === "R2") {
         const listPos = this.props.positions;
@@ -110,41 +71,44 @@ class ManageUser extends Component {
         });
       }
     }
+    if (this.props.isAddNewUser !== prevProps.isAddNewUser) {
+      if (this.props.isAddNewUser) {
+        this.setState({
+          previewImgUrl: "",
+          email: "",
+          password: "",
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
+          address: "",
+          gender: "M",
+          image: "",
+          errors: {},
+        });
+      }
+    }
+    if (this.props.userEdit !== prevProps.userEdit) {
+      this.setState({
+        email: this.props.userEdit.email,
+        firstName: this.props.userEdit.firstName,
+        lastName: this.props.userEdit.lastName,
+        phoneNumber: this.props.userEdit.phoneNumber.replace(/\s/g, ""),
+        password: "password",
+        gender: this.props.userEdit.gender,
+        positionId: this.props.userEdit.positionId,
+        roleId: this.props.userEdit.roleId,
+        image: this.props.userEdit.image,
+        address: this.props.userEdit.address,
+        previewImgUrl: this.props.userEdit.image,
+      });
+    }
+
     if (this.props.openModal !== prevProps.openModal) {
       this.setState({
         openModal: this.props.openModal,
       });
     }
   }
-
-  buildDataInputSelect = (data) => {
-    let result = [];
-    let { language } = this.props;
-    if (data && data.length > 0) {
-      let lableVi, lableEn, object;
-      data.forEach((item) => {
-        lableVi = `${item.firstName} ${item.lastName}`;
-        lableEn = `${item.lastName} ${item.firstName}`;
-        object = {
-          label: language === languages.VI ? lableVi : lableEn,
-          value: item.id,
-        };
-        result.push(object);
-      });
-    }
-    return result;
-  };
-
-  fillDataInput = async (id) => {
-    const res = await getAllUsersService(id);
-    if (res && res.errCode === 0) {
-      this.setState({
-        detailUser: res.user,
-        action: CRUD_ACTIONS.EDIT,
-        userEditId: id,
-      });
-    }
-  };
 
   handleChangeSelect = (selectedOption, name) => {
     this.setState({
@@ -164,13 +128,6 @@ class ManageUser extends Component {
         image: base64,
       });
     }
-  };
-
-  openReviewImage = () => {
-    if (!this.state.previewImgUrl) return;
-    this.setState({
-      isOpen: true,
-    });
   };
 
   checkValidate = () => {
@@ -213,7 +170,7 @@ class ManageUser extends Component {
   };
 
   handleSave = () => {
-    const errors = this.checkValidate();
+    /*    const errors = this.checkValidate();
     const checkValidInPut = this.isValid(errors);
     const listPos = this.props.positions;
     const listRole = this.props.roles;
@@ -221,7 +178,6 @@ class ManageUser extends Component {
       this.setState({ errors });
       return;
     }
-    const { action } = this.state;
     let data = {
       email: this.state.email,
       firstName: this.state.firstName,
@@ -234,32 +190,18 @@ class ManageUser extends Component {
       image: this.state.image,
       address: this.state.address,
     };
-    if (action === CRUD_ACTIONS.CREATE) {
+    // check add or eidt
+    if (this.props.isAddNewUser) {
       this.props.createNewUser({
         ...data,
       });
-    }
-    if (action === CRUD_ACTIONS.EDIT) {
+    } else {
       this.props.editUser({
-        id: this.state.userEditId,
+        id: this.props.userEdit ? this.props.userEdit.id : null,
         ...data,
       });
-    }
-    this.setState({
-      email: "",
-      password: "",
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      address: "",
-      gender: "M",
-      positionId: listPos && listPos.length > 0 ? listPos[0].keyMap : "",
-      roleId: listRole && listRole.length > 0 ? listRole[0].keyMap : "",
-      image: "",
-      previewImgUrl: "",
-      action: "",
-      listUser: "",
-    });
+    } */
+    this.props.closeModal();
   };
 
   handleOnClickGender = (event) => {
@@ -315,15 +257,23 @@ class ManageUser extends Component {
       positionId,
       errors,
     } = this.state;
+    console.log("this.props.isAddNewUser", this.props.isAddNewUser);
     return (
       <>
         <Modal
           isOpen={this.state.openModal}
-          toggle={() => this.props.handleOpenCloseModal()}
-          className={this.props.className}
+          toggle={() => {
+            this.props.closeModal();
+          }}
+          centered
           size={"lg"}
+          className="custom-modal-style"
         >
-          <ModalHeader toggle={() => this.props.handleOpenCloseModal()}>
+          <ModalHeader
+            toggle={() => {
+              this.props.closeModal();
+            }}
+          >
             Thêm mới người dùng
           </ModalHeader>
           <ModalBody>
@@ -443,11 +393,7 @@ class ManageUser extends Component {
                         <FormattedMessage id="manage-user.password" />
                       </label>
                       <input
-                        disabled={
-                          this.state.action === CRUD_ACTIONS.EDIT
-                            ? "disabled"
-                            : false
-                        }
+                        disabled={!this.props.isAddNewUser ? "disabled" : false}
                         type="password"
                         className="form-control"
                         value={password}
@@ -547,7 +493,6 @@ class ManageUser extends Component {
                           style={{
                             backgroundImage: `url(${this.state.previewImgUrl})`,
                           }}
-                          onClick={() => this.openReviewImage()}
                         ></div>
                       </div>
                     </div>
@@ -557,26 +502,23 @@ class ManageUser extends Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button
-              color="primary"
-              onClick={() => this.props.handleOpenCloseModal()}
-            >
-              <FormattedMessage id="admin.manage-clinic.save" />
+            <Button color="primary" onClick={() => this.handleSave()}>
+              {this.props.isAddNewUser ? (
+                <FormattedMessage id="admin.manage-clinic.add" />
+              ) : (
+                <FormattedMessage id="admin.manage-clinic.save" />
+              )}
             </Button>
             <Button
               color="secondary"
-              onClick={() => this.props.handleOpenCloseModal()}
+              onClick={() => {
+                this.props.closeModal();
+              }}
             >
               <FormattedMessage id="patient.booking-modal.cancel" />
             </Button>
           </ModalFooter>
         </Modal>
-        {this.state.isOpen === true && (
-          <Lightbox
-            mainSrc={this.state.previewImgUrl}
-            onCloseRequest={() => this.setState({ isOpen: false })}
-          />
-        )}
       </>
     );
   }
@@ -604,4 +546,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageUser);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalInfo);
