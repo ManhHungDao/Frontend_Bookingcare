@@ -65,7 +65,9 @@
     "gender": "Gender",
     "password": "Password",
     "upload": "Upload",
-    "action": "Action"
+    "action": "Action",
+    "search": "Search",
+    "delete": "Delete"
   },
   "homepage": {
     "outstanding-doctor": "Outstanding Doctor of the Week",
@@ -181,8 +183,7 @@
       "examination": "Detail examination process",
       "equipment": "Detail equipments",
       "service": "Detail services",
-      "detail":"Detail"
-
+      "detail": "Detail"
     },
     "manage-specialty": {
       "title": "Manage Specialties",

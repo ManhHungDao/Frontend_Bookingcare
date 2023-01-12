@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
-import ManagaUser from "../containers/System/Admin/ManagaUser";
+import TableManageUser from "../containers/System/Admin/TableManageUser";
 import Header from "../containers/Header/Header";
 import ManageDoctor from "../containers/System/Admin/ManageDoctor";
 import ManageSpecialty from "../containers/System/Specialty/ManageSpecialty";
@@ -24,7 +24,7 @@ class System extends Component {
         <div className="system-container">
           <div className="system-list">
             <Switch>
-              <Route path="/system/user-manage" component={ManagaUser} />
+              <Route path="/system/user-manage" component={TableManageUser} />
               <Route path="/system/manage-doctor" component={ManageDoctor} />
               <Route path="/system/manage-clinic" component={ManageClinic} />
               <Route

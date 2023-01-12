@@ -65,7 +65,9 @@
     "gender": "Giới tính",
     "password": "Mật khẩu",
     "upload": "Tải ảnh",
-    "action": "Hành động"
+    "action": "Hành động",
+    "search": "Tìm kiếm",
+    "delete": "Xóa"
   },
   "homepage": {
     "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
@@ -180,7 +182,7 @@
       "examination": "Chi tiết quy trình khám",
       "equipment": "Chi tiết trang thiết bị",
       "service": "Chi tiết dịch vụ",
-      "detail":"Chi tiết"
+      "detail": "Chi tiết"
     },
     "manage-specialty": {
       "title": "Quản lý chuyên khoa",

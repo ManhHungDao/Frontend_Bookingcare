@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
-import "./ManagaUser.scss";
+import "./ManageUser.scss";
 import { languages, CRUD_ACTIONS, CommonUtils } from "../../../utils";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
@@ -11,7 +11,7 @@ import validator from "validator";
 import Select from "react-select";
 import { getAllUsersService } from "../../../services/userService";
 
-class ManagaUser extends Component {
+class ManageUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -619,4 +619,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManagaUser);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageUser);
