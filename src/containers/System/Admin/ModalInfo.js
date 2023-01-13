@@ -274,7 +274,7 @@ class ModalInfo extends Component {
               this.props.closeModal();
             }}
           >
-            Thêm mới người dùng
+            <FormattedMessage id="manage-user.title" />
           </ModalHeader>
           <ModalBody>
             <div className="user-redux-container">

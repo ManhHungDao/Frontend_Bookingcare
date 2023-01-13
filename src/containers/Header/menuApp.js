@@ -30,10 +30,10 @@ export const adminMenu = [
         name: "menu.admin.manage-clinic",
         link: "/system/manage-clinic",
       },
-      {
-        name: "menu.admin.manage-detail-clinic",
-        link: "/system/manage-detail-clinic",
-      },
+      // {
+      //   name: "menu.admin.manage-detail-clinic",
+      //   link: "/system/manage-detail-clinic",
+      // },
     ],
   },
   {

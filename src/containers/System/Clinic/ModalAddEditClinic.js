@@ -201,7 +201,7 @@ class ModalAddEditClinic extends Component {
               this.props.closeModal();
             }}
           >
-            Thêm mới người dùng
+            <FormattedMessage id="admin.manage-clinic.title" />
           </ModalHeader>
           <ModalBody>
             <div className="container">
@@ -221,7 +221,7 @@ class ModalAddEditClinic extends Component {
                     <span className="text-danger">{errors.name}</span>
                   )}
                 </div>
-                <div className="col-6 form-group mb-3">
+                <div className="col-6 form-group">
                   <label>
                     <FormattedMessage id="admin.manage-clinic.address" />
                   </label>
@@ -236,7 +236,7 @@ class ModalAddEditClinic extends Component {
                     <span className="text-danger">{errors.address}</span>
                   )}
                 </div>
-                <div className="col-6 form-group">
+                <div className="col-6 form-group pt-5">
                   <label>
                     <FormattedMessage id="admin.manage-clinic.image" />
                   </label>
@@ -264,7 +264,7 @@ class ModalAddEditClinic extends Component {
                     <span className="text-danger">{errors.image}</span>
                   )}
                 </div>
-                <div className="col-6 form-group">
+                <div className="col-6 form-group pt-5">
                   <label>
                     <FormattedMessage id="admin.manage-clinic.logo" />
                   </label>
@@ -292,7 +292,7 @@ class ModalAddEditClinic extends Component {
                     <span className="text-danger">{errors.logo}</span>
                   )}
                 </div>
-                <div className="col-12 form-group">
+                <div className="col-12 form-group pt-5">
                   <FormattedMessage id="admin.manage-clinic.introduce" />
                   <CKEditorFieldBasic
                     value={this.state.content}

@@ -18,6 +18,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import ConfirmModal from "../../../components/ConfirmModal";
 import ModalAddEditClinic from "./ModalAddEditClinic";
+import ModalManageDetailClinic from "./ModalManageDetailClinic";
 
 const columns = [
   {
@@ -53,6 +54,8 @@ const TableManageClinic = (props) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [dataEdit, setDataEdit] = useState({});
   const [dataDelete, setDataDelete] = useState({});
+  const [editDetail, setEditDetail] = useState("");
+  const [openModalDetail, setOpenModalDetail] = useState(false);
 
   useEffect(() => {
     props.getListClinicHome();
@@ -101,10 +104,18 @@ const TableManageClinic = (props) => {
     setOpenModal(false);
     setIsOpenConfirmModal(false);
   };
+  const closeModalDetail = () => {
+    setOpenModalDetail(false);
+  };
   const deleteData = () => {
     alert("delete data");
     setDataDelete({});
   };
+  const handleEditDetail = (data) => {
+    setEditDetail(data);
+    setOpenModalDetail(true);
+  };
+  console.log("check open modal detail", openModalDetail);
   return (
     <>
       <div className="container">
@@ -197,7 +208,10 @@ const TableManageClinic = (props) => {
                                   ""
                                 )}
                                 {column.id === "editDetail" ? (
-                                  <span className="editDetail">
+                                  <span
+                                    className="editDetail"
+                                    onClick={() => handleEditDetail(row)}
+                                  >
                                     <FormattedMessage id="admin.manage-clinic.editDetail" />
                                   </span>
                                 ) : (
@@ -236,6 +250,12 @@ const TableManageClinic = (props) => {
         idDelete={dataDelete ? dataDelete.id : ""}
         content={dataDelete.name}
         handleConfirm={deleteData}
+      />
+      <ModalManageDetailClinic
+        id={editDetail ? editDetail.id : ""}
+        name={editDetail ? editDetail.name : ""}
+        openModal={openModalDetail}
+        closeModal={closeModalDetail}
       />
     </>
   );

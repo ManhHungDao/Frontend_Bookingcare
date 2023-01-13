@@ -51,7 +51,7 @@
     }
   },
   "manage-user": {
-    "title": "Add New User",
+    "title": "Manage User",
     "address": "Address",
     "email": "Email",
     "edit": "Save changed",
