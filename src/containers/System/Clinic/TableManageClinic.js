@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, lazy } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import "./TableManageClinic.scss";
@@ -19,7 +19,6 @@ import TableRow from "@mui/material/TableRow";
 import ConfirmModal from "../../../components/ConfirmModal";
 import ModalAddEditClinic from "./ModalAddEditClinic";
 import ModalManageDetailClinic from "./ModalManageDetailClinic";
-
 const columns = [
   {
     id: "name",
@@ -105,6 +104,7 @@ const TableManageClinic = (props) => {
     setIsOpenConfirmModal(false);
   };
   const closeModalDetail = () => {
+    setEditDetail("");
     setOpenModalDetail(false);
   };
   const deleteData = () => {
@@ -115,7 +115,6 @@ const TableManageClinic = (props) => {
     setEditDetail(data);
     setOpenModalDetail(true);
   };
-  console.log("check open modal detail", openModalDetail);
   return (
     <>
       <div className="container">
@@ -251,12 +250,14 @@ const TableManageClinic = (props) => {
         content={dataDelete.name}
         handleConfirm={deleteData}
       />
-      <ModalManageDetailClinic
-        id={editDetail ? editDetail.id : ""}
-        name={editDetail ? editDetail.name : ""}
-        openModal={openModalDetail}
-        closeModal={closeModalDetail}
-      />
+      {editDetail && (
+        <ModalManageDetailClinic
+          id={editDetail ? editDetail.id : ""}
+          name={editDetail ? editDetail.name : ""}
+          openModal={openModalDetail}
+          closeModal={closeModalDetail}
+        />
+      )}
     </>
   );
 };

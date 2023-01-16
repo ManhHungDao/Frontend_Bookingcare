@@ -7,12 +7,25 @@ import "react-image-lightbox/style.css";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-const ModalManageDetailClinic = ({ openModal, closeModal, id, name }) => {
+const ModalManageDetailClinic = ({
+  openModal,
+  closeModal,
+  id,
+  name,
+  getDetailClinic,
+  createDetailClinic,
+  detailClinic,
+}) => {
   const [note, setNote] = useState("");
   const [content, setContent] = useState("");
+  useEffect(() => {
+    if (id !== "") {
+      getDetailClinic(id);
+    }
+  }, []);
   // useEffect(() => {
-  //   setIsOpen(openModal);
-  // }, [openModal]);
+  //   if (detailClinic) setContent(detailClinic);
+  // }, [detailClinic]);
   return (
     <>
       <Modal
@@ -23,7 +36,8 @@ const ModalManageDetailClinic = ({ openModal, closeModal, id, name }) => {
         className="custom-modal-style"
       >
         <ModalHeader toggle={() => closeModal()}>
-          <FormattedMessage id="admin.manage-detail-clinic.title" /> - {name}
+          <FormattedMessage id="admin.manage-detail-clinic.title" /> -
+          {name ? name : ""}
         </ModalHeader>
         <ModalBody>
           <div className="container">
@@ -67,12 +81,15 @@ const ModalManageDetailClinic = ({ openModal, closeModal, id, name }) => {
 };
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    detailClinic: state.admin.detailClinic,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     createDetailClinic: (data) => dispatch(actions.createDetailClinic(data)),
+    getDetailClinic: (id) => dispatch(actions.getDetailClinic(id)),
   };
 };
 
