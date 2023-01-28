@@ -13,7 +13,7 @@ import {
   deletePacketService,
   updatePacketService,
 } from "../../../services/userService";
-import TableManage from "./TableManage";
+// import TableManage from "./TableManage";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 
 class Packet_examination extends Component {
@@ -334,14 +334,14 @@ class Packet_examination extends Component {
         >
           {this.state.isEdit === true ? "Chỉnh sửa" : "Tạo gói khám"}
         </button>
-        {listPacket && listPacket.length && (
+        {/* {listPacket && listPacket.length && (
           <TableManage
             listRender={listPacket}
             handleEdit={this.editPacket}
             handleDelete={this.deleteSpecialty}
             className="mt-4"
           />
-        )}
+        )} */}
         {this.state.isOpen === true && (
           <Lightbox
             mainSrc={this.state.previewImgUrl}

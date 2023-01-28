@@ -3,8 +3,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./ManageDoctor.scss";
 import * as actions from "../../../store/actions";
-
-import "react-markdown-editor-lite/lib/index.css";
 import "./ManageDoctor.scss";
 import Select from "react-select";
 import { languages } from "../../../utils";

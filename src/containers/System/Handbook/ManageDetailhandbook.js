@@ -14,7 +14,7 @@ import {
   createDetailHandbook,
   getListHandbook,
 } from "../../../services/userService";
-import TableManage from "../TableManage";
+// import TableManage from "../TableManage";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 
 class ManageDetailHandbook extends Component {
@@ -278,14 +278,14 @@ class ManageDetailHandbook extends Component {
                   <FormattedMessage id="admin.manage-clinic.add" />
                 )}
               </button>
-              <TableManage
+              {/* <TableManage
                 listRender={this.state.listDetailHandbookSearch}
                 handleEdit={this.editClinic}
                 handleDelete={this.deleteClinic}
                 handleSearch={this.handleSearch}
                 handleOpenSearch={this.handleOpenSearch}
                 isSearch={this.state.isSearch}
-              />
+              /> */}
             </div>
           </div>
         </div>

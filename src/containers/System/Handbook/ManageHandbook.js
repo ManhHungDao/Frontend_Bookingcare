@@ -9,7 +9,7 @@ import {
   createAHandbook,
   editHandbook,
 } from "../../../services/userService";
-import TableManage from "../TableManage";
+// import TableManage from "../TableManage";
 
 class ManageHandbook extends Component {
   constructor(props) {
@@ -151,14 +151,14 @@ class ManageHandbook extends Component {
               </button>
             </div>
             <div className="col-12 form-group">
-              <TableManage
+              {/* <TableManage
                 listRender={this.state.listHandbookSearch}
                 handleEdit={this.handleEdit}
                 handleDelete={this.handleDelete}
                 handleSearch={this.handleSearch}
                 handleOpenSearch={this.handleOpenSearch}
                 isSearch={this.state.isSearch}
-              />
+              /> */}
             </div>
           </div>
         </div>

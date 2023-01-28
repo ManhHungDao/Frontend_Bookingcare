@@ -12,7 +12,7 @@ import {
   updateSpecialtyService,
 } from "../../../services/userService";
 import { toast } from "react-toastify";
-import TableManage from "../TableManage";
+// import TableManage from "../TableManage";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 
 class ManageSpecialty extends Component {
@@ -312,14 +312,14 @@ class ManageSpecialty extends Component {
               </button>
             </div>
 
-            <TableManage
+            {/* <TableManage
               listRender={this.state.listSpecialtyByClinicSearch}
               handleEdit={this.editSpecialty}
               handleDelete={this.deleteSpecialty}
               handleSearch={this.handleSearch}
               handleOpenSearch={this.handleOpenSearch}
               isSearch={this.state.isSearch}
-            />
+            /> */}
           </div>
         </div>
         {this.state.isOpen === true && (
