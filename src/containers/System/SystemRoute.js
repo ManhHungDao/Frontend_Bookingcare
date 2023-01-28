@@ -11,11 +11,14 @@ import ManageDetailSpecialty from "./Specialty/ManageDetailSpecialty";
 import ManageHandbook from "./Handbook/ManageHandbook";
 import ManageDetailHandbook from "./Handbook/ManageDetailhandbook"; //commnet nek
 import Packet_examination from "./Packet_examination/Packet_examination";
-
+import Dashboard from "./dashboard";
+import Topbar from "./global/Topbar";
+import Sidebar from "./global/Sidebar";
 // import ManageDetailHandbook from "../containers/"
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-const System = ({ systemMenuPath, isLoggedIn }) => {
+import "./style.css";
+const SystemRoute = ({ systemMenuPath, isLoggedIn }) => {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = React.useState(true);
   return (
@@ -24,12 +27,13 @@ const System = ({ systemMenuPath, isLoggedIn }) => {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <div className="app">
-            {/* <Sidebar isSidebar={isSidebar} /> */}
+            <Sidebar isSidebar={isSidebar} />
             <main className="content">
-              {/* <Topbar setIsSidebar={setIsSidebar} /> */}
-              {isLoggedIn && <Header />}
+              {/* {isLoggedIn && <Header />} */}
+              <Topbar setIsSidebar={setIsSidebar} />
               {/* {userInfo && userInfo.roleId === USER_ROLE.ADMIN && ( */}
               <Switch>
+                <Route path="/system" component={Dashboard} />
                 <Route path="/system/user-manage" component={TableManageUser} />
                 <Route path="/system/manage-doctor" component={ManageDoctor} />
                 <Route
@@ -88,4 +92,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(System);
+export default connect(mapStateToProps, mapDispatchToProps)(SystemRoute);

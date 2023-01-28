@@ -3,19 +3,19 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { path } from "../../utils";
 import HomePage from "../HomePage/HomePage";
 import Home from "../../routes/Home";
-import DetailDoctor from "./../Patient/Doctor/DetailDoctor";
-import DetailSpecialty from "./../Patient/Specialty/DetailSpecialty";
-import DetailClinic from "./../Patient/Clinic/DetailClinic";
+import DetailDoctor from "./Doctor/DetailDoctor";
+import DetailSpecialty from "./Specialty/DetailSpecialty";
+import DetailClinic from "./Clinic/DetailClinic";
 import Doctor from "../../routes/Doctor";
-import VerifyEmail from "../../containers/HomePage/VerifyEmail";
-import TableSpecialtyClinic from "./../Patient/Clinic/TableSpecialtyClinic";
-import RenderList from "./../Patient/Common/RenderList";
-import DetailHandbook from "./../Patient/Handbook/DetailHandbook";
-import ListPostHandbook from "./../Patient/Handbook/ListPostHandbook";
-import ViewAllHandbook from "./../Patient/Handbook/ViewAllHandbook";
-import Packet from "./../Patient/Packet/Packet";
-import Detail_packet from "./../Patient/Packet/Detail_packet";
-const Patient = ({ systemMenuPath }) => {
+import VerifyEmail from "../HomePage/VerifyEmail";
+import TableSpecialtyClinic from "./Clinic/TableSpecialtyClinic";
+import RenderList from "./Common/RenderList";
+import DetailHandbook from "./Handbook/DetailHandbook";
+import ListPostHandbook from "./Handbook/ListPostHandbook";
+import ViewAllHandbook from "./Handbook/ViewAllHandbook";
+import Packet from "./Packet/Packet";
+import Detail_packet from "./Packet/Detail_packet";
+const PatientRoute = ({ systemMenuPath }) => {
   return (
     <>
       <Switch>
@@ -46,4 +46,4 @@ const Patient = ({ systemMenuPath }) => {
   );
 };
 
-export default Patient;
+export default PatientRoute;

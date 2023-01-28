@@ -12,9 +12,9 @@ import {
 
 import { path } from "../utils";
 import Login from "./Auth/login";
-import System from "./System/System";
+import SystemRoute from "./System/SystemRoute";
 import Doctor from "../routes/Doctor";
-import Patient from "./Patient/Patient";
+import PatientRoute from "./Patient/PatientRoute";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -43,15 +43,15 @@ class App extends Component {
             <span className="content-container">
               <CustomScrollbars style={{ height: "100vh", width: "100%" }}>
                 <Switch>
-                  <Route path={path.HOME} exact component={Patient} />
-                  <Route path={path.HOMEPAGE} exact component={Patient} />
+                  <Route path={path.HOME} exact component={PatientRoute} />
+                  <Route path={path.HOMEPAGE} exact component={PatientRoute} />
                   <Route
                     path={path.LOGIN}
                     component={userIsNotAuthenticated(Login)}
                   />
                   <Route
                     path={path.SYSTEM}
-                    component={userIsAuthenticated(System)}
+                    component={userIsAuthenticated(SystemRoute)}
                   />
                   <Route
                     path={path.DOCTOR}
