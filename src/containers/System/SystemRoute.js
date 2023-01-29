@@ -27,13 +27,13 @@ const SystemRoute = ({ systemMenuPath, isLoggedIn }) => {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <div className="app">
+            {/* {isLoggedIn && <Header />} */}
             <Sidebar isSidebar={isSidebar} />
             <main className="content">
-              {/* {isLoggedIn && <Header />} */}
               <Topbar setIsSidebar={setIsSidebar} />
               {/* {userInfo && userInfo.roleId === USER_ROLE.ADMIN && ( */}
               <Switch>
-                <Route path="/system" component={Dashboard} />
+                <Route exact path="/system" component={Dashboard} />
                 <Route path="/system/user-manage" component={TableManageUser} />
                 <Route path="/system/manage-doctor" component={ManageDoctor} />
                 <Route

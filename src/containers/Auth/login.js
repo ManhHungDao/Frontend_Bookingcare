@@ -16,7 +16,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "daomanhhung1202@gmail.com",
+      email: "honghanh123@gmail.com",
       password: "123456",
       isShowPassword: false,
       errMessage: "",
@@ -71,6 +71,7 @@ class Login extends Component {
         });
       }
       if (data && data.errCode === 0) {
+        console.log("check data user login", data);
         this.props.userLoginSuccess(data.user);
       }
     } catch (e) {

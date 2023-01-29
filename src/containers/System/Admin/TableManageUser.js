@@ -18,41 +18,22 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import ConfirmModal from "../../../components/ConfirmModal";
+import { Box, Typography, useTheme } from "@mui/material";
+import Header from "../../../components/Header.jsx";
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
+import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
+import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+import { tokens } from "../theme";
 
-const columns = [
-  {
-    id: "email",
-    label: <FormattedMessage id="manage-user.email" />,
-    flex: 1,
-  },
-  {
-    id: "firstName",
-    label: <FormattedMessage id="manage-user.firstName" />,
-    flex: 1,
-  },
-  {
-    id: "lastName",
-    label: <FormattedMessage id="manage-user.lastName" />,
-    flex: 1,
-  },
-  {
-    id: "phoneNumber",
-    label: <FormattedMessage id="manage-user.phone-number" />,
-    flex: 1,
-  },
-  {
-    id: "address",
-    label: <FormattedMessage id="manage-user.address" />,
-    flex: 1,
-  },
-  {
-    id: "action",
-    label: <FormattedMessage id="manage-user.action" />,
-    width: 150,
-  },
+const role = [
+  { id: "R1", name: "admin" },
+  { id: "R2", name: "doctor" },
+  { id: "R3", name: "users" },
 ];
 
 const TableManageUser = (props) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [users, setUsers] = useState([]);
   const [listSeach, setListSeach] = useState([]);
   const [openModal, setOpenModal] = useState(false);
@@ -63,6 +44,44 @@ const TableManageUser = (props) => {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const columns = [
+    {
+      id: "email",
+      label: <FormattedMessage id="manage-user.email" />,
+      flex: 1,
+    },
+    {
+      id: "firstName",
+      label: <FormattedMessage id="manage-user.firstName" />,
+      flex: 1,
+    },
+    {
+      id: "lastName",
+      label: <FormattedMessage id="manage-user.lastName" />,
+      flex: 1,
+    },
+    {
+      id: "phoneNumber",
+      label: <FormattedMessage id="manage-user.phone-number" />,
+      flex: 1,
+    },
+    {
+      id: "address",
+      label: <FormattedMessage id="manage-user.address" />,
+      flex: 1,
+    },
+    {
+      id: "roleId",
+      label: "Access Level",
+      flex: 1,
+    },
+    {
+      id: "action",
+      label: <FormattedMessage id="manage-user.action" />,
+      width: 150,
+    },
+  ];
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -130,12 +149,10 @@ const TableManageUser = (props) => {
   };
   return (
     <>
-      <div className="container">
-        <div className="title">
-          <FormattedMessage id="menu.admin.crud-redux" />
-        </div>
-        <div className="row">
-          <div className="col-12 d-lg-flex align-items-lg-center justify-content-end gap-5 mb-2">
+      <Box m="20px">
+        <Header title="Manage Users" subtitle="Managing the User Members" />
+        <Box display="flex" justifyContent="flex-end" p={2}>
+          <Box display="flex">
             <TextField
               id="input-with-icon-textfield"
               label={<FormattedMessage id="manage-user.search" />}
@@ -158,88 +175,140 @@ const TableManageUser = (props) => {
             >
               <FormattedMessage id="manage-user.add" />
             </Button>
-          </div>
-          <div className="col-12 p-0 ">
-            <TableContainer component={Paper}>
-              <Table
-                sx={{ minWidth: 650 }}
-                size="small"
-                aria-label="simple table"
-              >
-                <TableHead>
-                  <TableRow>
-                    {columns.map((column) => (
-                      <TableCell
-                        key={column.id}
-                        align="center"
-                        style={{ minWidth: column.minWidth }}
+          </Box>
+        </Box>
+        <Box
+          m="40px 0 0 0"
+          height="75vh"
+          sx={{
+            "& .MuiDataGrid-root": {
+              border: "none",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "none",
+            },
+            "& .name-column--cell": {
+              color: colors.greenAccent[300],
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: colors.blueAccent[700],
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              backgroundColor: colors.primary[400],
+            },
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "none",
+              backgroundColor: colors.blueAccent[700],
+            },
+            "& .MuiCheckbox-root": {
+              color: `${colors.greenAccent[200]} !important`,
+            },
+          }}
+        >
+          <TableContainer component={Paper}>
+            <Table
+              sx={{ minWidth: 650 }}
+              size="small"
+              aria-label="simple table"
+            >
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align="center"
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {listSeach
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row.code}
                       >
-                        {column.label}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {listSeach
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      return (
-                        <TableRow
-                          hover
-                          role="checkbox"
-                          tabIndex={-1}
-                          key={row.code}
-                        >
-                          {columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                              <TableCell key={column.id} align={column.align}>
-                                {column.format && typeof value === "number"
-                                  ? column.format(value)
-                                  : value}
-                                {column.id === "action" ? (
-                                  <>
-                                    <button
-                                      className="btn btn-edit"
-                                      onClick={() => {
-                                        handleEditUser(row);
-                                      }}
-                                    >
-                                      <i className="fas fa-edit"></i>
-                                    </button>
-                                    <button
-                                      className="btn btn-delete"
-                                      onClick={() => {
-                                        handleDeleteUser(row);
-                                      }}
-                                    >
-                                      <i className="fas fa-trash"></i>
-                                    </button>
-                                  </>
-                                ) : (
-                                  ""
-                                )}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={listSeach.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </div>
-        </div>
-      </div>
+                        {columns.map((column) => {
+                          const value = row[column.id];
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {column.format && typeof value === "number"
+                                ? column.format(value)
+                                : value}
+                              {column.id === "roleId" && (
+                                <Box
+                                  backgroundColor={colors.greenAccent[600]}
+                                  borderRadius="4px"
+                                >
+                                  <Typography
+                                    color={colors.grey[100]}
+                                    sx={{ ml: "5px" }}
+                                  >
+                                    {row[column.id] === "R1" && (
+                                      <AdminPanelSettingsOutlinedIcon />
+                                    )}
+                                    {row[column.id] === "R2" && (
+                                      <SecurityOutlinedIcon />
+                                    )}
+                                    {row[column.id] === "R3" && (
+                                      <LockOpenOutlinedIcon />
+                                    )}
+                                    {role &&
+                                      role.map((i) => {
+                                        if (i.id === row[column.id])
+                                          return i.name;
+                                      })}
+                                  </Typography>
+                                </Box>
+                              )}
+                              {column.id === "action" && (
+                                <>
+                                  <button
+                                    className="btn btn-edit"
+                                    onClick={() => {
+                                      handleEditUser(row);
+                                    }}
+                                  >
+                                    <i className="fas fa-edit"></i>
+                                  </button>
+                                  <button
+                                    className="btn btn-delete"
+                                    onClick={() => {
+                                      handleDeleteUser(row);
+                                    }}
+                                  >
+                                    <i className="fas fa-trash"></i>
+                                  </button>
+                                </>
+                              )}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={listSeach.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Box>
+      </Box>
       <ModalInfo
         openModal={openModal}
         closeModal={closeModal}
