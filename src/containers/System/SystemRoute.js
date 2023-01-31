@@ -14,6 +14,7 @@ import Packet_examination from "./Packet_examination/Packet_examination";
 import Dashboard from "./dashboard";
 import Topbar from "./global/Topbar";
 import Sidebar from "./global/Sidebar";
+import AddNewUser from "./Admin/AddNewUser";
 // import ManageDetailHandbook from "../containers/"
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
@@ -34,6 +35,7 @@ const SystemRoute = ({ systemMenuPath, isLoggedIn }) => {
               {/* {userInfo && userInfo.roleId === USER_ROLE.ADMIN && ( */}
               <Switch>
                 <Route exact path="/system" component={Dashboard} />
+                <Route  path="/system/add-user" component={AddNewUser} />
                 <Route path="/system/user-manage" component={TableManageUser} />
                 <Route path="/system/manage-doctor" component={ManageDoctor} />
                 <Route

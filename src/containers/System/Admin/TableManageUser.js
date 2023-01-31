@@ -4,32 +4,13 @@ import { connect } from "react-redux";
 import "./TableManageUser.scss";
 import * as actions from "../../../store/actions";
 import { useEffect } from "react";
-import InputAdornment from "@mui/material/InputAdornment";
-import TextField from "@mui/material/TextField";
-import SearchIcon from "@mui/icons-material/Search";
-import Button from "@mui/material/Button";
-import ModalInfo from "./ModalInfo";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import ConfirmModal from "../../../components/ConfirmModal";
 import { Box, Typography, useTheme } from "@mui/material";
 import Header from "../../../components/Header.jsx";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import { tokens } from "../theme";
-
-const role = [
-  { id: "R1", name: "admin" },
-  { id: "R2", name: "doctor" },
-  { id: "R3", name: "users" },
-];
+import { DataGrid } from "@mui/x-data-grid";
 
 const TableManageUser = (props) => {
   const theme = useTheme();
@@ -45,41 +26,72 @@ const TableManageUser = (props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  const role = [
+    { id: "R1", name: "admin" },
+    { id: "R2", name: "doctor" },
+    { id: "R3", name: "users" },
+  ];
+
   const columns = [
     {
-      id: "email",
-      label: <FormattedMessage id="manage-user.email" />,
+      field: "email",
+      headerName: "Email",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "firstName",
+      headerName: "Họ",
       flex: 1,
     },
     {
-      id: "firstName",
-      label: <FormattedMessage id="manage-user.firstName" />,
+      field: "lastName",
+      headerName: "Tên",
       flex: 1,
     },
     {
-      id: "lastName",
-      label: <FormattedMessage id="manage-user.lastName" />,
+      field: "phoneNumber",
+      headerName: "Số điện thoại",
       flex: 1,
     },
     {
-      id: "phoneNumber",
-      label: <FormattedMessage id="manage-user.phone-number" />,
-      flex: 1,
+      field: "address",
+      headerName: "Địa chỉ",
+      flex: 2,
     },
     {
-      id: "address",
-      label: <FormattedMessage id="manage-user.address" />,
+      field: "roleId",
+      headerName: "Quyền",
       flex: 1,
-    },
-    {
-      id: "roleId",
-      label: "Access Level",
-      flex: 1,
-    },
-    {
-      id: "action",
-      label: <FormattedMessage id="manage-user.action" />,
-      width: 150,
+      renderCell: ({ row: { roleId } }) => {
+        return (
+          <Box
+            width="60%"
+            m="0 auto"
+            p="5px"
+            display="flex"
+            justifyContent="center"
+            backgroundColor={
+              roleId === "R1"
+                ? colors.greenAccent[500]
+                : roleId === "R2"
+                ? colors.greenAccent[700]
+                : colors.greenAccent[700]
+            }
+            borderRadius="4px"
+          >
+            {roleId === "R1" && <AdminPanelSettingsOutlinedIcon />}
+            {roleId === "R2" && <SecurityOutlinedIcon />}
+            {roleId === "R3" && <LockOpenOutlinedIcon />}
+            <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
+              {role &&
+                role.map((i) => {
+                  if (i.id === roleId) return i.name;
+                })}
+            </Typography>
+          </Box>
+        );
+      },
     },
   ];
 
@@ -105,10 +117,10 @@ const TableManageUser = (props) => {
         lastName: i.lastName,
         phoneNumber: i.phoneNumber,
         address: i.address,
-        image: i.image,
-        positionId: i.positionId,
+        // image: i.image,
+        // positionId: i.positionId,
         roleId: i.roleId,
-        gender: i.gender,
+        // gender: i.gender,
       };
     });
     setUsers(listUser);
@@ -147,36 +159,13 @@ const TableManageUser = (props) => {
     alert("deleteuser");
     setUserDelete({});
   };
+  const handleCellDoubleClick = (params) => {
+    console.log("🚀 ~ file: TableManageUser.js:163 ~ handleOnCellClick ~ params", params)
+  };
   return (
     <>
       <Box m="20px">
         <Header title="Manage Users" subtitle="Managing the User Members" />
-        <Box display="flex" justifyContent="flex-end" p={2}>
-          <Box display="flex">
-            <TextField
-              id="input-with-icon-textfield"
-              label={<FormattedMessage id="manage-user.search" />}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              variant="standard"
-              value={searchTerm}
-              onChange={handleSearch}
-            />
-            <Button
-              variant="contained"
-              color="success"
-              onClick={handleAddUser}
-              style={{ height: "fit-content" }}
-            >
-              <FormattedMessage id="manage-user.add" />
-            </Button>
-          </Box>
-        </Box>
         <Box
           m="40px 0 0 0"
           height="75vh"
@@ -206,110 +195,10 @@ const TableManageUser = (props) => {
             },
           }}
         >
-          <TableContainer component={Paper}>
-            <Table
-              sx={{ minWidth: 650 }}
-              size="small"
-              aria-label="simple table"
-            >
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      align="center"
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {listSeach
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.code}
-                      >
-                        {columns.map((column) => {
-                          const value = row[column.id];
-                          return (
-                            <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === "number"
-                                ? column.format(value)
-                                : value}
-                              {column.id === "roleId" && (
-                                <Box
-                                  backgroundColor={colors.greenAccent[600]}
-                                  borderRadius="4px"
-                                >
-                                  <Typography
-                                    color={colors.grey[100]}
-                                    sx={{ ml: "5px" }}
-                                  >
-                                    {row[column.id] === "R1" && (
-                                      <AdminPanelSettingsOutlinedIcon />
-                                    )}
-                                    {row[column.id] === "R2" && (
-                                      <SecurityOutlinedIcon />
-                                    )}
-                                    {row[column.id] === "R3" && (
-                                      <LockOpenOutlinedIcon />
-                                    )}
-                                    {role &&
-                                      role.map((i) => {
-                                        if (i.id === row[column.id])
-                                          return i.name;
-                                      })}
-                                  </Typography>
-                                </Box>
-                              )}
-                              {column.id === "action" && (
-                                <>
-                                  <button
-                                    className="btn btn-edit"
-                                    onClick={() => {
-                                      handleEditUser(row);
-                                    }}
-                                  >
-                                    <i className="fas fa-edit"></i>
-                                  </button>
-                                  <button
-                                    className="btn btn-delete"
-                                    onClick={() => {
-                                      handleDeleteUser(row);
-                                    }}
-                                  >
-                                    <i className="fas fa-trash"></i>
-                                  </button>
-                                </>
-                              )}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={listSeach.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <DataGrid rows={users} columns={columns} onCellDoubleClick={handleCellDoubleClick}/>
         </Box>
       </Box>
-      <ModalInfo
+      {/* <ModalInfo
         openModal={openModal}
         closeModal={closeModal}
         userEdit={userEdit}
@@ -321,7 +210,7 @@ const TableManageUser = (props) => {
         idDelete={userDelete ? userDelete.id : ""}
         content={userDelete.firstName + " " + userDelete.lastName}
         handleConfirm={deleteUser}
-      />
+      /> */}
     </>
   );
 };

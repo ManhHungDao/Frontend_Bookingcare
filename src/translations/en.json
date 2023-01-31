@@ -69,7 +69,9 @@
     "search": "Search",
     "delete": "Delete",
     "add": "Add",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "male":"Male",
+    "female":"Female"
   },
   "homepage": {
     "outstanding-doctor": "Outstanding Doctor of the Week",

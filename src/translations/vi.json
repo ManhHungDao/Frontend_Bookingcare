@@ -69,7 +69,10 @@
     "search": "Tìm kiếm",
     "delete": "Xóa",
     "save": "Lưu",
-    "cancel": "Thoát"
+    "cancel": "Thoát",
+    "male":"Nam",
+    "female":"Nữ"
+
   },
   "homepage": {
     "outstanding-doctor": "Bác sĩ nổi bật tuần qua",

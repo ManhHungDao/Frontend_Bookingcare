@@ -1,8 +1,8 @@
 .ck-rounded-corners .ck.ck-editor__editable:not(.ck-editor__nested-editable),
 .ck.ck-editor__editable.ck-rounded-corners:not(.ck-editor__nested-editable) {
   border: 1px solid #ddd;
-  min-height: 300px;
-  max-height: 600px;
+  min-height: 500px;
+  max-height: 800px;
   overflow-y: scroll;
 }
 .ck.ck-toolbar > .ck-toolbar__items {
