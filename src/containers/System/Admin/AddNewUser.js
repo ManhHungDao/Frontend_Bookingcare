@@ -162,7 +162,7 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
                   id="outlined-adornment-password"
                   type={showPassword ? "text" : "password"}
                   endAdornment={
-                    <InputAdornment position="end" >
+                    <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
@@ -262,7 +262,7 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
             justifyContent="center"
             alignItems="center"
           >
-            <UpLoadAvatar uploadImage={uploadImage} />
+            <UpLoadAvatar uploadImage={uploadImage} content={<FormattedMessage id="manage-user.upload" />} />
           </Grid>
           <Grid item xs={12} md={12}>
             <div className="d-flex justify-content-center">

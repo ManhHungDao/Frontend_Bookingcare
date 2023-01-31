@@ -8,7 +8,14 @@ import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { languages, CRUD_ACTIONS, CommonUtils } from "../utils";
 
-const UpLoadAvatar = ({ uploadImage }) => {
+const UpLoadAvatar = ({
+  uploadImage,
+  preWidth,
+  preHeight,
+  borderRadius,
+  backgroundSize,
+  content,
+}) => {
   const [previewImgUrl, setPreviewImgUrl] = React.useState("");
   const [openPreImg, setOpenPreImg] = React.useState(false);
   const theme = useTheme();
@@ -27,6 +34,16 @@ const UpLoadAvatar = ({ uploadImage }) => {
     if (!previewImgUrl) return;
     setOpenPreImg(true);
   };
+  const style = {
+    backgroundImage: `url(${previewImgUrl ? previewImgUrl : avatar})`,
+    width: preWidth ? preWidth : "200px",
+    height: preHeight ? preHeight : "200px",
+    borderRadius: borderRadius ? borderRadius : "100vmax",
+    border: "2px solid #ddd",
+    cursor: "pointer",
+    background: "center center no-repeat",
+    backgroundSize: backgroundSize ? backgroundSize : "cover",
+  };
   return (
     <>
       <div className="preview-img-container">
@@ -43,7 +60,7 @@ const UpLoadAvatar = ({ uploadImage }) => {
           component="label"
           endIcon={<PhotoCamera />}
         >
-          <FormattedMessage id="manage-user.upload" />
+          {content}
           <input
             hidden
             accept="image/*"
@@ -54,9 +71,7 @@ const UpLoadAvatar = ({ uploadImage }) => {
         </Button>
         <div
           className="preview-image"
-          style={{
-            backgroundImage: `url(${previewImgUrl ? previewImgUrl : avatar})`,
-          }}
+          style={style}
           onClick={() => openReviewImage()}
         ></div>
       </div>

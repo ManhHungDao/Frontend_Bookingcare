@@ -17,7 +17,6 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import ConfirmModal from "../../../components/ConfirmModal";
-import ModalAddEditClinic from "./ModalAddEditClinic";
 import ModalManageDetailClinic from "./ModalManageDetailClinic";
 const columns = [
   {
@@ -237,12 +236,7 @@ const TableManageClinic = (props) => {
           </div>
         </div>
       </div>
-      <ModalAddEditClinic
-        openModal={openModal}
-        closeModal={closeModal}
-        dataEdit={dataEdit}
-        isAddNewUser={isAdd}
-      />
+   
       <ConfirmModal
         openModal={isOpenConfirmModal}
         closeModal={closeModal}

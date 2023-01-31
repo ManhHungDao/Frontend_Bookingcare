@@ -20,6 +20,9 @@ import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AddHomeOutlinedIcon from '@mui/icons-material/AddHomeOutlined';
+import BallotOutlinedIcon from '@mui/icons-material/BallotOutlined';
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -44,7 +47,7 @@ const role = [
   { id: "R3", name: "users" },
 ];
 
-const Sidebar = ({ isLoggedIn, userInfo }) => {
+const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -181,19 +184,19 @@ const Sidebar = ({ isLoggedIn, userInfo }) => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Pages
+              Phòng khám
             </Typography>
             <Item
-              title="Profile Form"
-              to="/system/form"
-              icon={<PersonOutlinedIcon />}
+              title="Thêm mới"
+              to="/system/manage-clinic"
+              icon={<AddHomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Calendar"
-              to="/system/calendar"
-              icon={<CalendarTodayOutlinedIcon />}
+              title="Danh sách"
+              to="/system/manage-list-clinic"
+              icon={<BallotOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -203,6 +206,13 @@ const Sidebar = ({ isLoggedIn, userInfo }) => {
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+            />
+
+            <Item
+              title="Logout"
+              to="/system/faq"
+              icon={<LogoutIcon />}
+              onClick={processLogout}
             />
           </Box>
         </Menu>
