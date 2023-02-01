@@ -4,254 +4,107 @@ import { connect } from "react-redux";
 import "./TableManageClinic.scss";
 import * as actions from "../../../store/actions";
 import { useEffect } from "react";
-import InputAdornment from "@mui/material/InputAdornment";
-import TextField from "@mui/material/TextField";
-import SearchIcon from "@mui/icons-material/Search";
-import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import ConfirmModal from "../../../components/ConfirmModal";
 import ModalManageDetailClinic from "./ModalManageDetailClinic";
+import { DataGrid } from "@mui/x-data-grid";
+import { Box, useTheme } from "@mui/material";
+import { tokens } from "../theme";
+import Header from "../../../components/Header";
 const columns = [
   {
-    id: "name",
-    label: <FormattedMessage id="admin.manage-clinic.name" />,
+    field: "name",
+    headerName: "Tên",
     flex: 1,
+    cellClassName: "name-column--cell",
   },
   {
-    id: "address",
-    label: <FormattedMessage id="admin.manage-clinic.address" />,
+    field: "address",
+    headerName: "Địa chỉ",
     flex: 1,
   },
+
   {
-    id: "editDetail",
-    label: <FormattedMessage id="admin.manage-clinic.edit" />,
-    flex: 1,
-  },
-  {
-    id: "action",
-    label: <FormattedMessage id="manage-user.action" />,
-    width: 150,
+    field: "logo",
+    headerName: "Hình ảnh",
+    flex: 2,
+    renderCell: ({ row: { logo } }) => {
+      return (
+        <Box>
+          <img src={logo} alt="Logo CLinic" width="120px" height="60px" />
+        </Box>
+      );
+    },
   },
 ];
 
-const TableManageClinic = (props) => {
-  const [listClinic, setListClinic] = useState([]);
-  const [listClinicSearCh, setListClinicSearCh] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [isAdd, setIsAdd] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [dataEdit, setDataEdit] = useState({});
-  const [dataDelete, setDataDelete] = useState({});
-  const [editDetail, setEditDetail] = useState("");
-  const [openModalDetail, setOpenModalDetail] = useState(false);
-
+const TableManageClinic = ({ getListClinicHome, listClinic }) => {
+  const [list, setList] = useState([]);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   useEffect(() => {
-    props.getListClinicHome();
+    getListClinicHome();
   }, []);
 
   useEffect(() => {
-    setListClinic(props.listClinic);
-    setListClinicSearCh(props.listClinic);
-  }, [props.listClinic]);
-  useEffect(() => {
-    let data = listClinic;
-    let dataSearch = data.filter((e) => {
-      return e.name.toLowerCase().includes(searchTerm.toLowerCase());
-    });
-    setListClinicSearCh(dataSearch);
-  }, [searchTerm]);
+    if (listClinic) {
+      let data = listClinic.map((e) => {
+        return {
+          id: e.id,
+          name: e.name,
+          address: e.address,
+          logo: e.logo,
+        };
+      });
+      setList(data);
+    }
+  }, [listClinic]);
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  const handleAdd = () => {
-    setOpenModal(!openModal);
-    // setDataEdit({});
-    setIsAdd(true);
-  };
-  const handleEdit = (user) => {
-    setDataEdit(user);
-    setIsAdd(false);
-    setOpenModal(!openModal);
-  };
-  const handleDelete = (user) => {
-    setDataDelete(user);
-    setIsOpenConfirmModal(true);
-  };
-  const closeModal = () => {
-    setOpenModal(false);
-    setIsOpenConfirmModal(false);
-  };
-  const closeModalDetail = () => {
-    setEditDetail("");
-    setOpenModalDetail(false);
-  };
-  const deleteData = () => {
-    alert("delete data");
-    setDataDelete({});
-  };
-  const handleEditDetail = (data) => {
-    setEditDetail(data);
-    setOpenModalDetail(true);
+  const handleCellDoubleClick = (params) => {
+    console.log(
+      "🚀 ~ file: TableManageUser.js:163 ~ handleOnCellClick ~ params",
+      params
+    );
   };
   return (
     <>
-      <div className="container">
-        <div className="title">
-          <FormattedMessage id="admin.manage-clinic.title" />
-        </div>
-        <div className="row">
-          <div className="col-12 d-lg-flex align-items-lg-center justify-content-end gap-5 mb-2">
-            <TextField
-              id="input-with-icon-textfield"
-              label={<FormattedMessage id="manage-user.search" />}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              variant="standard"
-              value={searchTerm}
-              onChange={handleSearch}
-            />
-            <Button
-              variant="contained"
-              color="success"
-              onClick={handleAdd}
-              style={{ height: "fit-content" }}
-            >
-              <FormattedMessage id="manage-user.add" />
-            </Button>
-          </div>
-          <div className="col-12 p-0 ">
-            <TableContainer component={Paper}>
-              <Table
-                sx={{ minWidth: 650 }}
-                size="small"
-                aria-label="simple table"
-              >
-                <TableHead>
-                  <TableRow>
-                    {columns.map((column) => (
-                      <TableCell
-                        key={column.id}
-                        align="center"
-                        style={{ minWidth: column.minWidth }}
-                      >
-                        {column.label}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {listClinicSearCh
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      return (
-                        <TableRow
-                          hover
-                          role="checkbox"
-                          tabIndex={-1}
-                          key={row.code}
-                        >
-                          {columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                              <TableCell key={column.id} align={column.align}>
-                                {column.format && typeof value === "number"
-                                  ? column.format(value)
-                                  : value}
-                                {column.id === "action" ? (
-                                  <>
-                                    <button
-                                      className="btn btn-edit"
-                                      onClick={() => {
-                                        handleEdit(row);
-                                      }}
-                                    >
-                                      <i className="fas fa-edit"></i>
-                                    </button>
-                                    <button
-                                      className="btn btn-delete"
-                                      onClick={() => {
-                                        handleDelete(row);
-                                      }}
-                                    >
-                                      <i className="fas fa-trash"></i>
-                                    </button>
-                                  </>
-                                ) : (
-                                  ""
-                                )}
-                                {column.id === "editDetail" ? (
-                                  <span
-                                    className="editDetail"
-                                    onClick={() => handleEditDetail(row)}
-                                  >
-                                    <FormattedMessage id="admin.manage-clinic.editDetail" />
-                                  </span>
-                                ) : (
-                                  ""
-                                )}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={listClinicSearCh.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </div>
-        </div>
-      </div>
-   
-      <ConfirmModal
-        openModal={isOpenConfirmModal}
-        closeModal={closeModal}
-        idDelete={dataDelete ? dataDelete.id : ""}
-        content={dataDelete.name}
-        handleConfirm={deleteData}
-      />
-      {editDetail && (
-        <ModalManageDetailClinic
-          id={editDetail ? editDetail.id : ""}
-          name={editDetail ? editDetail.name : ""}
-          openModal={openModalDetail}
-          closeModal={closeModalDetail}
-        />
-      )}
+      <Box m="20px">
+        <Header title="Manage Clinics" subtitle="Managing the Clinics" />
+        <Box
+          m="40px 0 0 0"
+          height="75vh"
+          sx={{
+            "& .MuiDataGrid-root": {
+              border: "none",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "none",
+            },
+            "& .name-column--cell": {
+              color: colors.greenAccent[300],
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: colors.blueAccent[700],
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              backgroundColor: colors.primary[400],
+            },
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "none",
+              backgroundColor: colors.blueAccent[700],
+            },
+            "& .MuiCheckbox-root": {
+              color: `${colors.greenAccent[200]} !important`,
+            },
+          }}
+        >
+          <DataGrid
+            rows={list}
+            columns={columns}
+            onCellDoubleClick={handleCellDoubleClick}
+            getRowHeight={() => "auto"}
+          />
+        </Box>
+      </Box>
     </>
   );
 };
