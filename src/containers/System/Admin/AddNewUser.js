@@ -26,6 +26,11 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../components/ButtonComponent";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import "dayjs/locale/vi";
+import dayjs from "dayjs";
 import "./Style.scss";
 const role = [
   { id: "R1", name: "admin" },
@@ -42,6 +47,7 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
   const [gender, setGender] = useState("M");
   const [position, setPosition] = useState("");
   const [image, setImage] = useState("");
+  const [date, setDate] = useState(dayjs("2022-04-07"));
   //information doctor's clinic
   const [clinic, setClinic] = useState("");
   const [specialty, setSpecialty] = useState("");
@@ -50,7 +56,6 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
   const [description, setDescription] = useState("");
   const [note, setNote] = useState("");
   const [content, setContent] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -75,6 +80,12 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
   const uploadImage = async (img) => {
     setImage(img);
   };
+  // const convertDate = (str) => {
+  //   var date = new Date(str),
+  //     mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+  //     day = ("0" + date.getDate()).slice(-2);
+  //   return [date.getFullYear(), mnth, day].join("-");
+  // };
   const handleSave = () => {
     let dataUser = {
       email: email,
@@ -98,6 +109,7 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
     createNewUser(dataUser);
     createDetailDoctor(dataDetailUser);
   };
+  console.log(("check date", dayjs(date).format("YYYY-MM-DD")));
   return (
     <>
       <Box m="20px">
@@ -189,7 +201,7 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
             </Grid>
             <Grid item container rowSpacing={{ sm: 2, md: 6 }}>
               {/* <Grid item xs={6} md={4}>
-                <FormControl sx={{ minWidth: 80 }} size="small">
+                <FormControl sx={{ minWidth: 80 }} >
                   <InputLabel id="demo-simple-select-autowidth-label">
                     <FormattedMessage id="manage-user.role" />
                   </InputLabel>
@@ -208,7 +220,25 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
                 </FormControl>
               </Grid> */}
               <Grid item xs={6} md={4}>
-                <FormControl sx={{ minWidth: 200 }} size="small">
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale="vi"
+                >
+                  <DatePicker
+                    disableFuture
+                    label="Ngày sinh"
+                    openTo="year"
+                    views={["year", "month", "day"]}
+                    value={date}
+                    onChange={(newValue) => {
+                      setDate(newValue);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <FormControl sx={{ minWidth: 200 }}>
                   <InputLabel id="demo-simple-select-autowidth-label">
                     <FormattedMessage id="manage-user.position" />
                   </InputLabel>
@@ -262,7 +292,10 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
             justifyContent="center"
             alignItems="center"
           >
-            <UpLoadAvatar uploadImage={uploadImage} content={<FormattedMessage id="manage-user.upload" />} />
+            <UpLoadAvatar
+              uploadImage={uploadImage}
+              content={<FormattedMessage id="manage-user.upload" />}
+            />
           </Grid>
           <Grid item xs={12} md={12}>
             <div className="d-flex justify-content-center">
@@ -278,7 +311,7 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
             rowSpacing={{ sm: 2, md: 6 }}
           >
             <Grid item xs={6} md={3}>
-              <FormControl sx={{ minWidth: "100%" }} size="small">
+              <FormControl sx={{ minWidth: "100%" }}>
                 <InputLabel id="demo-simple-select-autowidth-label">
                   <FormattedMessage id="admin.manage-doctor.select-clinic" />
                 </InputLabel>
@@ -298,7 +331,7 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
               </FormControl>
             </Grid>
             <Grid item xs={6} md={3}>
-              <FormControl sx={{ minWidth: "100%" }} size="small">
+              <FormControl sx={{ minWidth: "100%" }}>
                 <InputLabel id="demo-simple-select-autowidth-label">
                   <FormattedMessage id="admin.manage-doctor.select-specialty" />
                 </InputLabel>
@@ -319,7 +352,7 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
             </Grid>
 
             <Grid item xs={6} md={3}>
-              <FormControl sx={{ minWidth: "100%" }} size="small">
+              <FormControl sx={{ minWidth: "100%" }}>
                 <InputLabel id="demo-simple-select-autowidth-label">
                   <FormattedMessage id="admin.manage-doctor.select-price" />
                 </InputLabel>
@@ -339,7 +372,7 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
               </FormControl>
             </Grid>
             <Grid item xs={6} md={3}>
-              <FormControl sx={{ minWidth: "100%" }} size="small">
+              <FormControl sx={{ minWidth: "100%" }}>
                 <InputLabel id="demo-simple-select-autowidth-label">
                   <FormattedMessage id="admin.manage-doctor.select-payment" />
                 </InputLabel>
