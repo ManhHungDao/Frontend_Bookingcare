@@ -14,7 +14,7 @@ const getAllUsersService = (inputId) => {
 };
 
 const createNewUserService = (data) => {
-  return axios.post(`/api/create-new-user`, data);
+  return axios.post(`/api/create-user`, data);
 };
 
 const deleteUserService = (userId) => {
@@ -144,10 +144,6 @@ const updateSpecialtyService = (data) => {
   return axios.put(`/api/update-specialty`, data);
 };
 
-const createDetailClinicService = (data) => {
-  return axios.post(`/api/create-detail-clinic`, data);
-};
-
 const getDetailClinicService = (id) => {
   return axios.get(`/api/get-detail-clinic?id=${id}`);
 };
@@ -257,7 +253,6 @@ export {
   createDetailSpecialty,
   deleteSpecialtyService,
   getDetailClinicService,
-  createDetailClinicService,
   updateSpecialtyService,
   handleLoginApiService,
   getAllUsersService,

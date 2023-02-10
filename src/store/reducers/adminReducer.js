@@ -27,10 +27,18 @@ const initialState = {
   listSpecialtyByClinic: [],
   detailClinic: {},
   listDetailHandbook: [],
+  showLoading: false,
 };
 
 const adminReducer = (state = initialState, action) => {
   switch (action.type) {
+    // loading
+    case actionTypes.LOADING_TOGGLE_ACTION: {
+      return {
+        ...state,
+        showLoading: action.data,
+      };
+    }
     // gender
     case actionTypes.FETCH_GENDER_START: {
       // state.isLoadingGender = true;
@@ -140,17 +148,6 @@ const adminReducer = (state = initialState, action) => {
         ...state,
       };
     }
-    /*    // fetch sub detail doctor by id
-    case actionTypes.GET_SUB_DETAIL_DOCTOR_SUCCESS: {
-      state.subDetailDoctor = action.data;
-      return { ...state };
-    }
-    case actionTypes.GET_SUB_DETAIL_DOCTOR_FAILED: {
-      state.subDetailDoctor = {};
-      return {
-        ...state,
-      };
-    } */
 
     // fetch all schedule time
     case actionTypes.GET_SCHEDULE_TIME_SUCCESS: {

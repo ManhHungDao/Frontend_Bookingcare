@@ -25,13 +25,22 @@ import {
   getListSpecialty,
   getListClinic,
   getListClinicHomeService,
-  createDetailClinicService,
   getListDetailHandbookService,
 } from "../../services/userService";
+import {
+  getSingleClinic,
+  getAllClinic,
+  createClinic,
+} from "../../services/clinicService";
 import { TYPE } from "../../utils/constant";
-
 import { toast } from "react-toastify";
 // gender
+export const loadingToggleAction = (status) => {
+  return {
+    type: actionTypes.LOADING_TOGGLE_ACTION,
+    data: status,
+  };
+};
 
 export const fetchGenderStart = () => {
   return async (dispatch, getState) => {
@@ -121,16 +130,20 @@ export const createNewUser = (data) => {
   return async (dispatch, getState) => {
     try {
       {
+        dispatch(loadingToggleAction(true));
         const res = await createNewUserService(data);
-        if (res && res.errCode === 0) {
+        if (res && res.success) {
           dispatch(saveUserSuccess(res.data));
           dispatch(fetchAllUserStart("All"));
+          dispatch(loadingToggleAction(false));
           toast.success("Create A New User Succeed!");
         } else {
+          dispatch(loadingToggleAction(false));
           dispatch(saveUserFailed());
         }
       }
     } catch (error) {
+      dispatch(loadingToggleAction(false));
       dispatch(saveUserFailed());
     }
   };
@@ -753,59 +766,28 @@ export const getListSpecialtyByClinicId = (id) => {
   };
 };
 
-// create detail clinic
-export const createDetailClinic = (data) => {
+// create clinic
+export const createClinicAction = (data) => {
   return async (dispatch, getState) => {
     try {
       {
-        const res = await createDetailClinicService(data);
-        if (res && res.errCode === 0) {
+        const res = await createClinic(data);
+        if (res && res.success) {
           dispatch({
-            type: actionTypes.POST_DETAIL_CLINIC_SUCCEED,
+            type: actionTypes.POST_CLINIC_SUCCEED,
           });
-          toast.success("Create Detail Clinic Succeed!");
+          toast.success("Create Clinic Succeed!");
         } else {
-          toast.error("Create Detail Clinic Failed!");
+          toast.error("Create Clinic Failed!");
           dispatch({
-            type: actionTypes.POST_DETAIL_CLINIC_FAILED,
+            type: actionTypes.POST_CLINIC_FAILED,
           });
         }
       }
     } catch (error) {
-      toast.error("Create Detail Clinic Failed!");
+      toast.error("Create Clinic Failed!");
       dispatch({
-        type: actionTypes.POST_DETAIL_CLINIC_FAILED,
-      });
-    }
-  };
-};
-
-// get detail clinic
-export const getDetailClinic = (id) => {
-  return async (dispatch, getState) => {
-    try {
-      {
-        const res = await getDetailClinicService(id);
-        if (res && res.errCode === 0) {
-          dispatch({
-            type: actionTypes.GET_DETAIL_CLINIC_SUCCEED,
-            data: res.data,
-          });
-        } else {
-          toast.error("Get Detail Clinic Failed!");
-          dispatch({
-            type: actionTypes.GET_DETAIL_CLINIC_FAILED,
-          });
-        }
-      }
-    } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 793 ~ return ~ error",
-        error
-      );
-      toast.error("Get Detail Clinic Failed!");
-      dispatch({
-        type: actionTypes.GET_DETAIL_CLINIC_FAILED,
+        type: actionTypes.POST_CLINIC_FAILED,
       });
     }
   };

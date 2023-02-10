@@ -10,17 +10,12 @@ import _ from "lodash";
 import { Box, Typography, useTheme, Grid, TextField } from "@mui/material";
 import Header from "../../../components/Header.jsx";
 import UpLoadAvatar from "../../../components/UpLoadAvatar";
-import {
-  updateClinic,
-  deleteClinicService,
-  getClinic,
-  createANewClinic,
-} from "../../../services/userService";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../components/ButtonComponent";
 import { tokens } from "../theme";
+import Loading from "../../../components/Loading";
 
-const AddEditClinic = () => {
+const AddEditClinic = ({ createClinicAction }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [content, setContent] = useState("");
@@ -28,14 +23,22 @@ const AddEditClinic = () => {
   const [logo, setLogo] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
-  const [note, setNote] = useState("");
+  const [introduce, setIntroduce] = useState("");
 
   const handleOnChangeLogo = (logo) => setLogo(logo);
   const handleOnChangeImage = (image) => setImage(image);
-  const handleEditorChangeNote = (data) => setNote(data);
+  const handleEditorChangeNote = (data) => setIntroduce(data);
   const handleEditorChangeContent = (data) => setContent(data);
   const handleSave = () => {
-    return;
+    createClinicAction({
+      detail: content,
+      image,
+      logo,
+      name,
+      detailAddress: address,
+      introduce,
+      province: "hashcode",
+    });
   };
   return (
     <>
@@ -128,8 +131,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListClinicHome: () => dispatch(actions.getListClinicHome()),
-    createDetailClinic: (data) => dispatch(actions.createDetailClinic(data)),
+    createClinicAction: (data) => dispatch(actions.createClinicAction(data)),
   };
 };
 

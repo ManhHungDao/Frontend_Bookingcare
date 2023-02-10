@@ -32,12 +32,18 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
 import "./Style.scss";
+
 const role = [
   { id: "R1", name: "admin" },
   { id: "R2", name: "doctor" },
   { id: "R3", name: "users" },
 ];
-const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
+const AddNewUser = ({
+  createNewUser,
+  createDetailDoctor,
+  showLoading,
+  loadingToggleAction,
+}) => {
   //infomation doctor
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -47,7 +53,7 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
   const [gender, setGender] = useState("M");
   const [position, setPosition] = useState("");
   const [image, setImage] = useState("");
-  const [date, setDate] = useState(dayjs("2022-04-07"));
+  const [date, setDate] = useState(dayjs(new Date()));
   //information doctor's clinic
   const [clinic, setClinic] = useState("");
   const [specialty, setSpecialty] = useState("");
@@ -77,7 +83,7 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
   const handleEditorChange = (value) => {
     setContent(value);
   };
-  const uploadImage = async (img) => {
+  const uploadImage = (img) => {
     setImage(img);
   };
   // const convertDate = (str) => {
@@ -87,29 +93,22 @@ const AddNewUser = ({ createNewUser, createDetailDoctor }) => {
   //   return [date.getFullYear(), mnth, day].join("-");
   // };
   const handleSave = () => {
+    // loadingToggleAction(true);
     let dataUser = {
-      email: email,
-      name: name,
-      phoneNumber: phone,
-      password: password,
-      gender: gender,
+      email,
+      image,
+      name,
+      phone,
+      password,
+      gender,
       positionId: position,
-      image: image,
-      address: address,
-    };
-    let dataDetailUser = {
-      content: content,
-      clinicId: clinic,
-      specialtyId: specialty,
-      priceId: price,
-      paymentId: payment,
-      description: description,
-      note: note,
+      address,
+      dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
     };
     createNewUser(dataUser);
-    createDetailDoctor(dataDetailUser);
+    // createDetailDoctor(dataDetailUser);
   };
-  console.log(("check date", dayjs(date).format("YYYY-MM-DD")));
+  console.log("check is show loding", showLoading);
   return (
     <>
       <Box m="20px">
@@ -435,6 +434,7 @@ const mapStateToProps = (state) => {
     language: state.app.language,
     genders: state.admin.genders,
     positions: state.admin.positions,
+    showLoading: state.admin.showLoading,
   };
 };
 
@@ -444,6 +444,8 @@ const mapDispatchToProps = (dispatch) => {
     getPositionStart: () => dispatch(actions.fetchPositionStart()),
     createNewUser: (user) => dispatch(actions.createNewUser(user)),
     createDetailDoctor: (data) => dispatch(actions.createDetailDoctor(data)),
+    loadingToggleAction: (status) =>
+      dispatch(actions.loadingToggleAction(status)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddNewUser);

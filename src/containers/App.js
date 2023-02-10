@@ -15,6 +15,7 @@ import Login from "./Auth/login";
 import SystemRoute from "./System/SystemRoute";
 import Doctor from "../routes/Doctor";
 import PatientRoute from "./Patient/PatientRoute";
+import Loading from "../components/Loading";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -38,6 +39,7 @@ class App extends Component {
   render() {
     return (
       <Fragment>
+        <Loading />
         <Router history={history}>
           <div className="main-container">
             <span className="content-container">
