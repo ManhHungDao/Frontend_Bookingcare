@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import { CommonUtils } from "../../../utils";
 import "./ModalAddEditClinic.scss";
-import { FormattedMessage } from "react-intl";
 import "react-image-lightbox/style.css";
 import { toast } from "react-toastify";
 import _ from "lodash";
@@ -13,7 +12,7 @@ import UpLoadAvatar from "../../../components/UpLoadAvatar";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../components/ButtonComponent";
 import { tokens } from "../theme";
-import Loading from "../../../components/Loading";
+import InputSelect from "../../../components/Input/InputSelect";
 
 const AddEditClinic = ({ createClinicAction }) => {
   const theme = useTheme();
@@ -43,14 +42,14 @@ const AddEditClinic = ({ createClinicAction }) => {
   return (
     <>
       <Box m="20px">
-        <Header title="Add New Clinic" subtitle="Managing the Clinics" />
+        <Header title="Thêm Mới Phòng Khám" subtitle="Quản lý phòng khám" />
         <Grid container spacing={2} rowSpacing={{ sm: 2, md: 6 }}>
           <Grid container item xs={12} md={4}>
             <Grid item xs={12} md={12}>
               <TextField
                 required
                 id="outlined-required"
-                label={<FormattedMessage id="admin.manage-clinic.name" />}
+                label="Tên"
                 fullWidth
                 onChange={(e) => setName(e.target.value)}
               />
@@ -59,7 +58,7 @@ const AddEditClinic = ({ createClinicAction }) => {
               <TextField
                 required
                 id="outlined-required"
-                label={<FormattedMessage id="admin.manage-clinic.address" />}
+                label="Địa chỉ"
                 fullWidth
                 onChange={(e) => setAddress(e.target.value)}
               />
@@ -78,7 +77,7 @@ const AddEditClinic = ({ createClinicAction }) => {
           >
             <Grid item xs={12} md={4}>
               <UpLoadAvatar
-                content={<FormattedMessage id="admin.manage-clinic.image" />}
+                content="Hình nền"
                 borderRadius="5px"
                 preWidth="400px"
                 uploadImage={handleOnChangeImage}
@@ -86,7 +85,7 @@ const AddEditClinic = ({ createClinicAction }) => {
             </Grid>
             <Grid item xs={12} md={4}>
               <UpLoadAvatar
-                content={<FormattedMessage id="admin.manage-clinic.logo" />}
+                content="Hình đại diện"
                 borderRadius="5px"
                 preWidth="400px"
                 uploadImage={handleOnChangeLogo}
@@ -94,14 +93,14 @@ const AddEditClinic = ({ createClinicAction }) => {
             </Grid>
           </Grid>
           <Grid item xs={12} md={12}>
-            <FormattedMessage id="admin.manage-clinic.introduce" />
+            Giới thiệu
             <CKEditorFieldBasic
               value={content}
               onChange={handleEditorChangeNote}
             />
           </Grid>
           <Grid item xs={12} md={12}>
-            <FormattedMessage id="admin.manage-doctor.detail" />
+            Chi tiết
             <CKEditorFieldBasic
               value={content}
               onChange={handleEditorChangeContent}
@@ -109,7 +108,7 @@ const AddEditClinic = ({ createClinicAction }) => {
           </Grid>
           <Grid xs={12} md={12} item display="flex" justifyContent="flex-end">
             <ButtonComponent
-              content={<FormattedMessage id="manage-user.save" />}
+              content="Lưu"
               handleClick={handleSave}
               bgcolor={colors.greenAccent[700]}
               color={colors.grey[100]}

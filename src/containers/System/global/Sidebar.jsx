@@ -21,8 +21,8 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import LogoutIcon from "@mui/icons-material/Logout";
-import AddHomeOutlinedIcon from '@mui/icons-material/AddHomeOutlined';
-import BallotOutlinedIcon from '@mui/icons-material/BallotOutlined';
+import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
+import BallotOutlinedIcon from "@mui/icons-material/BallotOutlined";
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -51,7 +51,7 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Dashboard");
+  const [selected, setSelected] = useState("Trang Chính");
   return (
     <Box
       sx={{
@@ -136,7 +136,7 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Dashboard"
+              title="Trang Chính"
               to="/"
               icon={<HomeOutlinedIcon />}
               selected={selected}
@@ -148,17 +148,17 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Users
+              Người dùng
             </Typography>
             <Item
-              title="Add New"
+              title="Thêm Mới"
               to="/system/add-user"
               icon={<PersonAddAltIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="List Member"
+              title="Danh Sách"
               to="/system/user-manage"
               icon={<PeopleOutlinedIcon />}
               selected={selected}

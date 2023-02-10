@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
-import { languages, CRUD_ACTIONS, CommonUtils } from "../../../utils";
 import * as actions from "../../../store/actions";
 import validator from "validator";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import Header from "../../../components/Header.jsx";
 import TextField from "@mui/material/TextField";
@@ -16,34 +14,20 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import Radio from "@mui/material/Radio";
-import FormLabel from "@mui/material/FormLabel";
 import UpLoadAvatar from "../../../components/UpLoadAvatar";
-import Button from "@mui/material/Button";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../components/ButtonComponent";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import InputSelect from "../../../components/Input/InputSelect";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
 import "./Style.scss";
+import { useEffect } from "react";
 
-const role = [
-  { id: "R1", name: "admin" },
-  { id: "R2", name: "doctor" },
-  { id: "R3", name: "users" },
-];
-const AddNewUser = ({
-  createNewUser,
-  createDetailDoctor,
-  showLoading,
-  loadingToggleAction,
-}) => {
+const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
   //infomation doctor
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -59,12 +43,24 @@ const AddNewUser = ({
   const [specialty, setSpecialty] = useState("");
   const [price, setPrice] = useState("");
   const [payment, setPayment] = useState("");
-  const [description, setDescription] = useState("");
+  const [introduce, setIntroduce] = useState("");
   const [note, setNote] = useState("");
   const [content, setContent] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [dataSelect, setDataSelect] = useState([]);
+  const [errors, setErrors] = useState({});
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  useEffect(() => {
+    fetchAllcode();
+  }, []);
+  useEffect(() => {
+    if (allcodes && allcodes.length > 0)
+      setDataSelect(
+        allcodes.map((e) => ({ id: e.keyMap, name: e.valueVI, type: e.type }))
+      );
+  }, [allcodes]);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -92,8 +88,46 @@ const AddNewUser = ({
   //     day = ("0" + date.getDate()).slice(-2);
   //   return [date.getFullYear(), mnth, day].join("-");
   // };
+  const handleSelectPosition = (e) => setPosition(e);
+  const handleSelectClinic = (e) => setClinic(e);
+  const handleSelectSpecialty = (e) => setSpecialty(e);
+  const handleSelectPrice = (e) => setPrice(e);
+  const handleSelectPayment = (e) => setPayment(e);
+  const checkValidate = () => {
+    let errors = {};
+    if (!email) errors.email = "Email không được bỏ trống";
+    if (!validator.isEmail(email)) {
+      errors.email = "Email không hợp lệ";
+    }
+    if (!name) errors.name = "Tên không được bỏ trống";
+    if (!password) errors.password = "Mật khẩu không được bỏ trống";
+    if (!address) errors.address = "Địa chỉ không được bỏ trống";
+    if (!phone) errors.phone = "Số điện thoại không được bỏ trống";
+    if (!validator.isMobilePhone(phone))
+        errors.phone = "Số điện thoại không hợp lệ";
+    if (!content) errors.content = "Chi tiết không được bỏ trống";
+    if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
+    if (!note) errors.note = "Ghi chú không được bỏ trống";
+    if (!position) errors.position = "Chưa chọn vị trí";
+    if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
+    if (!price) errors.price = "Chưa chọn giá";
+    if (!clinic) errors.clinic = "Chưa chọn cơ sở";
+    if (!specialty) errors.specialty = "Chưa chọn khoa";
+    return errors;
+  };
+  const isValid = (errors) => {
+    let keys = Object.keys(errors);
+    let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
+    return count === 0;
+  };
+
   const handleSave = () => {
-    // loadingToggleAction(true);
+    const errors = checkValidate();
+    const checkValidInPut = isValid(errors);
+    if (!checkValidInPut) {
+      setErrors(errors);
+      return;
+    }
     let dataUser = {
       email,
       image,
@@ -106,13 +140,12 @@ const AddNewUser = ({
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
     };
     createNewUser(dataUser);
-    // createDetailDoctor(dataDetailUser);
   };
-  console.log("check is show loding", showLoading);
+
   return (
     <>
       <Box m="20px">
-        <Header title="Add New User" subtitle="Managing the User Members" />
+        <Header title="Thêm Mới Người Dùng" subtitle="Quản lý thành viên" />
         <Grid container spacing={2} rowSpacing={{ sm: 2, md: 6 }}>
           <Grid
             container
@@ -126,9 +159,11 @@ const AddNewUser = ({
               <TextField
                 required
                 id="outlined-required"
-                label={<FormattedMessage id="manage-user.email" />}
+                label="Email"
                 fullWidth
                 onChange={(e) => setEmail(e.target.value)}
+                error={errors.email}
+                helperText={errors.email}
               />
             </Grid>
             {/* <Grid item xs={6} md={6}>
@@ -143,18 +178,22 @@ const AddNewUser = ({
               <TextField
                 required
                 id="outlined-required"
-                label={<FormattedMessage id="manage-user.lastName" />}
+                label="Tên"
                 fullWidth
                 onChange={(e) => setName(e.target.value)}
+                error={errors.name}
+                helperText={errors.name}
               />
             </Grid>
             <Grid item xs={6} md={6}>
               <TextField
                 required
                 id="outlined-required"
-                label={<FormattedMessage id="manage-user.phone-number" />}
+                label="Số điện thoại"
                 fullWidth
                 onChange={(e) => setPhone(e.target.value)}
+                error={errors.phone}
+                helperText={errors.phone}
               />
             </Grid>
             <Grid item xs={6} md={6}>
@@ -166,7 +205,7 @@ const AddNewUser = ({
           /> */}
               <FormControl fullWidth required variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">
-                  <FormattedMessage id="manage-user.password" />
+                  Mật khẩu
                 </InputLabel>
                 <OutlinedInput
                   defaultValue={password}
@@ -193,9 +232,11 @@ const AddNewUser = ({
               <TextField
                 required
                 id="outlined-required"
-                label={<FormattedMessage id="manage-user.address" />}
+                label="Địa chỉ"
                 fullWidth
                 onChange={(e) => setAddress(e.target.value)}
+                error={errors.address}
+                helperText={errors.address}
               />
             </Grid>
             <Grid item container rowSpacing={{ sm: 2, md: 6 }}>
@@ -237,25 +278,20 @@ const AddNewUser = ({
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={6} md={4}>
-                <FormControl sx={{ minWidth: 200 }}>
-                  <InputLabel id="demo-simple-select-autowidth-label">
-                    <FormattedMessage id="manage-user.position" />
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-autowidth-label"
-                    id="demo-simple-select"
-                    value={position}
-                    onChange={(e) => setPosition(e.target.value)}
-                    label={<FormattedMessage id="manage-user.position" />}
-                  >
-                    <MenuItem value={10}>Twenty</MenuItem>
-                    <MenuItem value={21}>Twenty one</MenuItem>
-                    <MenuItem value={22}>Twenty one and a half</MenuItem>
-                  </Select>
-                </FormControl>
+                <InputSelect
+                  label="Chức danh"
+                  value={position}
+                  onChangeSelect={handleSelectPosition}
+                  data={dataSelect.filter((e) => e.type === "POSITION")}
+                  isActive={true}
+                  isError={errors.position ? true : false}
+                  errorText={errors.position ? errors.position : ""}
+                  name="Chức danh"
+                  minWidth={200}
+                />
               </Grid>
               <Grid item xs={6} md={4}>
-                <FormattedMessage id="manage-user.gender" />
+                Giới tính
                 <FormControl>
                   <div>
                     <Radio
@@ -267,7 +303,7 @@ const AddNewUser = ({
                         },
                       }}
                     />
-                    <FormattedMessage id="manage-user.male" />
+                    Nam
                     <Radio
                       {...controlProps("F")}
                       color="secondary"
@@ -277,7 +313,7 @@ const AddNewUser = ({
                         },
                       }}
                     />
-                    <FormattedMessage id="manage-user.female" />
+                    Nữ
                   </div>
                 </FormControl>
               </Grid>
@@ -291,10 +327,7 @@ const AddNewUser = ({
             justifyContent="center"
             alignItems="center"
           >
-            <UpLoadAvatar
-              uploadImage={uploadImage}
-              content={<FormattedMessage id="manage-user.upload" />}
-            />
+            <UpLoadAvatar uploadImage={uploadImage} content="Tải ảnh" />
           </Grid>
           <Grid item xs={12} md={12}>
             <div className="d-flex justify-content-center">
@@ -310,113 +343,92 @@ const AddNewUser = ({
             rowSpacing={{ sm: 2, md: 6 }}
           >
             <Grid item xs={6} md={3}>
-              <FormControl sx={{ minWidth: "100%" }}>
-                <InputLabel id="demo-simple-select-autowidth-label">
-                  <FormattedMessage id="admin.manage-doctor.select-clinic" />
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-autowidth-label"
-                  id="demo-simple-select-autowidth"
-                  value={clinic}
-                  onChange={(e) => setClinic(e.target.value)}
-                  label={
-                    <FormattedMessage id="admin.manage-doctor.select-clinic" />
-                  }
-                >
-                  <MenuItem value={10}>Twenty</MenuItem>
-                  <MenuItem value={21}>Twenty one</MenuItem>
-                  <MenuItem value={22}>Twenty one and a half</MenuItem>
-                </Select>
-              </FormControl>
+              <InputSelect
+                label="Chọn phòng khám"
+                value={clinic}
+                onChangeSelect={handleSelectClinic}
+                data={[
+                  { value: 1, label: "Twenty" },
+                  { value: 12, label: "Twenty" },
+                  { value: 13, label: "Twenty" },
+                ]}
+                isError={errors.clinic ? true : false}
+                errorText={errors.clinic ? errors.clinic : ""}
+                name="Chọn phòng khám"
+              />
             </Grid>
             <Grid item xs={6} md={3}>
-              <FormControl sx={{ minWidth: "100%" }}>
-                <InputLabel id="demo-simple-select-autowidth-label">
-                  <FormattedMessage id="admin.manage-doctor.select-specialty" />
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-autowidth-label"
-                  id="demo-simple-select-autowidth"
-                  value={specialty}
-                  onChange={(e) => setSpecialty(e.target.value)}
-                  label={
-                    <FormattedMessage id="admin.manage-doctor.select-specialty" />
-                  }
-                >
-                  <MenuItem value={10}>Twenty</MenuItem>
-                  <MenuItem value={21}>Twenty one</MenuItem>
-                  <MenuItem value={22}>Twenty one and a half</MenuItem>
-                </Select>
-              </FormControl>
+              <InputSelect
+                label="Chọn chuyên khoa"
+                value={specialty}
+                onChangeSelect={handleSelectSpecialty}
+                data={[
+                  { value: 1, label: "Twenty" },
+                  { value: 12, label: "Twenty" },
+                  { value: 13, label: "Twenty" },
+                ]}
+                isError={errors.specialty ? true : false}
+                errorText={errors.specialty ? errors.specialty : ""}
+                name="Chọn chuyên khoa"
+              />
             </Grid>
 
             <Grid item xs={6} md={3}>
-              <FormControl sx={{ minWidth: "100%" }}>
-                <InputLabel id="demo-simple-select-autowidth-label">
-                  <FormattedMessage id="admin.manage-doctor.select-price" />
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-autowidth-label"
-                  id="demo-simple-select-autowidth"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  label={
-                    <FormattedMessage id="admin.manage-doctor.select-price" />
-                  }
-                >
-                  <MenuItem value={10}>Twenty</MenuItem>
-                  <MenuItem value={21}>Twenty one</MenuItem>
-                  <MenuItem value={22}>Twenty one and a half</MenuItem>
-                </Select>
-              </FormControl>
+              <InputSelect
+                label="Chọn giá (VNĐ)"
+                value={price}
+                onChangeSelect={handleSelectPrice}
+                data={dataSelect.filter((e) => e.type === "PRICE")}
+                isActive={true}
+                isError={errors.price ? true : false}
+                errorText={errors.price ? errors.price : ""}
+                name="Chọn giá (VNĐ)"
+              />
             </Grid>
             <Grid item xs={6} md={3}>
-              <FormControl sx={{ minWidth: "100%" }}>
-                <InputLabel id="demo-simple-select-autowidth-label">
-                  <FormattedMessage id="admin.manage-doctor.select-payment" />
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-autowidth-label"
-                  id="demo-simple-select-autowidth"
-                  value={payment}
-                  onChange={(e) => setPayment(e.target.value)}
-                  label={
-                    <FormattedMessage id="admin.manage-doctor.select-payment" />
-                  }
-                >
-                  <MenuItem value={10}>Twenty</MenuItem>
-                  <MenuItem value={21}>Twenty one</MenuItem>
-                  <MenuItem value={22}>Twenty one and a half</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                id="outlined-multiline-flexible"
-                label={<FormattedMessage id="admin.manage-doctor.intro" />}
-                multiline
-                maxRows={20}
-                fullWidth
-                onChange={(e) => setDescription(e.target.value)}
+              <InputSelect
+                label="Chọn phương thức thanh toán"
+                value={payment}
+                onChangeSelect={handleSelectPayment}
+                data={dataSelect.filter((e) => e.type === "PAYMENT")}
+                isActive={true}
+                isError={errors.payment ? true : false}
+                errorText={errors.payment ? errors.payment : ""}
+                name="Chọn phương thức thanh toán"
               />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
                 id="outlined-multiline-flexible"
-                label={<FormattedMessage id="admin.manage-doctor.note" />}
+                label="Giới thiệu"
+                multiline
+                maxRows={20}
+                fullWidth
+                onChange={(e) => setIntroduce(e.target.value)}
+                error={errors.introduce}
+                helperText={errors.introduce}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                id="outlined-multiline-flexible"
+                label="Ghi chú"
                 multiline
                 maxRows={4}
                 fullWidth
                 onChange={(e) => setNote(e.target.value)}
+                error={errors.note}
+                helperText={errors.note}
               />
             </Grid>
           </Grid>
           <Grid item xs={12} md={12}>
+            Chi tiết
             <CKEditorFieldBasic value={content} onChange={handleEditorChange} />
           </Grid>
           <Grid xs={12} md={12} item display="flex" justifyContent="flex-end">
             <ButtonComponent
-              content={<FormattedMessage id="manage-user.save" />}
+              content="Lưu"
               handleClick={handleSave}
               bgcolor={colors.greenAccent[700]}
               color={colors.grey[100]}
@@ -433,19 +445,14 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     genders: state.admin.genders,
-    positions: state.admin.positions,
-    showLoading: state.admin.showLoading,
+    allcodes: state.admin.allcodes,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getGenderStart: () => dispatch(actions.fetchGenderStart()),
-    getPositionStart: () => dispatch(actions.fetchPositionStart()),
-    createNewUser: (user) => dispatch(actions.createNewUser(user)),
-    createDetailDoctor: (data) => dispatch(actions.createDetailDoctor(data)),
-    loadingToggleAction: (status) =>
-      dispatch(actions.loadingToggleAction(status)),
+    fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
+    createNewUser: (user) => dispatch(actions.createNewUserAction(user)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddNewUser);

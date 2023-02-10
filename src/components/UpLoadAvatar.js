@@ -1,12 +1,11 @@
 import React from "react";
-import { FormattedMessage } from "react-intl";
 import avatar from "../assets/avatar-trang-4.jpg";
 import Lightbox from "react-image-lightbox";
 import Button from "@mui/material/Button";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { languages, CRUD_ACTIONS, CommonUtils } from "../utils";
+import { CommonUtils } from "../utils";
 
 const UpLoadAvatar = ({
   uploadImage,
@@ -35,7 +34,6 @@ const UpLoadAvatar = ({
     setOpenPreImg(true);
   };
   const style = {
-    backgroundImage: `url(${previewImgUrl ? previewImgUrl : avatar})`,
     width: preWidth ? preWidth : "200px",
     height: preHeight ? preHeight : "200px",
     borderRadius: borderRadius ? borderRadius : "100vmax",
@@ -43,6 +41,7 @@ const UpLoadAvatar = ({
     cursor: "pointer",
     background: "center center no-repeat",
     backgroundSize: backgroundSize ? backgroundSize : "cover",
+    backgroundImage: `url(${previewImgUrl})`,
   };
   return (
     <>
@@ -75,7 +74,7 @@ const UpLoadAvatar = ({
           onClick={() => openReviewImage()}
         ></div>
       </div>
-      {openPreImg === true && (
+      {openPreImg && previewImgUrl && (
         <Lightbox
           mainSrc={previewImgUrl}
           onCloseRequest={() => setOpenPreImg(false)}
