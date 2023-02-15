@@ -12,7 +12,7 @@ import UpLoadAvatar from "../../../components/UpLoadAvatar";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../components/ButtonComponent";
 import { tokens } from "../theme";
-import InputSelect from "../../../components/Input/InputSelect";
+import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
 
 const AddEditClinic = ({ createClinicAction }) => {
   const theme = useTheme();
@@ -23,21 +23,52 @@ const AddEditClinic = ({ createClinicAction }) => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [introduce, setIntroduce] = useState("");
+  const [province, setProvince] = useState("");
+  const [coordinates, setCoordinates] = useState({
+    lat: null,
+    lng: null,
+  });
+  const [errors, setErrors] = useState({});
+  const checkValidate = () => {
+    let errors = {};
+    if (!name) errors.name = "Tên không được bỏ trống";
+    if (!address) errors.address = "Địa chỉ không được bỏ trống";
+    if (!content) errors.content = "Chi tiết không được bỏ trống";
+    if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
+    // if (!note) errors.note = "Ghi chú không được bỏ trống";
+    // if (!position) errors.position = "Chưa chọn vị trí";
+    // if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
+    // if (!price) errors.price = "Chưa chọn giá";
+    // if (!clinic) errors.clinic = "Chưa chọn cơ sở";
+    // if (!specialty) errors.specialty = "Chưa chọn khoa";
+    return errors;
+  };
+  const isValid = (errors) => {
+    let keys = Object.keys(errors);
+    let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
+    return count === 0;
+  };
 
-  const handleOnChangeLogo = (logo) => setLogo(logo);
-  const handleOnChangeImage = (image) => setImage(image);
-  const handleEditorChangeNote = (data) => setIntroduce(data);
-  const handleEditorChangeContent = (data) => setContent(data);
   const handleSave = () => {
-    createClinicAction({
+    const errors = checkValidate();
+    const checkValidInPut = isValid(errors);
+    if (!checkValidInPut) {
+      setErrors(errors);
+      return;
+    }
+    let data = {
       detail: content,
       image,
       logo,
       name,
-      detailAddress: address,
       introduce,
-      province: "hashcode",
-    });
+      province,
+      detailAddress: address,
+      lat: coordinates.lat,
+      lng: coordinates.lng,
+    };
+    console.log("🚀 ~ file: AddEditClinic.js:70 ~ handleSave ~ data", data);
+    createClinicAction(data);
   };
   return (
     <>
@@ -55,12 +86,13 @@ const AddEditClinic = ({ createClinicAction }) => {
               />
             </Grid>
             <Grid item xs={12} md={12}>
-              <TextField
-                required
-                id="outlined-required"
-                label="Địa chỉ"
-                fullWidth
-                onChange={(e) => setAddress(e.target.value)}
+              <AutocompleteAddress
+                isErr={errors.address ? true : false}
+                errName={errors.address}
+                setAddress={setAddress}
+                setProvince={setProvince}
+                setCoordinates={setCoordinates}
+                address={address}
               />
             </Grid>
           </Grid>
@@ -80,7 +112,7 @@ const AddEditClinic = ({ createClinicAction }) => {
                 content="Hình nền"
                 borderRadius="5px"
                 preWidth="400px"
-                uploadImage={handleOnChangeImage}
+                setImg={setImage}
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -88,23 +120,18 @@ const AddEditClinic = ({ createClinicAction }) => {
                 content="Hình đại diện"
                 borderRadius="5px"
                 preWidth="400px"
-                uploadImage={handleOnChangeLogo}
+                setImg={setLogo}
+                backgroundSize="contain"
               />
             </Grid>
           </Grid>
           <Grid item xs={12} md={12}>
             Giới thiệu
-            <CKEditorFieldBasic
-              value={content}
-              onChange={handleEditorChangeNote}
-            />
+            <CKEditorFieldBasic value={introduce} onChange={setIntroduce} />
           </Grid>
           <Grid item xs={12} md={12}>
             Chi tiết
-            <CKEditorFieldBasic
-              value={content}
-              onChange={handleEditorChangeContent}
-            />
+            <CKEditorFieldBasic value={content} onChange={setContent} />
           </Grid>
           <Grid xs={12} md={12} item display="flex" justifyContent="flex-end">
             <ButtonComponent

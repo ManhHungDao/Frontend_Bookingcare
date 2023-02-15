@@ -8,7 +8,7 @@ import { tokens } from "../theme";
 import { CommonUtils } from "../utils";
 
 const UpLoadAvatar = ({
-  uploadImage,
+  setImg,
   preWidth,
   preHeight,
   borderRadius,
@@ -25,7 +25,7 @@ const UpLoadAvatar = ({
     if (file) {
       const url = URL.createObjectURL(file);
       let base64 = await CommonUtils.getBase64(file);
-      uploadImage(base64);
+      setImg(base64);
       setPreviewImgUrl(url);
     }
   };

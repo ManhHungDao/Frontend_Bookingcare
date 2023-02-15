@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import validator from "validator";
@@ -25,7 +25,8 @@ import InputSelect from "../../../components/Input/InputSelect";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
 import "./Style.scss";
-import { useEffect } from "react";
+import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
+
 
 const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
   //infomation doctor
@@ -34,6 +35,7 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("123456Aa.");
   const [address, setAddress] = useState("");
+  const [province, setProvince] = useState("");
   const [gender, setGender] = useState("M");
   const [position, setPosition] = useState("");
   const [image, setImage] = useState("");
@@ -76,23 +78,12 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
     name: "color-radio-button-demo",
     inputProps: { "aria-label": item },
   });
-  const handleEditorChange = (value) => {
-    setContent(value);
-  };
-  const uploadImage = (img) => {
-    setImage(img);
-  };
   // const convertDate = (str) => {
   //   var date = new Date(str),
   //     mnth = ("0" + (date.getMonth() + 1)).slice(-2),
   //     day = ("0" + date.getDate()).slice(-2);
   //   return [date.getFullYear(), mnth, day].join("-");
   // };
-  const handleSelectPosition = (e) => setPosition(e);
-  const handleSelectClinic = (e) => setClinic(e);
-  const handleSelectSpecialty = (e) => setSpecialty(e);
-  const handleSelectPrice = (e) => setPrice(e);
-  const handleSelectPayment = (e) => setPayment(e);
   const checkValidate = () => {
     let errors = {};
     if (!email) errors.email = "Email không được bỏ trống";
@@ -104,15 +95,15 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
     if (!address) errors.address = "Địa chỉ không được bỏ trống";
     if (!phone) errors.phone = "Số điện thoại không được bỏ trống";
     if (!validator.isMobilePhone(phone))
-        errors.phone = "Số điện thoại không hợp lệ";
-    if (!content) errors.content = "Chi tiết không được bỏ trống";
-    if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
-    if (!note) errors.note = "Ghi chú không được bỏ trống";
-    if (!position) errors.position = "Chưa chọn vị trí";
-    if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
-    if (!price) errors.price = "Chưa chọn giá";
-    if (!clinic) errors.clinic = "Chưa chọn cơ sở";
-    if (!specialty) errors.specialty = "Chưa chọn khoa";
+      errors.phone = "Số điện thoại không hợp lệ";
+    // if (!content) errors.content = "Chi tiết không được bỏ trống";
+    // if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
+    // if (!note) errors.note = "Ghi chú không được bỏ trống";
+    // if (!position) errors.position = "Chưa chọn vị trí";
+    // if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
+    // if (!price) errors.price = "Chưa chọn giá";
+    // if (!clinic) errors.clinic = "Chưa chọn cơ sở";
+    // if (!specialty) errors.specialty = "Chưa chọn khoa";
     return errors;
   };
   const isValid = (errors) => {
@@ -136,7 +127,8 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
       password,
       gender,
       positionId: position,
-      address,
+      detailAddress: address,
+      province,
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
     };
     createNewUser(dataUser);
@@ -227,16 +219,14 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
                 />
               </FormControl>
             </Grid>
-
             <Grid item xs={6} md={12}>
-              <TextField
-                required
-                id="outlined-required"
-                label="Địa chỉ"
-                fullWidth
-                onChange={(e) => setAddress(e.target.value)}
-                error={errors.address}
-                helperText={errors.address}
+              <AutocompleteAddress
+                isErr={errors.address ? true : false}
+                errName={errors.address}
+                setAddress={setAddress}
+                setProvince={setProvince}
+                // setCoordinates={setCoordinates}
+                address={address}
               />
             </Grid>
             <Grid item container rowSpacing={{ sm: 2, md: 6 }}>
@@ -281,7 +271,7 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
                 <InputSelect
                   label="Chức danh"
                   value={position}
-                  onChangeSelect={handleSelectPosition}
+                  onChange={setPosition}
                   data={dataSelect.filter((e) => e.type === "POSITION")}
                   isActive={true}
                   isError={errors.position ? true : false}
@@ -327,7 +317,7 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
             justifyContent="center"
             alignItems="center"
           >
-            <UpLoadAvatar uploadImage={uploadImage} content="Tải ảnh" />
+            <UpLoadAvatar setImg={setImage} content="Tải ảnh" />
           </Grid>
           <Grid item xs={12} md={12}>
             <div className="d-flex justify-content-center">
@@ -346,7 +336,7 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
               <InputSelect
                 label="Chọn phòng khám"
                 value={clinic}
-                onChangeSelect={handleSelectClinic}
+                onChange={setClinic}
                 data={[
                   { value: 1, label: "Twenty" },
                   { value: 12, label: "Twenty" },
@@ -361,7 +351,7 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
               <InputSelect
                 label="Chọn chuyên khoa"
                 value={specialty}
-                onChangeSelect={handleSelectSpecialty}
+                onChange={setSpecialty}
                 data={[
                   { value: 1, label: "Twenty" },
                   { value: 12, label: "Twenty" },
@@ -377,7 +367,7 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
               <InputSelect
                 label="Chọn giá (VNĐ)"
                 value={price}
-                onChangeSelect={handleSelectPrice}
+                onChange={setPrice}
                 data={dataSelect.filter((e) => e.type === "PRICE")}
                 isActive={true}
                 isError={errors.price ? true : false}
@@ -389,7 +379,7 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
               <InputSelect
                 label="Chọn phương thức thanh toán"
                 value={payment}
-                onChangeSelect={handleSelectPayment}
+                onChange={setPayment}
                 data={dataSelect.filter((e) => e.type === "PAYMENT")}
                 isActive={true}
                 isError={errors.payment ? true : false}
@@ -424,7 +414,7 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
           </Grid>
           <Grid item xs={12} md={12}>
             Chi tiết
-            <CKEditorFieldBasic value={content} onChange={handleEditorChange} />
+            <CKEditorFieldBasic value={content} onChange={setContent} />
           </Grid>
           <Grid xs={12} md={12} item display="flex" justifyContent="flex-end">
             <ButtonComponent

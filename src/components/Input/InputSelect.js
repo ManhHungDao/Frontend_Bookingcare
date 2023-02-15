@@ -9,19 +9,17 @@ const InputSelect = ({
   value,
   label,
   data,
-  onChangeSelect,
   isError,
   errorText,
   minWidth,
   name,
+  onChange,
 }) => {
   const [list, setList] = useState([]);
   useEffect(() => {
     if (data) setList(data);
   }, [data]);
-  const onChange = (e) => {
-    onChangeSelect(e.target.value);
-  };
+
   return (
     <>
       {list && list.length > 0 && (
@@ -40,12 +38,12 @@ const InputSelect = ({
             }
             id={isError ? "demo-simple-select-isError" : "demo-simple-select"}
             value={value}
-            onChange={onChange}
+            onChange={(e) => onChange(e.target.value)}
             label={label}
           >
             {list &&
               list.length > 0 &&
-              list.map((e,index) => (
+              list.map((e, index) => (
                 <MenuItem key={index} value={e.id}>
                   {e.name}
                 </MenuItem>
