@@ -16,6 +16,7 @@ import Topbar from "./global/Topbar";
 import Sidebar from "./global/Sidebar";
 import AddNewUser from "./Admin/AddNewUser";
 import AddEditClinic from "./Clinic/AddEditClinic";
+import AddEditSpecialty from "./Specialty/AddEditSpecialty";
 // import ManageDetailHandbook from "../containers/"
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
@@ -54,7 +55,7 @@ const SystemRoute = ({ systemMenuPath, isLoggedIn }) => {
                 />
                 <Route
                   path="/system/manage-specialty"
-                  component={ManageSpecialty}
+                  component={AddEditSpecialty}
                 />
                 <Route
                   path="/system/manage-detail-specialty"

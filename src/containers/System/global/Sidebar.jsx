@@ -204,7 +204,7 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
             </Typography>
             <Item
               title="Thêm mới"
-              to="/system/manage-clinic"
+              to="/system/manage-specialty"
               icon={<AddHomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
