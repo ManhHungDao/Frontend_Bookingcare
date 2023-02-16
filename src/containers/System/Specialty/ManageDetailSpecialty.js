@@ -175,7 +175,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListClinicAdmin: () => dispatch(actions.getListClinicAdmin()),
+    getListClinicAdmin: () => dispatch(actions.getListClinicAction()),
     getListSpecialtyByClinicId: (id) =>
       dispatch(actions.getListSpecialtyByClinicId(id)),
   };

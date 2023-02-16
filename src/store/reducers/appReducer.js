@@ -17,6 +17,7 @@ const initialState = {
   },
   isUploadSuccess: false,
   message: null,
+  showLoading: false,
 };
 
 const appReducer = (state = initialState, action) => {
@@ -64,6 +65,15 @@ const appReducer = (state = initialState, action) => {
         message: null,
       };
     }
+
+    // loading
+    case actionTypes.LOADING_TOGGLE_ACTION: {
+      return {
+        ...state,
+        showLoading: action.data,
+      };
+    }
+
     default:
       return state;
   }

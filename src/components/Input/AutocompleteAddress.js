@@ -6,6 +6,7 @@ import PlacesAutocomplete, {
   getLatLng,
 } from "react-places-autocomplete";
 import TextField from "@mui/material/TextField";
+import { toast } from "react-toastify";
 
 function AutocompleteAddress({
   isErr,
@@ -24,6 +25,11 @@ function AutocompleteAddress({
     const results = await geocodeByAddress(value);
     let length = results[0].address_components.length;
     let province = "";
+    if (
+      results[0].address_components[length - 2].long_name !== "Vietnam" ||
+      results[0].address_components[length - 1].long_name !== "Vietnam"
+    )
+      toast.warning("Chọn địa chỉ ở Việt Nam");
     if (results[0].address_components[length - 2].long_name === "Vietnam")
       province = results[0].address_components[length - 3].long_name;
     else province = results[0].address_components[length - 2].long_name;

@@ -18,23 +18,14 @@ const initialState = {
   detailSpecialty: {},
   listDoctorSpecialty: [],
   listClinic: [],
-  listClinicHome: [],
   listSpecialtyByClinic: [],
   detailClinic: {},
   listDetailHandbook: [],
-  showLoading: false,
 };
 
 const adminReducer = (state = initialState, action) => {
   switch (action.type) {
-    // loading
-    case actionTypes.LOADING_TOGGLE_ACTION: {
-      return {
-        ...state,
-        showLoading: action.data,
-      };
-    }
-
+ 
     // fetch all code
     case actionTypes.FETCH_ALLCODE_SUCCESS: {
       state.allcodes = action.data;
@@ -216,17 +207,6 @@ const adminReducer = (state = initialState, action) => {
       return { ...state };
     }
     case actionTypes.GET_LIST_CLINIC_FAILED: {
-      state.listClinic = [];
-      return {
-        ...state,
-      };
-    }
-    // get list clinic home
-    case actionTypes.GET_LIST_CLINIC_HOME_SUCCEED: {
-      state.listClinicHome = action.data;
-      return { ...state };
-    }
-    case actionTypes.GET_LIST_CLINIC_HOME_FAILED: {
       state.listClinic = [];
       return {
         ...state,

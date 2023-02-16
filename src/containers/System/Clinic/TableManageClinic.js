@@ -9,6 +9,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import Header from "../../../components/Header";
+import _ from "lodash";
 const columns = [
   {
     field: "name",
@@ -21,11 +22,10 @@ const columns = [
     headerName: "Địa chỉ",
     flex: 1,
   },
-
   {
     field: "logo",
     headerName: "Hình ảnh",
-    flex: 2,
+    flex: 1,
     renderCell: ({ row: { logo } }) => {
       return (
         <Box>
@@ -34,24 +34,33 @@ const columns = [
       );
     },
   },
+  {
+    field: "introduce",
+    headerName: "Giới thiệu",
+    flex: 2,
+    renderCell: ({ row: { introduce } }) => {
+      return <span dangerouslySetInnerHTML={{ __html: introduce }}></span>;
+    },
+  },
 ];
 
-const TableManageClinic = ({ getListClinicHome, listClinic }) => {
+const TableManageClinic = ({ getListClinicAction, listClinic }) => {
   const [list, setList] = useState([]);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   useEffect(() => {
-    getListClinicHome();
+    if (_.isEmpty(listClinic)) getListClinicAction();
   }, []);
 
   useEffect(() => {
     if (listClinic) {
       let data = listClinic.map((e) => {
         return {
-          id: e.id,
+          id: e._id,
           name: e.name,
-          address: e.address,
-          logo: e.logo,
+          address: e.address.detail,
+          logo: e.logo.url,
+          introduce: e.introduce,
         };
       });
       setList(data);
@@ -102,6 +111,7 @@ const TableManageClinic = ({ getListClinicHome, listClinic }) => {
             columns={columns}
             onCellDoubleClick={handleCellDoubleClick}
             getRowHeight={() => "auto"}
+            getEstimatedRowHeight={() => 200}
           />
         </Box>
       </Box>
@@ -111,13 +121,13 @@ const TableManageClinic = ({ getListClinicHome, listClinic }) => {
 
 const mapStateToProps = (state) => {
   return {
-    listClinic: state.admin.listClinicHome,
+    listClinic: state.admin.listClinic,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListClinicHome: () => dispatch(actions.getListClinicHome()),
+    getListClinicAction: () => dispatch(actions.getListClinicAction()),
     // deleteUser: (id) => dispatch(actions.deleteUser(id)),
   };
 };

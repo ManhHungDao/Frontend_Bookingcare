@@ -11,18 +11,15 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
 import BallotOutlinedIcon from "@mui/icons-material/BallotOutlined";
+import TreeView from "@mui/lab/TreeView";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import TreeItem from "@mui/lab/TreeItem";
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -142,7 +139,6 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -178,7 +174,6 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -200,21 +195,77 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
               selected={selected}
               setSelected={setSelected}
             />
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Chuyên khoa
+            </Typography>
             <Item
-              title="FAQ Page"
-              to="/system/faq"
-              icon={<HelpOutlineOutlinedIcon />}
+              title="Thêm mới"
+              to="/system/manage-clinic"
+              icon={<AddHomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-
             <Item
-              title="Logout"
-              to="/system/faq"
-              icon={<LogoutIcon />}
-              onClick={processLogout}
+              title="Danh sách"
+              to="/system/manage-list-clinic"
+              icon={<BallotOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />{" "}
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              Phòng khám
+            </Typography>
+            <Item
+              title="Thêm mới"
+              to="/system/manage-clinic"
+              icon={<AddHomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
             />
+            <Item
+              title="Danh sách"
+              to="/system/manage-list-clinic"
+              icon={<BallotOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              <Item
+                title="Logout"
+                to="/system/faq"
+                icon={<LogoutIcon />}
+                onClick={processLogout}
+              />
+            </Typography>
           </Box>
+          <TreeView
+            aria-label="file system navigator"
+            defaultCollapseIcon={<ExpandMoreIcon />}
+            defaultExpandIcon={<ChevronRightIcon />}
+            sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+          >
+            <TreeItem nodeId="1" label="Applications">
+              <TreeItem nodeId="2" label="Calendar" />
+            </TreeItem>
+            <TreeItem nodeId="5" label="Documents">
+              <TreeItem nodeId="10" label="OSS" />
+              <TreeItem nodeId="6" label="MUI">
+                <TreeItem nodeId="8" label="index.js" />
+              </TreeItem>
+            </TreeItem>
+          </TreeView>
         </Menu>
       </ProSidebar>
     </Box>

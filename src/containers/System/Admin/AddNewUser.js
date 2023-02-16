@@ -24,11 +24,19 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import InputSelect from "../../../components/Input/InputSelect";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
+import { toast } from "react-toastify";
 import "./Style.scss";
 import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
 
-const AddNewUser = ({ createNewUser, fetchAllcode, allcodes, language }) => {
-  console.log("🚀 ~ file: AddNewUser.js:32 ~ AddNewUser ~ language", language);
+const AddNewUser = ({
+  createNewUser,
+  fetchAllcode,
+  allcodes,
+  language,
+  message,
+  isUploadSuccess,
+  clearStatusUpload,
+}) => {
   //infomation doctor
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -58,6 +66,36 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes, language }) => {
   useEffect(() => {
     fetchAllcode();
   }, []);
+  useEffect(() => {
+    if (message)
+      if (isUploadSuccess) {
+        setEmail("");
+        setName("");
+        setPhone("");
+        setPassword("123456Aa.");
+        setAddress("");
+        setProvince("");
+        setGender("M");
+        setPosition("");
+        setImage("");
+        setDate(dayjs(new Date()));
+        setClinic("");
+        setSpecialty("");
+        setPrice("");
+        setPayment("");
+        setIntroduce("");
+        setNote("");
+        setContent("");
+        setShowPassword(false);
+        setDataSelect([]);
+        setPreviewImgUrl("");
+        setErrors({});
+
+        setPreviewImgUrl("");
+        toast.success(message);
+      } else toast.error(message);
+    clearStatusUpload();
+  }, [message, isUploadSuccess]);
   useEffect(() => {
     if (allcodes && allcodes.length > 0)
       setDataSelect(
@@ -157,6 +195,7 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes, language }) => {
                 onChange={(e) => setEmail(e.target.value)}
                 error={errors.email}
                 helperText={errors.email}
+                value={email}
               />
             </Grid>
             {/* <Grid item xs={6} md={6}>
@@ -176,6 +215,7 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes, language }) => {
                 onChange={(e) => setName(e.target.value)}
                 error={errors.name}
                 helperText={errors.name}
+                value={name}
               />
             </Grid>
             <Grid item xs={6} md={6}>
@@ -187,6 +227,7 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes, language }) => {
                 onChange={(e) => setPhone(e.target.value)}
                 error={errors.phone}
                 helperText={errors.phone}
+                value={phone}
               />
             </Grid>
             <Grid item xs={6} md={6}>
@@ -201,7 +242,6 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes, language }) => {
                   Mật khẩu
                 </InputLabel>
                 <OutlinedInput
-                  defaultValue={password}
                   id="outlined-adornment-password"
                   type={showPassword ? "text" : "password"}
                   endAdornment={
@@ -217,6 +257,7 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes, language }) => {
                     </InputAdornment>
                   }
                   label="Password"
+                  value={password}
                 />
               </FormControl>
             </Grid>
@@ -441,12 +482,15 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     allcodes: state.admin.allcodes,
+    isUploadSuccess: state.app.isUploadSuccess,
+    message: state.app.message,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
+    clearStatusUpload: () => dispatch(actions.clearStatusUpload()),
     createNewUser: (user) => dispatch(actions.createNewUserAction(user)),
   };
 };

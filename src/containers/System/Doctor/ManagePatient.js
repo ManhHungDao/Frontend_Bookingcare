@@ -9,7 +9,6 @@ import localization from "moment/locale/vi";
 import { toast } from "react-toastify";
 import RemedyModal from "./RemedyModal";
 import { postSemery } from "../../../services/userService";
-import LoadingOverlay from "react-loading-overlay";
 class ManagePatient extends Component {
   constructor(props) {
     super(props);
@@ -107,11 +106,7 @@ class ManagePatient extends Component {
     const { listPatient } = this.state;
     return (
       <>
-        <LoadingOverlay
-          active={this.state.isShowLoading}
-          spinner
-          text="Loading..."
-        >
+      
           <div className="title pt-3">
             <FormattedMessage id="manage-patient.title" />
           </div>
@@ -180,7 +175,6 @@ class ManagePatient extends Component {
             dataModal={this.state.dataModal}
             sendRemedy={this.handleSendRemedy}
           />
-        </LoadingOverlay>
       </>
     );
   }

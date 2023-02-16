@@ -11,6 +11,7 @@ import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import { tokens } from "../theme";
 import { DataGrid } from "@mui/x-data-grid";
+import _ from "lodash";
 
 const TableManageUser = (props) => {
   const theme = useTheme();
@@ -105,7 +106,7 @@ const TableManageUser = (props) => {
   };
 
   useEffect(() => {
-    props.fetchAllUser("All");
+    if (_.isEmpty(props.users)) props.getAllUserAction();
   }, []);
 
   useEffect(() => {
@@ -113,10 +114,9 @@ const TableManageUser = (props) => {
       return {
         id: i.id,
         email: i.email,
-        firstName: i.firstName,
-        lastName: i.lastName,
-        phoneNumber: i.phoneNumber,
-        address: i.address,
+        name: i.lastName,
+        phone: i.phone,
+        address: i.address.detail,
         // image: i.image,
         // positionId: i.positionId,
         roleId: i.roleId,
@@ -160,7 +160,10 @@ const TableManageUser = (props) => {
     setUserDelete({});
   };
   const handleCellDoubleClick = (params) => {
-    console.log("🚀 ~ file: TableManageUser.js:163 ~ handleOnCellClick ~ params", params)
+    console.log(
+      "🚀 ~ file: TableManageUser.js:163 ~ handleOnCellClick ~ params",
+      params
+    );
   };
   return (
     <>
@@ -195,7 +198,11 @@ const TableManageUser = (props) => {
             },
           }}
         >
-          <DataGrid rows={users} columns={columns} onCellDoubleClick={handleCellDoubleClick}/>
+          <DataGrid
+            rows={users}
+            columns={columns}
+            onCellDoubleClick={handleCellDoubleClick}
+          />
         </Box>
       </Box>
       {/* <ModalInfo
@@ -223,7 +230,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllUser: (type) => dispatch(actions.fetchAllUserStart(type)),
+    getAllUserAction: (type) => dispatch(actions.getAllUserAction(type)),
     deleteUser: (id) => dispatch(actions.deleteUser(id)),
   };
 };

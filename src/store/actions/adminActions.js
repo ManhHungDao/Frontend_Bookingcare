@@ -1,14 +1,12 @@
 /* eslint-disable no-lone-blocks */
 import actionTypes from "./actionTypes";
 import {
-  getAllCodeService,
   createNewUserService,
-  getAllUsersService,
+  getAllUser,
   deleteUserService,
   getAllDoctorService,
   editUserService,
   getTopDoctorHomeService,
-  getExtraInfoDoctorService,
   getDetailInfoDoctor,
   saveBulkScheduleDoctor,
   getScheduleService,
@@ -20,7 +18,6 @@ import {
   getSpecialty,
   getListDoctorSpecialty,
   getListSpecialty,
-  getListClinic,
   getListClinicHomeService,
   getListDetailHandbookService,
 } from "../../services/userService";
@@ -49,17 +46,12 @@ export const fetchAllcodeAction = () => {
           type: actionTypes.FETCH_ALLCODE_SUCCESS,
           data: res.allcodes,
         });
-      } else {
-        dispatch({
-          type: actionTypes.FETCH_ALLCODE_FAILED,
-        });
-        toast.success("Get Allcode Failed!");
       }
     } catch (error) {
       dispatch({
         type: actionTypes.FETCH_ALLCODE_FAILED,
       });
-      toast.success("Get Allcode Failed!");
+      toast.success("Lấy tất cả mã thất bại");
     }
   };
 };
@@ -74,23 +66,17 @@ export const createNewUserAction = (data) => {
         if (res && res.success) {
           dispatch({
             type: actionTypes.CREATE_SUCCESS,
-            data: "Create A New User Succeed!",
+            data: "Tạo người dùng thành công",
           });
           // dispatch(fetchAllUserStart("All"));
           dispatch(loadingToggleAction(false));
-        } else {
-          dispatch(loadingToggleAction(false));
-          dispatch({
-            type: actionTypes.CREATE_FAILED,
-            data: "Create A New User Failed!",
-          });
         }
       }
     } catch (error) {
       dispatch(loadingToggleAction(false));
       dispatch({
         type: actionTypes.CREATE_FAILED,
-        data: "Create A New User Failed!",
+        data: "Tạo người dùng thất bại",
       });
     }
   };
@@ -106,7 +92,7 @@ export const deleteUser = (id) => {
         if (res && res.errCode === 0) {
           dispatch(deleteUserSuccess());
           toast.success("Delete User Succeed!");
-          dispatch(fetchAllUserStart("All"));
+          // dispatch(fetchAllUserStart("All"));
         } else {
           dispatch(deleteUserFailed());
         }
@@ -125,31 +111,28 @@ export const deleteUserFailed = () => ({
 });
 
 // fetch all user
-export const fetchAllUserStart = (type) => {
+export const getAllUserAction = (type) => {
   return async (dispatch, getState) => {
     try {
       {
-        const res = await getAllUsersService(type);
-        if (res && res.errCode === 0) {
-          dispatch(fetchAllUserSuccess(res.user.reverse()));
-        } else {
-          dispatch(fetchAllUserFailed());
+        dispatch(loadingToggleAction(true));
+        const res = await getAllUser(type);
+        if (res && res.success) {
+          dispatch(loadingToggleAction(false));
+          dispatch({
+            type: actionTypes.FETCH_ALL_USERS_SUCCESS,
+            users: res.users,
+          });
         }
       }
     } catch (error) {
-      dispatch(fetchAllUserFailed());
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.FETCH_ALL_USERS_FAILED,
+      });
     }
   };
 };
-export const fetchAllUserSuccess = (data) => ({
-  type: actionTypes.FETCH_ALL_USERS_SUCCESS,
-  users: data,
-});
-export const fetchAllUserFailed = () => ({
-  type: actionTypes.FETCH_ALL_USERS_FAILED,
-});
-
-// edit user
 
 export const editUser = (user) => {
   return async (dispatch, getState) => {
@@ -159,7 +142,7 @@ export const editUser = (user) => {
         if (res && res.errCode === 0) {
           dispatch(editUserSuccess());
           toast.success("Edit User Succeed!");
-          dispatch(fetchAllUserStart("All"));
+          // dispatch(fetchAllUserStart("All"));
         } else {
           dispatch(editUserFailed());
         }
@@ -248,26 +231,6 @@ export const fetchDetaiInfoDoctor = (id) => {
   };
 };
 
-// fetch hour doctor
-
-export const fetchAllScheduleTime = () => {
-  return async (dispatch, getState) => {
-    try {
-      const res = await getAllCodeService("time");
-      if (res && res.errCode === 0) {
-        dispatch({
-          type: actionTypes.GET_SCHEDULE_TIME_SUCCESS,
-          data: res.data,
-        });
-      }
-    } catch (error) {
-      dispatch({
-        type: actionTypes.GET_SCHEDULE_TIME_FAILED,
-      });
-    }
-  };
-};
-
 // create bulk schedule doctor time
 export const createBulkScheduleDoctor = (data) => {
   return async (dispatch, getState) => {
@@ -304,64 +267,6 @@ export const fetchScheduleWithConditional = (doctorid, date) => {
         type: actionTypes.GET_SCHEDULE_WITH_CONDITIONAL_FAILED,
       });
       toast.error("Fetch Schedule Failed!");
-    }
-  };
-};
-
-// fetch info doctor
-export const fetchInfoDoctor = (type) => {
-  let typeSucceed = "",
-    typeFailed = "";
-  if (type === TYPE.PRICE) {
-    typeSucceed = actionTypes.GET_DOCTOR_PRICE_SUCCEED;
-    typeFailed = actionTypes.GET_DOCTOR_PRICE_FAILED;
-  } else if (type === TYPE.PAYMENT) {
-    typeSucceed = actionTypes.GET_DOCTOR_PAYMENT_SUCCEED;
-    typeFailed = actionTypes.GET_DOCTOR_PAYMENT_FAILED;
-  } else if (type === TYPE.PROVINCE) {
-    typeSucceed = actionTypes.GET_DOCTOR_PROVINCE_SUCCEED;
-    typeFailed = actionTypes.GET_DOCTOR_PROVINCE_FAILED;
-  }
-  return async (dispatch, getState) => {
-    await getAllCodeService(type)
-      .then((result) => {
-        dispatch({
-          type: typeSucceed,
-          data: result.data,
-        });
-      })
-      .catch(() => {
-        dispatch({
-          type: typeFailed,
-        });
-        toast.error(`Fetch ${type} Failed!`);
-      });
-  };
-};
-
-// fetch extra info doctor
-export const fetchExtraInfoDoctor = (id) => {
-  return async (dispatch, getState) => {
-    try {
-      {
-        const res = await getExtraInfoDoctorService(id);
-        if (res && res.errCode === 0) {
-          dispatch({
-            type: actionTypes.GET_EXTRA_INFO_DOCTOR_SUCCEED,
-            data: res.data,
-          });
-        } else {
-          toast.error("Get Extra Info Doctor Failed!");
-          dispatch({
-            type: actionTypes.GET_EXTRA_INFO_DOCTOR_FAILED,
-          });
-        }
-      }
-    } catch (error) {
-      toast.error("Get Extra Info Doctor Failed!");
-      dispatch({
-        type: actionTypes.GET_EXTRA_INFO_DOCTOR_FAILED,
-      });
     }
   };
 };
@@ -561,25 +466,29 @@ export const getListDoctorSpecialtyHome = (data) => {
 };
 
 // get list clinic admin
-export const getListClinicAdmin = () => {
+export const getListClinicAction = () => {
   return async (dispatch, getState) => {
     try {
       {
-        const res = await getListClinic();
-        if (res && res.errCode === 0) {
+        dispatch(loadingToggleAction(true));
+        const res = await getAllClinic();
+        if (res && res.success) {
           dispatch({
             type: actionTypes.GET_LIST_CLINIC_SUCCEED,
-            data: res.data,
+            data: res.clinics,
           });
+          dispatch(loadingToggleAction(false));
         } else {
-          toast.error("Get List Clinic Admin Failed!");
+          toast.error("Lấy danh sách thất bại");
           dispatch({
             type: actionTypes.GET_LIST_CLINIC_FAILED,
           });
+          dispatch(loadingToggleAction(false));
         }
       }
     } catch (error) {
-      toast.error("Get List Clinic Admin Failed!");
+      dispatch(loadingToggleAction(false));
+      toast.error("Lấy danh sách thất bại");
       dispatch({
         type: actionTypes.GET_LIST_CLINIC_FAILED,
       });

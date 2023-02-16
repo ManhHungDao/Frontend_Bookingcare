@@ -14,7 +14,7 @@ const Loading = ({ showLoading }) => {
 
 const mapStateToProps = (state) => {
   return {
-    showLoading: state.admin.showLoading,
+    showLoading: state.app.showLoading,
   };
 };
 

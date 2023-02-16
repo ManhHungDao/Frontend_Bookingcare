@@ -4,8 +4,18 @@ const handleLoginApiService = (email, password) => {
   return axios.post("/api/login", { email, password });
 };
 
-const getAllUsersService = (inputId) => {
-  return axios.get(`/api/get-all-user?id=${inputId}`);
+// const getAllUser = (inputId) => {
+//   return axios.get(`/api/get-all-user?id=${inputId}`);
+//   // return axios.get(`/api/get-all-user`, {
+//   //   data: {
+//   //     id: inputId,
+//   //   },
+//   // });
+// };
+
+const getAllUser = (inputId) => {
+  return axios.get("/api/get-all-user");
+
   // return axios.get(`/api/get-all-user`, {
   //   data: {
   //     id: inputId,
@@ -29,9 +39,6 @@ const editUserService = (user) => {
   return axios.put(`/api/edit-user`, user);
 };
 
-const getAllCodeService = (type) => {
-  return axios.get(`/api/allcode?type=${type}`);
-};
 const getTopDoctorHomeService = (limit) => {
   return axios.get(`/api/top-doctor-home?limit=${limit}`);
 };
@@ -63,9 +70,6 @@ const getScheduleService = (doctorId, date) => {
     },
   }); */
   return axios.get(`/api/get-schedule?doctorId=${doctorId}&date=${date}`);
-};
-const getExtraInfoDoctorService = (id) => {
-  return axios.get(`/api/get-extra-info-doctor?id=${id}`);
 };
 
 const postBookAppointmentService = (data) => {
@@ -100,9 +104,6 @@ const createANewClinic = (data) => {
   return axios.post(`/api/create-clinic`, data);
 };
 
-const getListClinic = () => {
-  return axios.get(`/api/get-list-clinic`);
-};
 const getListClinicHomeService = () => {
   return axios.get(`/api/get-list-home-clinic`);
 };
@@ -255,12 +256,11 @@ export {
   getDetailClinicService,
   updateSpecialtyService,
   handleLoginApiService,
-  getAllUsersService,
+  getAllUser,
   createNewUserService,
   getListSpecialtyByClinicIdService,
   deleteUserService,
   editUserService,
-  getAllCodeService,
   getTopDoctorHomeService,
   getAllDoctorService,
   postDetailDoctorService,
@@ -268,7 +268,6 @@ export {
   saveBulkScheduleDoctor,
   getScheduleService,
   postSubDetailDocTorService,
-  getExtraInfoDoctorService,
   postBookAppointmentService,
   postVerifyBooingService,
   postASpecialty,
@@ -277,7 +276,6 @@ export {
   getSpecialty,
   getListDoctorSpecialty,
   createANewClinic,
-  getListClinic,
   getListClinicHomeService,
   getClinic,
   getListDoctorClinic,
