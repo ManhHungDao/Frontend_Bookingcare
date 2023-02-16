@@ -14,8 +14,9 @@ const UpLoadAvatar = ({
   borderRadius,
   backgroundSize,
   content,
+  setPreviewImgUrl,
+  previewImgUrl,
 }) => {
-  const [previewImgUrl, setPreviewImgUrl] = React.useState("");
   const [openPreImg, setOpenPreImg] = React.useState(false);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);

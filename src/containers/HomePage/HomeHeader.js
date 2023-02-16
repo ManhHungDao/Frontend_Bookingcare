@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
@@ -5,7 +6,6 @@ import "./HomeHeader.scss";
 import { languages } from "../../utils";
 import { changLanguageApp, getSpecialtiesHome } from "../../store/actions";
 import { withRouter } from "react-router-dom";
-import Select from "react-select";
 // import icon optianal
 import iconHospital from "../../assets/icon-optinal/hospital.png";
 import iconDichVuXetNghiem from "../../assets/icon-optinal/dichvuxetnghiem.png";
@@ -16,6 +16,16 @@ import iconPhauThuat from "../../assets/icon-optinal/phau-thuat.jpg";
 import iconDienThoai from "../../assets/icon-optinal/phone.png";
 import iconSucKhoeTinhThan from "../../assets/icon-optinal/suckhoetinhthan.png";
 
+import hinh1 from "../../assets/header-background.jpg";
+import hinh2 from "../../assets/hospital-search.jpg";
+import hinh3 from "../../assets/dich-vu-tai-nha-2.jpg";
+import hinh4 from "../../assets/quy-trinh-kham-benh-va-nhung-dieu-can-luu-y-1.jpg";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper";
+import "swiper/css";
+import "swiper/css/pagination";
+import "./HomeHeader.scss";
 class HomeHeader extends Component {
   changeLanguage = (language) => {
     this.props.changLanguageAppRedux(language);
@@ -139,37 +149,8 @@ class HomeHeader extends Component {
             </div>
           </div>
         </div>
-        {this.props.isShowBanner === true && (
+        {/* {this.props.isShowBanner === true && (
           <div className="home-header-banner">
-            <div className="content-up">
-              <div className="title title1">
-                <FormattedMessage id="banner.main-title" />
-              </div>
-              <div className="title title2">
-                <FormattedMessage id="banner.sub-title" />
-              </div>
-              {/* <div className="search">
-                <i className="fas fa-search"></i>
-                <input
-                  className="input-search"
-                  type="text"
-                  placeholder={placeHolder}
-                />
-              </div> */}
-              <div className="input_searchgroup">
-                <i className="fas fa-search"></i>
-                <Select
-                  className="input_search"
-                  onChange={this.handleselect}
-                  // options={[
-                  //   { value: "name", label: "hehe" },
-                  //   { value: "name1", label: "hehe2" },
-                  // ]}
-                  options={options}
-                  placeholder={placeHolder}
-                />
-              </div>
-            </div>
             <div className="content-down">
               <div className="options">
                 <div className="options-child">
@@ -263,7 +244,34 @@ class HomeHeader extends Component {
               </div>
             </div>
           </div>
-        )}
+        )} */}
+        <Swiper
+          spaceBetween={30}
+          centeredSlides={true}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          modules={[Autoplay, Pagination]}
+          className="mySwiper"
+        >
+          <SwiperSlide>
+            <img className="" src={hinh1} />
+          </SwiperSlide>
+          <SwiperSlide>
+            <img className="" src={hinh2} />
+          </SwiperSlide>
+          <SwiperSlide>
+            <img className="" src={hinh3} />
+          </SwiperSlide>
+          <SwiperSlide>
+            <img className="" src={hinh4} />
+          </SwiperSlide>
+        </Swiper>
       </>
     );
   }

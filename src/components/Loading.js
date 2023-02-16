@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import LoadingOverlay from "react-loading-overlay";
+LoadingOverlay.propTypes = undefined
 const Loading = ({ showLoading }) => {
   return (
     <LoadingOverlay

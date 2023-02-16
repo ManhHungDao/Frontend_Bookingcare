@@ -27,8 +27,8 @@ import dayjs from "dayjs";
 import "./Style.scss";
 import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
 
-
-const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
+const AddNewUser = ({ createNewUser, fetchAllcode, allcodes, language }) => {
+  console.log("🚀 ~ file: AddNewUser.js:32 ~ AddNewUser ~ language", language);
   //infomation doctor
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -50,6 +50,7 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
   const [content, setContent] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [dataSelect, setDataSelect] = useState([]);
+  const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [errors, setErrors] = useState({});
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -317,7 +318,12 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
             justifyContent="center"
             alignItems="center"
           >
-            <UpLoadAvatar setImg={setImage} content="Tải ảnh" />
+            <UpLoadAvatar
+              setImg={setImage}
+              content="Tải ảnh"
+              previewImgUrl={previewImgUrl}
+              setPreviewImgUrl={setPreviewImgUrl}
+            />
           </Grid>
           <Grid item xs={12} md={12}>
             <div className="d-flex justify-content-center">
@@ -434,7 +440,6 @@ const AddNewUser = ({ createNewUser, fetchAllcode, allcodes }) => {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    genders: state.admin.genders,
     allcodes: state.admin.allcodes,
   };
 };

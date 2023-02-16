@@ -72,28 +72,30 @@ export const createNewUserAction = (data) => {
         dispatch(loadingToggleAction(true));
         const res = await createNewUserService(data);
         if (res && res.success) {
-          dispatch(saveUserSuccess(res.data));
-          dispatch(fetchAllUserStart("All"));
+          dispatch({
+            type: actionTypes.CREATE_SUCCESS,
+            data: "Create A New User Succeed!",
+          });
+          // dispatch(fetchAllUserStart("All"));
           dispatch(loadingToggleAction(false));
-          toast.success("Create A New User Succeed!");
         } else {
           dispatch(loadingToggleAction(false));
-          dispatch(saveUserFailed());
+          dispatch({
+            type: actionTypes.CREATE_FAILED,
+            data: "Create A New User Failed!",
+          });
         }
       }
     } catch (error) {
       dispatch(loadingToggleAction(false));
-      dispatch(saveUserFailed());
+      dispatch({
+        type: actionTypes.CREATE_FAILED,
+        data: "Create A New User Failed!",
+      });
     }
   };
 };
-export const saveUserSuccess = () => ({
-  type: actionTypes.CREATE_USER_SUCCESS,
-});
 
-export const saveUserFailed = () => ({
-  type: actionTypes.CREATE_USER_FAILED,
-});
 // delete user
 
 export const deleteUser = (id) => {
@@ -427,19 +429,19 @@ export const createASpecialty = (data) => {
       {
         const res = await postASpecialty(data);
         if (res && res.errCode === 0) {
-          dispatch({ type: actionTypes.POST_SPECIALTY_SUCCEED });
+          dispatch({ type: actionTypes.CREATE_SUCCESS });
           toast.success("Create A New Specialty Succeed!");
         } else {
           toast.error("Create A New Specialty Failed!");
           dispatch({
-            type: actionTypes.POST_SPECIALTY_FAILED,
+            type: actionTypes.CREATE_FAILED,
           });
         }
       }
     } catch (error) {
       toast.error("Create A New Specialty Failed!");
       dispatch({
-        type: actionTypes.POST_SPECIALTY_FAILED,
+        type: actionTypes.CREATE_FAILED,
       });
     }
   };
@@ -652,23 +654,23 @@ export const createClinicAction = (data) => {
         const res = await createClinic(data);
         if (res && res.success) {
           dispatch({
-            type: actionTypes.POST_CLINIC_SUCCEED,
+            type: actionTypes.CREATE_SUCCESS,
+            data: "Create Clinic Success",
           });
           dispatch(loadingToggleAction(false));
-          toast.success(res.message);
         } else {
           dispatch(loadingToggleAction(false));
-          toast.error(res.errMessage);
           dispatch({
-            type: actionTypes.POST_CLINIC_FAILED,
+            type: actionTypes.CREATE_FAILED,
+            data: "Create Clinic Failed!",
           });
         }
       }
     } catch (error) {
       dispatch(loadingToggleAction(false));
-      toast.error("Create Clinic Failed!");
       dispatch({
-        type: actionTypes.POST_CLINIC_FAILED,
+        type: actionTypes.CREATE_FAILED,
+        data: "Create Clinic Failed!",
       });
     }
   };

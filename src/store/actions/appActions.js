@@ -13,3 +13,9 @@ export const changLanguageApp = (languageInput) => ({
   type: actionTypes.CHANGE_LANGUAGE,
   language: languageInput,
 });
+
+export const clearStatusUpload = () => {
+  return {
+    type: actionTypes.CLEAR_STATUS_UPLOAD,
+  };
+};

@@ -15,6 +15,8 @@ const initialState = {
   contentOfConfirmModal: {
     ...initContentOfConfirmModal,
   },
+  isUploadSuccess: false,
+  message: null,
 };
 
 const appReducer = (state = initialState, action) => {
@@ -37,6 +39,31 @@ const appReducer = (state = initialState, action) => {
         ...state,
         language: action.language,
       };
+
+    // upload success
+    case actionTypes.CREATE_SUCCESS: {
+      return {
+        ...state,
+        isUploadSuccess: true,
+        message: action.data,
+      };
+    }
+    // upload failed
+    case actionTypes.CREATE_FAILED: {
+      return {
+        ...state,
+        isUploadSuccess: true,
+        message: action.data,
+      };
+    }
+    // clear status success
+    case actionTypes.CLEAR_STATUS_UPLOAD: {
+      return {
+        ...state,
+        isUploadSuccess: false,
+        message: null,
+      };
+    }
     default:
       return state;
   }

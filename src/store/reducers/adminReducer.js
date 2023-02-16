@@ -34,6 +34,7 @@ const adminReducer = (state = initialState, action) => {
         showLoading: action.data,
       };
     }
+
     // fetch all code
     case actionTypes.FETCH_ALLCODE_SUCCESS: {
       state.allcodes = action.data;
@@ -112,7 +113,7 @@ const adminReducer = (state = initialState, action) => {
         ...state,
       };
     }
-    // fetch doctor price
+    /*   // fetch doctor price
     case actionTypes.GET_DOCTOR_PRICE_SUCCEED: {
       state.doctorPrice = action.data;
       return { ...state };
@@ -155,7 +156,7 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
       };
-    }
+    } */
     // post verify booking
     case actionTypes.POST_VERIFY_BOOKING_APPOINTMENT_SUCCEED: {
       state.statusVerify = action.data;

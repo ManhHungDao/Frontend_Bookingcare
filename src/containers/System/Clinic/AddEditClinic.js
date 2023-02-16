@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import { CommonUtils } from "../../../utils";
 import "./ModalAddEditClinic.scss";
 import "react-image-lightbox/style.css";
 import { toast } from "react-toastify";
 import _ from "lodash";
-import { Box, Typography, useTheme, Grid, TextField } from "@mui/material";
+import { Box, useTheme, Grid, TextField } from "@mui/material";
 import Header from "../../../components/Header.jsx";
 import UpLoadAvatar from "../../../components/UpLoadAvatar";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
@@ -14,7 +13,12 @@ import ButtonComponent from "../../../components/ButtonComponent";
 import { tokens } from "../theme";
 import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
 
-const AddEditClinic = ({ createClinicAction }) => {
+const AddEditClinic = ({
+  createClinicAction,
+  isUploadSuccess,
+  message,
+  clearStatusUpload,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [content, setContent] = useState("");
@@ -28,7 +32,29 @@ const AddEditClinic = ({ createClinicAction }) => {
     lat: null,
     lng: null,
   });
+  const [previewImgUrl, setPreviewImgUrl] = useState("");
+  const [previewLogoUrl, setPreviewLogoUrl] = useState("");
   const [errors, setErrors] = useState({});
+  useEffect(() => {
+    if (message)
+      if (isUploadSuccess) {
+        setContent("");
+        setImage("");
+        setLogo("");
+        setName("");
+        setAddress("");
+        setIntroduce("");
+        setProvince("");
+        setPreviewLogoUrl("");
+        setCoordinates({
+          lat: null,
+          lng: null,
+        });
+        setPreviewImgUrl("");
+        toast.success(message);
+      } else toast.error(message);
+    clearStatusUpload();
+  }, [message, isUploadSuccess]);
   const checkValidate = () => {
     let errors = {};
     if (!name) errors.name = "Tên không được bỏ trống";
@@ -67,7 +93,6 @@ const AddEditClinic = ({ createClinicAction }) => {
       lat: coordinates.lat,
       lng: coordinates.lng,
     };
-    console.log("🚀 ~ file: AddEditClinic.js:70 ~ handleSave ~ data", data);
     createClinicAction(data);
   };
   return (
@@ -83,6 +108,8 @@ const AddEditClinic = ({ createClinicAction }) => {
                 label="Tên"
                 fullWidth
                 onChange={(e) => setName(e.target.value)}
+                value={name}
+                // defaultValue="Tên"
               />
             </Grid>
             <Grid item xs={12} md={12}>
@@ -113,6 +140,8 @@ const AddEditClinic = ({ createClinicAction }) => {
                 borderRadius="5px"
                 preWidth="400px"
                 setImg={setImage}
+                previewImgUrl={previewImgUrl}
+                setPreviewImgUrl={setPreviewImgUrl}
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -122,6 +151,8 @@ const AddEditClinic = ({ createClinicAction }) => {
                 preWidth="400px"
                 setImg={setLogo}
                 backgroundSize="contain"
+                setPreviewImgUrl={setPreviewLogoUrl}
+                previewImgUrl={previewLogoUrl}
               />
             </Grid>
           </Grid>
@@ -151,6 +182,8 @@ const AddEditClinic = ({ createClinicAction }) => {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    isUploadSuccess: state.app.isUploadSuccess,
+    message: state.app.message,
     listClinic: state.admin.listClinicHome,
   };
 };
@@ -158,6 +191,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     createClinicAction: (data) => dispatch(actions.createClinicAction(data)),
+    clearStatusUpload: () => dispatch(actions.clearStatusUpload()),
   };
 };
 

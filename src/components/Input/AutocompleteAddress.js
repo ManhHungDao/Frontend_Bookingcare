@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
+import * as actions from "../../store/actions";
+import { connect } from "react-redux";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
 import TextField from "@mui/material/TextField";
 
-export default function AutocompleteAddress({
+function AutocompleteAddress({
   isErr,
   errName,
   setAddress,
   setCoordinates,
   address,
   setProvince,
+  allcodes,
+  fetchAllcode,
 }) {
+  useEffect(() => {
+    if (!(allcodes && allcodes.length > 0)) fetchAllcode();
+  }, []);
   const handleSelect = async (value) => {
     const results = await geocodeByAddress(value);
     let length = results[0].address_components.length;
@@ -20,14 +27,20 @@ export default function AutocompleteAddress({
     if (results[0].address_components[length - 2].long_name === "Vietnam")
       province = results[0].address_components[length - 3].long_name;
     else province = results[0].address_components[length - 2].long_name;
-    setProvince(province);
+    setProvince(getCodeProvince(province));
     setAddress(value);
     if (setCoordinates) {
       const latLng = await getLatLng(results[0]);
       setCoordinates(latLng);
     }
   };
-
+  const getCodeProvince = (name) => {
+    let listProvince = [];
+    if (allcodes && allcodes.length > 0)
+      listProvince = allcodes.filter((e) => e.type === "PROVINCE");
+    let province = listProvince.filter((e) => e.valueVI === name);
+    return province[0].keyMap;
+  };
   return (
     <PlacesAutocomplete
       value={address}
@@ -65,3 +78,19 @@ export default function AutocompleteAddress({
     </PlacesAutocomplete>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    language: state.app.language,
+    allcodes: state.admin.allcodes,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AutocompleteAddress);
