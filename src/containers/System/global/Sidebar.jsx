@@ -16,10 +16,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
 import BallotOutlinedIcon from "@mui/icons-material/BallotOutlined";
-import TreeView from "@mui/lab/TreeView";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import TreeItem from "@mui/lab/TreeItem";
+import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -147,14 +144,14 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
               Người dùng
             </Typography>
             <Item
-              title="Thêm Mới"
+              title="Thêm Người Dùng"
               to="/system/add-user"
               icon={<PersonAddAltIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Danh Sách"
+              title="Danh Sách Người Dùng"
               to="/system/user-manage"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
@@ -182,14 +179,14 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
               Phòng khám
             </Typography>
             <Item
-              title="Thêm mới"
+              title="Thêm Phòng Khám"
               to="/system/manage-clinic"
               icon={<AddHomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Danh sách"
+              title="Danh Sách Phòng Khám"
               to="/system/manage-list-clinic"
               icon={<BallotOutlinedIcon />}
               selected={selected}
@@ -203,69 +200,26 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
               Chuyên khoa
             </Typography>
             <Item
-              title="Thêm mới"
+              title="Thêm Chuyên Khoa"
               to="/system/manage-specialty"
-              icon={<AddHomeOutlinedIcon />}
+              icon={<LibraryAddOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Danh sách"
-              to="/system/manage-list-clinic"
-              icon={<BallotOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />{" "}
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Phòng khám
-            </Typography>
-            <Item
-              title="Thêm mới"
-              to="/system/manage-clinic"
-              icon={<AddHomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Danh sách"
+              title="Danh Sách Chuyên Khoa"
               to="/system/manage-list-clinic"
               icon={<BallotOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              <Item
-                title="Logout"
-                to="/system/faq"
-                icon={<LogoutIcon />}
-                onClick={processLogout}
-              />
-            </Typography>
+            <Item
+              title="Logout"
+              to="/system/faq"
+              icon={<LogoutIcon />}
+              onClick={processLogout}
+            />
           </Box>
-          <TreeView
-            aria-label="file system navigator"
-            defaultCollapseIcon={<ExpandMoreIcon />}
-            defaultExpandIcon={<ChevronRightIcon />}
-            sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
-          >
-            <TreeItem nodeId="1" label="Applications">
-              <TreeItem nodeId="2" label="Calendar" />
-            </TreeItem>
-            <TreeItem nodeId="5" label="Documents">
-              <TreeItem nodeId="10" label="OSS" />
-              <TreeItem nodeId="6" label="MUI">
-                <TreeItem nodeId="8" label="index.js" />
-              </TreeItem>
-            </TreeItem>
-          </TreeView>
         </Menu>
       </ProSidebar>
     </Box>

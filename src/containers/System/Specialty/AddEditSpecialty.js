@@ -7,14 +7,23 @@ import { tokens } from "../theme";
 import Header from "../../../components/Header.jsx";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-
+import RefreshOutlinedIcon from "@mui/icons-material/RefreshOutlined";
 import UpLoadAvatar from "../../../components/UpLoadAvatar";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../components/ButtonComponent";
 import InputSelect from "../../../components/Input/InputSelect";
 import { toast } from "react-toastify";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 import _ from "lodash";
-const AddEditSpecialty = ({ listClinic, getListClinicAction }) => {
+const AddEditSpecialty = ({
+  listClinic,
+  getListClinicAction,
+  message,
+  isUploadSuccess,
+  clearStatusUpload,
+  createSpecialtyAction,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [name, setName] = useState("");
@@ -31,8 +40,43 @@ const AddEditSpecialty = ({ listClinic, getListClinicAction }) => {
       setDataClinic(listClinic.map((e) => ({ id: e._id, name: e.name })));
     }
   }, [listClinic]);
-
-  const handleSave = () => {};
+  useEffect(() => {
+    if (message)
+      if (isUploadSuccess) {
+        setContent("");
+        setImage("");
+        setName("");
+        setPreviewImgUrl("");
+        toast.success(message);
+      } else toast.error(message);
+    clearStatusUpload();
+  }, [message, isUploadSuccess]);
+  const checkValidate = () => {
+    let errors = {};
+    if (!name) errors.name = "Tên không được bỏ trống";
+    if (!content) errors.content = "Địa chỉ không được bỏ trống";
+    return errors;
+  };
+  const isValid = (errors) => {
+    let keys = Object.keys(errors);
+    let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
+    return count === 0;
+  };
+  const handleSave = () => {
+    const errors = checkValidate();
+    const checkValidInPut = isValid(errors);
+    if (!checkValidInPut) {
+      setErrors(errors);
+      return;
+    }
+    let data = {
+      detail: content,
+      image,
+      name,
+      clinicId: clinic ? clinic : null,
+    };
+    createSpecialtyAction(data);
+  };
 
   return (
     <>
@@ -48,15 +92,27 @@ const AddEditSpecialty = ({ listClinic, getListClinicAction }) => {
             md={6}
           >
             <Grid item xs={12} md={12}>
-              <InputSelect
-                label="Chọn phòng khám"
-                value={clinic}
-                onChange={setClinic}
-                data={dataClinic}
-                isError={errors.clinic ? true : false}
-                errorText={errors.clinic ? errors.clinic : ""}
-                name="Chọn phòng khám"
-              />
+              <Box
+                display={"flex"}
+                // justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <InputSelect
+                  label="Chọn phòng khám"
+                  value={clinic}
+                  onChange={setClinic}
+                  data={dataClinic}
+                  isError={errors.clinic ? true : false}
+                  errorText={errors.clinic ? errors.clinic : ""}
+                  name="Chọn phòng khám"
+                  minWidth="90%"
+                />
+                <Tooltip title="Làm mới">
+                  <IconButton onClick={() => setClinic("")}>
+                    <RefreshOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Grid>
             <Grid item xs={12} md={12}>
               <TextField
@@ -109,11 +165,14 @@ const AddEditSpecialty = ({ listClinic, getListClinicAction }) => {
 const mapStateToProps = (state) => {
   return {
     listClinic: state.admin.listClinic,
+    isUploadSuccess: state.app.isUploadSuccess,
+    message: state.app.message,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    createSpecialtyAction: (data) => dispatch(actions.createSpecialtyAction(data)),
     getListClinicAction: () => dispatch(actions.getListClinicAction()),
     clearStatusUpload: () => dispatch(actions.clearStatusUpload()),
   };

@@ -53,7 +53,7 @@ const appReducer = (state = initialState, action) => {
     case actionTypes.CREATE_FAILED: {
       return {
         ...state,
-        isUploadSuccess: true,
+        isUploadSuccess: false,
         message: action.data,
       };
     }

@@ -13,7 +13,6 @@ import {
   postBookAppointmentService,
   postVerifyBooingService,
   getListSpecialtyByClinicIdService,
-  postASpecialty,
   getSpecialties,
   getSpecialty,
   getListDoctorSpecialty,
@@ -26,6 +25,11 @@ import {
   getAllClinic,
   createClinic,
 } from "../../services/clinicService";
+import {
+  getSingleSpecialty,
+  getAllSpecialty,
+  createSpecialty,
+} from "../../services/specialtySerivce.js";
 import { getListALlcodes } from "../../services/allcodeService";
 import { TYPE } from "../../utils/constant";
 import { toast } from "react-toastify";
@@ -51,7 +55,7 @@ export const fetchAllcodeAction = () => {
       dispatch({
         type: actionTypes.FETCH_ALLCODE_FAILED,
       });
-      toast.success("Lấy tất cả mã thất bại");
+      toast.error("Lấy tất cả mã thất bại");
     }
   };
 };
@@ -328,25 +332,29 @@ export const verifyBookingAppointment = (data) => {
 
 // post new specialty
 
-export const createASpecialty = (data) => {
+export const createSpecialtyAction = (data) => {
+  console.log(
+    "🚀 ~ file: adminActions.js:336 ~ createSpecialtyAction ~ data",
+    data
+  );
   return async (dispatch, getState) => {
     try {
       {
-        const res = await postASpecialty(data);
-        if (res && res.errCode === 0) {
-          dispatch({ type: actionTypes.CREATE_SUCCESS });
-          toast.success("Create A New Specialty Succeed!");
-        } else {
-          toast.error("Create A New Specialty Failed!");
+        dispatch(loadingToggleAction(true));
+        const res = await createSpecialty(data);
+        if (res && res.success) {
           dispatch({
-            type: actionTypes.CREATE_FAILED,
+            type: actionTypes.CREATE_SUCCESS,
+            data: "Tạo chuyên khoa thành công",
           });
+          dispatch(loadingToggleAction(false));
         }
       }
     } catch (error) {
-      toast.error("Create A New Specialty Failed!");
+      dispatch(loadingToggleAction(false));
       dispatch({
         type: actionTypes.CREATE_FAILED,
+        data: "Tạo chuyên khoa thất bại",
       });
     }
   };
@@ -564,22 +572,16 @@ export const createClinicAction = (data) => {
         if (res && res.success) {
           dispatch({
             type: actionTypes.CREATE_SUCCESS,
-            data: "Create Clinic Success",
+            data: "Tạo phòng khám thành công",
           });
           dispatch(loadingToggleAction(false));
-        } else {
-          dispatch(loadingToggleAction(false));
-          dispatch({
-            type: actionTypes.CREATE_FAILED,
-            data: "Create Clinic Failed!",
-          });
         }
       }
     } catch (error) {
       dispatch(loadingToggleAction(false));
       dispatch({
         type: actionTypes.CREATE_FAILED,
-        data: "Create Clinic Failed!",
+        data: "Tạo phòng khám thất bại",
       });
     }
   };

@@ -1,14 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import LoadingOverlay from "react-loading-overlay";
-LoadingOverlay.propTypes = undefined
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+
 const Loading = ({ showLoading }) => {
   return (
-    <LoadingOverlay
-      active={showLoading}
-      spinner
-      text="Loading..."
-    ></LoadingOverlay>
+    <Backdrop
+      sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={showLoading}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
   );
 };
 

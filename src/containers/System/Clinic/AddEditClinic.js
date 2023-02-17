@@ -181,7 +181,6 @@ const AddEditClinic = ({
 };
 const mapStateToProps = (state) => {
   return {
-    language: state.app.language,
     isUploadSuccess: state.app.isUploadSuccess,
     message: state.app.message,
     listClinic: state.admin.listClinicHome,
