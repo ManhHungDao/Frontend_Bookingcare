@@ -95,10 +95,17 @@ const AddEditClinic = ({
     };
     createClinicAction(data);
   };
+  const handleClickAddNewClinic = () => {};
   return (
     <>
       <Box m="20px">
-        <Header title="Thêm Mới Phòng Khám" subtitle="Quản lý phòng khám" />
+        <Header
+          title="Thêm Mới Phòng Khám"
+          subtitle="Quản lý phòng khám"
+          titleBtn="Thêm mới phòng khám"
+          isShowBtn={true}
+          onClick={handleClickAddNewClinic}
+        />
         <Grid container spacing={2} rowSpacing={{ sm: 2, md: 6 }}>
           <Grid container item xs={12} md={4}>
             <Grid item xs={12} md={12}>

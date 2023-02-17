@@ -6,15 +6,7 @@ import { useEffect } from "react";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ModalManageDetailClinic from "./ModalManageDetailClinic";
 import { DataGrid } from "@mui/x-data-grid";
-import {
-  Box,
-  useTheme,
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@mui/material";
+import { Box, useTheme, Button } from "@mui/material";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { tokens } from "../theme";
@@ -74,69 +66,49 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
         );
       },
     },
-    {
-      field: "introduce",
-      headerName: "Giới thiệu",
-      flex: 2,
-      renderCell: ({ row: { introduce } }) => {
-        return <span dangerouslySetInnerHTML={{ __html: introduce }}></span>;
-      },
-    },
+    // {
+    //   field: "introduce",
+    //   headerName: "Giới thiệu",
+    //   flex: 2,
+    //   renderCell: ({ row: { introduce } }) => {
+    //     return <span dangerouslySetInnerHTML={{ __html: introduce }}></span>;
+    //   },
+    // },
     {
       field: "action",
       headerName: "Action",
       width: 180,
       sortable: false,
       disableClickEventBubbling: true,
-
       renderCell: (params) => {
-        const onClick = (e) => {
+        const onClickEdit = (e) => {
           const currentRow = params.row;
-          return alert(JSON.stringify(currentRow, null, 4));
+          console.log("edit Id", currentRow.id);
+        };
+        const onClickDelete = (e) => {
+          const currentRow = params.row;
+          console.log("delete Id", currentRow.id);
         };
 
         return (
-          /*  <Stack direction="row" spacing={2}>
+          <Stack direction="row" spacing={1}>
             <Button
               variant="outlined"
               color="warning"
               size="small"
-              onClick={onClick}
+              onClick={onClickEdit}
             >
-              Edit
+              Sửa
             </Button>
             <Button
               variant="outlined"
               color="error"
               size="small"
-              onClick={onClick}
+              onClick={onClickDelete}
             >
-              Delete
+              Xóa
             </Button>
-          </Stack> */
-          <>
-            <IconButton onClick={handleClick}>
-              <MoreHorizIcon />
-            </IconButton>
-            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-              <MenuItem onClick={handleClose}>
-                <Stack display={"flex"} justifyContent={"center"}>
-                  <DeleteForeverRoundedIcon />
-                  <Typography color={'error'}>
-                    Xóa
-                  </Typography>
-                </Stack>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <Stack display={"flex"} justifyContent={"center"}>
-                  <EditRoundedIcon />
-                  <Typography>
-                    Sửa
-                  </Typography>
-                </Stack>
-              </MenuItem>
-            </Menu>
-          </>
+          </Stack>
         );
       },
     },

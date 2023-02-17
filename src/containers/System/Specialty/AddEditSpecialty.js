@@ -77,11 +77,17 @@ const AddEditSpecialty = ({
     };
     createSpecialtyAction(data);
   };
-
+  const handleClickAddNewSpecialty = () => {};
   return (
     <>
       <Box m="20px">
-        <Header title="Thêm Mới Chuyên Khoa" subtitle="Quản lýchuyên khoa" />
+        <Header
+          title="Thêm Mới Chuyên Khoa"
+          subtitle="Quản lý chuyên khoa"
+          titleBtn="Thêm mới chuyên khoa"
+          isShowBtn={true}
+          onClick={handleClickAddNewSpecialty}
+        />
         <Grid container spacing={2} rowSpacing={{ sm: 2, md: 6 }}>
           <Grid
             container
@@ -172,7 +178,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createSpecialtyAction: (data) => dispatch(actions.createSpecialtyAction(data)),
+    createSpecialtyAction: (data) =>
+      dispatch(actions.createSpecialtyAction(data)),
     getListClinicAction: () => dispatch(actions.getListClinicAction()),
     clearStatusUpload: () => dispatch(actions.clearStatusUpload()),
   };

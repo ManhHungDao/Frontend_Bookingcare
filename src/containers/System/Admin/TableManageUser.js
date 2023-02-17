@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import "./TableManageUser.scss";
 import * as actions from "../../../store/actions";
 import { useEffect } from "react";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme, Button } from "@mui/material";
 import Header from "../../../components/Header.jsx";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
@@ -12,6 +12,7 @@ import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import { tokens } from "../theme";
 import { DataGrid } from "@mui/x-data-grid";
 import _ from "lodash";
+import { Stack } from "@mui/system";
 
 const TableManageUser = (props) => {
   const theme = useTheme();
@@ -94,6 +95,40 @@ const TableManageUser = (props) => {
         );
       },
     },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 180,
+      sortable: false,
+      disableClickEventBubbling: true,
+      renderCell: (params) => {
+        const onClick = (e) => {
+          const currentRow = params.row;
+          return alert(JSON.stringify(currentRow, null, 4));
+        };
+
+        return (
+          <Stack direction="row" spacing={1}>
+            <Button
+              variant="outlined"
+              color="warning"
+              size="small"
+              onClick={onClick}
+            >
+              Sửa
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              size="small"
+              onClick={onClick}
+            >
+              Xóa
+            </Button>
+          </Stack>
+        );
+      },
+    },
   ];
 
   const handleChangePage = (event, newPage) => {
@@ -168,7 +203,11 @@ const TableManageUser = (props) => {
   return (
     <>
       <Box m="20px">
-        <Header title="Manage Users" subtitle="Managing the User Members" />
+        <Header
+          title="Danh sách người dùng"
+          subtitle="Quản lý thành viên"
+         
+        />
         <Box
           m="40px 0 0 0"
           height="75vh"

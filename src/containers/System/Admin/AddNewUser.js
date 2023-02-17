@@ -188,11 +188,17 @@ const AddNewUser = ({
     };
     createNewUser(dataUser);
   };
-
+  const handleClickAddNewUser = () => {};
   return (
     <>
       <Box m="20px">
-        <Header title="Thêm Mới Người Dùng" subtitle="Quản lý thành viên" />
+        <Header
+          title="Thêm Mới Người Dùng"
+          subtitle="Quản lý thành viên"
+          titleBtn="Thêm mới người dùng"
+          isShowBtn={true}
+          onClick={handleClickAddNewUser}
+        />
         <Grid container spacing={2} rowSpacing={{ sm: 2, md: 6 }}>
           <Grid
             container
