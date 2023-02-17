@@ -1,58 +1,36 @@
 import React, { Component, useState, lazy } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import "./TableManageClinic.scss";
 import * as actions from "../../../store/actions";
 import { useEffect } from "react";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ModalManageDetailClinic from "./ModalManageDetailClinic";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, useTheme } from "@mui/material";
+import {
+  Box,
+  useTheme,
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
+import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { tokens } from "../theme";
 import Header from "../../../components/Header";
 import _ from "lodash";
-const columns = [
-  {
-    field: "name",
-    headerName: "Tên",
-    flex: 1,
-    cellClassName: "name-column--cell",
-  },
-  {
-    field: "address",
-    headerName: "Địa chỉ",
-    flex: 1,
-  },
-  {
-    field: "logo",
-    headerName: "Hình ảnh",
-    flex: 1,
-    renderCell: ({ row: { logo } }) => {
-      return (
-        <Box>
-          <img src={logo} alt="Logo CLinic" width="120px" height="60px" />
-        </Box>
-      );
-    },
-  },
-  {
-    field: "introduce",
-    headerName: "Giới thiệu",
-    flex: 2,
-    renderCell: ({ row: { introduce } }) => {
-      return <span dangerouslySetInnerHTML={{ __html: introduce }}></span>;
-    },
-  },
-];
+import "./TableManageClinic.scss";
+import { Stack } from "@mui/system";
 
 const TableManageClinic = ({ getListClinicAction, listClinic }) => {
   const [list, setList] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   useEffect(() => {
     if (_.isEmpty(listClinic)) getListClinicAction();
-  }, []);
-
-  useEffect(() => {
     if (listClinic) {
       let data = listClinic.map((e) => {
         return {
@@ -66,13 +44,103 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
       setList(data);
     }
   }, [listClinic]);
-
-  const handleCellDoubleClick = (params) => {
-    console.log(
-      "🚀 ~ file: TableManageUser.js:163 ~ handleOnCellClick ~ params",
-      params
-    );
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const columns = [
+    {
+      field: "name",
+      headerName: "Tên",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "address",
+      headerName: "Địa chỉ",
+      flex: 1,
+    },
+    {
+      field: "logo",
+      headerName: "Hình ảnh",
+      flex: 1,
+      renderCell: ({ row: { logo } }) => {
+        return (
+          <Box>
+            <img src={logo} alt="Logo CLinic" width="120px" height="60px" />
+          </Box>
+        );
+      },
+    },
+    {
+      field: "introduce",
+      headerName: "Giới thiệu",
+      flex: 2,
+      renderCell: ({ row: { introduce } }) => {
+        return <span dangerouslySetInnerHTML={{ __html: introduce }}></span>;
+      },
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 180,
+      sortable: false,
+      disableClickEventBubbling: true,
+
+      renderCell: (params) => {
+        const onClick = (e) => {
+          const currentRow = params.row;
+          return alert(JSON.stringify(currentRow, null, 4));
+        };
+
+        return (
+          /*  <Stack direction="row" spacing={2}>
+            <Button
+              variant="outlined"
+              color="warning"
+              size="small"
+              onClick={onClick}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              size="small"
+              onClick={onClick}
+            >
+              Delete
+            </Button>
+          </Stack> */
+          <>
+            <IconButton onClick={handleClick}>
+              <MoreHorizIcon />
+            </IconButton>
+            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+              <MenuItem onClick={handleClose}>
+                <Stack display={"flex"} justifyContent={"center"}>
+                  <DeleteForeverRoundedIcon />
+                  <Typography color={'error'}>
+                    Xóa
+                  </Typography>
+                </Stack>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <Stack display={"flex"} justifyContent={"center"}>
+                  <EditRoundedIcon />
+                  <Typography>
+                    Sửa
+                  </Typography>
+                </Stack>
+              </MenuItem>
+            </Menu>
+          </>
+        );
+      },
+    },
+  ];
   return (
     <>
       <Box m="20px">
@@ -109,7 +177,6 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
           <DataGrid
             rows={list}
             columns={columns}
-            onCellDoubleClick={handleCellDoubleClick}
             getRowHeight={() => "auto"}
             getEstimatedRowHeight={() => 200}
           />

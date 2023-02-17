@@ -27,15 +27,17 @@ import dayjs from "dayjs";
 import { toast } from "react-toastify";
 import "./Style.scss";
 import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
+import _ from "lodash";
 
 const AddNewUser = ({
   createNewUser,
   fetchAllcode,
   allcodes,
-  language,
   message,
   isUploadSuccess,
   clearStatusUpload,
+  getListClinicAction,
+  listClinic,
 }) => {
   //infomation doctor
   const [email, setEmail] = useState("");
@@ -59,13 +61,11 @@ const AddNewUser = ({
   const [showPassword, setShowPassword] = useState(false);
   const [dataSelect, setDataSelect] = useState([]);
   const [previewImgUrl, setPreviewImgUrl] = useState("");
+  const [listClinicSelect, setListClinicSelect] = useState([]);
   const [errors, setErrors] = useState({});
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  useEffect(() => {
-    fetchAllcode();
-  }, []);
   useEffect(() => {
     if (message)
       if (isUploadSuccess) {
@@ -97,11 +97,27 @@ const AddNewUser = ({
     clearStatusUpload();
   }, [message, isUploadSuccess]);
   useEffect(() => {
-    if (allcodes && allcodes.length > 0)
+    if (_.isEmpty(allcodes)) fetchAllcode();
+
+    if (allcodes)
       setDataSelect(
         allcodes.map((e) => ({ id: e.keyMap, name: e.valueVI, type: e.type }))
       );
-  }, [allcodes]);
+
+    if (_.isEmpty(listClinic)) getListClinicAction();
+    if (listClinic) {
+      let data = listClinic.map((e) => {
+        return {
+          id: e._id,
+          name: e.name,
+        };
+      });
+      setListClinicSelect(data);
+    }
+  }, [allcodes, listClinic]);
+  useEffect(() => {
+    if (_.isEmpty(listClinic)) getListClinicAction();
+  }, []);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -384,11 +400,7 @@ const AddNewUser = ({
                 label="Chọn phòng khám"
                 value={clinic}
                 onChange={setClinic}
-                data={[
-                  { value: 1, label: "Twenty" },
-                  { value: 12, label: "Twenty" },
-                  { value: 13, label: "Twenty" },
-                ]}
+                data={listClinicSelect}
                 isError={errors.clinic ? true : false}
                 errorText={errors.clinic ? errors.clinic : ""}
                 name="Chọn phòng khám"
@@ -460,7 +472,7 @@ const AddNewUser = ({
             </Grid>
           </Grid>
           <Grid item xs={12} md={12}>
-            Chi tiết
+            <span> Chi tiết</span>
             <CKEditorFieldBasic value={content} onChange={setContent} />
           </Grid>
           <Grid xs={12} md={12} item display="flex" justifyContent="flex-end">
@@ -483,6 +495,7 @@ const mapStateToProps = (state) => {
     language: state.app.language,
     allcodes: state.admin.allcodes,
     isUploadSuccess: state.app.isUploadSuccess,
+    listClinic: state.admin.listClinic,
     message: state.app.message,
   };
 };
@@ -492,6 +505,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
     clearStatusUpload: () => dispatch(actions.clearStatusUpload()),
     createNewUser: (user) => dispatch(actions.createNewUserAction(user)),
+    getListClinicAction: () => dispatch(actions.getListClinicAction()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddNewUser);

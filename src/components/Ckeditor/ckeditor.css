@@ -4,6 +4,18 @@
   min-height: 500px;
   max-height: 800px;
   overflow-y: scroll;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.ck-rounded-corners .ck.ck-toolbar,
+.ck.ck-toolbar.ck-rounded-corners {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+.ck-reset_all :not(.ck-reset_all-excluded *),
+.ck.ck-reset_all {
+  color: #6c6262 !important;
 }
 .ck.ck-toolbar > .ck-toolbar__items {
   /* background-color: #ddd; */
