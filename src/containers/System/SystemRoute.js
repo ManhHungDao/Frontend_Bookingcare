@@ -38,11 +38,11 @@ const SystemRoute = ({ systemMenuPath, isLoggedIn }) => {
               <Switch>
                 <Route exact path="/system" component={Dashboard} />
                 <Route path="/system/add-user" component={AddNewUser} />
-                <Route path="/system/user-manage" component={TableManageUser} />
+                <Route path="/system/manage-user" component={TableManageUser} />
                 {/* <Route path="/system/manage-doctor" component={ManageDoctor} /> */}
-                <Route path="/system/manage-clinic" component={AddEditClinic} />
+                <Route path="/system/add-clinic" component={AddEditClinic} />
                 <Route
-                  path="/system/manage-list-clinic"
+                  path="/system/manage-clinic"
                   component={TableManageClinic}
                 />
                 <Route

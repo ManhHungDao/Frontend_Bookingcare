@@ -9,8 +9,6 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -152,22 +150,8 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
             />
             <Item
               title="Danh Sách Người Dùng"
-              to="/system/user-manage"
+              to="/system/manage-user"
               icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Contacts Information"
-              to="/system/contacts"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Invoices Balances"
-              to="/system/invoices"
-              icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -180,14 +164,14 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
             </Typography>
             <Item
               title="Thêm Phòng Khám"
-              to="/system/manage-clinic"
+              to="/system/add-clinic"
               icon={<AddHomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Danh Sách Phòng Khám"
-              to="/system/manage-list-clinic"
+              to="/system/manage-clinic"
               icon={<BallotOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

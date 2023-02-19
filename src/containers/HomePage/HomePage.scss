@@ -1,24 +1,3 @@
-.slick-prev {
-  left: -10px !important;
-  z-index: 10;
-  &:before {
-    font-size: 30px !important;
-    color: #404040 !important;
-  }
-}
-.slick-next {
-  right: -10px !important;
-  z-index: 10;
-  &:before {
-    font-size: 30px !important;
-    color: #404040 !important;
-  }
-}
-
-/* // disabled slick next
-.slick-disabled {
-  display: none !important;
-} */
 .section{
   height: 330px;
 }

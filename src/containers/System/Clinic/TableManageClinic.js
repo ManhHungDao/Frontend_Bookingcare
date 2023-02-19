@@ -13,6 +13,7 @@ import { tokens } from "../theme";
 import Header from "../../../components/Header";
 import _ from "lodash";
 import "./TableManageClinic.scss";
+import { useHistory } from "react-router-dom";
 import { Stack } from "@mui/system";
 
 const TableManageClinic = ({ getListClinicAction, listClinic }) => {
@@ -21,6 +22,8 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const history = useHistory();
+
   useEffect(() => {
     if (_.isEmpty(listClinic)) getListClinicAction();
     if (listClinic) {
@@ -113,10 +116,20 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
       },
     },
   ];
+  const handleClickAddNewClinic = () => {
+    history.push("/system/add-clinic");
+  };
+
   return (
     <>
       <Box m="20px">
-        <Header title="Manage Clinics" subtitle="Managing the Clinics" />
+        <Header
+          title="Manage Clinics"
+          subtitle="Managing the Clinics"
+          titleBtn="Thêm mới phòng khám"
+          isShowBtn={true}
+          onClick={handleClickAddNewClinic}
+        />
         <Box
           m="40px 0 0 0"
           height="75vh"

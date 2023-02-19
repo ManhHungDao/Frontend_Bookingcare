@@ -1,5 +1,4 @@
 import React, { Component, useState } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import "./TableManageUser.scss";
 import * as actions from "../../../store/actions";
@@ -13,6 +12,7 @@ import { tokens } from "../theme";
 import { DataGrid } from "@mui/x-data-grid";
 import _ from "lodash";
 import { Stack } from "@mui/system";
+import { useHistory } from "react-router-dom";
 
 const TableManageUser = (props) => {
   const theme = useTheme();
@@ -27,6 +27,7 @@ const TableManageUser = (props) => {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const history = useHistory();
 
   const role = [
     { id: "R1", name: "admin" },
@@ -200,13 +201,19 @@ const TableManageUser = (props) => {
       params
     );
   };
+  const handleClickAddNewUser = () => {
+    history.push("/system/add-user");
+  };
+
   return (
     <>
       <Box m="20px">
         <Header
           title="Danh sách người dùng"
           subtitle="Quản lý thành viên"
-         
+          titleBtn="Thêm mới người dùng"
+          isShowBtn={true}
+          onClick={handleClickAddNewUser}
         />
         <Box
           m="40px 0 0 0"

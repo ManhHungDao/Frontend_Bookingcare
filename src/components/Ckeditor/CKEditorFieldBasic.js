@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Fragment } from "react";
-import { Button, Modal, ModalFooter, ModalBody, ModalHeader } from "reactstrap";
+import React from "react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { Editor, EditorWatchdog } from "ckeditor5-custom-build/build/ckeditor";
+import { Editor } from "ckeditor5-custom-build/build/ckeditor";
 import "./ckeditor.css";
 
 const CKEditorFieldBasic = ({ value, onChange }) => {

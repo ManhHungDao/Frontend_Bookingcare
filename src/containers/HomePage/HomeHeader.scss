@@ -6,72 +6,27 @@
   z-index: 100;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
     rgb(209, 213, 219) 0px 0px 0px 1px inset;
-
-  .home-header-content {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    .left-container {
-      width: 25%;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      i {
-        font-size: 25px;
-        color: gray;
-      }
-      .header-logo {
-        background: url("../../assets/logo.svg") center no-repeat;
-        width: 160px;
-        height: 40px;
-        margin-left: 10px;
-      }
-    }
-    .center-container {
-      width: 50%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .child-content {
-        .header-title {
-          color: #333;
-          cursor: pointer;
-          font-weight: bold;
-          font-size: 12px;
-        }
-        .subs-title {
-          cursor: pointer;
-          font-weight: lighter;
-          font-size: 10px;
-          display: block;
-        }
-      }
-    }
-    .right-container {
-      width: 25%;
-      display: flex;
-      align-items: center;
-      justify-content: end;
-      color: gray;
-      font-weight: bold;
-      i {
-        font-size: 25px;
-        color: #45c3d2;
-        padding: 0 5px;
-      }
-      span {
-        cursor: pointer;
-      }
-      div {
-        padding: 0 5px;
-        cursor: pointer;
-      }
-      .lang-vi,
-      .lang-en {
-        &.active {
-          color: #45c3d2;
-        }
-      }
+  .header-logo {
+    background: url("../../assets/logo.svg") center no-repeat;
+    width: 160px;
+    height: 40px;
+    margin-left: 10px;
+  }
+  .subs-title {
+    cursor: pointer;
+    font-weight: lighter;
+    font-size: 10px;
+  }
+  .icon-support {
+    font-size: 25px;
+    color: #45c3d2;
+    padding: 0 5px;
+  }
+  .lang-vi,
+  .lang-en {
+    cursor: pointer;
+    &.active {
+      color: #45c3d2;
     }
   }
 }
@@ -226,16 +181,13 @@
   }
 }
 @media screen and (max-width: 768px) {
-  .center-container {
-    display: none !important;
-  }
   .right-container {
     margin-left: auto;
   }
 }
 
 @media screen and (max-width: 576px) {
-  .left-container{
+  .left-container {
     width: 50% !important;
     .header-logo {
       width: 200px;

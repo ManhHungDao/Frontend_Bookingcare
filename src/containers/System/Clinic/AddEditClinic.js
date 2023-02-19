@@ -102,9 +102,6 @@ const AddEditClinic = ({
         <Header
           title="Thêm Mới Phòng Khám"
           subtitle="Quản lý phòng khám"
-          titleBtn="Thêm mới phòng khám"
-          isShowBtn={true}
-          onClick={handleClickAddNewClinic}
         />
         <Grid container spacing={2} rowSpacing={{ sm: 2, md: 6 }}>
           <Grid container item xs={12} md={4}>
