@@ -27,6 +27,7 @@ import "swiper/css/pagination";
 import "./style.scss";
 import { isBrowser, isMobile } from "react-device-detect";
 import { Grid, Stack } from "@mui/material";
+
 class HomeHeader extends Component {
   changeLanguage = (language) => {
     this.props.changLanguageAppRedux(language);
@@ -56,7 +57,6 @@ class HomeHeader extends Component {
                 display={"flex"}
                 justifyContent={"flex-start"}
                 alignItems={"center"}
-                spacing={1}
                 sx={{
                   cursor: "pointer",
                 }}

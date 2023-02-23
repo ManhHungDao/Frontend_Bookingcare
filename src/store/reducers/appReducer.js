@@ -18,6 +18,7 @@ const initialState = {
   isUploadSuccess: false,
   message: null,
   showLoading: false,
+  menuOpen: "Trang Chính",
 };
 
 const appReducer = (state = initialState, action) => {
@@ -71,6 +72,12 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         showLoading: action.data,
+      };
+    }
+    case actionTypes.SET_MENU: {
+      return {
+        ...state,
+        menuOpen: action.data,
       };
     }
 

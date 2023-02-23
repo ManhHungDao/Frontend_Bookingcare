@@ -2,12 +2,19 @@ import { Typography, Box, useTheme, Button } from "@mui/material";
 import { Stack } from "@mui/system";
 import { tokens } from "../theme";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-const Header = ({ title, subtitle, titleBtn, isShowBtn, onClick }) => {
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+import * as actions from "../store/actions";
+
+const Header = ({ title, subtitle, titleBtn, isShowBtn, activeMenu, link }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  // const onClick = () => {
-  //   console.log('click header btn')
-  // };
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const onClick = () => {
+    history.push(link);
+    dispatch({ type: actions.SET_MENU, data: activeMenu });
+  };
   return (
     <Box mb="30px" display={"flex"} justifyContent={"space-between"}>
       <Stack>

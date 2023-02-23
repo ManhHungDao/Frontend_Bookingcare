@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 
-import { useState } from "react";
-import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { useEffect, useState } from "react";
+import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
@@ -15,16 +15,24 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
 import BallotOutlinedIcon from "@mui/icons-material/BallotOutlined";
 import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
-const Item = ({ title, to, icon, selected, setSelected }) => {
+import { useDispatch } from "react-redux";
+
+const Item = ({ title, to, icon, menuOpen, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const dispatch = useDispatch();
+
+  const handleSelected = () => {
+    setSelected(title);
+    dispatch({ type: actions.SET_MENU, data: title });
+  };
   return (
     <MenuItem
-      active={selected === title}
+      active={title === selected}
       style={{
         color: colors.grey[100],
       }}
-      onClick={() => setSelected(title)}
+      onClick={() => handleSelected()}
       icon={icon}
     >
       <Typography>{title}</Typography>
@@ -39,11 +47,15 @@ const role = [
   { id: "R3", name: "users" },
 ];
 
-const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
+const Sidebar = ({ isLoggedIn, userInfo, processLogout, menuOpen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Trang Chính");
+  const [selected, setSelected] = useState("");
+  useEffect(() => {
+    setSelected(menuOpen);
+  }, [menuOpen]);
+
   return (
     <Box
       sx={{
@@ -125,7 +137,6 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
               </Box>
             </Box>
           )}
-
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Trang Chính"
@@ -134,69 +145,60 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout }) => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Typography
+            <SubMenu title={"Người dùng"}>
+              <Item
+                title="Thêm Người Dùng"
+                to="/system/add-user"
+                icon={<PersonAddAltIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Danh Sách Người Dùng"
+                to="/system/manage-user"
+                icon={<PeopleOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            </SubMenu>
+            <SubMenu title={"Phòng khám"}>
+              {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
-            >
-              Người dùng
-            </Typography>
-            <Item
-              title="Thêm Người Dùng"
-              to="/system/add-user"
-              icon={<PersonAddAltIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Danh Sách Người Dùng"
-              to="/system/manage-user"
-              icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Phòng khám
-            </Typography>
-            <Item
-              title="Thêm Phòng Khám"
-              to="/system/add-clinic"
-              icon={<AddHomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Danh Sách Phòng Khám"
-              to="/system/manage-clinic"
-              icon={<BallotOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Chuyên khoa
-            </Typography>
-            <Item
-              title="Thêm Chuyên Khoa"
-              to="/system/manage-specialty"
-              icon={<LibraryAddOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Danh Sách Chuyên Khoa"
-              to="/system/manage-list-clinic"
-              icon={<BallotOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            ></Typography> */}
+              <Item
+                title="Thêm Phòng Khám"
+                to="/system/add-clinic"
+                icon={<AddHomeOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Danh Sách Phòng Khám"
+                to="/system/manage-clinic"
+                icon={<BallotOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            </SubMenu>
+            <SubMenu title={"Chuyên khoa"}>
+              <Item
+                title="Thêm Chuyên Khoa"
+                to="/system/manage-specialty"
+                icon={<LibraryAddOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Danh Sách Chuyên Khoa"
+                to="/system/manage-list-clinic"
+                icon={<BallotOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            </SubMenu>
+
             <Item
               title="Logout"
               to="/system/faq"
@@ -214,6 +216,7 @@ const mapStateToProps = (state) => {
     isLoggedIn: state.user.isLoggedIn,
     userInfo: state.user.userInfo,
     language: state.app.language,
+    menuOpen: state.app.menuOpen,
   };
 };
 

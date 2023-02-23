@@ -19,3 +19,5 @@ export const clearStatusUpload = () => {
     type: actionTypes.CLEAR_STATUS_UPLOAD,
   };
 };
+
+export const SET_MENU = actionTypes.SET_MENU;
