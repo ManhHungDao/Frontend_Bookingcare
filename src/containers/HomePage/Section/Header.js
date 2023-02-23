@@ -2,30 +2,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
-import "./HomeHeader.scss";
-import { languages } from "../../utils";
-import { changLanguageApp } from "../../store/actions";
+import { languages } from "../../../utils";
+import { changLanguageApp } from "../../../store/actions";
 import { withRouter } from "react-router-dom";
 // import icon optianal
-import iconHospital from "../../assets/icon-optinal/hospital.png";
-import iconDichVuXetNghiem from "../../assets/icon-optinal/dichvuxetnghiem.png";
-import iconKhamNhaKhoa from "../../assets/icon-optinal/khamnhakhoa.png";
-import iconKhamTaiNha from "../../assets/icon-optinal/khamtainha.png";
-import iconKhamTongQuat from "../../assets/icon-optinal/khamtongquat.png";
-import iconPhauThuat from "../../assets/icon-optinal/phau-thuat.jpg";
-import iconDienThoai from "../../assets/icon-optinal/phone.png";
-import iconSucKhoeTinhThan from "../../assets/icon-optinal/suckhoetinhthan.png";
+// import iconHospital from "../../assets/icon-optinal/hospital.png";
+// import iconDichVuXetNghiem from "../../assets/icon-optinal/dichvuxetnghiem.png";
+// import iconKhamNhaKhoa from "../../assets/icon-optinal/khamnhakhoa.png";
+// import iconKhamTaiNha from "../../assets/icon-optinal/khamtainha.png";
+// import iconKhamTongQuat from "../../assets/icon-optinal/khamtongquat.png";
+// import iconPhauThuat from "../../assets/icon-optinal/phau-thuat.jpg";
+// import iconDienThoai from "../../assets/icon-optinal/phone.png";
+// import iconSucKhoeTinhThan from "../../assets/icon-optinal/suckhoetinhthan.png";
 
-import hinh1 from "../../assets/header-background.jpg";
-import hinh2 from "../../assets/hospital-search.jpg";
-import hinh3 from "../../assets/dich-vu-tai-nha-2.jpg";
-import hinh4 from "../../assets/quy-trinh-kham-benh-va-nhung-dieu-can-luu-y-1.jpg";
+import hinh1 from "../../../assets/header-background.jpg";
+import hinh2 from "../../../assets/hospital-search.jpg";
+import hinh3 from "../../../assets/dich-vu-tai-nha-2.jpg";
+import hinh4 from "../../../assets/quy-trinh-kham-benh-va-nhung-dieu-can-luu-y-1.jpg";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
-import "./HomeHeader.scss";
+import "./style.scss";
 import { isBrowser, isMobile } from "react-device-detect";
 import { Grid, Stack } from "@mui/material";
 class HomeHeader extends Component {

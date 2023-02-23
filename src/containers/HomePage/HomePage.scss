@@ -1,53 +1,7 @@
 .section{
   height: 330px;
 }
-.container {
-  .section-header {
-    height: 60px;
-    margin-bottom: 30px;
-    padding-top: 30px;
-    .title-section {
-      font-size: 22px;
-      font-weight: 600;
-      float: left;
-    }
-    .btn-section {
-      float: right;
-      padding: 10px 15px;
-      display: block;
-      background-color: #ebebeb;
-      text-transform: uppercase;
-      cursor: pointer;
-      &:hover {
-        background-color: #f7d800;
-        color: white;
-      }
-    }
-  }
-  .section-body {
-    text-align: center;
-    .section-customize {
-      cursor: pointer;
-      width: 278px !important;
-      &:hover .section-body-title {
-        color: #45c3d2;
-      }
-      .bg-image {
-        width: 278px;
-        height: 156px;
-        background-position: center center;
-        background-size: cover;
-        background-color: #eee;
-      }
-      .section-body-title {
-        float: left;
-        margin-top: 5px;
-        font-weight: lighter;
-        font-size: 13px;
-      }
-    }
-  }
-}
+
 
 .section-specialty {
   background-color: #ffff;

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./HomeFooter.scss";
+import "./style.scss";
 
 class HomeFooter extends Component {
   render() {
