@@ -28,7 +28,7 @@ const PatientRoute = ({ systemMenuPath }) => {
         <Route path={path.HANDBOOK} element={ViewAllHandbook} />
         <Route path={path.HANDBOOK} element={DetailHandbook} />
         <Route path={path.VERIFY_BOOKING} element={VerifyEmail} /> */}
-        {/* <Route path={path.CLINIC} element={DetailClinic} /> */}
+        <Route path={path.CLINIC} element={<DetailClinic/>} />
         {/* <Route
           path={path.TABLE_CLINIC_SPECIALTY}
           element={TableSpecialtyClinic}

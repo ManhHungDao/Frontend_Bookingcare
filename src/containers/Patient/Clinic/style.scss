@@ -1,0 +1,17 @@
+.render-detail {
+  .detail {
+    .image_resized {
+      width: 100%;
+      max-width: 622px;
+    }
+    .image {
+      width: 100% !important;
+      display: flex;
+      justify-content: center;
+      img {
+        width: 100%;
+        max-width: 622px;
+      }
+    }
+  }
+}

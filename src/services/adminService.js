@@ -12,10 +12,6 @@ const adminService = {
   login(loginBody) {
     return axios.post(`/admin/login`, loginBody);
   },
-
-  pageViewCount() {
-    return axios.post("/increment-view-count");
-  },
 };
 
 export default adminService;

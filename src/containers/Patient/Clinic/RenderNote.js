@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { languages } from "../../../utils";
+import Box from "@mui/material/Box";
 
 const RenderNote = ({ curLang }) => {
   const [text, setText] = useState("");
@@ -18,12 +19,9 @@ const RenderNote = ({ curLang }) => {
   }, [curLang]);
 
   return (
-    <div className="note-bookingcare">
-      <div className="right">
-        <i className="fas fa-lightbulb"></i>
-      </div>
-      <div className="left">{text}</div>
-    </div>
+    <>
+      <Box sx={{ backgroundColor: "rgba(255,236,178,1.00)", p: 2 }}>{text}</Box>
+    </>
   );
 };
 

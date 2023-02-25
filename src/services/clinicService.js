@@ -16,4 +16,13 @@ const getAllClinicHomePatient = () => {
   return axios.get(`/api/get-all-clinic-home`);
 };
 
-export { getSingleClinic, getAllClinic, createClinic ,getAllClinicHomePatient};
+const pageViewCount = (id) => {
+  return axios.post(`/api/increment-view-count?id=${id}`);
+};
+export {
+  getSingleClinic,
+  getAllClinic,
+  createClinic,
+  getAllClinicHomePatient,
+  pageViewCount,
+};

@@ -48,9 +48,9 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
-        <>
-          <Loading />
+      <>
+        <Loading />
+        <BrowserRouter>
           <Router history={history}>
             <Routes>
               <Route path={path.HOME} element={<PatientRoute />} />
@@ -75,8 +75,8 @@ class App extends Component {
               <Route path="*" element={<Navigate replace to="/" />} />
             </Routes>
           </Router>
-        </>
-      </BrowserRouter>
+        </BrowserRouter>
+      </>
     );
   }
 }
