@@ -4,9 +4,7 @@ import { FormattedMessage } from "react-intl";
 import _ from "lodash";
 
 import HomeHeader from "./Section/Header.js";
-import Specialty from "./Section/specialty";
-import OutStandingDoctor from "./Section/OutStandingDoctor.js";
-import HandBook from "./Section/HandBook.js";
+
 import About from "./Section/About.js";
 import Footer from "./Section/Footer";
 import * as actions from "../../store/actions";
@@ -18,7 +16,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useEffect } from "react";
 
-const HomePage = ({ listClinic, getListClinicAction }) => {
+const HomePage = ({ listClinic, getListClinicHomePatientAction }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [clinics, setClinics] = useState([]);
   useEffect(() => {
@@ -29,7 +27,7 @@ const HomePage = ({ listClinic, getListClinicAction }) => {
     return () => mobileQuery.removeListener(handleResize);
   }, []);
   useEffect(() => {
-    if (_.isEmpty(listClinic)) getListClinicAction();
+    if (_.isEmpty(listClinic)) getListClinicHomePatientAction();
     else {
       setClinics(
         listClinic.map((e) => ({
@@ -40,39 +38,31 @@ const HomePage = ({ listClinic, getListClinicAction }) => {
       );
     }
   }, [listClinic]);
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 2,
-  };
   return (
     <>
       <HomeHeader isShowBanner={true} />
-      <Specialty settings={settings} />
       <DataSection
         data={clinics}
         titleSection={<FormattedMessage id="homepage.clinic-popular" />}
         slidesPerView={isMobile ? 2 : 4}
         navigation={isMobile ? false : true}
+        linkItem="clinic"
       />
-      <OutStandingDoctor settings={settings} />
-      <HandBook settings={settings} />
-      <About />
+      <About /> 
       <Footer />
     </>
   );
 };
 const mapStateToProps = (state) => {
   return {
-    listClinic: state.admin.listClinic,
+    listClinic: state.patient.listClinic,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListClinicAction: () => dispatch(actions.getListClinicAction()),
+    getListClinicHomePatientAction: () =>
+      dispatch(actions.getListClinicHomePatientAction()),
   };
 };
 

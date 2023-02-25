@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Link, Route, Routes, Navigate } from "react-router-dom";
 import TableManageUser from "./Admin/TableManageUser";
 import Header from "../Header/Header";
 import ManageDoctor from "./Admin/ManageDoctor";
@@ -30,53 +30,38 @@ const SystemRoute = ({ systemMenuPath, isLoggedIn }) => {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <div className="app">
-            {/* {isLoggedIn && <Header />} */}
             <Sidebar isSidebar={isSidebar} />
             <main className="content">
               <Topbar setIsSidebar={setIsSidebar} />
-              {/* {userInfo && userInfo.roleId === USER_ROLE.ADMIN && ( */}
-              <Switch>
-                <Route exact path="/system" component={Dashboard} />
-                <Route path="/system/add-user" component={AddNewUser} />
-                <Route path="/system/manage-user" component={TableManageUser} />
-                {/* <Route path="/system/manage-doctor" component={ManageDoctor} /> */}
-                <Route path="/system/add-clinic" component={AddEditClinic} />
-                <Route
-                  path="/system/manage-clinic"
-                  component={TableManageClinic}
+              <Routes>
+                <Route index element={<Dashboard />} />
+                <Route path="add-user" element={<AddNewUser />} />
+                <Route path="manage-user" element={<TableManageUser />} />
+                <Route path="add-clinic" element={<AddEditClinic />} />
+                <Route path="manage-clinic" element={<TableManageClinic />} />
+                <Route path="manage-handbook" element={<ManageHandbook />} />
+                {/* <Route
+                  path="/manage-detail-clinic"
+                  element={<ManageDetailClinic />}
                 />
                 <Route
-                  path="/system/manage-handbook"
-                  component={ManageHandbook}
+                  path="/manage-specialty"
+                  element={<AddEditSpecialty />}
                 />
                 <Route
-                  path="/system/manage-detail-clinic"
-                  component={ManageDetailClinic}
+                  path="/manage-detail-specialty"
+                  element={<ManageDetailSpecialty />}
                 />
                 <Route
-                  path="/system/manage-specialty"
-                  component={AddEditSpecialty}
+                  path="/manage-detail-handbook"
+                  element={ManageDetailHandbook}
                 />
                 <Route
-                  path="/system/manage-detail-specialty"
-                  component={ManageDetailSpecialty}
-                />
-                <Route
-                  path="/system/manage-detail-handbook"
-                  component={ManageDetailHandbook}
-                />
-                <Route
-                  path="/system/packet_examination"
-                  component={Packet_examination}
-                />
-
-                <Route
-                  component={() => {
-                    return <Redirect to={systemMenuPath} />;
-                  }}
-                />
-              </Switch>
-              {/* )} */}
+                  path="/packet_examination"
+                  element={Packet_examination}
+                /> */}
+                <Route path="*" element={<Navigate replace to="/admin" />} />
+              </Routes>
             </main>
           </div>
         </ThemeProvider>

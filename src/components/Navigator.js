@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import "./Style.scss";
@@ -75,9 +75,9 @@ class SubMenu extends Component {
   }
 }
 
-const MenuGroupWithRouter = withRouter(MenuGroup);
-const MenuWithRouter = withRouter(Menu);
-const SubMenuWithRouter = withRouter(SubMenu);
+const MenuGroupWithRouter = MenuGroup;
+const MenuWithRouter = Menu;
+const SubMenuWithRouter = SubMenu;
 
 const withRouterInnerRef = (WrappedComponent) => {
   class InnerComponentWithRef extends React.Component {
@@ -87,7 +87,7 @@ const withRouterInnerRef = (WrappedComponent) => {
     }
   }
 
-  const ComponentWithRef = withRouter(InnerComponentWithRef, { withRef: true });
+  const ComponentWithRef = (InnerComponentWithRef, { withRef: true });
 
   return React.forwardRef((props, ref) => {
     return <ComponentWithRef {...props} forwardRef={ref} />;

@@ -74,15 +74,12 @@ class Header extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.user.isLoggedIn,
-    userInfo: state.user.userInfo,
     language: state.app.language,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    processLogout: () => dispatch(actions.processLogout()),
     changLanguageAppRedux: (language) =>
       dispatch(actions.changLanguageApp(language)),
   };

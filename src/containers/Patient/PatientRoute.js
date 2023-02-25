@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { path } from "../../utils";
 import HomePage from "../HomePage/HomePage";
 import Home from "../../routes/Home";
@@ -18,30 +18,31 @@ import Detail_packet from "./Packet/Detail_packet";
 const PatientRoute = ({ systemMenuPath }) => {
   return (
     <>
-      <Switch>
-        <Route path={"/render-list/packet"} component={Packet} />
-        <Route path={"/detail-packet/:id"} exact component={Detail_packet} />
-        <Route path={path.HOME} exact component={Home} />
-        <Route path={path.HOMEPAGE} exact component={HomePage} />
-        <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
-        <Route path={path.DETAIL_SPECIALTY} component={DetailSpecialty} />
-        <Route path={path.DETAIL_CLINIC} component={DetailClinic} />
-        <Route path={path.HANDBOOK} component={ViewAllHandbook} />
-        <Route path={path.DETAIL_HANDBOOK} component={DetailHandbook} />
-        <Route path={path.VERIFY_BOOKING} component={VerifyEmail} />
-        <Route
+      <Routes>
+        <Route index element={<HomePage />} />
+        <Route path={path.HOMEPAGE} element={<HomePage />} />
+        {/* <Route path={"/render-list/packet"} element={Packet} />
+        <Route path={"/detail-packet/:id"} element={Detail_packet} /> */}
+        {/* <Route path={path.DOCTOR} element={DetailDoctor} />
+        <Route path={path.SPECIALTY} element={DetailSpecialty} />
+        <Route path={path.HANDBOOK} element={ViewAllHandbook} />
+        <Route path={path.HANDBOOK} element={DetailHandbook} />
+        <Route path={path.VERIFY_BOOKING} element={VerifyEmail} /> */}
+        {/* <Route path={path.CLINIC} element={DetailClinic} /> */}
+        {/* <Route
           path={path.TABLE_CLINIC_SPECIALTY}
-          component={TableSpecialtyClinic}
+          element={TableSpecialtyClinic}
         />
-        <Route path={path.DETAIL_CLINIC_SPECIALTY} component={DetailClinic} />
-        <Route path={path.RENDER_LIST} component={RenderList} />
-        <Route path={path.LIST_POST_HANDBOOK} component={ListPostHandbook} />
+        <Route path={path.CLINIC_SPECIALTY} element={DetailClinic} />
+        <Route path={path.RENDER_LIST} element={RenderList} />
+        <Route path={path.LIST_POST_HANDBOOK} element={ListPostHandbook} /> */}
         <Route
-          component={() => {
-            return <Redirect to={systemMenuPath} />;
+          path="*"
+          element={() => {
+            return <Navigate to="/" />;
           }}
         />
-      </Switch>
+      </Routes>
     </>
   );
 };

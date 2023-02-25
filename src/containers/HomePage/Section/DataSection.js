@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
@@ -16,11 +16,11 @@ const DataSection = ({
   slidesPerView,
   navigation,
 }) => {
-  const history = useHistory();
-  const handleClickViewMore = () => {
-    // history.push("/path_to_redirect");
+  const navigate = useNavigate();
+  const handleClickItem = (id) => {
+    navigate(`${linkItem}/${id}`);
   };
-  const handleClickItem = (e) => {
+  const handleClickViewMore = () => {
     // history.push("/path_to_redirect");
   };
   return (
@@ -52,7 +52,7 @@ const DataSection = ({
                 <SwiperSlide key={index}>
                   <div
                     className="container__body--item"
-                    onClick={() => handleClickItem(e)}
+                    onClick={() => handleClickItem(e.id)}
                   >
                     <img src={e.image} alt={e.name} />
                     <div className="container__body--item--title">{e.name}</div>

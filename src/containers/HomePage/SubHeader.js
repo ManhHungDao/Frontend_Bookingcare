@@ -5,7 +5,6 @@ import { FormattedMessage } from "react-intl";
 import "./SubHeader.scss";
 import { languages } from "../../utils";
 import { changLanguageApp } from "../../store/actions";
-import { withRouter } from "react-router-dom";
 import { TYPE } from "../../utils";
 
 class SubHeader extends Component {
@@ -113,6 +112,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SubHeader)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(SubHeader);

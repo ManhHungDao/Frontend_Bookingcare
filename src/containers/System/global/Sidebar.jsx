@@ -16,7 +16,9 @@ import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
 import BallotOutlinedIcon from "@mui/icons-material/BallotOutlined";
 import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import { useDispatch } from "react-redux";
-
+import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
+import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
+import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
 const Item = ({ title, to, icon, menuOpen, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -95,7 +97,7 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout, menuOpen }) => {
                 ml="15px"
               >
                 <Typography variant="h3" color={colors.grey[100]}>
-                  BOOKINGCARE
+                  HEALTHCARE
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -128,40 +130,52 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout, menuOpen }) => {
                     </span>
                   )}
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
+                {/* <Typography variant="h5" color={colors.greenAccent[500]}>
                   {role &&
                     role.map((i) => {
                       if (i.id === userInfo.roleId) return i.name;
                     })}
-                </Typography>
+                </Typography> */}
               </Box>
             </Box>
           )}
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Trang Chính"
-              to="/"
+              to="/admin"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <SubMenu title={"Người dùng"}>
+            <SubMenu
+              title={"Người dùng"}
+              icon={<PermIdentityOutlinedIcon />}
+              style={{
+                color: colors.grey[100],
+              }}
+            >
               <Item
                 title="Thêm Người Dùng"
-                to="/system/add-user"
+                to="/admin/add-user"
                 icon={<PersonAddAltIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title="Danh Sách Người Dùng"
-                to="/system/manage-user"
+                to="/admin/manage-user"
                 icon={<PeopleOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
             </SubMenu>
-            <SubMenu title={"Phòng khám"}>
+            <SubMenu
+              title={"Phòng khám"}
+              style={{
+                color: colors.grey[100],
+              }}
+              icon={<HomeWorkOutlinedIcon />}
+            >
               {/* <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -169,30 +183,36 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout, menuOpen }) => {
             ></Typography> */}
               <Item
                 title="Thêm Phòng Khám"
-                to="/system/add-clinic"
+                to="/admin/add-clinic"
                 icon={<AddHomeOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title="Danh Sách Phòng Khám"
-                to="/system/manage-clinic"
+                to="/admin/manage-clinic"
                 icon={<BallotOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
             </SubMenu>
-            <SubMenu title={"Chuyên khoa"}>
+            <SubMenu
+              title={"Chuyên khoa"}
+              style={{
+                color: colors.grey[100],
+              }}
+              icon={<ShieldOutlinedIcon />}
+            >
               <Item
                 title="Thêm Chuyên Khoa"
-                to="/system/manage-specialty"
+                to="/admin/manage-specialty"
                 icon={<LibraryAddOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
               />
               <Item
                 title="Danh Sách Chuyên Khoa"
-                to="/system/manage-list-clinic"
+                to="/admin/manage-list-clinic"
                 icon={<BallotOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
@@ -201,7 +221,7 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout, menuOpen }) => {
 
             <Item
               title="Logout"
-              to="/system/faq"
+              to="/admin/faq"
               icon={<LogoutIcon />}
               onClick={processLogout}
             />

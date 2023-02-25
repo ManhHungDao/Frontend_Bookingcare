@@ -17,7 +17,6 @@ import {
   getSpecialty,
   getListDoctorSpecialty,
   getListSpecialty,
-  getListClinicHomeService,
   getListDetailHandbookService,
 } from "../../services/userService";
 import {
@@ -33,7 +32,7 @@ import {
 import { getListALlcodes } from "../../services/allcodeService";
 import { TYPE } from "../../utils/constant";
 import { toast } from "react-toastify";
-// gender
+
 export const loadingToggleAction = (status) => {
   return {
     type: actionTypes.LOADING_TOGGLE_ACTION,
@@ -504,21 +503,20 @@ export const getListClinicAction = () => {
   };
 };
 
-// get list clinic home
-export const getListClinicHome = () => {
+export const getSingleClinicAction = () => {
   return async (dispatch, getState) => {
     try {
       {
-        const res = await getListClinicHomeService();
-        if (res && res.errCode === 0) {
+        const res = await getSingleClinic();
+        if (res && res.success) {
           dispatch({
-            type: actionTypes.GET_LIST_CLINIC_HOME_SUCCEED,
-            data: res.data,
+            type: actionTypes.GET_CLINIC_SUCCEED,
+            data: res.user,
           });
         } else {
           toast.error("Get List Clinic Home Failed!");
           dispatch({
-            type: actionTypes.GET_LIST_CLINIC_HOME_FAILED,
+            type: actionTypes.GET_CLINIC_FAILED,
           });
         }
       }
@@ -529,7 +527,7 @@ export const getListClinicHome = () => {
       );
       toast.error("Get List Clinic Home Failed!");
       dispatch({
-        type: actionTypes.GET_LIST_CLINIC_HOME_FAILED,
+        type: actionTypes.GET_CLINIC_FAILED,
       });
     }
   };

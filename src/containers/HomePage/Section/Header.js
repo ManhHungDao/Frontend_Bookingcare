@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { languages } from "../../../utils";
 import { changLanguageApp } from "../../../store/actions";
-import { withRouter } from "react-router-dom";
 // import icon optianal
 // import iconHospital from "../../assets/icon-optinal/hospital.png";
 // import iconDichVuXetNghiem from "../../assets/icon-optinal/dichvuxetnghiem.png";
@@ -323,6 +322,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(HomeHeader)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);

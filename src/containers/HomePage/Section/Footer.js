@@ -11,7 +11,7 @@ class HomeFooter extends Component {
           <div className="company-info">
             <div className="lg"></div>
             <div className="address">
-              <p>Công ty Cổ phần Công nghệ BookingCare</p>
+              <p>Công ty Cổ phần Công nghệ HealthCare</p>
               <p>
                 <i className="fas fa-map-marker-alt"></i>
                 28 Thành Thái, Dịch Vọng, Cầu Giấy, Hà Nội

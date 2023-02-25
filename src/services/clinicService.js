@@ -12,4 +12,8 @@ const getAllClinic = () => {
   return axios.get(`/api/get-all-clinic`);
 };
 
-export { getSingleClinic, getAllClinic, createClinic };
+const getAllClinicHomePatient = () => {
+  return axios.get(`/api/get-all-clinic-home`);
+};
+
+export { getSingleClinic, getAllClinic, createClinic ,getAllClinicHomePatient};

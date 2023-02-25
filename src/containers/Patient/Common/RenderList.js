@@ -5,7 +5,6 @@ import { languages } from "../../../utils";
 import "./RenderList.scss";
 import { TYPE } from "../../../utils";
 import SubHeader from "../../HomePage/SubHeader";
-import { withRouter } from "react-router-dom";
 
 class RenderList extends Component {
   constructor(props) {
@@ -227,6 +226,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(RenderList)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(RenderList);

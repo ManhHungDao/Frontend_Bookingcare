@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
 import { ConnectedRouter as Router } from "connected-react-router";
 import { history } from "../redux";
 import { ToastContainer } from "react-toastify";
@@ -16,6 +16,7 @@ import SystemRoute from "./System/SystemRoute";
 import Doctor from "../routes/Doctor";
 import PatientRoute from "./Patient/PatientRoute";
 import Loading from "../components/Loading";
+import HomePage from "./HomePage/HomePage";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -36,59 +37,46 @@ class App extends Component {
     this.handlePersistorState();
   }
 
+  // PrivateAdminRoute({ children }) {
+  //   const auth = useAuth();
+  //   return auth ? children : <Navigate to="/login" />;
+  // }
+  //  PrivateDoctorRoute({ children }) {
+  //   const auth = useAuth();
+  //   return auth ? children : <Navigate to="/login" />;
+  // }
+
   render() {
     return (
-      <Fragment>
-        <Loading />
-        <Router history={history}>
-          <div className="main-container">
-            <span className="content-container">
-              <CustomScrollbars style={{ height: "100vh", width: "100%" }}>
-                <Switch>
-                  <Route exact path={path.HOME} component={PatientRoute} />
-                  <Route exact path={path.HOMEPAGE} component={PatientRoute} />
-                  <Route
-                    path={path.LOGIN}
-                    component={userIsNotAuthenticated(Login)}
-                  />
-                  <Route
-                    path={path.SYSTEM}
-                    component={userIsAuthenticated(SystemRoute)}
-                  />
-                  <Route
-                    path={path.DOCTOR}
-                    component={userIsAuthenticated(Doctor)}
-                  />
-                </Switch>
-              </CustomScrollbars>
-            </span>
-
-            {/* <ToastContainer
-              className="toast-container"
-              toastClassName="toast-item"
-              bodyClassName="toast-item-body"
-              autoClose={false}
-              hideProgressBar={true}
-              pauseOnHover={false}
-              pauseOnFocusLoss={true}
-              closeOnClick={false}
-              draggable={false}
-              closeButton={<CustomToastCloseButton />}
-            /> */}
-            <ToastContainer
-              position="top-right"
-              autoClose={3000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
-          </div>
-        </Router>
-      </Fragment>
+      <BrowserRouter>
+        <>
+          <Loading />
+          <Router history={history}>
+            <Routes>
+              <Route path={path.HOME} element={<PatientRoute />} />
+              <Route path={path.LOGIN} element={<Login />} />
+              {/* <Route
+                path={path.ADMIN}
+                element={userIsAuthenticated(<SystemRoute />)}
+              />
+              <Route
+                path={path.DOCTOR}
+                element={userIsAuthenticated(<Doctor />)}
+              /> */}
+              <Route path={path.ADMIN} element={<SystemRoute />} />
+              {/* <Route
+                path={path.DOCTOR}
+                element={
+                  <PrivateRoute>
+                    <Doctor />
+                  </PrivateRoute>
+                }
+              /> */}
+              <Route path="*" element={<Navigate replace to="/" />} />
+            </Routes>
+          </Router>
+        </>
+      </BrowserRouter>
     );
   }
 }

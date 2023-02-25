@@ -271,7 +271,6 @@ export {
   getSpecialty,
   getListDoctorSpecialty,
   createANewClinic,
-  getListClinicHomeService,
   getClinic,
   getListDoctorClinic,
   getAllPatientForDoctor,
