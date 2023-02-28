@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import "./ModalAddEditClinic.scss";
 import "react-image-lightbox/style.css";
 import { toast } from "react-toastify";
 import _ from "lodash";

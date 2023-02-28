@@ -6,7 +6,6 @@ import Header from "../Header/Header";
 import ManageDoctor from "./Admin/ManageDoctor";
 import ManageSpecialty from "./Specialty/ManageSpecialty";
 import TableManageClinic from "./Clinic/TableManageClinic";
-import ManageDetailClinic from "./Clinic/ManageDetailClinic";
 import ManageDetailSpecialty from "./Specialty/ManageDetailSpecialty";
 import ManageHandbook from "./Handbook/ManageHandbook";
 import ManageDetailHandbook from "./Handbook/ManageDetailhandbook"; //commnet nek

@@ -1,8 +1,19 @@
-.editDetail {
-  color: blue;
-  font-style: italic;
-  cursor: pointer;
+.MuiTableCell-head{
+  font-size:14px !important;
+  font-weight: 600 !important;
 }
-.css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper {
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px !important;
+.table__clinic--header {
+  height: 50px;
+  background-color: darkgrey;
+}
+.table__clinic--logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.table__clinic--pagination {
+  p {
+    margin: 0 !important;
+  }
 }

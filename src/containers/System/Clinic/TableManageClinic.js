@@ -4,22 +4,29 @@ import "./TableManageClinic.scss";
 import * as actions from "../../../store/actions";
 import { useEffect } from "react";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import ModalManageDetailClinic from "./ModalManageDetailClinic";
 import { Box, useTheme, Button } from "@mui/material";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import { tokens } from "../theme";
 import Header from "../../../components/Header";
 import _ from "lodash";
 import "./TableManageClinic.scss";
 import { Stack } from "@mui/system";
 
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+
 const TableManageClinic = ({ getListClinicAction, listClinic }) => {
   const [list, setList] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     if (_.isEmpty(listClinic)) getListClinicAction();
@@ -42,118 +49,77 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const columns = [
-    {
-      field: "name",
-      headerName: "Tên",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "address",
-      headerName: "Địa chỉ",
-      flex: 1,
-    },
-    {
-      field: "logo",
-      headerName: "Hình ảnh",
-      flex: 1,
-      renderCell: ({ row: { logo } }) => {
-        return (
-          <Box>
-            <img src={logo} alt="Logo CLinic" width="120px" height="60px" />
-          </Box>
-        );
-      },
-    },
-    // {
-    //   field: "introduce",
-    //   headerName: "Giới thiệu",
-    //   flex: 2,
-    //   renderCell: ({ row: { introduce } }) => {
-    //     return <span dangerouslySetInnerHTML={{ __html: introduce }}></span>;
-    //   },
-    // },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 180,
-      sortable: false,
-      disableClickEventBubbling: true,
-      renderCell: (params) => {
-        const onClickEdit = (e) => {
-          const currentRow = params.row;
-          console.log("edit Id", currentRow.id);
-        };
-        const onClickDelete = (e) => {
-          const currentRow = params.row;
-          console.log("delete Id", currentRow.id);
-        };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
-        return (
-          <Stack direction="row" spacing={1}>
-            <Button
-              variant="outlined"
-              color="warning"
-              size="small"
-              onClick={onClickEdit}
-            >
-              Sửa
-            </Button>
-            <Button
-              variant="outlined"
-              color="error"
-              size="small"
-              onClick={onClickDelete}
-            >
-              Xóa
-            </Button>
-          </Stack>
-        );
-      },
-    },
-  ];
-
+  const TableRowName = () => (
+    <TableRow className="table__clinic--header">
+      <TableCell>Cơ sở</TableCell>
+      <TableCell>Địa chỉ</TableCell>
+    </TableRow>
+  );
+  const TableColumn = (props) => {
+    const { address, name, logo } = props;
+    return (
+      <>
+        <TableRow>
+          <TableCell>
+            <span className="d-flex justify-content-start align-items-center gap-2">
+              <div>
+                <img className="table__clinic--logo" src={logo} alt={name} />
+              </div>
+              <div> {name}</div>
+            </span>
+          </TableCell>
+          <TableCell>{address}</TableCell>
+        </TableRow>
+      </>
+    );
+  };
   return (
     <>
       <Box m="20px">
         <Header
-          title="Manage Clinics"
-          subtitle="Managing the Clinics"
-          titleBtn="Thêm mới phòng khám"
+          title="Quản lý danh sách phòng khám"
+          subtitle="Quản lý phòng khám"
+          titleBtn="Thêm mới"
           isShowBtn={true}
           link="/admin/add-clinic"
           activeMenu="Thêm Phòng Khám"
         />
-        <Box
-          m="40px 0 0 0"
-          height="75vh"
-          sx={{
-            "& .MuiDataGrid-root": {
-              border: "none",
-            },
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-            },
-            "& .name-column--cell": {
-              color: colors.greenAccent[300],
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.blueAccent[700],
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              backgroundColor: colors.primary[400],
-            },
-            "& .MuiDataGrid-footerContainer": {
-              borderTop: "none",
-              backgroundColor: colors.blueAccent[700],
-            },
-            "& .MuiCheckbox-root": {
-              color: `${colors.greenAccent[200]} !important`,
-            },
-          }}
-        ></Box>
+        <Box m="40px 0 0 0" height="75vh">
+          <TableContainer component={Paper}>
+            <Table
+              sx={{ minWidth: 650 }}
+              size="small"
+              aria-label="simple table"
+            >
+              <TableHead>
+                <TableRowName />
+              </TableHead>
+              <TableBody>
+                {list &&
+                  list.length > 0 &&
+                  list.map((e) => <TableColumn key={e.id} {...e} />)}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={list.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            className='table__clinic--pagination'
+          />
+        </Box>
       </Box>
     </>
   );

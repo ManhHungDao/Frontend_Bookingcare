@@ -5,15 +5,22 @@ import * as actions from "../../../store/actions";
 import { useEffect } from "react";
 import { Box, Typography, useTheme, Button } from "@mui/material";
 import Header from "../../../components/Header.jsx";
+import _ from "lodash";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import { tokens } from "../theme";
-import _ from "lodash";
+import AttributionIcon from "@mui/icons-material/Attribution";
 
 const TableManageUser = (props) => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   const [users, setUsers] = useState([]);
   const [listSeach, setListSeach] = useState([]);
   const [openModal, setOpenModal] = useState(false);
@@ -26,9 +33,31 @@ const TableManageUser = (props) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const role = [
-    { id: "R1", name: "admin" },
-    { id: "R2", name: "doctor" },
-    { id: "R3", name: "users" },
+    {
+      id: "R1",
+      name: "admin",
+      icon: <AdminPanelSettingsOutlinedIcon />,
+      bgcolor: "#4cceac",
+    },
+    {
+      id: "R2",
+      name: "doctor",
+      icon: <SecurityOutlinedIcon />,
+      bgcolor: "#2e7c67",
+    },
+    {
+      id: "R3",
+      name: "users",
+      icon: <LockOpenOutlinedIcon />,
+      bgcolor: "#2e7c67",
+    },
+  ];
+  const position = [
+    { id: "P0", name: "Bác sĩ" },
+    { id: "P1", name: "Thạc sĩ" },
+    { id: "P2", name: "Tiến sĩ" },
+    { id: "P3", name: "Phó giáo sư" },
+    { id: "P$", name: "Giáo sư" },
   ];
 
   const handleChangePage = (event, newPage) => {
@@ -52,8 +81,8 @@ const TableManageUser = (props) => {
         name: i.name,
         phone: i.phone,
         address: i.address.detail,
-        // image: i.image,
-        // positionId: i.positionId,
+        image: i.image.url,
+        positionId: i.positionId,
         roleId: i.roleId,
         // gender: i.gender,
       };
@@ -61,13 +90,13 @@ const TableManageUser = (props) => {
     setUsers(listUser);
     setListSeach(listUser);
   }, [props.users]);
-  useEffect(() => {
-    let data = users;
-    let dataSearch = data.filter((e) => {
-      return e.lastName.toLowerCase().includes(searchTerm.toLowerCase());
-    });
-    setListSeach(dataSearch);
-  }, [searchTerm]);
+  // useEffect(() => {
+  //   let data = users;
+  //   let dataSearch = data.filter((e) => {
+  //     return e.lastName.toLowerCase().includes(searchTerm.toLowerCase());
+  //   });
+  //   setListSeach(dataSearch);
+  // }, [searchTerm]);
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -95,66 +124,117 @@ const TableManageUser = (props) => {
     setUserDelete({});
   };
   const handleCellDoubleClick = (params) => {
-    console.log(
-      "🚀 ~ file: TableManageUser.js:163 ~ handleOnCellClick ~ params",
-      params
+  };
+  const TableRowName = () => (
+    <TableRow className="table__clinic--header">
+      <TableCell>Người dùng</TableCell>
+      <TableCell>Email</TableCell>
+      <TableCell>Số điện thoại</TableCell>
+      <TableCell>Địa chỉ</TableCell>
+      <TableCell>Vị trí</TableCell>
+      <TableCell>Quyền</TableCell>
+    </TableRow>
+  );
+  const TableColumn = (props) => {
+    const { address, name, image, phone, email, roleId, positionId } = props;
+    return (
+      <>
+        <TableRow>
+          <TableCell>
+            <span className="d-flex justify-content-start align-items-center gap-2">
+              <div>
+                <img className="table__clinic--logo" src={image} alt={name} />
+              </div>
+              <div> {name}</div>
+            </span>
+          </TableCell>
+          <TableCell>{email}</TableCell>
+          <TableCell>{phone}</TableCell>
+          <TableCell>{address}</TableCell>
+          <TableCell>
+            <span className="d-flex justify-content-center">
+              <AttributionIcon />
+              {position &&
+                position.map((i) => {
+                  if (i.id === positionId)
+                    return (
+                      <>
+                        <Typography color="#141414" sx={{ ml: "5px" }}>
+                          {i.name}
+                        </Typography>
+                      </>
+                    );
+                })}
+            </span>
+          </TableCell>
+          <TableCell>
+            {role &&
+              role.map((i) => {
+                if (i.id === roleId)
+                  return (
+                    <>
+                      <Box
+                        width="60%"
+                        m="0 auto"
+                        p="5px"
+                        display="flex"
+                        justifyContent="center"
+                        backgroundColor={i.bgcolor}
+                        borderRadius="4px"
+                      >
+                        {i.icon}
+                        <Typography color="#141414" sx={{ ml: "5px" }}>
+                          {i.name}
+                        </Typography>
+                      </Box>
+                    </>
+                  );
+              })}
+          </TableCell>
+        </TableRow>
+      </>
     );
   };
-
   return (
     <>
       <Box m="20px">
         <Header
           title="Danh sách người dùng"
           subtitle="Quản lý thành viên"
-          titleBtn="Thêm mới người dùng"
+          titleBtn="Thêm mới"
           isShowBtn={true}
           link="/admin/add-user"
           activeMenu="Thêm Người Dùng"
         />
-        <Box
-          m="40px 0 0 0"
-          height="75vh"
-          // sx={{
-          //   "& .MuiDataGrid-root": {
-          //     border: "none",
-          //   },
-          //   "& .MuiDataGrid-cell": {
-          //     borderBottom: "none",
-          //   },
-          //   "& .name-column--cell": {
-          //     color: colors.greenAccent[300],
-          //   },
-          //   "& .MuiDataGrid-columnHeaders": {
-          //     backgroundColor: colors.blueAccent[700],
-          //     borderBottom: "none",
-          //   },
-          //   "& .MuiDataGrid-virtualScroller": {
-          //     backgroundColor: colors.primary[400],
-          //   },
-          //   "& .MuiDataGrid-footerContainer": {
-          //     borderTop: "none",
-          //     backgroundColor: colors.blueAccent[700],
-          //   },
-          //   "& .MuiCheckbox-root": {
-          //     color: `${colors.greenAccent[200]} !important`,
-          //   },
-          // }}
-        ></Box>
+        <Box m="40px 0 0 0" height="75vh">
+          <TableContainer component={Paper}>
+            <Table
+              sx={{ minWidth: 650 }}
+              size="small"
+              aria-label="simple table"
+            >
+              <TableHead>
+                <TableRowName />
+              </TableHead>
+              <TableBody>
+                {users &&
+                  users.length > 0 &&
+                  users.map((e) => <TableColumn key={e.id} {...e} />)}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={users.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          className='table__user--pagination'
+        />
+        </Box>
       </Box>
-      {/* <ModalInfo
-        openModal={openModal}
-        closeModal={closeModal}
-        userEdit={userEdit}
-        isAddNewUser={isAdd}
-      />
-      <ConfirmModal
-        openModal={isOpenConfirmModal}
-        closeModal={closeModal}
-        idDelete={userDelete ? userDelete.id : ""}
-        content={userDelete.firstName + " " + userDelete.lastName}
-        handleConfirm={deleteUser}
-      /> */}
     </>
   );
 };

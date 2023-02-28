@@ -17,7 +17,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import ConfirmModal from "../ConfirmModal";
 
 const TableManageUser = ({ columns, dataInput }) => {
   const [data, setData] = useState([]);
@@ -194,14 +193,7 @@ const TableManageUser = ({ columns, dataInput }) => {
         dataEdit={dataEdit}
         isAddNewUser={isAdd}
       /> */}
-      <ConfirmModal
-        openModal={isOpenConfirmModal}
-        closeModal={closeModal}
-        idDelete={dataDelete ? dataDelete.id : ""}
-        // content={dataDelete.firstName + " " + dataDelete.lastName}
-        content="test data"
-        handleConfirm={deleteData}
-      />
+     
     </>
   );
 };

@@ -1,9 +1,9 @@
 import { Typography, Box, useTheme, Button } from "@mui/material";
 import { Stack } from "@mui/system";
 import { tokens } from "../theme";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useDispatch } from "react-redux";
 import { useNavigate  } from "react-router-dom";
+import AddIcon from '@mui/icons-material/Add';
 import * as actions from "../store/actions";
 
 const Header = ({ title, subtitle, titleBtn, isShowBtn, activeMenu, link }) => {
@@ -34,18 +34,18 @@ const Header = ({ title, subtitle, titleBtn, isShowBtn, activeMenu, link }) => {
         <Stack>
           <Button
             sx={{
-              backgroundColor: colors.blueAccent[500],
+              backgroundColor: 'rgb(33, 150, 243)',
               color: "#fff",
               fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
+              fontWeight: "light",
+              padding: "5px 10px",
               ":hover": {
                 bgcolor: colors.blueAccent[300], // theme.palette.primary.main
                 // color: hoverColor,
               },
             }}
             variant="contained"
-            startIcon={<AddCircleIcon />}
+            startIcon={<AddIcon />}
             onClick={onClick}
           >
             {titleBtn}
