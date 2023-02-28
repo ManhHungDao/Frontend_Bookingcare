@@ -1,12 +1,10 @@
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-
 import { useEffect, useState } from "react";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
-import { tokens } from "../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -20,9 +18,7 @@ import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-const Item = ({ title, to, icon, menuOpen, selected, setSelected }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
 
   const handleSelected = () => {
@@ -32,30 +28,19 @@ const Item = ({ title, to, icon, menuOpen, selected, setSelected }) => {
   return (
     <MenuItem
       active={title === selected}
-      style={{
-        color: colors.grey[100],
-      }}
       onClick={() => handleSelected()}
       icon={icon}
     >
-      <Typography>{title}</Typography>
+      {!isCollapsed && <Typography>{title}</Typography>}
       <Link to={to} />
     </MenuItem>
   );
 };
 
-const LogOut = ({ title, to, icon, processLogout }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+const LogOut = ({ title, to, icon, processLogout, isCollapsed }) => {
   return (
-    <MenuItem
-      style={{
-        color: colors.grey[100],
-      }}
-      onClick={processLogout}
-      icon={icon}
-    >
-      <Typography>{title}</Typography>
+    <MenuItem onClick={processLogout} icon={icon}>
+      {!isCollapsed && <Typography>{title}</Typography>}
       <Link to={to} />
     </MenuItem>
   );
@@ -68,8 +53,6 @@ const role = [
 ];
 
 const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("");
   useEffect(() => {
@@ -80,19 +63,28 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
     <Box
       sx={{
         "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
+          background: `#262b40 !important`,
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
         },
         "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
+          padding: "5px 5px 5px 20px !important",
+          color: "#eaedf2 !important",
         },
         "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
+          color: "#fff !important",
+          backgroundColor: "#2e3650 !important",
+          borderRadius: "5px",
+        },
+        "& .pro-menu-item": {
+          padding: "5px 0 ",
         },
         "& .pro-menu-item.active": {
-          color: "#6870fa !important",
+          color: "#f3f3f3 !important",
+          border: "1px solid #eaedf2 !important",
+          borderRadius: "5px",
+          backgroundColor: "#2e3650 !important",
         },
       }}
     >
@@ -104,7 +96,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
               margin: "10px 0 20px 0",
-              color: colors.grey[100],
+              padding: "5px 0 ",
             }}
           >
             {!isCollapsed && (
@@ -114,19 +106,21 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 alignItems="center"
                 ml="15px"
               >
-                <Typography variant="h3" color={colors.grey[100]}>
+                <Typography variant="h3" color="#f3f3f3">
                   HEALTHCARE
                 </Typography>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                <IconButton
+                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  sx={{ color: "#f3f3f3" }}
+                >
                   <MenuOutlinedIcon />
                 </IconButton>
               </Box>
             )}
           </MenuItem>
-
           {!isCollapsed && (
             <Box mb="25px">
-              <Box display="flex" justifyContent="center" alignItems="center">
+              {/* <Box display="flex" justifyContent="center" alignItems="center">
                 <img
                   alt="profile-user"
                   width="100px"
@@ -138,11 +132,11 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                     objectFit: "contain",
                   }}
                 />
-              </Box>
-              <Box textAlign="center">
+              </Box> */}
+              {/* <Box textAlign="center">
                 <Typography
                   variant="h2"
-                  color={colors.grey[100]}
+                  color="#f3f3f3"
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
@@ -154,29 +148,32 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                       if (i.id === userInfo.roleId) return i.name;
                     })}
                 </Typography>
-              </Box>
+              </Box> */}
             </Box>
           )}
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+
+          <Box
+            paddingLeft={isCollapsed ? undefined : "10%"}
+            sx={{ width: "90%" }}
+          >
             <Item
               title="Trang Chính"
               to="/admin"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+              isCollapsed={isCollapsed}
             />
             <SubMenu
-              title={"Người dùng"}
+              title={isCollapsed ? "" : "Người dùng"}
               icon={<PermIdentityOutlinedIcon />}
-              style={{
-                color: colors.grey[100],
-              }}
             >
               <Item
                 title="Thêm Người Dùng"
                 to="/admin/add-user"
                 icon={<PersonAddAltIcon />}
                 selected={selected}
+                isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
               <Item
@@ -184,6 +181,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 to="/admin/detail-user"
                 icon={<ArticleOutlinedIcon />}
                 selected={selected}
+                isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
               <Item
@@ -191,14 +189,12 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 to="/admin/manage-user"
                 icon={<PeopleOutlinedIcon />}
                 selected={selected}
+                isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
             </SubMenu>
             <SubMenu
-              title={"Phòng khám"}
-              style={{
-                color: colors.grey[100],
-              }}
+              title={isCollapsed ? "" : "Phòng khám"}
               icon={<HomeWorkOutlinedIcon />}
             >
               {/* <Typography
@@ -211,6 +207,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 to="/admin/add-clinic"
                 icon={<AddHomeOutlinedIcon />}
                 selected={selected}
+                isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
               <Item
@@ -218,6 +215,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 to="/admin/detail-clinic"
                 icon={<ArticleOutlinedIcon />}
                 selected={selected}
+                isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
               <Item
@@ -225,14 +223,12 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 to="/admin/manage-clinic"
                 icon={<BallotOutlinedIcon />}
                 selected={selected}
+                isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
             </SubMenu>
             <SubMenu
-              title={"Chuyên khoa"}
-              style={{
-                color: colors.grey[100],
-              }}
+              title={isCollapsed ? "" : "Chuyên khoa"}
               icon={<ShieldOutlinedIcon />}
             >
               <Item
@@ -240,6 +236,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 to="/admin/manage-specialty"
                 icon={<LibraryAddOutlinedIcon />}
                 selected={selected}
+                isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
               <Item
@@ -247,6 +244,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 to="/admin/detail-specialty"
                 icon={<ArticleOutlinedIcon />}
                 selected={selected}
+                isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
               <Item
@@ -254,6 +252,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 to="/admin/manage-list-specialty"
                 icon={<BallotOutlinedIcon />}
                 selected={selected}
+                isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
             </SubMenu>
@@ -261,6 +260,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               title="Logout"
               to="/login"
               icon={<LogoutIcon />}
+              isCollapsed={isCollapsed}
               processLogout={processLogout}
             />
           </Box>

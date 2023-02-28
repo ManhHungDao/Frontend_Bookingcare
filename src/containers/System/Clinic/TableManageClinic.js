@@ -5,7 +5,6 @@ import * as actions from "../../../store/actions";
 import { useEffect } from "react";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ModalManageDetailClinic from "./ModalManageDetailClinic";
-import { DataGrid } from "@mui/x-data-grid";
 import { Box, useTheme, Button } from "@mui/material";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
@@ -154,14 +153,7 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
               color: `${colors.greenAccent[200]} !important`,
             },
           }}
-        >
-          <DataGrid
-            rows={list}
-            columns={columns}
-            getRowHeight={() => "auto"}
-            getEstimatedRowHeight={() => 200}
-          />
-        </Box>
+        ></Box>
       </Box>
     </>
   );

@@ -9,9 +9,7 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import { tokens } from "../theme";
-import { DataGrid } from "@mui/x-data-grid";
 import _ from "lodash";
-import { Stack } from "@mui/system";
 
 const TableManageUser = (props) => {
   const theme = useTheme();
@@ -31,99 +29,6 @@ const TableManageUser = (props) => {
     { id: "R1", name: "admin" },
     { id: "R2", name: "doctor" },
     { id: "R3", name: "users" },
-  ];
-
-  const columns = [
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "name",
-      headerName: "Tên",
-      flex: 1,
-    },
-
-    {
-      field: "phone",
-      headerName: "Số điện thoại",
-      flex: 1,
-    },
-    {
-      field: "address",
-      headerName: "Địa chỉ",
-      flex: 2,
-    },
-    {
-      field: "roleId",
-      headerName: "Quyền",
-      flex: 1,
-      renderCell: ({ row: { roleId } }) => {
-        return (
-          <Box
-            width="60%"
-            m="0 auto"
-            p="5px"
-            display="flex"
-            justifyContent="center"
-            backgroundColor={
-              roleId === "R1"
-                ? colors.greenAccent[500]
-                : roleId === "R2"
-                ? colors.greenAccent[700]
-                : colors.greenAccent[700]
-            }
-            borderRadius="4px"
-          >
-            {roleId === "R1" && <AdminPanelSettingsOutlinedIcon />}
-            {roleId === "R2" && <SecurityOutlinedIcon />}
-            {roleId === "R3" && <LockOpenOutlinedIcon />}
-            <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-              {role &&
-                role.map((i) => {
-                  if (i.id === roleId) return i.name;
-                })}
-            </Typography>
-          </Box>
-        );
-      },
-    },
-    // {
-    //   field: "action",
-    //   headerName: "Action",
-    //   width: 180,
-    //   sortable: false,
-    //   disableClickEventBubbling: true,
-    //   renderCell: (params) => {
-    //     const onClick = (e) => {
-    //       const currentRow = params.row;
-    //       return alert(JSON.stringify(currentRow, null, 4));
-    //     };
-
-    //     return (
-    //       <Stack direction="row" spacing={1}>
-    //         <Button
-    //           variant="outlined"
-    //           color="warning"
-    //           size="small"
-    //           onClick={onClick}
-    //         >
-    //           Sửa
-    //         </Button>
-    //         <Button
-    //           variant="outlined"
-    //           color="error"
-    //           size="small"
-    //           onClick={onClick}
-    //         >
-    //           Xóa
-    //         </Button>
-    //       </Stack>
-    //     );
-    //   },
-    // },
   ];
 
   const handleChangePage = (event, newPage) => {
@@ -210,38 +115,32 @@ const TableManageUser = (props) => {
         <Box
           m="40px 0 0 0"
           height="75vh"
-          sx={{
-            "& .MuiDataGrid-root": {
-              border: "none",
-            },
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-            },
-            "& .name-column--cell": {
-              color: colors.greenAccent[300],
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.blueAccent[700],
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              backgroundColor: colors.primary[400],
-            },
-            "& .MuiDataGrid-footerContainer": {
-              borderTop: "none",
-              backgroundColor: colors.blueAccent[700],
-            },
-            "& .MuiCheckbox-root": {
-              color: `${colors.greenAccent[200]} !important`,
-            },
-          }}
-        >
-          <DataGrid
-            rows={users}
-            columns={columns}
-            onCellDoubleClick={handleCellDoubleClick}
-          />
-        </Box>
+          // sx={{
+          //   "& .MuiDataGrid-root": {
+          //     border: "none",
+          //   },
+          //   "& .MuiDataGrid-cell": {
+          //     borderBottom: "none",
+          //   },
+          //   "& .name-column--cell": {
+          //     color: colors.greenAccent[300],
+          //   },
+          //   "& .MuiDataGrid-columnHeaders": {
+          //     backgroundColor: colors.blueAccent[700],
+          //     borderBottom: "none",
+          //   },
+          //   "& .MuiDataGrid-virtualScroller": {
+          //     backgroundColor: colors.primary[400],
+          //   },
+          //   "& .MuiDataGrid-footerContainer": {
+          //     borderTop: "none",
+          //     backgroundColor: colors.blueAccent[700],
+          //   },
+          //   "& .MuiCheckbox-root": {
+          //     color: `${colors.greenAccent[200]} !important`,
+          //   },
+          // }}
+        ></Box>
       </Box>
       {/* <ModalInfo
         openModal={openModal}
