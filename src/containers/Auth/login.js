@@ -12,9 +12,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import backgroundImg from "../../assets/bg.png";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { handleLoginApiService } from "../../services/userService";
-import { toast } from "react-toastify";
 
 function Copyright() {
   return (
@@ -32,20 +31,18 @@ function Copyright() {
 
 const theme = createTheme();
 
-const SignInSide = ({ userLoginSuccess }) => {
+const SignInSide = ({ loginAction, isLoggedIn, processLogout }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  useEffect(() => {}, []);
-  const onClick = async () => {
-    if (email && password) {
-      const data = await handleLoginApiService(email, password);
-      if (data && data.success === false) {
-        toast.error("Đăng nhập thất bại, kiểm tra lại thông tin");
-      } else if (data && data.success) {
-        userLoginSuccess(data.user);
-      }
-    }
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    return isLoggedIn === true ? navigate("/admin") : "";
+  }, [isLoggedIn]);
+  const onClick = () => {
+    loginAction(email, password);
   };
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -113,7 +110,6 @@ const SignInSide = ({ userLoginSuccess }) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <Button
-                type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
@@ -133,13 +129,15 @@ const SignInSide = ({ userLoginSuccess }) => {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    isLoggedIn: state.user.isLoggedIn,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    userLoginSuccess: (userInfo) =>
-      dispatch(actions.userLoginSuccess(userInfo)),
+    loginAction: (email, password) =>
+      dispatch(actions.loginAction(email, password)),
+    processLogout: () => dispatch(actions.processLogout()),
   };
 };
 

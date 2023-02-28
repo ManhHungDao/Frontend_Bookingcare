@@ -1,6 +1,6 @@
 import axios from "../axios";
 
-const handleLoginApiService = (email, password) => {
+const loginApiService = (email, password) => {
   return axios.post("/api/login", { email, password });
 };
 
@@ -251,7 +251,7 @@ export {
   deleteSpecialtyService,
   getDetailClinicService,
   updateSpecialtyService,
-  handleLoginApiService,
+  loginApiService,
   getAllUser,
   createNewUserService,
   getListSpecialtyByClinicIdService,

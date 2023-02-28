@@ -16,7 +16,7 @@ class SubHeader extends Component {
     this.props.changLanguageAppRedux(language);
   };
   returnHome = () => {
-    if (this.props.history) this.props.history.push(`/home`);
+    if (this.props.history) this.props.history.push(`/`);
   };
   renderListSelect = (type) => {
     if (this.props.history) this.props.history.push(`/render-list/${type}`);

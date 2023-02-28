@@ -60,7 +60,12 @@ const SystemRoute = ({ systemMenuPath, isLoggedIn }) => {
                   path="/packet_examination"
                   element={Packet_examination}
                 /> */}
-                <Route path="*" element={<Navigate replace to="/admin" />} />
+                 <Route path="*" element={<Navigate replace to="/admin" />} />
+                {/* {isLoggedIn ? (
+                  <Route path="*" element={<Navigate replace to="/admin" />} />
+                ) : (
+                  <Route path="*" element={<Navigate replace to="/login" />} />
+                )} */}
               </Routes>
             </main>
           </div>

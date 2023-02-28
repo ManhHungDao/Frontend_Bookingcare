@@ -17,7 +17,7 @@ import Doctor from "../routes/Doctor";
 import PatientRoute from "./Patient/PatientRoute";
 import Loading from "../components/Loading";
 import HomePage from "./HomePage/HomePage";
-
+import AuthRoute from "../hoc/AuthRoute";
 class App extends Component {
   handlePersistorState = () => {
     const { persistor } = this.props;
@@ -37,25 +37,17 @@ class App extends Component {
     this.handlePersistorState();
   }
 
-  // PrivateAdminRoute({ children }) {
-  //   const auth = useAuth();
-  //   return auth ? children : <Navigate to="/login" />;
-  // }
-  //  PrivateDoctorRoute({ children }) {
-  //   const auth = useAuth();
-  //   return auth ? children : <Navigate to="/login" />;
-  // }
-
   render() {
     return (
       <>
         <Loading />
         <BrowserRouter>
           <Router history={history}>
-            <Routes>
-              <Route path={path.HOME} element={<PatientRoute />} />
-              <Route path={path.LOGIN} element={<Login />} />
-              {/* <Route
+            <CustomScrollbars style={{ height: "100vh", width: "100%" }}>
+              <Routes>
+                <Route path={path.HOME} element={<PatientRoute />} />
+                <Route path={path.LOGIN} element={<Login />} />
+                {/* <Route
                 path={path.ADMIN}
                 element={userIsAuthenticated(<SystemRoute />)}
               />
@@ -63,8 +55,16 @@ class App extends Component {
                 path={path.DOCTOR}
                 element={userIsAuthenticated(<Doctor />)}
               /> */}
-              <Route path={path.ADMIN} element={<SystemRoute />} />
-              {/* <Route
+                <Route
+                  path={path.ADMIN}
+                  element={
+                    <AuthRoute>
+                      <SystemRoute />
+                    </AuthRoute>
+                  }
+                />
+                {/* <Route path={path.ADMIN} element={<SystemRoute />} /> */}
+                {/* <Route
                 path={path.DOCTOR}
                 element={
                   <PrivateRoute>
@@ -72,8 +72,19 @@ class App extends Component {
                   </PrivateRoute>
                 }
               /> */}
-              <Route path="*" element={<Navigate replace to="/" />} />
-            </Routes>
+              </Routes>
+              <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
+            </CustomScrollbars>
           </Router>
         </BrowserRouter>
       </>

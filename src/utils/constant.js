@@ -1,6 +1,5 @@
 export const path = {
   HOME: "/*",
-  HOMEPAGE: "home",
   ADMIN: "/admin/*",
   LOGIN: "/login",
   LOG_OUT: "/logout",

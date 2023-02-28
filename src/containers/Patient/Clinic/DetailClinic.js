@@ -27,7 +27,6 @@ import "./style.scss";
 
 const DetailClinic = ({ clinic, getSingleClinic, language }) => {
   const [data, setData] = useState({});
-  const [viewMore, setViewMore] = useState(false);
   const { id } = useParams();
   useEffect(() => {
     if (id && _.isEmpty(clinic)) {

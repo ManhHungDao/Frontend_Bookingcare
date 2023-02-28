@@ -49,7 +49,7 @@ const role = [
   { id: "R3", name: "users" },
 ];
 
-const Sidebar = ({ isLoggedIn, userInfo, processLogout, menuOpen }) => {
+const Sidebar = ({  userInfo, processLogout, menuOpen }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -124,18 +124,14 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout, menuOpen }) => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  {userInfo && (
-                    <span>
-                      {userInfo?.firstName} {userInfo?.lastName}
-                    </span>
-                  )}
+                  {userInfo && <span>{userInfo?.name}</span>}
                 </Typography>
-                {/* <Typography variant="h5" color={colors.greenAccent[500]}>
+                <Typography variant="h5" color={colors.greenAccent[500]}>
                   {role &&
                     role.map((i) => {
                       if (i.id === userInfo.roleId) return i.name;
                     })}
-                </Typography> */}
+                </Typography>
               </Box>
             </Box>
           )}
@@ -221,9 +217,9 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout, menuOpen }) => {
 
             <Item
               title="Logout"
-              to="/admin/faq"
+              to="/login"
               icon={<LogoutIcon />}
-              onClick={processLogout}
+              onClick={() => processLogout()}
             />
           </Box>
         </Menu>
@@ -233,7 +229,6 @@ const Sidebar = ({ isLoggedIn, userInfo, processLogout, menuOpen }) => {
 };
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.user.isLoggedIn,
     userInfo: state.user.userInfo,
     language: state.app.language,
     menuOpen: state.app.menuOpen,

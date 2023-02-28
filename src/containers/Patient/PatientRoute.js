@@ -15,7 +15,7 @@ import ListPostHandbook from "./Handbook/ListPostHandbook";
 import ViewAllHandbook from "./Handbook/ViewAllHandbook";
 import Packet from "./Packet/Packet";
 import Detail_packet from "./Packet/Detail_packet";
-const PatientRoute = ({ systemMenuPath }) => {
+const PatientRoute = () => {
   return (
     <>
       <Routes>
@@ -28,7 +28,7 @@ const PatientRoute = ({ systemMenuPath }) => {
         <Route path={path.HANDBOOK} element={ViewAllHandbook} />
         <Route path={path.HANDBOOK} element={DetailHandbook} />
         <Route path={path.VERIFY_BOOKING} element={VerifyEmail} /> */}
-        <Route path={path.CLINIC} element={<DetailClinic/>} />
+        <Route path={path.CLINIC} element={<DetailClinic />} />
         {/* <Route
           path={path.TABLE_CLINIC_SPECIALTY}
           element={TableSpecialtyClinic}
@@ -36,12 +36,7 @@ const PatientRoute = ({ systemMenuPath }) => {
         <Route path={path.CLINIC_SPECIALTY} element={DetailClinic} />
         <Route path={path.RENDER_LIST} element={RenderList} />
         <Route path={path.LIST_POST_HANDBOOK} element={ListPostHandbook} /> */}
-        <Route
-          path="*"
-          element={() => {
-            return <Navigate to="/" />;
-          }}
-        />
+        <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
     </>
   );

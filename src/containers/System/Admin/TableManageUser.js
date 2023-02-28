@@ -208,7 +208,7 @@ const TableManageUser = (props) => {
           subtitle="Quản lý thành viên"
           titleBtn="Thêm mới người dùng"
           isShowBtn={true}
-          link="/system/add-user"
+          link="/admin/add-user"
           activeMenu="Thêm Người Dùng"
         />
         <Box

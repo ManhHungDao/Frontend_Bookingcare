@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 class Home extends Component {
   render() {
     const { isLoggedIn } = this.props;
-    let linkToRedirect = isLoggedIn ? "/admin" : "/home";
+    let linkToRedirect = isLoggedIn ? "/admin" : "/";
     return <Navigate to={linkToRedirect} replace />;
   }
 }
