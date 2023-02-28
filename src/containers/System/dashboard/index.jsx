@@ -12,8 +12,10 @@ import GeographyChart from "../../../components/GeographyChart";
 import BarChart from "../../../components/BarChart";
 import StatBox from "../../../components/StatBox";
 import ProgressCircle from "../../../components/ProgressCircle";
+import { connect } from "react-redux";
 
-const Dashboard = () => {
+const Dashboard = ({isLoggedIn}) => {
+  console.log("🚀 ~ file: index.jsx:18 ~ Dashboard ~ isLoggedIn:", isLoggedIn)
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -281,4 +283,11 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.user.isLoggedIn,
+});
+
+export default connect(mapStateToProps)(Dashboard);
+
+// export default Dashboard;

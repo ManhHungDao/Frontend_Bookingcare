@@ -43,13 +43,30 @@ const Item = ({ title, to, icon, menuOpen, selected, setSelected }) => {
   );
 };
 
+const LogOut = ({ title, to, icon, processLogout }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  return (
+    <MenuItem
+      style={{
+        color: colors.grey[100],
+      }}
+      onClick={processLogout}
+      icon={icon}
+    >
+      <Typography>{title}</Typography>
+      <Link to={to} />
+    </MenuItem>
+  );
+};
+
 const role = [
   { id: "R1", name: "admin" },
   { id: "R2", name: "doctor" },
   { id: "R3", name: "users" },
 ];
 
-const Sidebar = ({  userInfo, processLogout, menuOpen }) => {
+const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -214,13 +231,13 @@ const Sidebar = ({  userInfo, processLogout, menuOpen }) => {
                 setSelected={setSelected}
               />
             </SubMenu>
-
-            <Item
+            <LogOut
               title="Logout"
               to="/login"
               icon={<LogoutIcon />}
-              onClick={() => processLogout()}
+              processLogout={processLogout}
             />
+            
           </Box>
         </Menu>
       </ProSidebar>
