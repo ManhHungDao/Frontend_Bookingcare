@@ -21,7 +21,7 @@ import AddEditSpecialty from "./Specialty/AddEditSpecialty";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import "./style.css";
-const SystemRoute = ({ systemMenuPath, isLoggedIn }) => {
+const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = React.useState(true);
   return (
@@ -40,14 +40,12 @@ const SystemRoute = ({ systemMenuPath, isLoggedIn }) => {
                 <Route path="add-clinic" element={<AddEditClinic />} />
                 <Route path="manage-clinic" element={<TableManageClinic />} />
                 <Route path="manage-handbook" element={<ManageHandbook />} />
+                <Route path="manage-specialty" element={<AddEditSpecialty />} />
                 {/* <Route
                   path="/manage-detail-clinic"
                   element={<ManageDetailClinic />}
                 />
-                <Route
-                  path="/manage-specialty"
-                  element={<AddEditSpecialty />}
-                />
+               
                 <Route
                   path="/manage-detail-specialty"
                   element={<ManageDetailSpecialty />}
@@ -60,7 +58,7 @@ const SystemRoute = ({ systemMenuPath, isLoggedIn }) => {
                   path="/packet_examination"
                   element={Packet_examination}
                 /> */}
-                 <Route path="*" element={<Navigate replace to="/admin" />} />
+                <Route path="*" element={<Navigate replace to="/admin" />} />
                 {/* {isLoggedIn ? (
                   <Route path="*" element={<Navigate replace to="/admin" />} />
                 ) : (
@@ -87,4 +85,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SystemRoute);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminRoute);

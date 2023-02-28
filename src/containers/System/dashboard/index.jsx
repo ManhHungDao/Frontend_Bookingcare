@@ -1,4 +1,5 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { connect } from "react-redux";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { mockTransactions } from "../../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
@@ -12,13 +13,10 @@ import GeographyChart from "../../../components/GeographyChart";
 import BarChart from "../../../components/BarChart";
 import StatBox from "../../../components/StatBox";
 import ProgressCircle from "../../../components/ProgressCircle";
-import { connect } from "react-redux";
 
-const Dashboard = ({isLoggedIn}) => {
-  console.log("🚀 ~ file: index.jsx:18 ~ Dashboard ~ isLoggedIn:", isLoggedIn)
+const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
   return (
     <Box m="20px">
       {/* HEADER */}
@@ -283,11 +281,9 @@ const Dashboard = ({isLoggedIn}) => {
   );
 };
 
-
 const mapStateToProps = (state) => ({
   isLoggedIn: state.user.isLoggedIn,
 });
 
 export default connect(mapStateToProps)(Dashboard);
 
-// export default Dashboard;

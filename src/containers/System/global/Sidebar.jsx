@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 const Item = ({ title, to, icon, menuOpen, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -130,8 +131,12 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={userInfo?.image}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
+                  src={userInfo?.image.url}
+                  style={{
+                    cursor: "pointer",
+                    borderRadius: "50%",
+                    objectFit: "contain",
+                  }}
                 />
               </Box>
               <Box textAlign="center">
@@ -175,6 +180,13 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
               <Item
+                title="Chi Tiết Người Dùng"
+                to="/admin/detail-user"
+                icon={<ArticleOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
                 title="Danh Sách Người Dùng"
                 to="/admin/manage-user"
                 icon={<PeopleOutlinedIcon />}
@@ -202,6 +214,13 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
               <Item
+                title="Chi Tiết Phòng Khám"
+                to="/admin/detail-clinic"
+                icon={<ArticleOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
                 title="Danh Sách Phòng Khám"
                 to="/admin/manage-clinic"
                 icon={<BallotOutlinedIcon />}
@@ -224,8 +243,15 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
               <Item
+                title="Chi Tiết Chuyên Khoa"
+                to="/admin/detail-specialty"
+                icon={<ArticleOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+              <Item
                 title="Danh Sách Chuyên Khoa"
-                to="/admin/manage-list-clinic"
+                to="/admin/manage-list-specialty"
                 icon={<BallotOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
@@ -237,7 +263,6 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               icon={<LogoutIcon />}
               processLogout={processLogout}
             />
-            
           </Box>
         </Menu>
       </ProSidebar>

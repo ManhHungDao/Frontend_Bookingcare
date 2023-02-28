@@ -29,8 +29,6 @@ import "./Style.scss";
 import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
 import _ from "lodash";
 
-
-
 const AddNewUser = ({
   createNewUser,
   fetchAllcode,
@@ -99,13 +97,6 @@ const AddNewUser = ({
     clearStatusUpload();
   }, [message, isUploadSuccess]);
   useEffect(() => {
-    if (_.isEmpty(allcodes)) fetchAllcode();
-
-    if (allcodes)
-      setDataSelect(
-        allcodes.map((e) => ({ id: e.keyMap, name: e.valueVI, type: e.type }))
-      );
-
     if (_.isEmpty(listClinic)) getListClinicAction();
     if (listClinic) {
       let data = listClinic.map((e) => {
@@ -116,12 +107,16 @@ const AddNewUser = ({
       });
       setListClinicSelect(data);
     }
-  }, [allcodes, listClinic]);
+  }, [listClinic]);
   useEffect(() => {
-    if (_.isEmpty(listClinic)) getListClinicAction();
-  }, []);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+    if (_.isEmpty(allcodes)) fetchAllcode();
+    else
+      setDataSelect(
+        allcodes.map((e) => ({ id: e.keyMap, name: e.valueVI, type: e.type }))
+      );
+  }, [allcodes]);
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -193,11 +188,7 @@ const AddNewUser = ({
   return (
     <>
       <Box m="20px">
-        <Header
-          title="Thêm Mới Người Dùng"
-          subtitle="Quản lý thành viên"
-        
-        />
+        <Header title="Thêm Mới Người Dùng" subtitle="Quản lý thành viên" />
         <Grid container spacing={2} rowSpacing={{ sm: 2, md: 6 }}>
           <Grid
             container

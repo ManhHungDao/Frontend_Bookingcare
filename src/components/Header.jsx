@@ -3,16 +3,16 @@ import { Stack } from "@mui/system";
 import { tokens } from "../theme";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { useNavigate  } from "react-router-dom";
 import * as actions from "../store/actions";
 
 const Header = ({ title, subtitle, titleBtn, isShowBtn, activeMenu, link }) => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const dispatch = useDispatch();
-  const history = useHistory();
   const onClick = () => {
-    history.push(link);
+    navigate(link)
     dispatch({ type: actions.SET_MENU, data: activeMenu });
   };
   return (

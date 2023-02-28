@@ -111,7 +111,7 @@ const AddEditSpecialty = ({
                   isError={errors.clinic ? true : false}
                   errorText={errors.clinic ? errors.clinic : ""}
                   name="Chọn phòng khám"
-                  minWidth="90%"
+                  // minWidth="90%"
                 />
                 <Tooltip title="Làm mới">
                   <IconButton onClick={() => setClinic("")}>
@@ -144,6 +144,8 @@ const AddEditSpecialty = ({
             <UpLoadAvatar
               setImg={setImage}
               content="Tải ảnh"
+              borderRadius="5px"
+              preWidth="400px"
               previewImgUrl={previewImgUrl}
               setPreviewImgUrl={setPreviewImgUrl}
             />

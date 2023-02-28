@@ -1,22 +1,16 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { ConnectedRouter as Router } from "connected-react-router";
 import { history } from "../redux";
 import { ToastContainer } from "react-toastify";
 import CustomScrollbars from "../components/CustomScrollbars";
-import {
-  userIsAuthenticated,
-  userIsNotAuthenticated,
-} from "../hoc/authentication";
-
 import { path } from "../utils";
 import Login from "./Auth/login";
-import SystemRoute from "./System/SystemRoute";
+import AdminRoute from "./System/AdminRoute";
 import Doctor from "../routes/Doctor";
 import PatientRoute from "./Patient/PatientRoute";
 import Loading from "../components/Loading";
-import HomePage from "./HomePage/HomePage";
 import AuthRoute from "../hoc/AuthRoute";
 class App extends Component {
   handlePersistorState = () => {
@@ -59,7 +53,7 @@ class App extends Component {
                   path={path.ADMIN}
                   element={
                     <AuthRoute>
-                      <SystemRoute />
+                      <AdminRoute />
                     </AuthRoute>
                   }
                 />

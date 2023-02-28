@@ -123,7 +123,7 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
           subtitle="Managing the Clinics"
           titleBtn="Thêm mới phòng khám"
           isShowBtn={true}
-          link="/system/add-clinic"
+          link="/admin/add-clinic"
           activeMenu="Thêm Phòng Khám"
         />
         <Box

@@ -41,17 +41,13 @@ const TableManageUser = (props) => {
       cellClassName: "name-column--cell",
     },
     {
-      field: "firstName",
-      headerName: "Họ",
-      flex: 1,
-    },
-    {
-      field: "lastName",
+      field: "name",
       headerName: "Tên",
       flex: 1,
     },
+
     {
-      field: "phoneNumber",
+      field: "phone",
       headerName: "Số điện thoại",
       flex: 1,
     },
@@ -94,40 +90,40 @@ const TableManageUser = (props) => {
         );
       },
     },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 180,
-      sortable: false,
-      disableClickEventBubbling: true,
-      renderCell: (params) => {
-        const onClick = (e) => {
-          const currentRow = params.row;
-          return alert(JSON.stringify(currentRow, null, 4));
-        };
+    // {
+    //   field: "action",
+    //   headerName: "Action",
+    //   width: 180,
+    //   sortable: false,
+    //   disableClickEventBubbling: true,
+    //   renderCell: (params) => {
+    //     const onClick = (e) => {
+    //       const currentRow = params.row;
+    //       return alert(JSON.stringify(currentRow, null, 4));
+    //     };
 
-        return (
-          <Stack direction="row" spacing={1}>
-            <Button
-              variant="outlined"
-              color="warning"
-              size="small"
-              onClick={onClick}
-            >
-              Sửa
-            </Button>
-            <Button
-              variant="outlined"
-              color="error"
-              size="small"
-              onClick={onClick}
-            >
-              Xóa
-            </Button>
-          </Stack>
-        );
-      },
-    },
+    //     return (
+    //       <Stack direction="row" spacing={1}>
+    //         <Button
+    //           variant="outlined"
+    //           color="warning"
+    //           size="small"
+    //           onClick={onClick}
+    //         >
+    //           Sửa
+    //         </Button>
+    //         <Button
+    //           variant="outlined"
+    //           color="error"
+    //           size="small"
+    //           onClick={onClick}
+    //         >
+    //           Xóa
+    //         </Button>
+    //       </Stack>
+    //     );
+    //   },
+    // },
   ];
 
   const handleChangePage = (event, newPage) => {
@@ -146,9 +142,9 @@ const TableManageUser = (props) => {
   useEffect(() => {
     let listUser = props.users.map((i) => {
       return {
-        id: i.id,
+        id: i._id,
         email: i.email,
-        name: i.lastName,
+        name: i.name,
         phone: i.phone,
         address: i.address.detail,
         // image: i.image,
