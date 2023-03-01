@@ -11,6 +11,7 @@ import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic"
 import ButtonComponent from "../../../components/ButtonComponent";
 import { tokens } from "../theme";
 import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
+import { isMobile } from "react-device-detect";
 
 const AddEditClinic = ({
   createClinicAction,
@@ -99,8 +100,8 @@ const AddEditClinic = ({
     <>
       <Box m="20px">
         <Header title="Thêm Mới Phòng Khám" subtitle="Quản lý phòng khám" />
-        <Grid container spacing={2} rowSpacing={{ sm: 2, md: 6 }}>
-          <Grid container item xs={12} md={4}>
+        <Grid container spacing={2}>
+          <Grid container xs={12} md={4} spacing={2} sx={{ mb: 2 }}>
             <Grid item xs={12} md={12}>
               <TextField
                 required
@@ -109,7 +110,8 @@ const AddEditClinic = ({
                 fullWidth
                 onChange={(e) => setName(e.target.value)}
                 value={name}
-                // defaultValue="Tên"
+                error={errors.name}
+                helperText={errors.name}
               />
             </Grid>
             <Grid item xs={12} md={12}>
@@ -125,9 +127,7 @@ const AddEditClinic = ({
           </Grid>
           <Grid
             container
-            item
             spacing={2}
-            rowSpacing={{ sm: 2, md: 6 }}
             xs={12}
             md={8}
             display="flex"
@@ -136,23 +136,25 @@ const AddEditClinic = ({
           >
             <Grid item xs={12} md={4}>
               <UpLoadAvatar
-                content="Hình nền"
-                borderRadius="5px"
-                preWidth="400px"
-                setImg={setImage}
-                previewImgUrl={previewImgUrl}
-                setPreviewImgUrl={setPreviewImgUrl}
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <UpLoadAvatar
                 content="Hình đại diện"
                 borderRadius="5px"
-                preWidth="400px"
+                preWidth={isMobile ? "250px" : "400px"}
+                preHeight={isMobile ? "150px" : "200px"}
                 setImg={setLogo}
                 backgroundSize="contain"
                 setPreviewImgUrl={setPreviewLogoUrl}
                 previewImgUrl={previewLogoUrl}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <UpLoadAvatar
+                content="Hình nền"
+                borderRadius="5px"
+                preHeight={isMobile ? "150px" : "200px"}
+                preWidth={isMobile ? "250px" : "400px"}
+                setImg={setImage}
+                previewImgUrl={previewImgUrl}
+                setPreviewImgUrl={setPreviewImgUrl}
               />
             </Grid>
           </Grid>
@@ -168,9 +170,9 @@ const AddEditClinic = ({
             <ButtonComponent
               content="Lưu"
               handleClick={handleSave}
-              bgcolor={colors.greenAccent[700]}
-              color={colors.grey[100]}
-              hoverBgColor={colors.greenAccent[200]}
+              bgcolor="#94e2cd"
+              color="#141414"
+              hoverBgColor="#1e5245"
               hoverColor="#fff"
             />
           </Grid>

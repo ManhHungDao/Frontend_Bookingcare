@@ -16,6 +16,7 @@ const UpLoadAvatar = ({
   content,
   setPreviewImgUrl,
   previewImgUrl,
+  gap,
 }) => {
   const [openPreImg, setOpenPreImg] = React.useState(false);
   const theme = useTheme();
@@ -44,9 +45,10 @@ const UpLoadAvatar = ({
     backgroundSize: backgroundSize ? backgroundSize : "cover",
     backgroundImage: `url(${previewImgUrl})`,
   };
+
   return (
     <>
-      <div className="preview-img-container">
+      <div className="preview-img-container" >
         <Button
           variant="contained"
           sx={{

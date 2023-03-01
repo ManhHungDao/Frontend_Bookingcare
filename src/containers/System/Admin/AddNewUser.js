@@ -189,16 +189,9 @@ const AddNewUser = ({
     <>
       <Box m="20px">
         <Header title="Thêm Mới Người Dùng" subtitle="Quản lý thành viên" />
-        <Grid container spacing={2} rowSpacing={{ sm: 2, md: 6 }}>
-          <Grid
-            container
-            item
-            spacing={2}
-            rowSpacing={{ sm: 2, md: 6 }}
-            xs={12}
-            md={6}
-          >
-            <Grid item xs={6} md={6}>
+        <Grid container spacing={2}>
+          <Grid container item spacing={2} xs={12} md={6}>
+            <Grid item xs={12} md={6}>
               <TextField
                 required
                 id="outlined-required"
@@ -218,7 +211,7 @@ const AddNewUser = ({
                 fullWidth
               />
             </Grid> */}
-            <Grid item xs={6} md={6}>
+            <Grid item xs={12} md={6}>
               <TextField
                 required
                 id="outlined-required"
@@ -230,7 +223,7 @@ const AddNewUser = ({
                 value={name}
               />
             </Grid>
-            <Grid item xs={6} md={6}>
+            <Grid item xs={12} md={6}>
               <TextField
                 required
                 id="outlined-required"
@@ -242,7 +235,7 @@ const AddNewUser = ({
                 value={phone}
               />
             </Grid>
-            <Grid item xs={6} md={6}>
+            <Grid item xs={12} md={6}>
               {/* <TextField
             required
             id="outlined-required"
@@ -273,7 +266,7 @@ const AddNewUser = ({
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={6} md={12}>
+            <Grid item xs={12} md={12}>
               <AutocompleteAddress
                 isErr={errors.address ? true : false}
                 errName={errors.address}
@@ -283,7 +276,12 @@ const AddNewUser = ({
                 address={address}
               />
             </Grid>
-            <Grid item container rowSpacing={{ sm: 2, md: 6 }}>
+            <Grid
+              item
+              container
+              // rowSpacing={{ sm: 2, md: 6 }}
+              spacing={2}
+            >
               {/* <Grid item xs={6} md={4}>
                 <FormControl sx={{ minWidth: 80 }} >
                   <InputLabel id="demo-simple-select-autowidth-label">
@@ -303,7 +301,7 @@ const AddNewUser = ({
                   </Select>
                 </FormControl>
               </Grid> */}
-              <Grid item xs={6} md={4}>
+              <Grid item xs={12} md={4}>
                 <LocalizationProvider
                   dateAdapter={AdapterDayjs}
                   adapterLocale="vi"
@@ -321,7 +319,7 @@ const AddNewUser = ({
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={6} md={4}>
+              <Grid item xs={12} md={4}>
                 <InputSelect
                   label="Chức danh"
                   value={position}
@@ -334,7 +332,7 @@ const AddNewUser = ({
                   minWidth={200}
                 />
               </Grid>
-              <Grid item xs={6} md={4}>
+              <Grid item xs={12} md={4}>
                 Giới tính
                 <FormControl>
                   <div>
@@ -389,9 +387,9 @@ const AddNewUser = ({
             xs={12}
             md={12}
             spacing={2}
-            rowSpacing={{ sm: 2, md: 6 }}
+            // rowSpacing={{ sm: 2, md: 6 }}
           >
-            <Grid item xs={6} md={3}>
+            <Grid item xs={12} md={3}>
               <InputSelect
                 label="Chọn phòng khám"
                 value={clinic}
@@ -402,7 +400,7 @@ const AddNewUser = ({
                 name="Chọn phòng khám"
               />
             </Grid>
-            <Grid item xs={6} md={3}>
+            <Grid item xs={12} md={3}>
               <InputSelect
                 label="Chọn chuyên khoa"
                 value={specialty}
@@ -418,7 +416,7 @@ const AddNewUser = ({
               />
             </Grid>
 
-            <Grid item xs={6} md={3}>
+            <Grid item xs={12} md={3}>
               <InputSelect
                 label="Chọn giá (VNĐ)"
                 value={price}
@@ -430,7 +428,7 @@ const AddNewUser = ({
                 name="Chọn giá (VNĐ)"
               />
             </Grid>
-            <Grid item xs={6} md={3}>
+            <Grid item xs={12} md={3}>
               <InputSelect
                 label="Chọn phương thức thanh toán"
                 value={payment}
@@ -466,18 +464,18 @@ const AddNewUser = ({
                 helperText={errors.note}
               />
             </Grid>
-          </Grid>
-          <Grid item xs={12} md={12}>
-            <span> Chi tiết</span>
-            <CKEditorFieldBasic value={content} onChange={setContent} />
+            <Grid item xs={12} md={12}>
+              <span> Chi tiết</span>
+              <CKEditorFieldBasic value={content} onChange={setContent} />
+            </Grid>
           </Grid>
           <Grid xs={12} md={12} item display="flex" justifyContent="flex-end">
             <ButtonComponent
               content="Lưu"
               handleClick={handleSave}
-              bgcolor={colors.greenAccent[700]}
-              color={colors.grey[100]}
-              hoverBgColor={colors.greenAccent[200]}
+              bgcolor="#94e2cd"
+              color="#141414"
+              hoverBgColor="#1e5245"
               hoverColor="#fff"
             />
           </Grid>
