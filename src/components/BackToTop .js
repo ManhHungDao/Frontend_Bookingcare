@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import Button from "@mui/material/Button";
 import ArrowCircleUpRoundedIcon from "@mui/icons-material/ArrowCircleUpRounded";
-import { isMobile } from "react-device-detect";
 const BackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
   const scrollToTop = () => {

@@ -2,7 +2,8 @@
 import actionTypes from "./actionTypes";
 import {
   createNewUserService,
-  getAllUser,
+  getAllUserService,
+  getSingleUserService,
   deleteUserService,
   getAllDoctorService,
   editUserService,
@@ -85,7 +86,29 @@ export const createNewUserAction = (data) => {
   };
 };
 
-// delete user
+export const getSingleUserAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        dispatch(loadingToggleAction(true));
+        const res = await getSingleUserService(id);
+        if (res && res.success) {
+          dispatch(loadingToggleAction(false));
+        }
+        dispatch({
+          type: actionTypes.GET_USER_SUCCESS,
+          data: res.user,
+        });
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_USER_FAILED,
+      });
+      toast.error("Lấy thông tin người dùng thất bại");
+    }
+  };
+};
 
 export const deleteUser = (id) => {
   return async (dispatch, getState) => {
@@ -119,7 +142,7 @@ export const getAllUserAction = (type) => {
     try {
       {
         dispatch(loadingToggleAction(true));
-        const res = await getAllUser(type);
+        const res = await getAllUserService(type);
         if (res && res.success) {
           dispatch(loadingToggleAction(false));
           dispatch({

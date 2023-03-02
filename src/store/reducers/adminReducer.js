@@ -3,6 +3,7 @@ import actionTypes from "../actions/actionTypes";
 const initialState = {
   allcodes: [],
   users: [],
+  user: {},
   listTopDoctor: [],
   listDoctor: [],
   detailDoctor: {},
@@ -25,7 +26,6 @@ const initialState = {
 
 const adminReducer = (state = initialState, action) => {
   switch (action.type) {
- 
     // fetch all code
     case actionTypes.FETCH_ALLCODE_SUCCESS: {
       state.allcodes = action.data;
@@ -47,6 +47,16 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    }
+    case actionTypes.GET_USER_SUCCESS: {
+      state.user = action.data;
+      return {
+        ...state,
+      };
+    }
+    case actionTypes.GET_USER_FAILED: {
+      state.user = {};
+      return { ...state };
     }
     // fetch top doctor home
     case actionTypes.FETCH_TOP_DOCTORS_SUCCESS: {
@@ -104,50 +114,7 @@ const adminReducer = (state = initialState, action) => {
         ...state,
       };
     }
-    /*   // fetch doctor price
-    case actionTypes.GET_DOCTOR_PRICE_SUCCEED: {
-      state.doctorPrice = action.data;
-      return { ...state };
-    }
-    case actionTypes.GET_DOCTOR_PRICE_FAILED: {
-      state.doctorPrice = [];
-      return {
-        ...state,
-      };
-    }
-    // fetch doctor payment
-    case actionTypes.GET_DOCTOR_PAYMENT_SUCCEED: {
-      state.doctorPayment = action.data;
-      return { ...state };
-    }
-    case actionTypes.GET_DOCTOR_PAYMENT_FAILED: {
-      state.doctorPayment = [];
-      return {
-        ...state,
-      };
-    }
-    // fetch doctor province
-    case actionTypes.GET_DOCTOR_PROVINCE_SUCCEED: {
-      state.doctorProvince = action.data;
-      return { ...state };
-    }
-    case actionTypes.GET_DOCTOR_PROVINCE_FAILED: {
-      state.doctorProvince = [];
-      return {
-        ...state,
-      };
-    }
-    // fetch extra info doctor
-    case actionTypes.GET_EXTRA_INFO_DOCTOR_SUCCEED: {
-      state.extraInfoDoctor = action.data;
-      return { ...state };
-    }
-    case actionTypes.GET_EXTRA_INFO_DOCTOR_FAILED: {
-      state.extraInfoDoctor = [];
-      return {
-        ...state,
-      };
-    } */
+  
     // post verify booking
     case actionTypes.POST_VERIFY_BOOKING_APPOINTMENT_SUCCEED: {
       state.statusVerify = action.data;

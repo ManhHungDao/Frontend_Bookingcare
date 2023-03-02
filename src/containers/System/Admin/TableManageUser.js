@@ -1,9 +1,8 @@
-import React, { Component, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import "./TableManageUser.scss";
+import "./Style.scss";
 import * as actions from "../../../store/actions";
-import { useEffect } from "react";
-import { Box, Typography, useTheme, Button } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Header from "../../../components/Header.jsx";
 import _ from "lodash";
 import Paper from "@mui/material/Paper";
@@ -18,9 +17,12 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import AttributionIcon from "@mui/icons-material/Attribution";
-
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import ModeEditRoundedIcon from "@mui/icons-material/ModeEditRounded";
+import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 const TableManageUser = (props) => {
-  const theme = useTheme();
   const [users, setUsers] = useState([]);
   const [listSeach, setListSeach] = useState([]);
   const [openModal, setOpenModal] = useState(false);
@@ -57,7 +59,7 @@ const TableManageUser = (props) => {
     { id: "P1", name: "Thạc sĩ" },
     { id: "P2", name: "Tiến sĩ" },
     { id: "P3", name: "Phó giáo sư" },
-    { id: "P$", name: "Giáo sư" },
+    { id: "P4", name: "Giáo sư" },
   ];
 
   const handleChangePage = (event, newPage) => {
@@ -101,30 +103,16 @@ const TableManageUser = (props) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleAddUser = () => {
-    setOpenModal(!openModal);
-    // setUserEdit({});
-    setIsAdd(true);
+  const hadnleClickView = (id) => {
+    console.log("🚀 click view:", id);
   };
-  const handleEditUser = (user) => {
-    setUserEdit(user);
-    setIsAdd(false);
-    setOpenModal(!openModal);
+  const handleClickEdit = (id) => {
+    console.log("🚀click edit ", id);
   };
-  const handleDeleteUser = (user) => {
-    setUserDelete(user);
-    setIsOpenConfirmModal(true);
+  const handelClickDelete = (id) => {
+    console.log("🚀 ~ click delete:", id);
   };
-  const closeModal = () => {
-    setOpenModal(false);
-    setIsOpenConfirmModal(false);
-  };
-  const deleteUser = () => {
-    alert("deleteuser");
-    setUserDelete({});
-  };
-  const handleCellDoubleClick = (params) => {
-  };
+
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
       <TableCell>Người dùng</TableCell>
@@ -133,10 +121,12 @@ const TableManageUser = (props) => {
       <TableCell>Địa chỉ</TableCell>
       <TableCell>Vị trí</TableCell>
       <TableCell>Quyền</TableCell>
+      <TableCell></TableCell>
     </TableRow>
   );
   const TableColumn = (props) => {
-    const { address, name, image, phone, email, roleId, positionId } = props;
+    const { id, address, name, image, phone, email, roleId, positionId } =
+      props;
     return (
       <>
         <TableRow>
@@ -191,6 +181,23 @@ const TableManageUser = (props) => {
                   );
               })}
           </TableCell>
+          <TableCell>
+            <Tooltip title="Xem">
+              <IconButton onClick={() => hadnleClickView(id)}>
+                <RemoveRedEyeRoundedIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Chỉnh sửa">
+              <IconButton onClick={() => handleClickEdit(id)}>
+                <ModeEditRoundedIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Xóa">
+              <IconButton onClick={() => handelClickDelete(id)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </TableCell>
         </TableRow>
       </>
     );
@@ -223,16 +230,16 @@ const TableManageUser = (props) => {
               </TableBody>
             </Table>
           </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={users.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          className='table__user--pagination'
-        />
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={users.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            className="table__user--pagination"
+          />
         </Box>
       </Box>
     </>

@@ -20,7 +20,7 @@ const ButtonComponent = ({
         fontWeight: "bold",
         padding: "10px 20px",
         ":hover": {
-          bgcolor: hoverBgColor, // theme.palette.primary.main
+          bgcolor: hoverBgColor,
           color: hoverColor,
         },
       }}

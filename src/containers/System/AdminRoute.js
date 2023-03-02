@@ -1,9 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { Link, Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import TableManageUser from "./Admin/TableManageUser";
-import Header from "../Header/Header";
-import ManageDoctor from "./Admin/ManageDoctor";
 import ManageSpecialty from "./Specialty/ManageSpecialty";
 import TableManageClinic from "./Clinic/TableManageClinic";
 import ManageDetailSpecialty from "./Specialty/ManageDetailSpecialty";
@@ -16,6 +14,7 @@ import Sidebar from "./global/Sidebar";
 import AddNewUser from "./Admin/AddNewUser";
 import AddEditClinic from "./Clinic/AddEditClinic";
 import AddEditSpecialty from "./Specialty/AddEditSpecialty";
+import DetailUser from "./Admin/DetailUser";
 // import ManageDetailHandbook from "../containers/"
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
@@ -35,6 +34,7 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
               <Routes>
                 <Route index element={<Dashboard />} />
                 <Route path="add-user" element={<AddNewUser />} />
+                <Route path="detail-user" element={<DetailUser />} />
                 <Route path="manage-user" element={<TableManageUser />} />
                 <Route path="add-clinic" element={<AddEditClinic />} />
                 <Route path="manage-clinic" element={<TableManageClinic />} />

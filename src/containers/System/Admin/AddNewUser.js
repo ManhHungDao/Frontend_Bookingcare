@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import validator from "validator";
-import { Box, useTheme } from "@mui/material";
-import { tokens } from "../theme";
+import { Box } from "@mui/material";
 import Header from "../../../components/Header.jsx";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -50,6 +49,8 @@ const AddNewUser = ({
   const [position, setPosition] = useState("");
   const [image, setImage] = useState("");
   const [date, setDate] = useState(dayjs(new Date()));
+
+  const [showPassword, setShowPassword] = useState(false);
   //information doctor's clinic
   const [clinic, setClinic] = useState("");
   const [specialty, setSpecialty] = useState("");
@@ -58,13 +59,10 @@ const AddNewUser = ({
   const [introduce, setIntroduce] = useState("");
   const [note, setNote] = useState("");
   const [content, setContent] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [dataSelect, setDataSelect] = useState([]);
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [listClinicSelect, setListClinicSelect] = useState([]);
   const [errors, setErrors] = useState({});
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
 
   useEffect(() => {
     if (message)
@@ -203,14 +201,6 @@ const AddNewUser = ({
                 value={email}
               />
             </Grid>
-            {/* <Grid item xs={6} md={6}>
-              <TextField
-                required
-                id="outlined-required"
-                label={<FormattedMessage id="manage-user.firstName" />}
-                fullWidth
-              />
-            </Grid> */}
             <Grid item xs={12} md={6}>
               <TextField
                 required
@@ -272,35 +262,10 @@ const AddNewUser = ({
                 errName={errors.address}
                 setAddress={setAddress}
                 setProvince={setProvince}
-                // setCoordinates={setCoordinates}
                 address={address}
               />
             </Grid>
-            <Grid
-              item
-              container
-              // rowSpacing={{ sm: 2, md: 6 }}
-              spacing={2}
-            >
-              {/* <Grid item xs={6} md={4}>
-                <FormControl sx={{ minWidth: 80 }} >
-                  <InputLabel id="demo-simple-select-autowidth-label">
-                    <FormattedMessage id="manage-user.role" />
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-autowidth-label"
-                    id="demo-simple-select-autowidth"
-                    value={age}
-                    onChange={handleChange}
-                    
-                    label={<FormattedMessage id="manage-user.role" />}
-                  >
-                    <MenuItem value={10}>Twenty</MenuItem>
-                    <MenuItem value={21}>Twenty one</MenuItem>
-                    <MenuItem value={22}>Twenty one and a half</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid> */}
+            <Grid item container spacing={2}>
               <Grid item xs={12} md={4}>
                 <LocalizationProvider
                   dateAdapter={AdapterDayjs}

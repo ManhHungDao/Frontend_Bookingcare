@@ -4,14 +4,13 @@ import * as actions from "../../../store/actions";
 import "react-image-lightbox/style.css";
 import { toast } from "react-toastify";
 import _ from "lodash";
-import { Box, useTheme, Grid, TextField } from "@mui/material";
+import { Box, Grid, TextField } from "@mui/material";
 import Header from "../../../components/Header.jsx";
 import UpLoadAvatar from "../../../components/UpLoadAvatar";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../components/ButtonComponent";
-import { tokens } from "../theme";
 import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
-import { isMobile } from "react-device-detect";
+import useIsMobile from "../../../components/useIsMobile.js";
 
 const AddEditClinic = ({
   createClinicAction,
@@ -19,8 +18,6 @@ const AddEditClinic = ({
   message,
   clearStatusUpload,
 }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   const [content, setContent] = useState("");
   const [image, setImage] = useState("");
   const [logo, setLogo] = useState("");
@@ -35,6 +32,7 @@ const AddEditClinic = ({
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [previewLogoUrl, setPreviewLogoUrl] = useState("");
   const [errors, setErrors] = useState({});
+  const smScreen = useIsMobile();
   useEffect(() => {
     if (message)
       if (isUploadSuccess) {
@@ -138,8 +136,8 @@ const AddEditClinic = ({
               <UpLoadAvatar
                 content="Hình đại diện"
                 borderRadius="5px"
-                preWidth={isMobile ? "250px" : "400px"}
-                preHeight={isMobile ? "150px" : "200px"}
+                preWidth={smScreen ? "250px" : "400px"}
+                preHeight={smScreen ? "150px" : "200px"}
                 setImg={setLogo}
                 backgroundSize="contain"
                 setPreviewImgUrl={setPreviewLogoUrl}
@@ -150,8 +148,8 @@ const AddEditClinic = ({
               <UpLoadAvatar
                 content="Hình nền"
                 borderRadius="5px"
-                preHeight={isMobile ? "150px" : "200px"}
-                preWidth={isMobile ? "250px" : "400px"}
+                preHeight={smScreen ? "150px" : "200px"}
+                preWidth={smScreen ? "250px" : "400px"}
                 setImg={setImage}
                 previewImgUrl={previewImgUrl}
                 setPreviewImgUrl={setPreviewImgUrl}

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { languages } from "../../../utils";
@@ -18,170 +18,165 @@ import hinh1 from "../../../assets/header-background.jpg";
 import hinh2 from "../../../assets/hospital-search.jpg";
 import hinh3 from "../../../assets/dich-vu-tai-nha-2.jpg";
 import hinh4 from "../../../assets/quy-trinh-kham-benh-va-nhung-dieu-can-luu-y-1.jpg";
-
+import { Grid, Stack } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper";
+import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/pagination";
 import "./style.scss";
-import { isBrowser, isMobile } from "react-device-detect";
-import { Grid, Stack } from "@mui/material";
+import useIsMobile from "../../../components/useIsMobile.js";
 
-class HomeHeader extends Component {
-  changeLanguage = (language) => {
-    this.props.changLanguageAppRedux(language);
+const HomeHeader = ({ changLanguageAppRedux, language }) => {
+  const smScreen = useIsMobile();
+  const navigate = useNavigate();
+
+  const changeLanguage = (language) => {
+    changLanguageAppRedux(language);
   };
-  returnHome = () => {
-    if (this.props.history) this.props.history.push(`/home`);
+  const returnHome = () => {
+    navigate(`/`);
   };
-  componentDidMount() {}
 
-  render() {
-    const language = this.props.language;
-
-    return (
-      <>
-        <div className="home-header-container d-flex align-items-center">
-          <div className="container">
+  return (
+    <>
+      <div className="home-header-container d-flex align-items-center">
+        <div className="container">
+          <Grid
+            container
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
             <Grid
-              container
+              item
+              sm={6}
+              md={3}
               display={"flex"}
-              justifyContent={"space-between"}
+              justifyContent={"flex-start"}
               alignItems={"center"}
+              sx={{
+                cursor: "pointer",
+              }}
             >
+              <i className="fas fa-bars"></i>
+              <div className="header-logo" onClick={returnHome}></div>
+            </Grid>
+            {!smScreen && (
               <Grid
                 item
-                sm={6}
-                md={3}
+                md={6}
                 display={"flex"}
-                justifyContent={"flex-start"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+              >
+                <div
+                  className="child-content"
+                  onClick={() => {
+                    this.renderListSelect("specialty");
+                  }}
+                >
+                  <div>
+                    <b className="header-title">
+                      <FormattedMessage id="home-header.specialty" />
+                    </b>
+                  </div>
+                  <span className="subs-title">
+                    <FormattedMessage id="home-header.search-doctor" />
+                  </span>
+                </div>
+                <div
+                  className="child-content"
+                  onClick={() => {
+                    this.renderListSelect("clinic");
+                  }}
+                >
+                  <div>
+                    <b className="header-title">
+                      <FormattedMessage id="home-header.health-facility" />
+                    </b>
+                  </div>
+                  <span className="subs-title">
+                    <FormattedMessage id="home-header.select-room" />
+                  </span>
+                </div>
+                <div
+                  className="child-content"
+                  onClick={() => {
+                    this.renderListSelect("doctor");
+                  }}
+                >
+                  <div>
+                    <b className="header-title">
+                      <FormattedMessage id="home-header.doctor" />
+                    </b>
+                  </div>
+                  <span className="subs-title">
+                    <FormattedMessage id="home-header.select-doctor" />
+                  </span>
+                </div>
+                <div
+                  className="child-content"
+                  onClick={() => {
+                    this.renderListSelect("packet");
+                  }}
+                >
+                  <div>
+                    <b className="header-title">
+                      <FormattedMessage id="home-header.fee" />
+                    </b>
+                  </div>
+                  <span className="subs-title">
+                    <FormattedMessage id="home-header.check-health" />
+                  </span>
+                </div>
+              </Grid>
+            )}
+            <Grid
+              item
+              sm={6}
+              md={3}
+              display={"flex"}
+              justifyContent={"flex-end"}
+              alignItems={"center"}
+              sx={{
+                fontWeight: "bold",
+                gap: "10px",
+              }}
+            >
+              <Stack
+                display={"flex"}
                 alignItems={"center"}
                 sx={{
                   cursor: "pointer",
+                  borderRight: "2px #000 solid",
+                  paddingRight: "8px",
                 }}
               >
-                <i className="fas fa-bars"></i>
-                <div className="header-logo" onClick={this.returnHome}></div>
-              </Grid>
-              {isBrowser && (
-                <Grid
-                  item
-                  md={6}
-                  display={"flex"}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                >
-                  <div
-                    className="child-content"
-                    onClick={() => {
-                      this.renderListSelect("specialty");
-                    }}
-                  >
-                    <div>
-                      <b className="header-title">
-                        <FormattedMessage id="home-header.specialty" />
-                      </b>
-                    </div>
-                    <span className="subs-title">
-                      <FormattedMessage id="home-header.search-doctor" />
-                    </span>
-                  </div>
-                  <div
-                    className="child-content"
-                    onClick={() => {
-                      this.renderListSelect("clinic");
-                    }}
-                  >
-                    <div>
-                      <b className="header-title">
-                        <FormattedMessage id="home-header.health-facility" />
-                      </b>
-                    </div>
-                    <span className="subs-title">
-                      <FormattedMessage id="home-header.select-room" />
-                    </span>
-                  </div>
-                  <div
-                    className="child-content"
-                    onClick={() => {
-                      this.renderListSelect("doctor");
-                    }}
-                  >
-                    <div>
-                      <b className="header-title">
-                        <FormattedMessage id="home-header.doctor" />
-                      </b>
-                    </div>
-                    <span className="subs-title">
-                      <FormattedMessage id="home-header.select-doctor" />
-                    </span>
-                  </div>
-                  <div
-                    className="child-content"
-                    onClick={() => {
-                      this.renderListSelect("packet");
-                    }}
-                  >
-                    <div>
-                      <b className="header-title">
-                        <FormattedMessage id="home-header.fee" />
-                      </b>
-                    </div>
-                    <span className="subs-title">
-                      <FormattedMessage id="home-header.check-health" />
-                    </span>
-                  </div>
-                </Grid>
-              )}
-              <Grid
-                item
-                sm={6}
-                md={3}
-                display={"flex"}
-                justifyContent={"flex-end"}
-                alignItems={"center"}
-                sx={{
-                  fontWeight: "bold",
-                  gap: "10px",
-                }}
+                <i className="fas fa-question-circle icon-support"></i>
+                <span className="support-text">
+                  <FormattedMessage id="home-header.support" />
+                </span>
+              </Stack>
+              <div
+                className={
+                  language === languages.VI ? "lang-vi active" : "lang-vi"
+                }
               >
-                <Stack
-                  display={"flex"}
-                  alignItems={"center"}
-                  sx={{
-                    cursor: "pointer",
-                    borderRight: "2px #000 solid",
-                    paddingRight: "8px",
-                  }}
-                >
-                  <i className="fas fa-question-circle icon-support"></i>
-                  <span className="support-text">
-                    <FormattedMessage id="home-header.support" />
-                  </span>
-                </Stack>
-                <div
-                  className={
-                    language === languages.VI ? "lang-vi active" : "lang-vi"
-                  }
-                >
-                  <span onClick={() => this.changeLanguage(languages.VI)}>
-                    VN
-                  </span>
-                </div>
-                <div
-                  className={
-                    language === languages.EN ? "lang-en active" : "lang-en"
-                  }
-                >
-                  <span onClick={() => this.changeLanguage(languages.EN)}>
-                    EN
-                  </span>
-                </div>
-              </Grid>
+                <span onClick={() => changeLanguage(languages.VI)}>VN</span>
+              </div>
+              <div
+                className={
+                  language === languages.EN ? "lang-en active" : "lang-en"
+                }
+              >
+                <span onClick={() => changeLanguage(languages.EN)}>EN</span>
+              </div>
             </Grid>
-          </div>
+          </Grid>
         </div>
-        {/* {this.props.isShowBanner === true && (
+      </div>
+      {/* {this.props.isShowBanner === true && (
           <div className="home-header-banner">
             <div className="content-down">
               <div className="options">
@@ -277,37 +272,36 @@ class HomeHeader extends Component {
             </div>
           </div>
         )} */}
-        <Swiper
-          spaceBetween={30}
-          centeredSlides={true}
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          // navigation={true}
-          modules={[Autoplay, Pagination]}
-          className="mySwiper"
-        >
-          <SwiperSlide>
-            <img className="" src={hinh1} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img className="" src={hinh2} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img className="" src={hinh3} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img className="" src={hinh4} />
-          </SwiperSlide>
-        </Swiper>
-      </>
-    );
-  }
-}
+      <Swiper
+        spaceBetween={30}
+        centeredSlides={true}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        // navigation={true}
+        modules={[Autoplay, Pagination]}
+        className="mySwiper"
+      >
+        <SwiperSlide>
+          <img className="" src={hinh1} />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img className="" src={hinh2} />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img className="" src={hinh3} />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img className="" src={hinh4} />
+        </SwiperSlide>
+      </Swiper>
+    </>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {

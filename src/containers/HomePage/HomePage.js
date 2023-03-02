@@ -15,17 +15,10 @@ import "./HomePage.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useEffect } from "react";
-
+import useIsMobile from "../../components/useIsMobile.js";
 const HomePage = ({ listClinic, getListClinicHomePatientAction }) => {
-  const [isMobile, setIsMobile] = useState(false);
   const [clinics, setClinics] = useState([]);
-  useEffect(() => {
-    const mobileQuery = window.matchMedia("(max-width: 768px)");
-    setIsMobile(mobileQuery.matches);
-    const handleResize = () => setIsMobile(mobileQuery.matches);
-    mobileQuery.addListener(handleResize);
-    return () => mobileQuery.removeListener(handleResize);
-  }, []);
+  const isModile = useIsMobile();
   useEffect(() => {
     if (_.isEmpty(listClinic)) getListClinicHomePatientAction();
     else {
@@ -44,11 +37,11 @@ const HomePage = ({ listClinic, getListClinicHomePatientAction }) => {
       <DataSection
         data={clinics}
         titleSection={<FormattedMessage id="homepage.clinic-popular" />}
-        slidesPerView={isMobile ? 2 : 4}
-        navigation={isMobile ? false : true}
+        slidesPerView={isModile ? 2 : 4}
+        navigation={isModile ? false : true}
         linkItem="clinic"
       />
-      <About /> 
+      <About />
       <Footer />
     </>
   );

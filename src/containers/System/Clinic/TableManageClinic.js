@@ -10,7 +10,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import Header from "../../../components/Header";
 import _ from "lodash";
 import "./TableManageClinic.scss";
-import { Stack } from "@mui/system";
+
 
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -20,7 +20,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import ModeEditRoundedIcon from "@mui/icons-material/ModeEditRounded";
+import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 const TableManageClinic = ({ getListClinicAction, listClinic }) => {
   const [list, setList] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -57,14 +61,24 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
     setPage(0);
   };
 
+  const hadnleClickView = (id) => {
+    console.log("🚀 click view:", id);
+  };
+  const handleClickEdit = (id) => {
+    console.log("🚀click edit ", id);
+  };
+  const handelClickDelete = (id) => {
+    console.log("🚀 ~ click delete:", id);
+  };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
       <TableCell>Cơ sở</TableCell>
       <TableCell>Địa chỉ</TableCell>
+      <TableCell></TableCell>
     </TableRow>
   );
   const TableColumn = (props) => {
-    const { address, name, logo } = props;
+    const {id, address, name, logo } = props;
     return (
       <>
         <TableRow>
@@ -77,6 +91,23 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
             </span>
           </TableCell>
           <TableCell>{address}</TableCell>
+          <TableCell>
+            <Tooltip title="Xem">
+              <IconButton onClick={() => hadnleClickView(id)}>
+                <RemoveRedEyeRoundedIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Chỉnh sửa">
+              <IconButton onClick={() => handleClickEdit(id)}>
+                <ModeEditRoundedIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Xóa">
+              <IconButton onClick={() => handelClickDelete(id)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </TableCell>
         </TableRow>
       </>
     );
@@ -117,7 +148,7 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-            className='table__clinic--pagination'
+            className="table__clinic--pagination"
           />
         </Box>
       </Box>

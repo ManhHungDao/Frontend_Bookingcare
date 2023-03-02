@@ -3,8 +3,6 @@ import avatar from "../assets/avatar-trang-4.jpg";
 import Lightbox from "react-image-lightbox";
 import Button from "@mui/material/Button";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import { useTheme } from "@mui/material";
-import { tokens } from "../theme";
 import { CommonUtils } from "../utils";
 
 const UpLoadAvatar = ({
@@ -16,11 +14,8 @@ const UpLoadAvatar = ({
   content,
   setPreviewImgUrl,
   previewImgUrl,
-  gap,
 }) => {
   const [openPreImg, setOpenPreImg] = React.useState(false);
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   const handleOnChangeImage = async (event) => {
     const data = event.target.files;
     const file = data[0];
@@ -52,8 +47,8 @@ const UpLoadAvatar = ({
         <Button
           variant="contained"
           sx={{
-            backgroundColor: colors.primary[900],
-            color: colors.grey[100],
+            backgroundColor: "#a1a4ab",
+            color: "#141414",
             ":hover": {
               bgcolor: "primary.main", // theme.palette.primary.main
               color: "white",
