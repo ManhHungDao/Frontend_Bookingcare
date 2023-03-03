@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import { CommonUtils } from "../../../../utils";
 import UpLoadAvatar from "../../../../components/UpLoadAvatar";
-import "../Style.scss";
 const role = [
   {
     id: "R1",
@@ -61,29 +58,6 @@ const AccountProfile = ({
               setPreviewImgUrl={setPreviewImgUrl}
               image={image}
             />
-            {/* <div className="preview-img-container mb-3">
-              <div className="preview-image" style={style}>
-                <label
-                  style={{
-                    position: "absolute",
-                    right: "0px",
-                    bottom: " -5px",
-                    padding: " 0px !important",
-                    width: "10px !important",
-                    backgroundColor: "transparent",
-                  }}
-                >
-                  <PhotoCamera />
-                  <input
-                    hidden
-                    accept="image/*"
-                    multiple
-                    type="file"
-                    onChange={(event) => handleOnChangeImage(event)}
-                  />
-                </label>
-              </div>
-            </div> */}
             <Typography gutterBottom variant="h5">
               {role &&
                 role.map((i) => {

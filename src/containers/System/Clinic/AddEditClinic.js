@@ -11,7 +11,7 @@ import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic"
 import ButtonComponent from "../../../components/ButtonComponent";
 import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
 import useIsMobile from "../../../components/useIsMobile.js";
-
+import "./style.scss";
 const AddEditClinic = ({
   createClinicAction,
   isUploadSuccess,
@@ -158,7 +158,9 @@ const AddEditClinic = ({
           </Grid>
           <Grid item xs={12} md={12}>
             Giới thiệu
-            <CKEditorFieldBasic value={introduce} onChange={setIntroduce} />
+            <span className="detail__clinic--introduce">
+              <CKEditorFieldBasic value={introduce} onChange={setIntroduce} />
+            </span>
           </Grid>
           <Grid item xs={12} md={12}>
             Chi tiết

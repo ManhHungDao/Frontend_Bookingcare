@@ -45,7 +45,31 @@ const UpLoadAvatar = ({
 
   return (
     <>
-      {!isDetail ? (
+      {isDetail ? (
+        <div
+          className="detail-avatar preview-img-container mb-3"
+          style={{ position: "relative" }}
+        >
+          <div className="preview-image" style={style}>
+            <label
+              style={{
+                position: "absolute",
+                right: "0px",
+                bottom: " -5px",
+              }}
+            >
+              <PhotoCamera />
+              <input
+                hidden
+                accept="image/*"
+                multiple
+                type="file"
+                onChange={(event) => handleOnChangeImage(event)}
+              />
+            </label>
+          </div>
+        </div>
+      ) : (
         <div className="preview-img-container">
           <Button
             variant="contained"
@@ -74,27 +98,6 @@ const UpLoadAvatar = ({
             style={style}
             onClick={() => openReviewImage()}
           ></div>
-        </div>
-      ) : (
-        <div className="detail-avatar preview-img-container mb-3" style={{position: 'relative'}}>
-          <div className="preview-image" style={style}>
-            <label
-              style={{
-                position: "absolute",
-                right: "0px",
-                bottom: " -5px",
-              }}
-            >
-              <PhotoCamera />
-              <input
-                hidden
-                accept="image/*"
-                multiple
-                type="file"
-                onChange={(event) => handleOnChangeImage(event)}
-              />
-            </label>
-          </div>
         </div>
       )}
 

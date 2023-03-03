@@ -1,6 +1,5 @@
 import React, { Component, useState, lazy } from "react";
 import { connect } from "react-redux";
-import "./TableManageClinic.scss";
 import * as actions from "../../../store/actions";
 import { useEffect } from "react";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -9,8 +8,7 @@ import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import Header from "../../../components/Header";
 import _ from "lodash";
-import "./TableManageClinic.scss";
-
+import './style.scss'
 
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
