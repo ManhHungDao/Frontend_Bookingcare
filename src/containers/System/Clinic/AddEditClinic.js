@@ -10,7 +10,7 @@ import UpLoadAvatar from "../../../components/UpLoadAvatar";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../components/ButtonComponent";
 import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
-import useIsMobile from "../../../components/useIsMobile.js";
+import useIsTablet from "../../../components/useScreen/useIsTablet";
 import "./style.scss";
 const AddEditClinic = ({
   createClinicAction,
@@ -32,7 +32,7 @@ const AddEditClinic = ({
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [previewLogoUrl, setPreviewLogoUrl] = useState("");
   const [errors, setErrors] = useState({});
-  const smScreen = useIsMobile();
+  const smScreen = useIsTablet();
   useEffect(() => {
     if (message)
       if (isUploadSuccess) {

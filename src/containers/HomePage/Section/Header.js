@@ -25,7 +25,7 @@ import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/pagination";
 import "./style.scss";
-import useIsMobile from "../../../components/useIsMobile.js";
+import useIsMobile from "../../../components/useScreen/useIsMobile.js";
 
 const HomeHeader = ({ changLanguageAppRedux, language }) => {
   const smScreen = useIsMobile();

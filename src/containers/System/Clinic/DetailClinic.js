@@ -8,7 +8,6 @@ import {
   Stack,
   Unstable_Grid2 as Grid,
   Modal,
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -29,16 +28,16 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
-  borderRadius: "10px",
   height: "80vh",
   overflowY: "scroll",
 };
-const DetailClinic = ({ id, clinic, getSingleClinic }) => {
-  const [address, setAddress] = useState({});
+const DetailClinic = ({ clinic, open, setOpen }) => {
+  const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState({
     lat: null,
     lng: null,
   });
+  const [province, setProvince] = useState("");
   const [image, setImage] = useState("");
   const [logo, setLogo] = useState("");
   const [name, setName] = useState("");
@@ -48,27 +47,43 @@ const DetailClinic = ({ id, clinic, getSingleClinic }) => {
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [previewLogoUrl, setPreviewLogoUrl] = useState("");
   const [errors, setErrors] = useState({});
-  const [open, setOpen] = useState(true);
 
   useEffect(() => {
-    getSingleClinic("63edecf817153ce611f5d27c");
-  }, []);
-  useEffect(() => {
-    setAddress(clinic?.address ? clinic?.address : {});
-    setImage(clinic?.image ? clinic.image.url : "");
-    setLogo(clinic?.logo ? clinic.logo.url : "");
+    setAddress(clinic?.address?.detail ? clinic.address?.detail : "");
+    setImage(clinic?.image ? clinic.image : "");
+    setLogo(clinic?.logo ? clinic.logo : "");
     setName(clinic?.name ? clinic.name : "");
     setIntroduce(clinic?.introduce ? clinic.introduce : "");
     setDetail(clinic?.detail ? clinic.detail : "");
     setViews(clinic?.views ? clinic.views : "");
+    setCoordinates({
+      lat: clinic?.address?.lat ? clinic?.address?.lat : null,
+      lng: clinic?.address?.lng ? clinic?.address?.lng : null,
+    });
+    setProvince(clinic?.address?.province ? clinic.address?.province : "");
   }, [clinic]);
   useEffect(() => {}, []);
   const handleSave = (clinic) => {};
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setAddress({});
+    setImage("");
+    setLogo("");
+    setName("");
+    setIntroduce("");
+    setDetail("");
+    setViews("");
+    setPreviewImgUrl("");
+    setPreviewLogoUrl("");
+    setErrors("");
+    setCoordinates({
+      lat: null,
+      lng: null,
+    });
+    setProvince("");
+  };
   return (
     <>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -77,13 +92,7 @@ const DetailClinic = ({ id, clinic, getSingleClinic }) => {
       >
         <Box sx={style}>
           <Box m="20px">
-            <Header
-              title="Chi tiết phòng khám"
-              // isShowSwitch={true}
-              // titleSwich="Chỉnh sửa"
-              // isChecked={isChecked}
-              // setChecked={setChecked}
-            />
+            <Header title="Chi tiết phòng khám" />
           </Box>
           <Box
             component="main"
@@ -116,11 +125,11 @@ const DetailClinic = ({ id, clinic, getSingleClinic }) => {
                       setDetail={setDetail}
                       introduce={introduce}
                       setIntroduce={setIntroduce}
-                      coordinates={coordinates}
-                      setCoordinates={setCoordinates}
                       address={address}
                       setAddress={setAddress}
                       errors={errors}
+                      setCoordinates={setCoordinates}
+                      setProvince={setProvince}
                     />
                   </Grid>
                   <Grid xs={12} md={12} lg={12}>
@@ -161,14 +170,12 @@ const DetailClinic = ({ id, clinic, getSingleClinic }) => {
 };
 
 const mapStateToProps = (state) => {
-  return {
-    clinic: state.admin.clinic,
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getSingleClinic: (id) => dispatch(actions.getSingleClinicAction(id)),
+    // getSingleClinic: (id) => dispatch(actions.getSingleClinicAction(id)),
   };
 };
 

@@ -1,14 +1,12 @@
-import React, { Component, useState, lazy } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import { useEffect } from "react";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { Box, useTheme, Button } from "@mui/material";
-import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import { Box } from "@mui/material";
 import Header from "../../../components/Header";
 import _ from "lodash";
-import './style.scss'
+import DetailClinic from "./DetailClinic";
+import "./style.scss";
 
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -21,14 +19,14 @@ import TableRow from "@mui/material/TableRow";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import ModeEditRoundedIcon from "@mui/icons-material/ModeEditRounded";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 const TableManageClinic = ({ getListClinicAction, listClinic }) => {
   const [list, setList] = useState([]);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
+
+  const [open, setOpen] = useState(false);
+  const [clinicEdit, setClinicEdit] = useState({});
 
   useEffect(() => {
     if (_.isEmpty(listClinic)) getListClinicAction();
@@ -36,21 +34,19 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
       let data = listClinic.map((e) => {
         return {
           id: e._id,
-          name: e.name,
-          address: e.address.detail,
           logo: e.logo.url,
+          image: e.image.url,
+          name: e.name,
+          address: e.address,
           introduce: e.introduce,
+          detail: e.detail,
+          views: e.views,
         };
       });
       setList(data);
     }
   }, [listClinic]);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -59,11 +55,9 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
     setPage(0);
   };
 
-  const hadnleClickView = (id) => {
-    console.log("🚀 click view:", id);
-  };
-  const handleClickEdit = (id) => {
-    console.log("🚀click edit ", id);
+  const handleClickView = (data) => {
+    setClinicEdit(data);
+    setOpen(true);
   };
   const handelClickDelete = (id) => {
     console.log("🚀 ~ click delete:", id);
@@ -72,11 +66,12 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
     <TableRow className="table__clinic--header">
       <TableCell>Cơ sở</TableCell>
       <TableCell>Địa chỉ</TableCell>
+      <TableCell>Lượt truy cập</TableCell>
       <TableCell></TableCell>
     </TableRow>
   );
   const TableColumn = (props) => {
-    const {id, address, name, logo } = props;
+    const { id, address, name, logo, views } = props;
     return (
       <>
         <TableRow>
@@ -88,16 +83,12 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
               <div> {name}</div>
             </span>
           </TableCell>
-          <TableCell>{address}</TableCell>
+          <TableCell>{address?.detail ? address.detail : ""}</TableCell>
+          <TableCell>{views ? views : 0}</TableCell>
           <TableCell>
             <Tooltip title="Xem">
-              <IconButton onClick={() => hadnleClickView(id)}>
+              <IconButton onClick={() => handleClickView(props)}>
                 <RemoveRedEyeRoundedIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Chỉnh sửa">
-              <IconButton onClick={() => handleClickEdit(id)}>
-                <ModeEditRoundedIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title="Xóa">
@@ -150,6 +141,9 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
           />
         </Box>
       </Box>
+      {clinicEdit && (
+        <DetailClinic setOpen={setOpen} open={open} clinic={clinicEdit} />
+      )}
     </>
   );
 };

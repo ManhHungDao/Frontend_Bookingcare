@@ -135,7 +135,6 @@ const DetailUser = ({
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
-    borderRadius: "10px",
     height: "80vh",
     overflowY: "scroll",
   };

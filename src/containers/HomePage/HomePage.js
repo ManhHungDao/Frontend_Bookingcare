@@ -15,7 +15,7 @@ import "./HomePage.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useEffect } from "react";
-import useIsMobile from "../../components/useIsMobile.js";
+import useIsMobile from "../../components/useScreen/useIsMobile.js";
 const HomePage = ({ listClinic, getListClinicHomePatientAction }) => {
   const [clinics, setClinics] = useState([]);
   const isModile = useIsMobile();

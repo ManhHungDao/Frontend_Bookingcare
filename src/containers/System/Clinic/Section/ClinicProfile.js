@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import UpLoadAvatar from "../../../../components/UpLoadAvatar";
-
+import useIsMobile from "../../../../components/useScreen/useIsMobile";
 const ClinicProfile = ({
   name,
   address,
@@ -14,6 +14,7 @@ const ClinicProfile = ({
   previewLogoUrl,
   setPreviewLogoUrl,
 }) => {
+  const isMobile = useIsMobile();
   return (
     <>
       <Card>
@@ -37,10 +38,16 @@ const ClinicProfile = ({
               image={image}
               isDetail={true}
             />
-            <p className="d-flex justify-content-center" style={{ padding: "0px !important" }}>
+            <div
+              className="d-flex justify-content-center mb-3"
+              style={{ padding: "0px !important" }}
+            >
               <div
                 className="logo"
-                style={{ position: "absolute", top: "300px" }}
+                style={{
+                  position: "absolute",
+                  top: isMobile ? "335px" : "300px",
+                }}
               >
                 <UpLoadAvatar
                   setImg={setLogo}
@@ -52,7 +59,7 @@ const ClinicProfile = ({
                   image={logo}
                 />
               </div>
-            </p>
+            </div>
             <Typography gutterBottom variant="h5">
               {name ? name : ""}
             </Typography>

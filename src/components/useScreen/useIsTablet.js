@@ -1,21 +1,19 @@
 import { useState, useEffect } from "react";
 
-const getIsMobile = () => window.innerWidth <= 768;
+const getIsTablet = () => window.innerWidth <= 768;
 
-export default function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(getIsMobile);
+export default function useIsTablet() {
+  const [isTablet, setIsTablet] = useState(getIsTablet);
 
   useEffect(() => {
     const onResize = () => {
-      setIsMobile(getIsMobile());
+      setIsTablet(getIsTablet());
     };
-
     window.addEventListener("resize", onResize);
-
     return () => {
       window.removeEventListener("resize", onResize);
     };
   }, []);
 
-  return isMobile;
+  return isTablet;
 }

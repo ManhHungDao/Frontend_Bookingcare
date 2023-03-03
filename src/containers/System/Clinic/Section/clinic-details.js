@@ -9,17 +9,16 @@ import {
 import AutocompleteAddress from "../../../../components/Input/AutocompleteAddress";
 import CKEditorFieldBasic from "../../../../components/Ckeditor/CKEditorFieldBasic";
 
-
 export const ClinicDetail = ({
   name,
   setName,
   introduce,
   setIntroduce,
-  coordinates,
-  setCoordinates,
   address,
   setAddress,
   errors,
+  setCoordinates,
+  setProvince,
 }) => {
   return (
     <>
@@ -38,20 +37,13 @@ export const ClinicDetail = ({
                 />
               </Grid>
               <Grid xs={12} md={6}>
-                {/* <AutocompleteAddress
+                <AutocompleteAddress
                   isErr={errors?.address ? true : false}
                   errName={errors?.address ? errors?.address : ""}
                   setAddress={setAddress}
                   setProvince={setProvince}
+                  setCoordinates={setCoordinates}
                   address={address}
-                /> */}
-                <TextField
-                  fullWidth
-                  label="Tên"
-                  name="name"
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  value={name}
                 />
               </Grid>
               <Grid className="detail__clinic--introduce">
