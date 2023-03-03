@@ -40,11 +40,12 @@ const DetailUser = ({
   // const [password, setPassword] = useState("123456Aa.");
   const [address, setAddress] = useState("");
   const [province, setProvince] = useState("");
-  const [gender, setGender] = useState("M");
+  const [gender, setGender] = useState("");
   const [position, setPosition] = useState("");
   const [image, setImage] = useState("");
   const [date, setDate] = useState(dayjs(new Date()));
   const [role, setRole] = useState("");
+  const [previewImgUrl, setPreviewImgUrl] = useState("");
   //information doctor's clinic
   const [clinic, setClinic] = useState("");
   const [specialty, setSpecialty] = useState("");
@@ -105,7 +106,26 @@ const DetailUser = ({
   }, [listClinic]);
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setEmail("");
+    setName("");
+    setPhone("");
+    setAddress("");
+    setProvince("");
+    setGender("");
+    setPosition("");
+    setImage("");
+    setDate("");
+    setRole("");
+    setClinic("");
+    setSpecialty("");
+    setPrice("");
+    setPayment("");
+    setIntroduce("");
+    setNote("");
+    setContent("");
+  };
   const style = {
     position: "absolute",
     top: "50%",
@@ -158,6 +178,8 @@ const DetailUser = ({
                       image={image}
                       setImage={setImage}
                       phone={phone}
+                      previewImgUrl={previewImgUrl}
+                      setPreviewImgUrl={setPreviewImgUrl}
                     />
                   </Grid>
                   <Grid xs={12} md={6} lg={8}>

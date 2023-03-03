@@ -70,10 +70,7 @@ export const AccountProfileDetails = ({
                   label="Giới tính"
                   value={gender}
                   onChange={setGender}
-                  data={[
-                    { id: "M", name: "Nam" },
-                    { id: "F", name: "Nữ" },
-                  ]}
+                  data={dataSelect.filter((e) => e.type === "GENDER")}
                   isError={errors?.gender ? true : false}
                   errorText={errors?.gender ? errors.gender : ""}
                   name="Giới tính"

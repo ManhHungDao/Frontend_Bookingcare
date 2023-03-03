@@ -14,6 +14,8 @@ const UpLoadAvatar = ({
   content,
   setPreviewImgUrl,
   previewImgUrl,
+  image,
+  isDetail,
 }) => {
   const [openPreImg, setOpenPreImg] = React.useState(false);
   const handleOnChangeImage = async (event) => {
@@ -38,40 +40,64 @@ const UpLoadAvatar = ({
     cursor: "pointer",
     background: "center center no-repeat",
     backgroundSize: backgroundSize ? backgroundSize : "cover",
-    backgroundImage: `url(${previewImgUrl})`,
+    backgroundImage: `url(${previewImgUrl ? previewImgUrl : image})`,
   };
 
   return (
     <>
-      <div className="preview-img-container" >
-        <Button
-          variant="contained"
-          sx={{
-            backgroundColor: "#a1a4ab",
-            color: "#141414",
-            ":hover": {
-              bgcolor: "primary.main", // theme.palette.primary.main
-              color: "white",
-            },
-          }}
-          component="label"
-          endIcon={<PhotoCamera />}
-        >
-          {content}
-          <input
-            hidden
-            accept="image/*"
-            multiple
-            type="file"
-            onChange={(event) => handleOnChangeImage(event)}
-          />
-        </Button>
-        <div
-          className="preview-image"
-          style={style}
-          onClick={() => openReviewImage()}
-        ></div>
-      </div>
+      {!isDetail ? (
+        <div className="preview-img-container">
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#a1a4ab",
+              color: "#141414",
+              ":hover": {
+                bgcolor: "primary.main",
+                color: "white",
+              },
+            }}
+            component="label"
+            endIcon={<PhotoCamera />}
+          >
+            {content}
+            <input
+              hidden
+              accept="image/*"
+              multiple
+              type="file"
+              onChange={(event) => handleOnChangeImage(event)}
+            />
+          </Button>
+          <div
+            className="preview-image"
+            style={style}
+            onClick={() => openReviewImage()}
+          ></div>
+        </div>
+      ) : (
+        <div className="detail-avatar preview-img-container mb-3" style={{position: 'relative'}}>
+          <div className="preview-image" style={style}>
+            <label
+              style={{
+                position: "absolute",
+                right: "0px",
+                bottom: " -5px",
+              }}
+            >
+              <PhotoCamera />
+              <input
+                hidden
+                accept="image/*"
+                multiple
+                type="file"
+                onChange={(event) => handleOnChangeImage(event)}
+              />
+            </label>
+          </div>
+        </div>
+      )}
+
       {openPreImg && previewImgUrl && (
         <Lightbox
           mainSrc={previewImgUrl}

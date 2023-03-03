@@ -1,20 +1,12 @@
 import React, { useState } from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Divider,
-  Typography,
-} from "@mui/material";
-import UpLoadAvatar from "../../../../components/UpLoadAvatar";
+import { Box, Card, CardContent, Typography } from "@mui/material";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import { CommonUtils } from "../../../../utils";
-
+import UpLoadAvatar from "../../../../components/UpLoadAvatar";
+import "../Style.scss";
 const role = [
   {
     id: "R1",
@@ -45,31 +37,9 @@ const AccountProfile = ({
   image,
   setImage,
   phone,
+  previewImgUrl,
+  setPreviewImgUrl,
 }) => {
-  const [previewImgUrl, setPreviewImgUrl] = useState("");
-
-  const handleOnChangeImage = async (event) => {
-    const data = event.target.files;
-    const file = data[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      let base64 = await CommonUtils.getBase64(file);
-      setImage(base64);
-      setPreviewImgUrl(url);
-    }
-  };
-
-  const style = {
-    width: "80px",
-    height: "80px",
-    borderRadius: "100vmax",
-    border: "2px solid #ddd",
-    cursor: "pointer",
-    background: "center center no-repeat",
-    backgroundSize: "cover",
-    backgroundImage: `url(${previewImgUrl ? previewImgUrl : image})`,
-  };
-
   return (
     <>
       <Card>
@@ -82,9 +52,38 @@ const AccountProfile = ({
               gap: 1,
             }}
           >
-            <div className="preview-img-container mb-3">
-              <div className="preview-image" style={style}></div>
-            </div>
+            <UpLoadAvatar
+              setImg={setImage}
+              isDetail={true}
+              preWidth="80px"
+              preHeight="80px"
+              previewImgUrl={previewImgUrl}
+              setPreviewImgUrl={setPreviewImgUrl}
+              image={image}
+            />
+            {/* <div className="preview-img-container mb-3">
+              <div className="preview-image" style={style}>
+                <label
+                  style={{
+                    position: "absolute",
+                    right: "0px",
+                    bottom: " -5px",
+                    padding: " 0px !important",
+                    width: "10px !important",
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  <PhotoCamera />
+                  <input
+                    hidden
+                    accept="image/*"
+                    multiple
+                    type="file"
+                    onChange={(event) => handleOnChangeImage(event)}
+                  />
+                </label>
+              </div>
+            </div> */}
             <Typography gutterBottom variant="h5">
               {role &&
                 role.map((i) => {
@@ -111,7 +110,6 @@ const AccountProfile = ({
                     );
                 })}
             </Typography>
-
             <Typography color="text.secondary" variant="body2">
               {email} - {phone}
             </Typography>
@@ -120,7 +118,7 @@ const AccountProfile = ({
             </Typography>
           </Box>
         </CardContent>
-        <Divider />
+        {/* <Divider />
         <CardActions>
           <Button component="label" fullWidth variant="text">
             Tải ảnh
@@ -130,7 +128,7 @@ const AccountProfile = ({
               onChange={(event) => handleOnChangeImage(event)}
             />
           </Button>
-        </CardActions>
+        </CardActions> */}
       </Card>
     </>
   );

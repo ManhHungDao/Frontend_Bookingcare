@@ -19,6 +19,7 @@ const initialState = {
   message: null,
   showLoading: false,
   menuOpen: "Trang Chính",
+  isDeleteSuccess: false,
 };
 
 const appReducer = (state = initialState, action) => {
@@ -58,6 +59,22 @@ const appReducer = (state = initialState, action) => {
         message: action.data,
       };
     }
+    // delete success
+    case actionTypes.DELETE_SUCCESS: {
+      return {
+        ...state,
+        isDeleteSuccess: true,
+        message: action.data,
+      };
+    }
+    // delete failed
+    case actionTypes.DELETE_FAILED: {
+      return {
+        ...state,
+        isDeleteSuccess: false,
+        message: action.data,
+      };
+    }
     // clear status success
     case actionTypes.CLEAR_STATUS_UPLOAD: {
       return {
@@ -66,7 +83,14 @@ const appReducer = (state = initialState, action) => {
         message: null,
       };
     }
-
+    // clear status delete
+    case actionTypes.CLEAR_STATUS_DELETE: {
+      return {
+        ...state,
+        isUploadSuccess: false,
+        message: null,
+      };
+    }
     // loading
     case actionTypes.LOADING_TOGGLE_ACTION: {
       return {

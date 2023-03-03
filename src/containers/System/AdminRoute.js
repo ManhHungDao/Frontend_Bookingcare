@@ -15,7 +15,7 @@ import AddNewUser from "./Admin/AddNewUser";
 import AddEditClinic from "./Clinic/AddEditClinic";
 import AddEditSpecialty from "./Specialty/AddEditSpecialty";
 import DetailUser from "./Admin/DetailUser";
-// import ManageDetailHandbook from "../containers/"
+import DetailClinic from "./Clinic/DetailClinic";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import "./style.css";
@@ -38,6 +38,7 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
                 <Route path="manage-user" element={<TableManageUser />} />
                 <Route path="add-clinic" element={<AddEditClinic />} />
                 <Route path="manage-clinic" element={<TableManageClinic />} />
+                <Route path="detail-clinic" element={<DetailClinic />} />
                 <Route path="manage-handbook" element={<ManageHandbook />} />
                 <Route path="manage-specialty" element={<AddEditSpecialty />} />
                 {/* <Route

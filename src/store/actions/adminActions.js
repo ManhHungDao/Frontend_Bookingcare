@@ -60,21 +60,19 @@ export const fetchAllcodeAction = () => {
   };
 };
 
-// create new user
+// USER ACTION
 export const createNewUserAction = (data) => {
   return async (dispatch, getState) => {
     try {
-      {
-        dispatch(loadingToggleAction(true));
-        const res = await createNewUserService(data);
-        if (res && res.success) {
-          dispatch({
-            type: actionTypes.CREATE_SUCCESS,
-            data: "Tạo người dùng thành công",
-          });
-          // dispatch(fetchAllUserStart("All"));
-          dispatch(loadingToggleAction(false));
-        }
+      dispatch(loadingToggleAction(true));
+      const res = await createNewUserService(data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.CREATE_SUCCESS,
+          data: "Tạo người dùng thành công",
+        });
+        // dispatch(fetchAllUserStart("All"));
+        dispatch(loadingToggleAction(false));
       }
     } catch (error) {
       dispatch(loadingToggleAction(false));
@@ -89,17 +87,15 @@ export const createNewUserAction = (data) => {
 export const getSingleUserAction = (id) => {
   return async (dispatch, getState) => {
     try {
-      {
-        dispatch(loadingToggleAction(true));
-        const res = await getSingleUserService(id);
-        if (res && res.success) {
-          dispatch(loadingToggleAction(false));
-        }
-        dispatch({
-          type: actionTypes.GET_USER_SUCCESS,
-          data: res.user,
-        });
+      dispatch(loadingToggleAction(true));
+      const res = await getSingleUserService(id);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
       }
+      dispatch({
+        type: actionTypes.GET_USER_SUCCESS,
+        data: res.user,
+      });
     } catch (error) {
       dispatch(loadingToggleAction(false));
       dispatch({
@@ -110,51 +106,88 @@ export const getSingleUserAction = (id) => {
   };
 };
 
-export const deleteUser = (id) => {
-  return async (dispatch, getState) => {
-    try {
-      {
-        const res = await deleteUserService(id);
-        if (res && res.errCode === 0) {
-          dispatch(deleteUserSuccess());
-          toast.success("Delete User Succeed!");
-          // dispatch(fetchAllUserStart("All"));
-        } else {
-          dispatch(deleteUserFailed());
-        }
-      }
-    } catch (error) {
-      dispatch(deleteUserFailed());
-    }
-  };
-};
-export const deleteUserSuccess = () => ({
-  type: actionTypes.DELETE_USER_SUCCESS,
-});
-
-export const deleteUserFailed = () => ({
-  type: actionTypes.DELETE_USER_FAILED,
-});
-
-// fetch all user
 export const getAllUserAction = (type) => {
   return async (dispatch, getState) => {
     try {
-      {
-        dispatch(loadingToggleAction(true));
-        const res = await getAllUserService(type);
-        if (res && res.success) {
-          dispatch(loadingToggleAction(false));
-          dispatch({
-            type: actionTypes.FETCH_ALL_USERS_SUCCESS,
-            users: res.users,
-          });
-        }
+      dispatch(loadingToggleAction(true));
+      const res = await getAllUserService(type);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.FETCH_ALL_USERS_SUCCESS,
+          users: res.users,
+        });
       }
     } catch (error) {
       dispatch(loadingToggleAction(false));
       dispatch({
         type: actionTypes.FETCH_ALL_USERS_FAILED,
+      });
+    }
+  };
+};
+
+export const deleteUser = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        const res = await deleteUserService(id);
+        if (res && res.success) {
+          dispatch({
+            type: actionTypes.DELETE_SUCCESS,
+            data: "Xóa người dùng thành công",
+          });
+        }
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.DELETE_FAILED,
+        data: "Xóa người dùng thất bại",
+      });
+    }
+  };
+};
+
+// CLINIC ACTION
+export const getListClinicAction = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getAllClinic();
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.GET_LIST_CLINIC_SUCCEED,
+          data: res.clinics,
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      toast.error("Lấy danh sách thất bại");
+      dispatch({
+        type: actionTypes.GET_LIST_CLINIC_FAILED,
+      });
+    }
+  };
+};
+
+export const getSingleClinicAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getSingleClinic(id);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.GET_CLINIC_SUCCEED,
+          data: res.clinic,
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      toast.error("Lấy thông tin phòng khám thất bại");
+      dispatch({
+        type: actionTypes.GET_CLINIC_FAILED,
       });
     }
   };
@@ -490,67 +523,6 @@ export const getListDoctorSpecialtyHome = (data) => {
       toast.error("Get List Doctor Specialty Home Failed!");
       dispatch({
         type: actionTypes.GET_LIST_DOCTOR_SPECIALTY_FAILED,
-      });
-    }
-  };
-};
-
-// get list clinic admin
-export const getListClinicAction = () => {
-  return async (dispatch, getState) => {
-    try {
-      {
-        dispatch(loadingToggleAction(true));
-        const res = await getAllClinic();
-        if (res && res.success) {
-          dispatch({
-            type: actionTypes.GET_LIST_CLINIC_SUCCEED,
-            data: res.clinics,
-          });
-          dispatch(loadingToggleAction(false));
-        } else {
-          toast.error("Lấy danh sách thất bại");
-          dispatch({
-            type: actionTypes.GET_LIST_CLINIC_FAILED,
-          });
-          dispatch(loadingToggleAction(false));
-        }
-      }
-    } catch (error) {
-      dispatch(loadingToggleAction(false));
-      toast.error("Lấy danh sách thất bại");
-      dispatch({
-        type: actionTypes.GET_LIST_CLINIC_FAILED,
-      });
-    }
-  };
-};
-
-export const getSingleClinicAction = () => {
-  return async (dispatch, getState) => {
-    try {
-      {
-        const res = await getSingleClinic();
-        if (res && res.success) {
-          dispatch({
-            type: actionTypes.GET_CLINIC_SUCCEED,
-            data: res.user,
-          });
-        } else {
-          toast.error("Get List Clinic Home Failed!");
-          dispatch({
-            type: actionTypes.GET_CLINIC_FAILED,
-          });
-        }
-      }
-    } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 711 ~ return ~ error",
-        error
-      );
-      toast.error("Get List Clinic Home Failed!");
-      dispatch({
-        type: actionTypes.GET_CLINIC_FAILED,
       });
     }
   };
