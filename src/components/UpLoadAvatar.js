@@ -16,6 +16,7 @@ const UpLoadAvatar = ({
   previewImgUrl,
   image,
   isDetail,
+  setImgUpdate,
 }) => {
   const [openPreImg, setOpenPreImg] = React.useState(false);
   const handleOnChangeImage = async (event) => {
@@ -26,6 +27,7 @@ const UpLoadAvatar = ({
       let base64 = await CommonUtils.getBase64(file);
       setImg(base64);
       setPreviewImgUrl(url);
+      setImgUpdate(base64)
     }
   };
   const openReviewImage = () => {

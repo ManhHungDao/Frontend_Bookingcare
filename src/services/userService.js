@@ -85,21 +85,7 @@ const getListDoctorSpecialty = (data) => {
   );
 };
 
-const createANewClinic = (data) => {
-  return axios.post(`/api/create-clinic`, data);
-};
 
-const getListClinicHomeService = () => {
-  return axios.get(`/api/get-list-home-clinic`);
-};
-const getClinic = (id) => {
-  return axios.get(`/api/get-clinic?id=${id}`);
-};
-const getListDoctorClinic = (data) => {
-  return axios.get(
-    `/api/get-list-doctor-clinic?provinceId=${data.provinceId}&clinicId=${data.clinicId}`
-  );
-};
 const getAllPatientForDoctor = (data) => {
   return axios.get(
     `/api/get-list-patient?doctorId=${data.doctorId}&date=${data.date}`
@@ -110,9 +96,6 @@ const postSemery = (data) => {
   return axios.post(`/api/send-remedy`, data);
 };
 
-const updateClinic = (data) => {
-  return axios.put(`/api/update-detail-clinic`, data);
-};
 
 const deleteClinicService = (id) => {
   return axios.delete(`/api/delete-clinic?id=${id}`);
@@ -256,12 +239,8 @@ export {
   getListSpecialty,
   getSpecialty,
   getListDoctorSpecialty,
-  createANewClinic,
-  getClinic,
-  getListDoctorClinic,
   getAllPatientForDoctor,
   postSemery,
-  updateClinic,
   deleteClinicService,
   createPacketService,
 };

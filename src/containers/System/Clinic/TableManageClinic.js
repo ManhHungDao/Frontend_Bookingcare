@@ -20,7 +20,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
-const TableManageClinic = ({ getListClinicAction, listClinic }) => {
+const TableManageClinic = ({
+  getListClinicAction,
+  listClinic,
+  isSuccess,
+  clearStatus,
+}) => {
   const [list, setList] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
@@ -45,7 +50,11 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
       });
       setList(data);
     }
-  }, [listClinic]);
+    if (isSuccess) {
+      setOpen(false);
+      clearStatus();
+    }
+  }, [listClinic, isSuccess]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -151,13 +160,14 @@ const TableManageClinic = ({ getListClinicAction, listClinic }) => {
 const mapStateToProps = (state) => {
   return {
     listClinic: state.admin.listClinic,
+    isSuccess: state.app.isSuccess,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getListClinicAction: () => dispatch(actions.getListClinicAction()),
-    // deleteUser: (id) => dispatch(actions.deleteUser(id)),
+    clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
 

@@ -19,10 +19,16 @@ const getAllClinicHomePatient = () => {
 const pageViewCount = (id) => {
   return axios.post(`/api/increment-view-count?id=${id}`);
 };
+
+const updateClinic = (id, data) => {
+  return axios.put(`/api/update-clinic?id=${id}`, data);
+};
+
 export {
   getSingleClinic,
   getAllClinic,
   createClinic,
   getAllClinicHomePatient,
   pageViewCount,
+  updateClinic,
 };

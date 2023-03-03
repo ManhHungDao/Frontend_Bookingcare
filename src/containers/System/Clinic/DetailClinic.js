@@ -31,7 +31,7 @@ const style = {
   height: "80vh",
   overflowY: "scroll",
 };
-const DetailClinic = ({ clinic, open, setOpen }) => {
+const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState({
     lat: null,
@@ -46,6 +46,8 @@ const DetailClinic = ({ clinic, open, setOpen }) => {
   const [views, setViews] = useState(0);
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [previewLogoUrl, setPreviewLogoUrl] = useState("");
+  const [imgUpdate, setImgUpdate] = useState(null);
+  const [logoUpdate, setLogoUpdate] = useState(null);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -63,7 +65,43 @@ const DetailClinic = ({ clinic, open, setOpen }) => {
     setProvince(clinic?.address?.province ? clinic.address?.province : "");
   }, [clinic]);
   useEffect(() => {}, []);
-  const handleSave = (clinic) => {};
+
+  const checkValidate = () => {
+    let errors = {};
+    if (!name) errors.name = "Tên không được bỏ trống";
+    if (!address) errors.address = "Địa chỉ không được bỏ trống";
+    if (!detail) errors.detail = "Chi tiết không được bỏ trống";
+    if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
+    return errors;
+  };
+  const isValid = (errors) => {
+    let keys = Object.keys(errors);
+    let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
+    return count === 0;
+  };
+
+  const handleSave = () => {
+    const errors = checkValidate();
+    const checkValidInPut = isValid(errors);
+    if (!checkValidInPut) {
+      setErrors(errors);
+      return;
+    }
+    let data = {
+      detail,
+      image: previewImgUrl ? previewImgUrl : null,
+      logo: previewLogoUrl ? previewLogoUrl : null,
+      name,
+      introduce,
+      address: {
+        detail: address,
+        province,
+        lat: coordinates.lat,
+        lng: coordinates.lng,
+      },
+    };
+    updateClinic(clinic.id, data);
+  };
   const handleClose = () => {
     setOpen(false);
     setAddress({});
@@ -115,6 +153,8 @@ const DetailClinic = ({ clinic, open, setOpen }) => {
                       setPreviewImgUrl={setPreviewImgUrl}
                       previewLogoUrl={previewLogoUrl}
                       setPreviewLogoUrl={setPreviewLogoUrl}
+                      setImgUpdate={setImgUpdate}
+                      setLogoUpdate={setLogoUpdate}
                     />
                   </Grid>
                   <Grid xs={12} md={6} lg={8}>
@@ -175,7 +215,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // getSingleClinic: (id) => dispatch(actions.getSingleClinicAction(id)),
+    updateClinic: (id, data) => dispatch(actions.updateClinicAction(id, data)),
   };
 };
 

@@ -33,8 +33,8 @@ const AddNewUser = ({
   fetchAllcode,
   allcodes,
   message,
-  isUploadSuccess,
-  clearStatusUpload,
+  isSuccess,
+  clearStatus,
   getListClinicAction,
   listClinic,
 }) => {
@@ -66,7 +66,7 @@ const AddNewUser = ({
 
   useEffect(() => {
     if (message)
-      if (isUploadSuccess) {
+      if (isSuccess) {
         setEmail("");
         setName("");
         setPhone("");
@@ -92,8 +92,8 @@ const AddNewUser = ({
         setPreviewImgUrl("");
         toast.success(message);
       } else toast.error(message);
-    clearStatusUpload();
-  }, [message, isUploadSuccess]);
+    clearStatus();
+  }, [message, isSuccess]);
   useEffect(() => {
     if (_.isEmpty(listClinic)) getListClinicAction();
     if (listClinic) {
@@ -453,7 +453,7 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     allcodes: state.admin.allcodes,
-    isUploadSuccess: state.app.isUploadSuccess,
+    isSuccess: state.app.isSuccess,
     listClinic: state.admin.listClinic,
     message: state.app.message,
   };
@@ -462,7 +462,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
-    clearStatusUpload: () => dispatch(actions.clearStatusUpload()),
+    clearStatus: () => dispatch(actions.clearStatus()),
     createNewUser: (user) => dispatch(actions.createNewUserAction(user)),
     getListClinicAction: () => dispatch(actions.getListClinicAction()),
   };

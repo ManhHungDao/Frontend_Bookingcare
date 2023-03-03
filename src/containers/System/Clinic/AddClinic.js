@@ -12,11 +12,11 @@ import ButtonComponent from "../../../components/ButtonComponent";
 import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
 import useIsTablet from "../../../components/useScreen/useIsTablet";
 import "./style.scss";
-const AddEditClinic = ({
+const AddClinic = ({
   createClinicAction,
-  isUploadSuccess,
+  isSuccess,
   message,
-  clearStatusUpload,
+  clearStatus,
 }) => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState("");
@@ -35,7 +35,7 @@ const AddEditClinic = ({
   const smScreen = useIsTablet();
   useEffect(() => {
     if (message)
-      if (isUploadSuccess) {
+      if (isSuccess) {
         setContent("");
         setImage("");
         setLogo("");
@@ -51,20 +51,14 @@ const AddEditClinic = ({
         setPreviewImgUrl("");
         toast.success(message);
       } else toast.error(message);
-    clearStatusUpload();
-  }, [message, isUploadSuccess]);
+    clearStatus();
+  }, [message, isSuccess]);
   const checkValidate = () => {
     let errors = {};
     if (!name) errors.name = "Tên không được bỏ trống";
     if (!address) errors.address = "Địa chỉ không được bỏ trống";
     if (!content) errors.content = "Chi tiết không được bỏ trống";
     if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
-    // if (!note) errors.note = "Ghi chú không được bỏ trống";
-    // if (!position) errors.position = "Chưa chọn vị trí";
-    // if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
-    // if (!price) errors.price = "Chưa chọn giá";
-    // if (!clinic) errors.clinic = "Chưa chọn cơ sở";
-    // if (!specialty) errors.specialty = "Chưa chọn khoa";
     return errors;
   };
   const isValid = (errors) => {
@@ -183,7 +177,7 @@ const AddEditClinic = ({
 };
 const mapStateToProps = (state) => {
   return {
-    isUploadSuccess: state.app.isUploadSuccess,
+    isSuccess: state.app.isSuccess,
     message: state.app.message,
     listClinic: state.admin.listClinicHome,
   };
@@ -192,8 +186,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     createClinicAction: (data) => dispatch(actions.createClinicAction(data)),
-    clearStatusUpload: () => dispatch(actions.clearStatusUpload()),
+    clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddEditClinic);
+export default connect(mapStateToProps, mapDispatchToProps)(AddClinic);

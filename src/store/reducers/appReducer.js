@@ -15,11 +15,10 @@ const initialState = {
   contentOfConfirmModal: {
     ...initContentOfConfirmModal,
   },
-  isUploadSuccess: false,
   message: null,
   showLoading: false,
   menuOpen: "Trang Chính",
-  isDeleteSuccess: false,
+  isSuccess: false,
 };
 
 const appReducer = (state = initialState, action) => {
@@ -47,7 +46,7 @@ const appReducer = (state = initialState, action) => {
     case actionTypes.CREATE_SUCCESS: {
       return {
         ...state,
-        isUploadSuccess: true,
+        isSuccess: true,
         message: action.data,
       };
     }
@@ -55,15 +54,29 @@ const appReducer = (state = initialState, action) => {
     case actionTypes.CREATE_FAILED: {
       return {
         ...state,
-        isUploadSuccess: false,
+        isSuccess: false,
         message: action.data,
+      };
+    }
+    // update success
+    case actionTypes.UPDATE_SUCCESS: {
+      return {
+        ...state,
+        isSuccess: true,
+      };
+    }
+    // update failed
+    case actionTypes.UPDATE_FAILED: {
+      return {
+        ...state,
+        isSuccess: false,
       };
     }
     // delete success
     case actionTypes.DELETE_SUCCESS: {
       return {
         ...state,
-        isDeleteSuccess: true,
+        isSuccess: true,
         message: action.data,
       };
     }
@@ -71,26 +84,19 @@ const appReducer = (state = initialState, action) => {
     case actionTypes.DELETE_FAILED: {
       return {
         ...state,
-        isDeleteSuccess: false,
+        isSuccess: false,
         message: action.data,
       };
     }
     // clear status success
-    case actionTypes.CLEAR_STATUS_UPLOAD: {
+    case actionTypes.CLEAR_STATUS: {
       return {
         ...state,
-        isUploadSuccess: false,
+        isSuccess: false,
         message: null,
       };
     }
-    // clear status delete
-    case actionTypes.CLEAR_STATUS_DELETE: {
-      return {
-        ...state,
-        isUploadSuccess: false,
-        message: null,
-      };
-    }
+
     // loading
     case actionTypes.LOADING_TOGGLE_ACTION: {
       return {

@@ -13,6 +13,8 @@ const ClinicProfile = ({
   setPreviewImgUrl,
   previewLogoUrl,
   setPreviewLogoUrl,
+  setImgUpdate,
+  setLogoUpdate,
 }) => {
   const isMobile = useIsMobile();
   return (
@@ -37,6 +39,7 @@ const ClinicProfile = ({
               setPreviewImgUrl={setPreviewImgUrl}
               image={image}
               isDetail={true}
+              setImgUpdate={setImgUpdate}
             />
             <div
               className="d-flex justify-content-center mb-3"
@@ -56,6 +59,7 @@ const ClinicProfile = ({
                   preHeight="80px"
                   previewImgUrl={previewLogoUrl}
                   setPreviewImgUrl={setPreviewLogoUrl}
+                  setLogoUpdate={setLogoUpdate}
                   image={logo}
                 />
               </div>
@@ -64,7 +68,7 @@ const ClinicProfile = ({
               {name ? name : ""}
             </Typography>
             <Typography color="text.secondary" variant="body2">
-              {address?.detail ? address.detail : ""}
+              {address ? address : ""}
             </Typography>
           </Box>
         </CardContent>

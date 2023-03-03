@@ -20,8 +20,8 @@ const AddEditSpecialty = ({
   listClinic,
   getListClinicAction,
   message,
-  isUploadSuccess,
-  clearStatusUpload,
+  isSuccess,
+  clearStatus,
   createSpecialtyAction,
 }) => {
   const theme = useTheme();
@@ -42,15 +42,15 @@ const AddEditSpecialty = ({
   }, [listClinic]);
   useEffect(() => {
     if (message)
-      if (isUploadSuccess) {
+      if (isSuccess) {
         setContent("");
         setImage("");
         setName("");
         setPreviewImgUrl("");
         toast.success(message);
       } else toast.error(message);
-    clearStatusUpload();
-  }, [message, isUploadSuccess]);
+    clearStatus();
+  }, [message, isSuccess]);
   const checkValidate = () => {
     let errors = {};
     if (!name) errors.name = "Tên không được bỏ trống";
@@ -173,7 +173,7 @@ const AddEditSpecialty = ({
 const mapStateToProps = (state) => {
   return {
     listClinic: state.admin.listClinic,
-    isUploadSuccess: state.app.isUploadSuccess,
+    isSuccess: state.app.isSuccess,
     message: state.app.message,
   };
 };
@@ -183,7 +183,7 @@ const mapDispatchToProps = (dispatch) => {
     createSpecialtyAction: (data) =>
       dispatch(actions.createSpecialtyAction(data)),
     getListClinicAction: () => dispatch(actions.getListClinicAction()),
-    clearStatusUpload: () => dispatch(actions.clearStatusUpload()),
+    clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddEditSpecialty);

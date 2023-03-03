@@ -21,6 +21,7 @@ import {
   getListDetailHandbookService,
 } from "../../services/userService";
 import {
+  updateClinic,
   getSingleClinic,
   getAllClinic,
   createClinic,
@@ -71,7 +72,6 @@ export const createNewUserAction = (data) => {
           type: actionTypes.CREATE_SUCCESS,
           data: "Tạo người dùng thành công",
         });
-        // dispatch(fetchAllUserStart("All"));
         dispatch(loadingToggleAction(false));
       }
     } catch (error) {
@@ -131,6 +131,7 @@ export const deleteUser = (id) => {
   return async (dispatch, getState) => {
     try {
       {
+        dispatch(loadingToggleAction(true));
         const res = await deleteUserService(id);
         if (res && res.success) {
           dispatch({
@@ -140,6 +141,8 @@ export const deleteUser = (id) => {
         }
       }
     } catch (error) {
+      dispatch(loadingToggleAction(false));
+
       dispatch({
         type: actionTypes.DELETE_FAILED,
         data: "Xóa người dùng thất bại",
@@ -188,6 +191,28 @@ export const getSingleClinicAction = (id) => {
       toast.error("Lấy thông tin phòng khám thất bại");
       dispatch({
         type: actionTypes.GET_CLINIC_FAILED,
+      });
+    }
+  };
+};
+export const updateClinicAction = (id, data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await updateClinic(id, data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.UPDATE_SUCCESS,
+        });
+        dispatch(getListClinicAction());
+        dispatch(loadingToggleAction(false));
+        toast.success("Cập nhập thông tin thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      toast.error("Cập nhập thông tin thất bại");
+      dispatch({
+        type: actionTypes.UPDATE_FAILED,
       });
     }
   };
