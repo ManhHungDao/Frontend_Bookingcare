@@ -11,6 +11,10 @@ const ClinicProfile = ({
   setLogo,
   setImgUpdate,
   setLogoUpdate,
+  previewImgUrl,
+  setPreviewImgUrl,
+  previewLogoUrl,
+  setPreviewLogoUrl,
 }) => {
   const isMobile = useIsMobile();
   return (
@@ -34,6 +38,8 @@ const ClinicProfile = ({
               image={image}
               isDetail={true}
               setImgUpdate={setImgUpdate}
+              previewImgUrl={previewImgUrl}
+              setPreviewImgUrl={setPreviewImgUrl}
             />
             <div
               className="d-flex justify-content-center mb-3"
@@ -51,8 +57,10 @@ const ClinicProfile = ({
                   isDetail={true}
                   preWidth="80px"
                   preHeight="80px"
-                  setImgUpdate={setLogoUpdate}
                   image={logo}
+                  setImgUpdate={setLogoUpdate}
+                  previewImgUrl={previewLogoUrl}
+                  setPreviewImgUrl={setPreviewLogoUrl}
                 />
               </div>
             </div>

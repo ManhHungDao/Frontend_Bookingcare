@@ -34,7 +34,9 @@ const AccountProfile = ({
   image,
   setImage,
   phone,
-  setImgUpdate
+  setImgUpdate,
+  previewImgUrl,
+  setPreviewImgUrl,
 }) => {
   return (
     <>
@@ -55,6 +57,8 @@ const AccountProfile = ({
               preHeight="80px"
               image={image}
               setImgUpdate={setImgUpdate}
+              previewImgUrl={previewImgUrl}
+              setPreviewImgUrl={setPreviewImgUrl}
             />
             <Typography gutterBottom variant="h5">
               {role &&

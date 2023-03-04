@@ -54,6 +54,7 @@ const DetailUser = ({
   const [listClinicSelect, setListClinicSelect] = useState([]);
   const [errors, setErrors] = useState({});
   const [imgUpdate, setImgUpdate] = useState(null);
+  const [previewImgUrl, setPreviewImgUrl] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -207,6 +208,8 @@ const DetailUser = ({
                       image={image}
                       phone={phone}
                       setImgUpdate={setImgUpdate}
+                      previewImgUrl={previewImgUrl}
+                      setPreviewImgUrl={setPreviewImgUrl}
                     />
                   </Grid>
                   <Grid xs={12} md={6} lg={8}>
@@ -285,7 +288,6 @@ const mapDispatchToProps = (dispatch) => {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
     getListClinic: () => dispatch(actions.getListClinicAction()),
     updateUser: (id, data) => dispatch(actions.updateUserAction(id, data)),
-
   };
 };
 

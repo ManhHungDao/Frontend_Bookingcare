@@ -4,6 +4,8 @@ import Lightbox from "react-image-lightbox";
 import Button from "@mui/material/Button";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { CommonUtils } from "../utils";
+import { connect } from "react-redux";
+import { useEffect, useState } from "react";
 
 const UpLoadAvatar = ({
   setImg,
@@ -15,10 +17,15 @@ const UpLoadAvatar = ({
   image,
   isDetail,
   setImgUpdate,
+  isSuccess,
+  previewImgUrl,
+  setPreviewImgUrl,
 }) => {
-  const [openPreImg, setOpenPreImg] = React.useState(false);
-  const [previewImgUrl, setPreviewImgUrl] = React.useState("");
-
+  const [openPreImg, setOpenPreImg] = useState(false);
+  // const [previewImgUrl, setPreviewImgUrl] = useState("");
+  useEffect(() => {
+    if (isSuccess === true) setPreviewImgUrl("");
+  }, [isSuccess]);
   const handleOnChangeImage = async (event) => {
     const data = event.target.files;
     const file = data[0];
@@ -26,7 +33,7 @@ const UpLoadAvatar = ({
       const url = URL.createObjectURL(file);
       let base64 = await CommonUtils.getBase64(file);
       if (setImg) setImg(base64);
-      setPreviewImgUrl(url);
+      if (setPreviewImgUrl) setPreviewImgUrl(url);
       if (setImgUpdate) setImgUpdate(base64);
     }
   };
@@ -113,4 +120,14 @@ const UpLoadAvatar = ({
   );
 };
 
-export default UpLoadAvatar;
+const mapStateToProps = (state) => {
+  return {
+    isSuccess: state.app.isSuccess,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UpLoadAvatar);

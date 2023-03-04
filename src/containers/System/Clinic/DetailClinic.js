@@ -47,6 +47,8 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
   const [imgUpdate, setImgUpdate] = useState(null);
   const [logoUpdate, setLogoUpdate] = useState(null);
   const [errors, setErrors] = useState({});
+  const [previewImgUrl, setPreviewImgUrl] = useState("");
+  const [previewLogoUrl, setPreviewLogoUrl] = useState("");
 
   useEffect(() => {
     setAddress(clinic?.address?.detail ? clinic.address?.detail : "");
@@ -115,6 +117,10 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
       lng: null,
     });
     setProvince("");
+    setPreviewImgUrl("");
+    setPreviewLogoUrl("");
+    setImgUpdate("");
+    setLogoUpdate("");
   };
   return (
     <>
@@ -145,6 +151,10 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
                       logo={logo}
                       setImgUpdate={setImgUpdate}
                       setLogoUpdate={setLogoUpdate}
+                      previewImgUrl={previewImgUrl}
+                      setPreviewImgUrl={setPreviewImgUrl}
+                      previewLogoUrl={previewLogoUrl}
+                      setPreviewLogoUrl={setPreviewLogoUrl}
                     />
                   </Grid>
                   <Grid xs={12} md={6} lg={8}>

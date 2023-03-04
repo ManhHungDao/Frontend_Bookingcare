@@ -86,7 +86,6 @@ const AddNewUser = ({
       setDataSelect([]);
       setPreviewImgUrl("");
       setErrors({});
-      setPreviewImgUrl("");
     }
     clearStatus();
   }, [isSuccess]);

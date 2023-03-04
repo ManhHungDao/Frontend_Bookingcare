@@ -12,12 +12,7 @@ import ButtonComponent from "../../../components/ButtonComponent";
 import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
 import useIsTablet from "../../../components/useScreen/useIsTablet";
 import "./style.scss";
-const AddClinic = ({
-  createClinicAction,
-  isSuccess,
-  message,
-  clearStatus,
-}) => {
+const AddClinic = ({ createClinicAction, isSuccess, message, clearStatus }) => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState("");
   const [logo, setLogo] = useState("");
@@ -34,25 +29,23 @@ const AddClinic = ({
   const [errors, setErrors] = useState({});
   const smScreen = useIsTablet();
   useEffect(() => {
-    if (message)
-      if (isSuccess) {
-        setContent("");
-        setImage("");
-        setLogo("");
-        setName("");
-        setAddress("");
-        setIntroduce("");
-        setProvince("");
-        setPreviewLogoUrl("");
-        setCoordinates({
-          lat: null,
-          lng: null,
-        });
-        setPreviewImgUrl("");
-        toast.success(message);
-      } else toast.error(message);
+    if (isSuccess === true) {
+      setContent("");
+      setImage("");
+      setLogo("");
+      setName("");
+      setAddress("");
+      setIntroduce("");
+      setProvince("");
+      setCoordinates({
+        lat: null,
+        lng: null,
+      });
+      setPreviewLogoUrl("");
+      setPreviewImgUrl("");
+    }
     clearStatus();
-  }, [message, isSuccess]);
+  }, [isSuccess]);
   const checkValidate = () => {
     let errors = {};
     if (!name) errors.name = "Tên không được bỏ trống";
@@ -92,39 +85,47 @@ const AddClinic = ({
     <>
       <Box m="20px">
         <Header title="Thêm Mới Phòng Khám" subtitle="Quản lý phòng khám" />
-        <Grid container spacing={2}>
-          <Grid container xs={12} md={4} spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12} md={12}>
-              <TextField
-                required
-                id="outlined-required"
-                label="Tên"
-                fullWidth
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-                error={errors.name}
-                helperText={errors.name}
-              />
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <AutocompleteAddress
-                isErr={errors.address ? true : false}
-                errName={errors.address}
-                setAddress={setAddress}
-                setProvince={setProvince}
-                setCoordinates={setCoordinates}
-                address={address}
-              />
+        <Grid
+          container
+          spacing={2}
+          // display="flex"
+          // justifyContent="space-around"
+          // alignItems="center"
+        >
+          <Grid item sx={{ mb: 2 }} xs={12} md={4}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={12}>
+                <TextField
+                  required
+                  id="outlined-required"
+                  label="Tên"
+                  fullWidth
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
+                  error={errors.name}
+                  helperText={errors.name}
+                />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <AutocompleteAddress
+                  isErr={errors.address ? true : false}
+                  errName={errors.address}
+                  setAddress={setAddress}
+                  setProvince={setProvince}
+                  setCoordinates={setCoordinates}
+                  address={address}
+                />
+              </Grid>
             </Grid>
           </Grid>
           <Grid
-            container
+            item
             spacing={2}
-            xs={12}
-            md={8}
             display="flex"
             justifyContent="space-around"
             alignItems="center"
+            xs={12}
+            md={8}
           >
             <Grid item xs={12} md={4}>
               <UpLoadAvatar
@@ -178,7 +179,6 @@ const AddClinic = ({
 const mapStateToProps = (state) => {
   return {
     isSuccess: state.app.isSuccess,
-    message: state.app.message,
     listClinic: state.admin.listClinicHome,
   };
 };
