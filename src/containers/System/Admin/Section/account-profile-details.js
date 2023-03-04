@@ -40,7 +40,7 @@ export const AccountProfileDetails = ({
   return (
     <form autoComplete="off" noValidate>
       <Card>
-        <CardHeader  title="Thông tin cá nhân" />
+        <CardHeader title="Thông tin cá nhân" />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
             <Grid container spacing={3}>
@@ -52,6 +52,8 @@ export const AccountProfileDetails = ({
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   value={email}
+                  error={errors?.email ? true : false}
+                  helperText={errors.email}
                 />
               </Grid>
               <Grid xs={12} md={6}>
@@ -62,6 +64,8 @@ export const AccountProfileDetails = ({
                   onChange={(e) => setName(e.target.value)}
                   required
                   value={name}
+                  error={errors?.name ? true : false}
+                  helperText={errors.name}
                 />
               </Grid>
               <Grid xs={12} md={6}>
@@ -101,6 +105,8 @@ export const AccountProfileDetails = ({
                   onChange={(e) => setPhone(e.target.value)}
                   required
                   value={phone}
+                  error={errors?.phone ? true : false}
+                  helperText={errors.phone}
                 />
               </Grid>
               <Grid xs={12} md={6}>
@@ -147,8 +153,6 @@ export const AccountProfilelClinic = ({
   content,
   setContent,
   dataSelect,
-  previewImgUrl,
-  setPreviewImgUrl,
   listClinicSelect,
   errors,
   data,
@@ -156,7 +160,7 @@ export const AccountProfilelClinic = ({
   return (
     <form autoComplete="off" noValidate>
       <Card>
-        <CardHeader  title="Thông tin cơ quan" />
+        <CardHeader title="Thông tin cơ quan" />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
             <Grid container spacing={3}>

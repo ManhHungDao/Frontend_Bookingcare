@@ -44,8 +44,6 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
   const [introduce, setIntroduce] = useState("");
   const [detail, setDetail] = useState("");
   const [views, setViews] = useState(0);
-  const [previewImgUrl, setPreviewImgUrl] = useState("");
-  const [previewLogoUrl, setPreviewLogoUrl] = useState("");
   const [imgUpdate, setImgUpdate] = useState(null);
   const [logoUpdate, setLogoUpdate] = useState(null);
   const [errors, setErrors] = useState({});
@@ -89,8 +87,8 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
     }
     let data = {
       detail,
-      image: previewImgUrl ? previewImgUrl : null,
-      logo: previewLogoUrl ? previewLogoUrl : null,
+      image: imgUpdate ? imgUpdate : null,
+      logo: logoUpdate ? logoUpdate : null,
       name,
       introduce,
       address: {
@@ -111,8 +109,6 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
     setIntroduce("");
     setDetail("");
     setViews("");
-    setPreviewImgUrl("");
-    setPreviewLogoUrl("");
     setErrors("");
     setCoordinates({
       lat: null,
@@ -146,13 +142,7 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
                       name={name}
                       address={address}
                       image={image}
-                      setImage={setImage}
                       logo={logo}
-                      setLogo={setLogo}
-                      previewImgUrl={previewImgUrl}
-                      setPreviewImgUrl={setPreviewImgUrl}
-                      previewLogoUrl={previewLogoUrl}
-                      setPreviewLogoUrl={setPreviewLogoUrl}
                       setImgUpdate={setImgUpdate}
                       setLogoUpdate={setLogoUpdate}
                     />

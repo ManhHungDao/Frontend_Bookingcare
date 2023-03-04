@@ -12,22 +12,22 @@ const UpLoadAvatar = ({
   borderRadius,
   backgroundSize,
   content,
-  setPreviewImgUrl,
-  previewImgUrl,
   image,
   isDetail,
   setImgUpdate,
 }) => {
   const [openPreImg, setOpenPreImg] = React.useState(false);
+  const [previewImgUrl, setPreviewImgUrl] = React.useState("");
+
   const handleOnChangeImage = async (event) => {
     const data = event.target.files;
     const file = data[0];
     if (file) {
       const url = URL.createObjectURL(file);
       let base64 = await CommonUtils.getBase64(file);
-      setImg(base64);
+      if (setImg) setImg(base64);
       setPreviewImgUrl(url);
-      setImgUpdate(base64)
+      if (setImgUpdate) setImgUpdate(base64);
     }
   };
   const openReviewImage = () => {

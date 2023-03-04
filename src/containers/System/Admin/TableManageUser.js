@@ -20,13 +20,13 @@ import AttributionIcon from "@mui/icons-material/Attribution";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import ModeEditRoundedIcon from "@mui/icons-material/ModeEditRounded";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
+import DetailUser from "./DetailUser";
+
 const TableManageUser = (props) => {
   const [users, setUsers] = useState([]);
   const [listSeach, setListSeach] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [isAdd, setIsAdd] = useState(false);
+  const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [userEdit, setUserEdit] = useState({});
   const [userDelete, setUserDelete] = useState({});
@@ -78,14 +78,15 @@ const TableManageUser = (props) => {
   useEffect(() => {
     let listUser = props.users.map((i) => {
       return {
+        ...i,
         id: i._id,
-        email: i.email,
-        name: i.name,
-        phone: i.phone,
-        address: i.address.detail,
         image: i.image.url,
-        positionId: i.positionId,
-        roleId: i.roleId,
+        // email: i.email,
+        // name: i.name,
+        // phone: i.phone,
+        // address: i.address,
+        // positionId: i.positionId,
+        // roleId: i.roleId,
         // gender: i.gender,
       };
     });
@@ -103,11 +104,13 @@ const TableManageUser = (props) => {
     setSearchTerm(event.target.value);
   };
 
-  const hadnleClickView = (id) => {
-    console.log("🚀 click view:", id);
-  };
-  const handleClickEdit = (id) => {
-    console.log("🚀click edit ", id);
+  const hadnleClickView = (data) => {
+    console.log(
+      "🚀 ~ file: TableManageUser.js:107 ~ hadnleClickView ~ data:",
+      data
+    );
+    setUserEdit(data);
+    setOpen(true);
   };
   const handelClickDelete = (id) => {
     console.log("🚀 ~ click delete:", id);
@@ -125,8 +128,25 @@ const TableManageUser = (props) => {
     </TableRow>
   );
   const TableColumn = (props) => {
-    const { id, address, name, image, phone, email, roleId, positionId } =
-      props;
+    const {
+      id,
+      address,
+      name,
+      image,
+      phone,
+      email,
+      roleId,
+      positionId,
+      gender,
+      // profile user
+      clinic,
+      specialty,
+      price,
+      payment,
+      introduce,
+      note,
+      content,
+    } = props;
     return (
       <>
         <TableRow>
@@ -140,7 +160,7 @@ const TableManageUser = (props) => {
           </TableCell>
           <TableCell>{email}</TableCell>
           <TableCell>{phone}</TableCell>
-          <TableCell>{address}</TableCell>
+          <TableCell>{address?.detail ? address?.detail : ""}</TableCell>
           <TableCell>
             <span className="d-flex justify-content-center">
               <AttributionIcon />
@@ -183,13 +203,8 @@ const TableManageUser = (props) => {
           </TableCell>
           <TableCell>
             <Tooltip title="Xem">
-              <IconButton onClick={() => hadnleClickView(id)}>
+              <IconButton onClick={() => hadnleClickView(props)}>
                 <RemoveRedEyeRoundedIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Chỉnh sửa">
-              <IconButton onClick={() => handleClickEdit(id)}>
-                <ModeEditRoundedIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title="Xóa">
@@ -242,6 +257,7 @@ const TableManageUser = (props) => {
           />
         </Box>
       </Box>
+      <DetailUser open={open} setOpen={setOpen} user={userEdit} />
     </>
   );
 };

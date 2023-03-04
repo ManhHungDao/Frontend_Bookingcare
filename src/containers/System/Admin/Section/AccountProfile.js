@@ -34,8 +34,7 @@ const AccountProfile = ({
   image,
   setImage,
   phone,
-  previewImgUrl,
-  setPreviewImgUrl,
+  setImgUpdate
 }) => {
   return (
     <>
@@ -54,9 +53,8 @@ const AccountProfile = ({
               isDetail={true}
               preWidth="80px"
               preHeight="80px"
-              previewImgUrl={previewImgUrl}
-              setPreviewImgUrl={setPreviewImgUrl}
               image={image}
+              setImgUpdate={setImgUpdate}
             />
             <Typography gutterBottom variant="h5">
               {role &&
@@ -88,7 +86,7 @@ const AccountProfile = ({
               {email} - {phone}
             </Typography>
             <Typography color="text.secondary" variant="body2">
-              {address?.detail ? address.detail : ""}
+              {address}
             </Typography>
           </Box>
         </CardContent>

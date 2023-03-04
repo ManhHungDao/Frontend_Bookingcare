@@ -9,10 +9,6 @@ const ClinicProfile = ({
   setImage,
   logo,
   setLogo,
-  previewImgUrl,
-  setPreviewImgUrl,
-  previewLogoUrl,
-  setPreviewLogoUrl,
   setImgUpdate,
   setLogoUpdate,
 }) => {
@@ -35,8 +31,6 @@ const ClinicProfile = ({
               preHeight="200px"
               borderRadius="0px"
               backgroundSize="cover"
-              previewImgUrl={previewImgUrl}
-              setPreviewImgUrl={setPreviewImgUrl}
               image={image}
               isDetail={true}
               setImgUpdate={setImgUpdate}
@@ -57,9 +51,7 @@ const ClinicProfile = ({
                   isDetail={true}
                   preWidth="80px"
                   preHeight="80px"
-                  previewImgUrl={previewLogoUrl}
-                  setPreviewImgUrl={setPreviewLogoUrl}
-                  setLogoUpdate={setLogoUpdate}
+                  setImgUpdate={setLogoUpdate}
                   image={logo}
                 />
               </div>

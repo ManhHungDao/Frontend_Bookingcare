@@ -177,14 +177,6 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
               <Item
-                title="Chi Tiết Người Dùng"
-                to="/admin/detail-user"
-                icon={<ArticleOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
                 title="Danh Sách Người Dùng"
                 to="/admin/manage-user"
                 icon={<PeopleOutlinedIcon />}
@@ -206,14 +198,6 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 title="Thêm Phòng Khám"
                 to="/admin/add-clinic"
                 icon={<AddHomeOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Chi Tiết Phòng Khám"
-                to="/admin/detail-clinic"
-                icon={<ArticleOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}

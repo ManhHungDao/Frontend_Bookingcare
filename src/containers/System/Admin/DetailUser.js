@@ -2,15 +2,13 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import Header from "../../../components/Header";
+import validator from "validator";
 import {
   Box,
   Container,
   Stack,
-  Typography,
   Unstable_Grid2 as Grid,
   Modal,
-  Button,
-  Switch,
 } from "@mui/material";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
@@ -23,16 +21,14 @@ import ButtonComponent from "../../../components/ButtonComponent";
 import _ from "lodash";
 
 const DetailUser = ({
-  id,
-  getSingleUser,
   fetchAllcode,
   user,
   allcodes,
   getListClinic,
   listClinic,
+  open,
+  setOpen,
 }) => {
-  const [open, setOpen] = useState(true);
-  const [isChecked, setChecked] = useState(false);
   //infomation doctor
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -45,7 +41,6 @@ const DetailUser = ({
   const [image, setImage] = useState("");
   const [date, setDate] = useState(dayjs(new Date()));
   const [role, setRole] = useState("");
-  const [previewImgUrl, setPreviewImgUrl] = useState("");
   //information doctor's clinic
   const [clinic, setClinic] = useState("");
   const [specialty, setSpecialty] = useState("");
@@ -57,21 +52,18 @@ const DetailUser = ({
   const [dataSelect, setDataSelect] = useState([]);
   const [listClinicSelect, setListClinicSelect] = useState([]);
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    getSingleUser("63fa590e18396ceb24e38a76");
-  }, []);
+  const [imgUpdate, setImgUpdate] = useState(null);
 
   useEffect(() => {
     if (user) {
       setEmail(user.email);
       setName(user.name);
       setPhone(user.phone);
-      setAddress(user.address);
-      setProvince(user.province);
+      setAddress(user?.address?.detail ? user.address.detail : "");
+      setProvince(user?.address?.province ? user.address.province : "");
       setGender(user.gender);
       setPosition(user.positionId);
-      setImage(user?.image?.url ? user.image.url : "");
+      setImage(user?.image ? user.image : "");
       setDate(user.dateOfBirth);
       setRole(user.roleId);
       setClinic(user.clinic);
@@ -105,7 +97,6 @@ const DetailUser = ({
     }
   }, [listClinic]);
 
-  const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     setEmail("");
@@ -125,6 +116,7 @@ const DetailUser = ({
     setIntroduce("");
     setNote("");
     setContent("");
+    setImgUpdate("");
   };
   const style = {
     position: "absolute",
@@ -138,10 +130,53 @@ const DetailUser = ({
     height: "80vh",
     overflowY: "scroll",
   };
-  const handleSave = () => {};
+  const checkValidate = () => {
+    let errors = {};
+    if (!email) errors.email = "Email không được bỏ trống";
+    if (!validator.isEmail(email)) {
+      errors.email = "Email không hợp lệ";
+    }
+    if (!name) errors.name = "Tên không được bỏ trống";
+    if (!address) errors.address = "Địa chỉ không được bỏ trống";
+    if (!phone) errors.phone = "Số điện thoại không được bỏ trống";
+    if (!validator.isMobilePhone(phone))
+      errors.phone = "Số điện thoại không hợp lệ";
+    // if (!content) errors.content = "Chi tiết không được bỏ trống";
+    // if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
+    // if (!note) errors.note = "Ghi chú không được bỏ trống";
+    // if (!position) errors.position = "Chưa chọn vị trí";
+    // if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
+    // if (!price) errors.price = "Chưa chọn giá";
+    // if (!clinic) errors.clinic = "Chưa chọn cơ sở";
+    // if (!specialty) errors.specialty = "Chưa chọn khoa";
+    return errors;
+  };
+  const isValid = (errors) => {
+    let keys = Object.keys(errors);
+    let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
+    return count === 0;
+  };
+  const handleSave = () => {
+    const errors = checkValidate();
+    const checkValidInPut = isValid(errors);
+    if (!checkValidInPut) {
+      setErrors(errors);
+      return;
+    }
+    let data = {
+      email,
+      image: imgUpdate ? imgUpdate : null,
+      name,
+      phone,
+      gender,
+      positionId: position,
+      address: { detail: address, province },
+      dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
+    };
+    console.log("check data sent user", data);
+  };
   return (
     <>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -150,13 +185,7 @@ const DetailUser = ({
       >
         <Box sx={style}>
           <Box m="20px">
-            <Header
-              title="Chi tiết Người Dùng"
-              // isShowSwitch={true}
-              // titleSwich="Chỉnh sửa"
-              // isChecked={isChecked}
-              // setChecked={setChecked}
-            />
+            <Header title="Chi tiết Người Dùng" />
           </Box>
           <Box
             component="main"
@@ -175,10 +204,8 @@ const DetailUser = ({
                       roleId={role}
                       address={address}
                       image={image}
-                      setImage={setImage}
                       phone={phone}
-                      previewImgUrl={previewImgUrl}
-                      setPreviewImgUrl={setPreviewImgUrl}
+                      setImgUpdate={setImgUpdate}
                     />
                   </Grid>
                   <Grid xs={12} md={6} lg={8}>
@@ -189,7 +216,8 @@ const DetailUser = ({
                       setName={setName}
                       phone={phone}
                       setPhone={setPhone}
-                      address={address ? address?.detail : ""}
+                      address={address}
+                      province={province}
                       setAddress={setAddress}
                       setProvince={setProvince}
                       gender={gender}
@@ -246,7 +274,6 @@ const DetailUser = ({
 
 const mapStateToProps = (state) => {
   return {
-    user: state.admin.user,
     listClinic: state.admin.listClinic,
     allcodes: state.admin.allcodes,
   };
@@ -254,7 +281,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getSingleUser: (id) => dispatch(actions.getSingleUserAction(id)),
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
     getListClinic: () => dispatch(actions.getListClinicAction()),
   };

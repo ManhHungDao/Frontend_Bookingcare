@@ -34,6 +34,8 @@ export const ClinicDetail = ({
                   onChange={(e) => setName(e.target.value)}
                   required
                   value={name}
+                  error={errors?.name ? true : false}
+                  helperText={errors.name}
                 />
               </Grid>
               <Grid xs={12} md={6}>
