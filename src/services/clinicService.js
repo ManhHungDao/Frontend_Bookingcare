@@ -24,7 +24,12 @@ const updateClinic = (id, data) => {
   return axios.put(`/api/update-clinic?id=${id}`, data);
 };
 
+const deleteClinc = (id) => {
+  return axios.delete(`/api/delete-clinic?id=${id}`);
+};
+
 export {
+  deleteClinc,
   getSingleClinic,
   getAllClinic,
   createClinic,

@@ -32,7 +32,6 @@ const AddNewUser = ({
   createNewUser,
   fetchAllcode,
   allcodes,
-  message,
   isSuccess,
   clearStatus,
   getListClinicAction,
@@ -65,35 +64,32 @@ const AddNewUser = ({
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (message)
-      if (isSuccess) {
-        setEmail("");
-        setName("");
-        setPhone("");
-        setPassword("123456Aa.");
-        setAddress("");
-        setProvince("");
-        setGender("M");
-        setPosition("");
-        setImage("");
-        setDate(dayjs(new Date()));
-        setClinic("");
-        setSpecialty("");
-        setPrice("");
-        setPayment("");
-        setIntroduce("");
-        setNote("");
-        setContent("");
-        setShowPassword(false);
-        setDataSelect([]);
-        setPreviewImgUrl("");
-        setErrors({});
-
-        setPreviewImgUrl("");
-        toast.success(message);
-      } else toast.error(message);
+    if (isSuccess === true) {
+      setEmail("");
+      setName("");
+      setPhone("");
+      setPassword("123456Aa.");
+      setAddress("");
+      setProvince("");
+      setGender("M");
+      setPosition("");
+      setImage("");
+      setDate(dayjs(new Date()));
+      setClinic("");
+      setSpecialty("");
+      setPrice("");
+      setPayment("");
+      setIntroduce("");
+      setNote("");
+      setContent("");
+      setShowPassword(false);
+      setDataSelect([]);
+      setPreviewImgUrl("");
+      setErrors({});
+      setPreviewImgUrl("");
+    }
     clearStatus();
-  }, [message, isSuccess]);
+  }, [isSuccess]);
   useEffect(() => {
     if (_.isEmpty(listClinic)) getListClinicAction();
     if (listClinic) {
@@ -455,7 +451,6 @@ const mapStateToProps = (state) => {
     allcodes: state.admin.allcodes,
     isSuccess: state.app.isSuccess,
     listClinic: state.admin.listClinic,
-    message: state.app.message,
   };
 };
 

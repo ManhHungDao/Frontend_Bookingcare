@@ -22,17 +22,18 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import DetailUser from "./DetailUser";
+import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 
 const TableManageUser = (props) => {
   const [users, setUsers] = useState([]);
   const [listSeach, setListSeach] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [userEdit, setUserEdit] = useState({});
-  const [userDelete, setUserDelete] = useState({});
-  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [userDelete, setUserDelete] = useState({});
 
   const role = [
     {
@@ -70,7 +71,12 @@ const TableManageUser = (props) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
+  useEffect(() => {
+    if (props.isSuccess === true) {
+      setOpen(false);
+      setOpenConfirmModal(false);
+    }
+  }, [props.isSuccess]);
   useEffect(() => {
     if (_.isEmpty(props.users)) props.getAllUserAction();
   }, []);
@@ -105,17 +111,17 @@ const TableManageUser = (props) => {
   };
 
   const hadnleClickView = (data) => {
-    console.log(
-      "🚀 ~ file: TableManageUser.js:107 ~ hadnleClickView ~ data:",
-      data
-    );
     setUserEdit(data);
     setOpen(true);
   };
-  const handelClickDelete = (id) => {
-    console.log("🚀 ~ click delete:", id);
+  const handelClickDelete = (user) => {
+    setOpenConfirmModal(true);
+    setUserDelete(user);
   };
-
+  const handleDeleteUser = () => {
+    const id = userDelete.id;
+    if (id) props.deleteUserAction(id);
+  };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
       <TableCell>Người dùng</TableCell>
@@ -208,7 +214,7 @@ const TableManageUser = (props) => {
               </IconButton>
             </Tooltip>
             <Tooltip title="Xóa">
-              <IconButton onClick={() => handelClickDelete(id)}>
+              <IconButton onClick={() => handelClickDelete(props)}>
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
@@ -258,6 +264,14 @@ const TableManageUser = (props) => {
         </Box>
       </Box>
       <DetailUser open={open} setOpen={setOpen} user={userEdit} />
+      <ConfirmModal
+        open={openConfirmModal}
+        setOpen={setOpenConfirmModal}
+        title="Xóa người dùng"
+        content={`${userDelete?.name ? userDelete.name : ""}`}
+        type="DELETE"
+        confirmFunc={handleDeleteUser}
+      />
     </>
   );
 };
@@ -265,13 +279,14 @@ const TableManageUser = (props) => {
 const mapStateToProps = (state) => {
   return {
     users: state.admin.users,
+    isSuccess: state.app.isSuccess,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllUserAction: (type) => dispatch(actions.getAllUserAction(type)),
-    deleteUser: (id) => dispatch(actions.deleteUser(id)),
+    deleteUserAction: (id) => dispatch(actions.deleteUserAction(id)),
   };
 };
 

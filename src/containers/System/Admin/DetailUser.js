@@ -28,6 +28,7 @@ const DetailUser = ({
   listClinic,
   open,
   setOpen,
+  updateUser,
 }) => {
   //infomation doctor
   const [email, setEmail] = useState("");
@@ -173,7 +174,7 @@ const DetailUser = ({
       address: { detail: address, province },
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
     };
-    console.log("check data sent user", data);
+    updateUser(user.id, data);
   };
   return (
     <>
@@ -283,6 +284,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
     getListClinic: () => dispatch(actions.getListClinicAction()),
+    updateUser: (id, data) => dispatch(actions.updateUserAction(id, data)),
+
   };
 };
 

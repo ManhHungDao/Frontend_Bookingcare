@@ -16,12 +16,12 @@ const createNewUserService = (data) => {
   return axios.post(`/api/create-user`, data);
 };
 
-const deleteUserService = (userId) => {
-  return axios.delete(`/api/delete-user`, {
-    data: {
-      id: userId,
-    },
-  });
+const updateUserService = (id, data) => {
+  return axios.put(`/api/update-user?id=${id}`, data);
+};
+
+const deleteUserService = (id) => {
+  return axios.delete(`/api/delete-user?id=${id}`);
 };
 
 const editUserService = (user) => {
@@ -85,7 +85,6 @@ const getListDoctorSpecialty = (data) => {
   );
 };
 
-
 const getAllPatientForDoctor = (data) => {
   return axios.get(
     `/api/get-list-patient?doctorId=${data.doctorId}&date=${data.date}`
@@ -95,7 +94,6 @@ const getAllPatientForDoctor = (data) => {
 const postSemery = (data) => {
   return axios.post(`/api/send-remedy`, data);
 };
-
 
 const deleteClinicService = (id) => {
   return axios.delete(`/api/delete-clinic?id=${id}`);
@@ -195,6 +193,7 @@ const getPacketByDanhMucService = (id) => {
 };
 
 export {
+  updateUserService,
   getSingleUserService,
   loginApiService,
   getAllUserService,

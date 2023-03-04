@@ -7,7 +7,7 @@ import Header from "../../../components/Header";
 import _ from "lodash";
 import DetailClinic from "./DetailClinic";
 import "./style.scss";
-
+import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -20,19 +20,21 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
+import { toast } from "react-toastify";
 const TableManageClinic = ({
   getListClinicAction,
   listClinic,
   isSuccess,
   clearStatus,
+  deleteClincAction,
 }) => {
   const [list, setList] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
-
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [clinicEdit, setClinicEdit] = useState({});
-
+  const [clinicDelete, setClinicDelete] = useState({});
   useEffect(() => {
     if (_.isEmpty(listClinic)) getListClinicAction();
     if (listClinic) {
@@ -52,6 +54,7 @@ const TableManageClinic = ({
     }
     if (isSuccess) {
       setOpen(false);
+      setOpenConfirmModal(false);
       clearStatus();
     }
   }, [listClinic, isSuccess]);
@@ -68,8 +71,13 @@ const TableManageClinic = ({
     setClinicEdit(data);
     setOpen(true);
   };
-  const handelClickDelete = (id) => {
-    console.log("🚀 ~ click delete:", id);
+  const handelClickDelete = (data) => {
+    setOpenConfirmModal(true);
+    setClinicDelete(data);
+  };
+  const handleDeleteClinic = () => {
+    const id = clinicDelete.id;
+    if (id) deleteClincAction(id);
   };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
@@ -101,7 +109,7 @@ const TableManageClinic = ({
               </IconButton>
             </Tooltip>
             <Tooltip title="Xóa">
-              <IconButton onClick={() => handelClickDelete(id)}>
+              <IconButton onClick={() => handelClickDelete(props)}>
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
@@ -153,6 +161,14 @@ const TableManageClinic = ({
       {clinicEdit && (
         <DetailClinic setOpen={setOpen} open={open} clinic={clinicEdit} />
       )}
+      <ConfirmModal
+        open={openConfirmModal}
+        setOpen={setOpenConfirmModal}
+        title="Xóa phòng khám"
+        content={`${clinicDelete?.name ? clinicDelete.name : ""}`}
+        type="DELETE"
+        confirmFunc={handleDeleteClinic}
+      />
     </>
   );
 };
@@ -168,6 +184,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getListClinicAction: () => dispatch(actions.getListClinicAction()),
     clearStatus: () => dispatch(actions.clearStatus()),
+    deleteClincAction: (id) => dispatch(actions.deleteClincAction(id)),
   };
 };
 

@@ -15,7 +15,6 @@ const initialState = {
   contentOfConfirmModal: {
     ...initContentOfConfirmModal,
   },
-  message: null,
   showLoading: false,
   menuOpen: "Trang Chính",
   isSuccess: false,
@@ -42,58 +41,30 @@ const appReducer = (state = initialState, action) => {
         language: action.language,
       };
 
-    // upload success
-    case actionTypes.CREATE_SUCCESS: {
-      return {
-        ...state,
-        isSuccess: true,
-        message: action.data,
-      };
-    }
-    // upload failed
-    case actionTypes.CREATE_FAILED: {
-      return {
-        ...state,
-        isSuccess: false,
-        message: action.data,
-      };
-    }
-    // update success
-    case actionTypes.UPDATE_SUCCESS: {
-      return {
-        ...state,
-        isSuccess: true,
-      };
-    }
-    // update failed
-    case actionTypes.UPDATE_FAILED: {
-      return {
-        ...state,
-        isSuccess: false,
-      };
-    }
-    // delete success
+    // CRUD success
+    case actionTypes.CREATE_SUCCESS:
+    case actionTypes.UPDATE_SUCCESS:
     case actionTypes.DELETE_SUCCESS: {
       return {
         ...state,
         isSuccess: true,
-        message: action.data,
       };
     }
-    // delete failed
+    // CRUD failed
+    case actionTypes.CREATE_FAILED:
+    case actionTypes.UPDATE_FAILED:
     case actionTypes.DELETE_FAILED: {
       return {
         ...state,
         isSuccess: false,
-        message: action.data,
       };
     }
+
     // clear status success
     case actionTypes.CLEAR_STATUS: {
       return {
         ...state,
         isSuccess: false,
-        message: null,
       };
     }
 
