@@ -217,7 +217,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
             >
               <Item
                 title="Thêm Chuyên Khoa"
-                to="/admin/manage-specialty"
+                to="/admin/add-specialty"
                 icon={<LibraryAddOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
@@ -233,7 +233,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               />
               <Item
                 title="Danh Sách Chuyên Khoa"
-                to="/admin/manage-list-specialty"
+                to="/admin/manage-specialty"
                 icon={<BallotOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}

@@ -2,6 +2,8 @@ import React from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import UpLoadAvatar from "../../../../components/UpLoadAvatar";
 import useIsMobile from "../../../../components/useScreen/useIsMobile";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+
 const ClinicProfile = ({
   name,
   address,
@@ -67,9 +69,22 @@ const ClinicProfile = ({
             <Typography gutterBottom variant="h5">
               {name ? name : ""}
             </Typography>
-            <Typography color="text.secondary" variant="body2">
-              {address ? address : ""}
-            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "flex-start",
+                flexDirection: "column",
+                gap: 1,
+              }}
+            >
+              <Typography
+                className="clinic-profile__detail--text"
+                color="text.secondary"
+                variant="body2"
+              >
+                <LocationOnIcon /> {address ? address : ""}
+              </Typography>
+            </Box>
           </Box>
         </CardContent>
       </Card>

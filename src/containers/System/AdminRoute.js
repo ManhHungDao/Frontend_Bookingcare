@@ -13,7 +13,7 @@ import Topbar from "./global/Topbar";
 import Sidebar from "./global/Sidebar";
 import AddNewUser from "./Admin/AddNewUser";
 import AddClinic from "./Clinic/AddClinic";
-import AddEditSpecialty from "./Specialty/AddEditSpecialty";
+import AddSpecialty from "./Specialty/AddSpecialty";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import "./style.css";
@@ -35,8 +35,7 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
                 <Route path="manage-user" element={<TableManageUser />} />
                 <Route path="add-clinic" element={<AddClinic />} />
                 <Route path="manage-clinic" element={<TableManageClinic />} />
-                <Route path="manage-handbook" element={<ManageHandbook />} />
-                <Route path="manage-specialty" element={<AddEditSpecialty />} />
+                <Route path="add-specialty" element={<AddSpecialty />} />
                 {/* <Route
                   path="/manage-detail-clinic"
                   element={<ManageDetailClinic />}

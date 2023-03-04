@@ -7,16 +7,15 @@ import { tokens } from "../theme";
 import Header from "../../../components/Header.jsx";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import RefreshOutlinedIcon from "@mui/icons-material/RefreshOutlined";
 import UpLoadAvatar from "../../../components/UpLoadAvatar";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../components/ButtonComponent";
 import InputSelect from "../../../components/Input/InputSelect";
 import { toast } from "react-toastify";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
 import _ from "lodash";
-const AddEditSpecialty = ({
+import useIsTablet from "../../../components/useScreen/useIsTablet";
+
+const AddSpecialty = ({
   listClinic,
   getListClinicAction,
   message,
@@ -33,6 +32,8 @@ const AddEditSpecialty = ({
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [image, setImage] = useState("");
   const [dataClinic, setDataClinic] = useState([]);
+  const [isPopular, setIsPopular] = useState(false);
+  const smScreen = useIsTablet();
 
   useEffect(() => {
     if (_.isEmpty(listClinic)) getListClinicAction();
@@ -83,54 +84,40 @@ const AddEditSpecialty = ({
       <Box m="20px">
         <Header
           title="Thêm Mới Chuyên Khoa"
-          subtitle="Quản lý chuyên khoa"
-          titleBtn="Thêm mới chuyên khoa"
-          isShowBtn={true}
-          onClick={handleClickAddNewSpecialty}
+          isShowSwitch={true}
+          titleSwich={"Phổ biến"}
+          isChecked={isPopular}
+          setChecked={setIsPopular}
         />
-        <Grid container spacing={2} rowSpacing={{ sm: 2, md: 6 }}>
-          <Grid
-            container
-            item
-            // spacing={2}
-            // rowSpacing={{ sm: 2, md: 6 }}
-            xs={12}
-            md={6}
-          >
-            <Grid item xs={12} md={12}>
-              <Box
-                display={"flex"}
-                // justifyContent={"center"}
-                alignItems={"center"}
-              >
-                <InputSelect
-                  label="Chọn phòng khám"
-                  value={clinic}
-                  onChange={setClinic}
-                  data={dataClinic}
-                  isError={errors.clinic ? true : false}
-                  errorText={errors.clinic ? errors.clinic : ""}
-                  name="Chọn phòng khám"
-                  // minWidth="90%"
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <Grid container spacing={2}>
+              {isPopular && (
+                <Grid item xs={12} md={12}>
+                  <InputSelect
+                    label="Chọn phòng khám"
+                    value={clinic}
+                    onChange={setClinic}
+                    data={dataClinic}
+                    isError={errors.clinic ? true : false}
+                    errorText={errors.clinic ? errors.clinic : ""}
+                    name="Chọn phòng khám"
+                    // minWidth="90%"
+                  />
+                </Grid>
+              )}
+              <Grid item xs={12} md={12}>
+                <TextField
+                  required
+                  id="outlined-required"
+                  label="Tên"
+                  fullWidth
+                  onChange={(e) => setName(e.target.value)}
+                  error={errors.name}
+                  helperText={errors.name}
+                  value={name}
                 />
-                <Tooltip title="Làm mới">
-                  <IconButton onClick={() => setClinic("")}>
-                    <RefreshOutlinedIcon />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <TextField
-                required
-                id="outlined-required"
-                label="Tên"
-                fullWidth
-                onChange={(e) => setName(e.target.value)}
-                error={errors.name}
-                helperText={errors.name}
-                value={name}
-              />
+              </Grid>
             </Grid>
           </Grid>
           <Grid
@@ -145,7 +132,8 @@ const AddEditSpecialty = ({
               setImg={setImage}
               content="Tải ảnh"
               borderRadius="5px"
-              preWidth="400px"
+              preHeight={smScreen ? "150px" : "200px"}
+              preWidth={smScreen ? "250px" : "400px"}
               previewImgUrl={previewImgUrl}
               setPreviewImgUrl={setPreviewImgUrl}
             />
@@ -186,4 +174,4 @@ const mapDispatchToProps = (dispatch) => {
     clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(AddEditSpecialty);
+export default connect(mapStateToProps, mapDispatchToProps)(AddSpecialty);

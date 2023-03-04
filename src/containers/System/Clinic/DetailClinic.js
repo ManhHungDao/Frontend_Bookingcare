@@ -110,6 +110,7 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
     setPreviewLogoUrl("");
     setImgUpdate("");
     setLogoUpdate("");
+    setEnableEdit(false);
   };
   const style = {
     position: "absolute",

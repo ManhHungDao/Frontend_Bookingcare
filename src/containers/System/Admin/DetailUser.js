@@ -121,6 +121,7 @@ const DetailUser = ({
     setNote("");
     setContent("");
     setImgUpdate("");
+    setEnableEdit(false);
   };
   const style = {
     position: "absolute",
