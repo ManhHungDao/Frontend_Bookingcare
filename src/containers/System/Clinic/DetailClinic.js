@@ -19,18 +19,6 @@ import ClinicProfile from "./Section/ClinicProfile";
 import { ClinicDetail } from "./Section/clinic-details";
 import "./style.scss";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "90%",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  height: "80vh",
-  overflowY: "scroll",
-};
 const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState({
@@ -49,6 +37,7 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
   const [errors, setErrors] = useState({});
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [previewLogoUrl, setPreviewLogoUrl] = useState("");
+  const [enableEdit, setEnableEdit] = useState(false);
 
   useEffect(() => {
     setAddress(clinic?.address?.detail ? clinic.address?.detail : "");
@@ -122,6 +111,20 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
     setImgUpdate("");
     setLogoUpdate("");
   };
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "90%",
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+    height: enableEdit ? "80vh" : "fit-content",
+    maxHeight: "80vh",
+    overflowY: "scroll",
+  };
+
   return (
     <>
       <Modal
@@ -132,7 +135,13 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
       >
         <Box sx={style}>
           <Box m="20px">
-            <Header title="Chi tiết phòng khám" />
+            <Header
+              title="Chi tiết phòng khám"
+              isShowSwitch={true}
+              titleSwich={"Chỉnh sửa"}
+              isChecked={enableEdit}
+              setChecked={setEnableEdit}
+            />
           </Box>
           <Box
             component="main"
@@ -143,7 +152,11 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
             <Container maxWidth="lg">
               <Stack>
                 <Grid container spacing={3}>
-                  <Grid xs={12} md={6} lg={4}>
+                  <Grid
+                    xs={12}
+                    md={enableEdit ? 6 : 12}
+                    lg={enableEdit ? 4 : 12}
+                  >
                     <ClinicProfile
                       name={name}
                       address={address}
@@ -157,48 +170,54 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
                       setPreviewLogoUrl={setPreviewLogoUrl}
                     />
                   </Grid>
-                  <Grid xs={12} md={6} lg={8}>
-                    <ClinicDetail
-                      name={name}
-                      setName={setName}
-                      detail={detail}
-                      setDetail={setDetail}
-                      introduce={introduce}
-                      setIntroduce={setIntroduce}
-                      address={address}
-                      setAddress={setAddress}
-                      errors={errors}
-                      setCoordinates={setCoordinates}
-                      setProvince={setProvince}
-                    />
-                  </Grid>
-                  <Grid xs={12} md={12} lg={12}>
-                    <Card>
-                      <CardHeader title="Thông tin cá nhân" />
-                      <CardContent sx={{ pt: 0 }}>
-                        <Box sx={{ m: -1.5 }}>
-                          <Grid container spacing={3}>
-                            <Grid>
-                              <CKEditorFieldBasic
-                                value={detail}
-                                onChange={setDetail}
-                              />
-                            </Grid>
-                          </Grid>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </Grid>
+                  {enableEdit && (
+                    <>
+                      <Grid xs={12} md={6} lg={8}>
+                        <ClinicDetail
+                          name={name}
+                          setName={setName}
+                          detail={detail}
+                          setDetail={setDetail}
+                          introduce={introduce}
+                          setIntroduce={setIntroduce}
+                          address={address}
+                          setAddress={setAddress}
+                          errors={errors}
+                          setCoordinates={setCoordinates}
+                          setProvince={setProvince}
+                        />
+                      </Grid>
+                      <Grid xs={12} md={12} lg={12}>
+                        <Card>
+                          <CardHeader title="Thông tin cá nhân" />
+                          <CardContent sx={{ pt: 0 }}>
+                            <Box sx={{ m: -1.5 }}>
+                              <Grid container spacing={3}>
+                                <Grid>
+                                  <CKEditorFieldBasic
+                                    value={detail}
+                                    onChange={setDetail}
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Box>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    </>
+                  )}
                 </Grid>
                 <Grid display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                  <ButtonComponent
-                    content="Lưu"
-                    handleClick={handleSave}
-                    bgcolor="#94e2cd"
-                    color="#141414"
-                    hoverBgColor="#1e5245"
-                    hoverColor="#fff"
-                  />
+                  {enableEdit && (
+                    <ButtonComponent
+                      content="Lưu"
+                      handleClick={handleSave}
+                      bgcolor="#94e2cd"
+                      color="#141414"
+                      hoverBgColor="#1e5245"
+                      hoverColor="#fff"
+                    />
+                  )}
                 </Grid>
               </Stack>
             </Container>

@@ -4,6 +4,11 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import UpLoadAvatar from "../../../../components/UpLoadAvatar";
+import EmailIcon from "@mui/icons-material/Email";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import PhoneIcon from "@mui/icons-material/Phone";
+import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
+
 const role = [
   {
     id: "R1",
@@ -86,12 +91,47 @@ const AccountProfile = ({
                     );
                 })}
             </Typography>
-            <Typography color="text.secondary" variant="body2">
-              {email} - {phone}
-            </Typography>
-            <Typography color="text.secondary" variant="body2">
-              {address}
-            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "flex-start",
+                flexDirection: "column",
+                gap:1
+              }}
+            >
+              <Typography
+                className="account-profile__detail"
+                color="text.secondary"
+                variant="body2"
+              >
+                <EmailIcon />
+                {email}
+              </Typography>
+              <Typography
+                className="account-profile__detail"
+                color="text.secondary"
+                variant="body2"
+              >
+                <PhoneIcon />
+                {phone}
+              </Typography>
+              <Typography
+                className="account-profile__detail"
+                color="text.secondary"
+                variant="body2"
+              >
+                <LocationOnIcon />
+                {address}
+              </Typography>
+              <Typography
+                className="account-profile__detail"
+                color="text.secondary"
+                variant="body2"
+              >
+                <HomeRepairServiceIcon />
+               nơi làm việc - chuyên khoa
+              </Typography>
+            </Box>
           </Box>
         </CardContent>
         {/* <Divider />

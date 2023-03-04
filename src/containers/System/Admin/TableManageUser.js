@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import "./Style.scss";
 import * as actions from "../../../store/actions";
 import { Box, Typography } from "@mui/material";
 import Header from "../../../components/Header.jsx";
@@ -23,6 +22,7 @@ import Tooltip from "@mui/material/Tooltip";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import DetailUser from "./DetailUser";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
+import "./Style.scss";
 
 const TableManageUser = (props) => {
   const [users, setUsers] = useState([]);

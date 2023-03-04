@@ -55,6 +55,8 @@ const DetailUser = ({
   const [errors, setErrors] = useState({});
   const [imgUpdate, setImgUpdate] = useState(null);
   const [previewImgUrl, setPreviewImgUrl] = useState("");
+  // check edit
+  const [enableEdit, setEnableEdit] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -129,7 +131,8 @@ const DetailUser = ({
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
-    height: "80vh",
+    height: enableEdit ? "80vh" : "fit-content",
+    maxHeight: "80vh",
     overflowY: "scroll",
   };
   const checkValidate = () => {
@@ -187,7 +190,13 @@ const DetailUser = ({
       >
         <Box sx={style}>
           <Box m="20px">
-            <Header title="Chi tiết Người Dùng" />
+            <Header
+              title="Chi tiết Người Dùng"
+              isShowSwitch={true}
+              titleSwich={"Chỉnh sửa"}
+              isChecked={enableEdit}
+              setChecked={setEnableEdit}
+            />
           </Box>
           <Box
             component="main"
@@ -198,7 +207,11 @@ const DetailUser = ({
             <Container maxWidth="lg">
               <Stack>
                 <Grid container spacing={3}>
-                  <Grid xs={12} md={6} lg={4}>
+                  <Grid
+                    xs={12}
+                    md={enableEdit ? 6 : 12}
+                    lg={enableEdit ? 4 : 12}
+                  >
                     <AccountProfile
                       name={name}
                       email={email}
@@ -212,61 +225,67 @@ const DetailUser = ({
                       setPreviewImgUrl={setPreviewImgUrl}
                     />
                   </Grid>
-                  <Grid xs={12} md={6} lg={8}>
-                    <AccountProfileDetails
-                      email={email}
-                      setEmail={setEmail}
-                      name={name}
-                      setName={setName}
-                      phone={phone}
-                      setPhone={setPhone}
-                      address={address}
-                      province={province}
-                      setAddress={setAddress}
-                      setProvince={setProvince}
-                      gender={gender}
-                      setGender={setGender}
-                      position={position}
-                      setPosition={setPosition}
-                      date={date}
-                      setDate={setDate}
-                      errors={errors}
-                      dataSelect={dataSelect}
+                  {enableEdit && (
+                    <>
+                      <Grid xs={12} md={6} lg={8}>
+                        <AccountProfileDetails
+                          email={email}
+                          setEmail={setEmail}
+                          name={name}
+                          setName={setName}
+                          phone={phone}
+                          setPhone={setPhone}
+                          address={address}
+                          province={province}
+                          setAddress={setAddress}
+                          setProvince={setProvince}
+                          gender={gender}
+                          setGender={setGender}
+                          position={position}
+                          setPosition={setPosition}
+                          date={date}
+                          setDate={setDate}
+                          errors={errors}
+                          dataSelect={dataSelect}
+                        />
+                      </Grid>
+                      <Grid xs={12} md={12} lg={12}>
+                        <AccountProfilelClinic
+                          clinic={clinic}
+                          setClinic={setClinic}
+                          specialty={specialty}
+                          setSpecialty={setSpecialty}
+                          price={price}
+                          setPrice={setPrice}
+                          payment={payment}
+                          setPayment={setPayment}
+                          introduce={introduce}
+                          setIntroduce={setIntroduce}
+                          note={note}
+                          setNote={setNote}
+                          content={content}
+                          setContent={setContent}
+                          dataSelect={dataSelect}
+                          listClinicSelect={listClinicSelect}
+                          errors={errors}
+                          setErrors={setErrors}
+                        />
+                      </Grid>
+                    </>
+                  )}
+                </Grid>
+                {enableEdit && (
+                  <Grid display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
+                    <ButtonComponent
+                      content="Lưu"
+                      handleClick={handleSave}
+                      bgcolor="#94e2cd"
+                      color="#141414"
+                      hoverBgColor="#1e5245"
+                      hoverColor="#fff"
                     />
                   </Grid>
-                  <Grid xs={12} md={12} lg={12}>
-                    <AccountProfilelClinic
-                      clinic={clinic}
-                      setClinic={setClinic}
-                      specialty={specialty}
-                      setSpecialty={setSpecialty}
-                      price={price}
-                      setPrice={setPrice}
-                      payment={payment}
-                      setPayment={setPayment}
-                      introduce={introduce}
-                      setIntroduce={setIntroduce}
-                      note={note}
-                      setNote={setNote}
-                      content={content}
-                      setContent={setContent}
-                      dataSelect={dataSelect}
-                      listClinicSelect={listClinicSelect}
-                      errors={errors}
-                      setErrors={setErrors}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                  <ButtonComponent
-                    content="Lưu"
-                    handleClick={handleSave}
-                    bgcolor="#94e2cd"
-                    color="#141414"
-                    hoverBgColor="#1e5245"
-                    hoverColor="#fff"
-                  />
-                </Grid>
+                )}
               </Stack>
             </Container>
           </Box>

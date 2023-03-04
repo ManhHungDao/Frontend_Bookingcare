@@ -78,7 +78,7 @@ const Header = ({
             display="flex"
             justifyContent="flex-end"
             alignItems="center"
-            sx={{ height: "fit-content" ,gap:"5px"}}
+            sx={{ height: "fit-content", gap: "5px" }}
           >
             <div>
               <Typography>{titleSwich}</Typography>
