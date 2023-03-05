@@ -2,18 +2,14 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Route, Routes, Navigate } from "react-router-dom";
 import TableManageUser from "./Admin/TableManageUser";
-import ManageSpecialty from "./Specialty/ManageSpecialty";
 import TableManageClinic from "./Clinic/TableManageClinic";
-import ManageDetailSpecialty from "./Specialty/ManageDetailSpecialty";
-import ManageHandbook from "./Handbook/ManageHandbook";
-import ManageDetailHandbook from "./Handbook/ManageDetailhandbook"; //commnet nek
-import Packet_examination from "./Packet_examination/Packet_examination";
 import Dashboard from "./dashboard";
 import Topbar from "./global/Topbar";
 import Sidebar from "./global/Sidebar";
 import AddNewUser from "./Admin/AddNewUser";
 import AddClinic from "./Clinic/AddClinic";
 import AddSpecialty from "./Specialty/AddSpecialty";
+import ManageAllcode from "./Allcode/ManageAllcode";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import "./style.css";
@@ -36,6 +32,7 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
                 <Route path="add-clinic" element={<AddClinic />} />
                 <Route path="manage-clinic" element={<TableManageClinic />} />
                 <Route path="add-specialty" element={<AddSpecialty />} />
+                <Route path="manage-allcode" element={<ManageAllcode />} />
                 {/* <Route
                   path="/manage-detail-clinic"
                   element={<ManageDetailClinic />}

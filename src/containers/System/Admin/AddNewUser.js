@@ -183,141 +183,137 @@ const AddNewUser = ({
       <Box m="20px">
         <Header title="Thêm Mới Người Dùng" subtitle="Quản lý thành viên" />
         <Grid container spacing={2}>
-          <Grid container item spacing={2} xs={12} md={6}>
-            <Grid item xs={12} md={6}>
-              <TextField
-                required
-                id="outlined-required"
-                label="Email"
-                fullWidth
-                onChange={(e) => setEmail(e.target.value)}
-                error={errors.email}
-                helperText={errors.email}
-                value={email}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                required
-                id="outlined-required"
-                label="Tên"
-                fullWidth
-                onChange={(e) => setName(e.target.value)}
-                error={errors.name}
-                helperText={errors.name}
-                value={name}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                required
-                id="outlined-required"
-                label="Số điện thoại"
-                fullWidth
-                onChange={(e) => setPhone(e.target.value)}
-                error={errors.phone}
-                helperText={errors.phone}
-                value={phone}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              {/* <TextField
-            required
-            id="outlined-required"
-            label={<FormattedMessage id="manage-user.password" />}
-            fullWidth
-          /> */}
-              <FormControl fullWidth required variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">
-                  Mật khẩu
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={showPassword ? "text" : "password"}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  label="Password"
-                  value={password}
+          <Grid item xs={12} md={6}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  required
+                  id="outlined-required"
+                  label="Email"
+                  fullWidth
+                  onChange={(e) => setEmail(e.target.value)}
+                  error={errors.email}
+                  helperText={errors.email}
+                  value={email}
                 />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <AutocompleteAddress
-                isErr={errors.address ? true : false}
-                errName={errors.address}
-                setAddress={setAddress}
-                setProvince={setProvince}
-                address={address}
-              />
-            </Grid>
-            <Grid item container spacing={2}>
-              <Grid item xs={12} md={4}>
-                <LocalizationProvider
-                  dateAdapter={AdapterDayjs}
-                  adapterLocale="vi"
-                >
-                  <DatePicker
-                    disableFuture
-                    label="Ngày sinh"
-                    openTo="year"
-                    views={["year", "month", "day"]}
-                    value={date}
-                    onChange={(newValue) => {
-                      setDate(newValue);
-                    }}
-                    renderInput={(params) => <TextField {...params} />}
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  required
+                  id="outlined-required"
+                  label="Tên"
+                  fullWidth
+                  onChange={(e) => setName(e.target.value)}
+                  error={errors.name}
+                  helperText={errors.name}
+                  value={name}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  required
+                  id="outlined-required"
+                  label="Số điện thoại"
+                  fullWidth
+                  onChange={(e) => setPhone(e.target.value)}
+                  error={errors.phone}
+                  helperText={errors.phone}
+                  value={phone}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <FormControl fullWidth required variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    Mật khẩu
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={showPassword ? "text" : "password"}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Password"
+                    value={password}
                   />
-                </LocalizationProvider>
+                </FormControl>
               </Grid>
-              <Grid item xs={12} md={4}>
-                <InputSelect
-                  label="Chức danh"
-                  value={position}
-                  onChange={setPosition}
-                  data={dataSelect.filter((e) => e.type === "POSITION")}
-                  isActive={true}
-                  isError={errors.position ? true : false}
-                  errorText={errors.position ? errors.position : ""}
-                  name="Chức danh"
-                  minWidth={200}
+              <Grid item xs={12} md={12}>
+                <AutocompleteAddress
+                  isErr={errors.address ? true : false}
+                  errName={errors.address}
+                  setAddress={setAddress}
+                  setProvince={setProvince}
+                  address={address}
                 />
               </Grid>
-              <Grid item xs={12} md={4}>
-                Giới tính
-                <FormControl>
-                  <div>
-                    <Radio
-                      {...controlProps("M")}
-                      color="secondary"
-                      sx={{
-                        "& .MuiSvgIcon-root": {
-                          fontSize: 24,
-                        },
+              <Grid item container spacing={2}>
+                <Grid item xs={12} md={4}>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    adapterLocale="vi"
+                  >
+                    <DatePicker
+                      disableFuture
+                      label="Ngày sinh"
+                      openTo="year"
+                      views={["year", "month", "day"]}
+                      value={date}
+                      onChange={(newValue) => {
+                        setDate(newValue);
                       }}
+                      renderInput={(params) => <TextField {...params} />}
                     />
-                    Nam
-                    <Radio
-                      {...controlProps("F")}
-                      color="secondary"
-                      sx={{
-                        "& .MuiSvgIcon-root": {
-                          fontSize: 24,
-                        },
-                      }}
-                    />
-                    Nữ
-                  </div>
-                </FormControl>
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <InputSelect
+                    label="Chức danh"
+                    value={position}
+                    onChange={setPosition}
+                    data={dataSelect.filter((e) => e.type === "POSITION")}
+                    isActive={true}
+                    isError={errors.position ? true : false}
+                    errorText={errors.position ? errors.position : ""}
+                    name="Chức danh"
+                    minWidth={200}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  Giới tính
+                  <FormControl>
+                    <div>
+                      <Radio
+                        {...controlProps("M")}
+                        color="secondary"
+                        sx={{
+                          "& .MuiSvgIcon-root": {
+                            fontSize: 24,
+                          },
+                        }}
+                      />
+                      Nam
+                      <Radio
+                        {...controlProps("F")}
+                        color="secondary"
+                        sx={{
+                          "& .MuiSvgIcon-root": {
+                            fontSize: 24,
+                          },
+                        }}
+                      />
+                      Nữ
+                    </div>
+                  </FormControl>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
@@ -341,95 +337,86 @@ const AddNewUser = ({
               <hr style={{ width: "50%" }} />
             </div>
           </Grid>
-          <Grid
-            item
-            container
-            xs={12}
-            md={12}
-            spacing={2}
-            // rowSpacing={{ sm: 2, md: 6 }}
-          >
-            <Grid item xs={12} md={3}>
-              <InputSelect
-                label="Chọn phòng khám"
-                value={clinic}
-                onChange={setClinic}
-                data={listClinicSelect}
-                isError={errors.clinic ? true : false}
-                errorText={errors.clinic ? errors.clinic : ""}
-                name="Chọn phòng khám"
-              />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <InputSelect
-                label="Chọn chuyên khoa"
-                value={specialty}
-                onChange={setSpecialty}
-                data={[
-                  { value: 1, label: "Twenty" },
-                  { value: 12, label: "Twenty" },
-                  { value: 13, label: "Twenty" },
-                ]}
-                isError={errors.specialty ? true : false}
-                errorText={errors.specialty ? errors.specialty : ""}
-                name="Chọn chuyên khoa"
-              />
-            </Grid>
 
-            <Grid item xs={12} md={3}>
-              <InputSelect
-                label="Chọn giá (VNĐ)"
-                value={price}
-                onChange={setPrice}
-                data={dataSelect.filter((e) => e.type === "PRICE")}
-                isActive={true}
-                isError={errors.price ? true : false}
-                errorText={errors.price ? errors.price : ""}
-                name="Chọn giá (VNĐ)"
-              />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <InputSelect
-                label="Chọn phương thức thanh toán"
-                value={payment}
-                onChange={setPayment}
-                data={dataSelect.filter((e) => e.type === "PAYMENT")}
-                isActive={true}
-                isError={errors.payment ? true : false}
-                errorText={errors.payment ? errors.payment : ""}
-                name="Chọn phương thức thanh toán"
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                id="outlined-multiline-flexible"
-                label="Giới thiệu"
-                multiline
-                maxRows={20}
-                fullWidth
-                onChange={(e) => setIntroduce(e.target.value)}
-                error={errors.introduce}
-                helperText={errors.introduce}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                id="outlined-multiline-flexible"
-                label="Ghi chú"
-                multiline
-                maxRows={4}
-                fullWidth
-                onChange={(e) => setNote(e.target.value)}
-                error={errors.note}
-                helperText={errors.note}
-              />
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <span> Chi tiết</span>
-              <CKEditorFieldBasic value={content} onChange={setContent} />
-            </Grid>
+          <Grid item xs={12} md={3}>
+            <InputSelect
+              label="Chọn phòng khám"
+              value={clinic}
+              onChange={setClinic}
+              data={listClinicSelect}
+              isError={errors.clinic ? true : false}
+              errorText={errors.clinic ? errors.clinic : ""}
+              name="Chọn phòng khám"
+            />
           </Grid>
-          <Grid xs={12} md={12} item display="flex" justifyContent="flex-end">
+          <Grid item xs={12} md={3}>
+            <InputSelect
+              label="Chọn chuyên khoa"
+              value={specialty}
+              onChange={setSpecialty}
+              data={[
+                { value: 1, label: "Twenty" },
+                { value: 12, label: "Twenty" },
+                { value: 13, label: "Twenty" },
+              ]}
+              isError={errors.specialty ? true : false}
+              errorText={errors.specialty ? errors.specialty : ""}
+              name="Chọn chuyên khoa"
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <InputSelect
+              label="Chọn giá (VNĐ)"
+              value={price}
+              onChange={setPrice}
+              data={dataSelect.filter((e) => e.type === "PRICE")}
+              isActive={true}
+              isError={errors.price ? true : false}
+              errorText={errors.price ? errors.price : ""}
+              name="Chọn giá (VNĐ)"
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <InputSelect
+              label="Chọn phương thức thanh toán"
+              value={payment}
+              onChange={setPayment}
+              data={dataSelect.filter((e) => e.type === "PAYMENT")}
+              isActive={true}
+              isError={errors.payment ? true : false}
+              errorText={errors.payment ? errors.payment : ""}
+              name="Chọn phương thức thanh toán"
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Giới thiệu"
+              multiline
+              maxRows={20}
+              fullWidth
+              onChange={(e) => setIntroduce(e.target.value)}
+              error={errors.introduce}
+              helperText={errors.introduce}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Ghi chú"
+              multiline
+              maxRows={4}
+              fullWidth
+              onChange={(e) => setNote(e.target.value)}
+              error={errors.note}
+              helperText={errors.note}
+            />
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <span> Chi tiết</span>
+            <CKEditorFieldBasic value={content} onChange={setContent} />
+          </Grid>
+          <Grid item xs={12} md={12} display="flex" justifyContent="flex-end">
             <ButtonComponent
               content="Lưu"
               handleClick={handleSave}

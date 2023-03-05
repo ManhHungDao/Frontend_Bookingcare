@@ -458,10 +458,6 @@ export const verifyBookingAppointment = (data) => {
 // post new specialty
 
 export const createSpecialtyAction = (data) => {
-  console.log(
-    "🚀 ~ file: adminActions.js:336 ~ createSpecialtyAction ~ data",
-    data
-  );
   return async (dispatch, getState) => {
     try {
       {

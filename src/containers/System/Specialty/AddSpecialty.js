@@ -1,82 +1,76 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import validator from "validator";
-import { Box, useTheme } from "@mui/material";
-import { tokens } from "../theme";
+import { Box } from "@mui/material";
 import Header from "../../../components/Header.jsx";
-import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import UpLoadAvatar from "../../../components/UpLoadAvatar";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../components/ButtonComponent";
-import InputSelect from "../../../components/Input/InputSelect";
-import { toast } from "react-toastify";
 import _ from "lodash";
 import useIsTablet from "../../../components/useScreen/useIsTablet";
+import Select from "react-select";
 
 const AddSpecialty = ({
   listClinic,
   getListClinicAction,
-  message,
   isSuccess,
   clearStatus,
   createSpecialtyAction,
+  listSpeciaty,
 }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const [name, setName] = useState("");
   const [errors, setErrors] = useState({});
-  const [clinic, setClinic] = useState("");
   const [content, setContent] = useState("");
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [image, setImage] = useState("");
   const [dataClinic, setDataClinic] = useState([]);
+  const [dataSpecialty, setDataSpecialty] = useState([]);
   const [isPopular, setIsPopular] = useState(false);
+  const [selectClinic, setSelectClinic] = useState("");
+  const [selectSpecialty, setSelectSpecialty] = useState("");
   const smScreen = useIsTablet();
 
   useEffect(() => {
     if (_.isEmpty(listClinic)) getListClinicAction();
     else {
-      setDataClinic(listClinic.map((e) => ({ id: e._id, name: e.name })));
+      setDataClinic(listClinic.map((e) => ({ value: e._id, label: e.name })));
     }
-  }, [listClinic]);
+    // if (_.isEmpty(listSpeciaty)) getListClinicAction();
+    // else {
+    //   setDataClinic(listSpeciaty.map((e) => ({ value: e._id, label: e.name })));
+    // }
+  }, [listClinic, listSpeciaty]);
+
   useEffect(() => {
-    if (message)
-      if (isSuccess) {
-        setContent("");
-        setImage("");
-        setName("");
-        setPreviewImgUrl("");
-        toast.success(message);
-      } else toast.error(message);
+    if (isSuccess === true) {
+      setContent("");
+      setImage("");
+      setPreviewImgUrl("");
+      setSelectClinic("");
+      setSelectSpecialty("");
+    }
     clearStatus();
-  }, [message, isSuccess]);
+  }, [isSuccess]);
+
   const checkValidate = () => {
     let errors = {};
-    if (!name) errors.name = "Tên không được bỏ trống";
-    if (!content) errors.content = "Địa chỉ không được bỏ trống";
+    if (!selectSpecialty) errors.selectSpecialty = "Chọn tên chuyên khoa";
     return errors;
   };
-  const isValid = (errors) => {
-    let keys = Object.keys(errors);
-    let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
-    return count === 0;
-  };
+
   const handleSave = () => {
     const errors = checkValidate();
-    const checkValidInPut = isValid(errors);
-    if (!checkValidInPut) {
+    if (_.isEmpty(errors) === false) {
       setErrors(errors);
       return;
     }
-    let data = {
-      detail: content,
-      image,
-      name,
-      clinicId: clinic ? clinic : null,
-    };
-    createSpecialtyAction(data);
+    // let data = {
+    //   detail: content,
+    //   image,
+    //   name,
+    //   clinicId: clinic ? clinic : null,
+    // };
+    // createSpecialtyAction(data);
   };
   const handleClickAddNewSpecialty = () => {};
   return (
@@ -90,24 +84,20 @@ const AddSpecialty = ({
           setChecked={setIsPopular}
         />
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <Grid container spacing={2}>
               {isPopular && (
                 <Grid item xs={12} md={12}>
-                  <InputSelect
-                    label="Chọn phòng khám"
-                    value={clinic}
-                    onChange={setClinic}
-                    data={dataClinic}
-                    isError={errors.clinic ? true : false}
-                    errorText={errors.clinic ? errors.clinic : ""}
-                    name="Chọn phòng khám"
-                    // minWidth="90%"
+                  <Select
+                    defaultValue={selectClinic}
+                    onChange={setSelectClinic}
+                    options={dataClinic}
+                    placeholder="Chọn phòng khám"
                   />
                 </Grid>
               )}
               <Grid item xs={12} md={12}>
-                <TextField
+                {/* <TextField
                   required
                   id="outlined-required"
                   label="Tên"
@@ -116,14 +106,14 @@ const AddSpecialty = ({
                   error={errors.name}
                   helperText={errors.name}
                   value={name}
-                />
+                /> */}
               </Grid>
             </Grid>
           </Grid>
           <Grid
             item
             xs={12}
-            md={6}
+            md={7}
             display="flex"
             justifyContent="center"
             alignItems="center"
@@ -146,9 +136,9 @@ const AddSpecialty = ({
             <ButtonComponent
               content="Lưu"
               handleClick={handleSave}
-              bgcolor={colors.greenAccent[700]}
-              color={colors.grey[100]}
-              hoverBgColor={colors.greenAccent[200]}
+              bgcolor="#94e2cd"
+              color="#141414"
+              hoverBgColor="#1e5245"
               hoverColor="#fff"
             />
           </Grid>
@@ -162,7 +152,6 @@ const mapStateToProps = (state) => {
   return {
     listClinic: state.admin.listClinic,
     isSuccess: state.app.isSuccess,
-    message: state.app.message,
   };
 };
 

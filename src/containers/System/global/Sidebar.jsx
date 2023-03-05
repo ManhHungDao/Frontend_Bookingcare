@@ -18,9 +18,11 @@ import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
+
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
-
   const handleSelected = () => {
     setSelected(title);
     dispatch({ type: actions.SET_MENU, data: title });
@@ -235,6 +237,19 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 title="Danh Sách Chuyên Khoa"
                 to="/admin/manage-specialty"
                 icon={<BallotOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+            </SubMenu>
+            <SubMenu
+              title={isCollapsed ? "" : "Tác vụ"}
+              icon={<AppRegistrationIcon />}
+            >
+              <Item
+                title="Tổng hợp"
+                to="/admin/manage-allcode"
+                icon={<BuildRoundedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
