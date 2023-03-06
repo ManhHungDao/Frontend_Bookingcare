@@ -16,6 +16,7 @@ const CodePrice = ({
   const [valueVI, setValueVI] = useState("");
   const [valueEN, setValueEN] = useState("");
   const [keyMap, setKeyMap] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
   const key = useRef();
   useEffect(() => {
     fetchAllcodeByTypeAction("PRICE");
@@ -40,6 +41,7 @@ const CodePrice = ({
       setOpenConfirmModal(false);
       setValueVI("");
       setValueEN("");
+      setIsEdit(false);
     }
   }, [isSuccess]);
 
@@ -62,6 +64,8 @@ const CodePrice = ({
             keyMap={keyMap}
             setKeyMap={setKeyMap}
             keyMapConstant={key.current}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
           />
         </>
       )}

@@ -17,6 +17,7 @@ const CodeTime = ({
   const [valueVI, setValueVI] = useState("");
   const [valueEN, setValueEN] = useState("");
   const [keyMap, setKeyMap] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
   const key = useRef();
 
   useEffect(() => {
@@ -42,6 +43,7 @@ const CodeTime = ({
       setOpenConfirmModal(false);
       setValueVI("");
       setValueEN("");
+      setIsEdit(false);
     }
   }, [isSuccess]);
 
@@ -65,6 +67,8 @@ const CodeTime = ({
             keyMap={keyMap}
             keyMapConstant={key.current}
             setKeyMap={setKeyMap}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
           />
         )}
       </Box>

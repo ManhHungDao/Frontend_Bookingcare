@@ -15,6 +15,7 @@ const CodePayment = ({
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [valueVI, setValueVI] = useState("");
   const [valueEN, setValueEN] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
   const [keyMap, setKeyMap] = useState("");
   const key = useRef();
 
@@ -44,6 +45,7 @@ const CodePayment = ({
       setOpenConfirmModal(false);
       setValueVI("");
       setValueEN("");
+      setIsEdit(false);
     }
   }, [isSuccess]);
 
@@ -66,6 +68,8 @@ const CodePayment = ({
             keyMap={keyMap}
             keyMapConstant={key.current}
             setKeyMap={setKeyMap}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
           />
         </>
       )}

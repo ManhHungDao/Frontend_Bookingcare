@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import { Box } from "@mui/material";
 import { useEffect } from "react";
-import CodePayment from "./CodePayment";
 import { useRef } from "react";
 
 const CodeSpecialty = ({
@@ -20,6 +19,7 @@ const CodeSpecialty = ({
   const [valueVI, setValueVI] = useState("");
   const [valueEN, setValueEN] = useState("");
   const [keyMap, setKeyMap] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
   const key = useRef();
   useEffect(() => {
     fetchAllcodeByTypeAction("SPECIALTY");
@@ -44,31 +44,37 @@ const CodeSpecialty = ({
       setOpenConfirmModal(false);
       setValueVI("");
       setValueEN("");
+      setIsEdit(false);
     }
   }, [isSuccess]);
 
   return (
     <>
-      {data && (
-        <>
-          <FormData
-            title={"Quản lý tên chuyên khoa"}
-            page={page}
-            setPage={setPage}
-            type="PRICE"
-            data={data}
-            openConfirmModal={openConfirmModal}
-            setOpenConfirmModal={setOpenConfirmModal}
-            valueVI={valueVI}
-            setValueVI={setValueVI}
-            valueEN={valueEN}
-            setValueEN={setValueEN}
-            keyMap={keyMap}
-            setKeyMap={setKeyMap}
-            keyMapConstant={key.current}
-          />
-        </>
-      )}
+      <Box m="20px">
+        <Header title="Quản lý tác vụ" subtitle="Quản lý thành viên" />
+        {data && (
+          <>
+            <FormData
+              title={"Quản lý tên chuyên khoa"}
+              page={page}
+              setPage={setPage}
+              type="SPECIALTY"
+              data={data}
+              openConfirmModal={openConfirmModal}
+              setOpenConfirmModal={setOpenConfirmModal}
+              valueVI={valueVI}
+              setValueVI={setValueVI}
+              valueEN={valueEN}
+              setValueEN={setValueEN}
+              keyMap={keyMap}
+              setKeyMap={setKeyMap}
+              keyMapConstant={key.current}
+              isEdit={isEdit}
+              setIsEdit={setIsEdit}
+            />
+          </>
+        )}
+      </Box>
     </>
   );
 };

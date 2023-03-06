@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Route, Routes, Navigate } from "react-router-dom";
 import TableManageUser from "./Admin/TableManageUser";
 import TableManageClinic from "./Clinic/TableManageClinic";
+import TableManageSpecialty from "./Specialty/TableManageSpecialty";
 import Dashboard from "./dashboard";
 import Topbar from "./global/Topbar";
 import Sidebar from "./global/Sidebar";
@@ -35,10 +36,18 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
                 <Route path="add-clinic" element={<AddClinic />} />
                 <Route path="manage-clinic" element={<TableManageClinic />} />
                 <Route path="add-specialty" element={<AddSpecialty />} />
+                <Route
+                  path="manage-specialty"
+                  element={<TableManageSpecialty />}
+                />
+
                 <Route path="manage-code-price" element={<CodeBusiness />} />
                 <Route path="manage-code-province" element={<CodeProvince />} />
                 <Route path="manage-code-time" element={<CodeTime />} />
-                <Route path="manage-code-specialty" element={<CodeSpecialty />} />
+                <Route
+                  path="manage-code-specialty"
+                  element={<CodeSpecialty />}
+                />
                 {/* <Route
                   path="/manage-detail-clinic"
                   element={<ManageDetailClinic />}

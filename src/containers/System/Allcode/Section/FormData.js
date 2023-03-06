@@ -42,11 +42,11 @@ const FormData = ({
   setValueEN,
   keyMap,
   setKeyMap,
-  keyMapConstant,
+  keyMapConstant,isEdit, setIsEdit
 }) => {
   const [editCode, setEditCode] = useState({});
   const [deleteCode, setDeleteCode] = useState({});
-  const [isEdit, setIsEdit] = useState(false);
+  // const [isEdit, setIsEdit] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [errors, setErrors] = useState({});
 
@@ -83,9 +83,11 @@ const FormData = ({
       toast.error("Mã định danh đang trống");
       return;
     }
-    if (_.isEmpty(checkUniKeymap()) === false) {
-      toast.error("Mã định danh đã tồn tại");
-      return;
+    if (isEdit === false) {
+      if (_.isEmpty(checkUniKeymap()) === false) {
+        toast.error("Mã định danh đã tồn tại");
+        return;
+      }
     }
     const data = {
       valueEN: valueEN ? valueEN : null,

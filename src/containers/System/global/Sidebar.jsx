@@ -22,9 +22,7 @@ import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import ApartmentOutlinedIcon from "@mui/icons-material/ApartmentOutlined";
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-
-
+import CreditCardIcon from "@mui/icons-material/CreditCard";
 
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
@@ -226,14 +224,6 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 title="Thêm Chuyên Khoa"
                 to="/admin/add-specialty"
                 icon={<LibraryAddOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Chi Tiết Chuyên Khoa"
-                to="/admin/detail-specialty"
-                icon={<ArticleOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}

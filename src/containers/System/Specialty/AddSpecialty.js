@@ -10,6 +10,7 @@ import ButtonComponent from "../../../components/ButtonComponent";
 import _ from "lodash";
 import useIsTablet from "../../../components/useScreen/useIsTablet";
 import Select from "react-select";
+import { toast } from "react-toastify";
 
 const AddSpecialty = ({
   listClinic,
@@ -17,9 +18,9 @@ const AddSpecialty = ({
   isSuccess,
   clearStatus,
   createSpecialtyAction,
-  listSpeciaty,
+  allcodeType,
+  fetchAllcodeByTypeAction,
 }) => {
-  const [errors, setErrors] = useState({});
   const [content, setContent] = useState("");
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [image, setImage] = useState("");
@@ -31,15 +32,21 @@ const AddSpecialty = ({
   const smScreen = useIsTablet();
 
   useEffect(() => {
+    if (isPopular === false) setSelectClinic("");
+  }, [isPopular]);
+
+  useEffect(() => {
     if (_.isEmpty(listClinic)) getListClinicAction();
     else {
       setDataClinic(listClinic.map((e) => ({ value: e._id, label: e.name })));
     }
-    // if (_.isEmpty(listSpeciaty)) getListClinicAction();
-    // else {
-    //   setDataClinic(listSpeciaty.map((e) => ({ value: e._id, label: e.name })));
-    // }
-  }, [listClinic, listSpeciaty]);
+    if (_.isEmpty(allcodeType)) fetchAllcodeByTypeAction("SPECIALTY");
+    else {
+      setDataSpecialty(
+        allcodeType.map((e) => ({ value: e.keyMap, label: e.valueVI }))
+      );
+    }
+  }, [listClinic, allcodeType]);
 
   useEffect(() => {
     if (isSuccess === true) {
@@ -52,27 +59,24 @@ const AddSpecialty = ({
     clearStatus();
   }, [isSuccess]);
 
-  const checkValidate = () => {
-    let errors = {};
-    if (!selectSpecialty) errors.selectSpecialty = "Chọn tên chuyên khoa";
-    return errors;
-  };
-
   const handleSave = () => {
-    const errors = checkValidate();
-    if (_.isEmpty(errors) === false) {
-      setErrors(errors);
+    if (!selectSpecialty) {
+      toast.error("Chưa chọn tên chuyên khoa");
       return;
     }
-    // let data = {
-    //   detail: content,
-    //   image,
-    //   name,
-    //   clinicId: clinic ? clinic : null,
-    // };
-    // createSpecialtyAction(data);
+    let data = {
+      detail: content,
+      image,
+      name: selectSpecialty.label ? selectSpecialty.label : "",
+      keyMap: selectSpecialty.value ? selectSpecialty.value : "",
+      clinic: {
+        id: selectClinic.value ? selectClinic.value : null,
+        name: selectClinic.label ? selectClinic.label : null,
+      },
+      popular: isPopular,
+    };
+    createSpecialtyAction(data);
   };
-  const handleClickAddNewSpecialty = () => {};
   return (
     <>
       <Box m="20px">
@@ -89,24 +93,26 @@ const AddSpecialty = ({
               {isPopular && (
                 <Grid item xs={12} md={12}>
                   <Select
-                    defaultValue={selectClinic}
+                    value={selectClinic}
                     onChange={setSelectClinic}
                     options={dataClinic}
                     placeholder="Chọn phòng khám"
+                    styles={{
+                      menuPortal: (base) => ({ ...base, zIndex: 99999 }),
+                    }}
                   />
                 </Grid>
               )}
               <Grid item xs={12} md={12}>
-                {/* <TextField
-                  required
-                  id="outlined-required"
-                  label="Tên"
-                  fullWidth
-                  onChange={(e) => setName(e.target.value)}
-                  error={errors.name}
-                  helperText={errors.name}
-                  value={name}
-                /> */}
+                <Select
+                  value={selectSpecialty}
+                  onChange={setSelectSpecialty}
+                  options={dataSpecialty}
+                  placeholder="Chọn chuyên khoa"
+                  styles={{
+                    menuPortal: (base) => ({ ...base, zIndex: 99999 }),
+                  }}
+                />
               </Grid>
             </Grid>
           </Grid>
@@ -152,6 +158,7 @@ const mapStateToProps = (state) => {
   return {
     listClinic: state.admin.listClinic,
     isSuccess: state.app.isSuccess,
+    allcodeType: state.admin.allcodeType,
   };
 };
 
@@ -161,6 +168,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.createSpecialtyAction(data)),
     getListClinicAction: () => dispatch(actions.getListClinicAction()),
     clearStatus: () => dispatch(actions.clearStatus()),
+    fetchAllcodeByTypeAction: (type) =>
+      dispatch(actions.fetchAllcodeByTypeAction(type)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddSpecialty);

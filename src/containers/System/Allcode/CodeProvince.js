@@ -17,6 +17,7 @@ const CodeProvince = ({
   const [valueVI, setValueVI] = useState("");
   const [valueEN, setValueEN] = useState("");
   const [keyMap, setKeyMap] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
   const key = useRef();
 
   useEffect(() => {
@@ -42,6 +43,7 @@ const CodeProvince = ({
       setOpenConfirmModal(false);
       setValueVI("");
       setValueEN("");
+      setIsEdit(false);
     }
   }, [isSuccess]);
 
@@ -65,6 +67,8 @@ const CodeProvince = ({
             keyMap={keyMap}
             keyMapConstant={key.current}
             setKeyMap={setKeyMap}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
           />
         )}
       </Box>
