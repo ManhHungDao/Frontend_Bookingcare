@@ -16,24 +16,14 @@ const CodeProvince = ({
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [valueVI, setValueVI] = useState("");
   const [valueEN, setValueEN] = useState("");
-  const [keyMap, setKeyMap] = useState("");
   const [isEdit, setIsEdit] = useState(false);
-  const key = useRef();
 
   useEffect(() => {
     fetchAllcodeByTypeAction("PROVINCE");
   }, []);
   useEffect(() => {
-    const dataInput = [...allcodeType].sort((a, b) =>
-      a.keyMap.localeCompare(b.keyMap)
-    );
-    setData(dataInput);
-    const lastElement = dataInput.slice(-1)[0];
-    if (lastElement && lastElement.keyMap) {
-      const number = parseInt(lastElement.keyMap.match(/\d+/)[0], 10);
-      const keyMap = `${"PRO" + (parseInt(number) + 1)}`;
-      key.current = keyMap;
-      setKeyMap(keyMap);
+    if (allcodeType && allcodeType.length > 0) {
+      setData(allcodeType);
     }
   }, [allcodeType]);
   useEffect(() => {
@@ -64,9 +54,6 @@ const CodeProvince = ({
             setValueVI={setValueVI}
             valueEN={valueEN}
             setValueEN={setValueEN}
-            keyMap={keyMap}
-            keyMapConstant={key.current}
-            setKeyMap={setKeyMap}
             isEdit={isEdit}
             setIsEdit={setIsEdit}
           />

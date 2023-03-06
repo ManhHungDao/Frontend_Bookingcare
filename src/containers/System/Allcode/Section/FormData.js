@@ -40,9 +40,9 @@ const FormData = ({
   setValueVI,
   valueEN,
   setValueEN,
-  keyMap,
-  setKeyMap,
-  keyMapConstant,isEdit, setIsEdit
+
+  isEdit,
+  setIsEdit,
 }) => {
   const [editCode, setEditCode] = useState({});
   const [deleteCode, setDeleteCode] = useState({});
@@ -61,7 +61,6 @@ const FormData = ({
     setEditCode(props);
     setValueEN(props?.valueEN ? props?.valueEN : "");
     setValueVI(props?.valueVI ? props?.valueVI : "");
-    setKeyMap(props?.keyMap ? props?.keyMap : "");
   };
   const handelClickDelete = (props) => {
     setDeleteCode(props);
@@ -71,29 +70,16 @@ const FormData = ({
     const id = deleteCode?._id ? deleteCode?._id : null;
     if (id) deleteAllCodeAction(id);
   };
-  const checkUniKeymap = () => {
-    return data.filter((e) => e.keyMap === keyMap);
-  };
+
   const handleSave = () => {
     if (!valueEN && !valueVI) {
       toast.error("Tên đang trống");
       return;
     }
-    if (!keyMap) {
-      toast.error("Mã định danh đang trống");
-      return;
-    }
-    if (isEdit === false) {
-      if (_.isEmpty(checkUniKeymap()) === false) {
-        toast.error("Mã định danh đã tồn tại");
-        return;
-      }
-    }
     const data = {
       valueEN: valueEN ? valueEN : null,
       valueVI: valueVI ? valueVI : null,
       type: type ? type : null,
-      keyMap: keyMap ? keyMap : null,
     };
     if (isEdit === true) {
       updateAllCodeAction(editCode._id, data);
@@ -107,14 +93,12 @@ const FormData = ({
   const handleClickRenew = () => {
     setValueVI("");
     setValueEN("");
-    setKeyMap(keyMapConstant);
     setEditCode({});
     setIsEdit(false);
     setErrors({});
   };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
-      <TableCell>Mã định danh</TableCell>
       <TableCell>Loại</TableCell>
       <TableCell>Tên tiếng anh</TableCell>
       <TableCell>Tên tiếng việt</TableCell>
@@ -122,10 +106,9 @@ const FormData = ({
     </TableRow>
   );
   const TableColumn = (props) => {
-    const { id, valueEN, valueVI, keyMap, type } = props;
+    const { id, valueEN, valueVI, type } = props;
     return (
       <TableRow>
-        <TableCell>{keyMap ? keyMap : "-"}</TableCell>
         <TableCell>{type ? type : "-"}</TableCell>
         <TableCell>{valueEN ? valueEN : "-"}</TableCell>
         <TableCell>{valueVI ? valueVI : "-"}</TableCell>
@@ -155,7 +138,7 @@ const FormData = ({
         </Tooltip>
       </Typography>
       <Divider />
-      <Grid container spacing={2} sx={{ mt: 2 }}>
+      <Grid container spacing={2} sx={{ mt: 2 }} >
         <Grid item xs={12} md={4}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={12}>
@@ -187,18 +170,6 @@ const FormData = ({
                 InputProps={{
                   readOnly: true,
                 }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                id="outlined-required"
-                label="Mã định danh"
-                fullWidth
-                onChange={(e) => setKeyMap(e.target.value)}
-                value={keyMap}
-                // InputProps={{
-                //   readOnly: true,
-                // }}
               />
             </Grid>
           </Grid>

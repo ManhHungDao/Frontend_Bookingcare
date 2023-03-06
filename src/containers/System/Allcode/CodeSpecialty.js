@@ -18,23 +18,13 @@ const CodeSpecialty = ({
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [valueVI, setValueVI] = useState("");
   const [valueEN, setValueEN] = useState("");
-  const [keyMap, setKeyMap] = useState("");
   const [isEdit, setIsEdit] = useState(false);
-  const key = useRef();
   useEffect(() => {
     fetchAllcodeByTypeAction("SPECIALTY");
   }, []);
   useEffect(() => {
-    const dataInput = [...allcodeType].sort((a, b) =>
-      a.keyMap.localeCompare(b.keyMap)
-    );
-    setData(dataInput);
-    const lastElement = dataInput.slice(-1)[0];
-    if (lastElement && lastElement.keyMap) {
-      const number = parseInt(lastElement.keyMap.match(/\d+/)[0], 10);
-      let keyMap = `${"SPE" + (parseInt(number) + 1)}`;
-      key.current = keyMap;
-      setKeyMap(keyMap);
+    if (allcodeType && allcodeType.length > 0) {
+      setData(allcodeType);
     }
   }, [allcodeType]);
   useEffect(() => {
@@ -66,9 +56,6 @@ const CodeSpecialty = ({
               setValueVI={setValueVI}
               valueEN={valueEN}
               setValueEN={setValueEN}
-              keyMap={keyMap}
-              setKeyMap={setKeyMap}
-              keyMapConstant={key.current}
               isEdit={isEdit}
               setIsEdit={setIsEdit}
             />
