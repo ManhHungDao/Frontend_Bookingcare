@@ -243,6 +243,9 @@ const AddNewUser = ({
                     }
                     label="Password"
                     value={password}
+                    InputProps={{
+                      readOnly: true,
+                    }}
                   />
                 </FormControl>
               </Grid>

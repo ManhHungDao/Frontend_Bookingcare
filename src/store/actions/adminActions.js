@@ -33,7 +33,13 @@ import {
   getAllSpecialty,
   createSpecialty,
 } from "../../services/specialtySerivce.js";
-import { getListALlcodes } from "../../services/allcodeService";
+import {
+  getAllcode,
+  createAllcode,
+  updateAllcode,
+  deleteAllcode,
+  getAllcodeByType,
+} from "../../services/allcodeService";
 import { TYPE } from "../../utils/constant";
 import { toast } from "react-toastify";
 
@@ -47,7 +53,7 @@ export const loadingToggleAction = (status) => {
 export const fetchAllcodeAction = () => {
   return async (dispatch, getState) => {
     try {
-      const res = await getListALlcodes();
+      const res = await getAllcode();
       if (res && res.success) {
         dispatch({
           type: actionTypes.FETCH_ALLCODE_SUCCESS,
@@ -59,6 +65,89 @@ export const fetchAllcodeAction = () => {
         type: actionTypes.FETCH_ALLCODE_FAILED,
       });
       toast.error("Lấy tất cả mã thất bại");
+    }
+  };
+};
+export const fetchAllcodeByTypeAction = (type) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await getAllcodeByType(type);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.FETCH_ALLCODE_TYPE_SUCCESS,
+          data: res.allcodes,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.FETCH_ALLCODE_TYPE_FAILED,
+      });
+      toast.error(`Lấy tất cả mã ${type} thất bại`);
+    }
+  };
+};
+export const createAllCodeAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await createAllcode(data);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.CREATE_SUCCESS,
+        });
+        toast.success("Tạo mã thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.CREATE_FAILED,
+      });
+      toast.error("Tạo mã thất bại");
+    }
+  };
+};
+
+export const updateAllCodeAction = (id, data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(updateAllcode(true));
+      const res = await createAllcode(id, data);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.UPDATE_SUCCESS,
+        });
+        toast.success("Cập nhập mã thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.UPDATE_FAILED,
+      });
+      toast.error("Cập nhập mã thất bại");
+    }
+  };
+};
+
+export const deleteAllCodeAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(updateAllcode(true));
+      const res = await deleteAllcode(id);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.DELETE_SUCCESS,
+        });
+        toast.success("Xóa mã thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.DELETE_FAILED,
+      });
+      toast.error("Xóa mã thất bại");
     }
   };
 };

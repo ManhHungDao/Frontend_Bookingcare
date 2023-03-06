@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Header from "../../../../components/Header";
+import { connect } from "react-redux";
+import * as actions from "../../../../store/actions";
+import ConfirmModal from "../../../../components/confirmModal/ConfirmModal";
 import {
-  Box,
   Grid,
   Typography,
   Divider,
@@ -18,35 +19,111 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
+import EditIcon from "@mui/icons-material/Edit";
 import ButtonComponent from "../../../../components/ButtonComponent";
-
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import CachedIcon from "@mui/icons-material/Cached";
+import _ from "lodash";
 const FormData = ({
   data,
   type,
-  rowsPerPage,
-  setRowsPerPage,
   page,
   setPage,
   clearState,
   title,
+  updateAllCodeAction,
+  deleteAllCodeAction,
+  createAllCodeAction,
+  isSuccess,
+  clearStatus,
+  keyMapConstant,
+  lastNum,
+  // keyMap,
 }) => {
-  const [nameVi, setNameVi] = useState("");
-  const [nameEn, setNameEn] = useState("");
-  //   const [type, setType] = useState("SPECIALTY");
+  useEffect(() => {
+    if (keyMapConstant && lastNum) {
+      const keyMap = keyMapConstant + lastNum;
+      setKeyMap(keyMap);
+    }
+  }, [keyMapConstant, lastNum]);
+
+  const [valueVI, setValueVI] = useState("");
+  const [valueEn, setValueEn] = useState("");
   const [keyMap, setKeyMap] = useState("");
+  const [editCode, setEditCode] = useState({});
+  const [deleteCode, setDeleteCode] = useState({});
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [errors, setErrors] = useState({});
-  const hadnleClickView = (props) => {};
-  const handelClickDelete = (props) => {};
-  //   const [rowsPerPage, setRowsPerPage] = useState(10);
-  //   const [page, setPage] = useState(0);
-  const handleSave = () => {};
+
+  // const [allcodes, setAllcodes] = useState([]);
+  // useEffect(() => {
+  //   if (data && data.length > 0 && type)
+  //     setAllcodes(data.filter((e) => e.type === type));
+  // }, [type, data]);
+
+  const hadnleClickView = (props) => {
+    setIsEdit(true);
+    setEditCode(props);
+    setValueEn(props?.valueEN ? props?.valueEN : "");
+    setValueVI(props?.valueVI ? props?.valueVI : "");
+    setKeyMap(props?.keyMap ? props?.keyMap : "");
+  };
+  const handelClickDelete = (props) => {
+    setDeleteCode(props);
+    setOpenConfirmModal(true);
+  };
+  const handleDeleteCode = () => {
+    const id = deleteCode?._id ? deleteCode?._id : null;
+    if (id) deleteAllCodeAction(id);
+  };
+  const checkUniKeymap = () => {
+    return data.filter((e) => e.keyMap === keyMap);
+  };
+  const handleSave = () => {
+    if (!valueEn && !valueVI) {
+      toast.error("Tên đang trống");
+      return;
+    }
+    if (!keyMap) {
+      toast.error("Mã định danh đang trống");
+      return;
+    }
+    if (_.isEmpty(checkUniKeymap()) === false) {
+      toast.error("Mã định danh đã tồn tại");
+      return;
+    }
+    const data = {
+      valueEn: valueEn ? valueEn : null,
+      valueVI: valueVI ? valueVI : null,
+      type: type ? type : null,
+      keyMap: keyMap ? keyMap : null,
+    };
+    if (isEdit === true) {
+      // updateAllCodeAction(editCode._id, data);
+      console.log("check data sent edit", editCode._id, data);
+    } else {
+      // createAllCodeAction(data);
+      console.log("check data sent add new", data);
+    }
+  };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+  const handleClickRenew = () => {
+    setValueVI("");
+    setValueEn("");
+    const keyMap = keyMapConstant + lastNum;
+    setKeyMap(keyMap);
+    setEditCode({});
+    setIsEdit(false);
+    setErrors({});
+  };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
-      <TableCell>Khóa</TableCell>
+      <TableCell>Mã định danh</TableCell>
       <TableCell>Loại</TableCell>
       <TableCell>Tên tiếng anh</TableCell>
       <TableCell>Tên tiếng việt</TableCell>
@@ -62,9 +139,9 @@ const FormData = ({
         <TableCell>{valueEN ? valueEN : "-"}</TableCell>
         <TableCell>{valueVI ? valueVI : "-"}</TableCell>
         <TableCell>
-          <Tooltip title="Xem">
+          <Tooltip title="Chỉnh sửa">
             <IconButton onClick={() => hadnleClickView(props)}>
-              <RemoveRedEyeRoundedIcon />
+              <EditIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Xóa">
@@ -78,7 +155,14 @@ const FormData = ({
   };
   return (
     <>
-      <Typography variant="h3">{title}</Typography>
+      <Typography variant="h3">
+        {title}
+        <Tooltip title="Làm mới">
+          <IconButton onClick={handleClickRenew}>
+            <CachedIcon />
+          </IconButton>
+        </Tooltip>
+      </Typography>
       <Divider />
       <Grid container spacing={2} sx={{ mt: 2 }}>
         <Grid item xs={12} md={4}>
@@ -89,10 +173,8 @@ const FormData = ({
                 id="outlined-required"
                 label="Tên tiếng việt"
                 fullWidth
-                onChange={(e) => setNameVi(e.target.value)}
-                error={errors.nameVi}
-                helperText={errors.nameVi}
-                value={nameVi}
+                onChange={(e) => setValueVI(e.target.value)}
+                value={valueVI}
               />
             </Grid>
             <Grid item xs={12} md={12}>
@@ -100,10 +182,32 @@ const FormData = ({
                 id="outlined-required"
                 label="Tên tiếng anh"
                 fullWidth
-                onChange={(e) => setNameEn(e.target.value)}
-                error={errors.nameEn}
-                helperText={errors.nameEn}
-                value={nameEn}
+                onChange={(e) => setValueEn(e.target.value)}
+                value={valueEn}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                id="outlined-required"
+                label="Loại"
+                fullWidth
+                onChange={(e) => setValueEn(e.target.value)}
+                value={type}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                id="outlined-required"
+                label="Mã định danh"
+                fullWidth
+                onChange={(e) => setKeyMap(e.target.value)}
+                value={keyMap}
+                // InputProps={{
+                //   readOnly: true,
+                // }}
               />
             </Grid>
           </Grid>
@@ -132,7 +236,7 @@ const FormData = ({
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
-              //   className="table__user--pagination"
+              className="table__user--pagination"
             />
           )}
         </Grid>
@@ -147,8 +251,32 @@ const FormData = ({
           />
         </Grid>
       </Grid>
+      {deleteCode && (
+        <ConfirmModal
+          open={openConfirmModal}
+          setOpen={setOpenConfirmModal}
+          title="Xóa code"
+          content={`${deleteCode?.valueVI ? deleteCode.valueVI : ""}`}
+          type="DELETE"
+          confirmFunc={handleDeleteCode}
+        />
+      )}
     </>
   );
 };
+const mapStateToProps = (state) => {
+  return {
+    isSuccess: state.app.isSuccess,
+  };
+};
 
-export default FormData;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createAllCodeAction: (data) => dispatch(actions.createAllCodeAction(data)),
+    updateAllCodeAction: (id, data) =>
+      dispatch(actions.updateAllCodeAction(id, data)),
+    deleteAllCodeAction: (id) => dispatch(actions.deleteAllCodeAction(id)),
+    clearStatus: () => dispatch(actions.clearStatus()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(FormData);

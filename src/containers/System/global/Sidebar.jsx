@@ -18,9 +18,10 @@ import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
-
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+import ApartmentOutlinedIcon from "@mui/icons-material/ApartmentOutlined";
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
   const handleSelected = () => {
@@ -247,9 +248,33 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               icon={<AppRegistrationIcon />}
             >
               <Item
-                title="Tổng hợp"
-                to="/admin/manage-allcode"
-                icon={<BuildRoundedIcon />}
+                title="Giá"
+                to="/admin/manage-code-price"
+                icon={<AttachMoneyIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Thành phố"
+                to="/admin/manage-code-province"
+                icon={<ApartmentOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Thời gian"
+                to="/admin/manage-code-time"
+                icon={<AccessAlarmIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Chuyên khoa"
+                to="/admin/manage-code-specialty"
+                icon={<ShieldOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}

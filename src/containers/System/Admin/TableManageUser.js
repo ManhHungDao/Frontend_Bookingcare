@@ -266,14 +266,16 @@ const TableManageUser = (props) => {
         </Box>
       </Box>
       <DetailUser open={open} setOpen={setOpen} user={userEdit} />
-      <ConfirmModal
-        open={openConfirmModal}
-        setOpen={setOpenConfirmModal}
-        title="Xóa người dùng"
-        content={`${userDelete?.name ? userDelete.name : ""}`}
-        type="DELETE"
-        confirmFunc={handleDeleteUser}
-      />
+      {userDelete && (
+        <ConfirmModal
+          open={openConfirmModal}
+          setOpen={setOpenConfirmModal}
+          title="Xóa người dùng"
+          content={`${userDelete?.name ? userDelete.name : ""}`}
+          type="DELETE"
+          confirmFunc={handleDeleteUser}
+        />
+      )}
     </>
   );
 };
