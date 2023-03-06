@@ -12,7 +12,6 @@ import "./style.scss";
 import { isMobile } from "react-device-detect";
 const MedicalFacility = ({ listClinic, getListClinicAction }) => {
   const [data, setData] = useState([]);
-  const history = useHistory();
   const handleClick = (id) => {};
   const handleClickViewMore = () => {};
   useEffect(() => {

@@ -10,17 +10,16 @@ import Footer from "./Section/Footer";
 import * as actions from "../../store/actions";
 import DataSection from "./Section/DataSection.js";
 import "./HomePage.scss";
-
-// import css slider
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useEffect } from "react";
 import useIsMobile from "../../components/useScreen/useIsMobile.js";
-const HomePage = ({ listClinic, getListClinicHomePatientAction }) => {
+
+const HomePage = ({ listClinic, getListClinicHomePatient }) => {
   const [clinics, setClinics] = useState([]);
   const isModile = useIsMobile();
   useEffect(() => {
-    if (_.isEmpty(listClinic)) getListClinicHomePatientAction();
+    if (_.isEmpty(listClinic)) getListClinicHomePatient();
     else {
       setClinics(
         listClinic.map((e) => ({
@@ -54,7 +53,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListClinicHomePatientAction: () =>
+    getListClinicHomePatient: () =>
       dispatch(actions.getListClinicHomePatientAction()),
   };
 };

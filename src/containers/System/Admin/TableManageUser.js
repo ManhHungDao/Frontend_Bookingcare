@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import Header from "../../../components/Header.jsx";
 import _ from "lodash";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import AttributionIcon from "@mui/icons-material/Attribution";
 import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import DetailUser from "./DetailUser";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
@@ -63,23 +66,19 @@ const TableManageUser = (props) => {
     { id: "P4", name: "Giáo sư" },
   ];
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
   useEffect(() => {
-    if (props.isSuccess === true) {
+    if (_.isEmpty(props.users)) props.getAllUserAction();
+  }, []);
+
+  useEffect(() => {
+    if (props.isSuccess !== null) {
+      if (props.isSuccess === true) {
+        props.getAllUserAction();
+      }
       setOpen(false);
       setOpenConfirmModal(false);
     }
   }, [props.isSuccess]);
-  useEffect(() => {
-    if (_.isEmpty(props.users)) props.getAllUserAction();
-  }, []);
 
   useEffect(() => {
     let listUser = props.users.map((i) => {
@@ -106,6 +105,16 @@ const TableManageUser = (props) => {
   //   });
   //   setListSeach(dataSearch);
   // }, [searchTerm]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };

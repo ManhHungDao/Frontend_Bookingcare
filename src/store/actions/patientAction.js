@@ -36,10 +36,6 @@ export const getSingleClinicPatientAction = (id) => {
         }
       }
     } catch (error) {
-      console.log(
-        "🚀 ~ file: adminActions.js ~ line 711 ~ return ~ error",
-        error
-      );
       dispatch({
         type: actionTypes.PATIENT_GET_CLINIC_FAILED,
       });
@@ -50,24 +46,16 @@ export const getSingleClinicPatientAction = (id) => {
 export const getListClinicHomePatientAction = () => {
   return async (dispatch, getState) => {
     try {
-      {
-        dispatch(loadingToggleAction(true));
-        const res = await getAllClinicHomePatient();
-        if (res && res.success) {
-          dispatch({
-            type: actionTypes.PATIENT_GET_LIST_CLINIC_SUCCEED,
-            data: res.clinics,
-          });
-          dispatch(loadingToggleAction(false));
-        } else {
-          dispatch({
-            type: actionTypes.PATIENT_GET_LIST_CLINIC_FAILED,
-          });
-          dispatch(loadingToggleAction(false));
-        }
+      dispatch(loadingToggleAction(true));
+      const res = await getAllClinicHomePatient();
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.PATIENT_GET_LIST_CLINIC_SUCCEED,
+          data: res.clinics,
+        });
       }
     } catch (error) {
-      console.log("🚀 ~ file: patientAction.js:65 ~ return ~ error:", error);
       dispatch(loadingToggleAction(false));
       dispatch({
         type: actionTypes.PATIENT_GET_LIST_CLINIC_FAILED,

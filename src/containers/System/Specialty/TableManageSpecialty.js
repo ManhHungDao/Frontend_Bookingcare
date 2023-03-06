@@ -14,15 +14,20 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
-import { tokens } from "../theme";
 import _ from "lodash";
 import Header from "../../../components/Header";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import DetailSpecialty from "./DetailSpecialty";
 
-const TableManageSpecialty = ({ getAllSpecialtyAction, listSpecialty }) => {
+const TableManageSpecialty = ({
+  getAllSpecialtyAction,
+  listSpecialty,
+  deleteSpecialtyAction,
+  isSuccess,
+}) => {
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
@@ -36,19 +41,28 @@ const TableManageSpecialty = ({ getAllSpecialtyAction, listSpecialty }) => {
   }, []);
 
   useEffect(() => {
+    if (isSuccess !== null) {
+      if (isSuccess === true) {
+        getAllSpecialtyAction();
+      }
+      setOpenConfirmModal(false);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
     if (listSpecialty && listSpecialty.length > 0) setData(listSpecialty);
   }, [listSpecialty]);
+
   const handleClickView = (data) => {
-    // setSpecialtyEdit(data);
-    // setOpen(true);
+    setSpecialtyEdit(data);
+    setOpen(true);
   };
   const handelClickDelete = (data) => {
-    // setOpenConfirmModal(true);
-    // setSpecialtyDelete(data);
+    setOpenConfirmModal(true);
+    setSpecialtyDelete(data);
   };
   const handleDeleteClinic = () => {
-    // const id = clinicDelete.id;
-    // if (id) deleteClincAction(id);
+    if (specialtyDelete) deleteSpecialtyAction(specialtyDelete._id);
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -77,10 +91,10 @@ const TableManageSpecialty = ({ getAllSpecialtyAction, listSpecialty }) => {
                 <img
                   className="table__clinic--logo"
                   src={image?.url ? image.url : ""}
-                  alt={name}
+                  alt={name ? name : ""}
                 />
               </div>
-              <div> {name}</div>
+              <div> {name ? name : ""}</div>
             </span>
           </TableCell>
           <TableCell>{clinic?.name ? clinic.name : "-"}</TableCell>
@@ -109,8 +123,8 @@ const TableManageSpecialty = ({ getAllSpecialtyAction, listSpecialty }) => {
           subtitle="Quản lý phòng khám"
           titleBtn="Thêm mới"
           isShowBtn={true}
-          link="/admin/add-clinic"
-          activeMenu="Thêm Phòng Khám"
+          link="/admin/add-specialty"
+          activeMenu="Thêm Chuyên Khoa"
         />
         <Box m="40px 0 0 0" height="75vh">
           <TableContainer component={Paper}>
@@ -141,17 +155,27 @@ const TableManageSpecialty = ({ getAllSpecialtyAction, listSpecialty }) => {
           />
         </Box>
       </Box>
-      {/* {specialtyEdit && (
-        <DetailClinic setOpen={setOpen} open={open} clinic={specialtyEdit} />
-      )} */}
-      <ConfirmModal
-        open={openConfirmModal}
-        setOpen={setOpenConfirmModal}
-        title="Xóa phòng khám"
-        content={`${specialtyDelete?.name ? specialtyDelete.name : ""}`}
-        type="DELETE"
-        confirmFunc={handleDeleteClinic}
-      />
+      {specialtyEdit && (
+        <DetailSpecialty setOpen={setOpen} open={open} specialty={specialtyEdit} />
+      )}
+      {specialtyDelete && (
+        <ConfirmModal
+          open={openConfirmModal}
+          setOpen={setOpenConfirmModal}
+          title="Xóa chuyên khoa"
+          content={`${specialtyDelete?.name ? specialtyDelete.name : ""} ${
+            specialtyDelete?.clinic?.name
+              ? `- ${
+                  specialtyDelete?.clinic?.name
+                    ? specialtyDelete?.clinic?.name
+                    : ""
+                }`
+              : ""
+          } `}
+          type="DELETE"
+          confirmFunc={handleDeleteClinic}
+        />
+      )}
     </>
   );
 };
@@ -166,6 +190,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllSpecialtyAction: () => dispatch(actions.getAllSpecialtyAction()),
     clearStatus: () => dispatch(actions.clearStatus()),
+    deleteSpecialtyAction: (id) => dispatch(actions.deleteSpecialtyAction(id)),
   };
 };
 

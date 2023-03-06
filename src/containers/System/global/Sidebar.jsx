@@ -23,7 +23,6 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import ApartmentOutlinedIcon from "@mui/icons-material/ApartmentOutlined";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
   const handleSelected = () => {
@@ -100,7 +99,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
-              margin: "10px 0 20px 0",
+              margin: "10px 0 10px 0",
               padding: "5px 0 ",
             }}
           >
@@ -109,7 +108,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                ml="15px"
+                ml="10px"
               >
                 <Typography variant="h3" color="#f3f3f3">
                   HEALTHCARE
@@ -159,7 +158,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
 
           <Box
             paddingLeft={isCollapsed ? undefined : "10%"}
-            sx={{ width: "90%" }}
+            sx={{ width: "90%", paddingLeft: "5%" }}
           >
             <Item
               title="Trang Chính"

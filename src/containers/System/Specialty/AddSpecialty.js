@@ -32,7 +32,7 @@ const AddSpecialty = ({
   const smScreen = useIsTablet();
 
   useEffect(() => {
-    if (isPopular === false) setSelectClinic("");
+    if (isPopular === true) setSelectClinic("");
   }, [isPopular]);
 
   useEffect(() => {
@@ -90,7 +90,7 @@ const AddSpecialty = ({
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
             <Grid container spacing={2}>
-              {isPopular && (
+              {!isPopular && (
                 <Grid item xs={12} md={12}>
                   <Select
                     value={selectClinic}

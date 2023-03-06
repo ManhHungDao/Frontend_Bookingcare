@@ -36,7 +36,9 @@ const TableManageClinic = ({
   const [clinicEdit, setClinicEdit] = useState({});
   const [clinicDelete, setClinicDelete] = useState({});
   useEffect(() => {
-    if (_.isEmpty(listClinic)) getListClinicAction();
+    getListClinicAction();
+  }, []);
+  useEffect(() => {
     if (listClinic) {
       let data = listClinic.map((e) => {
         return {
@@ -52,10 +54,13 @@ const TableManageClinic = ({
       });
       setList(data);
     }
-    if (isSuccess) {
+    if (isSuccess !== null) {
       setOpen(false);
       setOpenConfirmModal(false);
       clearStatus();
+      if (isSuccess === true) {
+        getListClinicAction();
+      }
     }
   }, [listClinic, isSuccess]);
 

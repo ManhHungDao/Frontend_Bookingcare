@@ -18,6 +18,7 @@ import {
   getSingleSpecialty,
   getAllSpecialty,
   createSpecialty,
+  deleteSpecialty,
 } from "../../services/specialtySerivce.js";
 import {
   getAllcode,
@@ -323,30 +324,6 @@ export const getSingleClinicAction = (id) => {
   };
 };
 
-export const createSpecialtyAction = (data) => {
-  return async (dispatch, getState) => {
-    try {
-      {
-        dispatch(loadingToggleAction(true));
-        const res = await createSpecialty(data);
-        if (res && res.success) {
-          dispatch({
-            type: actionTypes.CREATE_SUCCESS,
-          });
-          dispatch(loadingToggleAction(false));
-          toast.success("Tạo chuyên khoa thành công");
-        }
-      }
-    } catch (error) {
-      dispatch(loadingToggleAction(false));
-      dispatch({
-        type: actionTypes.CREATE_FAILED,
-      });
-      toast.error("Tạo chuyên khoa thất bại");
-    }
-  };
-};
-
 export const updateClinicAction = (id, data) => {
   return async (dispatch, getState) => {
     try {
@@ -393,6 +370,30 @@ export const deleteClincAction = (id) => {
 };
 
 // SPECIALTY
+export const createSpecialtyAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        dispatch(loadingToggleAction(true));
+        const res = await createSpecialty(data);
+        if (res && res.success) {
+          dispatch({
+            type: actionTypes.CREATE_SUCCESS,
+          });
+          dispatch(loadingToggleAction(false));
+          toast.success("Tạo chuyên khoa thành công");
+        }
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.CREATE_FAILED,
+      });
+      toast.error("Tạo chuyên khoa thất bại");
+    }
+  };
+};
+
 export const getAllSpecialtyAction = () => {
   return async (dispatch, getState) => {
     try {
@@ -411,6 +412,27 @@ export const getAllSpecialtyAction = () => {
         type: actionTypes.GET_LIST_SPECIALTY_FAILED,
       });
       toast.error("Lấy danh sách thất bại");
+    }
+  };
+};
+
+export const deleteSpecialtyAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await deleteSpecialty(id);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.DELETE_SUCCESS,
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.DELETE_FAILED,
+      });
+      toast.error("Xóa chuyên khoa thất bại");
     }
   };
 };

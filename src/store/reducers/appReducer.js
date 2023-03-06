@@ -17,7 +17,7 @@ const initialState = {
   },
   showLoading: false,
   menuOpen: "Trang Chính",
-  isSuccess: false,
+  isSuccess: null,
 };
 
 const appReducer = (state = initialState, action) => {
@@ -64,7 +64,7 @@ const appReducer = (state = initialState, action) => {
     case actionTypes.CLEAR_STATUS: {
       return {
         ...state,
-        isSuccess: false,
+        isSuccess: null,
       };
     }
 
