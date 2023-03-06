@@ -16,4 +16,9 @@ const deleteSpecialty = (id) => {
   return axios.delete(`/api/delete-specialty?id=${id}`);
 };
 
-export { getSingleSpecialty, getAllSpecialty, createSpecialty,deleteSpecialty };
+const getClinicById = (id) => {
+  return axios.get(`/api/get-by-clinic?id=${id}`);
+};
+
+
+export { getSingleSpecialty, getAllSpecialty, createSpecialty,deleteSpecialty,getClinicById };

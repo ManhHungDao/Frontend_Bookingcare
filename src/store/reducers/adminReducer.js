@@ -8,6 +8,7 @@ const initialState = {
   clinic: {},
   allcodeType: [],
   listSpecialty: [],
+  listSpecialtyInClinic: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -75,6 +76,15 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         listSpecialty: [],
+      };
+    }
+    case actionTypes.GET_LIST_CLINIC_BYID_SUCCEED: {
+      return { ...state, listSpecialtyInClinic: action.data };
+    }
+    case actionTypes.GET_LIST_CLINIC_BYID_FAILED: {
+      return {
+        ...state,
+        listSpecialtyInClinic: [],
       };
     }
     default:

@@ -19,6 +19,7 @@ import {
   getAllSpecialty,
   createSpecialty,
   deleteSpecialty,
+  getClinicById,
 } from "../../services/specialtySerivce.js";
 import {
   getAllcode,
@@ -433,6 +434,28 @@ export const deleteSpecialtyAction = (id) => {
         type: actionTypes.DELETE_FAILED,
       });
       toast.error("Xóa chuyên khoa thất bại");
+    }
+  };
+};
+
+export const getClinicByIdAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getClinicById(id);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.GET_LIST_CLINIC_BYID_SUCCEED,
+          data:res.specialties
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_LIST_CLINIC_BYID_FAILED,
+      });
+      toast.error("Lấy danh sách chuyên khoa thất bại");
     }
   };
 };

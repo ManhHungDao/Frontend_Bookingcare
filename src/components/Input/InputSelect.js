@@ -19,7 +19,6 @@ const InputSelect = ({
   useEffect(() => {
     if (data) setList(data);
   }, [data]);
-
   return (
     <>
       {list && list.length > 0 && (

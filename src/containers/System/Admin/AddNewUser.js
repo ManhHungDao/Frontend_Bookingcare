@@ -36,6 +36,8 @@ const AddNewUser = ({
   clearStatus,
   getListClinicAction,
   listClinic,
+  getClinicByIdAction,
+  listSpecialtyInClinic,
 }) => {
   //infomation doctor
   const [email, setEmail] = useState("");
@@ -61,6 +63,7 @@ const AddNewUser = ({
   const [dataSelect, setDataSelect] = useState([]);
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [listClinicSelect, setListClinicSelect] = useState([]);
+  const [listSpecialtySelect, setListSpecialtySelect] = useState([]);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -91,7 +94,7 @@ const AddNewUser = ({
   }, [isSuccess]);
   useEffect(() => {
     if (_.isEmpty(listClinic)) getListClinicAction();
-    if (listClinic) {
+    else {
       let data = listClinic.map((e) => {
         return {
           id: e._id,
@@ -108,6 +111,21 @@ const AddNewUser = ({
         allcodes.map((e) => ({ id: e.keyMap, name: e.valueVI, type: e.type }))
       );
   }, [allcodes]);
+
+  useEffect(() => {
+    if (_.isEmpty(clinic) === false) getClinicByIdAction(clinic);
+  }, [clinic]);
+
+  useEffect(() => {
+    if (listSpecialtyInClinic && listSpecialtyInClinic.length > 0)
+      console.log(
+        "🚀 ~ file: AddNewUser.js:125 ~ useEffect ~ listSpecialtyInClinic:",
+        listSpecialtyInClinic
+      );
+    setListSpecialtySelect(
+      listSpecialtyInClinic.map((e) => ({ id: e._id, name: e.name }))
+    );
+  }, [listSpecialtyInClinic]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
@@ -357,11 +375,7 @@ const AddNewUser = ({
               label="Chọn chuyên khoa"
               value={specialty}
               onChange={setSpecialty}
-              data={[
-                { value: 1, label: "Twenty" },
-                { value: 12, label: "Twenty" },
-                { value: 13, label: "Twenty" },
-              ]}
+              data={listSpecialtySelect}
               isError={errors.specialty ? true : false}
               errorText={errors.specialty ? errors.specialty : ""}
               name="Chọn chuyên khoa"
@@ -440,6 +454,7 @@ const mapStateToProps = (state) => {
     allcodes: state.admin.allcodes,
     isSuccess: state.app.isSuccess,
     listClinic: state.admin.listClinic,
+    listSpecialtyInClinic: state.admin.listSpecialtyInClinic,
   };
 };
 
@@ -449,6 +464,7 @@ const mapDispatchToProps = (dispatch) => {
     clearStatus: () => dispatch(actions.clearStatus()),
     createNewUser: (user) => dispatch(actions.createNewUserAction(user)),
     getListClinicAction: () => dispatch(actions.getListClinicAction()),
+    getClinicByIdAction: (id) => dispatch(actions.getClinicByIdAction(id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddNewUser);
