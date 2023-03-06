@@ -30,30 +30,22 @@ const FormData = ({
   type,
   page,
   setPage,
-  clearState,
   title,
   updateAllCodeAction,
   deleteAllCodeAction,
   createAllCodeAction,
-  isSuccess,
-  clearStatus,
+  openConfirmModal,
+  setOpenConfirmModal,
+  valueVI,
+  setValueVI,
+  valueEN,
+  setValueEN,
+  keyMap,
+  setKeyMap,
   keyMapConstant,
-  lastNum,
-  // keyMap,
 }) => {
-  useEffect(() => {
-    if (keyMapConstant && lastNum) {
-      const keyMap = keyMapConstant + lastNum;
-      setKeyMap(keyMap);
-    }
-  }, [keyMapConstant, lastNum]);
-
-  const [valueVI, setValueVI] = useState("");
-  const [valueEn, setValueEn] = useState("");
-  const [keyMap, setKeyMap] = useState("");
   const [editCode, setEditCode] = useState({});
   const [deleteCode, setDeleteCode] = useState({});
-  const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [errors, setErrors] = useState({});
@@ -64,10 +56,10 @@ const FormData = ({
   //     setAllcodes(data.filter((e) => e.type === type));
   // }, [type, data]);
 
-  const hadnleClickView = (props) => {
+  const hadnleClickEdit = (props) => {
     setIsEdit(true);
     setEditCode(props);
-    setValueEn(props?.valueEN ? props?.valueEN : "");
+    setValueEN(props?.valueEN ? props?.valueEN : "");
     setValueVI(props?.valueVI ? props?.valueVI : "");
     setKeyMap(props?.keyMap ? props?.keyMap : "");
   };
@@ -83,7 +75,7 @@ const FormData = ({
     return data.filter((e) => e.keyMap === keyMap);
   };
   const handleSave = () => {
-    if (!valueEn && !valueVI) {
+    if (!valueEN && !valueVI) {
       toast.error("Tên đang trống");
       return;
     }
@@ -96,17 +88,15 @@ const FormData = ({
       return;
     }
     const data = {
-      valueEn: valueEn ? valueEn : null,
+      valueEN: valueEN ? valueEN : null,
       valueVI: valueVI ? valueVI : null,
       type: type ? type : null,
       keyMap: keyMap ? keyMap : null,
     };
     if (isEdit === true) {
-      // updateAllCodeAction(editCode._id, data);
-      console.log("check data sent edit", editCode._id, data);
+      updateAllCodeAction(editCode._id, data);
     } else {
-      // createAllCodeAction(data);
-      console.log("check data sent add new", data);
+      createAllCodeAction(data);
     }
   };
   const handleChangePage = (event, newPage) => {
@@ -114,9 +104,8 @@ const FormData = ({
   };
   const handleClickRenew = () => {
     setValueVI("");
-    setValueEn("");
-    const keyMap = keyMapConstant + lastNum;
-    setKeyMap(keyMap);
+    setValueEN("");
+    setKeyMap(keyMapConstant);
     setEditCode({});
     setIsEdit(false);
     setErrors({});
@@ -140,7 +129,7 @@ const FormData = ({
         <TableCell>{valueVI ? valueVI : "-"}</TableCell>
         <TableCell>
           <Tooltip title="Chỉnh sửa">
-            <IconButton onClick={() => hadnleClickView(props)}>
+            <IconButton onClick={() => hadnleClickEdit(props)}>
               <EditIcon />
             </IconButton>
           </Tooltip>
@@ -182,8 +171,8 @@ const FormData = ({
                 id="outlined-required"
                 label="Tên tiếng anh"
                 fullWidth
-                onChange={(e) => setValueEn(e.target.value)}
-                value={valueEn}
+                onChange={(e) => setValueEN(e.target.value)}
+                value={valueEN}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -191,7 +180,7 @@ const FormData = ({
                 id="outlined-required"
                 label="Loại"
                 fullWidth
-                onChange={(e) => setValueEn(e.target.value)}
+                onChange={(e) => setValueEN(e.target.value)}
                 value={type}
                 InputProps={{
                   readOnly: true,

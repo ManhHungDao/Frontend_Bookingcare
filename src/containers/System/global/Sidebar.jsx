@@ -22,6 +22,10 @@ import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import ApartmentOutlinedIcon from "@mui/icons-material/ApartmentOutlined";
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+
+
+
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
   const handleSelected = () => {
@@ -248,9 +252,9 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               icon={<AppRegistrationIcon />}
             >
               <Item
-                title="Giá"
+                title="Thanh toán"
                 to="/admin/manage-code-price"
-                icon={<AttachMoneyIcon />}
+                icon={<CreditCardIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}

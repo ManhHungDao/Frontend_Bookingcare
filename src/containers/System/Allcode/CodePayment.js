@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import FormData from "./Section/FormData";
-import Header from "../../../components/Header";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import { Box } from "@mui/material";
+import { useEffect, useRef } from "react";
 
-const CodeTime = ({
-  allcodeType,
-  fetchAllcodeByTypeAction,
+const CodePayment = ({
+  allcodes,
+  fetchAllcodeAction,
   isSuccess,
   clearStatus,
 }) => {
@@ -20,24 +19,27 @@ const CodeTime = ({
   const key = useRef();
 
   useEffect(() => {
-    fetchAllcodeByTypeAction("TIME");
+    fetchAllcodeAction();
   }, []);
   useEffect(() => {
-    const dataInput = [...allcodeType].sort((a, b) =>
-      a.keyMap.localeCompare(b.keyMap)
-    );
-    setData(dataInput);
-    const lastElement = dataInput.slice(-1)[0];
-    if (lastElement && lastElement.keyMap) {
-      const number = parseInt(lastElement.keyMap.match(/\d+/)[0], 10);
-      const keyMap = `${"T" + (parseInt(number) + 1)}`;
-      key.current = keyMap;
-      setKeyMap(keyMap);
+    if (allcodes && allcodes.length > 0) {
+      let dataInput = allcodes.filter((e) => e.type === "PAYMENT");
+      dataInput = [...dataInput].sort((a, b) =>
+        a.keyMap.localeCompare(b.keyMap)
+      );
+      setData(dataInput);
+      const lastElement = dataInput.slice(-1)[0];
+      if (lastElement && lastElement.keyMap) {
+        const number = parseInt(lastElement.keyMap.match(/\d+/)[0], 10);
+        const keyMap = `${"PAY" + (parseInt(number) + 1)}`;
+        key.current = keyMap;
+        setKeyMap(keyMap);
+      }
     }
-  }, [allcodeType]);
+  }, [allcodes]);
   useEffect(() => {
     if (isSuccess === true) {
-      fetchAllcodeByTypeAction("TIME");
+      fetchAllcodeAction();
       clearStatus();
       setOpenConfirmModal(false);
       setValueVI("");
@@ -47,14 +49,13 @@ const CodeTime = ({
 
   return (
     <>
-      <Box m="20px">
-        <Header title="Quản lý tác vụ" subtitle="Quản lý thành viên" />
-        {data && (
+      {data && (
+        <>
           <FormData
-            title={"Quản lý mã thời gian"}
+            title={"Quản lý phương thức thanh toán"}
             page={page}
             setPage={setPage}
-            type="TIME"
+            type="PAYMENT"
             data={data}
             openConfirmModal={openConfirmModal}
             setOpenConfirmModal={setOpenConfirmModal}
@@ -66,23 +67,22 @@ const CodeTime = ({
             keyMapConstant={key.current}
             setKeyMap={setKeyMap}
           />
-        )}
-      </Box>
+        </>
+      )}
     </>
   );
 };
 const mapStateToProps = (state) => {
   return {
-    allcodeType: state.admin.allcodeType,
+    allcodes: state.admin.allcodes,
     isSuccess: state.app.isSuccess,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllcodeByTypeAction: (type) =>
-      dispatch(actions.fetchAllcodeByTypeAction(type)),
+    fetchAllcodeAction: () => dispatch(actions.fetchAllcodeAction()),
     clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(CodeTime);
+export default connect(mapStateToProps, mapDispatchToProps)(CodePayment);

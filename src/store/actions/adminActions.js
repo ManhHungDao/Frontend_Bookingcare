@@ -111,8 +111,8 @@ export const createAllCodeAction = (data) => {
 export const updateAllCodeAction = (id, data) => {
   return async (dispatch, getState) => {
     try {
-      dispatch(updateAllcode(true));
-      const res = await createAllcode(id, data);
+      dispatch(loadingToggleAction(true));
+      const res = await updateAllcode(id, data);
       if (res && res.success) {
         dispatch(loadingToggleAction(false));
         dispatch({
@@ -133,7 +133,7 @@ export const updateAllCodeAction = (id, data) => {
 export const deleteAllCodeAction = (id) => {
   return async (dispatch, getState) => {
     try {
-      dispatch(updateAllcode(true));
+      dispatch(loadingToggleAction(true));
       const res = await deleteAllcode(id);
       if (res && res.success) {
         dispatch(loadingToggleAction(false));
