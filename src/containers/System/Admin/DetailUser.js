@@ -84,7 +84,7 @@ const DetailUser = ({
     if (_.isEmpty(allcodes)) fetchAllcode();
     else
       setDataSelect(
-        allcodes.map((e) => ({ id: e.keyMap, name: e.valueVI, type: e.type }))
+        allcodes.map((e) => ({ id: e._id, name: e.valueVI, type: e.type }))
       );
   }, [allcodes]);
 

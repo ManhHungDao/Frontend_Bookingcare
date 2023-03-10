@@ -33,20 +33,23 @@ function AutocompleteAddress({
     if (results[0].address_components[length - 2].long_name === "Vietnam")
       province = results[0].address_components[length - 3].long_name;
     else province = results[0].address_components[length - 2].long_name;
-    setProvince(getCodeProvince(province));
+    setProvince(province);
     setAddress(value);
     if (setCoordinates) {
       const latLng = await getLatLng(results[0]);
       setCoordinates(latLng);
     }
   };
-  const getCodeProvince = (name) => {
-    let listProvince = [];
-    if (allcodes && allcodes.length > 0)
-      listProvince = allcodes.filter((e) => e.type === "PROVINCE");
-    let province = listProvince.filter((e) => e.valueVI === name);
-    return province[0].keyMap;
-  };
+  // const getCodeProvince = (name) => {
+  //   let listProvince = [];
+  //   if (allcodes && allcodes.length > 0)
+  //     listProvince = allcodes.filter((e) => e.type === "PROVINCE");
+  //   let province = listProvince.filter(
+  //     (e) => e.valueVI.toUpperCase() === name.toUpperCase()
+  //   );
+  //   console.log('check',province);
+  //   return province[0]._id;
+  // };
   return (
     <PlacesAutocomplete
       value={address}

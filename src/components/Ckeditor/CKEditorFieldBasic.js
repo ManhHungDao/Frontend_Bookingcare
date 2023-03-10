@@ -1,9 +1,18 @@
 import React from "react";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { Editor } from "ckeditor5-custom-build/build/ckeditor";
-import "./ckeditor.css";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import "./ckeditor.scss";
 
-const CKEditorFieldBasic = ({ value, onChange }) => {
+const CKEditorFieldBasic = ({
+  value,
+  onChange,
+  isError,
+  errorText,
+  minWidth,
+  title,
+}) => {
   const defaultConfig = {
     toolbar: {
       items: [
@@ -171,29 +180,41 @@ const CKEditorFieldBasic = ({ value, onChange }) => {
 
   // } );
   return (
-    <CKEditor
-      onReady={(editor) => {
-        editor.ui
-          .getEditableElement()
-          .parentElement.insertBefore(
-            editor.ui.view.toolbar.element,
-            editor.ui.getEditableElement()
-          );
-      }}
-      editor={Editor}
-      data={value}
-      config={defaultConfig}
-      onChange={(event, editor) => {
-        const data = editor.getData();
-        onChange(data);
-      }}
-      //   onBlur={(event, editor) => {
-      //     console.log("Blur.", editor);
-      //   }}
-      //   onFocus={(event, editor) => {
-      //     console.log("Focus.", editor);
-      //   }}
-    />
+    <FormControl
+      error={isError}
+      sx={{ minWidth: minWidth ? minWidth : "100%" }}
+    >
+      <div
+        className={`ckeditor-basic ${isError ? "ckeditor-basic--error" : ""}`}
+      >
+        <span> {title}</span>
+
+        <CKEditor
+          onReady={(editor) => {
+            editor.ui
+              .getEditableElement()
+              .parentElement.insertBefore(
+                editor.ui.view.toolbar.element,
+                editor.ui.getEditableElement()
+              );
+          }}
+          editor={Editor}
+          data={value}
+          config={defaultConfig}
+          onChange={(event, editor) => {
+            const data = editor.getData();
+            onChange(data);
+          }}
+          //   onBlur={(event, editor) => {
+          //     console.log("Blur.", editor);
+          //   }}
+          //   onFocus={(event, editor) => {
+          //     console.log("Focus.", editor);
+          //   }}
+        />
+      </div>
+      {isError && <FormHelperText>{errorText}</FormHelperText>}
+    </FormControl>
   );
 };
 export default CKEditorFieldBasic;

@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
+import Select from "react-select";
+import "./style.scss";
 
 const InputSelect = ({
   value,
-  label,
   data,
   isError,
   errorText,
@@ -17,40 +15,31 @@ const InputSelect = ({
 }) => {
   const [list, setList] = useState([]);
   useEffect(() => {
-    if (data) setList(data);
+    if (data) setList(data.map((e) => ({ value: e.id, label: e.name })));
   }, [data]);
   return (
     <>
-      {list && list.length > 0 && (
-        <FormControl
-          error={isError}
-          sx={{ minWidth: minWidth ? minWidth : "100%" }}
-        >
-          <InputLabel id="demo-simple-select-autowidth-label">
-            {name}
-          </InputLabel>
-          <Select
-            labelId={
-              isError
-                ? "demo-simple-select-isError-label"
-                : "demo-simple-select-autowidth-label"
-            }
-            id={isError ? "demo-simple-select-isError" : "demo-simple-select"}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            label={label}
-          >
-            {list &&
-              list.length > 0 &&
-              list.map((e, index) => (
-                <MenuItem key={index} value={e.id}>
-                  {e.name}
-                </MenuItem>
-              ))}
-          </Select>
-          {isError && <FormHelperText>{errorText}</FormHelperText>}
-        </FormControl>
-      )}
+      <FormControl
+        error={isError}
+        sx={{ minWidth: minWidth ? minWidth : "100%" }}
+      >
+        <Select
+          className={`react-select-container ${isError ? "select-error" : ""}`}
+          value={value}
+          onChange={onChange}
+          options={list}
+          placeholder={name}
+          menuPortalTarget={document.body}
+          styles={{
+            menuPortal: (base) => ({
+              ...base,
+              zIndex: 9999,
+              borderColor: isError ? "red !important" : "blue",
+            }),
+          }}
+        />
+        {isError && <FormHelperText>{errorText}</FormHelperText>}
+      </FormControl>
     </>
   );
 };

@@ -21,7 +21,7 @@ import _ from "lodash";
 const DetailSpecialty = ({ specialty, open, setOpen, isSuccess }) => {
   const [image, setImage] = useState("");
   const [detail, setDetail] = useState("");
-  const [keyMap, setKeyMap] = useState("");
+  const [key, setKey] = useState("");
   //
   const [selectClinic, setSelectClinic] = useState({});
   const [selectSpecialty, setSelectSpecialty] = useState({});
@@ -34,10 +34,10 @@ const DetailSpecialty = ({ specialty, open, setOpen, isSuccess }) => {
   useEffect(() => {
     setImage(specialty?.image?.url ? specialty.image.url : "");
     setDetail(specialty?.detail ? specialty.detail : "");
-    setKeyMap(specialty?.keyMap ? specialty.keyMap : "");
+    setKey(specialty?.key ? specialty.key : "");
     setSelectSpecialty({
       label: specialty?.name ? specialty.name : "",
-      value: specialty?.keyMap ? specialty.keyMap : "",
+      value: specialty?.key ? specialty.key : "",
     });
     setSelectClinic({
       label: specialty?.clinic?.name ? specialty?.clinic?.name : "",

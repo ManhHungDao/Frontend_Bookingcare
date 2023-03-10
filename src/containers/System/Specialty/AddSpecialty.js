@@ -11,6 +11,7 @@ import _ from "lodash";
 import useIsTablet from "../../../components/useScreen/useIsTablet";
 import Select from "react-select";
 import { toast } from "react-toastify";
+import InputSelect from "../../../components/Input/InputSelect";
 
 const AddSpecialty = ({
   listClinic,
@@ -38,12 +39,12 @@ const AddSpecialty = ({
   useEffect(() => {
     if (_.isEmpty(listClinic)) getListClinicAction();
     else {
-      setDataClinic(listClinic.map((e) => ({ value: e._id, label: e.name })));
+      setDataClinic(listClinic.map((e) => ({ id: e._id, name: e.name })));
     }
     if (_.isEmpty(allcodeType)) fetchAllcodeByTypeAction("SPECIALTY");
     else {
       setDataSpecialty(
-        allcodeType.map((e) => ({ value: e.keyMap, label: e.valueVI }))
+        allcodeType.map((e) => ({ id: e._id, name: e.valueVI }))
       );
     }
   }, [listClinic, allcodeType]);
@@ -68,7 +69,7 @@ const AddSpecialty = ({
       detail: content,
       image,
       name: selectSpecialty.label ? selectSpecialty.label : "",
-      keyMap: selectSpecialty.value ? selectSpecialty.value : "",
+      key: selectSpecialty.value ? selectSpecialty.value : "",
       clinic: {
         id: selectClinic.value ? selectClinic.value : null,
         name: selectClinic.label ? selectClinic.label : null,
@@ -92,26 +93,20 @@ const AddSpecialty = ({
             <Grid container spacing={2}>
               {!isPopular && (
                 <Grid item xs={12} md={12}>
-                  <Select
+                  <InputSelect
                     value={selectClinic}
                     onChange={setSelectClinic}
-                    options={dataClinic}
-                    placeholder="Chọn phòng khám"
-                    styles={{
-                      menuPortal: (base) => ({ ...base, zIndex: 99999 }),
-                    }}
+                    data={dataClinic}
+                    name="Chọn phòng khám"
                   />
                 </Grid>
               )}
               <Grid item xs={12} md={12}>
-                <Select
+                <InputSelect
                   value={selectSpecialty}
                   onChange={setSelectSpecialty}
-                  options={dataSpecialty}
-                  placeholder="Chọn chuyên khoa"
-                  styles={{
-                    menuPortal: (base) => ({ ...base, zIndex: 99999 }),
-                  }}
+                  data={dataSpecialty}
+                  name="Chọn chuyên khoa"
                 />
               </Grid>
             </Grid>

@@ -23,7 +23,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import InputSelect from "../../../components/Input/InputSelect";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
-import { toast } from "react-toastify";
 import "./Style.scss";
 import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
 import _ from "lodash";
@@ -108,23 +107,19 @@ const AddNewUser = ({
     if (_.isEmpty(allcodes)) fetchAllcode();
     else
       setDataSelect(
-        allcodes.map((e) => ({ id: e.keyMap, name: e.valueVI, type: e.type }))
+        allcodes.map((e) => ({ id: e._id, name: e.valueVI, type: e.type }))
       );
   }, [allcodes]);
 
   useEffect(() => {
-    if (_.isEmpty(clinic) === false) getClinicByIdAction(clinic);
+    if (_.isEmpty(clinic) === false) getClinicByIdAction(clinic.value);
   }, [clinic]);
 
   useEffect(() => {
     if (listSpecialtyInClinic && listSpecialtyInClinic.length > 0)
-      console.log(
-        "🚀 ~ file: AddNewUser.js:125 ~ useEffect ~ listSpecialtyInClinic:",
-        listSpecialtyInClinic
+      setListSpecialtySelect(
+        listSpecialtyInClinic.map((e) => ({ id: e._id, name: e.name }))
       );
-    setListSpecialtySelect(
-      listSpecialtyInClinic.map((e) => ({ id: e._id, name: e.name }))
-    );
   }, [listSpecialtyInClinic]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -159,14 +154,15 @@ const AddNewUser = ({
     if (!phone) errors.phone = "Số điện thoại không được bỏ trống";
     if (!validator.isMobilePhone(phone))
       errors.phone = "Số điện thoại không hợp lệ";
-    // if (!content) errors.content = "Chi tiết không được bỏ trống";
-    // if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
-    // if (!note) errors.note = "Ghi chú không được bỏ trống";
-    // if (!position) errors.position = "Chưa chọn vị trí";
-    // if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
-    // if (!price) errors.price = "Chưa chọn giá";
-    // if (!clinic) errors.clinic = "Chưa chọn cơ sở";
-    // if (!specialty) errors.specialty = "Chưa chọn khoa";
+    if (!content) errors.content = "Chi tiết không được bỏ trống";
+    if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
+    if (!note) errors.note = "Ghi chú không được bỏ trống";
+    if (!position) errors.position = "Chưa chọn vị trí";
+    if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
+    if (!price) errors.price = "Chưa chọn giá";
+    if (!clinic) errors.clinic = "Chưa chọn cơ sở";
+    if (!specialty) errors.specialty = "Chưa chọn khoa";
+    if (!image) errors.image = "Chưa tải hình ảnh";
     return errors;
   };
   const isValid = (errors) => {
@@ -189,10 +185,17 @@ const AddNewUser = ({
       phone,
       password,
       gender,
-      positionId: position,
+      positionId: position?.value ? position.value : null,
       detailAddress: address,
       province,
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
+      clinicId: clinic?.value ? clinic.value : null,
+      specialtyId: specialty?.value ? specialty.value : null,
+      priceId: price?.value ? price.value : null,
+      paymentId: payment?.value ? payment.value : null,
+      introduce,
+      note,
+      detail: content,
     };
     createNewUser(dataUser);
   };
@@ -210,7 +213,7 @@ const AddNewUser = ({
                   label="Email"
                   fullWidth
                   onChange={(e) => setEmail(e.target.value)}
-                  error={errors.email}
+                  error={errors.email ? true : false}
                   helperText={errors.email}
                   value={email}
                 />
@@ -222,7 +225,7 @@ const AddNewUser = ({
                   label="Tên"
                   fullWidth
                   onChange={(e) => setName(e.target.value)}
-                  error={errors.name}
+                  error={errors.name ? true : false}
                   helperText={errors.name}
                   value={name}
                 />
@@ -234,7 +237,7 @@ const AddNewUser = ({
                   label="Số điện thoại"
                   fullWidth
                   onChange={(e) => setPhone(e.target.value)}
-                  error={errors.phone}
+                  error={errors.phone ? true : false}
                   helperText={errors.phone}
                   value={phone}
                 />
@@ -261,7 +264,7 @@ const AddNewUser = ({
                     }
                     label="Password"
                     value={password}
-                    InputProps={{
+                    inputProps={{
                       readOnly: true,
                     }}
                   />
@@ -297,7 +300,6 @@ const AddNewUser = ({
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <InputSelect
-                    label="Chức danh"
                     value={position}
                     onChange={setPosition}
                     data={dataSelect.filter((e) => e.type === "POSITION")}
@@ -351,6 +353,8 @@ const AddNewUser = ({
               content="Tải ảnh"
               previewImgUrl={previewImgUrl}
               setPreviewImgUrl={setPreviewImgUrl}
+              isError={errors.image ? true : false}
+              errorText={errors.image}
             />
           </Grid>
           <Grid item xs={12} md={12}>
@@ -413,7 +417,7 @@ const AddNewUser = ({
               maxRows={20}
               fullWidth
               onChange={(e) => setIntroduce(e.target.value)}
-              error={errors.introduce}
+              error={errors.introduce ? true : false}
               helperText={errors.introduce}
             />
           </Grid>
@@ -425,13 +429,18 @@ const AddNewUser = ({
               maxRows={4}
               fullWidth
               onChange={(e) => setNote(e.target.value)}
-              error={errors.note}
+              error={errors.note ? true : false}
               helperText={errors.note}
             />
           </Grid>
           <Grid item xs={12} md={12}>
-            <span> Chi tiết</span>
-            <CKEditorFieldBasic value={content} onChange={setContent} />
+            <CKEditorFieldBasic
+              value={content}
+              onChange={setContent}
+              isError={errors.content ? true : false}
+              errorText={errors.content}
+              title="Chi tiết"
+            />
           </Grid>
           <Grid item xs={12} md={12} display="flex" justifyContent="flex-end">
             <ButtonComponent

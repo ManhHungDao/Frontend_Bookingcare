@@ -34,7 +34,7 @@ const SpecialtyDetail = ({
       setDataClinic(listClinic.map((e) => ({ value: e._id, label: e.name })));
     if (allcodeType && allcodeType.length > 0)
       setDataSpecialty(
-        allcodeType.map((e) => ({ value: e.keyMap, label: e.valueVI }))
+        allcodeType.map((e) => ({ value: e._id, label: e.valueVI }))
       );
   }, [listClinic, allcodeType]);
   return (

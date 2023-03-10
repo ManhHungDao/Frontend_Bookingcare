@@ -67,7 +67,7 @@ const TableManageUser = (props) => {
   ];
 
   useEffect(() => {
-    if (_.isEmpty(props.users)) props.getAllUserAction();
+    props.getAllUserAction();
   }, []);
 
   useEffect(() => {
