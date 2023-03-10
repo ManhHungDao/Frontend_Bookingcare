@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
@@ -7,8 +7,8 @@ import UpLoadAvatar from "../../../../components/UpLoadAvatar";
 import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
-import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
-
+import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const role = [
   {
     id: "R1",
@@ -42,6 +42,7 @@ const AccountProfile = ({
   setImgUpdate,
   previewImgUrl,
   setPreviewImgUrl,
+  enableEdit,
 }) => {
   return (
     <>
@@ -64,6 +65,7 @@ const AccountProfile = ({
               setImgUpdate={setImgUpdate}
               previewImgUrl={previewImgUrl}
               setPreviewImgUrl={setPreviewImgUrl}
+              disableEdit={!enableEdit}
             />
             <Typography gutterBottom variant="h5">
               {role &&
@@ -91,47 +93,62 @@ const AccountProfile = ({
                     );
                 })}
             </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "flex-start",
-                flexDirection: "column",
-                gap:1
-              }}
-            >
-              <Typography
-                className="account-profile__detail"
-                color="text.secondary"
-                variant="body2"
-              >
-                <EmailIcon />
-                {email}
-              </Typography>
-              <Typography
-                className="account-profile__detail"
-                color="text.secondary"
-                variant="body2"
-              >
-                <PhoneIcon />
-                {phone}
-              </Typography>
-              <Typography
-                className="account-profile__detail"
-                color="text.secondary"
-                variant="body2"
-              >
-                <LocationOnIcon />
-                {address}
-              </Typography>
-              <Typography
-                className="account-profile__detail"
-                color="text.secondary"
-                variant="body2"
-              >
-                <HomeRepairServiceIcon />
-               nơi làm việc - chuyên khoa
-              </Typography>
-            </Box>
+            <Grid container spacing={2} display="flex" justifyContent="center">
+              <Grid item md={4} sm={12}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    flexDirection: "column",
+                    gap: 1,
+                  }}
+                >
+                  <Typography
+                    className="account-profile__detail"
+                    color="text.secondary"
+                    variant="body2"
+                  >
+                    <EmailIcon />
+                    {email}
+                  </Typography>
+                  <Typography
+                    className="account-profile__detail"
+                    color="text.secondary"
+                    variant="body2"
+                  >
+                    <PhoneIcon />
+                    {phone}
+                  </Typography>
+                  <Typography
+                    className="account-profile__detail"
+                    color="text.secondary"
+                    variant="body2"
+                  >
+                    <LocationOnIcon />
+                    {address}
+                  </Typography>
+                  <Typography
+                    className="account-profile__detail"
+                    color="text.secondary"
+                    variant="body2"
+                  >
+                    <HomeRepairServiceIcon />
+                    nơi làm việc - chuyên khoa
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item md={4} sm={12}>
+                <Typography
+                  color="text.secondary"
+                  variant="body2"
+                >
+                  <AccountCircleIcon/>
+                  Nguyên Trưởng phòng chỉ đạo tuyến tại Bệnh viện Da liễu Trung
+                  ương Bác sĩ từng công tác tại Bệnh viện Da liễu Trung ương
+                  Nguyên Tổng Thư ký Hiệp hội Da liễu Việt Nam
+                </Typography>
+              </Grid>
+            </Grid>
           </Box>
         </CardContent>
         {/* <Divider />

@@ -23,6 +23,7 @@ const UpLoadAvatar = ({
   setPreviewImgUrl,
   isError,
   errorText,
+  disableEdit,
 }) => {
   const [openPreImg, setOpenPreImg] = useState(false);
   // const [previewImgUrl, setPreviewImgUrl] = useState("");
@@ -71,14 +72,18 @@ const UpLoadAvatar = ({
                   bottom: " -5px",
                 }}
               >
-                <PhotoCamera />
-                <input
-                  hidden
-                  accept="image/*"
-                  multiple
-                  type="file"
-                  onChange={(event) => handleOnChangeImage(event)}
-                />
+                {!disableEdit && (
+                  <>
+                    <PhotoCamera />
+                    <input
+                      hidden
+                      accept="image/*"
+                      multiple
+                      type="file"
+                      onChange={(event) => handleOnChangeImage(event)}
+                    />
+                  </>
+                )}
               </label>
             </div>
           </div>

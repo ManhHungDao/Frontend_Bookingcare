@@ -147,14 +147,14 @@ const DetailUser = ({
     if (!phone) errors.phone = "Số điện thoại không được bỏ trống";
     if (!validator.isMobilePhone(phone))
       errors.phone = "Số điện thoại không hợp lệ";
-    // if (!content) errors.content = "Chi tiết không được bỏ trống";
-    // if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
-    // if (!note) errors.note = "Ghi chú không được bỏ trống";
-    // if (!position) errors.position = "Chưa chọn vị trí";
-    // if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
-    // if (!price) errors.price = "Chưa chọn giá";
-    // if (!clinic) errors.clinic = "Chưa chọn cơ sở";
-    // if (!specialty) errors.specialty = "Chưa chọn khoa";
+    if (!content) errors.content = "Chi tiết không được bỏ trống";
+    if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
+    if (!note) errors.note = "Ghi chú không được bỏ trống";
+    if (!position) errors.position = "Chưa chọn vị trí";
+    if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
+    if (!price) errors.price = "Chưa chọn giá";
+    if (!clinic) errors.clinic = "Chưa chọn cơ sở";
+    if (!specialty) errors.specialty = "Chưa chọn khoa";
     return errors;
   };
   const isValid = (errors) => {
@@ -224,6 +224,7 @@ const DetailUser = ({
                       setImgUpdate={setImgUpdate}
                       previewImgUrl={previewImgUrl}
                       setPreviewImgUrl={setPreviewImgUrl}
+                      enableEdit={enableEdit}
                     />
                   </Grid>
                   {enableEdit && (

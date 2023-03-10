@@ -185,14 +185,31 @@ const AddNewUser = ({
       phone,
       password,
       gender,
-      positionId: position?.value ? position.value : null,
-      detailAddress: address,
-      province,
+      position: {
+        id: position.value ? position.value : null,
+        name: position.label ? position.label : null,
+      },
+      address: {
+        detail: address,
+        province,
+      },
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
-      clinicId: clinic?.value ? clinic.value : null,
-      specialtyId: specialty?.value ? specialty.value : null,
-      priceId: price?.value ? price.value : null,
-      paymentId: payment?.value ? payment.value : null,
+      clinic: {
+        id: clinic.value ? clinic.value : null,
+        name: clinic.label ? clinic.label : null,
+      },
+      specialty: {
+        id: specialty.value ? specialty.value : null,
+        name: specialty.label ? specialty.label : null,
+      },
+      price: {
+        id: price.value ? price.value : null,
+        name: price.label ? price.label : null,
+      },
+      payment: {
+        id: payment.value ? payment.value : null,
+        name: payment.label ? payment.label : null,
+      },
       introduce,
       note,
       detail: content,
@@ -240,6 +257,11 @@ const AddNewUser = ({
                   error={errors.phone ? true : false}
                   helperText={errors.phone}
                   value={phone}
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -419,6 +441,7 @@ const AddNewUser = ({
               onChange={(e) => setIntroduce(e.target.value)}
               error={errors.introduce ? true : false}
               helperText={errors.introduce}
+              value={introduce}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -431,6 +454,8 @@ const AddNewUser = ({
               onChange={(e) => setNote(e.target.value)}
               error={errors.note ? true : false}
               helperText={errors.note}
+              value={note}
+
             />
           </Grid>
           <Grid item xs={12} md={12}>

@@ -143,25 +143,7 @@ const TableManageUser = (props) => {
     </TableRow>
   );
   const TableColumn = (props) => {
-    const {
-      id,
-      address,
-      name,
-      image,
-      phone,
-      email,
-      roleId,
-      positionId,
-      gender,
-      // profile user
-      clinic,
-      specialty,
-      price,
-      payment,
-      introduce,
-      note,
-      content,
-    } = props;
+    const { address, name, image, phone, email, roleId, positionId } = props;
     return (
       <>
         <TableRow>
