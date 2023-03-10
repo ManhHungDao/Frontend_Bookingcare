@@ -65,27 +65,34 @@ const DetailUser = ({
 
   useEffect(() => {
     if (_.isEmpty(user) === false) {
-      console.log("🚀 ~ file: DetailUser.js:69 ~ useEffect ~ user:", user);
       setEmail(user.email);
       setName(user.name);
       setPhone(user.phone);
       setAddress(user.address);
-      setGender(
-        CONST_GENDER.map((e) => {
-          if (e.value === user.gender) return e;
-        })
-      );
+      setGender(CONST_GENDER.filter((e) => e.value === user.gender).shift());
       setImage(user?.image ? user.image : "");
       setDate(user.dateOfBirth);
       setRole(user.roleId);
-      setClinic(user.detail.clinic ? user.detail.clinic : "");
+      setClinic({
+        value: user.detail.clinic.id ? user.detail.clinic.id : "",
+        label: user.detail.clinic.name ? user.detail.clinic.name : "",
+      });
       setPosition({
         value: user.detail.position.id ? user.detail.position.id : "",
         label: user.detail.position.name ? user.detail.position.name : "",
       });
-      setSpecialty(user.detail.specialty);
-      setPrice(user.detail.price);
-      setPayment(user.detail.payment);
+      setSpecialty({
+        value: user.detail.specialty.id ? user.detail.specialty.id : "",
+        label: user.detail.specialty.name ? user.detail.specialty.name : "",
+      });
+      setPrice({
+        value: user.detail.price.id ? user.detail.price.id : "",
+        label: user.detail.price.name ? user.detail.price.name : "",
+      });
+      setPayment({
+        value: user.detail.payment.id ? user.detail.payment.id : "",
+        label: user.detail.payment.name ? user.detail.payment.name : "",
+      });
       setIntroduce(user.detail.introduce);
       setNote(user.detail.note);
       setContent(user.detail.detail);
@@ -185,10 +192,15 @@ const DetailUser = ({
       image: imgUpdate ? imgUpdate : null,
       name,
       phone,
-      gender,
-      position: position,
+      gender: gender.value ? gender.value : null,
       address,
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
+      detail: {
+        position: {
+          id: position.value ? position.value : null,
+          name: position.label ? position.label : null,
+        },
+      },
     };
     updateUser(user.id, data);
   };
@@ -264,7 +276,7 @@ const DetailUser = ({
                         />
                       </Grid>
                       <Grid xs={12} md={12} lg={12}>
-                        {/* <AccountProfilelClinic
+                        <AccountProfilelClinic
                           clinic={clinic}
                           setClinic={setClinic}
                           specialty={specialty}
@@ -283,7 +295,7 @@ const DetailUser = ({
                           listClinicSelect={listClinicSelect}
                           errors={errors}
                           setErrors={setErrors}
-                        /> */}
+                        />
                       </Grid>
                     </>
                   )}

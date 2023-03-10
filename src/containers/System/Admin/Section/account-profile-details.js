@@ -125,8 +125,7 @@ export const AccountProfileDetails = ({
                   isErr={errors?.address ? true : false}
                   errName={errors?.address ? errors?.address : ""}
                   setAddress={setAddress}
-                  setProvince={setProvince}
-                  address={address.detail}
+                  address={address}
                 />
               </Grid>
             </Grid>
@@ -224,6 +223,7 @@ export const AccountProfilelClinic = ({
                   onChange={(e) => setIntroduce(e.target.value)}
                   error={errors?.introduce}
                   helperText={errors?.introduce}
+                  value={introduce}
                 />
               </Grid>
               <Grid xs={12} md={6}>
@@ -236,6 +236,7 @@ export const AccountProfilelClinic = ({
                   onChange={(e) => setNote(e.target.value)}
                   error={errors?.note}
                   helperText={errors?.note ? errors.note : ""}
+                  value={note}
                 />
               </Grid>
               <Grid item xs={12} md={12}>

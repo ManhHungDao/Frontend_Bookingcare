@@ -43,8 +43,7 @@ const AddNewUser = ({
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("123456Aa.");
-  const [address, setAddress] = useState("");
-  const [province, setProvince] = useState("");
+  const [address, setAddress] = useState({ detail: "", province: "" });
   const [gender, setGender] = useState("M");
   const [position, setPosition] = useState("");
   const [image, setImage] = useState("");
@@ -71,8 +70,7 @@ const AddNewUser = ({
       setName("");
       setPhone("");
       setPassword("123456Aa.");
-      setAddress("");
-      setProvince("");
+      setAddress({ detail: "", province: "" });
       setGender("M");
       setPosition("");
       setImage("");
@@ -91,28 +89,29 @@ const AddNewUser = ({
     }
     clearStatus();
   }, [isSuccess]);
+
   useEffect(() => {
-    if (_.isEmpty(listClinic)) getListClinicAction();
-    else {
-      let data = listClinic.map((e) => {
+    getListClinicAction();
+    fetchAllcode();
+  }, []);
+
+  useEffect(() => {
+    setListClinicSelect(
+      listClinic.map((e) => {
         return {
           id: e._id,
           name: e.name,
         };
-      });
-      setListClinicSelect(data);
-    }
-  }, [listClinic]);
-  useEffect(() => {
-    if (_.isEmpty(allcodes)) fetchAllcode();
-    else
-      setDataSelect(
-        allcodes.map((e) => ({ id: e._id, name: e.valueVI, type: e.type }))
-      );
-  }, [allcodes]);
+      })
+    );
+    setDataSelect(
+      allcodes.map((e) => ({ id: e._id, name: e.valueVI, type: e.type }))
+    );
+  }, [listClinic, allcodes]);
 
   useEffect(() => {
-    if (_.isEmpty(clinic) === false) getClinicByIdAction(clinic.value);
+    setSpecialty("");
+    if (!_.isEmpty(clinic)) getClinicByIdAction(clinic.value);
   }, [clinic]);
 
   useEffect(() => {
@@ -189,10 +188,7 @@ const AddNewUser = ({
         id: position.value ? position.value : null,
         name: position.label ? position.label : null,
       },
-      address: {
-        detail: address,
-        province,
-      },
+      address,
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
       clinic: {
         id: clinic.value ? clinic.value : null,
@@ -297,7 +293,6 @@ const AddNewUser = ({
                   isErr={errors.address ? true : false}
                   errName={errors.address}
                   setAddress={setAddress}
-                  setProvince={setProvince}
                   address={address}
                 />
               </Grid>
@@ -455,7 +450,6 @@ const AddNewUser = ({
               error={errors.note ? true : false}
               helperText={errors.note}
               value={note}
-
             />
           </Grid>
           <Grid item xs={12} md={12}>

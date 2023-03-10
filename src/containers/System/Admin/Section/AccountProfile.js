@@ -137,8 +137,8 @@ const AccountProfile = ({
                     variant="body2"
                   >
                     <HomeRepairServiceIcon />
-                    {clinic?.name ? clinic.name : ""} -{" "}
-                    {specialty?.name ? specialty.name : ""}
+                    {clinic?.label ? clinic.label : ""} -
+                    {specialty?.label ? specialty.label : ""}
                   </Typography>
                 </Box>
               </Grid>
