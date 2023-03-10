@@ -29,10 +29,10 @@ import "./Style.scss";
 
 const TableManageUser = (props) => {
   const [users, setUsers] = useState([]);
-  const [listSeach, setListSeach] = useState([]);
+  // const [listSeach, setListSeach] = useState([]);
   const [open, setOpen] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
   const [userEdit, setUserEdit] = useState({});
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -57,13 +57,6 @@ const TableManageUser = (props) => {
       icon: <LockOpenOutlinedIcon />,
       bgcolor: "#2e7c67",
     },
-  ];
-  const position = [
-    { id: "P0", name: "Bác sĩ" },
-    { id: "P1", name: "Thạc sĩ" },
-    { id: "P2", name: "Tiến sĩ" },
-    { id: "P3", name: "Phó giáo sư" },
-    { id: "P4", name: "Giáo sư" },
   ];
 
   useEffect(() => {
@@ -96,7 +89,7 @@ const TableManageUser = (props) => {
       };
     });
     setUsers(listUser);
-    setListSeach(listUser);
+    // setListSeach(listUser);
   }, [props.users]);
   // useEffect(() => {
   //   let data = users;
@@ -115,12 +108,11 @@ const TableManageUser = (props) => {
     setPage(0);
   };
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  // const handleSearch = (event) => {
+  //   setSearchTerm(event.target.value);
+  // };
 
   const hadnleClickView = (data) => {
-    console.log("🚀 ~ file: TableManageUser.js:123 ~ hadnleClickView ~ data:", data)
     setUserEdit(data);
     setOpen(true);
   };
@@ -144,7 +136,7 @@ const TableManageUser = (props) => {
     </TableRow>
   );
   const TableColumn = (props) => {
-    const { address, name, image, phone, email, roleId, positionId } = props;
+    const { address, name, image, phone, email, roleId, detail } = props;
     return (
       <>
         <TableRow>
@@ -160,20 +152,9 @@ const TableManageUser = (props) => {
           <TableCell>{phone}</TableCell>
           <TableCell>{address?.detail ? address?.detail : ""}</TableCell>
           <TableCell>
-            <span className="d-flex justify-content-center">
-              <AttributionIcon />
-              {position &&
-                position.map((i) => {
-                  if (i.id === positionId)
-                    return (
-                      <>
-                        <Typography color="#141414" sx={{ ml: "5px" }}>
-                          {i.name}
-                        </Typography>
-                      </>
-                    );
-                })}
-            </span>
+            <Typography variant="">
+              {detail.position.name ? detail.position.name : ""}
+            </Typography>
           </TableCell>
           <TableCell>
             {role &&
@@ -183,8 +164,8 @@ const TableManageUser = (props) => {
                     <>
                       <Box
                         width="60%"
-                        m="0 auto"
-                        p="5px"
+                        // m="0 auto"
+                        p="5px 15px"
                         display="flex"
                         justifyContent="center"
                         backgroundColor={i.bgcolor}
@@ -257,7 +238,7 @@ const TableManageUser = (props) => {
           )}
         </Box>
       </Box>
-      {userEdit && <DetailUser open={open} setOpen={setOpen} user={userEdit} />} 
+      {userEdit && <DetailUser open={open} setOpen={setOpen} user={userEdit} />}
       {userDelete && (
         <ConfirmModal
           open={openConfirmModal}

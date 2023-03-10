@@ -17,6 +17,7 @@ import "dayjs/locale/vi";
 import dayjs from "dayjs";
 import AutocompleteAddress from "../../../../components/Input/AutocompleteAddress";
 import CKEditorFieldBasic from "../../../../components/Ckeditor/CKEditorFieldBasic";
+import { useEffect, useState } from "react";
 
 export const AccountProfileDetails = ({
   email,
@@ -27,7 +28,6 @@ export const AccountProfileDetails = ({
   setPhone,
   address,
   setAddress,
-  setProvince,
   dataSelect,
   gender,
   setGender,
@@ -136,7 +136,7 @@ export const AccountProfileDetails = ({
   );
 };
 
-export const AccountProfilelClinic = ({
+export const AccountProfileClinic = ({
   clinic,
   setClinic,
   specialty,
@@ -154,8 +154,28 @@ export const AccountProfilelClinic = ({
   dataSelect,
   listClinicSelect,
   errors,
-  data,
+  listSpecialty,
+  idSpecialtyConstant,
 }) => {
+  useEffect(() => {
+    if (listSpecialty.length === 0) setSpecialty("");
+    if (listSpecialty && listSpecialty.length > 0) {
+      const exist = listSpecialty
+        .filter((e) => {
+          return e.id === idSpecialtyConstant;
+        })
+        .shift();
+      if (exist) {
+        setSpecialty({
+          value: exist.id ? exist.id : "",
+          label: exist.name ? exist.name : "",
+        });
+      } else {
+        setSpecialty("");
+      }
+    }
+  }, [listSpecialty]);
+
   return (
     <form autoComplete="off" noValidate>
       <Card>
@@ -179,11 +199,7 @@ export const AccountProfilelClinic = ({
                   label="Chọn chuyên khoa"
                   value={specialty}
                   onChange={setSpecialty}
-                  data={[
-                    { value: 1, label: "Twenty" },
-                    { value: 12, label: "Twenty" },
-                    { value: 13, label: "Twenty" },
-                  ]}
+                  data={listSpecialty}
                   isError={errors?.specialty ? true : false}
                   errorText={errors?.specialty ? errors.specialty : ""}
                   name="Chọn chuyên khoa"

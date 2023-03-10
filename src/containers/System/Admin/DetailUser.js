@@ -15,10 +15,11 @@ import dayjs from "dayjs";
 import AccountProfile from "./Section/AccountProfile";
 import {
   AccountProfileDetails,
-  AccountProfilelClinic,
+  AccountProfileClinic,
 } from "./Section/account-profile-details";
 import ButtonComponent from "../../../components/ButtonComponent";
 import _ from "lodash";
+import { useRef } from "react";
 
 const CONST_GENDER = [
   { value: "M", label: "Nam" },
@@ -33,6 +34,8 @@ const DetailUser = ({
   open,
   setOpen,
   updateUser,
+  listSpecialtyInClinic,
+  getClinicByIdAction,
 }) => {
   //infomation doctor
   const [email, setEmail] = useState("");
@@ -43,13 +46,13 @@ const DetailUser = ({
     province: "",
   });
   const [gender, setGender] = useState("");
-  const [position, setPosition] = useState({});
+  const [position, setPosition] = useState("");
   const [image, setImage] = useState("");
   const [date, setDate] = useState(dayjs(new Date()));
   const [role, setRole] = useState("");
   //information doctor's clinic
-  const [clinic, setClinic] = useState({});
-  const [specialty, setSpecialty] = useState({});
+  const [clinic, setClinic] = useState("");
+  const [specialty, setSpecialty] = useState("");
   const [price, setPrice] = useState("");
   const [payment, setPayment] = useState("");
   const [introduce, setIntroduce] = useState("");
@@ -57,11 +60,14 @@ const DetailUser = ({
   const [content, setContent] = useState("");
   const [dataSelect, setDataSelect] = useState([]);
   const [listClinicSelect, setListClinicSelect] = useState([]);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState("");
   const [imgUpdate, setImgUpdate] = useState(null);
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   // check edit
   const [enableEdit, setEnableEdit] = useState(false);
+  const [listSpecialty, setListSpecialty] = useState([]);
+  // dùng useRef lưu lại chuyên khoa ban đầu
+  const idSpecialty = useRef();
 
   useEffect(() => {
     if (_.isEmpty(user) === false) {
@@ -85,6 +91,7 @@ const DetailUser = ({
         value: user.detail.specialty.id ? user.detail.specialty.id : "",
         label: user.detail.specialty.name ? user.detail.specialty.name : "",
       });
+      idSpecialty.current = user.detail.specialty.id;
       setPrice({
         value: user.detail.price.id ? user.detail.price.id : "",
         label: user.detail.price.name ? user.detail.price.name : "",
@@ -98,39 +105,56 @@ const DetailUser = ({
       setContent(user.detail.detail);
     }
   }, [user]);
+  useEffect(() => {
+    if (enableEdit === true) {
+      fetchAllcode();
+      getListClinic();
+    }
+  }, [enableEdit]);
 
   useEffect(() => {
-    if (_.isEmpty(allcodes)) fetchAllcode();
-    else
-      setDataSelect(
-        allcodes.map((e) => ({ id: e._id, name: e.valueVI, type: e.type }))
-      );
-  }, [allcodes]);
+    if (enableEdit === true) getClinicByIdAction(clinic.value);
+  }, [enableEdit, clinic]);
 
   useEffect(() => {
-    if (_.isEmpty(listClinic)) getListClinic();
-    if (listClinic) {
-      let data = listClinic.map((e) => {
+    setListSpecialty(
+      listSpecialtyInClinic.map((e) => {
         return {
           id: e._id,
           name: e.name,
         };
-      });
-      setListClinicSelect(data);
-    }
-  }, [listClinic]);
+      })
+    );
+  }, [listSpecialtyInClinic]);
+
+  useEffect(() => {
+    setListClinicSelect(
+      listClinic.map((e) => {
+        return {
+          id: e._id,
+          name: e.name,
+        };
+      })
+    );
+    setDataSelect(
+      allcodes.map((e) => ({ id: e._id, name: e.valueVI, type: e.type }))
+    );
+  }, [allcodes, listClinic]);
 
   const handleClose = () => {
     setOpen(false);
     setEmail("");
     setName("");
     setPhone("");
-    setAddress("");
+    setAddress({
+      detail: "",
+      province: "",
+    });
     setGender("");
     setPosition("");
     setImage("");
     setDate("");
-    setRole("");
+    // setRole("");
     setClinic("");
     setSpecialty("");
     setPrice("");
@@ -188,8 +212,8 @@ const DetailUser = ({
       return;
     }
     let data = {
-      email,
       image: imgUpdate ? imgUpdate : null,
+      email,
       name,
       phone,
       gender: gender.value ? gender.value : null,
@@ -200,6 +224,25 @@ const DetailUser = ({
           id: position.value ? position.value : null,
           name: position.label ? position.label : null,
         },
+        clinic: {
+          id: clinic.value ? clinic.value : null,
+          name: clinic.label ? clinic.label : null,
+        },
+        specialty: {
+          id: specialty.value ? specialty.value : null,
+          name: specialty.label ? specialty.label : null,
+        },
+        price: {
+          id: price.value ? price.value : null,
+          name: price.label ? price.label : null,
+        },
+        payment: {
+          id: payment.value ? payment.value : null,
+          name: payment.label ? payment.label : null,
+        },
+        introduce,
+        note,
+        detail: content,
       },
     };
     updateUser(user.id, data);
@@ -276,7 +319,7 @@ const DetailUser = ({
                         />
                       </Grid>
                       <Grid xs={12} md={12} lg={12}>
-                        <AccountProfilelClinic
+                        <AccountProfileClinic
                           clinic={clinic}
                           setClinic={setClinic}
                           specialty={specialty}
@@ -293,6 +336,8 @@ const DetailUser = ({
                           setContent={setContent}
                           dataSelect={dataSelect}
                           listClinicSelect={listClinicSelect}
+                          listSpecialty={listSpecialty}
+                          idSpecialtyConstant={idSpecialty.current}
                           errors={errors}
                           setErrors={setErrors}
                         />
@@ -325,6 +370,7 @@ const mapStateToProps = (state) => {
   return {
     listClinic: state.admin.listClinic,
     allcodes: state.admin.allcodes,
+    listSpecialtyInClinic: state.admin.listSpecialtyInClinic,
   };
 };
 
@@ -332,6 +378,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
     getListClinic: () => dispatch(actions.getListClinicAction()),
+    getClinicByIdAction: (id) => dispatch(actions.getClinicByIdAction(id)),
     updateUser: (id, data) => dispatch(actions.updateUserAction(id, data)),
   };
 };
