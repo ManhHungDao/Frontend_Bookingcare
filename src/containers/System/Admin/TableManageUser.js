@@ -120,6 +120,7 @@ const TableManageUser = (props) => {
   };
 
   const hadnleClickView = (data) => {
+    console.log("🚀 ~ file: TableManageUser.js:123 ~ hadnleClickView ~ data:", data)
     setUserEdit(data);
     setOpen(true);
   };
@@ -256,7 +257,7 @@ const TableManageUser = (props) => {
           )}
         </Box>
       </Box>
-      <DetailUser open={open} setOpen={setOpen} user={userEdit} />
+      {userEdit && <DetailUser open={open} setOpen={setOpen} user={userEdit} />} 
       {userDelete && (
         <ConfirmModal
           open={openConfirmModal}

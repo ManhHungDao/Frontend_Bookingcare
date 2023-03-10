@@ -20,6 +20,10 @@ import {
 import ButtonComponent from "../../../components/ButtonComponent";
 import _ from "lodash";
 
+const CONST_GENDER = [
+  { value: "M", label: "Nam" },
+  { value: "F", label: "Nữ" },
+];
 const DetailUser = ({
   fetchAllcode,
   user,
@@ -34,17 +38,18 @@ const DetailUser = ({
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  // const [password, setPassword] = useState("123456Aa.");
-  const [address, setAddress] = useState("");
-  const [province, setProvince] = useState("");
+  const [address, setAddress] = useState({
+    detail: "",
+    province: "",
+  });
   const [gender, setGender] = useState("");
-  const [position, setPosition] = useState("");
+  const [position, setPosition] = useState({});
   const [image, setImage] = useState("");
   const [date, setDate] = useState(dayjs(new Date()));
   const [role, setRole] = useState("");
   //information doctor's clinic
-  const [clinic, setClinic] = useState("");
-  const [specialty, setSpecialty] = useState("");
+  const [clinic, setClinic] = useState({});
+  const [specialty, setSpecialty] = useState({});
   const [price, setPrice] = useState("");
   const [payment, setPayment] = useState("");
   const [introduce, setIntroduce] = useState("");
@@ -59,24 +64,31 @@ const DetailUser = ({
   const [enableEdit, setEnableEdit] = useState(false);
 
   useEffect(() => {
-    if (user) {
+    if (_.isEmpty(user) === false) {
+      console.log("🚀 ~ file: DetailUser.js:69 ~ useEffect ~ user:", user);
       setEmail(user.email);
       setName(user.name);
       setPhone(user.phone);
-      setAddress(user?.address?.detail ? user.address.detail : "");
-      setProvince(user?.address?.province ? user.address.province : "");
-      setGender(user.gender);
-      setPosition(user.positionId);
+      setAddress(user.address);
+      setGender(
+        CONST_GENDER.map((e) => {
+          if (e.value === user.gender) return e;
+        })
+      );
       setImage(user?.image ? user.image : "");
       setDate(user.dateOfBirth);
       setRole(user.roleId);
-      setClinic(user.clinic);
-      setSpecialty(user.specialty);
-      setPrice(user.price);
-      setPayment(user.payment);
-      setIntroduce(user.introduce);
-      setNote(user.note);
-      setContent(user.content);
+      setClinic(user.detail.clinic ? user.detail.clinic : "");
+      setPosition({
+        value: user.detail.position.id ? user.detail.position.id : "",
+        label: user.detail.position.name ? user.detail.position.name : "",
+      });
+      setSpecialty(user.detail.specialty);
+      setPrice(user.detail.price);
+      setPayment(user.detail.payment);
+      setIntroduce(user.detail.introduce);
+      setNote(user.detail.note);
+      setContent(user.detail.detail);
     }
   }, [user]);
 
@@ -107,7 +119,6 @@ const DetailUser = ({
     setName("");
     setPhone("");
     setAddress("");
-    setProvince("");
     setGender("");
     setPosition("");
     setImage("");
@@ -175,8 +186,8 @@ const DetailUser = ({
       name,
       phone,
       gender,
-      positionId: position,
-      address: { detail: address, province },
+      position: position,
+      address,
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
     };
     updateUser(user.id, data);
@@ -221,6 +232,9 @@ const DetailUser = ({
                       address={address}
                       image={image}
                       phone={phone}
+                      clinic={clinic}
+                      introduce={introduce}
+                      specialty={specialty}
                       setImgUpdate={setImgUpdate}
                       previewImgUrl={previewImgUrl}
                       setPreviewImgUrl={setPreviewImgUrl}
@@ -238,9 +252,7 @@ const DetailUser = ({
                           phone={phone}
                           setPhone={setPhone}
                           address={address}
-                          province={province}
                           setAddress={setAddress}
-                          setProvince={setProvince}
                           gender={gender}
                           setGender={setGender}
                           position={position}
@@ -252,7 +264,7 @@ const DetailUser = ({
                         />
                       </Grid>
                       <Grid xs={12} md={12} lg={12}>
-                        <AccountProfilelClinic
+                        {/* <AccountProfilelClinic
                           clinic={clinic}
                           setClinic={setClinic}
                           specialty={specialty}
@@ -271,7 +283,7 @@ const DetailUser = ({
                           listClinicSelect={listClinicSelect}
                           errors={errors}
                           setErrors={setErrors}
-                        />
+                        /> */}
                       </Grid>
                     </>
                   )}

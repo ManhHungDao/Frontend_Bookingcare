@@ -8,7 +8,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const role = [
   {
     id: "R1",
@@ -43,6 +43,9 @@ const AccountProfile = ({
   previewImgUrl,
   setPreviewImgUrl,
   enableEdit,
+  clinic,
+  specialty,
+  introduce,
 }) => {
   return (
     <>
@@ -87,14 +90,14 @@ const AccountProfile = ({
                           color="#141414"
                           sx={{ ml: "5px", textTransform: "uppercase" }}
                         >
-                          {i.name} - {name}
+                          {i.name} - {name ? name : ""}
                         </Typography>
                       </Box>
                     );
                 })}
             </Typography>
             <Grid container spacing={2} display="flex" justifyContent="center">
-              <Grid item md={4} sm={12}>
+              <Grid item md={enableEdit ? 12 : 4} sm={12}>
                 <Box
                   sx={{
                     display: "flex",
@@ -109,7 +112,7 @@ const AccountProfile = ({
                     variant="body2"
                   >
                     <EmailIcon />
-                    {email}
+                    {email ? email : ""}
                   </Typography>
                   <Typography
                     className="account-profile__detail"
@@ -117,7 +120,7 @@ const AccountProfile = ({
                     variant="body2"
                   >
                     <PhoneIcon />
-                    {phone}
+                    {phone ? phone : ""}
                   </Typography>
                   <Typography
                     className="account-profile__detail"
@@ -125,43 +128,33 @@ const AccountProfile = ({
                     variant="body2"
                   >
                     <LocationOnIcon />
-                    {address}
+                    {address?.detail ? address.detail : ""}
                   </Typography>
+
                   <Typography
                     className="account-profile__detail"
                     color="text.secondary"
                     variant="body2"
                   >
                     <HomeRepairServiceIcon />
-                    nơi làm việc - chuyên khoa
+                    {clinic?.name ? clinic.name : ""} -{" "}
+                    {specialty?.name ? specialty.name : ""}
                   </Typography>
                 </Box>
               </Grid>
-              <Grid item md={4} sm={12}>
-                <Typography
-                  color="text.secondary"
-                  variant="body2"
-                >
-                  <AccountCircleIcon/>
-                  Nguyên Trưởng phòng chỉ đạo tuyến tại Bệnh viện Da liễu Trung
-                  ương Bác sĩ từng công tác tại Bệnh viện Da liễu Trung ương
-                  Nguyên Tổng Thư ký Hiệp hội Da liễu Việt Nam
-                </Typography>
-              </Grid>
+              {!enableEdit && (
+                <Grid item md={4} sm={12}>
+                  <Typography color="text.secondary" variant="body2">
+                    <AccountCircleIcon />
+                    <span style={{ marginLeft: "5px" }}>
+                      {introduce ? introduce : ""}
+                    </span>
+                  </Typography>
+                </Grid>
+              )}
             </Grid>
           </Box>
         </CardContent>
-        {/* <Divider />
-        <CardActions>
-          <Button component="label" fullWidth variant="text">
-            Tải ảnh
-            <input
-              type="file"
-              hidden
-              onChange={(event) => handleOnChangeImage(event)}
-            />
-          </Button>
-        </CardActions> */}
       </Card>
     </>
   );

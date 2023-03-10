@@ -126,7 +126,7 @@ export const AccountProfileDetails = ({
                   errName={errors?.address ? errors?.address : ""}
                   setAddress={setAddress}
                   setProvince={setProvince}
-                  address={address}
+                  address={address.detail}
                 />
               </Grid>
             </Grid>
