@@ -5,6 +5,7 @@ import TableManageUser from "./Admin/TableManageUser";
 import TableManageClinic from "./Clinic/TableManageClinic";
 import TableManageSpecialty from "./Specialty/TableManageSpecialty";
 import Dashboard from "./dashboard";
+import ResetPassword from "../Auth/ResetPassword";
 import Topbar from "./global/Topbar";
 import Sidebar from "./global/Sidebar";
 import AddNewUser from "./Admin/AddNewUser";
@@ -31,6 +32,7 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
               <Topbar setIsSidebar={setIsSidebar} />
               <Routes>
                 <Route index element={<Dashboard />} />
+                <Route path="reset-password" element={<ResetPassword />} />
                 <Route path="add-user" element={<AddNewUser />} />
                 <Route path="manage-user" element={<TableManageUser />} />
                 <Route path="add-clinic" element={<AddClinic />} />
