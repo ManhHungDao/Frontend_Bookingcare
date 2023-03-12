@@ -3,6 +3,7 @@ import { Box, Card, CardContent, Typography } from "@mui/material";
 import UpLoadAvatar from "../../../../components/UpLoadAvatar";
 import useIsMobile from "../../../../components/useScreen/useIsMobile";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const ClinicProfile = ({
   name,
@@ -17,6 +18,8 @@ const ClinicProfile = ({
   setPreviewImgUrl,
   previewLogoUrl,
   setPreviewLogoUrl,
+  views,
+  enableEdit,
 }) => {
   const isMobile = useIsMobile();
   return (
@@ -42,6 +45,7 @@ const ClinicProfile = ({
               setImgUpdate={setImgUpdate}
               previewImgUrl={previewImgUrl}
               setPreviewImgUrl={setPreviewImgUrl}
+              disableEdit={!enableEdit}
             />
             <div
               className="d-flex justify-content-center mb-3"
@@ -63,6 +67,7 @@ const ClinicProfile = ({
                   setImgUpdate={setLogoUpdate}
                   previewImgUrl={previewLogoUrl}
                   setPreviewImgUrl={setPreviewLogoUrl}
+                  disableEdit={!enableEdit}
                 />
               </div>
             </div>
@@ -82,7 +87,15 @@ const ClinicProfile = ({
                 color="text.secondary"
                 variant="body2"
               >
-                <LocationOnIcon /> {address ? address : ""}
+                <VisibilityIcon />
+                Lượt truy cập: {views ? views : 0}
+              </Typography>
+              <Typography
+                className="clinic-profile__detail--text"
+                color="text.secondary"
+                variant="body2"
+              >
+                <LocationOnIcon /> {address.detail ? address.detail : ""}
               </Typography>
             </Box>
           </Box>

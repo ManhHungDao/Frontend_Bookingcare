@@ -17,7 +17,7 @@ const AddClinic = ({ createClinicAction, isSuccess, message, clearStatus }) => {
   const [image, setImage] = useState("");
   const [logo, setLogo] = useState("");
   const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState({ detail: "", province: "" });
   const [introduce, setIntroduce] = useState("");
   const [province, setProvince] = useState("");
   const [coordinates, setCoordinates] = useState({
@@ -73,14 +73,15 @@ const AddClinic = ({ createClinicAction, isSuccess, message, clearStatus }) => {
       logo,
       name,
       introduce,
-      province,
-      detailAddress: address,
-      lat: coordinates.lat,
-      lng: coordinates.lng,
+      address: {
+        province: address.province ? address.province : null,
+        detail: address.detail ? address.detail : null,
+        lat: coordinates.lat,
+        lng: coordinates.lng,
+      },
     };
     createClinicAction(data);
   };
-  const handleClickAddNewClinic = () => {};
   return (
     <>
       <Box m="20px">
@@ -111,7 +112,6 @@ const AddClinic = ({ createClinicAction, isSuccess, message, clearStatus }) => {
                   isErr={errors.address ? true : false}
                   errName={errors.address}
                   setAddress={setAddress}
-                  setProvince={setProvince}
                   setCoordinates={setCoordinates}
                   address={address}
                 />

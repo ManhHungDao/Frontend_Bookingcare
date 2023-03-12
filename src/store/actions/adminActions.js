@@ -227,7 +227,9 @@ export const updateUserAction = (id, data) => {
       dispatch({
         type: actionTypes.UPDATE_FAILED,
       });
-      toast.error("Cập nhập thông tin thất bại");
+      if (error.response.data.error.code === 11000)
+        toast.error("Email đã tồn tại");
+      else toast.error("Tạo người dùng thất bại");
     }
   };
 };
@@ -427,6 +429,7 @@ export const deleteSpecialtyAction = (id) => {
           type: actionTypes.DELETE_SUCCESS,
         });
         dispatch(loadingToggleAction(false));
+        toast.success("Xóa chuyên khoa thành công");
       }
     } catch (error) {
       dispatch(loadingToggleAction(false));
@@ -446,7 +449,7 @@ export const getClinicByIdAction = (id) => {
       if (res && res.success) {
         dispatch({
           type: actionTypes.GET_LIST_CLINIC_BYID_SUCCEED,
-          data:res.specialties
+          data: res.specialties,
         });
         dispatch(loadingToggleAction(false));
       }

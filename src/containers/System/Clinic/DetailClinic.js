@@ -20,12 +20,14 @@ import { ClinicDetail } from "./Section/clinic-details";
 import "./style.scss";
 
 const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState({
+    detail: "",
+    province: "",
+  });
   const [coordinates, setCoordinates] = useState({
     lat: null,
     lng: null,
   });
-  const [province, setProvince] = useState("");
   const [image, setImage] = useState("");
   const [logo, setLogo] = useState("");
   const [name, setName] = useState("");
@@ -40,7 +42,10 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
   const [enableEdit, setEnableEdit] = useState(false);
 
   useEffect(() => {
-    setAddress(clinic?.address?.detail ? clinic.address?.detail : "");
+    setAddress({
+      province: clinic?.address?.province ? clinic.address?.province : "",
+      detail: clinic?.address?.detail ? clinic.address?.detail : "",
+    });
     setImage(clinic?.image ? clinic.image : "");
     setLogo(clinic?.logo ? clinic.logo : "");
     setName(clinic?.name ? clinic.name : "");
@@ -51,7 +56,6 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
       lat: clinic?.address?.lat ? clinic?.address?.lat : null,
       lng: clinic?.address?.lng ? clinic?.address?.lng : null,
     });
-    setProvince(clinic?.address?.province ? clinic.address?.province : "");
   }, [clinic]);
   useEffect(() => {}, []);
 
@@ -83,8 +87,8 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
       name,
       introduce,
       address: {
-        detail: address,
-        province,
+        detail: address.detail,
+        province: address.province,
         lat: coordinates.lat,
         lng: coordinates.lng,
       },
@@ -105,7 +109,6 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
       lat: null,
       lng: null,
     });
-    setProvince("");
     setPreviewImgUrl("");
     setPreviewLogoUrl("");
     setImgUpdate("");
@@ -169,6 +172,8 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
                       setPreviewImgUrl={setPreviewImgUrl}
                       previewLogoUrl={previewLogoUrl}
                       setPreviewLogoUrl={setPreviewLogoUrl}
+                      views={views}
+                      enableEdit={enableEdit}
                     />
                   </Grid>
                   {enableEdit && (
@@ -185,7 +190,6 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
                           setAddress={setAddress}
                           errors={errors}
                           setCoordinates={setCoordinates}
-                          setProvince={setProvince}
                         />
                       </Grid>
                       <Grid xs={12} md={12} lg={12}>
