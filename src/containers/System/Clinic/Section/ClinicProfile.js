@@ -91,11 +91,14 @@ const ClinicProfile = ({
                 Lượt truy cập: {views ? views : 0}
               </Typography>
               <Typography
-                className="clinic-profile__detail--text"
+                // className="clinic-profile__detail--text"
                 color="text.secondary"
                 variant="body2"
               >
-                <LocationOnIcon /> {address.detail ? address.detail : ""}
+                <LocationOnIcon />
+                <span style={{ marginLeft: "5px" }}>
+                  {address.detail ? address.detail : ""}
+                </span>
               </Typography>
             </Box>
           </Box>

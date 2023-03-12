@@ -20,7 +20,6 @@ import _ from "lodash";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import AttributionIcon from "@mui/icons-material/Attribution";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import DetailUser from "./DetailUser";
@@ -28,6 +27,7 @@ import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 import "./Style.scss";
 
 const TableManageUser = (props) => {
+  const { userInfo } = props;
   const [users, setUsers] = useState([]);
   // const [listSeach, setListSeach] = useState([]);
   const [open, setOpen] = useState(false);
@@ -40,20 +40,26 @@ const TableManageUser = (props) => {
 
   const role = [
     {
+      id: "R0",
+      name: "Admin",
+      icon: <AdminPanelSettingsOutlinedIcon />,
+      bgcolor: "#4cceac",
+    },
+    {
       id: "R1",
-      name: "admin",
+      name: "Admin",
       icon: <AdminPanelSettingsOutlinedIcon />,
       bgcolor: "#4cceac",
     },
     {
       id: "R2",
-      name: "doctor",
+      name: "Manager",
       icon: <SecurityOutlinedIcon />,
       bgcolor: "#2e7c67",
     },
     {
       id: "R3",
-      name: "users",
+      name: "Doctor",
       icon: <LockOpenOutlinedIcon />,
       bgcolor: "#2e7c67",
     },
@@ -67,9 +73,10 @@ const TableManageUser = (props) => {
     if (props.isSuccess !== null) {
       if (props.isSuccess === true) {
         props.getAllUserAction();
+        setOpen(false);
       }
-      setOpen(false);
       setOpenConfirmModal(false);
+      props.clearStatus();
     }
   }, [props.isSuccess]);
 
@@ -111,7 +118,6 @@ const TableManageUser = (props) => {
   // const handleSearch = (event) => {
   //   setSearchTerm(event.target.value);
   // };
-
   const hadnleClickView = (data) => {
     setUserEdit(data);
     setOpen(true);
@@ -180,18 +186,30 @@ const TableManageUser = (props) => {
                   );
               })}
           </TableCell>
-          <TableCell>
-            <Tooltip title="Xem">
-              <IconButton onClick={() => hadnleClickView(props)}>
-                <RemoveRedEyeRoundedIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Xóa">
-              <IconButton onClick={() => handelClickDelete(props)}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-          </TableCell>
+          {userInfo.roleId === "R2" ? (
+            <TableCell>
+              <Tooltip title="Xem">
+                <IconButton onClick={() => hadnleClickView(props)}>
+                  <RemoveRedEyeRoundedIcon />
+                </IconButton>
+              </Tooltip>
+            </TableCell>
+          ) : (
+            <TableCell>
+              <Tooltip title="Xem">
+                <IconButton onClick={() => hadnleClickView(props)}>
+                  <RemoveRedEyeRoundedIcon />
+                </IconButton>
+              </Tooltip>
+              {roleId !== "R0" && roleId !== userInfo.roleId && (
+                <Tooltip title="Xóa">
+                  <IconButton onClick={() => handelClickDelete(props)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </TableCell>
+          )}
         </TableRow>
       </>
     );
@@ -257,6 +275,7 @@ const mapStateToProps = (state) => {
   return {
     users: state.admin.users,
     isSuccess: state.app.isSuccess,
+    userInfo: state.user.userInfo,
   };
 };
 
@@ -264,6 +283,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllUserAction: (type) => dispatch(actions.getAllUserAction(type)),
     deleteUserAction: (id) => dispatch(actions.deleteUserAction(id)),
+    clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
 

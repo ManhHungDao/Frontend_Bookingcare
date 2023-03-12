@@ -40,7 +40,8 @@ const Topbar = ({ processLogout }) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={processLogout}>Logout</MenuItem>
+        <MenuItem onClick={processLogout}>Đổi mật khẩu</MenuItem>
+        <MenuItem onClick={processLogout}>Thoát</MenuItem>
       </Menu>
     </Box>
   );

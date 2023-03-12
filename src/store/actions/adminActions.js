@@ -15,6 +15,7 @@ import {
   deleteClinc,
 } from "../../services/clinicService";
 import {
+  updateSpecialty,
   getSingleSpecialty,
   getAllSpecialty,
   createSpecialty,
@@ -441,7 +442,7 @@ export const deleteSpecialtyAction = (id) => {
   };
 };
 
-export const getClinicByIdAction = (id) => {
+export const getSpecialtyByClinicIdAction = (id) => {
   return async (dispatch, getState) => {
     try {
       dispatch(loadingToggleAction(true));
@@ -462,3 +463,26 @@ export const getClinicByIdAction = (id) => {
     }
   };
 };
+
+export const updateSpecialtyAction = (id,data)=> {
+
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await updateSpecialty(id,data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.UPDATE_SUCCESS,
+          data: res.specialties,
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.UPDATE_FAILED,
+      });
+      toast.error("Cập nhập chuyên khoa thất bại");
+    }
+  };
+}

@@ -35,7 +35,7 @@ const AddNewUser = ({
   clearStatus,
   getListClinicAction,
   listClinic,
-  getClinicByIdAction,
+  getSpecialtyByClinicIdAction,
   listSpecialtyInClinic,
 }) => {
   //infomation doctor
@@ -111,7 +111,7 @@ const AddNewUser = ({
 
   useEffect(() => {
     setSpecialty("");
-    if (!_.isEmpty(clinic)) getClinicByIdAction(clinic.value);
+    if (!_.isEmpty(clinic)) getSpecialtyByClinicIdAction(clinic.value);
   }, [clinic]);
 
   useEffect(() => {
@@ -492,7 +492,8 @@ const mapDispatchToProps = (dispatch) => {
     clearStatus: () => dispatch(actions.clearStatus()),
     createNewUser: (user) => dispatch(actions.createNewUserAction(user)),
     getListClinicAction: () => dispatch(actions.getListClinicAction()),
-    getClinicByIdAction: (id) => dispatch(actions.getClinicByIdAction(id)),
+    getSpecialtyByClinicIdAction: (id) =>
+      dispatch(actions.getSpecialtyByClinicIdAction(id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddNewUser);

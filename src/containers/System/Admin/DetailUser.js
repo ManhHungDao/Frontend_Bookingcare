@@ -35,9 +35,10 @@ const DetailUser = ({
   setOpen,
   updateUser,
   listSpecialtyInClinic,
-  getClinicByIdAction,
+  getSpecialtyByClinicIdAction,
 }) => {
   //infomation doctor
+  const [roleId, setRoleId] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -49,7 +50,6 @@ const DetailUser = ({
   const [position, setPosition] = useState("");
   const [image, setImage] = useState("");
   const [date, setDate] = useState(dayjs(new Date()));
-  const [role, setRole] = useState("");
   //information doctor's clinic
   const [clinic, setClinic] = useState("");
   const [specialty, setSpecialty] = useState("");
@@ -71,6 +71,7 @@ const DetailUser = ({
 
   useEffect(() => {
     if (_.isEmpty(user) === false) {
+      setRoleId(user.roleId ? user.roleId : "");
       setEmail(user.email);
       setName(user.name);
       setPhone(user.phone);
@@ -78,7 +79,6 @@ const DetailUser = ({
       setGender(CONST_GENDER.filter((e) => e.value === user.gender).shift());
       setImage(user?.image ? user.image : "");
       setDate(user.dateOfBirth);
-      setRole(user.roleId);
       setClinic({
         value: user.detail.clinic.id ? user.detail.clinic.id : "",
         label: user.detail.clinic.name ? user.detail.clinic.name : "",
@@ -113,7 +113,7 @@ const DetailUser = ({
   }, [enableEdit]);
 
   useEffect(() => {
-    if (enableEdit === true) getClinicByIdAction(clinic.value);
+    if (enableEdit === true) getSpecialtyByClinicIdAction(clinic.value);
   }, [enableEdit, clinic]);
 
   useEffect(() => {
@@ -154,7 +154,7 @@ const DetailUser = ({
     setPosition("");
     setImage("");
     setDate("");
-    // setRole("");
+    setRoleId("");
     setClinic("");
     setSpecialty("");
     setPrice("");
@@ -212,6 +212,7 @@ const DetailUser = ({
       return;
     }
     let data = {
+      roleId,
       image: imgUpdate ? imgUpdate : null,
       email,
       name,
@@ -258,8 +259,8 @@ const DetailUser = ({
         <Box sx={style}>
           <Box m="20px">
             <Header
-              title="Chi tiết Người Dùng"
-              isShowSwitch={true}
+              title="Chi tiết người dùng"
+              isShowSwitch={roleId !== "R0" ? true : false}
               titleSwich={"Chỉnh sửa"}
               isChecked={enableEdit}
               setChecked={setEnableEdit}
@@ -283,7 +284,6 @@ const DetailUser = ({
                       name={name}
                       email={email}
                       position={position}
-                      roleId={role}
                       address={address}
                       image={image}
                       phone={phone}
@@ -294,6 +294,8 @@ const DetailUser = ({
                       previewImgUrl={previewImgUrl}
                       setPreviewImgUrl={setPreviewImgUrl}
                       enableEdit={enableEdit}
+                      roleId={roleId}
+                      setRoleId={setRoleId}
                     />
                   </Grid>
                   {enableEdit && (
@@ -378,7 +380,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
     getListClinic: () => dispatch(actions.getListClinicAction()),
-    getClinicByIdAction: (id) => dispatch(actions.getClinicByIdAction(id)),
+    getSpecialtyByClinicIdAction: (id) =>
+      dispatch(actions.getSpecialtyByClinicIdAction(id)),
     updateUser: (id, data) => dispatch(actions.updateUserAction(id, data)),
   };
 };

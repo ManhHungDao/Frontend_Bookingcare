@@ -27,6 +27,7 @@ const TableManageSpecialty = ({
   listSpecialty,
   deleteSpecialtyAction,
   isSuccess,
+  clearStatus,
 }) => {
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -43,9 +44,13 @@ const TableManageSpecialty = ({
   useEffect(() => {
     if (isSuccess !== null) {
       if (isSuccess === true) {
+        setOpen(false);
         getAllSpecialtyAction();
+        setSpecialtyEdit({});
+        setSpecialtyDelete({});
       }
       setOpenConfirmModal(false);
+      clearStatus();
     }
   }, [isSuccess]);
 
@@ -139,7 +144,11 @@ const TableManageSpecialty = ({
               <TableBody>
                 {data &&
                   data.length > 0 &&
-                  data.map((e) => <TableColumn key={e.id} {...e} />)}
+                  data.map((e, i) => (
+                    <React.Fragment key={i}>
+                      <TableColumn {...e} />
+                    </React.Fragment>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
@@ -156,7 +165,11 @@ const TableManageSpecialty = ({
         </Box>
       </Box>
       {specialtyEdit && (
-        <DetailSpecialty setOpen={setOpen} open={open} specialty={specialtyEdit} />
+        <DetailSpecialty
+          setOpen={setOpen}
+          open={open}
+          specialty={specialtyEdit}
+        />
       )}
       {specialtyDelete && (
         <ConfirmModal

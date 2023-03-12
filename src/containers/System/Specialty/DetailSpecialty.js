@@ -18,34 +18,38 @@ import SpecialtyProfile from "./section/SpecialtyProfile";
 import SpecialtyDetail from "./section/specialty-detail";
 import _ from "lodash";
 
-const DetailSpecialty = ({ specialty, open, setOpen, isSuccess }) => {
+const DetailSpecialty = ({
+  specialty,
+  open,
+  setOpen,
+  isSuccess,
+  updateSpecialty,
+  clearStatus,
+}) => {
   const [image, setImage] = useState("");
   const [detail, setDetail] = useState("");
-  const [key, setKey] = useState("");
+  const [clinicName, setClinicName] = useState("");
+  const [specialtyName, setSpecialtyName] = useState("");
   //
-  const [selectClinic, setSelectClinic] = useState({});
-  const [selectSpecialty, setSelectSpecialty] = useState({});
   const [imgUpdate, setImgUpdate] = useState(null);
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [enableEdit, setEnableEdit] = useState(false);
-  const [dataClinic, setDataClinic] = useState([]);
-  const [dataSpecialty, setDataSpecialty] = useState([]);
 
   useEffect(() => {
     setImage(specialty?.image?.url ? specialty.image.url : "");
     setDetail(specialty?.detail ? specialty.detail : "");
-    setKey(specialty?.key ? specialty.key : "");
-    setSelectSpecialty({
-      label: specialty?.name ? specialty.name : "",
-      value: specialty?.key ? specialty.key : "",
-    });
-    setSelectClinic({
-      label: specialty?.clinic?.name ? specialty?.clinic?.name : "",
-      value: specialty?.clinic?.id ? specialty?.clinic?.id : "",
-    });
+    setClinicName(specialty?.clinic?.name ? specialty.clinic.name : "");
+    setSpecialtyName(specialty?.name ? specialty.name : "");
   }, [specialty]);
 
-  const handleSave = () => ({});
+  const handleSave = () => {
+    if (!specialty) return;
+    const data = {
+      image: imgUpdate,
+      detail,
+    };
+    updateSpecialty(specialty._id, data);
+  };
   const handleClose = () => {
     setOpen(false);
     setImage("");
@@ -53,8 +57,6 @@ const DetailSpecialty = ({ specialty, open, setOpen, isSuccess }) => {
     setPreviewImgUrl("");
     setEnableEdit(false);
     setImgUpdate(null);
-    setSelectClinic({});
-    setSelectSpecialty({});
   };
   const style = {
     position: "absolute",
@@ -103,29 +105,26 @@ const DetailSpecialty = ({ specialty, open, setOpen, isSuccess }) => {
                     lg={enableEdit ? 4 : 12}
                   >
                     <SpecialtyProfile
-                      name={specialty?.name ? specialty?.name : ""}
+                      name={specialtyName}
                       image={image}
                       setImgUpdate={setImgUpdate}
                       previewImgUrl={previewImgUrl}
                       setPreviewImgUrl={setPreviewImgUrl}
-                      clinic={specialty?.clinic ? specialty?.clinic : {}}
-                      dataClinic={dataClinic}
-                      dataSpecialty={dataSpecialty}
+                      clinic={clinicName}
+                      enableEdit={enableEdit}
                     />
                   </Grid>
                   {enableEdit && (
                     <>
                       <Grid xs={12} md={6} lg={8}>
                         <SpecialtyDetail
-                          selectSpecialty={selectSpecialty}
-                          setSelectSpecialty={setSelectSpecialty}
-                          selectClinic={selectClinic}
-                          setSelectClinic={setSelectClinic}
+                          clinicName={clinicName}
+                          specialtyName={specialtyName}
                         />
                       </Grid>
                       <Grid xs={12} md={12} lg={12}>
                         <Card>
-                          <CardHeader title="Thông tin cá nhân" />
+                          <CardHeader title="Thông tin chi tiết" />
                           <CardContent sx={{ pt: 0 }}>
                             <Box sx={{ m: -1.5 }}>
                               <Grid container spacing={3}>
@@ -164,15 +163,13 @@ const DetailSpecialty = ({ specialty, open, setOpen, isSuccess }) => {
   );
 };
 const mapStateToProps = (state) => {
-  return {
-    isSuccess: state.app.isSuccess,
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateClinic: (id, data) => dispatch(actions.updateClinicAction(id, data)),
-    clearStatus: () => dispatch(actions.clearStatus()),
+    updateSpecialty: (id, data) =>
+      dispatch(actions.updateSpecialtyAction(id, data)),
   };
 };
 

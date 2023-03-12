@@ -55,12 +55,12 @@ const TableManageClinic = ({
       setList(data);
     }
     if (isSuccess !== null) {
-      setOpen(false);
-      setOpenConfirmModal(false);
-      clearStatus();
       if (isSuccess === true) {
+        setOpen(false);
         getListClinicAction();
       }
+      setOpenConfirmModal(false);
+      clearStatus();
     }
   }, [listClinic, isSuccess]);
 

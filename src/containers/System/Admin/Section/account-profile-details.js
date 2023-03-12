@@ -107,6 +107,11 @@ export const AccountProfileDetails = ({
                   value={phone}
                   error={errors?.phone ? true : false}
                   helperText={errors.phone}
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
               </Grid>
               <Grid xs={12} md={6}>

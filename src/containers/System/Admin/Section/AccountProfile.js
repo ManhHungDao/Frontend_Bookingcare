@@ -1,5 +1,14 @@
-import React from "react";
-import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+  CardActions,
+  Divider,
+  Button,
+} from "@mui/material";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
@@ -9,6 +18,9 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import ConfirmModal from "../../../../components/confirmModal/ConfirmModal";
+import SetRole from "./SetRole";
+
 const role = [
   {
     id: "R1",
@@ -18,13 +30,13 @@ const role = [
   },
   {
     id: "R2",
-    name: "doctor",
+    name: "Manager",
     icon: <SecurityOutlinedIcon />,
     bgcolor: "#2e7c67",
   },
   {
     id: "R3",
-    name: "users",
+    name: "doctor",
     icon: <LockOpenOutlinedIcon />,
     bgcolor: "#2e7c67",
   },
@@ -33,8 +45,8 @@ const role = [
 const AccountProfile = ({
   name,
   email,
-  position,
   roleId,
+  setRoleId,
   address,
   image,
   setImage,
@@ -47,6 +59,9 @@ const AccountProfile = ({
   specialty,
   introduce,
 }) => {
+  const [open, setOpen] = useState(false);
+
+  const handleConfirmResetPassword = () => {};
   return (
     <>
       <Card>
@@ -123,14 +138,15 @@ const AccountProfile = ({
                     {phone ? phone : ""}
                   </Typography>
                   <Typography
-                    className="account-profile__detail"
+                    // className="clinic-profile__detail--text"
                     color="text.secondary"
                     variant="body2"
                   >
                     <LocationOnIcon />
-                    {address?.detail ? address.detail : ""}
+                    <span style={{ marginLeft: "5px" }}>
+                      {address?.detail ? address.detail : ""}
+                    </span>
                   </Typography>
-
                   <Typography
                     className="account-profile__detail"
                     color="text.secondary"
@@ -155,7 +171,41 @@ const AccountProfile = ({
             </Grid>
           </Box>
         </CardContent>
+        {enableEdit && (
+          <>
+            <Divider />
+            <CardActions
+              sx={{
+                display: "flex",
+                gap: "5px",
+              }}
+            >
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => setOpen(true)}
+                sx={{
+                  pt: "6px",
+                  pb: "6px",
+                }}
+              >
+                Đặt lại mật khẩu
+              </Button>
+              <SetRole roleId={roleId} setRoleId={setRoleId} />
+            </CardActions>
+          </>
+        )}
       </Card>
+      {open && (
+        <ConfirmModal
+          open={open}
+          setOpen={setOpen}
+          title="Xác nhận đặt lại mật khẩu người dùng"
+          content={`${name}`}
+          type="CONFIRM"
+          confirmFunc={handleConfirmResetPassword}
+        />
+      )}
     </>
   );
 };

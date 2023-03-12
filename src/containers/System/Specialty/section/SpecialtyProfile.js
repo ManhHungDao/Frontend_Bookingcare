@@ -1,9 +1,7 @@
 import React from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import UpLoadAvatar from "../../../../components/UpLoadAvatar";
-import useIsMobile from "../../../../components/useScreen/useIsMobile";
 import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
-
 
 const SpecialtyProfile = ({
   name,
@@ -13,8 +11,8 @@ const SpecialtyProfile = ({
   previewImgUrl,
   setPreviewImgUrl,
   clinic,
+  enableEdit,
 }) => {
-  const isMobile = useIsMobile();
   return (
     <>
       <Card>
@@ -38,6 +36,7 @@ const SpecialtyProfile = ({
               setImgUpdate={setImgUpdate}
               previewImgUrl={previewImgUrl}
               setPreviewImgUrl={setPreviewImgUrl}
+              disableEdit={!enableEdit}
             />
             {/* <div
               className="d-flex justify-content-center mb-3"
@@ -65,20 +64,12 @@ const SpecialtyProfile = ({
             <Typography gutterBottom variant="h5">
               {name ? name : ""}
             </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "flex-start",
-                flexDirection: "column",
-                gap: 1,
-              }}
-            >
-              <Typography
-                className="clinic-profile__detail--text"
-                color="text.secondary"
-                variant="body2"
-              >
-                <HomeWorkOutlinedIcon /> Phòng khám: {clinic?.name ? clinic?.name : ""}
+            <Box>
+              <Typography color="text.secondary" variant="body2">
+                <HomeWorkOutlinedIcon />
+                <span style={{ marginLeft: "5px" }}>
+                  Phòng khám: {clinic ? clinic : ""}
+                </span>
               </Typography>
             </Box>
           </Box>

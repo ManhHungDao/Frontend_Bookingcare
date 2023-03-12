@@ -23,7 +23,7 @@ export const ClinicDetail = ({
   return (
     <>
       <Card>
-        <CardHeader title="Thông tin cá nhân" />
+        <CardHeader title="Thông tin chung" />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
             <Grid container spacing={3}>

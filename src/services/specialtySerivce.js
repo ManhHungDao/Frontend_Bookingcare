@@ -20,5 +20,15 @@ const getClinicById = (id) => {
   return axios.get(`/api/get-by-clinic?id=${id}`);
 };
 
+const updateSpecialty = (id, data) => {
+  return axios.put(`/api/update-specialty?id=${id}`, data);
+};
 
-export { getSingleSpecialty, getAllSpecialty, createSpecialty,deleteSpecialty,getClinicById };
+export {
+  getSingleSpecialty,
+  getAllSpecialty,
+  createSpecialty,
+  deleteSpecialty,
+  getClinicById,
+  updateSpecialty,
+};

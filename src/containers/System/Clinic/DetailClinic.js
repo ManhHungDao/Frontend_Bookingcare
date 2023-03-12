@@ -140,7 +140,7 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
         <Box sx={style}>
           <Box m="20px">
             <Header
-              title="Chi tiết chuyên khoa"
+              title="Chi tiết phòng khám"
               isShowSwitch={true}
               titleSwich={"Chỉnh sửa"}
               isChecked={enableEdit}
@@ -194,7 +194,7 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
                       </Grid>
                       <Grid xs={12} md={12} lg={12}>
                         <Card>
-                          <CardHeader title="Thông tin cá nhân" />
+                          <CardHeader title="Thông tin chi tiết" />
                           <CardContent sx={{ pt: 0 }}>
                             <Box sx={{ m: -1.5 }}>
                               <Grid container spacing={3}>

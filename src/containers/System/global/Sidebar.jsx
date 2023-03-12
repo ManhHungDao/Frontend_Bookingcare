@@ -274,7 +274,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               />
             </SubMenu>
             <LogOut
-              title="Logout"
+              title="Thoát"
               to="/login"
               icon={<LogoutIcon />}
               isCollapsed={isCollapsed}
