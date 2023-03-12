@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
 import { Navigate, useNavigate } from "react-router-dom";
-import { Box, Container, Card, CardContent, TextField } from "@mui/material";
+import {
+  Box,
+  Container,
+  Card,
+  CardContent,
+  TextField,
+  Grid,
+} from "@mui/material";
 import Header from "../../components/Header";
 import ButtonComponent from "../../components/ButtonComponent";
 import { toast } from "react-toastify";
@@ -50,7 +57,7 @@ const ResetPassword = () => {
     <>
       <Box m="20px">
         <Header title="Đổi mật khẩu" />
-        <Container maxWidth="lg">
+        <Grid container display="flex" justifyContent={"center"}>
           <Card>
             <CardContent>
               <Box
@@ -110,7 +117,7 @@ const ResetPassword = () => {
               </Box>
             </CardContent>
           </Card>
-        </Container>
+        </Grid>
       </Box>
     </>
   );
