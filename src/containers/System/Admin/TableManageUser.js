@@ -30,7 +30,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import DetailUser from "./DetailUser";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
-import InputSelect from "../../../components/Input/InputSelect";
+import Select from "react-select";
 import "./Style.scss";
 
 const TableManageUser = (props) => {
@@ -66,8 +66,8 @@ const TableManageUser = (props) => {
   useEffect(() => {
     setListSelectClinic(
       listClinic.map((e) => ({
-        id: e._id,
-        name: e.name,
+        value: e._id,
+        label: e.name,
       }))
     );
   }, [listClinic]);
@@ -83,12 +83,23 @@ const TableManageUser = (props) => {
           };
         })
       );
+    } else {
+      setUsers([]);
     }
   }, [props.users]);
 
   useEffect(() => {
+    if (selectClinic === "") return;
     setSearch("");
+    const clinicId = selectClinic.value;
+    fetchDataAPI(1, rowsPerPage, clinicId, "");
   }, [selectClinic]);
+
+  useEffect(() => {
+    const clinicId = selectClinic.value;
+    const filter = search;
+    fetchDataAPI(page, rowsPerPage, clinicId, filter);
+  }, [page, rowsPerPage]);
 
   const fetchDataAPI = (page, size, clinicId = "", filter = "") => {
     const data = {
@@ -103,6 +114,9 @@ const TableManageUser = (props) => {
   const handelClickEmpty = () => {
     setSearch("");
     setSelectClinic("");
+    setPage(0);
+    setRowsPerPage(10);
+    fetchDataAPI(1, rowsPerPage, "", "");
   };
 
   const handleClickSearch = () => {
@@ -116,7 +130,6 @@ const TableManageUser = (props) => {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
-    setPage(0);
   };
 
   const hadnleClickView = (data) => {
@@ -232,16 +245,23 @@ const TableManageUser = (props) => {
                 </FormControl>
               </Grid>
               <Grid item sm={6} md={3}>
-                <InputSelect
+                <Select
+                  className={`react-select-container`}
                   value={selectClinic}
-                  onChange={setSelectClinic}
-                  data={listSelectClinic}
-                  name="Lọc theo bệnh viện"
-                  minWidth={200}
+                  onChange={(e) => setSelectClinic(e)}
+                  options={listSelectClinic}
+                  placeholder="Lọc theo bệnh viện"
+                  menuPortalTarget={document.body}
+                  styles={{
+                    menuPortal: (base) => ({
+                      ...base,
+                      zIndex: 9999,
+                    }),
+                  }}
                 />
               </Grid>
               <Grid item sm={6} md={3} display="flex" alignItems="center">
-                <Tooltip title="Làm trống">
+                <Tooltip title="Làm mới">
                   <IconButton onClick={() => handelClickEmpty()}>
                     <CachedIcon />
                   </IconButton>
