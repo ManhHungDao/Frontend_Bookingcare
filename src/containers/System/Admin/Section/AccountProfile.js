@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import * as actions from "../../../../store/actions";
+
 import {
   Box,
   Card,
@@ -58,10 +61,20 @@ const AccountProfile = ({
   clinic,
   specialty,
   introduce,
+  resetPasswordAction,
+  resetPassSuccess,
+  clearUserStatus,
 }) => {
   const [open, setOpen] = useState(false);
-
-  const handleConfirmResetPassword = () => {};
+  useEffect(() => {
+    if (resetPassSuccess === true) {
+      setOpen(false);
+      clearUserStatus();
+    }
+  }, [resetPassSuccess]);
+  const handleConfirmResetPassword = () => {
+    resetPasswordAction({ email });
+  };
   return (
     <>
       <Card>
@@ -210,4 +223,17 @@ const AccountProfile = ({
   );
 };
 
-export default AccountProfile;
+const mapStateToProps = (state) => {
+  return {
+    resetPassSuccess: state.user.resetPassSuccess,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    resetPasswordAction: (email) =>
+      dispatch(actions.resetPasswordAction(email)),
+    clearUserStatus: () => dispatch(actions.clearUserStatus()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(AccountProfile);

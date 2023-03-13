@@ -41,7 +41,7 @@ const TableManageUser = (props) => {
   const role = [
     {
       id: "R0",
-      name: "Admin",
+      name: "Root",
       icon: <AdminPanelSettingsOutlinedIcon />,
       bgcolor: "#4cceac",
     },

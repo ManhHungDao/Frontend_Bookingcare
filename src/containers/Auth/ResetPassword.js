@@ -1,41 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
-import { Navigate, useNavigate } from "react-router-dom";
-import {
-  Box,
-  Container,
-  Card,
-  CardContent,
-  TextField,
-  Grid,
-} from "@mui/material";
+import { Box, Card, CardContent, TextField, Grid } from "@mui/material";
 import Header from "../../components/Header";
 import ButtonComponent from "../../components/ButtonComponent";
 import { toast } from "react-toastify";
 
-const ResetPassword = () => {
+const ResetPassword = ({
+  changePasswordAction,
+  userInfo,
+  changPassSuccess,
+  clearUserStatus,
+}) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const checkMatchPassword = () => {
-    if (newPassword !== confirmPassword) {
-      toast.error("Xác nhận mật khẩu sai");
-      return;
+
+  useEffect(() => {
+    if (changPassSuccess === true) {
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setErrors({});
+      clearUserStatus();
     }
-    if (newPassword.length < 8) {
-      toast.warning("Mật khẩu ít nhất 8 ký tự");
-      return;
-    }
-  };
+  }, [changPassSuccess]);
+
   const checkValidate = () => {
     let errors = {};
     if (!oldPassword) errors.oldPassword = "Mật khẩu cũ không được bỏ trống";
     if (!newPassword) errors.newPassword = "Mật khẩu mới không được bỏ trống";
     if (!confirmPassword)
       errors.confirmPassword = "Xác nhận mật khẩu không được bỏ trống";
-
     return errors;
   };
   const isValid = (errors) => {
@@ -51,7 +48,20 @@ const ResetPassword = () => {
       setErrors(errors);
       return;
     }
-    checkMatchPassword();
+    if (newPassword !== confirmPassword) {
+      toast.error("Xác nhận mật khẩu sai");
+      return;
+    }
+    if (newPassword.length < 8) {
+      toast.warning("Mật khẩu ít nhất 8 ký tự");
+      return;
+    }
+    const data = {
+      email: userInfo.email ? userInfo.email : null,
+      oldPassword,
+      newPassword,
+    };
+    changePasswordAction(data);
   };
   return (
     <>
@@ -127,12 +137,16 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     isLoggedIn: state.user.isLoggedIn,
+    userInfo: state.user.userInfo,
+    changPassSuccess: state.user.changPassSuccess,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    processLogout: () => dispatch(actions.processLogout()),
+    changePasswordAction: (data) =>
+      dispatch(actions.changePasswordAction(data)),
+    clearUserStatus: () => dispatch(actions.clearUserStatus()),
   };
 };
 

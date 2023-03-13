@@ -4,6 +4,14 @@ const loginApiService = (email, password) => {
   return axios.post("/api/login", { email, password });
 };
 
+const changePasswordApiService = (data) => {
+  return axios.patch("/api/change-password", data);
+};
+
+const resetPasswordApiService = (email) => {
+  return axios.patch("/api/reset-password", email);
+};
+
 const getAllUserService = () => {
   return axios.get("/api/get-all-user");
 };
@@ -25,10 +33,12 @@ const deleteUserService = (id) => {
 };
 
 export {
+  changePasswordApiService,
   updateUserService,
   getSingleUserService,
   loginApiService,
   getAllUserService,
   createNewUserService,
   deleteUserService,
+  resetPasswordApiService,
 };
