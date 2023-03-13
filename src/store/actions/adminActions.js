@@ -189,16 +189,19 @@ export const getSingleUserAction = (id) => {
   };
 };
 
-export const getAllUserAction = (type) => {
+export const getAllUserAction = (data) => {
   return async (dispatch, getState) => {
     try {
       dispatch(loadingToggleAction(true));
-      const res = await getAllUserService(type);
+      const res = await getAllUserService(data);
       if (res && res.success) {
         dispatch(loadingToggleAction(false));
         dispatch({
           type: actionTypes.FETCH_ALL_USERS_SUCCESS,
-          users: res.users,
+          users: {
+            list: res.users,
+            count: res.count,
+          },
         });
       }
     } catch (error) {
@@ -464,12 +467,11 @@ export const getSpecialtyByClinicIdAction = (id) => {
   };
 };
 
-export const updateSpecialtyAction = (id,data)=> {
-
+export const updateSpecialtyAction = (id, data) => {
   return async (dispatch, getState) => {
     try {
       dispatch(loadingToggleAction(true));
-      const res = await updateSpecialty(id,data);
+      const res = await updateSpecialty(id, data);
       if (res && res.success) {
         dispatch({
           type: actionTypes.UPDATE_SUCCESS,
@@ -485,4 +487,4 @@ export const updateSpecialtyAction = (id,data)=> {
       toast.error("Cập nhập chuyên khoa thất bại");
     }
   };
-}
+};

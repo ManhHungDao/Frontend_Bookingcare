@@ -48,7 +48,7 @@ const TableManageUser = (props) => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    props.getAllUserAction();
+    fetchDataAPI(1, rowsPerPage);
     getListClinicHomePatient();
   }, []);
 
@@ -73,22 +73,42 @@ const TableManageUser = (props) => {
   }, [listClinic]);
 
   useEffect(() => {
-    let listUser = props.users.map((i) => {
-      return {
-        ...i,
-        id: i._id,
-        image: i.image.url,
-      };
-    });
-    setUsers(listUser);
+    if (props.users.list && props.users.list.length > 0) {
+      setUsers(
+        props.users.list.map((i) => {
+          return {
+            ...i,
+            id: i._id,
+            image: i.image.url,
+          };
+        })
+      );
+    }
   }, [props.users]);
+
+  useEffect(() => {
+    setSearch("");
+  }, [selectClinic]);
+
+  const fetchDataAPI = (page, size, clinicId = "", filter = "") => {
+    const data = {
+      page,
+      size,
+      clinicId,
+      filter,
+    };
+    props.getAllUserAction(data);
+  };
 
   const handelClickEmpty = () => {
     setSearch("");
     setSelectClinic("");
   };
 
-  const handleClickSearch = () => {};
+  const handleClickSearch = () => {
+    setPage(0);
+    fetchDataAPI(1, rowsPerPage, "", search);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -122,6 +142,10 @@ const TableManageUser = (props) => {
       <TableCell></TableCell>
     </TableRow>
   );
+  const handleOnChangeSearch = (e) => {
+    setSelectClinic("");
+    setSearch(e.target.value);
+  };
   const TableColumn = (props) => {
     const { address, name, image, phone, email, roleId, detail } = props;
     return (
@@ -196,7 +220,7 @@ const TableManageUser = (props) => {
                     placeholder="Lọc theo tên"
                     id="outlined-adornment-weight"
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => handleOnChangeSearch(e)}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton onClick={handleClickSearch}>
@@ -243,9 +267,9 @@ const TableManageUser = (props) => {
           </TableContainer>
           {users && (
             <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
+              rowsPerPageOptions={[10, 15, 25]}
               component="div"
-              count={users.length}
+              count={props.users.count}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
@@ -281,7 +305,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllUserAction: (type) => dispatch(actions.getAllUserAction(type)),
+    getAllUserAction: (data) => dispatch(actions.getAllUserAction(data)),
     deleteUserAction: (id) => dispatch(actions.deleteUserAction(id)),
     clearStatus: () => dispatch(actions.clearStatus()),
     getListClinicHomePatient: () =>
