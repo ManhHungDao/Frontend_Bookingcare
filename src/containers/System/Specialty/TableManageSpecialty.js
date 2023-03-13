@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import {
+  Grid,
   Box,
   Paper,
   Table,
@@ -13,14 +14,20 @@ import {
   TableRow,
   IconButton,
   Tooltip,
+  OutlinedInput,
 } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControl from "@mui/material/FormControl";
+import SearchIcon from "@mui/icons-material/Search";
 import _ from "lodash";
 import Header from "../../../components/Header";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CachedIcon from "@mui/icons-material/Cached";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DetailSpecialty from "./DetailSpecialty";
+import InputSelect from "../../../components/Input/InputSelect";
 
 const TableManageSpecialty = ({
   getAllSpecialtyAction,
@@ -28,6 +35,8 @@ const TableManageSpecialty = ({
   deleteSpecialtyAction,
   isSuccess,
   clearStatus,
+  listClinic,
+  getListClinicHomePatient,
 }) => {
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -37,9 +46,22 @@ const TableManageSpecialty = ({
   const [specialtyDelete, setSpecialtyDelete] = useState({});
   const [data, setData] = useState([]);
 
+  const [listSelectClinic, setListSelectClinic] = useState([]);
+  const [selectClinic, setSelectClinic] = useState("");
+  const [search, setSearch] = useState("");
   useEffect(() => {
     getAllSpecialtyAction();
+    getListClinicHomePatient();
   }, []);
+
+  useEffect(() => {
+    setListSelectClinic(
+      listClinic.map((e) => ({
+        id: e._id,
+        name: e.name,
+      }))
+    );
+  }, [listClinic]);
 
   useEffect(() => {
     if (isSuccess !== null) {
@@ -76,7 +98,14 @@ const TableManageSpecialty = ({
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  const handelClickEmpty = () => {
+    setSearch("");
+    setSelectClinic("");
+  };
 
+  const handleClickSearch = () => {
+    // gọi api tìm kiếm theo tên
+  };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
       <TableCell>Tên chuyên khoa</TableCell>
@@ -124,14 +153,50 @@ const TableManageSpecialty = ({
     <>
       <Box m="20px">
         <Header
-          title="Quản lý danh sách phòng khám"
-          subtitle="Quản lý phòng khám"
+          title="Quản lý danh sách chuyên khoa"
           titleBtn="Thêm mới"
           isShowBtn={true}
           link="/admin/add-specialty"
           activeMenu="Thêm Chuyên Khoa"
         />
-        <Box m="40px 0 0 0" height="75vh">
+        <Box m="20px 0 0 0" height="75vh">
+          <Box m="0 0 7px 0">
+            <Grid container spacing={2}>
+              <Grid item sm={6} md={3}>
+                <FormControl sx={{ width: "100%" }} variant="outlined">
+                  <OutlinedInput
+                    placeholder="Lọc theo tên"
+                    id="outlined-adornment-weight"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleClickSearch}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item sm={6} md={3}>
+                <InputSelect
+                  value={selectClinic}
+                  onChange={setSelectClinic}
+                  data={listSelectClinic}
+                  name="Lọc theo bệnh viện"
+                  minWidth={200}
+                />
+              </Grid>
+              <Grid item sm={6} md={3} display="flex" alignItems="center">
+                <Tooltip title="Làm trống">
+                  <IconButton onClick={() => handelClickEmpty()}>
+                    <CachedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+            </Grid>
+          </Box>
           <TableContainer component={Paper}>
             <Table
               sx={{ minWidth: 650 }}
@@ -196,6 +261,7 @@ const mapStateToProps = (state) => {
   return {
     listSpecialty: state.admin.listSpecialty,
     isSuccess: state.app.isSuccess,
+    listClinic: state.patient.listClinic,
   };
 };
 
@@ -204,6 +270,8 @@ const mapDispatchToProps = (dispatch) => {
     getAllSpecialtyAction: () => dispatch(actions.getAllSpecialtyAction()),
     clearStatus: () => dispatch(actions.clearStatus()),
     deleteSpecialtyAction: (id) => dispatch(actions.deleteSpecialtyAction(id)),
+    getListClinicHomePatient: () =>
+      dispatch(actions.getListClinicHomePatientAction()),
   };
 };
 

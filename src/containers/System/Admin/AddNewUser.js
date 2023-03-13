@@ -320,7 +320,6 @@ const AddNewUser = ({
                     value={position}
                     onChange={setPosition}
                     data={dataSelect.filter((e) => e.type === "POSITION")}
-                    isActive={true}
                     isError={errors.position ? true : false}
                     errorText={errors.position ? errors.position : ""}
                     name="Chức danh"
@@ -408,7 +407,6 @@ const AddNewUser = ({
               value={price}
               onChange={setPrice}
               data={dataSelect.filter((e) => e.type === "PRICE")}
-              isActive={true}
               isError={errors.price ? true : false}
               errorText={errors.price ? errors.price : ""}
               name="Chọn giá (VNĐ)"
@@ -420,7 +418,6 @@ const AddNewUser = ({
               value={payment}
               onChange={setPayment}
               data={dataSelect.filter((e) => e.type === "PAYMENT")}
-              isActive={true}
               isError={errors.payment ? true : false}
               errorText={errors.payment ? errors.payment : ""}
               name="Chọn phương thức thanh toán"

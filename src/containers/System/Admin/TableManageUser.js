@@ -14,7 +14,13 @@ import {
   IconButton,
   Tooltip,
   Typography,
+  OutlinedInput,
+  FormControl,
+  Grid,
+  InputAdornment,
 } from "@mui/material";
+import CachedIcon from "@mui/icons-material/Cached";
+import SearchIcon from "@mui/icons-material/Search";
 import Header from "../../../components/Header.jsx";
 import _ from "lodash";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
@@ -24,49 +30,26 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import DetailUser from "./DetailUser";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
+import InputSelect from "../../../components/Input/InputSelect";
 import "./Style.scss";
 
 const TableManageUser = (props) => {
-  const { userInfo } = props;
+  const { userInfo, listClinic, getListClinicHomePatient } = props;
   const [users, setUsers] = useState([]);
-  // const [listSeach, setListSeach] = useState([]);
   const [open, setOpen] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
-  // const [searchTerm, setSearchTerm] = useState("");
   const [userEdit, setUserEdit] = useState({});
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [userDelete, setUserDelete] = useState({});
 
-  const role = [
-    {
-      id: "R0",
-      name: "Root",
-      icon: <AdminPanelSettingsOutlinedIcon />,
-      bgcolor: "#4cceac",
-    },
-    {
-      id: "R1",
-      name: "Admin",
-      icon: <AdminPanelSettingsOutlinedIcon />,
-      bgcolor: "#4cceac",
-    },
-    {
-      id: "R2",
-      name: "Manager",
-      icon: <SecurityOutlinedIcon />,
-      bgcolor: "#2e7c67",
-    },
-    {
-      id: "R3",
-      name: "Doctor",
-      icon: <LockOpenOutlinedIcon />,
-      bgcolor: "#2e7c67",
-    },
-  ];
+  const [listSelectClinic, setListSelectClinic] = useState([]);
+  const [selectClinic, setSelectClinic] = useState("");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     props.getAllUserAction();
+    getListClinicHomePatient();
   }, []);
 
   useEffect(() => {
@@ -81,30 +64,31 @@ const TableManageUser = (props) => {
   }, [props.isSuccess]);
 
   useEffect(() => {
+    setListSelectClinic(
+      listClinic.map((e) => ({
+        id: e._id,
+        name: e.name,
+      }))
+    );
+  }, [listClinic]);
+
+  useEffect(() => {
     let listUser = props.users.map((i) => {
       return {
         ...i,
         id: i._id,
         image: i.image.url,
-        // email: i.email,
-        // name: i.name,
-        // phone: i.phone,
-        // address: i.address,
-        // positionId: i.positionId,
-        // roleId: i.roleId,
-        // gender: i.gender,
       };
     });
     setUsers(listUser);
-    // setListSeach(listUser);
   }, [props.users]);
-  // useEffect(() => {
-  //   let data = users;
-  //   let dataSearch = data.filter((e) => {
-  //     return e.lastName.toLowerCase().includes(searchTerm.toLowerCase());
-  //   });
-  //   setListSeach(dataSearch);
-  // }, [searchTerm]);
+
+  const handelClickEmpty = () => {
+    setSearch("");
+    setSelectClinic("");
+  };
+
+  const handleClickSearch = () => {};
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -115,9 +99,6 @@ const TableManageUser = (props) => {
     setPage(0);
   };
 
-  // const handleSearch = (event) => {
-  //   setSearchTerm(event.target.value);
-  // };
   const hadnleClickView = (data) => {
     setUserEdit(data);
     setOpen(true);
@@ -136,8 +117,8 @@ const TableManageUser = (props) => {
       <TableCell>Email</TableCell>
       <TableCell>Số điện thoại</TableCell>
       <TableCell>Địa chỉ</TableCell>
+      <TableCell>Cơ sở</TableCell>
       <TableCell>Vị trí</TableCell>
-      <TableCell>Quyền</TableCell>
       <TableCell></TableCell>
     </TableRow>
   );
@@ -159,32 +140,13 @@ const TableManageUser = (props) => {
           <TableCell>{address?.detail ? address?.detail : ""}</TableCell>
           <TableCell>
             <Typography variant="">
-              {detail.position.name ? detail.position.name : ""}
+              {detail.clinic.name ? detail.clinic.name : ""}
             </Typography>
           </TableCell>
           <TableCell>
-            {role &&
-              role.map((i) => {
-                if (i.id === roleId)
-                  return (
-                    <>
-                      <Box
-                        width="60%"
-                        // m="0 auto"
-                        p="5px 15px"
-                        display="flex"
-                        justifyContent="center"
-                        backgroundColor={i.bgcolor}
-                        borderRadius="4px"
-                      >
-                        {i.icon}
-                        <Typography color="#141414" sx={{ ml: "5px" }}>
-                          {i.name}
-                        </Typography>
-                      </Box>
-                    </>
-                  );
-              })}
+            <Typography variant="">
+              {detail.position.name ? detail.position.name : ""}
+            </Typography>
           </TableCell>
           {userInfo.roleId === "R2" ? (
             <TableCell>
@@ -225,7 +187,44 @@ const TableManageUser = (props) => {
           link="/admin/add-user"
           activeMenu="Thêm Người Dùng"
         />
-        <Box m="40px 0 0 0" height="75vh">
+        <Box m="20px 0 0 0" height="75vh">
+          <Box m="0 0 7px 0">
+            <Grid container spacing={2}>
+              <Grid item sm={6} md={3}>
+                <FormControl sx={{ width: "100%" }} variant="outlined">
+                  <OutlinedInput
+                    placeholder="Lọc theo tên"
+                    id="outlined-adornment-weight"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleClickSearch}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item sm={6} md={3}>
+                <InputSelect
+                  value={selectClinic}
+                  onChange={setSelectClinic}
+                  data={listSelectClinic}
+                  name="Lọc theo bệnh viện"
+                  minWidth={200}
+                />
+              </Grid>
+              <Grid item sm={6} md={3} display="flex" alignItems="center">
+                <Tooltip title="Làm trống">
+                  <IconButton onClick={() => handelClickEmpty()}>
+                    <CachedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+            </Grid>
+          </Box>
           <TableContainer component={Paper}>
             <Table
               sx={{ minWidth: 650 }}
@@ -276,6 +275,7 @@ const mapStateToProps = (state) => {
     users: state.admin.users,
     isSuccess: state.app.isSuccess,
     userInfo: state.user.userInfo,
+    listClinic: state.patient.listClinic,
   };
 };
 
@@ -284,6 +284,8 @@ const mapDispatchToProps = (dispatch) => {
     getAllUserAction: (type) => dispatch(actions.getAllUserAction(type)),
     deleteUserAction: (id) => dispatch(actions.deleteUserAction(id)),
     clearStatus: () => dispatch(actions.clearStatus()),
+    getListClinicHomePatient: () =>
+      dispatch(actions.getListClinicHomePatientAction()),
   };
 };
 

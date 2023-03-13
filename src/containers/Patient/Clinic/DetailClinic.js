@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import Footer from "../../HomePage/Section/Footer";
 import _ from "lodash";
 import { Box, Container, Grid, Stack } from "@mui/material";
+import useIsMobile from "../../../components/useScreen/useIsMobile";
 // import RenderMenuBar from "./RenderMenuBar";
 import { pageViewCount } from "../../../services/clinicService";
 import {
@@ -28,17 +29,20 @@ import "./style.scss";
 const DetailClinic = ({ clinic, getSingleClinic, language }) => {
   const [data, setData] = useState({});
   const { id } = useParams();
+  const smScreen = useIsMobile();
+
   useEffect(() => {
-    if (id && _.isEmpty(clinic)) {
-      getSingleClinic(id);
-      pageViewCount(id);
-    }
+    getSingleClinic(id);
+    pageViewCount(id);
+  }, []);
+
+  useEffect(() => {
     setData(clinic);
   }, [clinic]);
   return (
     <>
       <Box className="render-detail">
-        <Stack sx={{ width: "100%", height: "40vh" }}>
+        <Stack sx={{ width: "100%", height: smScreen ? "20vh" : "40vh" }}>
           <img
             src={data.image?.url ? data.image?.url : ""}
             alt={data?.name ? data.name : ""}
@@ -90,15 +94,22 @@ const DetailClinic = ({ clinic, getSingleClinic, language }) => {
                 mb: 2,
               }}
             >
-              <span className="detail" dangerouslySetInnerHTML={{ __html: data.introduce }}></span>
+              <span
+                className="detail"
+                dangerouslySetInnerHTML={{ __html: data.introduce }}
+              ></span>
             </Box>
           </Stack>
           <Box>
-            <span className="detail" dangerouslySetInnerHTML={{ __html: data.detail }}></span>
+            <span
+              className="detail"
+              dangerouslySetInnerHTML={{ __html: data.detail }}
+            ></span>
           </Box>
+          <BackToTop />
         </Container>
       </Box>
-      <BackToTop />
+      <Footer/>
     </>
   );
 };

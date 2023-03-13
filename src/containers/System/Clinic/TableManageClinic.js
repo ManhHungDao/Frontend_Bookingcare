@@ -8,7 +8,7 @@ import _ from "lodash";
 import DetailClinic from "./DetailClinic";
 import "./style.scss";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
-import Paper from "@mui/material/Paper";
+import { Paper, Grid, OutlinedInput } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -20,6 +20,11 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControl from "@mui/material/FormControl";
+import SearchIcon from "@mui/icons-material/Search";
+import CachedIcon from "@mui/icons-material/Cached";
+
 import { toast } from "react-toastify";
 const TableManageClinic = ({
   getListClinicAction,
@@ -35,6 +40,9 @@ const TableManageClinic = ({
   const [open, setOpen] = useState(false);
   const [clinicEdit, setClinicEdit] = useState({});
   const [clinicDelete, setClinicDelete] = useState({});
+
+  const [search, setSearch] = useState("");
+
   useEffect(() => {
     getListClinicAction();
   }, []);
@@ -84,6 +92,11 @@ const TableManageClinic = ({
     const id = clinicDelete.id;
     if (id) deleteClincAction(id);
   };
+  const handelClickEmpty = () => {
+    setSearch("");
+  };
+  const handleClickSearch = () => {};
+
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
       <TableCell>Cơ sở</TableCell>
@@ -134,7 +147,35 @@ const TableManageClinic = ({
           link="/admin/add-clinic"
           activeMenu="Thêm Phòng Khám"
         />
-        <Box m="40px 0 0 0" height="75vh">
+        <Box m="20px 0 0 0" height="75vh">
+          <Box m="0 0 7px 0">
+            <Grid container spacing={2}>
+              <Grid item sm={6} md={3}>
+                <FormControl sx={{ width: "100%" }} variant="outlined">
+                  <OutlinedInput
+                    placeholder="Lọc theo tên"
+                    id="outlined-adornment-weight"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleClickSearch}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item sm={6} md={3} display="flex" alignItems="center">
+                <Tooltip title="Làm trống">
+                  <IconButton onClick={() => handelClickEmpty()}>
+                    <CachedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+            </Grid>
+          </Box>
           <TableContainer component={Paper}>
             <Table
               sx={{ minWidth: 650 }}

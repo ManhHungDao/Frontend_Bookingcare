@@ -120,7 +120,6 @@ const AddClinic = ({ createClinicAction, isSuccess, message, clearStatus }) => {
           </Grid>
           <Grid
             item
-            spacing={2}
             display="flex"
             justifyContent="space-around"
             alignItems="center"
