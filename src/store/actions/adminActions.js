@@ -287,15 +287,18 @@ export const createClinicAction = (data) => {
   };
 };
 
-export const getListClinicAction = () => {
+export const getListClinicAction = (data) => {
   return async (dispatch, getState) => {
     try {
       dispatch(loadingToggleAction(true));
-      const res = await getAllClinic();
+      const res = await getAllClinic(data);
       if (res && res.success) {
         dispatch({
           type: actionTypes.GET_LIST_CLINIC_SUCCEED,
-          data: res.clinics,
+          data: {
+            list: res.clinics,
+            count: res.count,
+          },
         });
         dispatch(loadingToggleAction(false));
       }
@@ -401,15 +404,15 @@ export const createSpecialtyAction = (data) => {
   };
 };
 
-export const getAllSpecialtyAction = () => {
+export const getAllSpecialtyAction = (data) => {
   return async (dispatch, getState) => {
     try {
       dispatch(loadingToggleAction(true));
-      const res = await getAllSpecialty();
+      const res = await getAllSpecialty(data);
       if (res && res.success) {
         dispatch({
           type: actionTypes.GET_LIST_SPECIALTY_SUCCEED,
-          data: res.specialties,
+          data: { list: res.specialties, count: res.count },
         });
         dispatch(loadingToggleAction(false));
       }

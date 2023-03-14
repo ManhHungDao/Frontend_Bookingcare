@@ -64,15 +64,6 @@ const TableManageUser = (props) => {
   }, [props.isSuccess]);
 
   useEffect(() => {
-    setListSelectClinic(
-      listClinic.map((e) => ({
-        value: e._id,
-        label: e.name,
-      }))
-    );
-  }, [listClinic]);
-
-  useEffect(() => {
     if (props.users.list && props.users.list.length > 0) {
       setUsers(
         props.users.list.map((i) => {
@@ -86,20 +77,22 @@ const TableManageUser = (props) => {
     } else {
       setUsers([]);
     }
-  }, [props.users]);
+    if (listClinic && listClinic.length > 0);
+    setListSelectClinic(
+      listClinic.map((e) => ({
+        value: e._id,
+        label: e.name,
+      }))
+    );
+  }, [listClinic, props.users]);
 
   useEffect(() => {
     if (selectClinic === "") return;
     setSearch("");
+    setPage(0);
     const clinicId = selectClinic.value;
     fetchDataAPI(1, rowsPerPage, clinicId, "");
   }, [selectClinic]);
-
-  useEffect(() => {
-    const clinicId = selectClinic.value;
-    const filter = search;
-    fetchDataAPI(page, rowsPerPage, clinicId, filter);
-  }, [page, rowsPerPage]);
 
   const fetchDataAPI = (page, size, clinicId = "", filter = "") => {
     const data = {
@@ -111,12 +104,18 @@ const TableManageUser = (props) => {
     props.getAllUserAction(data);
   };
 
+  // useEffect(() => {
+  //   const clinicId = selectClinic.value ? selectClinic.value : "";
+  //   fetchDataAPI(page + 1, rowsPerPage, clinicId, search);
+  // }, [page, rowsPerPage]);
+  // bỏ vì gọi api 2 lần
+
   const handelClickEmpty = () => {
     setSearch("");
     setSelectClinic("");
     setPage(0);
     setRowsPerPage(10);
-    fetchDataAPI(1, rowsPerPage, "", "");
+    fetchDataAPI(1, 10, "", "");
   };
 
   const handleClickSearch = () => {
@@ -124,12 +123,21 @@ const TableManageUser = (props) => {
     fetchDataAPI(1, rowsPerPage, "", search);
   };
 
+  const handleEnterSearch = (e) => {
+    if (e.which === 13) {
+      handleClickSearch();
+    }
+  };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    const clinicId = selectClinic.value ? selectClinic.value : "";
+    fetchDataAPI(newPage + 1, rowsPerPage, clinicId, search);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
+    const clinicId = selectClinic.value ? selectClinic.value : "";
+    fetchDataAPI(page + 1, +event.target.value, clinicId, search);
   };
 
   const hadnleClickView = (data) => {
@@ -234,6 +242,7 @@ const TableManageUser = (props) => {
                     id="outlined-adornment-weight"
                     value={search}
                     onChange={(e) => handleOnChangeSearch(e)}
+                    onKeyPress={(e) => handleEnterSearch(e)}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton onClick={handleClickSearch}>

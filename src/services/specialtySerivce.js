@@ -8,8 +8,10 @@ const getSingleSpecialty = (id) => {
   return axios.get(`/api/get-specialty?id=${id}`);
 };
 
-const getAllSpecialty = () => {
-  return axios.get(`/api/get-all-specialty`);
+const getAllSpecialty = (data) => {
+  return axios.get(
+    `/api/get-all-specialty?page=${data.page}&clinicId=${data.clinicId}&filter=${data.filter}&size=${data.size}`
+  );
 };
 
 const deleteSpecialty = (id) => {

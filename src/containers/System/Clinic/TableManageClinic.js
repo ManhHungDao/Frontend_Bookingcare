@@ -25,7 +25,6 @@ import FormControl from "@mui/material/FormControl";
 import SearchIcon from "@mui/icons-material/Search";
 import CachedIcon from "@mui/icons-material/Cached";
 
-import { toast } from "react-toastify";
 const TableManageClinic = ({
   getListClinicAction,
   listClinic,
@@ -44,11 +43,11 @@ const TableManageClinic = ({
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    getListClinicAction();
+    fetchDataAPI(1, rowsPerPage);
   }, []);
   useEffect(() => {
-    if (listClinic) {
-      let data = listClinic.map((e) => {
+    if (listClinic.list && listClinic.list.length > 0) {
+      let data = listClinic.list.map((e) => {
         return {
           id: e._id,
           logo: e.logo.url,
@@ -62,22 +61,35 @@ const TableManageClinic = ({
       });
       setList(data);
     }
+  }, [listClinic]);
+
+  useEffect(() => {
     if (isSuccess !== null) {
       if (isSuccess === true) {
         setOpen(false);
-        getListClinicAction();
+        fetchDataAPI(1, rowsPerPage, "");
       }
       setOpenConfirmModal(false);
       clearStatus();
     }
-  }, [listClinic, isSuccess]);
+  }, [isSuccess]);
+
+  const fetchDataAPI = (page, size, filter = "") => {
+    const data = {
+      page,
+      size,
+      filter,
+    };
+    getListClinicAction(data);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    fetchDataAPI(newPage + 1, rowsPerPage, search);
   };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
-    setPage(0);
+    fetchDataAPI(page + 1, +event.target.value, search);
   };
 
   const handleClickView = (data) => {
@@ -94,9 +106,19 @@ const TableManageClinic = ({
   };
   const handelClickEmpty = () => {
     setSearch("");
+    setPage(0);
+    setRowsPerPage(10);
+    fetchDataAPI(1, 10);
   };
-  const handleClickSearch = () => {};
-
+  const handleClickSearch = () => {
+    setPage(0);
+    fetchDataAPI(1, rowsPerPage, search);
+  };
+  const handleEnterSearch = (e) => {
+    if (e.which === 13) {
+      handleClickSearch();
+    }
+  };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
       <TableCell>Cơ sở</TableCell>
@@ -157,6 +179,7 @@ const TableManageClinic = ({
                     id="outlined-adornment-weight"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
+                    onKeyPress={(e) => handleEnterSearch(e)}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton onClick={handleClickSearch}>
@@ -193,9 +216,9 @@ const TableManageClinic = ({
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
+            rowsPerPageOptions={[10, 15, 25]}
             component="div"
-            count={list.length}
+            count={listClinic.count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -228,7 +251,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListClinicAction: () => dispatch(actions.getListClinicAction()),
+    getListClinicAction: (data) => dispatch(actions.getListClinicAction(data)),
     clearStatus: () => dispatch(actions.clearStatus()),
     deleteClincAction: (id) => dispatch(actions.deleteClincAction(id)),
   };

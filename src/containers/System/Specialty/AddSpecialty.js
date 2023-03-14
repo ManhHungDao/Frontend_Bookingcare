@@ -151,7 +151,7 @@ const AddSpecialty = ({
 
 const mapStateToProps = (state) => {
   return {
-    listClinic: state.admin.listClinic,
+    listClinic: state.patient.listClinic,
     isSuccess: state.app.isSuccess,
     allcodeType: state.admin.allcodeType,
   };
@@ -161,7 +161,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createSpecialtyAction: (data) =>
       dispatch(actions.createSpecialtyAction(data)),
-    getListClinicAction: () => dispatch(actions.getListClinicAction()),
+    getListClinicAction: () => dispatch(actions.getListClinicHomePatientAction()),
     clearStatus: () => dispatch(actions.clearStatus()),
     fetchAllcodeByTypeAction: (type) =>
       dispatch(actions.fetchAllcodeByTypeAction(type)),

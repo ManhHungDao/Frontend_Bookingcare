@@ -478,7 +478,7 @@ const mapStateToProps = (state) => {
     language: state.app.language,
     allcodes: state.admin.allcodes,
     isSuccess: state.app.isSuccess,
-    listClinic: state.admin.listClinic,
+    listClinic: state.patient.listClinic,
     listSpecialtyInClinic: state.admin.listSpecialtyInClinic,
   };
 };
@@ -488,7 +488,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
     clearStatus: () => dispatch(actions.clearStatus()),
     createNewUser: (user) => dispatch(actions.createNewUserAction(user)),
-    getListClinicAction: () => dispatch(actions.getListClinicAction()),
+    getListClinicAction: () => dispatch(actions.getListClinicHomePatientAction()),
     getSpecialtyByClinicIdAction: (id) =>
       dispatch(actions.getSpecialtyByClinicIdAction(id)),
   };

@@ -50,18 +50,24 @@ const TableManageSpecialty = ({
   const [selectClinic, setSelectClinic] = useState("");
   const [search, setSearch] = useState("");
   useEffect(() => {
-    getAllSpecialtyAction();
+    fetchDataAPI(1, rowsPerPage);
     getListClinicHomePatient();
   }, []);
 
   useEffect(() => {
-    setListSelectClinic(
-      listClinic.map((e) => ({
-        id: e._id,
-        name: e.name,
-      }))
-    );
-  }, [listClinic]);
+    if (listClinic && listClinic.length > 0)
+      setListSelectClinic(
+        listClinic.map((e) => ({
+          id: e._id,
+          name: e.name,
+        }))
+      );
+    if (listSpecialty.list && listSpecialty.list.length > 0)
+      setData(listSpecialty.list);
+    else {
+      setData([]);
+    }
+  }, [listClinic, listSpecialty]);
 
   useEffect(() => {
     if (isSuccess !== null) {
@@ -77,8 +83,22 @@ const TableManageSpecialty = ({
   }, [isSuccess]);
 
   useEffect(() => {
-    if (listSpecialty && listSpecialty.length > 0) setData(listSpecialty);
-  }, [listSpecialty]);
+    if (selectClinic === "") return;
+    setSearch("");
+    setPage(0);
+    const clinicId = selectClinic.value;
+    fetchDataAPI(1, rowsPerPage, clinicId, "");
+  }, [selectClinic]);
+
+  const fetchDataAPI = (page, size, clinicId = "", filter = "") => {
+    const data = {
+      page,
+      size,
+      clinicId,
+      filter,
+    };
+    getAllSpecialtyAction(data);
+  };
 
   const handleClickView = (data) => {
     setSpecialtyEdit(data);
@@ -93,18 +113,33 @@ const TableManageSpecialty = ({
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    const clinicId = selectClinic.value ? selectClinic.value : "";
+    fetchDataAPI(newPage + 1, rowsPerPage, clinicId, search);
   };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
-    setPage(0);
+    const clinicId = selectClinic.value ? selectClinic.value : "";
+    fetchDataAPI(page + 1, +event.target.value, clinicId, search);
   };
   const handelClickEmpty = () => {
     setSearch("");
     setSelectClinic("");
+    setPage(0);
+    setRowsPerPage(10);
+    fetchDataAPI(1, 10, "", "");
   };
-
+  const handleOnChangeSearch = (e) => {
+    setSelectClinic("");
+    setSearch(e.target.value);
+  };
+  const handleEnterSearch = (e) => {
+    if (e.which === 13) {
+      handleClickSearch();
+    }
+  };
   const handleClickSearch = () => {
-    // gọi api tìm kiếm theo tên
+    setPage(0);
+    fetchDataAPI(1, rowsPerPage, "", search);
   };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
@@ -168,7 +203,8 @@ const TableManageSpecialty = ({
                     placeholder="Lọc theo tên"
                     id="outlined-adornment-weight"
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => handleOnChangeSearch(e)}
+                    onKeyPress={(e) => handleEnterSearch(e)}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton onClick={handleClickSearch}>
@@ -218,9 +254,9 @@ const TableManageSpecialty = ({
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
+            rowsPerPageOptions={[10, 15, 25]}
             component="div"
-            count={data.length}
+            count={listSpecialty.count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -267,7 +303,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllSpecialtyAction: () => dispatch(actions.getAllSpecialtyAction()),
+    getAllSpecialtyAction: (data) =>
+      dispatch(actions.getAllSpecialtyAction(data)),
     clearStatus: () => dispatch(actions.clearStatus()),
     deleteSpecialtyAction: (id) => dispatch(actions.deleteSpecialtyAction(id)),
     getListClinicHomePatient: () =>

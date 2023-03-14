@@ -8,8 +8,10 @@ const getSingleClinic = (id) => {
   return axios.get(`/api/get-clinic?id=${id}`);
 };
 
-const getAllClinic = () => {
-  return axios.get(`/api/get-all-clinic`);
+const getAllClinic = (data) => {
+  return axios.get(
+    `/api/get-all-clinic?page=${data.page}&filter=${data.filter}&size=${data.size}`
+  );
 };
 
 const getAllClinicHomePatient = () => {

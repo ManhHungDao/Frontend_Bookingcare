@@ -128,17 +128,20 @@ const DetailUser = ({
   }, [listSpecialtyInClinic]);
 
   useEffect(() => {
-    setListClinicSelect(
-      listClinic.map((e) => {
-        return {
-          id: e._id,
-          name: e.name,
-        };
-      })
-    );
-    setDataSelect(
-      allcodes.map((e) => ({ id: e._id, name: e.valueVI, type: e.type }))
-    );
+    if (listClinic && listClinic.length > 0)
+      setListClinicSelect(
+        listClinic.map((e) => {
+          return {
+            id: e._id,
+            name: e.name,
+          };
+        })
+      );
+
+    if (allcodes && allcodes.length > 0)
+      setDataSelect(
+        allcodes.map((e) => ({ id: e._id, name: e.valueVI, type: e.type }))
+      );
   }, [allcodes, listClinic]);
 
   const handleClose = () => {
@@ -370,7 +373,7 @@ const DetailUser = ({
 
 const mapStateToProps = (state) => {
   return {
-    listClinic: state.admin.listClinic,
+    listClinic: state.patient.listClinic,
     allcodes: state.admin.allcodes,
     listSpecialtyInClinic: state.admin.listSpecialtyInClinic,
   };
@@ -379,7 +382,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
-    getListClinic: () => dispatch(actions.getListClinicAction()),
+    getListClinic: () => dispatch(actions.getListClinicHomePatientAction()),
     getSpecialtyByClinicIdAction: (id) =>
       dispatch(actions.getSpecialtyByClinicIdAction(id)),
     updateUser: (id, data) => dispatch(actions.updateUserAction(id, data)),
