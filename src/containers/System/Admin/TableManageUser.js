@@ -21,6 +21,8 @@ import {
 } from "@mui/material";
 import CachedIcon from "@mui/icons-material/Cached";
 import SearchIcon from "@mui/icons-material/Search";
+import { styled } from "@mui/material/styles";
+import { tableCellClasses } from "@mui/material/TableCell";
 import Header from "../../../components/Header.jsx";
 import _ from "lodash";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
@@ -46,6 +48,13 @@ const TableManageUser = (props) => {
   const [listSelectClinic, setListSelectClinic] = useState([]);
   const [selectClinic, setSelectClinic] = useState("");
   const [search, setSearch] = useState("");
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#ddd",
+      color: "black",
+    },
+  }));
 
   useEffect(() => {
     fetchDataAPI(1, rowsPerPage);
@@ -154,13 +163,13 @@ const TableManageUser = (props) => {
   };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
-      <TableCell>Người dùng</TableCell>
-      <TableCell>Email</TableCell>
-      <TableCell>Số điện thoại</TableCell>
-      <TableCell>Địa chỉ</TableCell>
-      <TableCell>Cơ sở</TableCell>
-      <TableCell>Vị trí</TableCell>
-      <TableCell></TableCell>
+      <StyledTableCell>Người dùng</StyledTableCell>
+      <StyledTableCell>Email</StyledTableCell>
+      <StyledTableCell>Số điện thoại</StyledTableCell>
+      <StyledTableCell>Địa chỉ</StyledTableCell>
+      <StyledTableCell>Cơ sở</StyledTableCell>
+      <StyledTableCell>Vị trí</StyledTableCell>
+      <StyledTableCell></StyledTableCell>
     </TableRow>
   );
   const handleOnChangeSearch = (e) => {
@@ -259,7 +268,7 @@ const TableManageUser = (props) => {
                   value={selectClinic}
                   onChange={(e) => setSelectClinic(e)}
                   options={listSelectClinic}
-                  placeholder="Lọc theo bệnh viện"
+                  placeholder="Lọc theo cơ sở"
                   menuPortalTarget={document.body}
                   styles={{
                     menuPortal: (base) => ({
@@ -278,11 +287,12 @@ const TableManageUser = (props) => {
               </Grid>
             </Grid>
           </Box>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} sx={{ maxHeight: 550 }}>
             <Table
               sx={{ minWidth: 650 }}
               size="small"
               aria-label="simple table"
+              stickyHeader
             >
               <TableHead>
                 <TableRowName />

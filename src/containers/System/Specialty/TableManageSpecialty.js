@@ -16,6 +16,7 @@ import {
   Tooltip,
   OutlinedInput,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import SearchIcon from "@mui/icons-material/Search";
@@ -28,6 +29,7 @@ import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DetailSpecialty from "./DetailSpecialty";
 import InputSelect from "../../../components/Input/InputSelect";
+import { tableCellClasses } from "@mui/material/TableCell";
 
 const TableManageSpecialty = ({
   getAllSpecialtyAction,
@@ -90,6 +92,13 @@ const TableManageSpecialty = ({
     fetchDataAPI(1, rowsPerPage, clinicId, "");
   }, [selectClinic]);
 
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: '#ddd',
+      color: "black",
+    },
+  }));
+
   const fetchDataAPI = (page, size, clinicId = "", filter = "") => {
     const data = {
       page,
@@ -143,10 +152,10 @@ const TableManageSpecialty = ({
   };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
-      <TableCell>Tên chuyên khoa</TableCell>
-      <TableCell>Cơ sở</TableCell>
-      <TableCell>Phổ biến</TableCell>
-      <TableCell></TableCell>
+      <StyledTableCell>Tên chuyên khoa</StyledTableCell>
+      <StyledTableCell>Cơ sở</StyledTableCell>
+      <StyledTableCell>Phổ biến</StyledTableCell>
+      <StyledTableCell></StyledTableCell>
     </TableRow>
   );
   const TableColumn = (props) => {
@@ -220,7 +229,7 @@ const TableManageSpecialty = ({
                   value={selectClinic}
                   onChange={setSelectClinic}
                   data={listSelectClinic}
-                  name="Lọc theo bệnh viện"
+                  name="Lọc theo cơ sở"
                   minWidth={200}
                 />
               </Grid>
@@ -233,11 +242,12 @@ const TableManageSpecialty = ({
               </Grid>
             </Grid>
           </Box>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} sx={{ maxHeight: 550 }}>
             <Table
               sx={{ minWidth: 650 }}
               size="small"
               aria-label="simple table"
+              stickyHeader
             >
               <TableHead>
                 <TableRowName />

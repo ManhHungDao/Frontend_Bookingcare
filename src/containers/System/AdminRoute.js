@@ -11,10 +11,7 @@ import Sidebar from "./global/Sidebar";
 import AddNewUser from "./Admin/AddNewUser";
 import AddClinic from "./Clinic/AddClinic";
 import AddSpecialty from "./Specialty/AddSpecialty";
-import CodeProvince from "./Allcode/CodeProvince";
-import CodeTime from "./Allcode/CodeTime";
-import CodeSpecialty from "./Allcode/CodeSpecialty";
-import CodeBusiness from "./Allcode/CodeBusiness";
+import ManageCode from "./Allcode/ManageCode";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import "./style.css";
@@ -42,14 +39,11 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
                   path="manage-specialty"
                   element={<TableManageSpecialty />}
                 />
-
-                <Route path="manage-code-price" element={<CodeBusiness />} />
-                <Route path="manage-code-province" element={<CodeProvince />} />
-                <Route path="manage-code-time" element={<CodeTime />} />
-                <Route
-                  path="manage-code-specialty"
-                  element={<CodeSpecialty />}
-                />
+                <Route path="manage-code-price" element={<ManageCode />} />
+                <Route path="manage-code-payment" element={<ManageCode />} />
+                <Route path="manage-code-province" element={<ManageCode />} />
+                <Route path="manage-code-time" element={<ManageCode />} />
+                <Route path="manage-code-specialty" element={<ManageCode />} />
                 {/* <Route
                   path="/manage-detail-clinic"
                   element={<ManageDetailClinic />}

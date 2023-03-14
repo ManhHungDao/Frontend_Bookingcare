@@ -18,6 +18,8 @@ import {
   Tooltip,
   IconButton,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { tableCellClasses } from "@mui/material/TableCell";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import ButtonComponent from "../../../../components/ButtonComponent";
@@ -29,7 +31,6 @@ const FormData = ({
   data,
   type,
   page,
-  setPage,
   title,
   updateAllCodeAction,
   deleteAllCodeAction,
@@ -40,22 +41,27 @@ const FormData = ({
   setValueVI,
   valueEN,
   setValueEN,
-
   isEdit,
   setIsEdit,
+  rowsPerPage,
+  handleChangeRowsPerPage,
+  handleChangePage,
+  count,
 }) => {
-  const [editCode, setEditCode] = useState({});
-  const [deleteCode, setDeleteCode] = useState({});
-  // const [isEdit, setIsEdit] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [errors, setErrors] = useState({});
-
-  // const [allcodes, setAllcodes] = useState([]);
-  // useEffect(() => {
-  //   if (data && data.length > 0 && type)
-  //     setAllcodes(data.filter((e) => e.type === type));
-  // }, [type, data]);
-
+  const [editCode, setEditCode] = useState("");
+  const [deleteCode, setDeleteCode] = useState("");
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#ddd",
+      color: "black",
+    },
+  }));
+  useEffect(() => {
+    if (type) {
+      setEditCode("");
+      setDeleteCode("");
+    }
+  }, [type]);
   const hadnleClickEdit = (props) => {
     setIsEdit(true);
     setEditCode(props);
@@ -87,22 +93,19 @@ const FormData = ({
       createAllCodeAction(data);
     }
   };
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
   const handleClickRenew = () => {
     setValueVI("");
     setValueEN("");
     setEditCode({});
     setIsEdit(false);
-    setErrors({});
   };
+
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
-      <TableCell>Loại</TableCell>
-      <TableCell>Tên tiếng anh</TableCell>
-      <TableCell>Tên tiếng việt</TableCell>
-      <TableCell></TableCell>
+      <StyledTableCell>Loại</StyledTableCell>
+      <StyledTableCell>Tên tiếng anh</StyledTableCell>
+      <StyledTableCell>Tên tiếng việt</StyledTableCell>
+      <StyledTableCell></StyledTableCell>
     </TableRow>
   );
   const TableColumn = (props) => {
@@ -138,7 +141,7 @@ const FormData = ({
         </Tooltip>
       </Typography>
       <Divider />
-      <Grid container spacing={2} sx={{ mt: 2 }} >
+      <Grid container spacing={2} sx={{ mt: 2 }}>
         <Grid item xs={12} md={4}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={12}>
@@ -175,11 +178,12 @@ const FormData = ({
           </Grid>
         </Grid>
         <Grid item xs={12} md={8}>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} sx={{ maxHeight: 550 }}>
             <Table
               sx={{ minWidth: 650 }}
               size="small"
               aria-label="simple table"
+              stickyHeader
             >
               <TableHead>
                 <TableRowName />
@@ -193,11 +197,13 @@ const FormData = ({
           </TableContainer>
           {data && (
             <TablePagination
+              rowsPerPageOptions={[10, 15, 25]}
               component="div"
-              count={data.length}
+              count={count}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
               className="table__user--pagination"
             />
           )}

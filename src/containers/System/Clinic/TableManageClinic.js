@@ -24,6 +24,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import SearchIcon from "@mui/icons-material/Search";
 import CachedIcon from "@mui/icons-material/Cached";
+import { styled } from "@mui/material/styles";
+import { tableCellClasses } from "@mui/material/TableCell";
 
 const TableManageClinic = ({
   getListClinicAction,
@@ -39,9 +41,13 @@ const TableManageClinic = ({
   const [open, setOpen] = useState(false);
   const [clinicEdit, setClinicEdit] = useState({});
   const [clinicDelete, setClinicDelete] = useState({});
-
   const [search, setSearch] = useState("");
-
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#ddd",
+      color: "black",
+    },
+  }));
   useEffect(() => {
     fetchDataAPI(1, rowsPerPage);
   }, []);
@@ -121,10 +127,10 @@ const TableManageClinic = ({
   };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
-      <TableCell>Cơ sở</TableCell>
-      <TableCell>Địa chỉ</TableCell>
-      <TableCell>Lượt truy cập</TableCell>
-      <TableCell></TableCell>
+      <StyledTableCell>Cơ sở</StyledTableCell>
+      <StyledTableCell>Địa chỉ</StyledTableCell>
+      <StyledTableCell>Lượt truy cập</StyledTableCell>
+      <StyledTableCell></StyledTableCell>
     </TableRow>
   );
   const TableColumn = (props) => {
@@ -199,11 +205,12 @@ const TableManageClinic = ({
               </Grid>
             </Grid>
           </Box>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} sx={{ maxHeight: 550 }}>
             <Table
               sx={{ minWidth: 650 }}
               size="small"
               aria-label="simple table"
+              stickyHeader
             >
               <TableHead>
                 <TableRowName />

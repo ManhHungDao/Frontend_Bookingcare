@@ -4,8 +4,10 @@ const getAllcode = () => {
   return axios.get(`/api/get-all-allcode`);
 };
 
-const getAllcodeByType = (type) => {
-  return axios.get(`/api/get-allcode-type?type=${type}`);
+const getAllCodeByType = (data) => {
+  return axios.get(
+    `/api/get-allcode-pagination?page=${data.page}&filter=${data.filter}&size=${data.size}`
+  );
 };
 
 const createAllcode = (data) => {
@@ -23,5 +25,5 @@ export {
   createAllcode,
   updateAllcode,
   deleteAllcode,
-  getAllcodeByType,
+  getAllCodeByType,
 };

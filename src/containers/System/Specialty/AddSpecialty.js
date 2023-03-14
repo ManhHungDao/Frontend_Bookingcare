@@ -37,16 +37,17 @@ const AddSpecialty = ({
   }, [isPopular]);
 
   useEffect(() => {
-    if (_.isEmpty(listClinic)) getListClinicAction();
-    else {
+    getListClinicAction();
+    fetchAllcodeByTypeAction("SPECIALTY");
+  }, []);
+
+  useEffect(() => {
+    if (listClinic && listClinic.length > 0)
       setDataClinic(listClinic.map((e) => ({ id: e._id, name: e.name })));
-    }
-    if (_.isEmpty(allcodeType)) fetchAllcodeByTypeAction("SPECIALTY");
-    else {
+    if (allcodeType && allcodeType.length > 0)
       setDataSpecialty(
         allcodeType.map((e) => ({ id: e._id, name: e.valueVI }))
       );
-    }
   }, [listClinic, allcodeType]);
 
   useEffect(() => {
@@ -161,7 +162,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createSpecialtyAction: (data) =>
       dispatch(actions.createSpecialtyAction(data)),
-    getListClinicAction: () => dispatch(actions.getListClinicHomePatientAction()),
+    getListClinicAction: () =>
+      dispatch(actions.getListClinicHomePatientAction()),
     clearStatus: () => dispatch(actions.clearStatus()),
     fetchAllcodeByTypeAction: (type) =>
       dispatch(actions.fetchAllcodeByTypeAction(type)),

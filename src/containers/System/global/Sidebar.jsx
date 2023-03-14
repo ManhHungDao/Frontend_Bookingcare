@@ -241,8 +241,16 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               icon={<AppRegistrationIcon />}
             >
               <Item
-                title="Thanh toán"
+                title="Giá dịch vụ"
                 to="/admin/manage-code-price"
+                icon={<AttachMoneyIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Phương thức"
+                to="/admin/manage-code-payment"
                 icon={<CreditCardIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}

@@ -27,7 +27,7 @@ import {
   createAllcode,
   updateAllcode,
   deleteAllcode,
-  getAllcodeByType,
+  getAllCodeByType,
 } from "../../services/allcodeService";
 import { toast } from "react-toastify";
 
@@ -56,21 +56,24 @@ export const fetchAllcodeAction = () => {
     }
   };
 };
-export const fetchAllcodeByTypeAction = (type) => {
+export const fetchAllcodeByTypeAction = (data) => {
   return async (dispatch, getState) => {
     try {
-      const res = await getAllcodeByType(type);
+      const res = await getAllCodeByType(data);
       if (res && res.success) {
         dispatch({
           type: actionTypes.FETCH_ALLCODE_TYPE_SUCCESS,
-          data: res.allcodes,
+          data: {
+            list: res.allcodes,
+            count: res.count,
+          },
         });
       }
     } catch (error) {
       dispatch({
         type: actionTypes.FETCH_ALLCODE_TYPE_FAILED,
       });
-      toast.error(`Lấy tất cả mã ${type} thất bại`);
+      toast.error(`Lấy tất cả mã ${data.type ? data.type : ""} thất bại`);
     }
   };
 };
