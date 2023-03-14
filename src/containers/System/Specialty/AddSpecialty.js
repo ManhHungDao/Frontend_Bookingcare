@@ -9,7 +9,6 @@ import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic"
 import ButtonComponent from "../../../components/ButtonComponent";
 import _ from "lodash";
 import useIsTablet from "../../../components/useScreen/useIsTablet";
-import Select from "react-select";
 import { toast } from "react-toastify";
 import InputSelect from "../../../components/Input/InputSelect";
 
@@ -30,6 +29,7 @@ const AddSpecialty = ({
   const [isPopular, setIsPopular] = useState(false);
   const [selectClinic, setSelectClinic] = useState("");
   const [selectSpecialty, setSelectSpecialty] = useState("");
+  const [errors, setErrors] = useState("");
   const smScreen = useIsTablet();
 
   useEffect(() => {
@@ -38,15 +38,20 @@ const AddSpecialty = ({
 
   useEffect(() => {
     getListClinicAction();
-    fetchAllcodeByTypeAction("SPECIALTY");
+    const data = {
+      page: 1,
+      filter: "SPECIALTY",
+      size: 999,
+    };
+    fetchAllcodeByTypeAction(data);
   }, []);
 
   useEffect(() => {
     if (listClinic && listClinic.length > 0)
       setDataClinic(listClinic.map((e) => ({ id: e._id, name: e.name })));
-    if (allcodeType && allcodeType.length > 0)
+    if (allcodeType.list && allcodeType.list.length > 0)
       setDataSpecialty(
-        allcodeType.map((e) => ({ id: e._id, name: e.valueVI }))
+        allcodeType.list.map((e) => ({ id: e._id, name: e.valueVI }))
       );
   }, [listClinic, allcodeType]);
 
@@ -57,13 +62,30 @@ const AddSpecialty = ({
       setPreviewImgUrl("");
       setSelectClinic("");
       setSelectSpecialty("");
+      setErrors("");
     }
     clearStatus();
   }, [isSuccess]);
+  const checkValidate = () => {
+    let errors = {};
+    if (!image) errors.image = "Chưa tải hình ảnh";
+    if (!selectSpecialty) errors.selectSpecialty = "Chưa chọn chuyên khoa";
+    if (isPopular === false)
+      if (!selectClinic) errors.selectClinic = "Chưa chọn cơ sở";
+
+    return errors;
+  };
+  const isValid = (errors) => {
+    let keys = Object.keys(errors);
+    let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
+    return count === 0;
+  };
 
   const handleSave = () => {
-    if (!selectSpecialty) {
-      toast.error("Chưa chọn tên chuyên khoa");
+    const errors = checkValidate();
+    const checkValidInPut = isValid(errors);
+    if (!checkValidInPut) {
+      setErrors(errors);
       return;
     }
     let data = {
@@ -99,6 +121,8 @@ const AddSpecialty = ({
                     onChange={setSelectClinic}
                     data={dataClinic}
                     name="Chọn phòng khám"
+                    isError={errors.selectClinic ? true : false}
+                    errorText={errors.selectClinic ? errors.selectClinic : ""}
                   />
                 </Grid>
               )}
@@ -108,6 +132,10 @@ const AddSpecialty = ({
                   onChange={setSelectSpecialty}
                   data={dataSpecialty}
                   name="Chọn chuyên khoa"
+                  isError={errors.selectSpecialty ? true : false}
+                  errorText={
+                    errors.selectSpecialty ? errors.selectSpecialty : ""
+                  }
                 />
               </Grid>
             </Grid>
@@ -128,11 +156,16 @@ const AddSpecialty = ({
               preWidth={smScreen ? "250px" : "400px"}
               previewImgUrl={previewImgUrl}
               setPreviewImgUrl={setPreviewImgUrl}
+              isError={errors.image ? true : false}
+              errorText={errors.image}
             />
           </Grid>
           <Grid item xs={12} md={12}>
-            Chi tiết
-            <CKEditorFieldBasic value={content} onChange={setContent} />
+            <CKEditorFieldBasic
+              value={content}
+              onChange={setContent}
+              title="Chi tiết"
+            />
           </Grid>
           <Grid xs={12} md={12} item display="flex" justifyContent="flex-end">
             <ButtonComponent
@@ -165,8 +198,8 @@ const mapDispatchToProps = (dispatch) => {
     getListClinicAction: () =>
       dispatch(actions.getListClinicHomePatientAction()),
     clearStatus: () => dispatch(actions.clearStatus()),
-    fetchAllcodeByTypeAction: (type) =>
-      dispatch(actions.fetchAllcodeByTypeAction(type)),
+    fetchAllcodeByTypeAction: (data) =>
+      dispatch(actions.fetchAllcodeByTypeAction(data)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddSpecialty);

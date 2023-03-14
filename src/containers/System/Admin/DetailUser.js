@@ -36,6 +36,8 @@ const DetailUser = ({
   updateUser,
   listSpecialtyInClinic,
   getSpecialtyByClinicIdAction,
+  enableEdit,
+  setEnableEdit,
 }) => {
   //infomation doctor
   const [roleId, setRoleId] = useState("");
@@ -64,7 +66,6 @@ const DetailUser = ({
   const [imgUpdate, setImgUpdate] = useState(null);
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   // check edit
-  const [enableEdit, setEnableEdit] = useState(false);
   const [listSpecialty, setListSpecialty] = useState([]);
   // dùng useRef lưu lại chuyên khoa ban đầu
   const idSpecialty = useRef();

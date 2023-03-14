@@ -160,7 +160,7 @@ const AddNewUser = ({
     if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
     if (!price) errors.price = "Chưa chọn giá";
     if (!clinic) errors.clinic = "Chưa chọn cơ sở";
-    if (!specialty) errors.specialty = "Chưa chọn khoa";
+    if (!specialty) errors.specialty = "Chưa chọn chuyên khoa";
     if (!image) errors.image = "Chưa tải hình ảnh";
     return errors;
   };

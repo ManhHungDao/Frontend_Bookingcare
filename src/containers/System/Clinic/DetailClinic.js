@@ -19,7 +19,14 @@ import ClinicProfile from "./Section/ClinicProfile";
 import { ClinicDetail } from "./Section/clinic-details";
 import "./style.scss";
 
-const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
+const DetailClinic = ({
+  clinic,
+  open,
+  setOpen,
+  updateClinic,
+  enableEdit,
+  setEnableEdit,
+}) => {
   const [address, setAddress] = useState({
     detail: "",
     province: "",
@@ -39,7 +46,7 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
   const [errors, setErrors] = useState({});
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [previewLogoUrl, setPreviewLogoUrl] = useState("");
-  const [enableEdit, setEnableEdit] = useState(false);
+  // const [enableEdit, setEnableEdit] = useState(false);
 
   useEffect(() => {
     setAddress({
@@ -57,7 +64,6 @@ const DetailClinic = ({ clinic, open, setOpen, updateClinic }) => {
       lng: clinic?.address?.lng ? clinic?.address?.lng : null,
     });
   }, [clinic]);
-  useEffect(() => {}, []);
 
   const checkValidate = () => {
     let errors = {};

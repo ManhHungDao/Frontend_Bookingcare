@@ -26,6 +26,10 @@ const updateSpecialty = (id, data) => {
   return axios.put(`/api/update-specialty?id=${id}`, data);
 };
 
+const getPopularHomePatient = (a) => {
+  return axios.get(`/api/get-popular-spacialty-home`);
+};
+
 export {
   getSingleSpecialty,
   getAllSpecialty,
@@ -33,4 +37,5 @@ export {
   deleteSpecialty,
   getClinicById,
   updateSpecialty,
+  getPopularHomePatient,
 };

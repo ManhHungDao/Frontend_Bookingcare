@@ -2,26 +2,28 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./style.scss";
-
-class HomeFooter extends Component {
-  render() {
-    return (
-      <div className="footer-container">
-        <div className="container">
-          <div className="company-info">
-            <div className="lg"></div>
-            <div className="address">
-              <p>Công ty Cổ phần Công nghệ HealthCare</p>
-              <p>
-                <i className="fas fa-map-marker-alt"></i>
-                28 Thành Thái, Dịch Vọng, Cầu Giấy, Hà Nội
-              </p>
-              <p>
-                <i className="fas fa-check"></i>
-                ĐKKD số: 0106790291. Sở KHĐT Hà Nội cấp ngày 16/03/2015
-              </p>
-            </div>
+import { Container } from "@mui/material";
+import useIsMobile from "../../../components/useScreen/useIsMobile";
+const HomeFooter = () => {
+  const smScreen = useIsMobile();
+  return (
+    <div className="footer-container">
+      <Container sx={{ display: "flex", justifyContent: "space-between" }}>
+        <div className="company-info">
+          <div className="lg"></div>
+          <div className="address">
+            <p>Công ty Cổ phần Công nghệ HealthCare</p>
+            <p>
+              <i className="fas fa-map-marker-alt"></i>
+              28 Thành Thái, Dịch Vọng, Cầu Giấy, Hà Nội
+            </p>
+            <p>
+              <i className="fas fa-check"></i>
+              ĐKKD số: 0106790291. Sở KHĐT Hà Nội cấp ngày 16/03/2015
+            </p>
           </div>
+        </div>
+        {!smScreen && (
           <div className="company-headquarters">
             <span>
               <p className="name">Trụ sở tại Hà Nội</p>
@@ -36,14 +38,14 @@ class HomeFooter extends Component {
               Hỗ trợ khách hàng
             </span>
           </div>
-        </div>
-        <div className="author">
-          <p>&copy; 2022 Đào Mạnh Hùng.</p>
-        </div>
+        )}
+      </Container>
+      <div className="author">
+        <p>&copy; 2022 Đào Mạnh Hùng.</p>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {

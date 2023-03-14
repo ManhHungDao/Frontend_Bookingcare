@@ -34,7 +34,7 @@ const AddClinic = ({ createClinicAction, isSuccess, message, clearStatus }) => {
       setImage("");
       setLogo("");
       setName("");
-      setAddress("");
+      setAddress({ detail: "", province: "" });
       setIntroduce("");
       setProvince("");
       setCoordinates({
@@ -51,7 +51,9 @@ const AddClinic = ({ createClinicAction, isSuccess, message, clearStatus }) => {
     if (!name) errors.name = "Tên không được bỏ trống";
     if (!address) errors.address = "Địa chỉ không được bỏ trống";
     if (!content) errors.content = "Chi tiết không được bỏ trống";
-    if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
+    if (!introduce) errors.introduce = "Giới thiệu không được bỏ trống";
+    if (!image) errors.image = "Chưa tải hình ảnh";
+    if (!logo) errors.logo = "Chưa tải hình đại diện";
     return errors;
   };
   const isValid = (errors) => {
@@ -136,6 +138,8 @@ const AddClinic = ({ createClinicAction, isSuccess, message, clearStatus }) => {
                 backgroundSize="contain"
                 setPreviewImgUrl={setPreviewLogoUrl}
                 previewImgUrl={previewLogoUrl}
+                isError={errors.logo ? true : false}
+                errorText={errors.logo}
               />
             </Grid>
             <Grid item xs={12} md={4}>
@@ -147,18 +151,30 @@ const AddClinic = ({ createClinicAction, isSuccess, message, clearStatus }) => {
                 setImg={setImage}
                 previewImgUrl={previewImgUrl}
                 setPreviewImgUrl={setPreviewImgUrl}
+                isError={errors.image ? true : false}
+                errorText={errors.image}
               />
             </Grid>
           </Grid>
           <Grid item xs={12} md={12}>
-            Giới thiệu
             <span className="detail__clinic--introduce">
-              <CKEditorFieldBasic value={introduce} onChange={setIntroduce} />
+              <CKEditorFieldBasic
+                value={introduce}
+                onChange={setIntroduce}
+                title="Giới thiệu"
+                isError={errors.introduce ? true : false}
+                errorText={errors.introduce}
+              />
             </span>
           </Grid>
           <Grid item xs={12} md={12}>
-            Chi tiết
-            <CKEditorFieldBasic value={content} onChange={setContent} />
+            <CKEditorFieldBasic
+              value={content}
+              onChange={setContent}
+              title="Chi tiết"
+              isError={errors.content ? true : false}
+              errorText={errors.content}
+            />
           </Grid>
           <Grid xs={12} md={12} item display="flex" justifyContent="flex-end">
             <ButtonComponent

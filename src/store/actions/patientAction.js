@@ -7,6 +7,8 @@ import {
   createClinic,
   getAllClinicHomePatient,
 } from "../../services/clinicService";
+
+import { getPopularHomePatient } from "../../services/specialtySerivce";
 import { loadingToggleAction } from "./adminActions";
 
 // export const loadingToggleAction = (status) => {
@@ -64,3 +66,23 @@ export const getListClinicHomePatientAction = () => {
   };
 };
 
+export const getListSpecialtyHomePatientAction = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getPopularHomePatient();
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.PATIENT_GET_LIST_SPECIALTY_SUCCEED,
+          data: res.specialties,
+        });
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.PATIENT_GET_LIST_SPECIALTY_FAILED,
+      });
+    }
+  };
+};

@@ -48,6 +48,7 @@ const TableManageUser = (props) => {
   const [listSelectClinic, setListSelectClinic] = useState([]);
   const [selectClinic, setSelectClinic] = useState("");
   const [search, setSearch] = useState("");
+  const [enableEdit, setEnableEdit] = useState(false);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -64,8 +65,9 @@ const TableManageUser = (props) => {
   useEffect(() => {
     if (props.isSuccess !== null) {
       if (props.isSuccess === true) {
-        props.getAllUserAction();
+        fetchDataAPI(page + 1, rowsPerPage);
         setOpen(false);
+        setEnableEdit(false);
       }
       setOpenConfirmModal(false);
       props.clearStatus();
@@ -318,7 +320,15 @@ const TableManageUser = (props) => {
           )}
         </Box>
       </Box>
-      {userEdit && <DetailUser open={open} setOpen={setOpen} user={userEdit} />}
+      {userEdit && (
+        <DetailUser
+          open={open}
+          setOpen={setOpen}
+          user={userEdit}
+          enableEdit={enableEdit}
+          setEnableEdit={setEnableEdit}
+        />
+      )}
       {userDelete && (
         <ConfirmModal
           open={openConfirmModal}

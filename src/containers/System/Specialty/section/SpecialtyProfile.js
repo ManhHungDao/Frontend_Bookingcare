@@ -65,7 +65,11 @@ const SpecialtyProfile = ({
               {name ? name : ""}
             </Typography>
             <Box>
-              <Typography color="text.secondary" variant="body2">
+              <Typography
+                color="text.secondary"
+                variant="body2"
+                className="d-flex align-items-end"
+              >
                 <HomeWorkOutlinedIcon />
                 <span style={{ marginLeft: "5px" }}>
                   Phòng khám: {clinic ? clinic : ""}

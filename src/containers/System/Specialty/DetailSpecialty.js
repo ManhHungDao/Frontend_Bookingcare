@@ -24,7 +24,8 @@ const DetailSpecialty = ({
   setOpen,
   isSuccess,
   updateSpecialty,
-  clearStatus,
+  clearStatus,  enableEdit,
+  setEnableEdit,
 }) => {
   const [image, setImage] = useState("");
   const [detail, setDetail] = useState("");
@@ -33,7 +34,6 @@ const DetailSpecialty = ({
   //
   const [imgUpdate, setImgUpdate] = useState(null);
   const [previewImgUrl, setPreviewImgUrl] = useState("");
-  const [enableEdit, setEnableEdit] = useState(false);
 
   useEffect(() => {
     setImage(specialty?.image?.url ? specialty.image.url : "");

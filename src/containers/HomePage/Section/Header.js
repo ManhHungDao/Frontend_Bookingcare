@@ -19,16 +19,15 @@ import hinh2 from "../../../assets/hospital-search.jpg";
 import hinh3 from "../../../assets/dich-vu-tai-nha-2.jpg";
 import hinh4 from "../../../assets/quy-trinh-kham-benh-va-nhung-dieu-can-luu-y-1.jpg";
 import { Grid, Stack } from "@mui/material";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper";
 import { useNavigate } from "react-router-dom";
-import "swiper/css";
-import "swiper/css/pagination";
+import Slider from "react-slick";
 import "./style.scss";
-import useIsMobile from "../../../components/useScreen/useIsMobile.js";
+import useIsTablet from "../../../components/useScreen/useIsTablet.js";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const HomeHeader = ({ changLanguageAppRedux, language }) => {
-  const smScreen = useIsMobile();
+  const smScreen = useIsTablet();
   const navigate = useNavigate();
 
   const changeLanguage = (language) => {
@@ -37,7 +36,16 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
   const returnHome = () => {
     navigate(`/`);
   };
-
+  const settings = {
+    dots: false,
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    speed: 500,
+    autoplaySpeed: 3000,
+    cssEase: "linear",
+  };
   return (
     <>
       <div className="home-header-container d-flex align-items-center">
@@ -175,130 +183,21 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
             </Grid>
           </Grid>
         </div>
-      </div>
-      {/* {this.props.isShowBanner === true && (
-          <div className="home-header-banner">
-            <div className="content-down">
-              <div className="options">
-                <div className="options-child">
-                  <div
-                    className="icon-child child1"
-                    style={{
-                      backgroundImage: `url(${iconHospital})`,
-                    }}
-                  ></div>
-                  <div className="text-child">
-                    <FormattedMessage id="banner.optinal-1" />
-                  </div>
-                </div>
-                <div className="options-child">
-                  <div
-                    className="icon-child "
-                    style={{
-                      backgroundImage: `url(${iconDienThoai})`,
-                    }}
-                  ></div>
-                  <div className="text-child">
-                    <FormattedMessage id="banner.optinal-2" />
-                  </div>
-                </div>
-                <div className="options-child">
-                  <div
-                    className="icon-child "
-                    style={{
-                      backgroundImage: `url(${iconKhamTongQuat})`,
-                    }}
-                  ></div>
-                  <div className="text-child">
-                    <FormattedMessage id="banner.optinal-3" />
-                  </div>
-                </div>
-                <div className="options-child">
-                  <div
-                    className="icon-child "
-                    style={{
-                      backgroundImage: `url(${iconDichVuXetNghiem})`,
-                    }}
-                  ></div>
-                  <div className="text-child">
-                    <FormattedMessage id="banner.optinal-4" />
-                  </div>
-                </div>
-                <div className="options-child">
-                  <div
-                    className="icon-child "
-                    style={{
-                      backgroundImage: `url(${iconSucKhoeTinhThan})`,
-                    }}
-                  ></div>
-                  <div className="text-child">
-                    <FormattedMessage id="banner.optinal-5" />
-                  </div>
-                </div>
-                <div className="options-child">
-                  <div
-                    className="icon-child "
-                    style={{
-                      backgroundImage: `url(${iconKhamNhaKhoa})`,
-                    }}
-                  ></div>
-                  <div className="text-child">
-                    <FormattedMessage id="banner.optinal-6" />
-                  </div>
-                </div>
-                <div className="options-child">
-                  <div
-                    className="icon-child "
-                    style={{
-                      backgroundImage: `url(${iconPhauThuat})`,
-                    }}
-                  ></div>
-                  <div className="text-child">
-                    <FormattedMessage id="banner.optinal-7" />
-                  </div>
-                </div>
-                <div className="options-child">
-                  <div
-                    className="icon-child "
-                    style={{
-                      backgroundImage: `url(${iconKhamTaiNha})`,
-                    }}
-                  ></div>
-                  <div className="text-child">
-                    <FormattedMessage id="banner.optinal-8" />
-                  </div>
-                </div>
-              </div>
-            </div>
+        <Slider {...settings}>
+          <div>
+            <img className="" src={hinh1} />
           </div>
-        )} */}
-      <Swiper
-        spaceBetween={30}
-        centeredSlides={true}
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        // navigation={true}
-        modules={[Autoplay, Pagination]}
-        className="mySwiper"
-      >
-        <SwiperSlide>
-          <img className="" src={hinh1} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img className="" src={hinh2} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img className="" src={hinh3} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img className="" src={hinh4} />
-        </SwiperSlide>
-      </Swiper>
+          <div>
+            <img className="" src={hinh2} />
+          </div>
+          <div>
+            <img className="" src={hinh3} />
+          </div>
+          <div>
+            <img className="" src={hinh4} />
+          </div>
+        </Slider>
+      </div>
     </>
   );
 };

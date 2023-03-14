@@ -1,26 +1,34 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import _ from "lodash";
-
 import HomeHeader from "./Section/Header.js";
-
 import About from "./Section/About.js";
 import Footer from "./Section/Footer";
 import * as actions from "../../store/actions";
 import DataSection from "./Section/DataSection.js";
 import "./HomePage.scss";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { useEffect } from "react";
 import useIsMobile from "../../components/useScreen/useIsMobile.js";
 
-const HomePage = ({ listClinic, getListClinicHomePatient }) => {
+const HomePage = ({
+  listClinic,
+  getListClinicHome,
+  listSpecialty,
+  getListSpecialtyHome,
+}) => {
   const [clinics, setClinics] = useState([]);
-  const isModile = useIsMobile();
+  const [specialties, setSpecialties] = useState([]);
+  const [slide, setSlide] = useState("");
+  const [showNav, setShowNav] = useState("");
+  const isMobile = useIsMobile();
+
   useEffect(() => {
-    if (_.isEmpty(listClinic)) getListClinicHomePatient();
-    else {
+    getListClinicHome();
+    getListSpecialtyHome();
+  }, []);
+  useEffect(() => {
+    if (listClinic && listClinic.length > 0)
       setClinics(
         listClinic.map((e) => ({
           id: e._id,
@@ -28,16 +36,46 @@ const HomePage = ({ listClinic, getListClinicHomePatient }) => {
           image: e.image.url,
         }))
       );
+    else {
+      setClinics([]);
     }
-  }, [listClinic]);
+    if (listSpecialty && listSpecialty.length > 0)
+      setSpecialties(
+        listSpecialty.map((e) => ({
+          id: e._id,
+          name: e.name,
+          image: e.image.url,
+        }))
+      );
+    else {
+      setSpecialties([]);
+    }
+  }, [listClinic, listSpecialty]);
+
+  useEffect(() => {
+    if (isMobile) {
+      setSlide(2);
+      setShowNav(false);
+    } else {
+      setSlide(4);
+      setShowNav(true);
+    }
+  }, [isMobile]);
   return (
     <>
       <HomeHeader isShowBanner={true} />
       <DataSection
+        data={specialties}
+        titleSection={<FormattedMessage id="homepage.specialty-popular" />}
+        slidesPerView={slide}
+        navigation={showNav}
+        linkItem="specialty"
+      />
+      <DataSection
         data={clinics}
         titleSection={<FormattedMessage id="homepage.clinic-popular" />}
-        slidesPerView={isModile ? 2 : 4}
-        navigation={isModile ? false : true}
+        slidesPerView={slide}
+        navigation={showNav}
         linkItem="clinic"
       />
       <About />
@@ -48,13 +86,15 @@ const HomePage = ({ listClinic, getListClinicHomePatient }) => {
 const mapStateToProps = (state) => {
   return {
     listClinic: state.patient.listClinic,
+    listSpecialty: state.patient.listSpecialty,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListClinicHomePatient: () =>
-      dispatch(actions.getListClinicHomePatientAction()),
+    getListClinicHome: () => dispatch(actions.getListClinicHomePatientAction()),
+    getListSpecialtyHome: () =>
+      dispatch(actions.getListSpecialtyHomePatientAction()),
   };
 };
 

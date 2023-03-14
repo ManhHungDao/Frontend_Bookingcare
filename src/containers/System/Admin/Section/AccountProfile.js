@@ -166,7 +166,7 @@ const AccountProfile = ({
                     variant="body2"
                   >
                     <HomeRepairServiceIcon />
-                    {clinic?.label ? clinic.label : ""} -
+                    {clinic?.label ? clinic.label : ""} -&nbsp;
                     {specialty?.label ? specialty.label : ""}
                   </Typography>
                 </Box>

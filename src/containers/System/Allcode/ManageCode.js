@@ -54,6 +54,8 @@ const ManageCode = ({
   useEffect(() => {
     if (allcodeType.list && allcodeType.list.length > 0) {
       setData(allcodeType.list);
+    }else{
+      setData([])
     }
   }, [allcodeType]);
   useEffect(() => {

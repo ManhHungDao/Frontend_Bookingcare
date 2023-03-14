@@ -94,7 +94,9 @@ export const createAllCodeAction = (data) => {
       dispatch({
         type: actionTypes.CREATE_FAILED,
       });
-      toast.error("Tạo mã thất bại");
+      if (error.response.data.error.statusCode === 409)
+        toast.warning("Mã định danh đã tồn tại");
+      else toast.error("Tạo mã thất bại");
     }
   };
 };
@@ -116,8 +118,8 @@ export const updateAllCodeAction = (id, data) => {
       dispatch({
         type: actionTypes.UPDATE_FAILED,
       });
-      if (error.response.data.error.code === 11000)
-        toast.error("Mã định danh đã tồn tại");
+      if (error.response.data.error.statusCode === 409)
+        toast.warning("Mã định danh đã tồn tại");
       else toast.error("Cập nhập mã thất bại");
     }
   };
@@ -346,7 +348,6 @@ export const updateClinicAction = (id, data) => {
         dispatch({
           type: actionTypes.UPDATE_SUCCESS,
         });
-        dispatch(getListClinicAction());
         dispatch(loadingToggleAction(false));
         toast.success("Cập nhập thông tin thành công");
       }

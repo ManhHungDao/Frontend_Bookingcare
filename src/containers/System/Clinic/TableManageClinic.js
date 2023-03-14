@@ -42,6 +42,8 @@ const TableManageClinic = ({
   const [clinicEdit, setClinicEdit] = useState({});
   const [clinicDelete, setClinicDelete] = useState({});
   const [search, setSearch] = useState("");
+  const [enableEdit, setEnableEdit] = useState(false);
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#ddd",
@@ -66,6 +68,8 @@ const TableManageClinic = ({
         };
       });
       setList(data);
+    } else {
+      setList([]);
     }
   }, [listClinic]);
 
@@ -73,6 +77,7 @@ const TableManageClinic = ({
     if (isSuccess !== null) {
       if (isSuccess === true) {
         setOpen(false);
+        setEnableEdit(false);
         fetchDataAPI(1, rowsPerPage, "");
       }
       setOpenConfirmModal(false);
@@ -235,7 +240,13 @@ const TableManageClinic = ({
         </Box>
       </Box>
       {clinicEdit && (
-        <DetailClinic setOpen={setOpen} open={open} clinic={clinicEdit} />
+        <DetailClinic
+          setOpen={setOpen}
+          open={open}
+          clinic={clinicEdit}
+          enableEdit={enableEdit}
+          setEnableEdit={setEnableEdit}
+        />
       )}
       <ConfirmModal
         open={openConfirmModal}

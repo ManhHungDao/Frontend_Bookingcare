@@ -1,22 +1,7 @@
-.swiper {
-  width: 100%;
-  height: 100%;
-
-  .swiper-slide {
-    text-align: center;
-    font-size: 18px;
-    background: transparent;
-    /* Center slide text vertically */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+.home-header-container {
+  .slick-prev,
+  .slick-next {
+    display: none !important;
   }
 }
 
@@ -31,14 +16,11 @@
   }
 
   .company-info {
-    width: 30%;
-
     .lg {
       background: url("../../../assets/logo.svg") center no-repeat;
       width: 200px;
       height: 80px;
     }
-
     .address {
       i {
         padding-right: 10px;
@@ -48,8 +30,7 @@
   }
 
   .company-headquarters {
-    width: 30%;
-
+    margin-top: 10px;
     span {
       display: block;
       margin-bottom: 20px;
@@ -238,6 +219,10 @@
   .right-container {
     margin-left: auto;
   }
+  .slick-prev,
+  .slick-next {
+    display: none !important;
+  }
 }
 
 @media screen and (max-width: 576px) {
@@ -292,17 +277,20 @@
     }
 
     &__body {
+      .slick-prev:before,
+      .slick-next:before {
+        opacity: 0.75;
+        color: rgba(36, 34, 34, 0.84);
+      }
       &--item {
         width: 278px;
         cursor: pointer;
-
         img {
-          width: 278px;
+          width: 100%;
           height: 156px;
           background-position: center center;
           background-size: cover;
         }
-
         &--title {
           margin-top: 5px;
           font-weight: lighter;

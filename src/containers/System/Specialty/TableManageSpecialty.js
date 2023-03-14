@@ -28,8 +28,8 @@ import CachedIcon from "@mui/icons-material/Cached";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DetailSpecialty from "./DetailSpecialty";
-import InputSelect from "../../../components/Input/InputSelect";
 import { tableCellClasses } from "@mui/material/TableCell";
+import Select from "react-select";
 
 const TableManageSpecialty = ({
   getAllSpecialtyAction,
@@ -44,9 +44,10 @@ const TableManageSpecialty = ({
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
   const [open, setOpen] = useState(false);
-  const [specialtyEdit, setSpecialtyEdit] = useState({});
-  const [specialtyDelete, setSpecialtyDelete] = useState({});
+  const [specialtyEdit, setSpecialtyEdit] = useState("");
+  const [specialtyDelete, setSpecialtyDelete] = useState("");
   const [data, setData] = useState([]);
+  const [enableEdit, setEnableEdit] = useState(false);
 
   const [listSelectClinic, setListSelectClinic] = useState([]);
   const [selectClinic, setSelectClinic] = useState("");
@@ -75,9 +76,10 @@ const TableManageSpecialty = ({
     if (isSuccess !== null) {
       if (isSuccess === true) {
         setOpen(false);
-        getAllSpecialtyAction();
-        setSpecialtyEdit({});
-        setSpecialtyDelete({});
+        fetchDataAPI(page + 1, rowsPerPage);
+        setSpecialtyEdit("");
+        setSpecialtyDelete("");
+        setEnableEdit(false);
       }
       setOpenConfirmModal(false);
       clearStatus();
@@ -94,7 +96,7 @@ const TableManageSpecialty = ({
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: '#ddd',
+      backgroundColor: "#ddd",
       color: "black",
     },
   }));
@@ -225,12 +227,19 @@ const TableManageSpecialty = ({
                 </FormControl>
               </Grid>
               <Grid item sm={6} md={3}>
-                <InputSelect
+                <Select
+                  className={`react-select-container`}
                   value={selectClinic}
                   onChange={setSelectClinic}
-                  data={listSelectClinic}
-                  name="Lọc theo cơ sở"
-                  minWidth={200}
+                  options={listSelectClinic}
+                  placeholder="Lọc theo cơ sở"
+                  menuPortalTarget={document.body}
+                  styles={{
+                    menuPortal: (base) => ({
+                      ...base,
+                      zIndex: 9999,
+                    }),
+                  }}
                 />
               </Grid>
               <Grid item sm={6} md={3} display="flex" alignItems="center">
@@ -280,6 +289,8 @@ const TableManageSpecialty = ({
           setOpen={setOpen}
           open={open}
           specialty={specialtyEdit}
+          setEnableEdit={setEnableEdit}
+          enableEdit={enableEdit}
         />
       )}
       {specialtyDelete && (
