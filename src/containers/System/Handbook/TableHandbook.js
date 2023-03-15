@@ -24,6 +24,7 @@ import CachedIcon from "@mui/icons-material/Cached";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
 import Select from "react-select";
+import Detailhandbook from "./Detailhandbook";
 
 const TableHandbook = ({
   getListClinicAction,
@@ -90,6 +91,11 @@ const TableHandbook = ({
     };
     getAllHandbookAction(data);
   };
+  const handleDeleteClinic = () => {
+    const id = handbookDelete.id;
+    // if (id) deleteClincAction(id);
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     const clinicId = selectClinic.value ? selectClinic.value : "";
@@ -153,7 +159,7 @@ const TableHandbook = ({
             </span>
           </TableCell>
           <TableCell>{clinic.name ? clinic.name : "-"}</TableCell>
-          <TableCell>{specialty.name ? name.specialty : ""}</TableCell>
+          <TableCell>{specialty.name ? specialty.name : ""}</TableCell>
           <TableCell>
             <Tooltip title="Xem">
               <IconButton onClick={() => handleClickView(props)}>
@@ -174,7 +180,7 @@ const TableHandbook = ({
     <>
       <Box m="20px">
         <Header
-          title="Quản lý danh sách phòng khám"
+          title="Quản lý danh sách cẩm nang"
           subtitle="Quản lý phòng khám"
           titleBtn="Thêm mới"
           isShowBtn={true}
@@ -256,6 +262,23 @@ const TableHandbook = ({
           />
         </Box>
       </Box>
+      {handbookEdit && (
+        <Detailhandbook
+          setOpen={setOpen}
+          open={open}
+          handbook={handbookEdit}
+          enableEdit={enableEdit}
+          setEnableEdit={setEnableEdit}
+        />
+      )}
+      <ConfirmModal
+        open={openConfirmModal}
+        setOpen={setOpenConfirmModal}
+        title="Xóa cẩm nang"
+        content={`${handbookDelete.name ? handbookDelete.name : ""}`}
+        type="DELETE"
+        confirmFunc={handleDeleteClinic}
+      />
     </>
   );
 };
