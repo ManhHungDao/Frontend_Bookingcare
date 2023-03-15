@@ -4,27 +4,10 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { languages } from "../../../utils";
 import { changLanguageApp } from "../../../store/actions";
-// import icon optianal
-// import iconHospital from "../../assets/icon-optinal/hospital.png";
-// import iconDichVuXetNghiem from "../../assets/icon-optinal/dichvuxetnghiem.png";
-// import iconKhamNhaKhoa from "../../assets/icon-optinal/khamnhakhoa.png";
-// import iconKhamTaiNha from "../../assets/icon-optinal/khamtainha.png";
-// import iconKhamTongQuat from "../../assets/icon-optinal/khamtongquat.png";
-// import iconPhauThuat from "../../assets/icon-optinal/phau-thuat.jpg";
-// import iconDienThoai from "../../assets/icon-optinal/phone.png";
-// import iconSucKhoeTinhThan from "../../assets/icon-optinal/suckhoetinhthan.png";
-
-import hinh1 from "../../../assets/header-background.jpg";
-import hinh2 from "../../../assets/hospital-search.jpg";
-import hinh3 from "../../../assets/dich-vu-tai-nha-2.jpg";
-import hinh4 from "../../../assets/quy-trinh-kham-benh-va-nhung-dieu-can-luu-y-1.jpg";
 import { Grid, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Slider from "react-slick";
 import "./style.scss";
 import useIsTablet from "../../../components/useScreen/useIsTablet.js";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 const HomeHeader = ({ changLanguageAppRedux, language }) => {
   const smScreen = useIsTablet();
@@ -36,16 +19,7 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
   const returnHome = () => {
     navigate(`/`);
   };
-  const settings = {
-    dots: false,
-    infinite: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    speed: 500,
-    autoplaySpeed: 3000,
-    cssEase: "linear",
-  };
+
   return (
     <>
       <div className="home-header-container d-flex align-items-center">
@@ -146,26 +120,11 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
               md={3}
               display={"flex"}
               justifyContent={"flex-end"}
-              alignItems={"center"}
               sx={{
                 fontWeight: "bold",
                 gap: "10px",
               }}
             >
-              <Stack
-                display={"flex"}
-                alignItems={"center"}
-                sx={{
-                  cursor: "pointer",
-                  borderRight: "2px #000 solid",
-                  paddingRight: "8px",
-                }}
-              >
-                <i className="fas fa-question-circle icon-support"></i>
-                <span className="support-text">
-                  <FormattedMessage id="home-header.support" />
-                </span>
-              </Stack>
               <div
                 className={
                   language === languages.VI ? "lang-vi active" : "lang-vi"
@@ -183,20 +142,6 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
             </Grid>
           </Grid>
         </div>
-        <Slider {...settings}>
-          <div>
-            <img className="" src={hinh1} />
-          </div>
-          <div>
-            <img className="" src={hinh2} />
-          </div>
-          <div>
-            <img className="" src={hinh3} />
-          </div>
-          <div>
-            <img className="" src={hinh4} />
-          </div>
-        </Slider>
       </div>
     </>
   );

@@ -1,13 +1,5 @@
-.home-header-container {
-  .slick-prev,
-  .slick-next {
-    display: none !important;
-  }
-}
-
 .footer-container {
   background: #efefef;
-
   .container {
     // height: 250px;
     display: flex;
@@ -100,6 +92,37 @@
 
     &.active {
       color: #45c3d2;
+    }
+  }
+}
+
+//sub header
+.sub-header {
+  .icon-goback {
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+  }
+  .select-container {
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+
+    .support-container {
+      border-right: 1px solid #fff;
+      padding-right: 5px;
+      cursor: pointer;
+    }
+    .change-lang {
+      padding-left: 5px;
+    }
+    .lang-vi,
+    .lang-en {
+      cursor: pointer;
+      &.active {
+        text-decoration: underline;
+      }
     }
   }
 }

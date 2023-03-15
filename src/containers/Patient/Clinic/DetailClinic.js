@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import "./DetailClinic.scss";
 import { FormattedMessage } from "react-intl";
-import SubHeader from "../../HomePage/SubHeader";
-import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 import SelectSpecialtyClinic from "./SelectSpecialtyClinic";
 import RenderNote from "./RenderNote";
@@ -14,7 +12,8 @@ import Footer from "../../HomePage/Section/Footer";
 import _ from "lodash";
 import { Box, Container, Grid, Stack } from "@mui/material";
 import useIsMobile from "../../../components/useScreen/useIsMobile";
-// import RenderMenuBar from "./RenderMenuBar";
+// import Header from "../../HomePage/Section/Header";
+import SubHeader from "../../HomePage/Section/SubHeader";
 import { pageViewCount } from "../../../services/clinicService";
 import {
   Card,
@@ -32,15 +31,18 @@ const DetailClinic = ({ clinic, getSingleClinic, language }) => {
   const smScreen = useIsMobile();
 
   useEffect(() => {
-    getSingleClinic(id);
-    pageViewCount(id);
+    if (id) {
+      getSingleClinic(id);
+      pageViewCount(id);
+    }
   }, []);
 
   useEffect(() => {
-    setData(clinic);
+    if (!_.isEmpty(clinic)) setData(clinic);
   }, [clinic]);
   return (
     <>
+      <SubHeader />
       <Box className="render-detail">
         <Stack sx={{ width: "100%", height: smScreen ? "20vh" : "40vh" }}>
           <img
@@ -109,7 +111,7 @@ const DetailClinic = ({ clinic, getSingleClinic, language }) => {
           <BackToTop />
         </Container>
       </Box>
-      <Footer/>
+      <Footer />
     </>
   );
 };

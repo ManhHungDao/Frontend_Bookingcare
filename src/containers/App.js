@@ -74,9 +74,9 @@ class App extends Component {
                 newestOnTop={false}
                 closeOnClick
                 rtl={false}
-                pauseOnFocusLoss
                 draggable
-                pauseOnHover
+                pauseOnHover={false}
+                pauseOnFocusLoss={false}
               />
             </CustomScrollbars>
           </Router>

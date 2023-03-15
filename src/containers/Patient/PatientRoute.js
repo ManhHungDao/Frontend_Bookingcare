@@ -24,10 +24,10 @@ const PatientRoute = () => {
         {/* <Route path={"/render-list/packet"} element={Packet} />
         <Route path={"/detail-packet/:id"} element={Detail_packet} /> */}
         {/* <Route path={path.DOCTOR} element={DetailDoctor} />
-        <Route path={path.SPECIALTY} element={DetailSpecialty} />
         <Route path={path.HANDBOOK} element={ViewAllHandbook} />
         <Route path={path.HANDBOOK} element={DetailHandbook} />
-        <Route path={path.VERIFY_BOOKING} element={VerifyEmail} /> */}
+      <Route path={path.VERIFY_BOOKING} element={VerifyEmail} /> */}
+        <Route path={path.SPECIALTY} element={<DetailSpecialty />} />
         <Route path={path.CLINIC} element={<DetailClinic />} />
         {/* <Route
           path={path.TABLE_CLINIC_SPECIALTY}

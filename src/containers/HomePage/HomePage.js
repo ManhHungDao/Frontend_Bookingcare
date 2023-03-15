@@ -10,6 +10,14 @@ import DataSection from "./Section/DataSection.js";
 import "./HomePage.scss";
 import { useEffect } from "react";
 import useIsMobile from "../../components/useScreen/useIsMobile.js";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import hinh1 from "../../assets/header-background.jpg";
+import hinh2 from "../../assets/hospital-search.jpg";
+import hinh3 from "../../assets/dich-vu-tai-nha-2.jpg";
+import hinh4 from "../../assets/quy-trinh-kham-benh-va-nhung-dieu-can-luu-y-1.jpg";
+import Contact from "./Section/Contact";
 
 const HomePage = ({
   listClinic,
@@ -61,9 +69,35 @@ const HomePage = ({
       setShowNav(true);
     }
   }, [isMobile]);
+  const settings = {
+    dots: false,
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    speed: 500,
+    autoplaySpeed: 3000,
+    cssEase: "linear",
+  };
   return (
     <>
       <HomeHeader isShowBanner={true} />
+      <div className="home-header-container__slider">
+        <Slider {...settings}>
+          <div>
+            <img className="" src={hinh1} />
+          </div>
+          <div>
+            <img className="" src={hinh2} />
+          </div>
+          <div>
+            <img className="" src={hinh3} />
+          </div>
+          <div>
+            <img className="" src={hinh4} />
+          </div>
+        </Slider>
+      </div>
       <DataSection
         data={specialties}
         titleSection={<FormattedMessage id="homepage.specialty-popular" />}
@@ -80,6 +114,7 @@ const HomePage = ({
       />
       <About />
       <Footer />
+      <Contact />
     </>
   );
 };

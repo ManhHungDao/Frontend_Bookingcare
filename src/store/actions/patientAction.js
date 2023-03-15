@@ -8,7 +8,10 @@ import {
   getAllClinicHomePatient,
 } from "../../services/clinicService";
 
-import { getPopularHomePatient } from "../../services/specialtySerivce";
+import {
+  getPopularHomePatient,
+  getSingleSpecialty,
+} from "../../services/specialtySerivce";
 import { loadingToggleAction } from "./adminActions";
 
 // export const loadingToggleAction = (status) => {
@@ -82,6 +85,27 @@ export const getListSpecialtyHomePatientAction = () => {
       dispatch(loadingToggleAction(false));
       dispatch({
         type: actionTypes.PATIENT_GET_LIST_SPECIALTY_FAILED,
+      });
+    }
+  };
+};
+
+export const getSingleSpecialtyPatientAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getSingleSpecialty(id);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.PATIENT_SINGLE_SPECIALTY_SUCCEED,
+          data: res.specialty,
+        });
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.PATIENT_SINGLE_SPECIALTY_FAILED,
       });
     }
   };

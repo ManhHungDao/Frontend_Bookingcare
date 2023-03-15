@@ -3,6 +3,7 @@ const initialState = {
   listClinic: [],
   listSpecialty: [],
   clinic: {},
+  specialty: {},
 };
 
 const patientReducer = (state = initialState, action) => {
@@ -22,7 +23,7 @@ const patientReducer = (state = initialState, action) => {
       return { ...state };
     }
     case actionTypes.PATIENT_GET_CLINIC_FAILED: {
-      state.clinic = [];
+      state.clinic = {};
       return {
         ...state,
       };
@@ -33,6 +34,16 @@ const patientReducer = (state = initialState, action) => {
     }
     case actionTypes.PATIENT_GET_LIST_SPECIALTY_FAILED: {
       state.listSpecialty = [];
+      return {
+        ...state,
+      };
+    }
+    case actionTypes.PATIENT_SINGLE_SPECIALTY_SUCCEED: {
+      state.specialty = action.data;
+      return { ...state };
+    }
+    case actionTypes.PATIENT_SINGLE_SPECIALTY_FAILED: {
+      state.specialty = {};
       return {
         ...state,
       };

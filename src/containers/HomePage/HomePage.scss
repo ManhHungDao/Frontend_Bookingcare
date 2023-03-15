@@ -1,7 +1,6 @@
-.section{
+.section {
   height: 330px;
 }
-
 
 .section-specialty {
   background-color: #ffff;
@@ -97,4 +96,11 @@
   flex-wrap: wrap;
   margin-left: -5px;
   margin-right: -5px;
+}
+
+.home-header-container__slider {
+  .slick-prev,
+  .slick-next {
+    display: none !important;
+  }
 }
