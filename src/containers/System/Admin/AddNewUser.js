@@ -86,6 +86,7 @@ const AddNewUser = ({
       setDataSelect([]);
       setPreviewImgUrl("");
       setErrors({});
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
     clearStatus();
   }, [isSuccess]);
@@ -117,7 +118,7 @@ const AddNewUser = ({
   useEffect(() => {
     if (listSpecialtyInClinic && listSpecialtyInClinic.length > 0)
       setListSpecialtySelect(
-        listSpecialtyInClinic.map((e) => ({ id: e._id, name: e.name }))
+        listSpecialtyInClinic.map((e) => ({ id: e.key, name: e.name }))
       );
   }, [listSpecialtyInClinic]);
 

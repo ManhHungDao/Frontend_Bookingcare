@@ -17,12 +17,15 @@ import { useDispatch } from "react-redux";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
-import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import BookmarksOutlinedIcon from "@mui/icons-material/BookmarksOutlined";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import ApartmentOutlinedIcon from "@mui/icons-material/ApartmentOutlined";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
+import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
+
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
   const handleSelected = () => {
@@ -276,6 +279,27 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 title="Chuyên khoa"
                 to="/admin/manage-code-specialty"
                 icon={<ShieldOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+            </SubMenu>
+            <SubMenu
+              title={isCollapsed ? "" : "Cẩm nang"}
+              icon={<BookmarksOutlinedIcon />}
+            >
+              <Item
+                title="Thêm cẩm nang"
+                to="/admin/add-handbook"
+                icon={<BookmarkAddOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Danh sách cẩm nang"
+                to="/admin/add-handbook"
+                icon={<CollectionsBookmarkOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}

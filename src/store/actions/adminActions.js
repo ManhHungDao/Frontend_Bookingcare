@@ -29,6 +29,8 @@ import {
   deleteAllcode,
   getAllCodeByType,
 } from "../../services/allcodeService";
+import { createHandbook } from "../../services/handbookService";
+
 import { toast } from "react-toastify";
 
 export const loadingToggleAction = (status) => {
@@ -492,6 +494,32 @@ export const updateSpecialtyAction = (id, data) => {
         type: actionTypes.UPDATE_FAILED,
       });
       toast.error("Cập nhập chuyên khoa thất bại");
+    }
+  };
+};
+
+// handbook
+export const createHandbookAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      console.log("🚀 ~ file: adminActions.js:507 ~ return ~ data:", data.name)
+      const res = await createHandbook(data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.CREATE_SUCCESS,
+          data: res.specialties,
+        });
+        dispatch(loadingToggleAction(false));
+        toast.success("Tạo cẩm nang thành công");
+      }
+    } catch (error) {
+      console.log("🚀 ~ file: adminActions.js:516 ~ return ~ error:", error)
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.CREATE_FAILED,
+      });
+      toast.error("Tạo cẩm nang thất bại");
     }
   };
 };

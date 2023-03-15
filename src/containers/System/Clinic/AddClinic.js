@@ -43,6 +43,7 @@ const AddClinic = ({ createClinicAction, isSuccess, message, clearStatus }) => {
       });
       setPreviewLogoUrl("");
       setPreviewImgUrl("");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
     clearStatus();
   }, [isSuccess]);
@@ -120,41 +121,47 @@ const AddClinic = ({ createClinicAction, isSuccess, message, clearStatus }) => {
               </Grid>
             </Grid>
           </Grid>
+
           <Grid
             item
+            xs={12}
+            md={4}
             display="flex"
             justifyContent="space-around"
             alignItems="center"
-            xs={12}
-            md={8}
           >
-            <Grid item xs={12} md={4}>
-              <UpLoadAvatar
-                content="Hình đại diện"
-                borderRadius="5px"
-                preWidth={smScreen ? "250px" : "400px"}
-                preHeight={smScreen ? "150px" : "200px"}
-                setImg={setLogo}
-                backgroundSize="contain"
-                setPreviewImgUrl={setPreviewLogoUrl}
-                previewImgUrl={previewLogoUrl}
-                isError={errors.logo ? true : false}
-                errorText={errors.logo}
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <UpLoadAvatar
-                content="Hình nền"
-                borderRadius="5px"
-                preHeight={smScreen ? "150px" : "200px"}
-                preWidth={smScreen ? "250px" : "400px"}
-                setImg={setImage}
-                previewImgUrl={previewImgUrl}
-                setPreviewImgUrl={setPreviewImgUrl}
-                isError={errors.image ? true : false}
-                errorText={errors.image}
-              />
-            </Grid>
+            <UpLoadAvatar
+              content="Hình đại diện"
+              borderRadius="5px"
+              preWidth={smScreen ? "250px" : "400px"}
+              preHeight={smScreen ? "150px" : "200px"}
+              setImg={setLogo}
+              backgroundSize="contain"
+              setPreviewImgUrl={setPreviewLogoUrl}
+              previewImgUrl={previewLogoUrl}
+              isError={errors.logo ? true : false}
+              errorText={errors.logo}
+            />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={4}
+            display="flex"
+            justifyContent="space-around"
+            alignItems="center"
+          >
+            <UpLoadAvatar
+              content="Hình nền"
+              borderRadius="5px"
+              preHeight={smScreen ? "150px" : "200px"}
+              preWidth={smScreen ? "250px" : "400px"}
+              setImg={setImage}
+              previewImgUrl={previewImgUrl}
+              setPreviewImgUrl={setPreviewImgUrl}
+              isError={errors.image ? true : false}
+              errorText={errors.image}
+            />
           </Grid>
           <Grid item xs={12} md={12}>
             <span className="detail__clinic--introduce">

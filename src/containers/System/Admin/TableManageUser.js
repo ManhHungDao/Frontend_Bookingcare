@@ -25,9 +25,6 @@ import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
 import Header from "../../../components/Header.jsx";
 import _ from "lodash";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import DetailUser from "./DetailUser";
@@ -115,12 +112,6 @@ const TableManageUser = (props) => {
     props.getAllUserAction(data);
   };
 
-  // useEffect(() => {
-  //   const clinicId = selectClinic.value ? selectClinic.value : "";
-  //   fetchDataAPI(page + 1, rowsPerPage, clinicId, search);
-  // }, [page, rowsPerPage]);
-  // bỏ vì gọi api 2 lần
-
   const handelClickEmpty = () => {
     setSearch("");
     setSelectClinic("");
@@ -170,7 +161,7 @@ const TableManageUser = (props) => {
       <StyledTableCell>Số điện thoại</StyledTableCell>
       <StyledTableCell>Địa chỉ</StyledTableCell>
       <StyledTableCell>Cơ sở</StyledTableCell>
-      <StyledTableCell>Vị trí</StyledTableCell>
+      <StyledTableCell>Chuyên khoa</StyledTableCell>
       <StyledTableCell></StyledTableCell>
     </TableRow>
   );
@@ -201,7 +192,7 @@ const TableManageUser = (props) => {
           </TableCell>
           <TableCell>
             <Typography variant="">
-              {detail.position.name ? detail.position.name : ""}
+              {detail.specialty.name ? detail.specialty.name : ""}
             </Typography>
           </TableCell>
           {userInfo.roleId === "R2" ? (
@@ -246,7 +237,7 @@ const TableManageUser = (props) => {
         <Box m="20px 0 0 0" height="75vh">
           <Box m="0 0 7px 0">
             <Grid container spacing={2}>
-              <Grid item sm={6} md={3}>
+              <Grid item xs={12} md={3}>
                 <FormControl sx={{ width: "100%" }} variant="outlined">
                   <OutlinedInput
                     placeholder="Lọc theo tên"
@@ -264,7 +255,7 @@ const TableManageUser = (props) => {
                   />
                 </FormControl>
               </Grid>
-              <Grid item sm={6} md={3}>
+              <Grid item xs={12} md={3}>
                 <Select
                   className={`react-select-container`}
                   value={selectClinic}
@@ -280,7 +271,7 @@ const TableManageUser = (props) => {
                   }}
                 />
               </Grid>
-              <Grid item sm={6} md={3} display="flex" alignItems="center">
+              <Grid item xs={12} md={3} display="flex" alignItems="center">
                 <Tooltip title="Làm mới">
                   <IconButton onClick={() => handelClickEmpty()}>
                     <CachedIcon />

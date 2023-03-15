@@ -13,7 +13,6 @@ import {
   Button,
 } from "@mui/material";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import UpLoadAvatar from "../../../../components/UpLoadAvatar";
 import EmailIcon from "@mui/icons-material/Email";
@@ -22,25 +21,31 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ConfirmModal from "../../../../components/confirmModal/ConfirmModal";
+import PersonIcon from "@mui/icons-material/Person";
 import SetRole from "./SetRole";
-
 const role = [
+  {
+    id: "R0",
+    name: "admin",
+    icon: <SecurityOutlinedIcon />,
+    bgcolor: "#4cceac",
+  },
   {
     id: "R1",
     name: "admin",
-    icon: <AdminPanelSettingsOutlinedIcon />,
+    icon: <SecurityOutlinedIcon />,
     bgcolor: "#4cceac",
   },
   {
     id: "R2",
     name: "Manager",
-    icon: <SecurityOutlinedIcon />,
+    icon: <AdminPanelSettingsOutlinedIcon />,
     bgcolor: "#2e7c67",
   },
   {
     id: "R3",
     name: "doctor",
-    icon: <LockOpenOutlinedIcon />,
+    icon: <PersonIcon />,
     bgcolor: "#2e7c67",
   },
 ];

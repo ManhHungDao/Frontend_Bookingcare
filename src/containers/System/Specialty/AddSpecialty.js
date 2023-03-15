@@ -63,6 +63,7 @@ const AddSpecialty = ({
       setSelectClinic("");
       setSelectSpecialty("");
       setErrors("");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
     clearStatus();
   }, [isSuccess]);

@@ -37,7 +37,7 @@ class App extends Component {
         <Loading />
         <BrowserRouter>
           <Router history={history}>
-            <CustomScrollbars style={{ height: "100vh", width: "100%" }}>
+            {/* <CustomScrollbars style={{ height: "100vh", width: "100%" }}> */}
               <Routes>
                 <Route path={path.HOME} element={<PatientRoute />} />
                 <Route path={path.LOGIN} element={<Login />} />
@@ -78,7 +78,7 @@ class App extends Component {
                 pauseOnHover={false}
                 pauseOnFocusLoss={false}
               />
-            </CustomScrollbars>
+            {/* </CustomScrollbars> */}
           </Router>
         </BrowserRouter>
       </>

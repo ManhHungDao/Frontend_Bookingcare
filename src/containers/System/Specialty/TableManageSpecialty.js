@@ -61,8 +61,8 @@ const TableManageSpecialty = ({
     if (listClinic && listClinic.length > 0)
       setListSelectClinic(
         listClinic.map((e) => ({
-          id: e._id,
-          name: e.name,
+          value: e._id,
+          label: e.name,
         }))
       );
     if (listSpecialty.list && listSpecialty.list.length > 0)
@@ -208,7 +208,7 @@ const TableManageSpecialty = ({
         <Box m="20px 0 0 0" height="75vh">
           <Box m="0 0 7px 0">
             <Grid container spacing={2}>
-              <Grid item sm={6} md={3}>
+              <Grid item xs={12} md={3}>
                 <FormControl sx={{ width: "100%" }} variant="outlined">
                   <OutlinedInput
                     placeholder="Lọc theo tên"
@@ -226,7 +226,7 @@ const TableManageSpecialty = ({
                   />
                 </FormControl>
               </Grid>
-              <Grid item sm={6} md={3}>
+              <Grid item xs={12} md={3}>
                 <Select
                   className={`react-select-container`}
                   value={selectClinic}

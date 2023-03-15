@@ -121,7 +121,7 @@ const DetailUser = ({
     setListSpecialty(
       listSpecialtyInClinic.map((e) => {
         return {
-          id: e._id,
+          id: e.key,
           name: e.name,
         };
       })

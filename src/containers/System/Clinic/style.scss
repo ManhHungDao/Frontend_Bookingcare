@@ -6,6 +6,15 @@
   }
 }
 
+.detail__handbook--introduce{
+  .ck-rounded-corners .ck.ck-editor__editable:not(.ck-editor__nested-editable),
+  .ck.ck-editor__editable.ck-rounded-corners:not(.ck-editor__nested-editable) {
+    min-height: 380px !important;
+    max-height: 500px !important;
+  }
+}
+
+
 .MuiTableCell-head {
   font-size: 14px !important;
   font-weight: 600 !important;

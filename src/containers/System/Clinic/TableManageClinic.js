@@ -183,7 +183,7 @@ const TableManageClinic = ({
         <Box m="20px 0 0 0" height="75vh">
           <Box m="0 0 7px 0">
             <Grid container spacing={2}>
-              <Grid item sm={6} md={3}>
+              <Grid item xs={12} md={3}>
                 <FormControl sx={{ width: "100%" }} variant="outlined">
                   <OutlinedInput
                     placeholder="Lọc theo tên"
@@ -201,7 +201,7 @@ const TableManageClinic = ({
                   />
                 </FormControl>
               </Grid>
-              <Grid item sm={6} md={3} display="flex" alignItems="center">
+              <Grid item xs={12} md={3} display="flex" alignItems="center">
                 <Tooltip title="Làm trống">
                   <IconButton onClick={() => handelClickEmpty()}>
                     <CachedIcon />
