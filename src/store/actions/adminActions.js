@@ -29,7 +29,7 @@ import {
   deleteAllcode,
   getAllCodeByType,
 } from "../../services/allcodeService";
-import { createHandbook } from "../../services/handbookService";
+import { createHandbook, getAllHandbook } from "../../services/handbookService";
 
 import { toast } from "react-toastify";
 
@@ -216,6 +216,7 @@ export const getAllUserAction = (data) => {
       dispatch({
         type: actionTypes.FETCH_ALL_USERS_FAILED,
       });
+      toast.error("Lấy danh sách thất bại");
     }
   };
 };
@@ -229,7 +230,6 @@ export const updateUserAction = (id, data) => {
         dispatch({
           type: actionTypes.UPDATE_SUCCESS,
         });
-        dispatch(getAllUserAction());
         dispatch(loadingToggleAction(false));
         toast.success("Cập nhập thông tin thành công");
       }
@@ -503,7 +503,6 @@ export const createHandbookAction = (data) => {
   return async (dispatch, getState) => {
     try {
       dispatch(loadingToggleAction(true));
-      console.log("🚀 ~ file: adminActions.js:507 ~ return ~ data:", data.name)
       const res = await createHandbook(data);
       if (res && res.success) {
         dispatch({
@@ -514,12 +513,33 @@ export const createHandbookAction = (data) => {
         toast.success("Tạo cẩm nang thành công");
       }
     } catch (error) {
-      console.log("🚀 ~ file: adminActions.js:516 ~ return ~ error:", error)
       dispatch(loadingToggleAction(false));
       dispatch({
         type: actionTypes.CREATE_FAILED,
       });
       toast.error("Tạo cẩm nang thất bại");
+    }
+  };
+};
+
+export const getAllHandbookAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getAllHandbook(data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.GET_LIST_HANDBOOK_SUCCEED,
+          data: { list: res.handbooks, count: res.count },
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_LIST_HANDBOOK_FAILED,
+      });
+      toast.error("Lấy danh sách thất bại");
     }
   };
 };

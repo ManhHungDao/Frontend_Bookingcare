@@ -1,11 +1,9 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import { Box } from "@mui/material";
 import Header from "../../../components/Header";
 import _ from "lodash";
-import DetailClinic from "./DetailClinic";
-import "./style.scss";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 import { Paper, Grid, OutlinedInput } from "@mui/material";
 import Table from "@mui/material/Table";
@@ -25,133 +23,137 @@ import SearchIcon from "@mui/icons-material/Search";
 import CachedIcon from "@mui/icons-material/Cached";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
+import Select from "react-select";
 
-const TableManageClinic = ({
+const TableHandbook = ({
   getListClinicAction,
   listClinic,
-  isSuccess,
-  clearStatus,
-  deleteClincAction,
+  getAllHandbookAction,
+  listHandbook,
 }) => {
   const [list, setList] = useState([]);
+  const [open, setOpen] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
-  const [openConfirmModal, setOpenConfirmModal] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [clinicEdit, setClinicEdit] = useState({});
-  const [clinicDelete, setClinicDelete] = useState({});
-  const [search, setSearch] = useState("");
   const [enableEdit, setEnableEdit] = useState(false);
+  const [handbookEdit, setHandbookEdit] = useState({});
+  const [handbookDelete, setHandbookDelete] = useState({});
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [listSelectClinic, setListSelectClinic] = useState([]);
+  const [selectClinic, setSelectClinic] = useState("");
 
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    fetchDataAPI(1, rowsPerPage);
+    getListClinicAction();
+  }, []);
+
+  useEffect(() => {
+    if (listClinic && listClinic.length > 0)
+      setListSelectClinic(
+        listClinic.map((e) => ({
+          value: e._id,
+          label: e.name,
+        }))
+      );
+
+    if (listHandbook.list && listHandbook.list.length > 0) {
+      setList(
+        listHandbook.list.map((i) => {
+          return {
+            ...i,
+            id: i._id,
+            image: i.image.url,
+          };
+        })
+      );
+    } else {
+      setList([]);
+    }
+  }, [listClinic, listHandbook]);
+
+  useEffect(() => {
+    if (selectClinic === "") return;
+    setSearch("");
+    setPage(0);
+    const clinicId = selectClinic.value;
+    fetchDataAPI(1, rowsPerPage, clinicId, "");
+  }, [selectClinic]);
+
+  const fetchDataAPI = (page, size, clinicId = "", filter = "") => {
+    const data = {
+      page,
+      size,
+      clinicId,
+      filter,
+    };
+    getAllHandbookAction(data);
+  };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+    const clinicId = selectClinic.value ? selectClinic.value : "";
+    fetchDataAPI(newPage + 1, rowsPerPage, clinicId, search);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    const clinicId = selectClinic.value ? selectClinic.value : "";
+    fetchDataAPI(page + 1, +event.target.value, clinicId, search);
+  };
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#ddd",
       color: "black",
     },
   }));
-  useEffect(() => {
-    fetchDataAPI(1, rowsPerPage);
-  }, []);
-  useEffect(() => {
-    if (listClinic.list && listClinic.list.length > 0) {
-      let data = listClinic.list.map((e) => {
-        return {
-          id: e._id,
-          logo: e.logo.url,
-          image: e.image.url,
-          name: e.name,
-          address: e.address,
-          introduce: e.introduce,
-          detail: e.detail,
-          views: e.views,
-        };
-      });
-      setList(data);
-    } else {
-      setList([]);
-    }
-  }, [listClinic]);
-
-  useEffect(() => {
-    if (isSuccess !== null) {
-      if (isSuccess === true) {
-        setOpen(false);
-        setEnableEdit(false);
-        fetchDataAPI(1, rowsPerPage, "");
-      }
-      setOpenConfirmModal(false);
-      clearStatus();
-    }
-  }, [isSuccess]);
-
-  const fetchDataAPI = (page, size, filter = "") => {
-    const data = {
-      page,
-      size,
-      filter,
-    };
-    getListClinicAction(data);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-    fetchDataAPI(newPage + 1, rowsPerPage, search);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    fetchDataAPI(page + 1, +event.target.value, search);
-  };
-
+  const TableRowName = () => (
+    <TableRow className="table__clinic--header">
+      <StyledTableCell>Tên cẩm nang</StyledTableCell>
+      <StyledTableCell>Cơ sở</StyledTableCell>
+      <StyledTableCell>Chuyên khoa</StyledTableCell>
+      <StyledTableCell></StyledTableCell>
+    </TableRow>
+  );
   const handleClickView = (data) => {
-    setClinicEdit(data);
+    setHandbookEdit(data);
     setOpen(true);
   };
   const handelClickDelete = (data) => {
     setOpenConfirmModal(true);
-    setClinicDelete(data);
-  };
-  const handleDeleteClinic = () => {
-    const id = clinicDelete.id;
-    if (id) deleteClincAction(id);
+    setHandbookDelete(data);
   };
   const handelClickEmpty = () => {
+    setSelectClinic("");
     setSearch("");
     setPage(0);
     setRowsPerPage(10);
-    fetchDataAPI(1, 10);
-  };
-  const handleClickSearch = () => {
-    setPage(0);
-    fetchDataAPI(1, rowsPerPage, search);
+    fetchDataAPI(1, 10, "", "");
   };
   const handleEnterSearch = (e) => {
     if (e.which === 13) {
       handleClickSearch();
     }
   };
-  const TableRowName = () => (
-    <TableRow className="table__clinic--header">
-      <StyledTableCell>Cơ sở</StyledTableCell>
-      <StyledTableCell>Địa chỉ</StyledTableCell>
-      <StyledTableCell>Lượt truy cập</StyledTableCell>
-      <StyledTableCell></StyledTableCell>
-    </TableRow>
-  );
+  const handleClickSearch = () => {
+    setPage(0);
+    fetchDataAPI(1, rowsPerPage, "", search);
+  };
   const TableColumn = (props) => {
-    const { id, address, name, logo, views } = props;
+    const { specialty, name, image, clinic } = props;
     return (
       <>
         <TableRow>
           <TableCell>
             <span className="d-flex justify-content-start align-items-center gap-2">
               <div>
-                <img className="table__clinic--logo" src={logo} alt={name} />
+                <img className="table__clinic--logo" src={image} alt={name} />
               </div>
               <div> {name}</div>
             </span>
           </TableCell>
-          <TableCell>{address?.detail ? address.detail : ""}</TableCell>
-          <TableCell>{views ? views : 0}</TableCell>
+          <TableCell>{clinic.name ? clinic.name : "-"}</TableCell>
+          <TableCell>{specialty.name ? name.specialty : ""}</TableCell>
           <TableCell>
             <Tooltip title="Xem">
               <IconButton onClick={() => handleClickView(props)}>
@@ -200,6 +202,22 @@ const TableManageClinic = ({
                   />
                 </FormControl>
               </Grid>
+              <Grid item xs={12} md={3}>
+                <Select
+                  className={`react-select-container`}
+                  value={selectClinic}
+                  onChange={(e) => setSelectClinic(e)}
+                  options={listSelectClinic}
+                  placeholder="Lọc theo cơ sở"
+                  menuPortalTarget={document.body}
+                  styles={{
+                    menuPortal: (base) => ({
+                      ...base,
+                      zIndex: 9999,
+                    }),
+                  }}
+                />
+              </Grid>
               <Grid item xs={12} md={3} display="flex" alignItems="center">
                 <Tooltip title="Làm trống">
                   <IconButton onClick={() => handelClickEmpty()}>
@@ -229,7 +247,7 @@ const TableManageClinic = ({
           <TablePagination
             rowsPerPageOptions={[10, 15, 25]}
             component="div"
-            count={listClinic.count}
+            count={listHandbook.count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -238,40 +256,24 @@ const TableManageClinic = ({
           />
         </Box>
       </Box>
-      {clinicEdit && (
-        <DetailClinic
-          setOpen={setOpen}
-          open={open}
-          clinic={clinicEdit}
-          enableEdit={enableEdit}
-          setEnableEdit={setEnableEdit}
-        />
-      )}
-      <ConfirmModal
-        open={openConfirmModal}
-        setOpen={setOpenConfirmModal}
-        title="Xóa phòng khám"
-        content={`${clinicDelete?.name ? clinicDelete.name : ""}`}
-        type="DELETE"
-        confirmFunc={handleDeleteClinic}
-      />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    listClinic: state.admin.listClinic,
-    isSuccess: state.app.isSuccess,
+    listClinic: state.patient.listClinic,
+    listHandbook: state.admin.listHandbook,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListClinicAction: (data) => dispatch(actions.getListClinicAction(data)),
-    clearStatus: () => dispatch(actions.clearStatus()),
-    deleteClincAction: (id) => dispatch(actions.deleteClincAction(id)),
+    getListClinicAction: () =>
+      dispatch(actions.getListClinicHomePatientAction()),
+    getAllHandbookAction: (data) =>
+      dispatch(actions.getAllHandbookAction(data)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableManageClinic);
+export default connect(mapStateToProps, mapDispatchToProps)(TableHandbook);

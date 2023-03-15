@@ -125,40 +125,6 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               </Box>
             )}
           </MenuItem>
-          {!isCollapsed && (
-            <Box mb="25px">
-              {/* <Box display="flex" justifyContent="center" alignItems="center">
-                <img
-                  alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src={userInfo?.image.url}
-                  style={{
-                    cursor: "pointer",
-                    borderRadius: "50%",
-                    objectFit: "contain",
-                  }}
-                />
-              </Box> */}
-              {/* <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  color="#f3f3f3"
-                  fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}
-                >
-                  {userInfo && <span>{userInfo?.name}</span>}
-                </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
-                  {role &&
-                    role.map((i) => {
-                      if (i.id === userInfo.roleId) return i.name;
-                    })}
-                </Typography>
-              </Box> */}
-            </Box>
-          )}
-
           <Box
             paddingLeft={isCollapsed ? undefined : "10%"}
             sx={{ width: "90%", paddingLeft: "5%" }}
@@ -298,7 +264,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               />
               <Item
                 title="Danh sách cẩm nang"
-                to="/admin/add-handbook"
+                to="/admin/manage-handbook"
                 icon={<CollectionsBookmarkOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}

@@ -9,6 +9,7 @@ const initialState = {
   allcodeType: [],
   listSpecialty: [],
   listSpecialtyInClinic: [],
+  listHandbook: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -85,6 +86,15 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         listSpecialtyInClinic: [],
+      };
+    }
+    case actionTypes.GET_LIST_HANDBOOK_SUCCEED: {
+      return { ...state, listHandbook: action.data };
+    }
+    case actionTypes.GET_LIST_HANDBOOK_FAILED: {
+      return {
+        ...state,
+        listHandbook: [],
       };
     }
     default:

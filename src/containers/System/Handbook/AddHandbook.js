@@ -24,6 +24,8 @@ const AddHandbook = ({
   getListSpecialtyACtion,
   createHandbookAction,
   clearStatus,
+  getSpecialtyByClinicIdAction,
+  listSpecialtyInClinic,
 }) => {
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
@@ -44,6 +46,14 @@ const AddHandbook = ({
   useEffect(() => {
     if (isSuccess === true) {
       clearStatus();
+      // set lại data ban đầu, lấy danh sách chuyên khoa phổ biến
+      if (listSpecialty && listSpecialty.length > 0)
+        setDataSpecialty(
+          listSpecialty.map((e) => ({
+            id: e.key,
+            name: e.name,
+          }))
+        );
       setSelectSpecialty("");
       setSelectClinic("");
       setName("");
@@ -73,6 +83,24 @@ const AddHandbook = ({
         }))
       );
   }, [listSpecialty, listClinic]);
+
+  useEffect(() => {
+    if (selectClinic) {
+      getSpecialtyByClinicIdAction(selectClinic.value);
+      setSelectSpecialty("");
+    }
+  }, [selectClinic]);
+
+  useEffect(() => {
+    setDataSpecialty(
+      listSpecialtyInClinic.map((e) => {
+        return {
+          id: e.key,
+          name: e.name,
+        };
+      })
+    );
+  }, [listSpecialtyInClinic]);
 
   const checkValidate = () => {
     let errors = {};
@@ -212,6 +240,7 @@ const mapStateToProps = (state) => {
     isSuccess: state.app.isSuccess,
     listClinic: state.patient.listClinic,
     listSpecialty: state.patient.listSpecialty,
+    listSpecialtyInClinic: state.admin.listSpecialtyInClinic,
   };
 };
 
@@ -222,9 +251,10 @@ const mapDispatchToProps = (dispatch) => {
     getListClinicAction: () =>
       dispatch(actions.getListClinicHomePatientAction()),
     clearStatus: () => dispatch(actions.clearStatus()),
-
     getListSpecialtyACtion: () =>
       dispatch(actions.getListSpecialtyHomePatientAction()),
+    getSpecialtyByClinicIdAction: (id) =>
+      dispatch(actions.getSpecialtyByClinicIdAction(id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddHandbook);
