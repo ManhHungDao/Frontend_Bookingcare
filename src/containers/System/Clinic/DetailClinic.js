@@ -67,7 +67,7 @@ const DetailClinic = ({
   const checkValidate = () => {
     let errors = {};
     if (!name) errors.name = "Tên không được bỏ trống";
-    if (!address) errors.address = "Địa chỉ không được bỏ trống";
+    if (!address.detail) errors.address = "Địa chỉ không được bỏ trống";
     if (!detail) errors.detail = "Chi tiết không được bỏ trống";
     if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
     return errors;
@@ -207,6 +207,9 @@ const DetailClinic = ({
                                   <CKEditorFieldBasic
                                     value={detail}
                                     onChange={setDetail}
+                                    isError={errors.detail ? true : false}
+                                    errorText={errors.detail}
+                                    title="Chi tiết"
                                   />
                                 </Grid>
                               </Grid>

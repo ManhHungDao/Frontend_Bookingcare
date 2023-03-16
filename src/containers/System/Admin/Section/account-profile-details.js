@@ -261,8 +261,13 @@ export const AccountProfileClinic = ({
                 />
               </Grid>
               <Grid item xs={12} md={12}>
-                <span> Chi tiết</span>
-                <CKEditorFieldBasic value={content} onChange={setContent} />
+                <CKEditorFieldBasic
+                  value={content}
+                  onChange={setContent}
+                  isError={errors.content ? true : false}
+                  errorText={errors.content}
+                  title="Chi tiết"
+                />
               </Grid>
             </Grid>
           </Box>

@@ -10,4 +10,11 @@ const getAllHandbook = (data) => {
   );
 };
 
-export { createHandbook, getAllHandbook };
+const deleteHandbook = (id) => {
+  return axios.delete(`/api/delete-handbook?id=${id}`);
+};
+const updateHandbook = (id, data) => {
+  return axios.put(`/api/update-handbook?id=${id}`, data);
+};
+
+export { createHandbook, getAllHandbook, deleteHandbook, updateHandbook };

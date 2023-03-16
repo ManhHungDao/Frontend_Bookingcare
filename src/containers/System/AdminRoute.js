@@ -13,7 +13,7 @@ import AddClinic from "./Clinic/AddClinic";
 import AddSpecialty from "./Specialty/AddSpecialty";
 import ManageCode from "./Allcode/ManageCode";
 import AddHandbook from "./Handbook/AddHandbook";
-import TableHandbook from "./Handbook/TableHandbook";
+import TableManageHandbook from "./Handbook/TableManageHandbook";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import "./style.css";
@@ -47,7 +47,7 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
                 <Route path="manage-code-time" element={<ManageCode />} />
                 <Route path="manage-code-specialty" element={<ManageCode />} />
                 <Route path="add-handbook" element={<AddHandbook />} />
-                <Route path="manage-handbook" element={<TableHandbook />} />
+                <Route path="manage-handbook" element={<TableManageHandbook />} />
 
                 {/* <Route
                   path="/manage-detail-clinic"

@@ -142,7 +142,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               icon={<PermIdentityOutlinedIcon />}
             >
               <Item
-                title="Thêm Người Dùng"
+                title="Thêm người dùng"
                 to="/admin/add-user"
                 icon={<PersonAddAltIcon />}
                 selected={selected}
@@ -150,7 +150,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
               <Item
-                title="Danh Sách Người Dùng"
+                title="Danh sách người dùng"
                 to="/admin/manage-user"
                 icon={<PeopleOutlinedIcon />}
                 selected={selected}
@@ -168,7 +168,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               sx={{ m: "15px 0 5px 20px" }}
             ></Typography> */}
               <Item
-                title="Thêm Phòng Khám"
+                title="Thêm phòng khám"
                 to="/admin/add-clinic"
                 icon={<AddHomeOutlinedIcon />}
                 selected={selected}
@@ -176,7 +176,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
               <Item
-                title="Danh Sách Phòng Khám"
+                title="Danh sách phòng khám"
                 to="/admin/manage-clinic"
                 icon={<BallotOutlinedIcon />}
                 selected={selected}
@@ -189,7 +189,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               icon={<ShieldOutlinedIcon />}
             >
               <Item
-                title="Thêm Chuyên Khoa"
+                title="Thêm chuyên khoa"
                 to="/admin/add-specialty"
                 icon={<LibraryAddOutlinedIcon />}
                 selected={selected}
@@ -197,7 +197,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
               <Item
-                title="Danh Sách Chuyên Khoa"
+                title="Danh sách chuyên khoa"
                 to="/admin/manage-specialty"
                 icon={<BallotOutlinedIcon />}
                 selected={selected}

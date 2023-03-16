@@ -50,7 +50,13 @@ export const HandbookDetail = ({
                 />
               </Grid>
               <Grid className="detail__clinic--introduce">
-                <CKEditorFieldBasic value={note} onChange={setNote} />
+                <CKEditorFieldBasic
+                  value={note}
+                  onChange={setNote}
+                  isError={errors.note ? true : false}
+                  errorText={errors.note}
+                  title="Ghi chú"
+                />
               </Grid>
             </Grid>
           </Box>

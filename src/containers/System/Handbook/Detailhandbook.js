@@ -29,6 +29,7 @@ const DetailHandbook = ({
   setOpen,
   enableEdit,
   setEnableEdit,
+  updateHandbook,
 }) => {
   const [detail, setDetail] = useState("");
   const [note, setNote] = useState("");
@@ -119,13 +120,16 @@ const DetailHandbook = ({
     }
     const data = {
       name,
-      image,
+      image: imgUpdate ? imgUpdate : null,
       detail,
       note,
       clinic,
-      specialty,
+      specialty: {
+        id: specialty.value,
+        name: specialty.label,
+      },
     };
-    //   createHandbookAction(data);
+    updateHandbook(handbook._id, data);
   };
   const style = {
     position: "absolute",
@@ -209,6 +213,9 @@ const DetailHandbook = ({
                                   <CKEditorFieldBasic
                                     value={detail}
                                     onChange={setDetail}
+                                    isError={errors.detail ? true : false}
+                                    errorText={errors.detail}
+                                    title="Chi tiết"
                                   />
                                 </Grid>
                               </Grid>
@@ -253,6 +260,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getSpecialtyByClinicIdAction(id)),
     getListSpecialty: () =>
       dispatch(actions.getListSpecialtyHomePatientAction()),
+    updateHandbook: (id, data) =>
+      dispatch(actions.updateHandbookAction(id, data)),
   };
 };
 

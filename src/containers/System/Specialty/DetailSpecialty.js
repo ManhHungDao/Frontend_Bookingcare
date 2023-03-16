@@ -83,7 +83,7 @@ const DetailSpecialty = ({
         <Box sx={style}>
           <Box m="20px">
             <Header
-              title="Chi tiết phòng khám"
+              title="Chi tiết chuyên khoa"
               isShowSwitch={true}
               titleSwich={"Chỉnh sửa"}
               isChecked={enableEdit}

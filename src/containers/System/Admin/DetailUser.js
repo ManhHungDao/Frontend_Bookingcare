@@ -62,7 +62,7 @@ const DetailUser = ({
   const [content, setContent] = useState("");
   const [dataSelect, setDataSelect] = useState([]);
   const [listClinicSelect, setListClinicSelect] = useState([]);
-  const [errors, setErrors] = useState("");
+  const [errors, setErrors] = useState({});
   const [imgUpdate, setImgUpdate] = useState(null);
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   // check edit
@@ -168,6 +168,7 @@ const DetailUser = ({
     setContent("");
     setImgUpdate("");
     setEnableEdit(false);
+    setErrors({});
   };
   const style = {
     position: "absolute",
@@ -189,7 +190,7 @@ const DetailUser = ({
       errors.email = "Email không hợp lệ";
     }
     if (!name) errors.name = "Tên không được bỏ trống";
-    if (!address) errors.address = "Địa chỉ không được bỏ trống";
+    if (!address.detail) errors.address = "Địa chỉ không được bỏ trống";
     if (!phone) errors.phone = "Số điện thoại không được bỏ trống";
     if (!validator.isMobilePhone(phone))
       errors.phone = "Số điện thoại không hợp lệ";

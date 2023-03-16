@@ -26,11 +26,14 @@ import { tableCellClasses } from "@mui/material/TableCell";
 import Select from "react-select";
 import Detailhandbook from "./Detailhandbook";
 
-const TableHandbook = ({
+const TableManageHandbook = ({
   getListClinicAction,
   listClinic,
   getAllHandbookAction,
   listHandbook,
+  isSuccess,
+  clearStatus,
+  deleteHandbook,
 }) => {
   const [list, setList] = useState([]);
   const [open, setOpen] = useState(false);
@@ -75,6 +78,18 @@ const TableHandbook = ({
   }, [listClinic, listHandbook]);
 
   useEffect(() => {
+    if (isSuccess !== null) {
+      if (isSuccess === true) {
+        setOpen(false);
+        setEnableEdit(false);
+        fetchDataAPI(page + 1, rowsPerPage, "");
+      }
+      setOpenConfirmModal(false);
+      clearStatus();
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
     if (selectClinic === "") return;
     setSearch("");
     setPage(0);
@@ -93,7 +108,7 @@ const TableHandbook = ({
   };
   const handleDeleteClinic = () => {
     const id = handbookDelete.id;
-    // if (id) deleteClincAction(id);
+    if (id) deleteHandbook(id);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -153,12 +168,16 @@ const TableHandbook = ({
           <TableCell>
             <span className="d-flex justify-content-start align-items-center gap-2">
               <div>
-                <img className="table__clinic--logo" src={image} alt={name} />
+                <img
+                  className="table__clinic--logo"
+                  src={image ? image : ""}
+                  alt={name ? name : ""}
+                />
               </div>
-              <div> {name}</div>
+              <div> {name ? name : ""}</div>
             </span>
           </TableCell>
-          <TableCell>{clinic.name ? clinic.name : "-"}</TableCell>
+          <TableCell>{clinic?.name ? clinic.name : "-"}</TableCell>
           <TableCell>{specialty.name ? specialty.name : ""}</TableCell>
           <TableCell>
             <Tooltip title="Xem">
@@ -184,8 +203,8 @@ const TableHandbook = ({
           subtitle="Quản lý phòng khám"
           titleBtn="Thêm mới"
           isShowBtn={true}
-          link="/admin/add-clinic"
-          activeMenu="Thêm Phòng Khám"
+          link="/admin/add-handbook"
+          activeMenu="Thêm cẩm nang"
         />
         <Box m="20px 0 0 0" height="75vh">
           <Box m="0 0 7px 0">
@@ -287,6 +306,7 @@ const mapStateToProps = (state) => {
   return {
     listClinic: state.patient.listClinic,
     listHandbook: state.admin.listHandbook,
+    isSuccess: state.app.isSuccess,
   };
 };
 
@@ -296,7 +316,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getListClinicHomePatientAction()),
     getAllHandbookAction: (data) =>
       dispatch(actions.getAllHandbookAction(data)),
+    clearStatus: () => dispatch(actions.clearStatus()),
+    deleteHandbook: (id) => dispatch(actions.deleteHandbookAction(id)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableHandbook);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TableManageHandbook);

@@ -49,7 +49,11 @@ export const ClinicDetail = ({
                 />
               </Grid>
               <Grid className="detail__clinic--introduce">
-                <CKEditorFieldBasic value={introduce} onChange={setIntroduce} />
+                <CKEditorFieldBasic value={introduce} onChange={setIntroduce} 
+                 isError={errors.introduce ? true : false}
+                 errorText={errors.introduce}
+                 title="Giới thiệu"
+                />
               </Grid>
             </Grid>
           </Box>

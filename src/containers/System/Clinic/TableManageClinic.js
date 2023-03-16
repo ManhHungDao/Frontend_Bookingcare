@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import { Box } from "@mui/material";
@@ -77,7 +77,7 @@ const TableManageClinic = ({
       if (isSuccess === true) {
         setOpen(false);
         setEnableEdit(false);
-        fetchDataAPI(1, rowsPerPage, "");
+        fetchDataAPI(page + 1, rowsPerPage, "");
       }
       setOpenConfirmModal(false);
       clearStatus();

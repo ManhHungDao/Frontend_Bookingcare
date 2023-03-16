@@ -29,7 +29,12 @@ import {
   deleteAllcode,
   getAllCodeByType,
 } from "../../services/allcodeService";
-import { createHandbook, getAllHandbook } from "../../services/handbookService";
+import {
+  createHandbook,
+  getAllHandbook,
+  deleteHandbook,
+  updateHandbook,
+} from "../../services/handbookService";
 
 import { toast } from "react-toastify";
 
@@ -487,6 +492,7 @@ export const updateSpecialtyAction = (id, data) => {
           data: res.specialties,
         });
         dispatch(loadingToggleAction(false));
+        toast.success("Cập nhập chuyên khoa thành công");
       }
     } catch (error) {
       dispatch(loadingToggleAction(false));
@@ -540,6 +546,50 @@ export const getAllHandbookAction = (data) => {
         type: actionTypes.GET_LIST_HANDBOOK_FAILED,
       });
       toast.error("Lấy danh sách thất bại");
+    }
+  };
+};
+
+export const deleteHandbookAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await deleteHandbook(id);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.DELETE_SUCCESS,
+        });
+        dispatch(loadingToggleAction(false));
+        toast.success("Xóa cẩm nang thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.DELETE_FAILED,
+      });
+      toast.error("Xóa cẩm nang thất bại");
+    }
+  };
+};
+
+export const updateHandbookAction = (id, data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await updateHandbook(id, data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.UPDATE_SUCCESS,
+        });
+        dispatch(loadingToggleAction(false));
+        toast.success("Cập nhập cẩm nang thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.UPDATE_FAILED,
+      });
+      toast.error("Cập nhập cẩm nang thất bại");
     }
   };
 };

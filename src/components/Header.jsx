@@ -33,7 +33,7 @@ const Header = ({
             variant="h2"
             color="#141414"
             fontWeight="bold"
-            sx={{ m: "0 0 5px 0" }}
+            sx={{ m: "0 0 5px 0" ,textTransform:"capitalize"}}
           >
             {title}
           </Typography>
