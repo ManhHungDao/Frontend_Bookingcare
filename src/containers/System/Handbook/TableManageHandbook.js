@@ -126,6 +126,7 @@ const TableManageHandbook = ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#ddd",
       color: "black",
+      minWidth: 170,
     },
   }));
   const TableRowName = () => (
@@ -206,7 +207,7 @@ const TableManageHandbook = ({
           link="/admin/add-handbook"
           activeMenu="Thêm cẩm nang"
         />
-        <Box m="20px 0 0 0" height="75vh">
+        <Box m="20px 0 0 0">
           <Box m="0 0 7px 0">
             <Grid container spacing={2}>
               <Grid item xs={12} md={3}>

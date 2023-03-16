@@ -429,6 +429,7 @@ const AddNewUser = ({
               id="outlined-multiline-flexible"
               label="Giới thiệu"
               multiline
+              required
               maxRows={20}
               fullWidth
               onChange={(e) => setIntroduce(e.target.value)}
@@ -442,6 +443,7 @@ const AddNewUser = ({
               id="outlined-multiline-flexible"
               label="Ghi chú"
               multiline
+              required
               maxRows={4}
               fullWidth
               onChange={(e) => setNote(e.target.value)}

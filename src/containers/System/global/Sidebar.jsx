@@ -66,6 +66,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
       sx={{
         "& .pro-sidebar-inner": {
           background: `#262b40 !important`,
+          minHeight: "100vh ",
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
