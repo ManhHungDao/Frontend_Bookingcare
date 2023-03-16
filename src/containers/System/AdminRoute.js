@@ -14,16 +14,13 @@ import AddSpecialty from "./Specialty/AddSpecialty";
 import ManageCode from "./Allcode/ManageCode";
 import AddHandbook from "./Handbook/AddHandbook";
 import TableManageHandbook from "./Handbook/TableManageHandbook";
+import ManageUserSchedule from "./Admin/ManageUserSchedule";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { ColorModeContext, useMode } from "./theme";
 import "./style.css";
 const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
-  const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = React.useState(true);
   return (
     <>
-      <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
           <CssBaseline />
           <div className="app">
             <Sidebar isSidebar={isSidebar} />
@@ -34,6 +31,10 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
                 <Route path="reset-password" element={<ResetPassword />} />
                 <Route path="add-user" element={<AddNewUser />} />
                 <Route path="manage-user" element={<TableManageUser />} />
+                <Route
+                  path="manage-user-schedule"
+                  element={<ManageUserSchedule />}
+                />
                 <Route path="add-clinic" element={<AddClinic />} />
                 <Route path="manage-clinic" element={<TableManageClinic />} />
                 <Route path="add-specialty" element={<AddSpecialty />} />
@@ -47,7 +48,10 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
                 <Route path="manage-code-time" element={<ManageCode />} />
                 <Route path="manage-code-specialty" element={<ManageCode />} />
                 <Route path="add-handbook" element={<AddHandbook />} />
-                <Route path="manage-handbook" element={<TableManageHandbook />} />
+                <Route
+                  path="manage-handbook"
+                  element={<TableManageHandbook />}
+                />
 
                 {/* <Route
                   path="/manage-detail-clinic"
@@ -72,8 +76,6 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
               </Routes>
             </main>
           </div>
-        </ThemeProvider>
-      </ColorModeContext.Provider>
     </>
   );
 };

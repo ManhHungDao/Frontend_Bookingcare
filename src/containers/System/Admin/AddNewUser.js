@@ -150,7 +150,7 @@ const AddNewUser = ({
     }
     if (!name) errors.name = "Tên không được bỏ trống";
     if (!password) errors.password = "Mật khẩu không được bỏ trống";
-    if (!address) errors.address = "Địa chỉ không được bỏ trống";
+    if (!address.detail) errors.address = "Địa chỉ không được bỏ trống";
     if (!phone) errors.phone = "Số điện thoại không được bỏ trống";
     if (!validator.isMobilePhone(phone))
       errors.phone = "Số điện thoại không hợp lệ";
@@ -216,7 +216,7 @@ const AddNewUser = ({
   return (
     <>
       <Box m="20px">
-        <Header title="Thêm Mới Người Dùng" subtitle="Quản lý thành viên" />
+        <Header title="Thêm Mới Người Dùng" />
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <Grid container spacing={2}>
@@ -333,7 +333,7 @@ const AddNewUser = ({
                     <div>
                       <Radio
                         {...controlProps("M")}
-                        color="secondary"
+                        color="primary"
                         sx={{
                           "& .MuiSvgIcon-root": {
                             fontSize: 24,
@@ -343,7 +343,7 @@ const AddNewUser = ({
                       Nam
                       <Radio
                         {...controlProps("F")}
-                        color="secondary"
+                        color="primary"
                         sx={{
                           "& .MuiSvgIcon-root": {
                             fontSize: 24,
@@ -489,7 +489,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
     clearStatus: () => dispatch(actions.clearStatus()),
     createNewUser: (user) => dispatch(actions.createNewUserAction(user)),
-    getListClinicAction: () => dispatch(actions.getListClinicHomePatientAction()),
+    getListClinicAction: () =>
+      dispatch(actions.getListClinicHomePatientAction()),
     getSpecialtyByClinicIdAction: (id) =>
       dispatch(actions.getSpecialtyByClinicIdAction(id)),
   };

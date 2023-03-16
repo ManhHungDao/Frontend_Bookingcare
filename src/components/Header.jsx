@@ -30,7 +30,7 @@ const Header = ({
       <Grid container>
         <Grid item xs={12} md={6} direction="column">
           <Typography
-            variant="h2"
+            variant="h4"
             color="#141414"
             fontWeight="bold"
             sx={{ m: "0 0 5px 0" ,textTransform:"capitalize"}}
@@ -87,7 +87,7 @@ const Header = ({
               checked={isChecked}
               onChange={handleChange}
               inputProps={{ "aria-label": "controlled" }}
-              color="secondary"
+              color="primary"
             />
           </Grid>
         )}

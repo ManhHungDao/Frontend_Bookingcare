@@ -133,7 +133,7 @@ const FormData = ({
   };
   return (
     <>
-      <Typography variant="h3">
+      <Typography variant="h5">
         {title}
         <Tooltip title="Làm mới">
           <IconButton onClick={handleClickRenew}>

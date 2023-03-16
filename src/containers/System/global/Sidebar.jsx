@@ -25,6 +25,7 @@ import ApartmentOutlinedIcon from "@mui/icons-material/ApartmentOutlined";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
 
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
@@ -52,12 +53,6 @@ const LogOut = ({ title, to, icon, processLogout, isCollapsed }) => {
     </MenuItem>
   );
 };
-
-const role = [
-  { id: "R1", name: "admin" },
-  { id: "R2", name: "doctor" },
-  { id: "R3", name: "users" },
-];
 
 const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -113,7 +108,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 alignItems="center"
                 ml="10px"
               >
-                <Typography variant="h3" color="#f3f3f3">
+                <Typography variant="h5" color="#f3f3f3">
                   HEALTHCARE
                 </Typography>
                 <IconButton
@@ -150,6 +145,14 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
               <Item
+                title="Quản lý lịch khám"
+                to="/admin/manage-user-schedule"
+                icon={<PendingActionsIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+              <Item
                 title="Danh sách người dùng"
                 to="/admin/manage-user"
                 icon={<PeopleOutlinedIcon />}
@@ -162,11 +165,6 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               title={isCollapsed ? "" : "Phòng khám"}
               icon={<HomeWorkOutlinedIcon />}
             >
-              {/* <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            ></Typography> */}
               <Item
                 title="Thêm phòng khám"
                 to="/admin/add-clinic"
@@ -200,6 +198,27 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 title="Danh sách chuyên khoa"
                 to="/admin/manage-specialty"
                 icon={<BallotOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+            </SubMenu>
+            <SubMenu
+              title={isCollapsed ? "" : "Cẩm nang"}
+              icon={<BookmarksOutlinedIcon />}
+            >
+              <Item
+                title="Thêm cẩm nang"
+                to="/admin/add-handbook"
+                icon={<BookmarkAddOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Danh sách cẩm nang"
+                to="/admin/manage-handbook"
+                icon={<CollectionsBookmarkOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
@@ -250,27 +269,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
             </SubMenu>
-            <SubMenu
-              title={isCollapsed ? "" : "Cẩm nang"}
-              icon={<BookmarksOutlinedIcon />}
-            >
-              <Item
-                title="Thêm cẩm nang"
-                to="/admin/add-handbook"
-                icon={<BookmarkAddOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Danh sách cẩm nang"
-                to="/admin/manage-handbook"
-                icon={<CollectionsBookmarkOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-            </SubMenu>
+
             <LogOut
               title="Thoát"
               to="/login"
