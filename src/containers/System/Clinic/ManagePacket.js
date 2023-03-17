@@ -34,17 +34,17 @@ import { tableCellClasses } from "@mui/material/TableCell";
 import EditIcon from "@mui/icons-material/Edit";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
-import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 import InputSelect from "../../../components/Input/InputSelect";
 import ButtonComponent from "../../../components/ButtonComponent";
 import SearchIcon from "@mui/icons-material/Search";
 import CachedIcon from "@mui/icons-material/Cached";
+import Select from "react-select";
 
-const ManageUserSchedule = ({
-  listUser,
-  getAllUserAction,
+const ManagePacket = ({
   allcodes,
   fetchAllcode,
+  listClinic,
+  getListClinicHomePatient,
 }) => {
   const [image, setImage] = useState("");
   const [clinic, setClinic] = useState("");
@@ -64,31 +64,29 @@ const ManageUserSchedule = ({
   const [payment, setPayment] = useState("");
   const [errors, setErrors] = useState({});
 
+  const [listSelectClinic, setListSelectClinic] = useState([]);
+  const [selectClinic, setSelectClinic] = useState("");
+
   useEffect(() => {
-    fetchDataAPI(1, rowsPerPage);
+    // fetchDataAPI(1, rowsPerPage);
     fetchAllcode();
+    getListClinicHomePatient();
   }, []);
 
   useEffect(() => {
-    if (listUser.list && listUser.list.length > 0) {
-      setUsers(
-        listUser.list.map((i) => {
-          return {
-            ...i,
-            id: i._id,
-            image: i.image.url,
-          };
-        })
-      );
-    } else {
-      setUsers([]);
-    }
+    if (listClinic && listClinic.length > 0);
+    setListSelectClinic(
+      listClinic.map((e) => ({
+        value: e._id,
+        label: e.name,
+      }))
+    );
     if (allcodes && allcodes.length > 0) {
       setDataSelect(
         allcodes.map((e) => ({ id: e._id, name: e.valueVI, type: e.type }))
       );
     }
-  }, [listUser, allcodes]);
+  }, [allcodes, listClinic]);
   useEffect(() => {
     setErrors({});
     if (!_.isEmpty(userEdit)) {
@@ -117,7 +115,7 @@ const ManageUserSchedule = ({
       clinicId,
       filter,
     };
-    getAllUserAction(data);
+    // getAllUserAction(data);
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -176,9 +174,8 @@ const ManageUserSchedule = ({
   };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
-      <StyledTableCell>Bác sĩ</StyledTableCell>
-      <StyledTableCell>Cơ sở</StyledTableCell>
-      <StyledTableCell>Chuyên khoa</StyledTableCell>
+      <StyledTableCell>Tên gói</StyledTableCell>
+
       <StyledTableCell></StyledTableCell>
     </TableRow>
   );
@@ -200,21 +197,16 @@ const ManageUserSchedule = ({
             </span>
           </TableCell>
           <TableCell>
-            <Typography variant="">
-              {detail?.clinic?.name ? detail.clinic.name : ""}
-            </Typography>
-          </TableCell>
-          <TableCell>
-            <Typography variant="">
-              {detail?.specialty?.name ? detail.specialty.name : ""}
-            </Typography>
-          </TableCell>
-          <TableCell>
-            <Tooltip title="Chỉnh sửa">
-              <IconButton onClick={() => setUserEdit(props)}>
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
+            <span
+              className="d-flex justify-content-end"
+              style={{ paddingRight: "20px" }}
+            >
+              <Tooltip title="Chỉnh sửa">
+                <IconButton onClick={() => setUserEdit(props)}>
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+            </span>
           </TableCell>
         </TableRow>
       </>
@@ -223,7 +215,7 @@ const ManageUserSchedule = ({
   return (
     <>
       <Box m="20px">
-        <Header title="Quản lý lịch khám bệnh" />
+        <Header title="Quản lý gói khám bệnh" />
         <Grid container spacing={2}>
           <Grid item sx={{ boder: "1px solid red" }} md={6} xs={12}>
             <Grid container spacing={2}>
@@ -250,10 +242,12 @@ const ManageUserSchedule = ({
                         >
                           <UpLoadAvatar
                             isDetail={true}
-                            preWidth="80px"
-                            preHeight="80px"
+                            preWidth="300px"
+                            preHeight="200px"
+                            borderRadius="0px"
+                            backgroundSize="cover"
                             image={image}
-                            disableEdit={true}
+                            disableEdit={false}
                           />
                           <Typography gutterBottom variant="h5">
                             <Box
@@ -272,23 +266,25 @@ const ManageUserSchedule = ({
                                   textTransform: "capitalize",
                                 }}
                               >
-                                {position ? position : ""} -&nbsp;
-                                {name ? name : ""}
+                                {name ? name : ""} name de day
                               </Typography>
                             </Box>
                           </Typography>
-                          <Grid item md={12} xs={12}>
-                            <Typography color="text.secondary" variant="body2">
-                              <HomeWorkOutlinedIcon />
-                              <span className="m-1">
-                                {clinic ? clinic : ""} -&nbsp;
-                                {specialty ? specialty : ""}
-                              </span>
-                            </Typography>
-                          </Grid>
                         </Box>
                       </CardContent>
                     </Card>
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      required
+                      id="outlined-required"
+                      label="Tên"
+                      fullWidth
+                      onChange={(e) => setName(e.target.value)}
+                      error={errors.name ? true : false}
+                      helperText={errors.name}
+                      value={name}
+                    />
                   </Grid>
                   <Grid item xs={12} md={12}>
                     <InputSelect
@@ -301,7 +297,28 @@ const ManageUserSchedule = ({
                       name="Chọn giá (VNĐ)"
                     />
                   </Grid>
-                  <Grid item xs={12} md={12}>
+                </Grid>
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <Grid container spacing={2}>
+                  <Grid item md={12} xs={12}>
+                    <LocalizationProvider
+                      dateAdapter={AdapterDayjs}
+                      adapterLocale="vi"
+                    >
+                      <StaticDatePicker
+                        className="day-picker"
+                        disablePast
+                        displayStaticWrapperAs="desktop"
+                        value={date}
+                        onChange={(newValue) => {
+                          setDate(newValue);
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  <Grid item md={12} xs={12}>
                     <InputSelect
                       label="Chọn phương thức thanh toán"
                       value={payment}
@@ -313,23 +330,6 @@ const ManageUserSchedule = ({
                     />
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item md={6} xs={12}>
-                <LocalizationProvider
-                  dateAdapter={AdapterDayjs}
-                  adapterLocale="vi"
-                >
-                  <StaticDatePicker
-                    className="day-picker"
-                    disablePast
-                    displayStaticWrapperAs="desktop"
-                    value={date}
-                    onChange={(newValue) => {
-                      setDate(newValue);
-                    }}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
               </Grid>
               <Grid item xs={12} md={12}>
                 <TextField
@@ -383,22 +383,20 @@ const ManageUserSchedule = ({
           <Grid item xs={12} md={6}>
             <Grid container spacing={2}>
               <Grid item xs={8} md={5}>
-                <FormControl sx={{ width: "100%" }} variant="outlined">
-                  <OutlinedInput
-                    placeholder="Lọc theo tên"
-                    id="outlined-adornment-weight"
-                    value={search}
-                    onChange={(e) => handleOnChangeSearch(e)}
-                    onKeyPress={(e) => handleEnterSearch(e)}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton onClick={handleClickSearch}>
-                          <SearchIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
+                <Select
+                  className={`react-select-container`}
+                  value={selectClinic}
+                  onChange={(e) => setSelectClinic(e)}
+                  options={listSelectClinic}
+                  placeholder="Lọc theo cơ sở"
+                  menuPortalTarget={document.body}
+                  styles={{
+                    menuPortal: (base) => ({
+                      ...base,
+                      zIndex: 9999,
+                    }),
+                  }}
+                />
               </Grid>
               <Grid item xs={4} md={3} display="flex" alignItems="center">
                 <Tooltip title="Làm mới">
@@ -432,7 +430,7 @@ const ManageUserSchedule = ({
               <TablePagination
                 rowsPerPageOptions={[10, 15, 25]}
                 component="div"
-                count={listUser.count}
+                // count={listUser.count}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -461,15 +459,16 @@ const ManageUserSchedule = ({
 const mapStateToProps = (state) => {
   return {
     user: state.admin.user,
-    listUser: state.admin.users,
     allcodes: state.admin.allcodes,
+    listClinic: state.patient.listClinic,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
-    getAllUserAction: (data) => dispatch(actions.getAllUserAction(data)),
+    getListClinicHomePatient: () =>
+      dispatch(actions.getListClinicHomePatientAction()),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ManageUserSchedule);
+export default connect(mapStateToProps, mapDispatchToProps)(ManagePacket);

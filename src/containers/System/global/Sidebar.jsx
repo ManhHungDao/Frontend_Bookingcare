@@ -26,6 +26,7 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
@@ -146,17 +147,17 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
               <Item
-                title="Quản lý lịch khám"
-                to="/admin/manage-user-schedule"
-                icon={<PendingActionsIcon />}
+                title="Danh sách người dùng"
+                to="/admin/manage-user"
+                icon={<PeopleOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
               <Item
-                title="Danh sách người dùng"
-                to="/admin/manage-user"
-                icon={<PeopleOutlinedIcon />}
+                title="Quản lý lịch khám"
+                to="/admin/manage-user-schedule"
+                icon={<PendingActionsIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
@@ -178,6 +179,14 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 title="Danh sách phòng khám"
                 to="/admin/manage-clinic"
                 icon={<BallotOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+               <Item
+                title="Quản lý gói khám"
+                to="/admin/manage-packet"
+                icon={<LibraryBooksIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}

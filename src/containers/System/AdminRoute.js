@@ -15,45 +15,41 @@ import ManageCode from "./Allcode/ManageCode";
 import AddHandbook from "./Handbook/AddHandbook";
 import TableManageHandbook from "./Handbook/TableManageHandbook";
 import ManageUserSchedule from "./Admin/ManageUserSchedule";
+import ManagePacket from "./Clinic/ManagePacket";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import "./style.css";
 const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
   const [isSidebar, setIsSidebar] = React.useState(true);
   return (
     <>
-          <CssBaseline />
-          <div className="app">
-            <Sidebar isSidebar={isSidebar} />
-            <main className="content">
-              <Topbar setIsSidebar={setIsSidebar} />
-              <Routes>
-                <Route index element={<Dashboard />} />
-                <Route path="reset-password" element={<ResetPassword />} />
-                <Route path="add-user" element={<AddNewUser />} />
-                <Route path="manage-user" element={<TableManageUser />} />
-                <Route
-                  path="manage-user-schedule"
-                  element={<ManageUserSchedule />}
-                />
-                <Route path="add-clinic" element={<AddClinic />} />
-                <Route path="manage-clinic" element={<TableManageClinic />} />
-                <Route path="add-specialty" element={<AddSpecialty />} />
-                <Route
-                  path="manage-specialty"
-                  element={<TableManageSpecialty />}
-                />
-                <Route path="manage-code-price" element={<ManageCode />} />
-                <Route path="manage-code-payment" element={<ManageCode />} />
-                <Route path="manage-code-province" element={<ManageCode />} />
-                <Route path="manage-code-time" element={<ManageCode />} />
-                <Route path="manage-code-specialty" element={<ManageCode />} />
-                <Route path="add-handbook" element={<AddHandbook />} />
-                <Route
-                  path="manage-handbook"
-                  element={<TableManageHandbook />}
-                />
+      <CssBaseline />
+      <div className="app">
+        <Sidebar isSidebar={isSidebar} />
+        <main className="content">
+          <Topbar setIsSidebar={setIsSidebar} />
+          <Routes>
+            <Route index element={<Dashboard />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+            <Route path="add-user" element={<AddNewUser />} />
+            <Route path="manage-user" element={<TableManageUser />} />
+            <Route
+              path="manage-user-schedule"
+              element={<ManageUserSchedule />}
+            />
+            <Route path="add-clinic" element={<AddClinic />} />
+            <Route path="manage-clinic" element={<TableManageClinic />} />
+            <Route path="manage-packet" element={<ManagePacket />} />
+            <Route path="add-specialty" element={<AddSpecialty />} />
+            <Route path="manage-specialty" element={<TableManageSpecialty />} />
+            <Route path="manage-code-price" element={<ManageCode />} />
+            <Route path="manage-code-payment" element={<ManageCode />} />
+            <Route path="manage-code-province" element={<ManageCode />} />
+            <Route path="manage-code-time" element={<ManageCode />} />
+            <Route path="manage-code-specialty" element={<ManageCode />} />
+            <Route path="add-handbook" element={<AddHandbook />} />
+            <Route path="manage-handbook" element={<TableManageHandbook />} />
 
-                {/* <Route
+            {/* <Route
                   path="/manage-detail-clinic"
                   element={<ManageDetailClinic />}
                 />
@@ -67,15 +63,15 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
                   path="/packet_examination"
                   element={Packet_examination}
                 /> */}
-                <Route path="*" element={<Navigate replace to="/admin" />} />
-                {/* {isLoggedIn ? (
+            <Route path="*" element={<Navigate replace to="/admin" />} />
+            {/* {isLoggedIn ? (
                   <Route path="*" element={<Navigate replace to="/admin" />} />
                 ) : (
                   <Route path="*" element={<Navigate replace to="/login" />} />
                 )} */}
-              </Routes>
-            </main>
-          </div>
+          </Routes>
+        </main>
+      </div>
     </>
   );
 };
