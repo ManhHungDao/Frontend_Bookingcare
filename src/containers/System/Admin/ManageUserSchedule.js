@@ -22,6 +22,7 @@ import {
   FormControl,
   InputAdornment,
   Paper,
+  Button,
 } from "@mui/material";
 import _ from "lodash";
 import UpLoadAvatar from "../../../components/UpLoadAvatar";
@@ -224,16 +225,9 @@ const ManageUserSchedule = ({
       <Box m="20px">
         <Header title="Quản lý lịch khám bệnh" />
         <Grid container spacing={2}>
-          <Grid
-            item
-            display="flex"
-            alignItems="center"
-            sx={{ boder: "1px solid red" }}
-            md={6}
-            xs={12}
-          >
+          <Grid item sx={{ boder: "1px solid red" }} md={6} xs={12}>
             <Grid container spacing={2}>
-              <Grid item md={6} xs={12} sx={{ height: "100%" }}>
+              <Grid item md={6} xs={12}>
                 <Grid container spacing={2}>
                   <Grid item md={12} xs={12}>
                     <Card
@@ -350,6 +344,47 @@ const ManageUserSchedule = ({
                   error={errors.note ? true : false}
                   helperText={errors.note}
                 />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <Card
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  <CardContent>
+                    <Box
+                      sx={{
+                        // display: "flex",
+                        // gap: 1,
+                        // flexWrap: "wrap",
+                        // margin: "0px auto",
+                        display: "grid",
+                        gridTemplateColumns:
+                          "repeat(auto-fit, minmax(100px, 1fr))",
+                        gap: 1,
+                      }}
+                    >
+                      {dataSelect &&
+                        dataSelect.length > 0 &&
+                        dataSelect
+                          .filter((e) => e.type === "TIME")
+                          .map((e) => (
+                            <Button key={e.id} variant="outlined">
+                              {e.name}
+                            </Button>
+                          ))}
+                      {/* <Button variant="contained">Primary</Button>
+                      <Button variant="outlined">Primary</Button>
+                      <Button variant="outlined">Primary</Button>
+                      <Button variant="outlined">Primary</Button>
+                      <Button variant="outlined">Primary</Button>
+                      <Button variant="outlined">Primary</Button>
+                      <Button variant="outlined">Primary</Button>
+                      <Button variant="outlined">Primary</Button> */}
+                    </Box>
+                  </CardContent>
+                </Card>
               </Grid>
             </Grid>
           </Grid>
