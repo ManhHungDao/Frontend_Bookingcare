@@ -10,6 +10,7 @@ const initialState = {
   listSpecialty: [],
   listSpecialtyInClinic: [],
   listHandbook: [],
+  schedule: {},
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -95,6 +96,15 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         listHandbook: [],
+      };
+    }
+    case actionTypes.GET_SCHEDULE_SUCCESS: {
+      return { ...state, schedule: action.data };
+    }
+    case actionTypes.GET_SCHEDULE_FAILED: {
+      return {
+        ...state,
+        schedule: {},
       };
     }
     default:

@@ -23,6 +23,7 @@ import {
   InputAdornment,
   Paper,
   Button,
+  FormHelperText,
 } from "@mui/material";
 import _ from "lodash";
 import UpLoadAvatar from "../../../components/UpLoadAvatar";
@@ -39,36 +40,60 @@ import InputSelect from "../../../components/Input/InputSelect";
 import ButtonComponent from "../../../components/ButtonComponent";
 import SearchIcon from "@mui/icons-material/Search";
 import CachedIcon from "@mui/icons-material/Cached";
+import { toast } from "react-toastify";
 
 const ManageUserSchedule = ({
   listUser,
   getAllUserAction,
   allcodes,
   fetchAllcode,
+  isSuccess,
+  clearStatus,
+  upsertSchedule,
+  getSingleSchedule,
+  userSchedule,
 }) => {
   const [image, setImage] = useState("");
   const [clinic, setClinic] = useState("");
   const [specialty, setSpecialty] = useState("");
   const [name, setName] = useState("");
   const [position, setPosition] = useState("");
-  const [users, setUsers] = useState([]);
   const [note, setNote] = useState("");
+  const [price, setPrice] = useState("");
+  const [payment, setPayment] = useState("");
 
-  const [date, setDate] = useState(dayjs(new Date()));
+  const [users, setUsers] = useState([]);
+  const [date, setDate] = useState(
+    dayjs(new Date().setHours(0, 0, 0)).format("D MMMM YYYY")
+  );
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [userEdit, setUserEdit] = useState("");
   const [dataSelect, setDataSelect] = useState([]);
-  const [price, setPrice] = useState("");
-  const [payment, setPayment] = useState("");
   const [errors, setErrors] = useState({});
-
+  const [timeSchedule, setTimeSchedule] = useState([]);
   useEffect(() => {
     fetchDataAPI(1, rowsPerPage);
     fetchAllcode();
   }, []);
 
+  useEffect(() => {
+    if (isSuccess === true) {
+      setPayment("");
+      setPrice("");
+      setUserEdit("");
+      setImage("");
+      setClinic("");
+      setSpecialty("");
+      setName("");
+      setPosition("");
+      setNote("");
+      setDate(dayjs(new Date()));
+      setTimeSchedule(timeSchedule.map((item) => ({ ...item, active: false })));
+    }
+    clearStatus();
+  }, [isSuccess]);
   useEffect(() => {
     if (listUser.list && listUser.list.length > 0) {
       setUsers(
@@ -85,14 +110,28 @@ const ManageUserSchedule = ({
     }
     if (allcodes && allcodes.length > 0) {
       setDataSelect(
-        allcodes.map((e) => ({ id: e._id, name: e.valueVI, type: e.type }))
+        allcodes.map((e) => ({
+          id: e._id,
+          name: e.valueVI,
+          type: e.type,
+        }))
+      );
+      setTimeSchedule(
+        allcodes
+          .filter((e) => e.type === "TIME")
+          .map((e) => ({
+            id: e._id,
+            name: e.valueVI,
+            active: false,
+          }))
       );
     }
   }, [listUser, allcodes]);
   useEffect(() => {
+    // set data when click eidt user in table
     setErrors({});
     if (!_.isEmpty(userEdit)) {
-      const { detail, image, name } = userEdit;
+      const { detail, image, name, _id } = userEdit;
       setImage(image ? image : "");
       setClinic(detail?.clinic?.name ? detail.clinic.name : "");
       setSpecialty(detail?.specialty?.name ? detail.specialty.name : "");
@@ -107,8 +146,29 @@ const ManageUserSchedule = ({
       });
       setName(name ? name : "");
       setNote(detail?.note ? detail.note : "");
+
+      getSingleSchedule(_id, dayjs(date).unix());
     }
   }, [userEdit]);
+
+  useEffect(() => {
+    if (!_.isEmpty(userEdit)) {
+      getSingleSchedule(userEdit._id, dayjs(date).unix());
+    }
+  }, [date]);
+
+  useEffect(() => {
+    const { detail, schedule, date } = userSchedule;
+    setNote(detail?.note ? detail.note : note);
+    setPayment({
+      value: detail?.payment?.id ? detail.payment.id : payment.value,
+      label: detail?.payment?.name ? detail.payment.name : payment.label,
+    });
+    setPrice({
+      value: detail?.price?.id ? detail.price.id : price.value,
+      label: detail?.price?.name ? detail.price.name : price.label,
+    });
+  }, [userSchedule]);
 
   const fetchDataAPI = (page, size, clinicId = "", filter = "") => {
     const data = {
@@ -159,6 +219,8 @@ const ManageUserSchedule = ({
     if (!note) errors.note = "Ghi chú không được bỏ trống";
     if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
     if (!price) errors.price = "Chưa chọn giá";
+    let activeTime = timeSchedule.filter((e) => e.active === true);
+    if (activeTime.length <= 0) errors.time = "Chưa chọn thời gian khám";
     return errors;
   };
   const isValid = (errors) => {
@@ -166,13 +228,49 @@ const ManageUserSchedule = ({
     let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
     return count === 0;
   };
+  const handleClickTime = (e) => {
+    let copy = timeSchedule;
+    copy = copy.map((item) => {
+      if (item.id === e.id) {
+        item.active = !item.active;
+      }
+      return item;
+    });
+    setTimeSchedule(copy);
+  };
   const handleSave = () => {
+    if (_.isEmpty(userEdit)) {
+      toast.error("Chưa chọn bác sĩ");
+      return;
+    }
     const errors = checkValidate();
     const checkValidInPut = isValid(errors);
     if (!checkValidInPut) {
       setErrors(errors);
       return;
     }
+    let listTime = timeSchedule
+      .filter((e) => e.active === true)
+      .map((e) => ({ time: e.id }));
+    let { id, detail } = userEdit;
+    const data = {
+      doctor: {
+        id: userEdit.id,
+        name: userEdit.name,
+      },
+      packet: {
+        id: null,
+        name: null,
+      },
+      detail: {
+        price: detail.price,
+        payment: detail.payment,
+        note: note,
+      },
+      schedule: [...listTime],
+      date: dayjs(date).unix(),
+    };
+    upsertSchedule(data);
   };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
@@ -183,7 +281,7 @@ const ManageUserSchedule = ({
     </TableRow>
   );
   const TableColumn = (props) => {
-    const { _id, detail, name, image } = props;
+    const { detail, name, image } = props;
     return (
       <>
         <TableRow>
@@ -325,7 +423,7 @@ const ManageUserSchedule = ({
                     displayStaticWrapperAs="desktop"
                     value={date}
                     onChange={(newValue) => {
-                      setDate(newValue);
+                      setDate(dayjs(new Date(newValue).setHours(0, 0, 0)));
                     }}
                     renderInput={(params) => <TextField {...params} />}
                   />
@@ -355,26 +453,30 @@ const ManageUserSchedule = ({
                   <CardContent>
                     <Box
                       sx={{
-                        // display: "flex",
-                        // gap: 1,
-                        // flexWrap: "wrap",
-                        // margin: "0px auto",
                         display: "grid",
                         gridTemplateColumns:
                           "repeat(auto-fit, minmax(100px, 1fr))",
                         gap: 1,
                       }}
                     >
-                      {dataSelect &&
-                        dataSelect.length > 0 &&
-                        dataSelect
-                          .filter((e) => e.type === "TIME")
-                          .map((e) => (
-                            <Button key={e.id} variant="outlined">
-                              {e.name}
-                            </Button>
-                          ))}
+                      {timeSchedule &&
+                        timeSchedule.length > 0 &&
+                        timeSchedule.map((e) => (
+                          <Button
+                            key={e.id}
+                            variant={
+                              e.active === true ? "contained" : "outlined"
+                            }
+                            // color={errors?.time ? "error" : "primary"}
+                            onClick={() => handleClickTime(e)}
+                          >
+                            {e.name}
+                          </Button>
+                        ))}
                     </Box>
+                    <FormHelperText error={errors?.time ? true : false}>
+                      {errors?.time}
+                    </FormHelperText>
                   </CardContent>
                 </Card>
               </Grid>
@@ -463,6 +565,8 @@ const mapStateToProps = (state) => {
     user: state.admin.user,
     listUser: state.admin.users,
     allcodes: state.admin.allcodes,
+    userSchedule: state.admin.schedule,
+    isSuccess: state.app.isSuccess,
   };
 };
 
@@ -470,6 +574,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
     getAllUserAction: (data) => dispatch(actions.getAllUserAction(data)),
+    upsertSchedule: (data) => dispatch(actions.upsertScheduleAction(data)),
+    getSingleSchedule: (id, date) =>
+      dispatch(actions.getSingleScheduleAction(id, date)),
+    clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ManageUserSchedule);

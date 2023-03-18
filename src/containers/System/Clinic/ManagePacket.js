@@ -66,6 +66,7 @@ const ManagePacket = ({
 
   const [listSelectClinic, setListSelectClinic] = useState([]);
   const [selectClinic, setSelectClinic] = useState("");
+  const [selectTime, setSelectTime] = useState([]);
 
   useEffect(() => {
     // fetchDataAPI(1, rowsPerPage);
@@ -355,10 +356,6 @@ const ManagePacket = ({
                   <CardContent>
                     <Box
                       sx={{
-                        // display: "flex",
-                        // gap: 1,
-                        // flexWrap: "wrap",
-                        // margin: "0px auto",
                         display: "grid",
                         gridTemplateColumns:
                           "repeat(auto-fit, minmax(100px, 1fr))",

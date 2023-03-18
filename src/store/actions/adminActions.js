@@ -35,6 +35,10 @@ import {
   deleteHandbook,
   updateHandbook,
 } from "../../services/handbookService";
+import {
+  upsertSchedule,
+  getSingleSchedule,
+} from "../../services/scheduleService";
 
 import { toast } from "react-toastify";
 
@@ -590,6 +594,50 @@ export const updateHandbookAction = (id, data) => {
         type: actionTypes.UPDATE_FAILED,
       });
       toast.error("Cập nhập cẩm nang thất bại");
+    }
+  };
+};
+
+// SCHEDULE
+export const upsertScheduleAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await upsertSchedule(data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.CREATE_SUCCESS,
+        });
+        dispatch(loadingToggleAction(false));
+        toast.success("Tạo lịch khám thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.CREATE_FAILED,
+      });
+      toast.error("Tạo lịch khám thất bại");
+    }
+  };
+};
+
+export const getSingleScheduleAction = (id, date) => {
+  return async (dispatch, getState) => {
+    try {
+      // dispatch(loadingToggleAction(true));
+      const res = await getSingleSchedule(id, date);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.GET_SCHEDULE_SUCCESS,
+          data: res.schedule,
+        });
+        // dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      // dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_SCHEDULE_FAILED,
+      });
     }
   };
 };

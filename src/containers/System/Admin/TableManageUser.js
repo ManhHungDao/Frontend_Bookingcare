@@ -211,7 +211,7 @@ const TableManageUser = (props) => {
                   <RemoveRedEyeRoundedIcon />
                 </IconButton>
               </Tooltip>
-              {roleId !== "R0" && roleId !== userInfo.roleId && (
+              {roleId !== userInfo.roleId && (
                 <Tooltip title="Xóa">
                   <IconButton onClick={() => handelClickDelete(props)}>
                     <DeleteIcon />
