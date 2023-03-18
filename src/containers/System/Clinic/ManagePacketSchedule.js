@@ -40,7 +40,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CachedIcon from "@mui/icons-material/Cached";
 import Select from "react-select";
 
-const ManagePacket = ({
+const ManagePacketScheduleSchedule = ({
   allcodes,
   fetchAllcode,
   listClinic,
@@ -452,4 +452,4 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getListClinicHomePatientAction()),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ManagePacket);
+export default connect(mapStateToProps, mapDispatchToProps)(ManagePacketScheduleSchedule);

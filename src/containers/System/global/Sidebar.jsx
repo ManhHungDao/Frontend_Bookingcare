@@ -191,9 +191,17 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
+                <Item
+                title="Danh sách gói khám"
+                to="/admin/manage-packet"
+                icon={<MenuOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
                <Item
                 title="Quản lý gói khám"
-                to="/admin/manage-packet"
+                to="/admin/manage-packet-schedule"
                 icon={<LibraryBooksIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}

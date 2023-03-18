@@ -44,6 +44,8 @@ import {
 import {
   createPacketService,
   deletePacket,
+  getSinglePacket,
+  getAllPacket,
 } from "../../services/packetService";
 
 import { toast } from "react-toastify";
@@ -710,6 +712,31 @@ export const deletePacketAction = (id) => {
         type: actionTypes.DELETE_FAILED,
       });
       toast.error("Xóa gói khám thất bại");
+    }
+  };
+};
+
+export const getAllPacketAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getAllPacket(data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.GET_PACKET_PAGINATION_SUCCESS,
+          data: {
+            list: res.packets,
+            count: res.count,
+          },
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_PACKET_PAGINATION_FAILED,
+      });
+      toast.error("Lấy danh sách thất bại");
     }
   };
 };

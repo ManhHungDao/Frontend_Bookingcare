@@ -11,6 +11,7 @@ const initialState = {
   listSpecialtyInClinic: [],
   listHandbook: [],
   schedule: {},
+  listPacket: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -98,6 +99,7 @@ const adminReducer = (state = initialState, action) => {
         listHandbook: [],
       };
     }
+    // SHEDULE
     case actionTypes.GET_SCHEDULE_SUCCESS: {
       return { ...state, schedule: action.data };
     }
@@ -105,6 +107,17 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         schedule: {},
+      };
+    }
+
+    // PACKET]
+    case actionTypes.GET_PACKET_PAGINATION_SUCCESS: {
+      return { ...state, listPacket: action.data };
+    }
+    case actionTypes.GET_PACKET_PAGINATION_FAILED: {
+      return {
+        ...state,
+        listPacket: [],
       };
     }
     default:
