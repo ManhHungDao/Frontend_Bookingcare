@@ -43,6 +43,7 @@ import CachedIcon from "@mui/icons-material/Cached";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
+const tomorrow = dayjs().add(1, 'day');
 
 const ManageUserSchedule = ({
   listUser,
@@ -67,7 +68,7 @@ const ManageUserSchedule = ({
 
   const [users, setUsers] = useState([]);
   const [date, setDate] = useState(
-    dayjs(new Date().setHours(0, 0, 0)).format("D MMMM YYYY")
+    dayjs(new Date(tomorrow).setHours(0, 0, 0)).format("D MMMM YYYY")
   );
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
@@ -94,7 +95,7 @@ const ManageUserSchedule = ({
       setName("");
       setPosition("");
       setNote("");
-      setDate(dayjs(new Date().setHours(0, 0, 0)).format("D MMMM YYYY"));
+      setDate(dayjs(new Date(tomorrow).setHours(0, 0, 0)).format("D MMMM YYYY"));
       setTimeSchedule(timeSchedule.map((item) => ({ ...item, active: false })));
       setUserDelete("");
       setOpen(false)
@@ -464,6 +465,7 @@ const ManageUserSchedule = ({
                   <StaticDatePicker
                     className="day-picker"
                     disablePast
+                    minDate={tomorrow}
                     displayStaticWrapperAs="desktop"
                     value={date}
                     onChange={(newValue) => {

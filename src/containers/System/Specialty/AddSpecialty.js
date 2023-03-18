@@ -9,7 +9,6 @@ import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic"
 import ButtonComponent from "../../../components/ButtonComponent";
 import _ from "lodash";
 import useIsTablet from "../../../components/useScreen/useIsTablet";
-import { toast } from "react-toastify";
 import InputSelect from "../../../components/Input/InputSelect";
 
 const AddSpecialty = ({

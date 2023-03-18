@@ -83,7 +83,6 @@ const AddNewUser = ({
       setNote("");
       setContent("");
       setShowPassword(false);
-      setDataSelect([]);
       setPreviewImgUrl("");
       setErrors({});
       window.scrollTo({ top: 0, behavior: "smooth" });

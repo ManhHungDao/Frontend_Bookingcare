@@ -41,6 +41,11 @@ import {
   deleteSchedule,
 } from "../../services/scheduleService";
 
+import {
+  createPacketService,
+  deletePacket,
+} from "../../services/packetService";
+
 import { toast } from "react-toastify";
 
 export const loadingToggleAction = (status) => {
@@ -518,7 +523,6 @@ export const createHandbookAction = (data) => {
       if (res && res.success) {
         dispatch({
           type: actionTypes.CREATE_SUCCESS,
-          data: res.specialties,
         });
         dispatch(loadingToggleAction(false));
         toast.success("Tạo cẩm nang thành công");
@@ -661,6 +665,51 @@ export const deleteScheduleAction = (id, date) => {
         type: actionTypes.DELETE_FAILED,
       });
       toast.error("Xóa thất bại lịch khám");
+    }
+  };
+};
+
+// PACKET
+export const createPacketAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await createPacketService(data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.CREATE_SUCCESS,
+        });
+        dispatch(loadingToggleAction(false));
+        toast.success("Tạo gói khám thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.CREATE_FAILED,
+      });
+      toast.error("Tạo gói khám thất bại");
+    }
+  };
+};
+
+export const deletePacketAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await deletePacket(id);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.DELETE_SUCCESS,
+        });
+        dispatch(loadingToggleAction(false));
+        toast.success("Xóa gói khám thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.DELETE_FAILED,
+      });
+      toast.error("Xóa gói khám thất bại");
     }
   };
 };

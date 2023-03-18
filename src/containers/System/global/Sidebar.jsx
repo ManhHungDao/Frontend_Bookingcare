@@ -27,7 +27,7 @@ import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-
+import PlaylistAddCircleOutlinedIcon from '@mui/icons-material/PlaylistAddCircleOutlined';
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
   const handleSelected = () => {
@@ -179,6 +179,14 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 title="Danh sách phòng khám"
                 to="/admin/manage-clinic"
                 icon={<BallotOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+               <Item
+                title="Thêm gói khám"
+                to="/admin/add-packet"
+                icon={<PlaylistAddCircleOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}

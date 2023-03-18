@@ -276,15 +276,14 @@ const ManagePacket = ({
                     </Card>
                   </Grid>
                   <Grid item xs={12} md={12}>
-                    <TextField
-                      required
-                      id="outlined-required"
-                      label="Tên"
-                      fullWidth
-                      onChange={(e) => setName(e.target.value)}
-                      error={errors.name ? true : false}
-                      helperText={errors.name}
-                      value={name}
+                    <InputSelect
+                      label="Chọn phương thức thanh toán"
+                      value={payment}
+                      onChange={setPayment}
+                      data={dataSelect.filter((e) => e.type === "PAYMENT")}
+                      isError={errors.payment ? true : false}
+                      errorText={errors.payment ? errors.payment : ""}
+                      name="Chọn phương thức thanh toán"
                     />
                   </Grid>
                   <Grid item xs={12} md={12}>
@@ -301,36 +300,21 @@ const ManagePacket = ({
                 </Grid>
               </Grid>
               <Grid item md={6} xs={12}>
-                <Grid container spacing={2}>
-                  <Grid item md={12} xs={12}>
-                    <LocalizationProvider
-                      dateAdapter={AdapterDayjs}
-                      adapterLocale="vi"
-                    >
-                      <StaticDatePicker
-                        className="day-picker"
-                        disablePast
-                        displayStaticWrapperAs="desktop"
-                        value={date}
-                        onChange={(newValue) => {
-                          setDate(newValue);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </Grid>
-                  <Grid item md={12} xs={12}>
-                    <InputSelect
-                      label="Chọn phương thức thanh toán"
-                      value={payment}
-                      onChange={setPayment}
-                      data={dataSelect.filter((e) => e.type === "PAYMENT")}
-                      isError={errors.payment ? true : false}
-                      errorText={errors.payment ? errors.payment : ""}
-                      name="Chọn phương thức thanh toán"
-                    />
-                  </Grid>
-                </Grid>
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale="vi"
+                >
+                  <StaticDatePicker
+                    className="day-picker"
+                    disablePast
+                    displayStaticWrapperAs="desktop"
+                    value={date}
+                    onChange={(newValue) => {
+                      setDate(newValue);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
               </Grid>
               <Grid item xs={12} md={12}>
                 <TextField

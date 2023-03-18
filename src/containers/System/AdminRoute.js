@@ -16,6 +16,7 @@ import AddHandbook from "./Handbook/AddHandbook";
 import TableManageHandbook from "./Handbook/TableManageHandbook";
 import ManageUserSchedule from "./Admin/ManageUserSchedule";
 import ManagePacket from "./Clinic/ManagePacket";
+import AddPacket from "./Clinic/AddPacket";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import "./style.css";
 const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
@@ -38,6 +39,7 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
             />
             <Route path="add-clinic" element={<AddClinic />} />
             <Route path="manage-clinic" element={<TableManageClinic />} />
+            <Route path="add-packet" element={<AddPacket />} />
             <Route path="manage-packet" element={<ManagePacket />} />
             <Route path="add-specialty" element={<AddSpecialty />} />
             <Route path="manage-specialty" element={<TableManageSpecialty />} />
