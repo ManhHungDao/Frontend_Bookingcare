@@ -38,6 +38,7 @@ import {
 import {
   upsertSchedule,
   getSingleSchedule,
+  deleteSchedule,
 } from "../../services/scheduleService";
 
 import { toast } from "react-toastify";
@@ -638,6 +639,28 @@ export const getSingleScheduleAction = (id, date) => {
       dispatch({
         type: actionTypes.GET_SCHEDULE_FAILED,
       });
+    }
+  };
+};
+
+export const deleteScheduleAction = (id, date) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await deleteSchedule(id, date);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.DELETE_SUCCESS,
+        });
+        dispatch(loadingToggleAction(false));
+        toast.success("Xóa thành công lịch khám");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.DELETE_FAILED,
+      });
+      toast.error("Xóa thất bại lịch khám");
     }
   };
 };

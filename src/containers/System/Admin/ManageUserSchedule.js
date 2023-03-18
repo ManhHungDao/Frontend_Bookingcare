@@ -40,7 +40,9 @@ import InputSelect from "../../../components/Input/InputSelect";
 import ButtonComponent from "../../../components/ButtonComponent";
 import SearchIcon from "@mui/icons-material/Search";
 import CachedIcon from "@mui/icons-material/Cached";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
+import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 
 const ManageUserSchedule = ({
   listUser,
@@ -52,6 +54,7 @@ const ManageUserSchedule = ({
   upsertSchedule,
   getSingleSchedule,
   userSchedule,
+  deleteSchedule,
 }) => {
   const [image, setImage] = useState("");
   const [clinic, setClinic] = useState("");
@@ -70,9 +73,11 @@ const ManageUserSchedule = ({
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [userEdit, setUserEdit] = useState("");
+  const [userDelete, setUserDelete] = useState("");
   const [dataSelect, setDataSelect] = useState([]);
   const [errors, setErrors] = useState({});
   const [timeSchedule, setTimeSchedule] = useState([]);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     fetchDataAPI(1, rowsPerPage);
     fetchAllcode();
@@ -89,8 +94,10 @@ const ManageUserSchedule = ({
       setName("");
       setPosition("");
       setNote("");
-      setDate(dayjs(new Date()));
+      setDate(dayjs(new Date().setHours(0, 0, 0)).format("D MMMM YYYY"));
       setTimeSchedule(timeSchedule.map((item) => ({ ...item, active: false })));
+      setUserDelete("");
+      setOpen(false)
     }
     clearStatus();
   }, [isSuccess]);
@@ -130,6 +137,12 @@ const ManageUserSchedule = ({
   useEffect(() => {
     // set data when click eidt user in table
     setErrors({});
+    setTimeSchedule(
+      timeSchedule.map((item) => {
+        item.active = false;
+        return item;
+      })
+    );
     if (!_.isEmpty(userEdit)) {
       const { detail, image, name, _id } = userEdit;
       setImage(image ? image : "");
@@ -153,6 +166,12 @@ const ManageUserSchedule = ({
 
   useEffect(() => {
     if (!_.isEmpty(userEdit)) {
+      setTimeSchedule(
+        timeSchedule.map((item) => {
+          item.active = false;
+          return item;
+        })
+      );
       getSingleSchedule(userEdit._id, dayjs(date).unix());
     }
   }, [date]);
@@ -168,6 +187,18 @@ const ManageUserSchedule = ({
       value: detail?.price?.id ? detail.price.id : price.value,
       label: detail?.price?.name ? detail.price.name : price.label,
     });
+    if (schedule && schedule.length > 0) {
+      let list = timeSchedule.map((e) => {
+        schedule.map((item) => {
+          if (item.time === e.id) {
+            e.active = true;
+          }
+          return e;
+        });
+        return e;
+      });
+      setTimeSchedule(list);
+    }
   }, [userSchedule]);
 
   const fetchDataAPI = (page, size, clinicId = "", filter = "") => {
@@ -195,6 +226,14 @@ const ManageUserSchedule = ({
       minWidth: 170,
     },
   }));
+  const handleDeleteSchedule = () => {
+    if (!_.isEmpty(userDelete) && !_.isEmpty(userDelete._id))
+      deleteSchedule(userDelete._id, dayjs(date).unix());
+  };
+  const handelClickDelete = (user) => {
+    setOpen(true);
+    setUserDelete(user);
+  };
   const handleOnChangeSearch = (e) => {
     setSearch(e.target.value);
   };
@@ -311,6 +350,11 @@ const ManageUserSchedule = ({
             <Tooltip title="Chỉnh sửa">
               <IconButton onClick={() => setUserEdit(props)}>
                 <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Xóa">
+              <IconButton onClick={() => handelClickDelete(props)}>
+                <DeleteIcon />
               </IconButton>
             </Tooltip>
           </TableCell>
@@ -556,6 +600,14 @@ const ManageUserSchedule = ({
           </Grid>
         </Grid>
       </Box>
+      <ConfirmModal
+        open={open}
+        setOpen={setOpen}
+        title="Xóa lịch khám bệnh"
+        content={`${userDelete?.name ? userDelete.name : ""}`}
+        type="DELETE"
+        confirmFunc={handleDeleteSchedule}
+      />
     </>
   );
 };
@@ -573,6 +625,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
+    deleteSchedule: (id, date) =>
+      dispatch(actions.deleteScheduleAction(id, date)),
     getAllUserAction: (data) => dispatch(actions.getAllUserAction(data)),
     upsertSchedule: (data) => dispatch(actions.upsertScheduleAction(data)),
     getSingleSchedule: (id, date) =>
