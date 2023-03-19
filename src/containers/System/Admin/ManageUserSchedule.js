@@ -43,7 +43,7 @@ import CachedIcon from "@mui/icons-material/Cached";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
-const tomorrow = dayjs().add(1, 'day');
+const tomorrow = dayjs().add(1, "day");
 
 const ManageUserSchedule = ({
   listUser,
@@ -95,10 +95,12 @@ const ManageUserSchedule = ({
       setName("");
       setPosition("");
       setNote("");
-      setDate(dayjs(new Date(tomorrow).setHours(0, 0, 0)).format("D MMMM YYYY"));
+      setDate(
+        dayjs(new Date(tomorrow).setHours(0, 0, 0)).format("D MMMM YYYY")
+      );
       setTimeSchedule(timeSchedule.map((item) => ({ ...item, active: false })));
       setUserDelete("");
-      setOpen(false)
+      setOpen(false);
     }
     clearStatus();
   }, [isSuccess]);
@@ -179,26 +181,28 @@ const ManageUserSchedule = ({
 
   useEffect(() => {
     const { detail, schedule, date } = userSchedule;
-    setNote(detail?.note ? detail.note : note);
-    setPayment({
-      value: detail?.payment?.id ? detail.payment.id : payment.value,
-      label: detail?.payment?.name ? detail.payment.name : payment.label,
-    });
-    setPrice({
-      value: detail?.price?.id ? detail.price.id : price.value,
-      label: detail?.price?.name ? detail.price.name : price.label,
-    });
-    if (schedule && schedule.length > 0) {
-      let list = timeSchedule.map((e) => {
-        schedule.map((item) => {
-          if (item.time === e.id) {
-            e.active = true;
-          }
+    if (!_.isEmpty(userSchedule)) {
+      setNote(detail?.note ? detail.note : note);
+      setPayment({
+        value: detail?.payment?.id ? detail.payment.id : payment.value,
+        label: detail?.payment?.name ? detail.payment.name : payment.label,
+      });
+      setPrice({
+        value: detail?.price?.id ? detail.price.id : price.value,
+        label: detail?.price?.name ? detail.price.name : price.label,
+      });
+      if (schedule && schedule.length > 0) {
+        let list = timeSchedule.map((e) => {
+          schedule.map((item) => {
+            if (item.time === e.id) {
+              e.active = true;
+            }
+            return e;
+          });
           return e;
         });
-        return e;
-      });
-      setTimeSchedule(list);
+        setTimeSchedule(list);
+      }
     }
   }, [userSchedule]);
 

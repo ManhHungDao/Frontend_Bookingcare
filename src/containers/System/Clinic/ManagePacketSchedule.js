@@ -23,6 +23,7 @@ import {
   InputAdornment,
   Paper,
   Button,
+  FormHelperText,
 } from "@mui/material";
 import _ from "lodash";
 import UpLoadAvatar from "../../../components/UpLoadAvatar";
@@ -34,81 +35,173 @@ import { tableCellClasses } from "@mui/material/TableCell";
 import EditIcon from "@mui/icons-material/Edit";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
+import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 import InputSelect from "../../../components/Input/InputSelect";
 import ButtonComponent from "../../../components/ButtonComponent";
 import SearchIcon from "@mui/icons-material/Search";
 import CachedIcon from "@mui/icons-material/Cached";
-import Select from "react-select";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { toast } from "react-toastify";
+import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
+const tomorrow = dayjs().add(1, "day");
 
-const ManagePacketScheduleSchedule = ({
-  allcodes,
+const ManagePacketSchedule = ({
+  listPacket,
   fetchAllcode,
-  listClinic,
-  getListClinicHomePatient,
+  isSuccess,
+  clearStatus,
+  upsertSchedule,
+  getSingleSchedule,
+  deleteSchedule,
+  getAllPacket,
+  allcodes,
+  packetSchedule,
 }) => {
   const [image, setImage] = useState("");
   const [clinic, setClinic] = useState("");
   const [specialty, setSpecialty] = useState("");
   const [name, setName] = useState("");
-  const [position, setPosition] = useState("");
-  const [users, setUsers] = useState([]);
   const [note, setNote] = useState("");
+  const [price, setPrice] = useState("");
+  const [payment, setPayment] = useState("");
 
-  const [date, setDate] = useState(dayjs(new Date()));
+  const [packets, setPackets] = useState([]);
+  const [date, setDate] = useState(
+    dayjs(new Date(tomorrow).setHours(0, 0, 0)).format("D MMMM YYYY")
+  );
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [userEdit, setUserEdit] = useState("");
+  const [packetEdit, setPacketEdit] = useState("");
+  const [packetDelete, setPacketDelete] = useState("");
   const [dataSelect, setDataSelect] = useState([]);
-  const [price, setPrice] = useState("");
-  const [payment, setPayment] = useState("");
   const [errors, setErrors] = useState({});
-
-  const [listSelectClinic, setListSelectClinic] = useState([]);
-  const [selectClinic, setSelectClinic] = useState("");
-  const [selectTime, setSelectTime] = useState([]);
-
+  const [timeSchedule, setTimeSchedule] = useState([]);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
-    // fetchDataAPI(1, rowsPerPage);
+    fetchDataAPI(1, rowsPerPage);
     fetchAllcode();
-    getListClinicHomePatient();
   }, []);
 
   useEffect(() => {
-    if (listClinic && listClinic.length > 0);
-    setListSelectClinic(
-      listClinic.map((e) => ({
-        value: e._id,
-        label: e.name,
-      }))
-    );
+    if (isSuccess === true) {
+      setPayment("");
+      setPrice("");
+      setPacketEdit("");
+      setImage("");
+      setClinic("");
+      setSpecialty("");
+      setName("");
+      setNote("");
+      setDate(
+        dayjs(new Date(tomorrow).setHours(0, 0, 0)).format("D MMMM YYYY")
+      );
+      setTimeSchedule(timeSchedule.map((item) => ({ ...item, active: false })));
+      setPacketDelete("");
+      setOpen(false);
+    }
+    clearStatus();
+  }, [isSuccess]);
+  useEffect(() => {
+    if (listPacket.list && listPacket.list.length > 0) {
+      setPackets(
+        listPacket.list.map((i) => {
+          return {
+            ...i,
+            id: i._id,
+            image: i.image.url,
+          };
+        })
+      );
+    } else {
+      setPackets([]);
+    }
     if (allcodes && allcodes.length > 0) {
       setDataSelect(
-        allcodes.map((e) => ({ id: e._id, name: e.valueVI, type: e.type }))
+        allcodes.map((e) => ({
+          id: e._id,
+          name: e.valueVI,
+          type: e.type,
+        }))
+      );
+      setTimeSchedule(
+        allcodes
+          .filter((e) => e.type === "TIME")
+          .map((e) => ({
+            id: e._id,
+            name: e.valueVI,
+            active: false,
+          }))
       );
     }
-  }, [allcodes, listClinic]);
+  }, [listPacket, allcodes]);
   useEffect(() => {
     setErrors({});
-    if (!_.isEmpty(userEdit)) {
-      const { detail, image, name } = userEdit;
+    setTimeSchedule(
+      timeSchedule.map((item) => {
+        item.active = false;
+        return item;
+      })
+    );
+    if (!_.isEmpty(packetEdit)) {
+      const { clinic, specialty, payment, price, image, name, _id } =
+        packetEdit;
       setImage(image ? image : "");
-      setClinic(detail?.clinic?.name ? detail.clinic.name : "");
-      setSpecialty(detail?.specialty?.name ? detail.specialty.name : "");
-      setPosition(detail?.position?.name ? detail.position.name : "");
-      setPayment({
-        value: detail?.payment?.id ? detail.payment.id : "",
-        label: detail?.payment?.name ? detail.payment.name : "",
-      });
+      setClinic(clinic?.name ? clinic.name : "");
+      setSpecialty(specialty?.name ? specialty.name : "");
       setPrice({
-        value: detail?.price?.id ? detail.price.id : "",
-        label: detail?.price?.name ? detail.price.name : "",
+        value: price?.id ? price.id : "",
+        label: price?.name ? price.name : "",
+      });
+      setPayment({
+        value: payment?.id ? payment.id : "",
+        label: payment?.name ? payment.name : "",
       });
       setName(name ? name : "");
-      setNote(detail?.note ? detail.note : "");
-    }
-  }, [userEdit]);
+      setNote(note ? note : "");
 
+      getSingleSchedule(_id, dayjs(date).unix());
+    }
+  }, [packetEdit]);
+
+  useEffect(() => {
+    if (!_.isEmpty(packetEdit)) {
+      setTimeSchedule(
+        timeSchedule.map((item) => {
+          item.active = false;
+          return item;
+        })
+      );
+      getSingleSchedule(packetEdit._id, dayjs(date).unix());
+    }
+  }, [date]);
+
+  useEffect(() => {
+    const { detail, schedule, date } = packetSchedule;
+    if (!_.isEmpty(packetSchedule)) {
+      setNote(detail?.note ? detail.note : note);
+      setPayment({
+        value: detail?.payment?.id ? detail.payment.id : payment.value,
+        label: detail?.payment?.name ? detail.payment.name : payment.label,
+      });
+      setPrice({
+        value: detail?.price?.id ? detail.price.id : price.value,
+        label: detail?.price?.name ? detail.price.name : price.label,
+      });
+      if (schedule && schedule.length > 0) {
+        let list = timeSchedule.map((e) => {
+          schedule.map((item) => {
+            if (item.time === e.id) {
+              e.active = true;
+            }
+            return e;
+          });
+          return e;
+        });
+        setTimeSchedule(list);
+      }
+    }
+  }, [packetSchedule]);
   const fetchDataAPI = (page, size, clinicId = "", filter = "") => {
     const data = {
       page,
@@ -116,7 +209,7 @@ const ManagePacketScheduleSchedule = ({
       clinicId,
       filter,
     };
-    // getAllUserAction(data);
+    getAllPacket(data);
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -134,6 +227,14 @@ const ManagePacketScheduleSchedule = ({
       minWidth: 170,
     },
   }));
+  const handleDeleteSchedule = () => {
+    if (!_.isEmpty(packetDelete) && !_.isEmpty(packetDelete._id))
+      deleteSchedule(packetDelete._id, dayjs(date).unix());
+  };
+  const handelClickDelete = (user) => {
+    setOpen(true);
+    setPacketDelete(user);
+  };
   const handleOnChangeSearch = (e) => {
     setSearch(e.target.value);
   };
@@ -158,6 +259,8 @@ const ManagePacketScheduleSchedule = ({
     if (!note) errors.note = "Ghi chú không được bỏ trống";
     if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
     if (!price) errors.price = "Chưa chọn giá";
+    let activeTime = timeSchedule.filter((e) => e.active === true);
+    if (activeTime.length <= 0) errors.time = "Chưa chọn thời gian khám";
     return errors;
   };
   const isValid = (errors) => {
@@ -165,23 +268,60 @@ const ManagePacketScheduleSchedule = ({
     let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
     return count === 0;
   };
+  const handleClickTime = (e) => {
+    let copy = timeSchedule;
+    copy = copy.map((item) => {
+      if (item.id === e.id) {
+        item.active = !item.active;
+      }
+      return item;
+    });
+    setTimeSchedule(copy);
+  };
   const handleSave = () => {
+    if (_.isEmpty(packetEdit)) {
+      toast.error("Chưa chọn bác sĩ");
+      return;
+    }
     const errors = checkValidate();
     const checkValidInPut = isValid(errors);
     if (!checkValidInPut) {
       setErrors(errors);
       return;
     }
+    let listTime = timeSchedule
+      .filter((e) => e.active === true)
+      .map((e) => ({ time: e.id }));
+    let { id, detail } = packetEdit;
+    const data = {
+      doctor: {
+        id: packetEdit.id,
+        name: packetEdit.name,
+      },
+      packet: {
+        id: null,
+        name: null,
+      },
+      detail: {
+        price: detail.price,
+        payment: detail.payment,
+        note: note,
+      },
+      schedule: [...listTime],
+      date: dayjs(date).unix(),
+    };
+    upsertSchedule(data);
   };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
-      <StyledTableCell>Tên gói</StyledTableCell>
-
+      <StyledTableCell>Tên gói khám</StyledTableCell>
+      <StyledTableCell>Cơ sở</StyledTableCell>
+      <StyledTableCell>Chuyên khoa</StyledTableCell>
       <StyledTableCell></StyledTableCell>
     </TableRow>
   );
   const TableColumn = (props) => {
-    const { _id, detail, name, image } = props;
+    const { clinic, specialty, name, image } = props;
     return (
       <>
         <TableRow>
@@ -198,16 +338,26 @@ const ManagePacketScheduleSchedule = ({
             </span>
           </TableCell>
           <TableCell>
-            <span
-              className="d-flex justify-content-end"
-              style={{ paddingRight: "20px" }}
-            >
-              <Tooltip title="Chỉnh sửa">
-                <IconButton onClick={() => setUserEdit(props)}>
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
-            </span>
+            <Typography variant="">
+              {clinic?.name ? clinic.name : ""}
+            </Typography>
+          </TableCell>
+          <TableCell>
+            <Typography variant="">
+              {specialty?.name ? specialty.name : ""}
+            </Typography>
+          </TableCell>
+          <TableCell>
+            <Tooltip title="Chỉnh sửa">
+              <IconButton onClick={() => setPacketEdit(props)}>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Xóa">
+              <IconButton onClick={() => handelClickDelete(props)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
           </TableCell>
         </TableRow>
       </>
@@ -216,7 +366,7 @@ const ManagePacketScheduleSchedule = ({
   return (
     <>
       <Box m="20px">
-        <Header title="Quản lý gói khám bệnh" />
+        <Header title="Quản lý lịch gói khám bệnh" />
         <Grid container spacing={2}>
           <Grid item sx={{ boder: "1px solid red" }} md={6} xs={12}>
             <Grid container spacing={2}>
@@ -242,13 +392,13 @@ const ManagePacketScheduleSchedule = ({
                           }}
                         >
                           <UpLoadAvatar
-                            isDetail={true}
                             preWidth="300px"
                             preHeight="200px"
                             borderRadius="0px"
                             backgroundSize="cover"
                             image={image}
-                            disableEdit={false}
+                            isDetail={true}
+                            disableEdit={true}
                           />
                           <Typography gutterBottom variant="h5">
                             <Box
@@ -267,35 +417,22 @@ const ManagePacketScheduleSchedule = ({
                                   textTransform: "capitalize",
                                 }}
                               >
-                                {name ? name : ""} name de day
+                                {name ? name : ""}
                               </Typography>
                             </Box>
                           </Typography>
+                          <Grid item md={12} xs={12}>
+                            <Typography color="text.secondary" variant="body2">
+                              <HomeWorkOutlinedIcon />
+                              <span className="m-1">
+                                {clinic ? clinic : ""}
+                                {specialty ? ` - ${specialty}` : ""}
+                              </span>
+                            </Typography>
+                          </Grid>
                         </Box>
                       </CardContent>
                     </Card>
-                  </Grid>
-                  <Grid item xs={12} md={12}>
-                    <InputSelect
-                      label="Chọn phương thức thanh toán"
-                      value={payment}
-                      onChange={setPayment}
-                      data={dataSelect.filter((e) => e.type === "PAYMENT")}
-                      isError={errors.payment ? true : false}
-                      errorText={errors.payment ? errors.payment : ""}
-                      name="Chọn phương thức thanh toán"
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={12}>
-                    <InputSelect
-                      label="Chọn giá (VNĐ)"
-                      value={price}
-                      onChange={setPrice}
-                      data={dataSelect.filter((e) => e.type === "PRICE")}
-                      isError={errors.price ? true : false}
-                      errorText={errors.price ? errors.price : ""}
-                      name="Chọn giá (VNĐ)"
-                    />
                   </Grid>
                 </Grid>
               </Grid>
@@ -307,14 +444,41 @@ const ManagePacketScheduleSchedule = ({
                   <StaticDatePicker
                     className="day-picker"
                     disablePast
+                    minDate={tomorrow}
                     displayStaticWrapperAs="desktop"
                     value={date}
                     onChange={(newValue) => {
-                      setDate(newValue);
+                      setDate(dayjs(new Date(newValue).setHours(0, 0, 0)));
                     }}
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} md={6}>
+                    <InputSelect
+                      label="Chọn giá (VNĐ)"
+                      value={price}
+                      onChange={setPrice}
+                      data={dataSelect.filter((e) => e.type === "PRICE")}
+                      isError={errors.price ? true : false}
+                      errorText={errors.price ? errors.price : ""}
+                      name="Chọn giá (VNĐ)"
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <InputSelect
+                      label="Chọn phương thức thanh toán"
+                      value={payment}
+                      onChange={setPayment}
+                      data={dataSelect.filter((e) => e.type === "PAYMENT")}
+                      isError={errors.payment ? true : false}
+                      errorText={errors.payment ? errors.payment : ""}
+                      name="Chọn phương thức thanh toán"
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item xs={12} md={12}>
                 <TextField
@@ -346,16 +510,24 @@ const ManagePacketScheduleSchedule = ({
                         gap: 1,
                       }}
                     >
-                      {dataSelect &&
-                        dataSelect.length > 0 &&
-                        dataSelect
-                          .filter((e) => e.type === "TIME")
-                          .map((e) => (
-                            <Button key={e.id} variant="outlined">
-                              {e.name}
-                            </Button>
-                          ))}
+                      {timeSchedule &&
+                        timeSchedule.length > 0 &&
+                        timeSchedule.map((e) => (
+                          <Button
+                            key={e.id}
+                            variant={
+                              e.active === true ? "contained" : "outlined"
+                            }
+                            // color={errors?.time ? "error" : "primary"}
+                            onClick={() => handleClickTime(e)}
+                          >
+                            {e.name}
+                          </Button>
+                        ))}
                     </Box>
+                    <FormHelperText error={errors?.time ? true : false}>
+                      {errors?.time}
+                    </FormHelperText>
                   </CardContent>
                 </Card>
               </Grid>
@@ -364,20 +536,22 @@ const ManagePacketScheduleSchedule = ({
           <Grid item xs={12} md={6}>
             <Grid container spacing={2}>
               <Grid item xs={8} md={5}>
-                <Select
-                  className={`react-select-container`}
-                  value={selectClinic}
-                  onChange={(e) => setSelectClinic(e)}
-                  options={listSelectClinic}
-                  placeholder="Lọc theo cơ sở"
-                  menuPortalTarget={document.body}
-                  styles={{
-                    menuPortal: (base) => ({
-                      ...base,
-                      zIndex: 9999,
-                    }),
-                  }}
-                />
+                <FormControl sx={{ width: "100%" }} variant="outlined">
+                  <OutlinedInput
+                    placeholder="Lọc theo tên"
+                    id="outlined-adornment-weight"
+                    value={search}
+                    onChange={(e) => handleOnChangeSearch(e)}
+                    onKeyPress={(e) => handleEnterSearch(e)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleClickSearch}>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
               </Grid>
               <Grid item xs={4} md={3} display="flex" alignItems="center">
                 <Tooltip title="Làm mới">
@@ -398,20 +572,20 @@ const ManagePacketScheduleSchedule = ({
                       <TableRowName />
                     </TableHead>
                     <TableBody>
-                      {users &&
-                        users.length > 0 &&
-                        users.map((e) => <TableColumn key={e.id} {...e} />)}
+                      {packets &&
+                        packets.length > 0 &&
+                        packets.map((e) => <TableColumn key={e.id} {...e} />)}
                     </TableBody>
                   </Table>
                 </TableContainer>
               </Grid>
             </Grid>
 
-            {users && (
+            {packets && (
               <TablePagination
                 rowsPerPageOptions={[10, 15, 25]}
                 component="div"
-                // count={listUser.count}
+                count={listPacket.count}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -433,23 +607,40 @@ const ManagePacketScheduleSchedule = ({
           </Grid>
         </Grid>
       </Box>
+      <ConfirmModal
+        open={open}
+        setOpen={setOpen}
+        title="Xóa lịch khám bệnh"
+        content={`${packetDelete?.name ? packetDelete.name : ""}`}
+        type="DELETE"
+        confirmFunc={handleDeleteSchedule}
+      />
     </>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    user: state.admin.user,
     allcodes: state.admin.allcodes,
-    listClinic: state.patient.listClinic,
+    isSuccess: state.app.isSuccess,
+    packetSchedule: state.admin.schedule,
+    listPacket: state.admin.listPacket,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
-    getListClinicHomePatient: () =>
-      dispatch(actions.getListClinicHomePatientAction()),
+    deleteSchedule: (id, date) =>
+      dispatch(actions.deleteScheduleAction(id, date)),
+    upsertSchedule: (data) => dispatch(actions.upsertScheduleAction(data)),
+    getSingleSchedule: (id, date) =>
+      dispatch(actions.getSingleScheduleAction(id, date)),
+    clearStatus: () => dispatch(actions.clearStatus()),
+    getAllPacket: (data) => dispatch(actions.getAllPacketAction(data)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ManagePacketScheduleSchedule);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ManagePacketSchedule);
