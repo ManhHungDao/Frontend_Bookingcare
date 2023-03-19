@@ -9,10 +9,13 @@ const deletePacket = (id) => {
 const getSinglePacket = (id) => {
   return axios.get(`/api/get-packet?id=${id}`);
 };
+const updatePacket = (id,data) => {
+  return axios.put(`/api/update-packet?id=${id}`,data);
+};
 const getAllPacket = (data) => {
   return axios.get(
     `/api/get-all-packet?page=${data.page}&clinicId=${data.clinicId}&filter=${data.filter}&size=${data.size}`
   );
 };
 
-export { createPacketService, deletePacket, getSinglePacket, getAllPacket };
+export { createPacketService, deletePacket, getSinglePacket, getAllPacket ,updatePacket};

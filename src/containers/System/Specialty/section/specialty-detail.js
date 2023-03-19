@@ -23,7 +23,7 @@ const SpecialtyDetail = ({ clinicName, specialtyName }) => {
         <CardHeader title="Thông tin chung" />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
               <Grid xs={12} md={6}>
                 <TextField
                   id="outlined-required"

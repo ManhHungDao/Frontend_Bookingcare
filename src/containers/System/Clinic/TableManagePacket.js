@@ -29,6 +29,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 import Select from "react-select";
+import DetailPacket from "./DetailPacket";
 
 const TableManagePacket = ({
   isSuccess,
@@ -37,6 +38,7 @@ const TableManagePacket = ({
   getAllPacket,
   listPacket,
   clearStatus,
+  deletePacket
 }) => {
   const [users, setUsers] = useState([]);
   const [open, setOpen] = useState(false);
@@ -157,7 +159,7 @@ const TableManagePacket = ({
   };
   const handleDeleteUser = () => {
     const id = packetDelete.id;
-    // if (id) props.deleteUserAction(id);
+    if (id) deletePacket(id);
   };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
@@ -288,7 +290,15 @@ const TableManagePacket = ({
           )}
         </Box>
       </Box>
-
+      {packetEdit && (
+        <DetailPacket
+          setOpen={setOpen}
+          open={open}
+          packet={packetEdit}
+          enableEdit={enableEdit}
+          setEnableEdit={setEnableEdit}
+        />
+      )}
       {packetDelete && (
         <ConfirmModal
           open={openConfirmModal}
@@ -313,6 +323,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    deletePacket: (id) => dispatch(actions.deletePacketAction(id)),
     getAllPacket: (data) => dispatch(actions.getAllPacketAction(data)),
     clearStatus: () => dispatch(actions.clearStatus()),
     getListClinicHomePatient: () =>

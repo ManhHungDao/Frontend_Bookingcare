@@ -106,7 +106,6 @@ const AddPacket = ({
     const checkValidInPut = isValid(errors);
     if (!checkValidInPut) {
       setErrors(errors);
-      console.log('vao day');
       return;
     }
     const data = {
@@ -254,7 +253,6 @@ const AddPacket = ({
 const mapStateToProps = (state) => {
   return {
     isSuccess: state.app.isSuccess,
-    allcodeType: state.admin.allcodeType,
     allcodes: state.admin.allcodes,
     listClinic: state.patient.listClinic,
     listSpecialtyInClinic: state.admin.listSpecialtyInClinic,

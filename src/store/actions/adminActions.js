@@ -45,6 +45,7 @@ import {
   createPacketService,
   deletePacket,
   getSinglePacket,
+  updatePacket,
   getAllPacket,
 } from "../../services/packetService";
 
@@ -737,6 +738,28 @@ export const getAllPacketAction = (data) => {
         type: actionTypes.GET_PACKET_PAGINATION_FAILED,
       });
       toast.error("Lấy danh sách thất bại");
+    }
+  };
+};
+
+export const updatePacketAction = (id, data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await updatePacket(id, data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.UPDATE_SUCCESS,
+        });
+        dispatch(loadingToggleAction(false));
+        toast.success("Cập nhập gói khám thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.UPDATE_FAILED,
+      });
+      toast.error("Cập nhập gói khám thất bại");
     }
   };
 };

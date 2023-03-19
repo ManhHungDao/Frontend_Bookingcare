@@ -3,15 +3,14 @@ import { Box, Card, CardContent, Typography } from "@mui/material";
 import UpLoadAvatar from "../../../../components/UpLoadAvatar";
 import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 
-const SpecialtyProfile = ({
+const PacketProfile = ({
   name,
   image,
-  setImage,
   setImgUpdate,
   previewImgUrl,
   setPreviewImgUrl,
-  clinic,
   enableEdit,
+  clinic,
 }) => {
   return (
     <>
@@ -26,7 +25,6 @@ const SpecialtyProfile = ({
             }}
           >
             <UpLoadAvatar
-              setImg={setImage}
               preWidth="300px"
               preHeight="200px"
               borderRadius="0px"
@@ -60,4 +58,4 @@ const SpecialtyProfile = ({
   );
 };
 
-export default SpecialtyProfile;
+export default PacketProfile;
