@@ -6,14 +6,12 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useDispatch } from "react-redux";
-import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import AccessibleOutlinedIcon from "@mui/icons-material/AccessibleOutlined";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
@@ -121,8 +119,16 @@ const DoctorSideBar = ({ userInfo, menuOpen, processLogout }) => {
               isCollapsed={isCollapsed}
             />
             <Item
+              title="Lịch khám hôm nay"
+              to="/doctor/schedule-today"
+              icon={<ArticleOutlinedIcon />}
+              selected={selected}
+              isCollapsed={isCollapsed}
+              setSelected={setSelected}
+            />
+            <Item
               title="Quản lý lịch khám"
-              to="/doctor/manage-user-schedule"
+              to="/doctor/manage-schedule"
               icon={<PendingActionsIcon />}
               selected={selected}
               isCollapsed={isCollapsed}
@@ -136,7 +142,7 @@ const DoctorSideBar = ({ userInfo, menuOpen, processLogout }) => {
               isCollapsed={isCollapsed}
               setSelected={setSelected}
             />
-           
+
             <LogOut
               title="Thoát"
               to="/login"

@@ -1,14 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Route, Routes, Navigate } from "react-router-dom";
-import TableManageUser from "../containers/System/Admin/TableManageUser";
 import Dashboard from "../containers/System/dashboard";
 import ResetPassword from "../containers/Auth/ResetPassword";
 import Topbar from "../containers/System/global/Topbar";
 import DoctorSideBar from "../containers/System/global/DoctorSideBar";
-import AddNewUser from "../containers/System/Admin/AddNewUser";
-import ManageUserSchedule from "../containers/System/Admin/ManageUserSchedule";
+import ManageSchedule from "../containers/System/Doctor/ManageSchedule";
 import { CssBaseline } from "@mui/material";
+import TodaySchedule from "../containers/System/Doctor/TodaySchedule";
 import "./style.css";
 
 const DoctorRoute = ({ systemMenuPath, isLoggedIn }) => {
@@ -23,10 +22,8 @@ const DoctorRoute = ({ systemMenuPath, isLoggedIn }) => {
           <Routes>
             <Route index element={<Dashboard />} />
             <Route path="reset-password" element={<ResetPassword />} />
-            <Route
-              path="manage-user-schedule"
-              element={<ManageUserSchedule />}
-            />
+            <Route path="schedule-today" element={<TodaySchedule />} />
+            <Route path="manage-schedule" element={<ManageSchedule />} />
             <Route path="*" element={<Navigate replace to="/doctor" />} />
           </Routes>
         </main>
