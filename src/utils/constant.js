@@ -1,9 +1,10 @@
 export const path = {
   HOME: "/*",
   ADMIN: "/admin/*",
+  DOCTOR: "/doctor/*",
+  MANAGER: "/manager/*",
   LOGIN: "/login",
   LOG_OUT: "/logout",
-  DOCTOR: "/doctor/*",
   HANDBOOK: "/handbook",
   // DOCTOR: "/doctor/:id",
   SPECIALTY: "/specialty/:id",

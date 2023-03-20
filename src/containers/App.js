@@ -9,6 +9,7 @@ import Login from "./Auth/login";
 import AdminRoute from "../routes/AdminRoute";
 import DoctorRoute from "../routes/DoctorRoute";
 import PatientRoute from "../routes/PatientRoute";
+import ManagerRoute from "../routes/ManagerRoute";
 import Loading from "../components/Loading";
 import AuthRoute from "../hoc/AuthRoute";
 class App extends Component {
@@ -52,6 +53,14 @@ class App extends Component {
                 element={
                   <AuthRoute>
                     <DoctorRoute />
+                  </AuthRoute>
+                }
+              />
+              <Route
+                path={path.MANAGER}
+                element={
+                  <AuthRoute>
+                    <ManagerRoute />
                   </AuthRoute>
                 }
               />
