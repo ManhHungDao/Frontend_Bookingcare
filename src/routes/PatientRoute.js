@@ -1,20 +1,18 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { path } from "../../utils";
-import HomePage from "../HomePage/HomePage";
-import Home from "../../routes/Home";
-import DetailDoctor from "./Doctor/DetailDoctor";
-import DetailSpecialty from "./Specialty/DetailSpecialty";
-import DetailClinic from "./Clinic/DetailClinic";
-import Doctor from "../../routes/Doctor";
-import VerifyEmail from "../HomePage/VerifyEmail";
-import TableSpecialtyClinic from "./Clinic/TableSpecialtyClinic";
-import RenderList from "./Common/RenderList";
-import DetailHandbook from "./Handbook/DetailHandbook";
-import ListPostHandbook from "./Handbook/ListPostHandbook";
-import ViewAllHandbook from "./Handbook/ViewAllHandbook";
-import Packet from "./Packet/Packet";
-import Detail_packet from "./Packet/Detail_packet";
+import { path } from "../utils";
+import HomePage from "../containers/HomePage/HomePage";
+import DetailDoctor from "../containers/Patient/Doctor/DetailDoctor";
+import DetailSpecialty from "../containers/Patient/Specialty/DetailSpecialty";
+import DetailClinic from "../containers/Patient/Clinic/DetailClinic";
+import VerifyEmail from "../containers/HomePage/VerifyEmail";
+import TableSpecialtyClinic from "../containers/Patient/Clinic/TableSpecialtyClinic";
+import RenderList from "../containers/Patient/Common/RenderList";
+import DetailHandbook from "../containers/Patient/Handbook/DetailHandbook";
+import ListPostHandbook from "../containers/Patient/Handbook/ListPostHandbook";
+import ViewAllHandbook from "../containers/Patient/Handbook/ViewAllHandbook";
+import Packet from "../containers/Patient/Packet/Packet";
+import Detail_packet from "../containers/Patient/Packet/Detail_packet";
 const PatientRoute = () => {
   return (
     <>

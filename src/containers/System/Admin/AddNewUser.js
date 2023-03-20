@@ -210,7 +210,7 @@ const AddNewUser = ({
       note,
       detail: content,
     };
-    createNewUser(dataUser);
+  createNewUser(dataUser)
   };
   return (
     <>

@@ -4,12 +4,11 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { ConnectedRouter as Router } from "connected-react-router";
 import { history } from "../redux";
 import { ToastContainer } from "react-toastify";
-import CustomScrollbars from "../components/CustomScrollbars";
 import { path } from "../utils";
 import Login from "./Auth/login";
-import AdminRoute from "./System/AdminRoute";
-import Doctor from "../routes/Doctor";
-import PatientRoute from "./Patient/PatientRoute";
+import AdminRoute from "../routes/AdminRoute";
+import DoctorRoute from "../routes/DoctorRoute";
+import PatientRoute from "../routes/PatientRoute";
 import Loading from "../components/Loading";
 import AuthRoute from "../hoc/AuthRoute";
 class App extends Component {
@@ -37,48 +36,37 @@ class App extends Component {
         <Loading />
         <BrowserRouter>
           <Router history={history}>
-            {/* <CustomScrollbars style={{ height: "100vh", width: "100%" }}> */}
-              <Routes>
-                <Route path={path.HOME} element={<PatientRoute />} />
-                <Route path={path.LOGIN} element={<Login />} />
-                {/* <Route
+            <Routes>
+              <Route path={path.HOME} element={<PatientRoute />} />
+              <Route path={path.LOGIN} element={<Login />} />
+              <Route
                 path={path.ADMIN}
-                element={userIsAuthenticated(<SystemRoute />)}
+                element={
+                  <AuthRoute>
+                    <AdminRoute />
+                  </AuthRoute>
+                }
               />
               <Route
                 path={path.DOCTOR}
-                element={userIsAuthenticated(<Doctor />)}
-              /> */}
-                <Route
-                  path={path.ADMIN}
-                  element={
-                    <AuthRoute>
-                      <AdminRoute />
-                    </AuthRoute>
-                  }
-                />
-                {/* <Route path={path.ADMIN} element={<SystemRoute />} /> */}
-                {/* <Route
-                path={path.DOCTOR}
                 element={
-                  <PrivateRoute>
-                    <Doctor />
-                  </PrivateRoute>
+                  <AuthRoute>
+                    <DoctorRoute />
+                  </AuthRoute>
                 }
-              /> */}
-              </Routes>
-              <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                draggable
-                pauseOnHover={false}
-                pauseOnFocusLoss={false}
               />
-            {/* </CustomScrollbars> */}
+            </Routes>
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              draggable
+              pauseOnHover={false}
+              pauseOnFocusLoss={false}
+            />
           </Router>
         </BrowserRouter>
       </>

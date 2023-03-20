@@ -34,6 +34,10 @@ const deleteUserService = (id) => {
   return axios.delete(`/api/delete-user?id=${id}`);
 };
 
+const getAllCountDashboard = () => {
+  return axios.get(`/api/get-all-count`);
+};
+
 export {
   changePasswordApiService,
   updateUserService,
@@ -43,4 +47,5 @@ export {
   createNewUserService,
   deleteUserService,
   resetPasswordApiService,
+  getAllCountDashboard
 };

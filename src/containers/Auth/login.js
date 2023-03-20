@@ -31,14 +31,21 @@ function Copyright() {
 
 const theme = createTheme();
 
-const SignInSide = ({ loginAction, isLoggedIn, processLogout }) => {
+const SignInSide = ({ loginAction, isLoggedIn, processLogout, userInfo }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    return isLoggedIn === true ? navigate("/admin") : "";
-  }, [isLoggedIn]);
+    if (userInfo && userInfo.roleId) {
+      if (userInfo.roleId === "R1" || userInfo.roleId === "R0")
+        return isLoggedIn === true ? navigate("/admin") : "";
+      if (userInfo.roleId === "R2")
+        return isLoggedIn === true ? navigate("/manager") : "";
+      if (userInfo.roleId === "R3")
+        return isLoggedIn === true ? navigate("/doctor") : "";
+    }
+  }, [isLoggedIn, userInfo]);
   const onClick = () => {
     loginAction(email, password);
   };
@@ -130,6 +137,7 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     isLoggedIn: state.user.isLoggedIn,
+    userInfo: state.user.userInfo,
   };
 };
 

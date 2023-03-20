@@ -26,8 +26,13 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import PlaylistAddCircleOutlinedIcon from '@mui/icons-material/PlaylistAddCircleOutlined';
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import PlaylistAddCircleOutlinedIcon from "@mui/icons-material/PlaylistAddCircleOutlined";
+import VaccinesOutlinedIcon from "@mui/icons-material/VaccinesOutlined";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
+import AccessibleIcon from '@mui/icons-material/Accessible';
+
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
   const handleSelected = () => {
@@ -162,6 +167,14 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
+              <Item
+                title="Bệnh nhân"
+                to="/admin/manage-patient"
+                icon={<AccessibleIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
             </SubMenu>
             <SubMenu
               title={isCollapsed ? "" : "Phòng khám"}
@@ -183,7 +196,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
-               <Item
+              <Item
                 title="Thêm gói khám"
                 to="/admin/add-packet"
                 icon={<PlaylistAddCircleOutlinedIcon />}
@@ -191,7 +204,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
-                <Item
+              <Item
                 title="Danh sách gói khám"
                 to="/admin/manage-packet"
                 icon={<MenuOutlinedIcon />}
@@ -199,7 +212,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
-               <Item
+              <Item
                 title="Quản lý gói khám"
                 to="/admin/manage-packet-schedule"
                 icon={<LibraryBooksIcon />}
@@ -210,12 +223,12 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
             </SubMenu>
             <SubMenu
               title={isCollapsed ? "" : "Chuyên khoa"}
-              icon={<ShieldOutlinedIcon />}
+              icon={<VaccinesOutlinedIcon />}
             >
               <Item
                 title="Thêm chuyên khoa"
                 to="/admin/add-specialty"
-                icon={<LibraryAddOutlinedIcon />}
+                icon={<AddCircleOutlineOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
@@ -223,7 +236,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               <Item
                 title="Danh sách chuyên khoa"
                 to="/admin/manage-specialty"
-                icon={<BallotOutlinedIcon />}
+                icon={<ListAltOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}

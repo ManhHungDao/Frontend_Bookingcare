@@ -5,6 +5,7 @@ const initialState = {
   userInfo: null,
   changPassSuccess: false,
   resetPassSuccess: false,
+  count: {},
 };
 
 const appReducer = (state = initialState, action) => {
@@ -43,6 +44,12 @@ const appReducer = (state = initialState, action) => {
         resetPassSuccess: false,
         changPassSuccess: false,
       };
+    case actionTypes.GET_ALL_COUNT_DASHBOARD_SUCCESS:
+      return {
+        ...state,
+        count: action.data,
+      };
+
     default:
       return state;
   }

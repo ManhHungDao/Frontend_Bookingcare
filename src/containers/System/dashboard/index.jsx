@@ -1,51 +1,75 @@
 import { connect } from "react-redux";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { mockTransactions } from "../../../data/mockData";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
+import { Box, IconButton, Typography, Grid } from "@mui/material";
+import * as actions from "../../../store/actions";
 import Header from "../../../components/Header";
-import LineChart from "../../../components/LineChart";
-import GeographyChart from "../../../components/GeographyChart";
-import BarChart from "../../../components/BarChart";
 import StatBox from "../../../components/StatBox";
-import ProgressCircle from "../../../components/ProgressCircle";
+import iconsHospital from "../../../assets/icon-dashboard/hospital.png";
+import iconDoctor from "../../../assets/icon-dashboard/doctor.png";
+import iconSpecialty from "../../../assets/icon-dashboard/specialty.png";
+import iconDocument from "../../../assets/icon-dashboard/document.png";
+import { useEffect ,useState} from "react";
 
-const Dashboard = () => {
+const Dashboard = ({ getAllCountAction, count }) => {
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    getAllCountAction();
+  }, []);
+
+  useEffect(() => {
+    if (count) {
+      setData(count);
+    }
+  }, [count]);
 
   return (
     <Box m="20px">
-      {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
-
-        {/* <Box>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
-          >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box> */}
       </Box>
-
-      {/* GRID & CHARTS */}
-     
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={6} lg={3}>
+          <StatBox
+            title={data?.clinic ? data.clinic : ""}
+            subtitle="Cơ sở khám"
+            img={iconsHospital}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={3}>
+          <StatBox
+            title={data?.specialty ? data.specialty : ""}
+            subtitle="Chuyên khoa"
+            img={iconSpecialty}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
+          <StatBox
+            title={data?.user ? data.user : ""}
+            subtitle="Bác sĩ"
+            img={iconDoctor}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
+          <StatBox
+            title={data?.handbook ? data.handbook : ""}
+            subtitle="Bài viết"
+            img={iconDocument}
+          />
+        </Grid>
+        
+      </Grid>
     </Box>
   );
 };
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.user.isLoggedIn,
+  count: state.user.count,
 });
 
-export default connect(mapStateToProps)(Dashboard);
-
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAllCountAction: () => dispatch(actions.getAllCountAction()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
