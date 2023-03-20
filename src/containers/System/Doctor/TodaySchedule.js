@@ -74,6 +74,13 @@ const TodaySchedule = ({
     </TableRow>
   );
 
+  const statusList = [
+    { name: "Lịch hẹn mới", color: "#90caf9" },
+    { name: "Đang khám", color: "#e6ee9c" },
+    { name: "Hoàn thành", color: "#1de9b6" },
+    { name: "Đã hủy", color: "#ff9100" },
+  ];
+
   const TableColumn = (props) => {
     const { user, time, status } = props;
     return (
@@ -87,7 +94,26 @@ const TodaySchedule = ({
           <TableCell>{user?.name ? user.name : ""}</TableCell>
           <TableCell>{user?.email ? user.email : ""}</TableCell>
           <TableCell>{user?.phone ? user.phone : ""}</TableCell>
-          <TableCell>{status ? status : ""}</TableCell>
+
+          <TableCell>
+            {statusList.map((e) => {
+              if (e.name === status)
+                return (
+                  <>
+                    <Box
+                      p={1}
+                      sx={{
+                        backgroundColor: e.color,
+                        borderRadius: 1,
+                        width: "fit-content",
+                      }}
+                    >
+                      {e.name}
+                    </Box>
+                  </>
+                );
+            })}
+          </TableCell>
           <TableCell>
             <Tooltip title="Xem">
               <IconButton onClick={() => hadnleClickView(props)}>
