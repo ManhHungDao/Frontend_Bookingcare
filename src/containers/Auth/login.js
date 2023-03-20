@@ -49,7 +49,11 @@ const SignInSide = ({ loginAction, isLoggedIn, processLogout, userInfo }) => {
   const onClick = () => {
     loginAction(email, password);
   };
-
+  const handleEnterSearch = (e) => {
+    if (e.which === 13) {
+      onClick();
+    }
+  };
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -115,6 +119,7 @@ const SignInSide = ({ loginAction, isLoggedIn, processLogout, userInfo }) => {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyPress={(e) => handleEnterSearch(e)}
               />
               <Button
                 fullWidth

@@ -21,6 +21,7 @@ import _ from "lodash";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
+import DetailSchedule from "./DetailSchedule";
 
 const TodaySchedule = ({
   userInfo,
@@ -130,11 +131,6 @@ const TodaySchedule = ({
       <Box m="20px">
         <Header
           title="Lịch khám hôm nay"
-          subtitle="Quản lý thành viên"
-          titleBtn="Thêm mới"
-          isShowBtn={true}
-          link="/admin/add-user"
-          activeMenu="Thêm Người Dùng"
         />
         <Box m="20px 0 0 0">
           <TableContainer component={Paper} sx={{ maxHeight: 550 }}>
@@ -156,6 +152,14 @@ const TodaySchedule = ({
           </TableContainer>
         </Box>
       </Box>
+      {dataEdit && (
+        <DetailSchedule
+          open={open}
+          setOpen={setOpen}
+          data={dataEdit}
+          dataTime={dataTime}
+        />
+      )}
     </>
   );
 };

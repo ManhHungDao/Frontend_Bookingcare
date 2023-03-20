@@ -172,9 +172,6 @@ const DetailUser = ({
   };
   const style = {
     position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
     width: "90%",
     bgcolor: "background.paper",
     boxShadow: 24,
@@ -182,6 +179,11 @@ const DetailUser = ({
     height: enableEdit ? "80vh" : "fit-content",
     maxHeight: "80vh",
     overflowY: "scroll",
+    top: 0,
+    bottom: 0,
+    margin: "auto",
+    left: 0,
+    right: 0,
   };
   const checkValidate = () => {
     let errors = {};

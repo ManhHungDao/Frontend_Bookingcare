@@ -45,7 +45,6 @@ const ManageSchedule = ({
   }, []);
 
   useEffect(() => {
-    console.log("check data user", user);
     if (!_.isEmpty(user)) setDataUser(user);
   }, [user]);
 
