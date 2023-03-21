@@ -119,7 +119,7 @@ const DoctorSideBar = ({ userInfo, menuOpen, processLogout }) => {
               isCollapsed={isCollapsed}
             />
             <Item
-              title="Lịch khám hôm nay"
+              title="Lịch khám cá nhân"
               to="/doctor/schedule-today"
               icon={<ArticleOutlinedIcon />}
               selected={selected}

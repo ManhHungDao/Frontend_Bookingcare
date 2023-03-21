@@ -25,6 +25,7 @@ const DetailSchedule = ({
   data,
   dataTime,
   sentMail,
+  date,
 }) => {
   const [status, setStatus] = useState();
   const [patient, setPatient] = useState("");
@@ -32,10 +33,15 @@ const DetailSchedule = ({
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [errors, setErrors] = useState("");
+
+  let mailCancel = `<h2 style="text-align:center;"><strong>THÔNG TIN HỦY LỊCH KHÁM</strong></h2><p>Xin chào ${patient?.name ? patient.name : ""},</p><p>Chúng tôi rất lấy làm tiếc khi phải thông báo đến bạn lịch khám vào lúc ${time ? time : ""} ngày ${date ? date : ""} đã bị hủy vì một số lý do nhất định.</p><p>Mong bạn có thể lựa chọn một lịch khám mới phù hợp hơn.</p><p>Xin cảm ơn.</p><p>&nbsp;</p>`;
+
+  let mailDrescription = `<h2 style="text-align:center;"><strong>THÔNG TIN ĐƠN THUỐC</strong></h2><p>Xin chào  ${patient?.name ? patient.name : ""},</p><p>Cảm ơn bạn đã sử dụng dịch vụ khám bệnh tại đơn vị chúng tôi.</p><p>Sau đây là đơn thuốc của bạn</p><figure class="table" style="width:98.65%;"><table class="ck-table-resized"><colgroup><col style="width:38.11%;"><col style="width:12.08%;"><col style="width:49.81%;"></colgroup><tbody><tr><td>Tên thuốc</td><td>Số lượng</td><td>Liều dùng</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></figure><p>Xin cảm ơn.</p>`;
   useEffect(() => {
     setStatus(data.status);
     setPatient(data.user);
-    setTime(data.time);
+    let time = dataTime.find((e) => e._id === data.time);
+    setTime(time?.valueVI);
   }, [data]);
 
   useEffect(() => {
@@ -43,12 +49,24 @@ const DetailSchedule = ({
       setTitle("");
       setContent("");
       clearStatus();
+      setOpen(false);
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (title) {
+      if (title[0] === "Thông tin hủy lịch") setContent(mailCancel);
+      else {
+        setContent(mailDrescription);
+      }
+    }
+  }, [title]);
 
   const handleClose = () => {
     setOpen(false);
     setErrors("");
+    setTitle("");
+    setContent("");
   };
   const style = {
     position: "absolute",
@@ -86,11 +104,13 @@ const DetailSchedule = ({
     }
     const data = {
       to: "hungpepi2001@gmail.com",
+      // to: patient?.email : patient.email : '',
       subject: title[0],
       html: content,
     };
     sentMail(data);
   };
+
   return (
     <>
       <Modal
@@ -132,8 +152,6 @@ const DetailSchedule = ({
                 <Grid item xs={12} md={12}>
                   <ResponseDetail
                     status={status}
-                    time={time}
-                    dataTime={dataTime}
                     setStatus={setStatus}
                     content={content}
                     setContent={setContent}

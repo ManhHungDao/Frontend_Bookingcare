@@ -48,13 +48,7 @@ export const PatientProfile = ({ patient }) => {
   );
 };
 
-export const ScheduleProfile = ({
-  dataTime,
-  time,
-  status,
-  setStatus,
-  handleSave,
-}) => {
+export const ScheduleProfile = ({ time, status, setStatus, handleSave }) => {
   const statusList = ["Lịch hẹn mới", "Đang khám", "Hoàn thành", "Đã hủy"];
   const handleChange = (event) => {
     const {
@@ -67,15 +61,12 @@ export const ScheduleProfile = ({
       <CardHeader title="Thông tin lịch khám" />
       <CardContent>
         <Grid container spacing={3}>
-          <Grid item sx={12} md={6} lg={6}>
+          <Grid item xs={12} md={6} lg={6}>
             <Typography gutterBottom variant="subtitle1">
-              Thời gian:&nbsp;
-              {dataTime.map((e) => {
-                if (e._id === time) return e.valueEN;
-              })}
+              Thời gian:&nbsp;{time}
             </Typography>
           </Grid>
-          <Grid item sx={12} md={6} lg={6}>
+          <Grid item xs={12} md={6} lg={6}>
             <Box sx={{ minWidth: 120 }}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">
@@ -127,24 +118,20 @@ export const ResponseDetail = ({
   setTitle,
   errors,
 }) => {
-  const titleList = [
-    "Phản hồi sau khám",
-    "Thông tin hủy lịch",
-    "Đơn thuốc",
-    "Nhắc lịch khám bệnh",
-  ];
+  const titleList = ["Đơn thuốc", "Thông tin hủy lịch"];
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
     setTitle(typeof value === "string" ? value.split(",") : value);
   };
+
   return (
     <Card>
       <CardHeader title="Thông tin phản hồi" />
       <CardContent>
         <Grid container spacing={3}>
-          <Grid item sx={12} md={6} lg={6}>
+          <Grid item xs={12} md={6} lg={6}>
             <Box sx={{ minWidth: 120 }}>
               <FormControl fullWidth error={errors?.title ? true : false}>
                 <InputLabel id="demo-simple-select-error-label">
@@ -169,7 +156,7 @@ export const ResponseDetail = ({
               </FormControl>
             </Box>
           </Grid>
-          <Grid item sx={12} md={12}>
+          <Grid item xs={12} md={12}>
             <CKEditorFieldBasic
               title="Chi tiết phản hồi"
               value={content}

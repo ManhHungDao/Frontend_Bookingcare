@@ -12,7 +12,8 @@ import {
   TableRow,
   IconButton,
   Tooltip,
-  Typography,
+  Grid,
+  TextField,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
@@ -22,6 +23,9 @@ import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
 import DetailSchedule from "./DetailSchedule";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const TodaySchedule = ({
   userInfo,
@@ -40,9 +44,13 @@ const TodaySchedule = ({
   );
 
   useEffect(() => {
-    getSingleSchedule(userInfo._id, dayjs(date).unix());
     fetchAllcode();
   }, []);
+
+  useEffect(() => {
+    setData('')
+    getSingleSchedule(userInfo._id, dayjs(date).unix());
+  }, [date]);
 
   useEffect(() => {
     if (!_.isEmpty(toDaySchedule) && toDaySchedule.schedule.length > 0)
@@ -129,8 +137,29 @@ const TodaySchedule = ({
   return (
     <>
       <Box m="20px">
-        <Header title="Lịch khám hôm nay" />
+        <Header title="Lịch khám cá nhân" />
         <Box m="20px 0 0 0">
+          <Box m="0 0 7px 0">
+            <Grid container>
+              <Grid item xs={6} md={2}>
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale="vi"
+                >
+                  <DatePicker
+                    openTo="day"
+                    label="Ngày khám"
+                    views={["year", "month", "day"]}
+                    value={date}
+                    onChange={(newValue) => {
+                      setDate(dayjs(new Date(newValue).setHours(0, 0, 0)));
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+            </Grid>
+          </Box>
           <TableContainer component={Paper} sx={{ maxHeight: 550 }}>
             <Table
               sx={{ minWidth: 650 }}
@@ -144,7 +173,9 @@ const TodaySchedule = ({
               <TableBody>
                 {data &&
                   data.length > 0 &&
-                  data.map((e, i) => <TableColumn key={e.id + `${i}`} {...e} />)}
+                  data.map((e, i) => (
+                    <TableColumn key={e.id + `${i}`} {...e} />
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
@@ -156,6 +187,7 @@ const TodaySchedule = ({
           setOpen={setOpen}
           data={dataEdit}
           dataTime={dataTime}
+          date={date}
         />
       )}
     </>
