@@ -37,7 +37,7 @@ const TableManagePacket = ({
   getAllPacket,
   listPacket,
   clearStatus,
-  deletePacket
+  deletePacket,
 }) => {
   const [users, setUsers] = useState([]);
   const [open, setOpen] = useState(false);
@@ -279,7 +279,7 @@ const TableManagePacket = ({
             <TablePagination
               rowsPerPageOptions={[10, 15, 25]}
               component="div"
-              count={parseInt(listPacket.count)}
+              count={parseInt(listPacket?.count ? listPacket.count : 0)}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

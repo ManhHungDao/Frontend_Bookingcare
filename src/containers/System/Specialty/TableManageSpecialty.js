@@ -205,7 +205,7 @@ const TableManageSpecialty = ({
           link="/admin/add-specialty"
           activeMenu="Thêm Chuyên Khoa"
         />
-        <Box m="20px 0 0 0" >
+        <Box m="20px 0 0 0">
           <Box m="0 0 7px 0">
             <Grid container spacing={2}>
               <Grid item xs={12} md={3}>
@@ -275,7 +275,7 @@ const TableManageSpecialty = ({
           <TablePagination
             rowsPerPageOptions={[10, 15, 25]}
             component="div"
-            count={listSpecialty.count}
+            count={parseInt(listSpecialty?.count ? listSpecialty.count : 0)}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

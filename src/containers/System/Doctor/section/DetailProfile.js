@@ -48,6 +48,70 @@ export const PatientProfile = ({ patient }) => {
   );
 };
 
+export const DoctorProfile = ({ patient }) => {
+  return (
+    <Card>
+      <CardHeader title="Thông tin bác sĩ" />
+      <CardContent>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={12} lg={12}>
+            <Typography gutterBottom variant="subtitle1">
+              Bệnh nhân:&nbsp;
+              {patient?.name ? patient.name : ""}
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
+              Email:&nbsp;
+              {patient?.email ? patient.email : ""}
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
+              Số điện thoại:&nbsp;
+              {patient?.phone ? patient.phone : ""}
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
+              Ngày sinh:&nbsp;
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
+              Lý do khám:&nbsp;
+            </Typography>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
+  );
+};
+
+export const PacketProfile = ({ patient }) => {
+  return (
+    <Card>
+      <CardHeader title="Thông tin gói khám" />
+      <CardContent>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={12} lg={12}>
+            <Typography gutterBottom variant="subtitle1">
+              Bệnh nhân:&nbsp;
+              {patient?.name ? patient.name : ""}
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
+              Email:&nbsp;
+              {patient?.email ? patient.email : ""}
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
+              Số điện thoại:&nbsp;
+              {patient?.phone ? patient.phone : ""}
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
+              Ngày sinh:&nbsp;
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
+              Lý do khám:&nbsp;
+            </Typography>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
+  );
+};
+
 export const ScheduleProfile = ({ time, status, setStatus, handleSave }) => {
   const statusList = ["Lịch hẹn mới", "Đang khám", "Hoàn thành", "Đã hủy"];
   const handleChange = (event) => {

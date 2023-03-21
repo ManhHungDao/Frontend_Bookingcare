@@ -273,7 +273,7 @@ const TableManageHandbook = ({
           <TablePagination
             rowsPerPageOptions={[10, 15, 25]}
             component="div"
-            count={listHandbook.count}
+            count={parseInt(listHandbook?.count ? listHandbook.count : 0)}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

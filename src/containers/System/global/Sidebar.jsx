@@ -12,7 +12,6 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
 import BallotOutlinedIcon from "@mui/icons-material/BallotOutlined";
-import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import { useDispatch } from "react-redux";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
@@ -26,13 +25,11 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import PlaylistAddCircleOutlinedIcon from "@mui/icons-material/PlaylistAddCircleOutlined";
 import VaccinesOutlinedIcon from "@mui/icons-material/VaccinesOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
-import AccessibleIcon from '@mui/icons-material/Accessible';
-
+import Divider from "@mui/material/Divider";
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
   const handleSelected = () => {
@@ -159,26 +156,19 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
+              <Divider />
               <Item
                 title="Thêm lịch khám"
                 to="/admin/add-user-schedule"
-                icon={<PlaylistAddCircleOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-                <Item
-                title="Lịch khám người dùng"
-                to="/admin/manage-user-schedule"
-                icon={<PendingActionsIcon />}
+                icon={<AddCircleOutlineOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
               <Item
-                title="Bệnh nhân"
-                to="/admin/manage-patient"
-                icon={<AccessibleIcon />}
+                title="Lịch khám người dùng"
+                to="/admin/manage-user-schedule"
+                icon={<PendingActionsIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
@@ -204,6 +194,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
+              <Divider />
               <Item
                 title="Thêm gói khám"
                 to="/admin/add-packet"
@@ -220,16 +211,17 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
+              <Divider />
               <Item
-                title="Thêm lích gói khám"
+                title="Thêm lịch gói khám"
                 to="/admin/add-packet-schedule"
-                icon={<LibraryBooksIcon />}
+                icon={<AddCircleOutlineOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
               <Item
-                title="Lịch gói khám"
+                title="Lịch khám các gói"
                 to="/admin/manage-packet-schedule"
                 icon={<PendingActionsIcon />}
                 selected={selected}

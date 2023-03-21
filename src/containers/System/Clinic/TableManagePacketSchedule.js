@@ -347,7 +347,7 @@ const TableManagePacketSchedule = ({
             <TablePagination
               rowsPerPageOptions={[10, 15, 25]}
               component="div"
-              count={scheduleUser.count}
+              count={parseInt(scheduleUser?.count ? scheduleUser.count : 0)}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

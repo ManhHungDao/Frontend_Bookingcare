@@ -200,7 +200,7 @@ const FormData = ({
             <TablePagination
               rowsPerPageOptions={[10, 15, 25]}
               component="div"
-              count={count}
+              count={parseInt(count ? count : 0)}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

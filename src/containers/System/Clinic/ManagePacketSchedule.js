@@ -292,7 +292,7 @@ const ManagePacketSchedule = ({
     let listTime = timeSchedule
       .filter((e) => e.active === true)
       .map((e) => ({ time: e.id }));
-    let {  detail } = packetEdit;
+    let { detail } = packetEdit;
     const data = {
       packet: {
         id: packetEdit.id,
@@ -585,7 +585,7 @@ const ManagePacketSchedule = ({
               <TablePagination
                 rowsPerPageOptions={[10, 15, 25]}
                 component="div"
-                count={listPacket.count}
+                count={parseInt(listPacket?.count ? listPacket.count : 0)}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

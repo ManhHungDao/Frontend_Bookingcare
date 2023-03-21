@@ -377,7 +377,9 @@ const TableManageUserSchedule = ({
               <TableBody>
                 {data &&
                   data.length > 0 &&
-                  data.map((e) => <TableColumn key={e.id} {...e} />)}
+                  data.map((e, i) => (
+                    <TableColumn key={e.id + `${i}`} {...e} />
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
@@ -385,7 +387,7 @@ const TableManageUserSchedule = ({
             <TablePagination
               rowsPerPageOptions={[10, 15, 25]}
               component="div"
-              count={scheduleUser.count}
+              count={parseInt(scheduleUser?.count ? scheduleUser.count : 0)}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

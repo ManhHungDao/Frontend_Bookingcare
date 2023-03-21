@@ -15,6 +15,8 @@ import {
   PatientProfile,
   ScheduleProfile,
   ResponseDetail,
+  PacketProfile,
+  DoctorProfile,
 } from "./section/DetailProfile";
 
 const DetailSchedule = ({
@@ -34,9 +36,17 @@ const DetailSchedule = ({
   const [title, setTitle] = useState("");
   const [errors, setErrors] = useState("");
 
-  let mailCancel = `<h2 style="text-align:center;"><strong>THÔNG TIN HỦY LỊCH KHÁM</strong></h2><p>Xin chào ${patient?.name ? patient.name : ""},</p><p>Chúng tôi rất lấy làm tiếc khi phải thông báo đến bạn lịch khám vào lúc ${time ? time : ""} ngày ${date ? date : ""} đã bị hủy vì một số lý do nhất định.</p><p>Mong bạn có thể lựa chọn một lịch khám mới phù hợp hơn.</p><p>Xin cảm ơn.</p><p>&nbsp;</p>`;
+  let mailCancel = `<h2 style="text-align:center;"><strong>THÔNG TIN HỦY LỊCH KHÁM</strong></h2><p>Xin chào ${
+    patient?.name ? patient.name : ""
+  },</p><p>Chúng tôi rất lấy làm tiếc khi phải thông báo đến bạn lịch khám vào lúc ${
+    time ? time : ""
+  } ngày ${
+    date ? date : ""
+  } đã bị hủy vì một số lý do nhất định.</p><p>Mong bạn có thể lựa chọn một lịch khám mới phù hợp hơn.</p><p>Xin cảm ơn.</p><p>&nbsp;</p>`;
 
-  let mailDrescription = `<h2 style="text-align:center;"><strong>THÔNG TIN ĐƠN THUỐC</strong></h2><p>Xin chào  ${patient?.name ? patient.name : ""},</p><p>Cảm ơn bạn đã sử dụng dịch vụ khám bệnh tại đơn vị chúng tôi.</p><p>Sau đây là đơn thuốc của bạn</p><figure class="table" style="width:98.65%;"><table class="ck-table-resized"><colgroup><col style="width:38.11%;"><col style="width:12.08%;"><col style="width:49.81%;"></colgroup><tbody><tr><td>Tên thuốc</td><td>Số lượng</td><td>Liều dùng</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></figure><p>Xin cảm ơn.</p>`;
+  let mailDrescription = `<h2 style="text-align:center;"><strong>THÔNG TIN ĐƠN THUỐC</strong></h2><p>Xin chào  ${
+    patient?.name ? patient.name : ""
+  },</p><p>Cảm ơn bạn đã sử dụng dịch vụ khám bệnh tại đơn vị chúng tôi.</p><p>Sau đây là đơn thuốc của bạn</p><figure class="table" style="width:98.65%;"><table class="ck-table-resized"><colgroup><col style="width:38.11%;"><col style="width:12.08%;"><col style="width:49.81%;"></colgroup><tbody><tr><td>Tên thuốc</td><td>Số lượng</td><td>Liều dùng</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></figure><p>Xin cảm ơn.</p>`;
   useEffect(() => {
     setStatus(data.status);
     setPatient(data.user);
@@ -136,7 +146,16 @@ const DetailSchedule = ({
                     setStatus={setStatus}
                   />
                 </Grid>
-                <Grid item xs={12} md={8}>
+                <Grid item xs={12} md={4}>
+                  <DoctorProfile
+                    patient={patient}
+                    status={status}
+                    time={time}
+                    dataTime={dataTime}
+                    setStatus={setStatus}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
                   <Grid container>
                     <Grid xs={12} md={12} lg={12} p={0}>
                       <ScheduleProfile
