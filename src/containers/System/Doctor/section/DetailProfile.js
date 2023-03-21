@@ -10,7 +10,8 @@ import {
   Select,
   Grid,
   CardHeader,
-  Button,
+  OutlinedInput,
+  FormHelperText,
 } from "@mui/material";
 import CKEditorFieldBasic from "../../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../../components/ButtonComponent";
@@ -23,16 +24,22 @@ export const PatientProfile = ({ patient }) => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={12} lg={12}>
             <Typography gutterBottom variant="subtitle1">
-              Bệnh nhân:
+              Bệnh nhân:&nbsp;
               {patient?.name ? patient.name : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
-              Email:
+              Email:&nbsp;
               {patient?.email ? patient.email : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
-              Số điện thoại:
+              Số điện thoại:&nbsp;
               {patient?.phone ? patient.phone : ""}
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
+              Ngày sinh:&nbsp;
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
+              Lý do khám:&nbsp;
             </Typography>
           </Grid>
         </Grid>
@@ -41,7 +48,20 @@ export const PatientProfile = ({ patient }) => {
   );
 };
 
-export const ScheduleProfile = ({ dataTime, time, status, setStatus }) => {
+export const ScheduleProfile = ({
+  dataTime,
+  time,
+  status,
+  setStatus,
+  handleSave,
+}) => {
+  const statusList = ["Lịch hẹn mới", "Đang khám", "Hoàn thành", "Đã hủy"];
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setStatus(typeof value === "string" ? value.split(",") : value);
+  };
   return (
     <Card>
       <CardHeader title="Thông tin lịch khám" />
@@ -49,7 +69,7 @@ export const ScheduleProfile = ({ dataTime, time, status, setStatus }) => {
         <Grid container spacing={3}>
           <Grid item sx={12} md={6} lg={6}>
             <Typography gutterBottom variant="subtitle1">
-              Thời gian:
+              Thời gian:&nbsp;
               {dataTime.map((e) => {
                 if (e._id === time) return e.valueEN;
               })}
@@ -64,14 +84,15 @@ export const ScheduleProfile = ({ dataTime, time, status, setStatus }) => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={status?.value}
-                  label="Trạng thái"
-                  onChange={setStatus}
+                  value={status}
+                  onChange={handleChange}
+                  input={<OutlinedInput label="Trạng trái" />}
                 >
-                  <MenuItem value={1}>Lịch hẹn mới</MenuItem>
-                  <MenuItem value={2}>Đang khám</MenuItem>
-                  <MenuItem value={3}>Hoàn thành</MenuItem>
-                  <MenuItem value={4}>Đã hủy</MenuItem>
+                  {statusList.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Box>
@@ -86,7 +107,7 @@ export const ScheduleProfile = ({ dataTime, time, status, setStatus }) => {
           >
             <ButtonComponent
               content="Lưu"
-              // handleClick={handleSave}
+              handleClick={handleSave}
               bgcolor="#94e2cd"
               color="#141414"
               hoverBgColor="#1e5245"
@@ -99,13 +120,25 @@ export const ScheduleProfile = ({ dataTime, time, status, setStatus }) => {
   );
 };
 export const ResponseDetail = ({
-  dataTime,
-  time,
-  status,
-  setStatus,
   content,
   setContent,
+  handleSave,
+  title,
+  setTitle,
+  errors,
 }) => {
+  const titleList = [
+    "Phản hồi sau khám",
+    "Thông tin hủy lịch",
+    "Đơn thuốc",
+    "Nhắc lịch khám bệnh",
+  ];
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setTitle(typeof value === "string" ? value.split(",") : value);
+  };
   return (
     <Card>
       <CardHeader title="Thông tin phản hồi" />
@@ -113,23 +146,26 @@ export const ResponseDetail = ({
         <Grid container spacing={3}>
           <Grid item sx={12} md={6} lg={6}>
             <Box sx={{ minWidth: 120 }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
+              <FormControl fullWidth error={errors?.title ? true : false}>
+                <InputLabel id="demo-simple-select-error-label">
                   Loại tiêu đề
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={status?.value}
-                  label="Trạng thái"
-                  onChange={setStatus}
+                  labelId="demo-simple-select-error-label"
+                  id="demo-simple-select-error"
+                  value={title}
+                  onChange={handleChange}
+                  input={<OutlinedInput label="Loại tiêu đề" />}
                 >
-                  <MenuItem value={1}>Phản hồi sau khám</MenuItem>
-                  <MenuItem value={2}>Thông tin hủy lịch</MenuItem>
-                  <MenuItem value={3}>Thông tin dời lịch</MenuItem>
-                  <MenuItem value={4}>Đơn thuốc</MenuItem>
-                  <MenuItem value={4}>Nhắc lịch khám bệnh</MenuItem>
+                  {titleList.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
                 </Select>
+                <FormHelperText>
+                  {errors?.title ? errors.title : ""}
+                </FormHelperText>
               </FormControl>
             </Box>
           </Grid>
@@ -138,6 +174,8 @@ export const ResponseDetail = ({
               title="Chi tiết phản hồi"
               value={content}
               onChange={setContent}
+              isError={errors.content ? true : false}
+              errorText={errors.content}
             />
           </Grid>
           <Grid
@@ -150,7 +188,7 @@ export const ResponseDetail = ({
           >
             <ButtonComponent
               content="Gửi"
-              // handleClick={handleSave}
+              handleClick={handleSave}
               bgcolor="#94e2cd"
               color="#141414"
               hoverBgColor="#1e5245"

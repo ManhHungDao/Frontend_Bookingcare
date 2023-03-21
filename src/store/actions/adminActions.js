@@ -39,6 +39,7 @@ import {
   upsertSchedule,
   getSingleSchedule,
   deleteSchedule,
+  sentMailPatient,
 } from "../../services/scheduleService";
 
 import {
@@ -760,6 +761,28 @@ export const updatePacketAction = (id, data) => {
         type: actionTypes.UPDATE_FAILED,
       });
       toast.error("Cập nhập gói khám thất bại");
+    }
+  };
+};
+
+export const sentMailAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await sentMailPatient(data);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.CREATE_SUCCESS,
+        });
+        toast.success("Gửi thư thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.CREATE_FAILED,
+      });
+      toast.error("Gửi thư thất bại");
     }
   };
 };

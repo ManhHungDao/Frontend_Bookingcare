@@ -5,9 +5,6 @@ import {
   Stack,
   Unstable_Grid2 as Grid,
   Modal,
-  Card,
-  CardContent,
-  CardHeader,
 } from "@mui/material";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
@@ -27,37 +24,31 @@ const DetailSchedule = ({
   clearStatus,
   data,
   dataTime,
+  sentMail,
 }) => {
   const [status, setStatus] = useState();
   const [patient, setPatient] = useState("");
   const [time, setTime] = useState("");
   const [content, setContent] = useState("");
-  const statusList = [
-    { name: "Lịch hẹn mới", value: 1 },
-    { name: "Đang khám", value: 2 },
-    { name: "Hoàn thành", value: 3 },
-    { name: "Đã hủy", value: 4 },
-  ];
+  const [title, setTitle] = useState("");
+  const [errors, setErrors] = useState("");
   useEffect(() => {
-    setStatus(
-      statusList.find((e) => {
-        if (data.status === e.name) return e.value;
-      })
-    );
+    setStatus(data.status);
     setPatient(data.user);
     setTime(data.time);
   }, [data]);
 
-  const handleSave = () => {};
+  useEffect(() => {
+    if (isSuccess && isSuccess === true) {
+      setTitle("");
+      setContent("");
+      clearStatus();
+    }
+  }, [isSuccess]);
+
   const handleClose = () => {
     setOpen(false);
-  };
-  const handleChange = (event) => {
-    setStatus(
-      statusList.find((e) => {
-        if (e.value === event.target.value) return e.value;
-      })
-    );
+    setErrors("");
   };
   const style = {
     position: "absolute",
@@ -74,7 +65,32 @@ const DetailSchedule = ({
     left: 0,
     right: 0,
   };
-
+  const checkValidate = () => {
+    let errors = {};
+    if (!title) errors.title = "Chưa chọn tiêu đề thư";
+    if (!content) errors.content = "Chưa có nội dung thư";
+    return errors;
+  };
+  const isValid = (errors) => {
+    let keys = Object.keys(errors);
+    let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
+    return count === 0;
+  };
+  const handleUploadStatus = () => {};
+  const handleSendMail = () => {
+    const errors = checkValidate();
+    const checkValidInPut = isValid(errors);
+    if (!checkValidInPut) {
+      setErrors(errors);
+      return;
+    }
+    const data = {
+      to: "hungpepi2001@gmail.com",
+      subject: title[0],
+      html: content,
+    };
+    sentMail(data);
+  };
   return (
     <>
       <Modal
@@ -108,6 +124,7 @@ const DetailSchedule = ({
                         time={time}
                         dataTime={dataTime}
                         setStatus={setStatus}
+                        handleSave={handleUploadStatus}
                       />
                     </Grid>
                   </Grid>
@@ -120,6 +137,10 @@ const DetailSchedule = ({
                     setStatus={setStatus}
                     content={content}
                     setContent={setContent}
+                    handleSave={handleSendMail}
+                    title={title}
+                    setTitle={setTitle}
+                    errors={errors}
                   />
                 </Grid>
               </Grid>
@@ -131,13 +152,17 @@ const DetailSchedule = ({
   );
 };
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    isSuccess: state.app.isSuccess,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     updateSpecialty: (id, data) =>
       dispatch(actions.updateSpecialtyAction(id, data)),
+    sentMail: (data) => dispatch(actions.sentMailAction(data)),
+    clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
 

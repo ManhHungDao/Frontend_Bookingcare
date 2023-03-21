@@ -129,9 +129,7 @@ const TodaySchedule = ({
   return (
     <>
       <Box m="20px">
-        <Header
-          title="Lịch khám hôm nay"
-        />
+        <Header title="Lịch khám hôm nay" />
         <Box m="20px 0 0 0">
           <TableContainer component={Paper} sx={{ maxHeight: 550 }}>
             <Table
@@ -146,7 +144,7 @@ const TodaySchedule = ({
               <TableBody>
                 {data &&
                   data.length > 0 &&
-                  data.map((e) => <TableColumn key={e.id} {...e} />)}
+                  data.map((e, i) => <TableColumn key={e.id + `${i}`} {...e} />)}
               </TableBody>
             </Table>
           </TableContainer>
