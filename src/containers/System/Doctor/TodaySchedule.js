@@ -60,6 +60,7 @@ const TodaySchedule = ({
   }, [toDaySchedule, allcodes]);
 
   const hadnleClickView = (data) => {
+    console.log("🚀 ~ file: TodaySchedule.js:63 ~ hadnleClickView ~ data:", data)
     setDataEdit(data);
     setOpen(true);
   };

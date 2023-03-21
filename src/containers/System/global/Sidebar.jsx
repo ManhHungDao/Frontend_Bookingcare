@@ -168,9 +168,9 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
                 <Item
-                title="Danh sách lịch khám"
+                title="Lịch khám người dùng"
                 to="/admin/manage-user-schedule"
-                icon={<MenuOutlinedIcon />}
+                icon={<PendingActionsIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
@@ -221,9 +221,17 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
               <Item
-                title="Quản lý gói khám"
-                to="/admin/manage-packet-schedule"
+                title="Thêm lích gói khám"
+                to="/admin/add-packet-schedule"
                 icon={<LibraryBooksIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Lịch gói khám"
+                to="/admin/manage-packet-schedule"
+                icon={<PendingActionsIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}

@@ -32,7 +32,7 @@ const ManagerRoute = ({ systemMenuPath, isLoggedIn }) => {
             <Route path="add-packet" element={<AddPacket />} />
             <Route path="manage-packet" element={<TableManagePacket />} />
             <Route
-              path="manage-packet-schedule"
+              path="add-packet-schedule"
               element={<ManagePacketSchedule />}
             />
             <Route path="add-handbook" element={<AddHandbook />} />

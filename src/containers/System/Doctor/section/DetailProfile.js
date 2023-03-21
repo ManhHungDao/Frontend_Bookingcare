@@ -19,7 +19,7 @@ import ButtonComponent from "../../../../components/ButtonComponent";
 export const PatientProfile = ({ patient }) => {
   return (
     <Card>
-      <CardHeader title="Thông tin cá nhân" />
+      <CardHeader title="Thông tin bệnh nhân" />
       <CardContent>
         <Grid container spacing={3}>
           <Grid item xs={12} md={12} lg={12}>

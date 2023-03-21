@@ -38,9 +38,7 @@ import "dayjs/locale/vi";
 import dayjs from "dayjs";
 import DetailSchedule from "../Doctor/DetailSchedule";
 
-import "./Style.scss";
-
-const TableManageUserSchedule = ({
+const TableManagePacketSchedule = ({
   listClinic,
   getListClinicHomePatient,
   isSuccess,
@@ -61,7 +59,6 @@ const TableManageUserSchedule = ({
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [listSelectClinic, setListSelectClinic] = useState([]);
   const [selectClinic, setSelectClinic] = useState("");
-  const [search, setSearch] = useState("");
   const [dataTime, setDataTime] = useState([]);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -108,7 +105,6 @@ const TableManageUserSchedule = ({
 
   useEffect(() => {
     if (selectClinic === "") return;
-    setSearch("");
     setPage(0);
     const clinicId = selectClinic.value;
     fetchDataAPI(1, rowsPerPage, clinicId, "");
@@ -126,47 +122,32 @@ const TableManageUserSchedule = ({
   };
 
   const handelClickEmpty = () => {
-    setSearch("");
     setSelectClinic("");
     setPage(0);
     setRowsPerPage(10);
     fetchDataAPI(1, 10, "", "");
   };
 
-  const handleClickSearch = () => {
-    setPage(0);
-    fetchDataAPI(1, rowsPerPage, "", search);
-  };
-
-  const handleEnterSearch = (e) => {
-    if (e.which === 13) {
-      handleClickSearch();
-    }
-  };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     const clinicId = selectClinic.value ? selectClinic.value : "";
-    fetchDataAPI(newPage + 1, rowsPerPage, clinicId, search);
+    fetchDataAPI(newPage + 1, rowsPerPage, clinicId);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     const clinicId = selectClinic.value ? selectClinic.value : "";
-    fetchDataAPI(page + 1, +event.target.value, clinicId, search);
+    fetchDataAPI(page + 1, +event.target.value, clinicId);
   };
   const handleClickView = (data) => {
     setViewPatient(data);
     setOpen(true);
   };
-  const handleOnChangeSearch = (e) => {
-    setSelectClinic("");
-    setSearch(e.target.value);
-  };
+
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
       <StyledTableCell></StyledTableCell>
-      <StyledTableCell>Người dùng</StyledTableCell>
-      <StyledTableCell>Email</StyledTableCell>
+      <StyledTableCell>Gói khám</StyledTableCell>
       <StyledTableCell>Cơ sở</StyledTableCell>
       <StyledTableCell>Chuyên khoa</StyledTableCell>
     </TableRow>
@@ -209,7 +190,6 @@ const TableManageUserSchedule = ({
               <div> {name ? name : "-"}</div>
             </span>
           </TableCell>
-          <TableCell>{email ? email : "-"}</TableCell>
           <TableCell>
             <Typography variant="">
               {clinic?.name ? clinic.name : "-"}
@@ -295,7 +275,7 @@ const TableManageUserSchedule = ({
   return (
     <>
       <Box m="20px">
-        <Header title="danh sách lịch khám người dùng" />
+        <Header title="danh sách lịch khám gói khám" />
         <Box m="20px 0 0 0">
           <Box m="0 0 7px 0">
             <Grid container spacing={2}>
@@ -315,24 +295,6 @@ const TableManageUserSchedule = ({
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <FormControl sx={{ width: "100%" }} variant="outlined">
-                  <OutlinedInput
-                    placeholder="Lọc theo tên"
-                    id="outlined-adornment-weight"
-                    value={search}
-                    onChange={(e) => handleOnChangeSearch(e)}
-                    onKeyPress={(e) => handleEnterSearch(e)}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton onClick={handleClickSearch}>
-                          <SearchIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
               </Grid>
               <Grid item xs={12} md={3}>
                 <Select
@@ -432,4 +394,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TableManageUserSchedule);
+)(TableManagePacketSchedule);
