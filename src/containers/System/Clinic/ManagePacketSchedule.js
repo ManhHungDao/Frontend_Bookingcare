@@ -292,13 +292,13 @@ const ManagePacketSchedule = ({
     let listTime = timeSchedule
       .filter((e) => e.active === true)
       .map((e) => ({ time: e.id }));
-    let { id, detail } = packetEdit;
+    let {  detail } = packetEdit;
     const data = {
-      doctor: {
+      packet: {
         id: packetEdit.id,
         name: packetEdit.name,
       },
-      packet: {
+      doctor: {
         id: null,
         name: null,
       },

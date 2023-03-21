@@ -146,6 +146,7 @@ const DetailUser = ({
   }, [allcodes, listClinic]);
 
   const handleClose = () => {
+    setPreviewImgUrl('')
     setOpen(false);
     setEmail("");
     setName("");

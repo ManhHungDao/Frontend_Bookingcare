@@ -160,9 +160,17 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
               <Item
-                title="Quản lý lịch khám"
+                title="Thêm lịch khám"
+                to="/admin/add-user-schedule"
+                icon={<PlaylistAddCircleOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+                <Item
+                title="Danh sách lịch khám"
                 to="/admin/manage-user-schedule"
-                icon={<PendingActionsIcon />}
+                icon={<MenuOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}

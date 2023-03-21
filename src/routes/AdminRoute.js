@@ -15,6 +15,7 @@ import ManageCode from "../containers/System/Allcode/ManageCode";
 import AddHandbook from "../containers/System/Handbook/AddHandbook";
 import TableManageHandbook from "../containers/System/Handbook/TableManageHandbook";
 import ManageUserSchedule from "../containers/System/Admin/ManageUserSchedule";
+import TableManageUserSchedule from "../containers/System/Admin/TableManageUserSchedule";
 import ManagePacketSchedule from "../containers/System/Clinic/ManagePacketSchedule";
 import AddPacket from "../containers/System/Clinic/AddPacket";
 import TableManagePacket from "../containers/System/Clinic/TableManagePacket";
@@ -35,9 +36,14 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
             <Route path="add-user" element={<AddNewUser />} />
             <Route path="manage-user" element={<TableManageUser />} />
             <Route
-              path="manage-user-schedule"
+              path="add-user-schedule"
               element={<ManageUserSchedule />}
             />
+             <Route
+              path="manage-user-schedule"
+              element={<TableManageUserSchedule />}
+            />
+           
             <Route path="add-clinic" element={<AddClinic />} />
             <Route path="manage-clinic" element={<TableManageClinic />} />
             <Route path="add-packet" element={<AddPacket />} />

@@ -40,6 +40,7 @@ import {
   getSingleSchedule,
   deleteSchedule,
   sentMailPatient,
+  getScheduleUserByDate,
 } from "../../services/scheduleService";
 
 import {
@@ -783,6 +784,31 @@ export const sentMailAction = (data) => {
         type: actionTypes.CREATE_FAILED,
       });
       toast.error("Gửi thư thất bại");
+    }
+  };
+};
+
+export const getUserScheduleByDateAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getScheduleUserByDate(data);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.GET_SCHEDULE_USER_BY_DATE_SUCCESS,
+          data: {
+            list: res.schedules,
+            count: res.count,
+          },
+        });
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_SCHEDULE_USER_BY_DATE_FAILED,
+      });
+      toast.error("Lấy lịch khám thất bại");
     }
   };
 };

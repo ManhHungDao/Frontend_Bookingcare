@@ -12,6 +12,7 @@ const initialState = {
   listHandbook: [],
   schedule: {},
   listPacket: [],
+  scheduleUser: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -109,7 +110,15 @@ const adminReducer = (state = initialState, action) => {
         schedule: {},
       };
     }
-
+    case actionTypes.GET_SCHEDULE_USER_BY_DATE_SUCCESS: {
+      return { ...state, scheduleUser: action.data };
+    }
+    case actionTypes.GET_SCHEDULE_USER_BY_DATE_FAILED: {
+      return {
+        ...state,
+        scheduleUser: [],
+      };
+    }
     // PACKET]
     case actionTypes.GET_PACKET_PAGINATION_SUCCESS: {
       return { ...state, listPacket: action.data };

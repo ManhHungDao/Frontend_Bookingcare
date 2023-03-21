@@ -370,7 +370,7 @@ const ManageUserSchedule = ({
   return (
     <>
       <Box m="20px">
-        <Header title="Quản lý lịch khám bệnh" />
+        <Header title="Thêm lịch khám bệnh" />
         <Grid container spacing={2}>
           <Grid item md={6} xs={12}>
             <Grid container spacing={2}>
