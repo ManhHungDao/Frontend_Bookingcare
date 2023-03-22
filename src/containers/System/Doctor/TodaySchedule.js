@@ -31,7 +31,7 @@ const TodaySchedule = ({
   userInfo,
   isSuccess,
   toDaySchedule,
-  getSingleSchedule,
+  getSingleUserSchedule,
   fetchAllcode,
   allcodes,
 }) => {
@@ -48,8 +48,8 @@ const TodaySchedule = ({
   }, []);
 
   useEffect(() => {
-    setData('')
-    getSingleSchedule(userInfo._id, dayjs(date).unix());
+    setData("");
+    getSingleUserSchedule(userInfo._id, dayjs(date).unix());
   }, [date]);
 
   useEffect(() => {
@@ -60,7 +60,10 @@ const TodaySchedule = ({
   }, [toDaySchedule, allcodes]);
 
   const hadnleClickView = (data) => {
-    console.log("🚀 ~ file: TodaySchedule.js:63 ~ hadnleClickView ~ data:", data)
+    console.log(
+      "🚀 ~ file: TodaySchedule.js:63 ~ hadnleClickView ~ data:",
+      data
+    );
     setDataEdit(data);
     setOpen(true);
   };
@@ -207,8 +210,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     clearStatus: () => dispatch(actions.clearStatus()),
-    getSingleSchedule: (id, date) =>
-      dispatch(actions.getSingleScheduleAction(id, date)),
+    getSingleUserSchedule: (id, date) =>
+      dispatch(actions.getSingleUserScheduleAction(id, date)),
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
   };
 };

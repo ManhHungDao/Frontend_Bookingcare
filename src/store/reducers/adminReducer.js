@@ -12,7 +12,7 @@ const initialState = {
   listHandbook: [],
   schedule: {},
   listPacket: [],
-  scheduleUser: [],
+  schedules: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -100,7 +100,7 @@ const adminReducer = (state = initialState, action) => {
         listHandbook: [],
       };
     }
-    // SHEDULE
+    // SCHEDULE
     case actionTypes.GET_SCHEDULE_SUCCESS: {
       return { ...state, schedule: action.data };
     }
@@ -110,16 +110,16 @@ const adminReducer = (state = initialState, action) => {
         schedule: {},
       };
     }
-    case actionTypes.GET_SCHEDULE_USER_BY_DATE_SUCCESS: {
-      return { ...state, scheduleUser: action.data };
+    case actionTypes.GET_SCHEDULE_BY_DATE_SUCCESS: {
+      return { ...state, schedules: action.data };
     }
-    case actionTypes.GET_SCHEDULE_USER_BY_DATE_FAILED: {
+    case actionTypes.GET_SCHEDULE_BY_DATE_FAILED: {
       return {
         ...state,
-        scheduleUser: [],
+        schedules: [],
       };
     }
-    // PACKET]
+    // PACKET
     case actionTypes.GET_PACKET_PAGINATION_SUCCESS: {
       return { ...state, listPacket: action.data };
     }

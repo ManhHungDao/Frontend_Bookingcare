@@ -26,7 +26,7 @@ const ManageSchedule = ({
   isSuccess,
   clearStatus,
   upsertSchedule,
-  getSingleSchedule,
+  getSingleUserSchedule,
   userSchedule,
   userInfo,
   getSingleUser,
@@ -77,7 +77,7 @@ const ManageSchedule = ({
         return item;
       })
     );
-    getSingleSchedule(userInfo._id, dayjs(date).unix());
+    getSingleUserSchedule(userInfo._id, dayjs(date).unix());
   }, [date]);
 
   useEffect(() => {
@@ -248,8 +248,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
     upsertSchedule: (data) => dispatch(actions.upsertScheduleAction(data)),
     getSingleUser: (id) => dispatch(actions.getSingleUserAction(id)),
-    getSingleSchedule: (id, date) =>
-      dispatch(actions.getSingleScheduleAction(id, date)),
+    getSingleUserSchedule: (id, date) =>
+      dispatch(actions.getSingleUserScheduleAction(id, date)),
     clearStatus: () => dispatch(actions.clearStatus()),
   };
 };

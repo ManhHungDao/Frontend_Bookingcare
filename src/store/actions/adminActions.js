@@ -37,11 +37,12 @@ import {
 } from "../../services/handbookService";
 import {
   upsertSchedule,
-  getSingleSchedule,
+  getSingleUserSchedule,
   deleteSchedule,
   sentMailPatient,
   getScheduleUserByDate,
   updateStatus,
+  getSchedulePacketByDate,getSinglePacketSchedule
 } from "../../services/scheduleService";
 
 import {
@@ -632,11 +633,32 @@ export const upsertScheduleAction = (data) => {
   };
 };
 
-export const getSingleScheduleAction = (id, date) => {
+export const getSingleUserScheduleAction = (id, date) => {
   return async (dispatch, getState) => {
     try {
       // dispatch(loadingToggleAction(true));
-      const res = await getSingleSchedule(id, date);
+      const res = await getSingleUserSchedule(id, date);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.GET_SCHEDULE_SUCCESS,
+          data: res.schedule,
+        });
+        // dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      // dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_SCHEDULE_FAILED,
+      });
+    }
+  };
+};
+
+export const getSinglePacketScheduleAction = (id, date) => {
+  return async (dispatch, getState) => {
+    try {
+      // dispatch(loadingToggleAction(true));
+      const res = await getSinglePacketSchedule(id, date);
       if (res && res.success) {
         dispatch({
           type: actionTypes.GET_SCHEDULE_SUCCESS,
@@ -693,6 +715,78 @@ export const updateStatusScheduleAction = (data) => {
         type: actionTypes.UPDATE_FAILED,
       });
       toast.error("Cập nhập trạng thái lịch khám thất bại");
+    }
+  };
+};
+
+export const getUserScheduleByDateAction = (date) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getScheduleUserByDate(date);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.GET_SCHEDULE_BY_DATE_SUCCESS,
+          data: {
+            list: res.schedules,
+            count: res.count,
+          },
+        });
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_SCHEDULE_BY_DATE_FAILED,
+      });
+      toast.error("Lấy lịch khám thất bại");
+    }
+  };
+};
+
+export const getPacketScheduleByDateAction = (date) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getSchedulePacketByDate(date);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.GET_SCHEDULE_BY_DATE_SUCCESS,
+          data: {
+            list: res.schedules,
+            count: res.count,
+          },
+        });
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_SCHEDULE_BY_DATE_FAILED,
+      });
+      toast.error("Lấy lịch khám thất bại");
+    }
+  };
+};
+
+export const sentMailAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await sentMailPatient(data);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.CREATE_SUCCESS,
+        });
+        toast.success("Gửi thư thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.CREATE_FAILED,
+      });
+      toast.error("Gửi thư thất bại");
     }
   };
 };
@@ -785,53 +879,6 @@ export const updatePacketAction = (id, data) => {
         type: actionTypes.UPDATE_FAILED,
       });
       toast.error("Cập nhập gói khám thất bại");
-    }
-  };
-};
-
-export const sentMailAction = (data) => {
-  return async (dispatch, getState) => {
-    try {
-      dispatch(loadingToggleAction(true));
-      const res = await sentMailPatient(data);
-      if (res && res.success) {
-        dispatch(loadingToggleAction(false));
-        dispatch({
-          type: actionTypes.CREATE_SUCCESS,
-        });
-        toast.success("Gửi thư thành công");
-      }
-    } catch (error) {
-      dispatch(loadingToggleAction(false));
-      dispatch({
-        type: actionTypes.CREATE_FAILED,
-      });
-      toast.error("Gửi thư thất bại");
-    }
-  };
-};
-
-export const getUserScheduleByDateAction = (data) => {
-  return async (dispatch, getState) => {
-    try {
-      dispatch(loadingToggleAction(true));
-      const res = await getScheduleUserByDate(data);
-      if (res && res.success) {
-        dispatch(loadingToggleAction(false));
-        dispatch({
-          type: actionTypes.GET_SCHEDULE_USER_BY_DATE_SUCCESS,
-          data: {
-            list: res.schedules,
-            count: res.count,
-          },
-        });
-      }
-    } catch (error) {
-      dispatch(loadingToggleAction(false));
-      dispatch({
-        type: actionTypes.GET_SCHEDULE_USER_BY_DATE_FAILED,
-      });
-      toast.error("Lấy lịch khám thất bại");
     }
   };
 };

@@ -53,7 +53,7 @@ const ManageUserSchedule = ({
   isSuccess,
   clearStatus,
   upsertSchedule,
-  getSingleSchedule,
+  getSingleUserSchedule,
   userSchedule,
   deleteSchedule,
 }) => {
@@ -163,7 +163,7 @@ const ManageUserSchedule = ({
       setName(name ? name : "");
       setNote(detail?.note ? detail.note : "");
 
-      getSingleSchedule(_id, dayjs(date).unix());
+      getSingleUserSchedule(_id, dayjs(date).unix());
     }
   }, [userEdit]);
 
@@ -175,7 +175,7 @@ const ManageUserSchedule = ({
           return item;
         })
       );
-      getSingleSchedule(userEdit._id, dayjs(date).unix());
+      getSingleUserSchedule(userEdit._id, dayjs(date).unix());
     }
   }, [date]);
 
@@ -635,8 +635,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.deleteScheduleAction(id, date)),
     getAllUserAction: (data) => dispatch(actions.getAllUserAction(data)),
     upsertSchedule: (data) => dispatch(actions.upsertScheduleAction(data)),
-    getSingleSchedule: (id, date) =>
-      dispatch(actions.getSingleScheduleAction(id, date)),
+    getSingleUserSchedule: (id, date) =>
+      dispatch(actions.getSingleUserScheduleAction(id, date)),
     clearStatus: () => dispatch(actions.clearStatus()),
   };
 };

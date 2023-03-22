@@ -51,7 +51,7 @@ const ManagePacketSchedule = ({
   isSuccess,
   clearStatus,
   upsertSchedule,
-  getSingleSchedule,
+  getSinglePacketSchedule,
   deleteSchedule,
   getAllPacket,
   allcodes,
@@ -160,7 +160,7 @@ const ManagePacketSchedule = ({
       setName(name ? name : "");
       setNote(note ? note : "");
 
-      getSingleSchedule(_id, dayjs(date).unix());
+      getSinglePacketSchedule(_id, dayjs(date).unix());
     }
   }, [packetEdit]);
 
@@ -172,7 +172,7 @@ const ManagePacketSchedule = ({
           return item;
         })
       );
-      getSingleSchedule(packetEdit._id, dayjs(date).unix());
+      getSinglePacketSchedule(packetEdit._id, dayjs(date).unix());
     }
   }, [date]);
 
@@ -280,7 +280,7 @@ const ManagePacketSchedule = ({
   };
   const handleSave = () => {
     if (_.isEmpty(packetEdit)) {
-      toast.error("Chưa chọn bác sĩ");
+      toast.error("Chưa chọn gói khám");
       return;
     }
     const errors = checkValidate();
@@ -292,7 +292,6 @@ const ManagePacketSchedule = ({
     let listTime = timeSchedule
       .filter((e) => e.active === true)
       .map((e) => ({ time: e.id }));
-    let { detail } = packetEdit;
     const data = {
       packet: {
         id: packetEdit.id,
@@ -303,8 +302,8 @@ const ManagePacketSchedule = ({
         name: null,
       },
       detail: {
-        price: detail.price,
-        payment: detail.payment,
+        price: price,
+        payment: payment,
         note: note,
       },
       schedule: [...listTime],
@@ -634,8 +633,8 @@ const mapDispatchToProps = (dispatch) => {
     deleteSchedule: (id, date) =>
       dispatch(actions.deleteScheduleAction(id, date)),
     upsertSchedule: (data) => dispatch(actions.upsertScheduleAction(data)),
-    getSingleSchedule: (id, date) =>
-      dispatch(actions.getSingleScheduleAction(id, date)),
+    getSinglePacketSchedule: (id, date) =>
+      dispatch(actions.getSinglePacketScheduleAction(id, date)),
     clearStatus: () => dispatch(actions.clearStatus()),
     getAllPacket: (data) => dispatch(actions.getAllPacketAction(data)),
   };

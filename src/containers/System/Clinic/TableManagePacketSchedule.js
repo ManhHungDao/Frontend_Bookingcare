@@ -42,8 +42,8 @@ const TableManagePacketSchedule = ({
   listClinic,
   getListClinicHomePatient,
   isSuccess,
-  scheduleUser,
-  getUserScheduleByDate,
+  schedulePacket,
+  getPacketScheduleByDate,
   clearStatus,
   allcodes,
   fetchAllcode,
@@ -89,8 +89,8 @@ const TableManagePacketSchedule = ({
     }
   }, [isSuccess]);
   useEffect(() => {
-    if (scheduleUser.list && scheduleUser.list.length > 0) {
-      setData(scheduleUser.list);
+    if (schedulePacket.list && schedulePacket.list.length > 0) {
+      setData(schedulePacket.list);
     } else {
       setData([]);
     }
@@ -101,7 +101,7 @@ const TableManagePacketSchedule = ({
         label: e.name,
       }))
     );
-  }, [listClinic, scheduleUser]);
+  }, [listClinic, schedulePacket]);
 
   useEffect(() => {
     if (selectClinic === "") return;
@@ -118,7 +118,7 @@ const TableManagePacketSchedule = ({
       filter,
       date: dayjs(date).unix(),
     };
-    getUserScheduleByDate(data);
+    getPacketScheduleByDate(data);
   };
 
   const handelClickEmpty = () => {
@@ -343,11 +343,11 @@ const TableManagePacketSchedule = ({
               </TableBody>
             </Table>
           </TableContainer>
-          {scheduleUser && (
+          {schedulePacket && (
             <TablePagination
               rowsPerPageOptions={[10, 15, 25]}
               component="div"
-              count={parseInt(scheduleUser?.count ? scheduleUser.count : 0)}
+              count={parseInt(schedulePacket?.count ? schedulePacket.count : 0)}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
@@ -372,7 +372,7 @@ const TableManagePacketSchedule = ({
 
 const mapStateToProps = (state) => {
   return {
-    scheduleUser: state.admin.scheduleUser,
+    schedulePacket: state.admin.schedules,
     isSuccess: state.app.isSuccess,
     listClinic: state.patient.listClinic,
     allcodes: state.admin.allcodes,
@@ -381,9 +381,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteUserAction: (id) => dispatch(actions.deleteUserAction(id)),
-    getUserScheduleByDate: (data) =>
-      dispatch(actions.getUserScheduleByDateAction(data)),
+    getPacketScheduleByDate: (date) =>
+      dispatch(actions.getPacketScheduleByDateAction(date)),
     clearStatus: () => dispatch(actions.clearStatus()),
     getListClinicHomePatient: () =>
       dispatch(actions.getListClinicHomePatientAction()),

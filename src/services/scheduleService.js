@@ -12,8 +12,12 @@ const sentMailPatient = (data) => {
   return axios.post(`/api/sent-mail-patient`, data);
 };
 
-const getSingleSchedule = (id, date) => {
-  return axios.get(`/api/get-schedule?id=${id}&date=${date}`);
+const getSingleUserSchedule = (id, date) => {
+  return axios.get(`/api/get-single-user-schedule?id=${id}&date=${date}`);
+};
+
+const getSinglePacketSchedule = (id, date) => {
+  return axios.get(`/api/get-single-packet-schedule?id=${id}&date=${date}`);
 };
 
 const getScheduleUserByDate = (data) => {
@@ -22,8 +26,22 @@ const getScheduleUserByDate = (data) => {
   );
 };
 
+const getSchedulePacketByDate = (data) => {
+  return axios.get(
+    `/api/get-packet-schedule?page=${data.page}&clinicId=${data.clinicId}&filter=${data.filter}&size=${data.size}&date=${data.date}`
+  );
+};
+
 const deleteSchedule = (id, date) => {
   return axios.delete(`/api/delete-schedule?id=${id}&date=${date}`);
 };
 
-export { upsertSchedule, getSingleSchedule, deleteSchedule, sentMailPatient ,getScheduleUserByDate,updateStatus};
+export {
+  upsertSchedule,
+  getSingleUserSchedule,
+  deleteSchedule,
+  sentMailPatient,
+  getScheduleUserByDate,
+  updateStatus,
+  getSchedulePacketByDate,getSinglePacketSchedule
+};

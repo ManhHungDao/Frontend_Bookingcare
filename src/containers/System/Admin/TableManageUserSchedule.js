@@ -72,7 +72,6 @@ const TableManageUserSchedule = ({
   }));
 
   useEffect(() => {
-    fetchDataAPI(1, rowsPerPage);
     getListClinicHomePatient();
     fetchAllcode();
   }, []);
@@ -113,6 +112,10 @@ const TableManageUserSchedule = ({
     const clinicId = selectClinic.value;
     fetchDataAPI(1, rowsPerPage, clinicId, "");
   }, [selectClinic]);
+
+  useEffect(() => {
+    fetchDataAPI(1, rowsPerPage);
+  }, [date]);
 
   const fetchDataAPI = (page, size, clinicId = "", filter = "") => {
     const data = {
@@ -425,7 +428,7 @@ const TableManageUserSchedule = ({
 
 const mapStateToProps = (state) => {
   return {
-    scheduleUser: state.admin.scheduleUser,
+    scheduleUser: state.admin.schedules,
     isSuccess: state.app.isSuccess,
     listClinic: state.patient.listClinic,
     allcodes: state.admin.allcodes,
@@ -434,7 +437,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteUserAction: (id) => dispatch(actions.deleteUserAction(id)),
     getUserScheduleByDate: (data) =>
       dispatch(actions.getUserScheduleByDateAction(data)),
     clearStatus: () => dispatch(actions.clearStatus()),
