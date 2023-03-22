@@ -48,7 +48,8 @@ export const PatientProfile = ({ patient }) => {
   );
 };
 
-export const DoctorProfile = ({ patient }) => {
+export const DoctorProfile = ({ doctor }) => {
+  const { detail, clinic, specialty } = doctor;
   return (
     <Card>
       <CardHeader title="Thông tin bác sĩ" />
@@ -56,22 +57,27 @@ export const DoctorProfile = ({ patient }) => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={12} lg={12}>
             <Typography gutterBottom variant="subtitle1">
-              Bệnh nhân:&nbsp;
-              {patient?.name ? patient.name : ""}
+              Tên bác sĩ:&nbsp;
+              {doctor?.name ? doctor.name : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
-              Email:&nbsp;
-              {patient?.email ? patient.email : ""}
+              Cơ sở:&nbsp;
+              {clinic?.name ? clinic.name : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
-              Số điện thoại:&nbsp;
-              {patient?.phone ? patient.phone : ""}
+              Chuyên khoa:&nbsp;
+              {specialty?.name ? specialty.name : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
-              Ngày sinh:&nbsp;
+              Giá khám:&nbsp;
+              {detail?.price?.name ? detail.price.name : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
-              Lý do khám:&nbsp;
+              Phương thức thanh toán:&nbsp;
+              {detail?.payment?.name ? detail.payment.name : ""}
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
+              Ghi chú:&nbsp;{detail?.note ? detail.note : ""}
             </Typography>
           </Grid>
         </Grid>
@@ -88,22 +94,25 @@ export const PacketProfile = ({ patient }) => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={12} lg={12}>
             <Typography gutterBottom variant="subtitle1">
-              Bệnh nhân:&nbsp;
+              Tên gói khám:&nbsp;
               {patient?.name ? patient.name : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
-              Email:&nbsp;
+              Cơ sở:&nbsp;
               {patient?.email ? patient.email : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
-              Số điện thoại:&nbsp;
+              Chuyên khoa:&nbsp;
               {patient?.phone ? patient.phone : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
-              Ngày sinh:&nbsp;
+              Giá khám:&nbsp;
             </Typography>
             <Typography gutterBottom variant="subtitle1">
-              Lý do khám:&nbsp;
+              Phương thức thanh toán:&nbsp;
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
+              Ghi chú:&nbsp;
             </Typography>
           </Grid>
         </Grid>
@@ -132,7 +141,10 @@ export const ScheduleProfile = ({ time, status, setStatus, handleSave }) => {
           </Grid>
           <Grid item xs={12} md={6} lg={6}>
             <Box sx={{ minWidth: 120 }}>
-              <FormControl fullWidth>
+              <FormControl
+                fullWidth
+                disabled={status === "Đã hủy" || status === "Hoàn thành"}
+              >
                 <InputLabel id="demo-simple-select-label">
                   Trạng trái
                 </InputLabel>
@@ -161,6 +173,7 @@ export const ScheduleProfile = ({ time, status, setStatus, handleSave }) => {
             justifyContent="flex-end"
           >
             <ButtonComponent
+              disabled={status === "Đã hủy" || status === "Hoàn thành"}
               content="Lưu"
               handleClick={handleSave}
               bgcolor="#94e2cd"

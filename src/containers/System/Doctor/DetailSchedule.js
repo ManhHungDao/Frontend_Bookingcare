@@ -18,6 +18,7 @@ import {
   PacketProfile,
   DoctorProfile,
 } from "./section/DetailProfile";
+import dayjs from "dayjs";
 
 const DetailSchedule = ({
   open,
@@ -28,6 +29,7 @@ const DetailSchedule = ({
   dataTime,
   sentMail,
   date,
+  updateStatusSchedule,
 }) => {
   const [status, setStatus] = useState();
   const [patient, setPatient] = useState("");
@@ -104,7 +106,16 @@ const DetailSchedule = ({
     let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
     return count === 0;
   };
-  const handleUploadStatus = () => {};
+  const handleUploadStatus = () => {
+    let dataSend = {
+      status: _.isArray(status) ? status[0] : status,
+      date: dayjs(date).unix(),
+      time: data.time,
+      doctorId: data.doctor.id,
+      packetId: null,
+    };
+    updateStatusSchedule(dataSend);
+  };
   const handleSendMail = () => {
     const errors = checkValidate();
     const checkValidInPut = isValid(errors);
@@ -113,8 +124,7 @@ const DetailSchedule = ({
       return;
     }
     const data = {
-      to: "hungpepi2001@gmail.com",
-      // to: patient?.email : patient.email : '',
+      to: patient?.email ? patient.email : "",
       subject: title[0],
       html: content,
     };
@@ -153,6 +163,7 @@ const DetailSchedule = ({
                     time={time}
                     dataTime={dataTime}
                     setStatus={setStatus}
+                    doctor={data?.doctor}
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -196,9 +207,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateSpecialty: (id, data) =>
-      dispatch(actions.updateSpecialtyAction(id, data)),
     sentMail: (data) => dispatch(actions.sentMailAction(data)),
+    updateStatusSchedule: (data) =>
+      dispatch(actions.updateStatusScheduleAction(data)),
     clearStatus: () => dispatch(actions.clearStatus()),
   };
 };

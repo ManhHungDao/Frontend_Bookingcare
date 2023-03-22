@@ -41,6 +41,7 @@ import {
   deleteSchedule,
   sentMailPatient,
   getScheduleUserByDate,
+  updateStatus,
 } from "../../services/scheduleService";
 
 import {
@@ -670,6 +671,28 @@ export const deleteScheduleAction = (id, date) => {
         type: actionTypes.DELETE_FAILED,
       });
       toast.error("Xóa thất bại lịch khám");
+    }
+  };
+};
+
+export const updateStatusScheduleAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await updateStatus(data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.UPDATE_SUCCESS,
+        });
+        dispatch(loadingToggleAction(false));
+        toast.success("Cập nhập trạng thái lịch khám thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.UPDATE_FAILED,
+      });
+      toast.error("Cập nhập trạng thái lịch khám thất bại");
     }
   };
 };

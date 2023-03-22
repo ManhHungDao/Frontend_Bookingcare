@@ -154,8 +154,12 @@ const TableManageUserSchedule = ({
     const clinicId = selectClinic.value ? selectClinic.value : "";
     fetchDataAPI(page + 1, +event.target.value, clinicId, search);
   };
-  const handleClickView = (data) => {
-    setViewPatient(data);
+  const handleClickView = (data, doctor) => {
+    const sendData = {
+      ...data,
+      doctor,
+    };
+    setViewPatient(sendData);
     setOpen(true);
   };
   const handleOnChangeSearch = (e) => {
@@ -184,7 +188,14 @@ const TableManageUserSchedule = ({
     const { detail, image, email } = id;
     const { specialty, clinic } = detail;
     const [openRow, setOpenRow] = useState(false);
-
+    const dataDoctor = {
+      id: doctor.id._id,
+      name,
+      email,
+      specialty,
+      clinic,
+      detail: props.detail,
+    };
     return (
       <>
         <TableRow>
@@ -276,7 +287,9 @@ const TableManageUserSchedule = ({
                           </TableCell>
                           <TableCell>
                             <Tooltip title="Xem">
-                              <IconButton onClick={() => handleClickView(e)}>
+                              <IconButton
+                                onClick={() => handleClickView(e, dataDoctor)}
+                              >
                                 <RemoveRedEyeRoundedIcon />
                               </IconButton>
                             </Tooltip>

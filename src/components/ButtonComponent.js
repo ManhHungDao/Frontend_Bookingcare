@@ -9,9 +9,11 @@ const ButtonComponent = ({
   hoverBgColor,
   hoverColor,
   variant,
+  disabled,
 }) => {
   return (
     <Button
+      disabled={disabled}
       variant={variant ? variant : "contained"}
       sx={{
         backgroundColor: bgcolor,

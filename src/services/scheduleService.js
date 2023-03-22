@@ -4,6 +4,10 @@ const upsertSchedule = (data) => {
   return axios.post(`/api/upsert-schedule`, data);
 };
 
+const updateStatus = (data) => {
+  return axios.put(`/api/update-status-schedule`, data);
+};
+
 const sentMailPatient = (data) => {
   return axios.post(`/api/sent-mail-patient`, data);
 };
@@ -22,4 +26,4 @@ const deleteSchedule = (id, date) => {
   return axios.delete(`/api/delete-schedule?id=${id}&date=${date}`);
 };
 
-export { upsertSchedule, getSingleSchedule, deleteSchedule, sentMailPatient ,getScheduleUserByDate};
+export { upsertSchedule, getSingleSchedule, deleteSchedule, sentMailPatient ,getScheduleUserByDate,updateStatus};
