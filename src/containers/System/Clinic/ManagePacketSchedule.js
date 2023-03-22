@@ -302,8 +302,14 @@ const ManagePacketSchedule = ({
         name: null,
       },
       detail: {
-        price: price,
-        payment: payment,
+        price: {
+          id: price.value ? price.value : null,
+          name: price.label ? price.label : null,
+        },
+        payment: {
+          id: payment.value ? payment.value : null,
+          name: payment.label ? payment.label : null,
+        },
         note: note,
       },
       schedule: [...listTime],

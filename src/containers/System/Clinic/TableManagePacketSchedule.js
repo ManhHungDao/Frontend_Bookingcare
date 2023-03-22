@@ -69,15 +69,13 @@ const TableManagePacketSchedule = ({
   }));
 
   useEffect(() => {
-    fetchDataAPI(1, rowsPerPage);
     getListClinicHomePatient();
     fetchAllcode();
   }, []);
 
   useEffect(() => {
-    if (allcodes && allcodes.length > 0)
-      setDataTime(allcodes.filter((e) => e.type === "TIME"));
-  }, [allcodes]);
+    fetchDataAPI(1, rowsPerPage);
+  }, [date]);
 
   useEffect(() => {
     if (isSuccess !== null) {
@@ -88,6 +86,12 @@ const TableManagePacketSchedule = ({
       clearStatus();
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (allcodes && allcodes.length > 0)
+      setDataTime(allcodes.filter((e) => e.type === "TIME"));
+  }, [allcodes]);
+
   useEffect(() => {
     if (schedulePacket.list && schedulePacket.list.length > 0) {
       setData(schedulePacket.list);
@@ -139,8 +143,8 @@ const TableManagePacketSchedule = ({
     const clinicId = selectClinic.value ? selectClinic.value : "";
     fetchDataAPI(page + 1, +event.target.value, clinicId);
   };
-  const handleClickView = (data) => {
-    setViewPatient(data);
+  const handleClickView = (data, packet) => {
+    setViewPatient({ ...data, packet });
     setOpen(true);
   };
 
@@ -160,12 +164,29 @@ const TableManagePacketSchedule = ({
     { name: "Đã hủy", color: "#ff9100" },
   ];
   const TableColumn = (props) => {
-    const { doctor, schedule } = props;
-    const { id, name } = doctor;
-    const { detail, image, email } = id;
-    const { specialty, clinic } = detail;
+    const { schedule, packet, detail } = props;
+    let id,
+      name = "";
+    if (packet) {
+      name = packet.name;
+      id = packet.id;
+    }
+    let clinic,
+      specialty,
+      image = "";
+    if (id) {
+      clinic = id.clinic;
+      specialty = id.specialty;
+      image = id.image;
+    }
     const [openRow, setOpenRow] = useState(false);
-
+    const dataPacket = {
+      id: packet?.id?._id,
+      name,
+      specialty,
+      clinic,
+      detail: props?.detail,
+    };
     return (
       <>
         <TableRow>
@@ -256,7 +277,9 @@ const TableManagePacketSchedule = ({
                           </TableCell>
                           <TableCell>
                             <Tooltip title="Xem">
-                              <IconButton onClick={() => handleClickView(e)}>
+                              <IconButton
+                                onClick={() => handleClickView(e, dataPacket)}
+                              >
                                 <RemoveRedEyeRoundedIcon />
                               </IconButton>
                             </Tooltip>

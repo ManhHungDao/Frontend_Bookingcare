@@ -26,6 +26,7 @@ import DetailSchedule from "./DetailSchedule";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useDispatch } from "react-redux";
 
 const TodaySchedule = ({
   userInfo,
@@ -33,8 +34,9 @@ const TodaySchedule = ({
   toDaySchedule,
   getSingleUserSchedule,
   fetchAllcode,
-  allcodes,
+  allcodes,clearStatus
 }) => {
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [dataEdit, setDataEdit] = useState({});
   const [open, setOpen] = useState(false);
@@ -45,26 +47,40 @@ const TodaySchedule = ({
 
   useEffect(() => {
     fetchAllcode();
+    dispatch({ type: "GET_SCHEDULE_FAILED" });
   }, []);
-
   useEffect(() => {
-    setData("");
+    if (isSuccess !== null) {
+      if (isSuccess === true) {
+        getSingleUserSchedule(userInfo._id, dayjs(date).unix());
+        setOpen(false);
+      }
+      clearStatus();
+    }
+  }, [isSuccess]);
+  useEffect(() => {
     getSingleUserSchedule(userInfo._id, dayjs(date).unix());
   }, [date]);
 
   useEffect(() => {
-    if (!_.isEmpty(toDaySchedule) && toDaySchedule.schedule.length > 0)
+    if (!_.isEmpty(toDaySchedule) && toDaySchedule.schedule.length > 0) {
       setData(toDaySchedule.schedule);
+    } else {
+      setData([]);
+    }
     if (allcodes && allcodes.length > 0)
       setDataTime(allcodes.filter((e) => e.type === "TIME"));
   }, [toDaySchedule, allcodes]);
-
-  const hadnleClickView = (data) => {
-    console.log(
-      "🚀 ~ file: TodaySchedule.js:63 ~ hadnleClickView ~ data:",
-      data
-    );
-    setDataEdit(data);
+  const handleClickView = (data) => {
+    const doctor = {
+      id: userInfo._id,
+      email: userInfo.email,
+      name: userInfo.name,
+      clinic: toDaySchedule?.doctor?.id?.detail?.clinic,
+      specialty: toDaySchedule?.doctor?.id?.detail?.specialty,
+      detail: toDaySchedule?.detail,
+    };
+    setDataEdit({ ...data, doctor });
     setOpen(true);
   };
 
@@ -129,7 +145,7 @@ const TodaySchedule = ({
           </TableCell>
           <TableCell>
             <Tooltip title="Xem">
-              <IconButton onClick={() => hadnleClickView(props)}>
+              <IconButton onClick={() => handleClickView(props)}>
                 <RemoveRedEyeRoundedIcon />
               </IconButton>
             </Tooltip>

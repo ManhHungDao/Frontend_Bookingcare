@@ -31,6 +31,7 @@ const DetailSchedule = ({
   date,
   updateStatusSchedule,
 }) => {
+  console.log("🚀 ~ file: DetailSchedule.js:34 ~ data:", data);
   const [status, setStatus] = useState();
   const [patient, setPatient] = useState("");
   const [time, setTime] = useState("");
@@ -111,8 +112,8 @@ const DetailSchedule = ({
       status: _.isArray(status) ? status[0] : status,
       date: dayjs(date).unix(),
       time: data.time,
-      doctorId: data.doctor.id,
-      packetId: null,
+      doctorId: data?.doctor?.id ? data.doctor.id : null,
+      packetId: data?.packet?.id ? data.packet.id : null,
     };
     updateStatusSchedule(dataSend);
   };
@@ -156,16 +157,27 @@ const DetailSchedule = ({
                     setStatus={setStatus}
                   />
                 </Grid>
-                <Grid item xs={12} md={4}>
-                  <DoctorProfile
-                    patient={patient}
-                    status={status}
-                    time={time}
-                    dataTime={dataTime}
-                    setStatus={setStatus}
-                    doctor={data?.doctor}
-                  />
-                </Grid>
+                {data?.packet ? (
+                  <Grid item xs={12} md={4}>
+                    <PacketProfile
+                      packet={data?.packet}
+                      status={status}
+                      time={time}
+                      dataTime={dataTime}
+                      setStatus={setStatus}
+                    />
+                  </Grid>
+                ) : (
+                  <Grid item xs={12} md={4}>
+                    <DoctorProfile
+                      status={status}
+                      time={time}
+                      dataTime={dataTime}
+                      setStatus={setStatus}
+                      doctor={data?.doctor}
+                    />
+                  </Grid>
+                )}
                 <Grid item xs={12} md={4}>
                   <Grid container>
                     <Grid xs={12} md={12} lg={12} p={0}>

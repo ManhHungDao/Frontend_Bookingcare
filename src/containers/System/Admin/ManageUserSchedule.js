@@ -297,6 +297,23 @@ const ManageUserSchedule = ({
       .filter((e) => e.active === true)
       .map((e) => ({ time: e.id }));
     let { id, detail } = userEdit;
+    let priceUpdate,
+      paymentUpdate = "";
+
+    if (price && payment) {
+      priceUpdate = {
+        id: price.value ? price.value : null,
+        name: price.label ? price.label : null,
+      };
+      paymentUpdate = {
+        id: payment.value ? payment.value : null,
+        name: payment.label ? payment.label : null,
+      };
+    } else {
+      priceUpdate = detail.price;
+      paymentUpdate = detail.payment;
+    }
+
     const data = {
       doctor: {
         id: userEdit.id,
@@ -307,8 +324,9 @@ const ManageUserSchedule = ({
         name: null,
       },
       detail: {
-        price: detail.price,
-        payment: detail.payment,
+        price: priceUpdate,
+        payment: paymentUpdate,
+
         note: note,
       },
       schedule: [...listTime],

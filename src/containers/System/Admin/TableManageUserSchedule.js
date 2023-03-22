@@ -187,17 +187,34 @@ const TableManageUserSchedule = ({
   ];
   const TableColumn = (props) => {
     const { doctor, schedule } = props;
-    const { id, name } = doctor;
-    const { detail, image, email } = id;
-    const { specialty, clinic } = detail;
+    let id,
+      name = "";
+    if (doctor) {
+      id = doctor.id;
+      name = doctor.name;
+    }
+    let detail,
+      image,
+      email = "";
+    if (id) {
+      detail = id.detail;
+      image = id.image;
+      email = id.email;
+    }
+    let specialty,
+      clinic = "";
+    if (detail) {
+      specialty = detail.specialty;
+      clinic = detail.clinic;
+    }
     const [openRow, setOpenRow] = useState(false);
     const dataDoctor = {
-      id: doctor.id._id,
+      id: doctor?.id?._id,
       name,
       email,
       specialty,
       clinic,
-      detail: props.detail,
+      detail: props?.detail,
     };
     return (
       <>

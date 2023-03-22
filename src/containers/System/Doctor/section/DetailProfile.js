@@ -86,7 +86,8 @@ export const DoctorProfile = ({ doctor }) => {
   );
 };
 
-export const PacketProfile = ({ patient }) => {
+export const PacketProfile = ({ packet }) => {
+  const { detail, clinic, specialty } = packet;
   return (
     <Card>
       <CardHeader title="Thông tin gói khám" />
@@ -95,24 +96,27 @@ export const PacketProfile = ({ patient }) => {
           <Grid item xs={12} md={12} lg={12}>
             <Typography gutterBottom variant="subtitle1">
               Tên gói khám:&nbsp;
-              {patient?.name ? patient.name : ""}
+              {packet?.name ? packet.name : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
               Cơ sở:&nbsp;
-              {patient?.email ? patient.email : ""}
+              {clinic?.name ? clinic.name : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
               Chuyên khoa:&nbsp;
-              {patient?.phone ? patient.phone : ""}
+              {specialty?.name ? specialty.name : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
               Giá khám:&nbsp;
+              {detail?.price?.name ? detail.price.name : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
               Phương thức thanh toán:&nbsp;
+              {detail?.payment?.name ? detail.payment.name : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
               Ghi chú:&nbsp;
+              {detail?.note ? detail.note : ""}
             </Typography>
           </Grid>
         </Grid>
