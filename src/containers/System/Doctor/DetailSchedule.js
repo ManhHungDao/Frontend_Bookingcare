@@ -31,7 +31,6 @@ const DetailSchedule = ({
   date,
   updateStatusSchedule,
 }) => {
-  console.log("🚀 ~ file: DetailSchedule.js:34 ~ data:", data);
   const [status, setStatus] = useState();
   const [patient, setPatient] = useState("");
   const [time, setTime] = useState("");

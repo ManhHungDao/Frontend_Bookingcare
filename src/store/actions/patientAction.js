@@ -12,15 +12,11 @@ import {
   getPopularHomePatient,
   getSingleSpecialty,
 } from "../../services/specialtySerivce";
+import { getAllUserHomePatient } from "../../services/userService";
 import { loadingToggleAction } from "./adminActions";
 
-// export const loadingToggleAction = (status) => {
-//   return {
-//     type: actionTypes.LOADING_TOGGLE_ACTION,
-//     data: status,
-//   };
-// };
 
+// CLINIC
 export const getSingleClinicPatientAction = (id) => {
   return async (dispatch, getState) => {
     try {
@@ -69,6 +65,8 @@ export const getListClinicHomePatientAction = () => {
   };
 };
 
+// SPECIALTY
+
 export const getListSpecialtyHomePatientAction = () => {
   return async (dispatch, getState) => {
     try {
@@ -106,6 +104,29 @@ export const getSingleSpecialtyPatientAction = (id) => {
       dispatch(loadingToggleAction(false));
       dispatch({
         type: actionTypes.PATIENT_SINGLE_SPECIALTY_FAILED,
+      });
+    }
+  };
+};
+
+// USER
+
+export const getListUserHomePatientAction = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getAllUserHomePatient();
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.PATIENT_GET_LIST_USER_SUCCEED,
+          data: res.users,
+        });
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.PATIENT_GET_LIST_USER_FAILED,
       });
     }
   };

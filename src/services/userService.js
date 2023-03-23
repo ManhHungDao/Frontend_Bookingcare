@@ -38,6 +38,10 @@ const getAllCountDashboard = () => {
   return axios.get(`/api/get-all-count`);
 };
 
+const getAllUserHomePatient = () => {
+  return axios.get(`/api/get-all-user-home`);
+};
+
 export {
   changePasswordApiService,
   updateUserService,
@@ -47,5 +51,6 @@ export {
   createNewUserService,
   deleteUserService,
   resetPasswordApiService,
-  getAllCountDashboard
+  getAllCountDashboard,
+  getAllUserHomePatient,
 };

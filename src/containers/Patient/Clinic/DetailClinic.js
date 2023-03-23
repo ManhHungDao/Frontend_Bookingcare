@@ -31,6 +31,7 @@ const DetailClinic = ({ clinic, getSingleClinic, language }) => {
   const smScreen = useIsMobile();
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     if (id) {
       getSingleClinic(id);
       pageViewCount(id);

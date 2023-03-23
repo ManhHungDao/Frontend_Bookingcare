@@ -27,6 +27,7 @@ const PatientRoute = () => {
       <Route path={path.VERIFY_BOOKING} element={VerifyEmail} /> */}
         <Route path={path.SPECIALTY} element={<DetailSpecialty />} />
         <Route path={path.CLINIC} element={<DetailClinic />} />
+        <Route path={path.DETAILDOCTOR} element={<DetailDoctor />} />
         {/* <Route
           path={path.TABLE_CLINIC_SPECIALTY}
           element={TableSpecialtyClinic}

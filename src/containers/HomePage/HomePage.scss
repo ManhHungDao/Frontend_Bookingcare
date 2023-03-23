@@ -99,8 +99,27 @@
 }
 
 .home-header-container__slider {
+  width: 100%;
+  height: 700px;
+  // overflow: hidden;
   .slick-prev,
   .slick-next {
     display: none !important;
+  }
+  img {
+    width: 100%;
+    height: 700px;
+    object-fit: cover;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .home-header-container__slider {
+    height: 300px !important;
+    img {
+      width: 100% !important;
+      height: 300px !important;
+      object-fit: cover;
+    }
   }
 }

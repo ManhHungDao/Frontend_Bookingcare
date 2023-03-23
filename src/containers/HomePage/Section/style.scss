@@ -9,9 +9,10 @@
 
   .company-info {
     .lg {
-      background: url("../../../assets/logo.svg") center no-repeat;
+      background: url("../../../assets/logo.png") center no-repeat;
       width: 200px;
       height: 80px;
+      background-size: contain;
     }
     .address {
       i {
@@ -23,6 +24,9 @@
 
   .company-headquarters {
     margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     span {
       display: block;
       margin-bottom: 20px;
@@ -68,10 +72,11 @@
     rgb(209, 213, 219) 0px 0px 0px 1px inset;
 
   .header-logo {
-    background: url("../../../assets/logo.svg") center no-repeat;
-    width: 160px;
+    background: url("../../../assets/logo.png") center no-repeat;
+    width: 140px;
     height: 40px;
-    margin-left: 10px;
+    background-size: contain;
+    margin-bottom: 10px;
   }
 
   .subs-title {
@@ -128,15 +133,15 @@
 }
 
 .home-header-banner {
-  background: url("../../../assets/header-background.jpg");
-  background-position: center -75px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  object-fit: cover;
-  display: flex;
-  flex-direction: column;
-  min-height: 70vh;
-  position: relative;
+  // background: url("../../../assets/header-background.jpg");
+  // background-position: center -75px;
+  // background-repeat: no-repeat;
+  // background-size: cover;
+  // object-fit: cover;
+  // display: flex;
+  // flex-direction: column;
+  // min-height: 70vh;
+  // position: relative;
 
   .content-up {
     background-image: linear-gradient(
@@ -328,7 +333,24 @@
     }
   }
 }
-
+.section-doctor {
+  .container__body {
+    .container__body--item {
+      border: 1px solid #ddd;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      img {
+        background-size: contain;
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
+}
 @media screen and (max-width: 768px) {
   .section-data {
     .container__body--item {
@@ -336,6 +358,16 @@
       img {
         width: 176px !important;
         height: 100px !important;
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .section-doctor {
+    .container__body--item {
+      img {
+        width: 80px !important;
+        height: 80px !important;
       }
     }
   }

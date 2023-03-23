@@ -41,7 +41,7 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
                 cursor: "pointer",
               }}
             >
-              <i className="fas fa-bars"></i>
+              <i className="fas fa-bars" style={{fontSize:20}}></i>
               <div className="header-logo" onClick={returnHome}></div>
             </Grid>
             {!smScreen && (

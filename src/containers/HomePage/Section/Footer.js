@@ -33,10 +33,6 @@ const HomeFooter = () => {
               <p className="name">Văn phòng tại TP Hồ Chí Minh</p>
               Số 01, Hồ Bá Kiện, Phường 15, Quận 10
             </span>
-            <span>
-              <p className="name">Hỗ trợ khách hàng</p>
-              Hỗ trợ khách hàng
-            </span>
           </div>
         )}
       </Container>
