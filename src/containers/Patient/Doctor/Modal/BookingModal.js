@@ -1,385 +1,381 @@
-// import React, { Component } from "react";
-// import { connect } from "react-redux";
-// import * as actions from "../../../../store/actions";
-// import { languages } from "../../../../utils";
-// import "./BookingModal.scss";
-// import { FormattedMessage } from "react-intl";
-// import { Button, Modal, ModalHeader, ModalFooter } from "reactstrap";
-// import _ from "lodash";
-// import ProfileDoctor from "../ProfileDoctor";
-// import NumberFormat from "react-number-format";
-// import DatePicker from "../../../../components/Input/DatePicker";
-// import moment from "moment";
-// import validator from "validator";
-// import ReCAPTCHA from "react-google-recaptcha";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import validator from "validator";
+import {
+  Box,
+  Container,
+  Stack,
+  Unstable_Grid2 as Grid,
+  Modal,
+  CardContent,
+  Typography,
+  Divider,
+  CardMedia,
+  TextField,
+  Radio,
+} from "@mui/material";
+import "dayjs/locale/vi";
+import dayjs from "dayjs";
+import ButtonComponent from "../../../../components/ButtonComponent";
+import _ from "lodash";
+import InputSelect from "../../../../components/Input/InputSelect";
+import AutocompleteAddress from "../../../../components/Input/AutocompleteAddress";
+import useIsMobile from "../../../../components/useScreen/useIsMobile";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import localization from "moment/locale/vi";
+import moment from "moment";
+const CONST_GENDER = [
+  { id: "M", name: "Nam" },
+  { id: "F", name: "Nữ" },
+];
+const BookingModal = ({
+  open,
+  setOpen,
+  image,
+  nameDcctor,
+  timeBooking,
+  codeTime,
+  dateBooking,
+  priceBooking,
+}) => {
+  const mobiScreen = useIsMobile();
+  const [date, setDate] = useState(dayjs(new Date()));
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState({
+    detail: "",
+    province: "",
+  });
+  const [gender, setGender] = useState("");
+  const [reason, setReason] = useState("");
+  const [errors, setErrors] = useState({});
+  const style = {
+    position: "absolute",
+    width: mobiScreen ? "90%" : "70%",
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+    height: "80vh",
+    maxHeight: "80vh",
+    overflowY: "scroll",
+    top: 0,
+    bottom: 0,
+    margin: "auto",
+    left: 0,
+    right: 0,
+  };
+  const checkValidate = () => {
+    let errors = {};
+    if (!email) errors.email = "Email không được bỏ trống";
+    if (!validator.isEmail(email)) {
+      errors.email = "Email không hợp lệ";
+    }
+    if (!name) errors.name = "Tên không được bỏ trống";
+    if (!gender) errors.gender = "Chưa chọn giới tính";
+    if (!address.detail) errors.address = "Địa chỉ không được bỏ trống";
+    if (!phone) errors.phone = "Số điện thoại không được bỏ trống";
+    if (!validator.isMobilePhone(phone))
+      errors.phone = "Số điện thoại không hợp lệ";
+    if (!reason) errors.reason = "Mô tả không được bỏ trống";
+    return errors;
+  };
+  const isValid = (errors) => {
+    let keys = Object.keys(errors);
+    let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
+    return count === 0;
+  };
+  const handleSave = () => {
+    const errors = checkValidate();
+    const checkValidInPut = isValid(errors);
+    if (!checkValidInPut) {
+      setErrors(errors);
+      return;
+    }
+    const data = {
+      name,
+      email,
+      gender: gender.value,
+      phone,
+      reason,
+      address: address.detail,
+      date: dayjs(date).format("YYYY-MM-DD"),
+    };
+    console.log("🚀 ~ file: BookingModal.js:98 ~ handleSave ~ data:", data);
+  };
+  const handleClose = () => {
+    setErrors("");
+    setEmail("");
+    setPhone("");
+    setName("");
+    setAddress({
+      detail: "",
+      province: "",
+    });
+    setGender("");
+    setReason("");
+    setDate(dayjs(new Date()));
+    setOpen(false);
+  };
+  return (
+    <>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Box>
+            <Stack
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CardMedia
+                component="img"
+                sx={{
+                  borderRadius: "50%",
+                  width: 100,
+                  height: 100,
+                  display: { xs: "none", sm: "block" },
+                }}
+                image={image}
+                alt={"dasdsa"}
+              />
+              <CardContent>
+                <Typography variant="subtitle1" color="primary">
+                  ĐẶT LỊCH KHÁM
+                </Typography>
+                <Typography component="h2" variant="h5">
+                  {nameDcctor}
+                </Typography>
+                <Typography variant="subtitle1" color="text.secondary">
+                  {codeTime &&
+                    codeTime.length > 0 &&
+                    codeTime.map((i) => {
+                      if (i.id === timeBooking) return i.name;
+                    })}
+                  &nbsp; - &nbsp;
+                  {moment.unix(dateBooking).format("dddd - DD/MM/YYYY")}
+                </Typography>
+              </CardContent>
+            </Stack>
+            <Divider />
+          </Box>
+          <Box
+            pt={2}
+            component="main"
+            sx={{
+              flexGrow: 1,
+            }}
+          >
+            <Container maxWidth="lg">
+              <Grid container spacing={3}>
+                <Grid xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="Email"
+                    name="email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    value={email}
+                    error={errors?.email ? true : false}
+                    helperText={errors.email}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    label="Tên"
+                    name="name"
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    value={name}
+                    error={errors?.name ? true : false}
+                    helperText={errors.name}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    required
+                    id="outlined-required"
+                    label="Số điện thoại"
+                    fullWidth
+                    onChange={(e) => setPhone(e.target.value)}
+                    error={errors.phone ? true : false}
+                    helperText={errors.phone}
+                    value={phone}
+                    onKeyPress={(event) => {
+                      if (!/[0-9]/.test(event.key)) {
+                        event.preventDefault();
+                      }
+                    }}
+                  />
+                </Grid>
+                <Grid xs={6} md={3}>
+                  <InputSelect
+                    label="Giới tính"
+                    value={gender}
+                    onChange={setGender}
+                    data={CONST_GENDER}
+                    isError={errors?.gender ? true : false}
+                    errorText={errors?.gender ? errors.gender : ""}
+                    name="Giới tính"
+                  />
+                </Grid>
+                <Grid xs={6} md={3}>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    adapterLocale="vi"
+                  >
+                    <DatePicker
+                      disableFuture
+                      label="Ngày sinh"
+                      openTo="year"
+                      views={["year", "month", "day"]}
+                      value={date}
+                      onChange={(newValue) => {
+                        setDate(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid xs={12} md={12}>
+                  <AutocompleteAddress
+                    isErr={errors?.address ? true : false}
+                    errName={errors?.address ? errors?.address : ""}
+                    setAddress={setAddress}
+                    address={address}
+                  />
+                </Grid>
+                <Grid xs={12} md={12}>
+                  <TextField
+                    id="outlined-multiline-flexible"
+                    label="Lý do khám - biểu hiện"
+                    multiline
+                    maxRows={20}
+                    fullWidth
+                    onChange={(e) => setReason(e.target.value)}
+                    error={errors?.reason ? true : false}
+                    helperText={errors?.reason}
+                    value={reason}
+                  />
+                </Grid>
+                <Grid xs={12} md={12}>
+                  <Typography variant="subtitle1" color="primary">
+                    Hình thức thanh toán
+                  </Typography>
+                  <Radio checked={true} />
+                  Thanh toán sau tại cơ sở y tế
+                </Grid>
+                <Grid xs={12} md={12} pt={0}>
+                  <Box
+                    sx={{
+                      backgroundColor: "#f8f8f8",
+                      border: "1px solid #ddd",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    <Stack
+                      display="flex"
+                      justifyContent={"space-between"}
+                      alignItems="center"
+                      direction={"row"}
+                    >
+                      <Typography variant="subtitle2" p={1}>
+                        Giá khám
+                      </Typography>
+                      <Typography variant="subtitle2" p={1}>
+                        {priceBooking}
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      display="flex"
+                      justifyContent={"space-between"}
+                      alignItems="center"
+                      direction={"row"}
+                    >
+                      <Typography variant="subtitle2" p={1}>
+                        Phí đặt lịch
+                      </Typography>
+                      <Typography variant="subtitle2" p={1}>
+                        Miễn phí
+                      </Typography>
+                    </Stack>
+                    <Divider />
+                    <Stack
+                      display="flex"
+                      justifyContent={"space-between"}
+                      alignItems="center"
+                      direction={"row"}
+                    >
+                      <Typography variant="subtitle2" p={1}>
+                        Tổng cộng
+                      </Typography>
+                      <Typography variant="subtitle2" color={"error"} p={1}>
+                        {priceBooking}
+                      </Typography>
+                    </Stack>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <Box
+                    p={1}
+                    sx={{ backgroundColor: "#D4EFFC", borderRadius: "4px" }}
+                  >
+                    <Typography variant="caption">
+                      <b>LƯU Ý</b>
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      Thông tin anh/chị cung cấp sẽ được sử dụng làm hồ sơ khám
+                      bệnh, khi điền thông tin anh/chị vui lòng:
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      <FiberManualRecordIcon sx={{ fontSize: "8px" }} />
+                      &nbsp; Ghi rõ họ và tên, viết hoa những chữ cái đầu tiên,
+                      ví dụ:
+                      <b>&nbsp;Trần Văn Phú</b>
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      <FiberManualRecordIcon sx={{ fontSize: "8px" }} />
+                      &nbsp; Điền đầy đủ, đúng và vui lòng kiểm tra lại thông
+                      tin trước khi ấn "Xác nhận"
+                    </Typography>
+                  </Box>
+                </Grid>
+              </Grid>
+              <Grid display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
+                <ButtonComponent
+                  content="Xác nhận"
+                  handleClick={handleSave}
+                  bgcolor="#2196f3"
+                  color="#37474f"
+                  hoverBgColor="#4dabf5"
+                  hoverColor="#fff"
+                />
+              </Grid>
+            </Container>
+          </Box>
+        </Box>
+      </Modal>
+    </>
+  );
+};
 
-// class BookingModal extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       email: "",
-//       fullName: "",
-//       phoneNumber: "",
-//       address: "",
-//       reason: "",
-//       birthday: "",
-//       gender: "M",
-//       doctorId: "",
-//       genders: "",
-//       timeType: "",
-//       doctorName: "",
-//       errors: {},
-//       verfied: false,
-//     };
-//   }
+const mapStateToProps = (state) => {
+  return {};
+};
 
-//   componentDidMount() {
-//     this.props.fetchGenderStart();
-//   }
-//   componentDidUpdate(prevProps, prevState, snapshot) {
-//     if (this.props.language !== prevProps.language) {
-//     }
-//     if (this.props.genders !== prevProps.genders) {
-//       this.setState({
-//         genders: this.props.genders,
-//       });
-//     }
-//     if (this.props.dataScheduleTimeModal !== prevProps.dataScheduleTimeModal) {
-//       const dataTime = this.props.dataScheduleTimeModal;
-//       if (dataTime && !_.isEmpty(dataTime)) {
-//         this.setState({
-//           doctorId: dataTime.doctorId,
-//           timeType: dataTime.timeType,
-//         });
-//       }
-//     }
-//   }
-//   checkValidate = () => {
-//     let errors = {};
-//     let { email, fullName, phoneNumber, address, birthday, reason } =
-//       this.state;
-//     const { language } = this.props;
-//     if (language === "en") {
-//       if (!email) errors.email = "Email must be entered";
-//       if (!validator.isEmail(email)) {
-//         errors.email = "Invalid email address";
-//       }
-//       if (!fullName) errors.fullName = "Name must be entered";
-//       if (!phoneNumber) errors.phoneNumber = "Phone number must be entered";
-//       if (!validator.isMobilePhone(phoneNumber))
-//         errors.phoneNumber = "Invalid phone number";
-//       if (!address) errors.address = "Address must be entered";
-//       if (!birthday) errors.birthday = "Birthday must be entered";
-//       if (!reason) errors.reason = "Reason must be entered";
-//     } else {
-//       if (!email) errors.email = "Email không được trống";
-//       if (!validator.isEmail(email)) {
-//         errors.email = "Email không hợp lệ";
-//       }
-//       if (!fullName) errors.fullName = "Tên không được trống";
-//       if (!phoneNumber) errors.phoneNumber = "Số điện thoại không được trống";
-//       if (!validator.isMobilePhone(phoneNumber))
-//         errors.phoneNumber = "Số điện thoại không hợp lệ";
-//       if (!address) errors.address = "Địa chỉ không được trống";
-//       if (!birthday) errors.birthday = "Ngày sinh không được trống";
-//       if (!reason) errors.reason = "Lý do khám không được trống";
-//     }
-//     return errors;
-//   };
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
 
-//   toggle = () => {
-//     this.props.closeModalBooking();
-//   };
-//   handleOnChangeInput = (event, id) => {
-//     let copyState = { ...this.state };
-//     copyState[id] = event.target.value;
-//     this.setState({
-//       ...copyState,
-//     });
-//   };
-//   handleOnchangDatePicker = (date) => {
-//     this.setState({
-//       birthday: date[0],
-//     });
-//   };
-
-//   handleOnClickGender = (event) => {
-//     this.setState({
-//       gender: event.target.value,
-//     });
-//   };
-//   renderPrice = () => {
-//     const { language, doctor_info } = this.props;
-//     const currentLang = language === languages.VI ? "valueVI" : "valueEN";
-//     const price =
-//       doctor_info && doctor_info.priceTypeData
-//         ? doctor_info.priceTypeData[currentLang]
-//         : "";
-//     return (
-//       <>
-//         <NumberFormat
-//           className="foo"
-//           displayType={"text"}
-//           thousandSeparator={true}
-//           value={price}
-//           suffix={language === languages.VI ? "VNĐ" : "$"}
-//         />
-//       </>
-//     );
-//   };
-//   capitalizeFirstLetter(string) {
-//     return string.charAt(0).toUpperCase() + string.slice(1);
-//   }
-//   buildTimeBooking = (dataTime) => {
-//     const { language } = this.props;
-//     const date =
-//       language === languages.VI
-//         ? moment.unix(+dataTime.date / 1000).format("dddd - DD/MM/YYYY")
-//         : moment
-//             .unix(+dataTime.date / 1000)
-//             .locale("en")
-//             .format("ddd - MM/DD/YYYY");
-//     const time =
-//       language === languages.VI
-//         ? dataTime.timeTypeData.valueVI
-//         : dataTime.timeTypeData.valueEN;
-//     if (dataTime && !_.isEmpty(dataTime)) {
-//       return `${time} - ${this.capitalizeFirstLetter(date)}`;
-//     }
-//     return "";
-//   };
-//   buildNameDoctor = (dataTime) => {
-//     const { language } = this.props;
-//     if (dataTime && !_.isEmpty(dataTime)) {
-//       const nameVI = `${dataTime.doctorData.firstName}${dataTime.doctorData.lastName} `;
-//       const nameEN = `${dataTime.doctorData.lastName}${dataTime.doctorData.firstName}`;
-//       const name = language === languages.VI ? nameVI : nameEN;
-//       return name;
-//     }
-//     return "";
-//   };
-//   isValid = (errors) => {
-//     let keys = Object.keys(errors);
-//     let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
-//     return count === 0;
-//   };
-
-//   handleSaveUser = () => {
-//     const errors = this.checkValidate();
-//     const checkValidInPut = this.isValid(errors);
-//     if (!checkValidInPut) {
-//       this.setState({ errors });
-//       return;
-//     }
-//     let date = this.props.dataScheduleTimeModal.date;
-//     const timeString = this.buildTimeBooking(this.props.dataScheduleTimeModal);
-//     const doctorName = this.buildNameDoctor(this.props.dataScheduleTimeModal);
-//     let data = {
-//       email: this.state.email,
-//       fullName: this.state.fullName,
-//       phoneNumber: this.state.phoneNumber,
-//       address: this.state.address,
-//       reason: this.state.reason,
-//       date: date,
-//       gender: this.state.gender,
-//       doctorId: this.state.doctorId,
-//       timeType: this.state.timeType,
-//       language: this.props.language,
-//       timeString: timeString,
-//       doctorName: doctorName,
-//     };
-//     this.props.createBookingAppointment(data);
-//     this.setState({
-//       email: "",
-//       fullName: "",
-//       phoneNumber: "",
-//       address: "",
-//       reason: "",
-//       birthday: "",
-//       gender: "M",
-//     });
-//   };
-//   onChange = (value) => {
-//     this.setState({
-//       verfied: true,
-//     });
-//   };
-//   render() {
-//     const { language, isOpenModelBooking, dataScheduleTimeModal, isShowPrice } =
-//       this.props;
-//     const { genders, doctorId, errors } = this.state;
-//     return (
-//       <>
-//         <Modal size="lg" isOpen={isOpenModelBooking} centered>
-//           <ModalHeader toggle={() => this.toggle()}>
-//             <FormattedMessage id="patient.booking-modal.title" />
-//           </ModalHeader>
-//           <div className="doctor-info">
-//             <ProfileDoctor
-//               doctorId={doctorId}
-//               isShowDescription={false}
-//               dataTime={dataScheduleTimeModal}
-//             />
-//           </div>
-//           {isShowPrice && isShowPrice === true && (
-//             <div className="price">
-//               <i className="fas fa-dot-circle"></i>
-//               <FormattedMessage id="patient.booking-modal.price" />
-//               <span>{this.renderPrice()}</span>
-//             </div>
-//           )}
-//           <div className="price-examination"></div>
-//           <div className="row">
-//             <div className="col-6 form-group">
-//               <label>
-//                 <FormattedMessage id="patient.booking-modal.name" />
-//               </label>
-//               <input
-//                 className="form-control"
-//                 onChange={(event) =>
-//                   this.handleOnChangeInput(event, "fullName")
-//                 }
-//                 value={this.state.fullName}
-//               />
-//               {errors.fullName && (
-//                 <span className="text-danger">{errors.fullName}</span>
-//               )}
-//             </div>
-//             <div className="col-6 form-group">
-//               <label>
-//                 <FormattedMessage id="patient.booking-modal.gender" />
-//               </label>
-//               <div className="d-flex align-items-center mt-2">
-//                 {genders &&
-//                   genders.length > 0 &&
-//                   genders.map((item, index) => {
-//                     return (
-//                       <label className="option ms-4" key={item.keyMap}>
-//                         <input
-//                           type="radio"
-//                           name="radio"
-//                           value={item.keyMap}
-//                           checked={item.keyMap === this.state.gender}
-//                           onChange={(event) => this.handleOnClickGender(event)}
-//                         />
-//                         {language === languages.VI
-//                           ? item.valueVI
-//                           : item.valueEN}
-//                         <span className="checkmark"></span>
-//                       </label>
-//                     );
-//                   })}
-//               </div>
-//             </div>
-//             <div className="col-6 form-group">
-//               <label>
-//                 <FormattedMessage id="patient.booking-modal.email" />
-//               </label>
-//               <input
-//                 className="form-control"
-//                 onChange={(event) => this.handleOnChangeInput(event, "email")}
-//                 value={this.state.email}
-//               />
-//               {errors.email && (
-//                 <span className="text-danger">{errors.email}</span>
-//               )}
-//             </div>
-//             <div className="col-6 form-group">
-//               <label>
-//                 <FormattedMessage id="patient.booking-modal.address" />
-//               </label>
-//               <input
-//                 className="form-control"
-//                 onChange={(event) => this.handleOnChangeInput(event, "address")}
-//                 value={this.state.address}
-//               />
-//               {errors.address && (
-//                 <span className="text-danger">{errors.address}</span>
-//               )}
-//             </div>
-//             <div className="col-6 form-group">
-//               <label>
-//                 <FormattedMessage id="patient.booking-modal.phoneNumer" />
-//               </label>
-//               <input
-//                 className="form-control"
-//                 onChange={(event) =>
-//                   this.handleOnChangeInput(event, "phoneNumber")
-//                 }
-//                 value={this.state.phoneNumber}
-//               />
-//               {errors.phoneNumber && (
-//                 <span className="text-danger">{errors.phoneNumber}</span>
-//               )}
-//             </div>
-//             <div className="col-6 form-group">
-//               <label>
-//                 <FormattedMessage id="patient.booking-modal.birthday" />
-//               </label>
-//               <div className="custom-style-datepicker">
-//                 <DatePicker
-//                   onChange={this.handleOnchangDatePicker}
-//                   value={this.state.birthday}
-//                 />
-//               </div>
-//               {errors.birthday && (
-//                 <span className="text-danger">{errors.birthday}</span>
-//               )}
-//             </div>
-//             <div className="col-12 form-group mb-3">
-//               <label>
-//                 <FormattedMessage id="patient.booking-modal.reason" />
-//               </label>
-//               <input
-//                 className="form-control"
-//                 onChange={(event) => this.handleOnChangeInput(event, "reason")}
-//                 value={this.state.reason}
-//               />
-//               {errors.reason && (
-//                 <span className="text-danger">{errors.reason}</span>
-//               )}
-//             </div>
-//           <ReCAPTCHA
-//             sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-//             onChange={this.onChange}
-//           />
-//           </div>
-//           <ModalFooter>
-//             <Button
-//               color="primary"
-//               className="px-3"
-//               onClick={() => this.handleSaveUser()}
-//               disabled={!this.state.verfied}
-//             >
-//               <FormattedMessage id="patient.booking-modal.save" />
-//             </Button>
-//             <Button
-//               color="secondary"
-//               className="px-3"
-//               onClick={() => this.toggle()}
-//             >
-//               <FormattedMessage id="patient.booking-modal.cancel" />
-//             </Button>
-//           </ModalFooter>
-//         </Modal>
-//       </>
-//     );
-//   }
-// }
-
-// const mapStateToProps = (state) => {
-//   return {
-//     language: state.app.language,
-//     genders: state.admin.genders,
-//   };
-// };
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     fetchGenderStart: () => dispatch(actions.fetchGenderStart()),
-//     createBookingAppointment: (data) =>
-//       dispatch(actions.createBookingAppointment(data)),
-//   };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(BookingModal);
+export default connect(mapStateToProps, mapDispatchToProps)(BookingModal);

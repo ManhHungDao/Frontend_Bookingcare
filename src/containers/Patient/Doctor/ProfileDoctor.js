@@ -3,25 +3,21 @@ import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import {
   Box,
-  Container,
   Grid,
   Stack,
   Avatar,
   FormControl,
   Typography,
   NativeSelect,
-  InputLabel,
-  Button,
   Divider,
 } from "@mui/material";
 import useIsMobile from "../../../components/useScreen/useIsMobile";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import localization from "moment/locale/vi";
 import moment from "moment";
-import "dayjs/locale/vi";
-import dayjs from "dayjs";
 import { languages } from "../../../utils";
 import _ from "lodash";
+import BookingModal from "./Modal/BookingModal";
 
 const ProfileDoctor = ({
   id,
@@ -39,6 +35,8 @@ const ProfileDoctor = ({
   const [codeTime, setCodeTime] = useState([]);
   const [timeSchedule, setTimeSchedule] = useState([]);
   const [open, setOpen] = useState(false);
+  const [timeBooking, setTimeBooking] = useState("");
+  // data user booking
 
   useEffect(() => {
     allDay();
@@ -117,6 +115,12 @@ const ProfileDoctor = ({
     }
     setAllday(allDays);
   };
+
+  const handleClickTime = (time) => {
+    setTimeBooking(time);
+    setOpen(true);
+  };
+
   return (
     <>
       <Box
@@ -187,7 +191,7 @@ const ProfileDoctor = ({
                       p={1}
                       key={e.id}
                       variant={"contained"}
-                      // onClick={() => handleClickTime(e)}
+                      onClick={() => handleClickTime(e.time)}
                       sx={{
                         backgroundColor: "#ffeb3b",
                         ":hover": {
@@ -256,6 +260,16 @@ const ProfileDoctor = ({
           </Grid>
         </Stack>
       </Box>
+      <BookingModal
+        open={open}
+        setOpen={setOpen}
+        image={data?.image?.url ? data.image.url : ""}
+        nameDcctor={`${data?.detail?.position?.name} ${data?.name}`}
+        timeBooking={timeBooking}
+        dateBooking={date / 1000}
+        codeTime={codeTime}
+        priceBooking={data?.detail?.price?.name}
+      />
     </>
   );
 };
