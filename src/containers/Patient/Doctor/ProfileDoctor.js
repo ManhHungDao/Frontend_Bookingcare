@@ -18,6 +18,7 @@ import moment from "moment";
 import { languages } from "../../../utils";
 import _ from "lodash";
 import BookingModal from "./Modal/BookingModal";
+import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 
 const ProfileDoctor = ({
   id,
@@ -28,6 +29,8 @@ const ProfileDoctor = ({
   userSchedule,
   fetchAllcode,
   allcodes,
+  clearStatus,
+  isSuccess,
 }) => {
   const [data, setData] = useState("");
   const [allday, setAllday] = useState([]);
@@ -36,6 +39,7 @@ const ProfileDoctor = ({
   const [timeSchedule, setTimeSchedule] = useState([]);
   const [open, setOpen] = useState(false);
   const [timeBooking, setTimeBooking] = useState("");
+  const [openConfirm, setOpenConfirm] = useState(false);
   // data user booking
 
   useEffect(() => {
@@ -43,6 +47,17 @@ const ProfileDoctor = ({
     getSingleUser(id);
     fetchAllcode();
   }, []);
+
+  useEffect(() => {
+    if (isSuccess !== null) {
+      if (isSuccess === true) {
+        setOpen(false);
+        setOpenConfirm(true);
+        // chuyển thời gian đã có người chọn thành không thể chọn : active - true / false
+      }
+      clearStatus();
+    }
+  }, [isSuccess]);
 
   useEffect(() => {
     allDay();
@@ -120,6 +135,7 @@ const ProfileDoctor = ({
     setTimeBooking(time);
     setOpen(true);
   };
+  const handleConfirm = () => setOpenConfirm(false);
 
   return (
     <>
@@ -269,6 +285,15 @@ const ProfileDoctor = ({
         dateBooking={date / 1000}
         codeTime={codeTime}
         priceBooking={data?.detail?.price?.name}
+        doctorId={id}
+      />
+      <ConfirmModal
+        open={openConfirm}
+        setOpen={setOpenConfirm}
+        title="Thông báo nhắc nhở"
+        content={`Vui lòng để ý điện thoại hoặc email để bộ phận chăm sóc khách hàng có thể liên hệ thông tin đến bạn. Xin cảm ơn`}
+        type="CONFIRM"
+        confirmFunc={handleConfirm}
       />
     </>
   );
@@ -279,6 +304,7 @@ const mapStateToProps = (state) => {
     user: state.admin.user,
     userSchedule: state.admin.schedule,
     allcodes: state.admin.allcodes,
+    isSuccess: state.app.isSuccess,
   };
 };
 
@@ -288,6 +314,7 @@ const mapDispatchToProps = (dispatch) => {
     getSingleUserSchedule: (id, date) =>
       dispatch(actions.getSingleUserScheduleAction(id, date)),
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
+    clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileDoctor);

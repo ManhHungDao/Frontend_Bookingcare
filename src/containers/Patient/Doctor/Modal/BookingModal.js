@@ -14,6 +14,7 @@ import {
   TextField,
   Radio,
 } from "@mui/material";
+import * as actions from "../../../../store/actions";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
 import ButtonComponent from "../../../../components/ButtonComponent";
@@ -40,6 +41,8 @@ const BookingModal = ({
   codeTime,
   dateBooking,
   priceBooking,
+  createUserBookingSchedule,
+  doctorId,
 }) => {
   const mobiScreen = useIsMobile();
   const [date, setDate] = useState(dayjs(new Date()));
@@ -96,15 +99,21 @@ const BookingModal = ({
       return;
     }
     const data = {
-      name,
-      email,
-      gender: gender.value,
-      phone,
-      reason,
-      address: address.detail,
-      date: dayjs(date).format("YYYY-MM-DD"),
+      doctorId,
+      packetId: null,
+      time: timeBooking,
+      date: dateBooking,
+      patient: {
+        date: dayjs(date).format("YYYY-MM-DD"),
+        name,
+        email,
+        gender: gender.value,
+        phone,
+        reason,
+        address: address.detail,
+      },
     };
-    console.log("🚀 ~ file: BookingModal.js:98 ~ handleSave ~ data:", data);
+    createUserBookingSchedule(data)
   };
   const handleClose = () => {
     setErrors("");
@@ -375,7 +384,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    createUserBookingSchedule: (data) =>
+      dispatch(actions.createUserBookingScheduleAction(data)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookingModal);

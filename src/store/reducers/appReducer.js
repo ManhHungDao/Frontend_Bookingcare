@@ -44,13 +44,15 @@ const appReducer = (state = initialState, action) => {
     // CRUD success
     case actionTypes.CREATE_SUCCESS:
     case actionTypes.UPDATE_SUCCESS:
-    case actionTypes.DELETE_SUCCESS: {
+    case actionTypes.DELETE_SUCCESS:
+    case actionTypes.CREATE_SCHEDULE_PATIENT_SUCCESS: {
       return {
         ...state,
         isSuccess: true,
       };
     }
     // CRUD failed
+    case actionTypes.CREATE_SCHEDULE_PATIENT_FAILED:
     case actionTypes.CREATE_FAILED:
     case actionTypes.UPDATE_FAILED:
     case actionTypes.DELETE_FAILED: {

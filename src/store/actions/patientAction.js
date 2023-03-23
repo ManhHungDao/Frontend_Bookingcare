@@ -13,8 +13,9 @@ import {
   getSingleSpecialty,
 } from "../../services/specialtySerivce";
 import { getAllUserHomePatient } from "../../services/userService";
+import { createUserBookingSchedule } from "../../services/scheduleService";
 import { loadingToggleAction } from "./adminActions";
-
+import { toast } from "react-toastify";
 
 // CLINIC
 export const getSingleClinicPatientAction = (id) => {
@@ -110,7 +111,6 @@ export const getSingleSpecialtyPatientAction = (id) => {
 };
 
 // USER
-
 export const getListUserHomePatientAction = () => {
   return async (dispatch, getState) => {
     try {
@@ -128,6 +128,29 @@ export const getListUserHomePatientAction = () => {
       dispatch({
         type: actionTypes.PATIENT_GET_LIST_USER_FAILED,
       });
+    }
+  };
+};
+
+// SCHEDULE
+export const createUserBookingScheduleAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await createUserBookingSchedule(data);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.CREATE_SCHEDULE_PATIENT_SUCCESS,
+        });
+        toast.success("Khởi tạo lịch khám thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.CREATE_SCHEDULE_PATIENT_FAILED,
+      });
+      toast.error("Khởi tạo lịch khám thất bại");
     }
   };
 };

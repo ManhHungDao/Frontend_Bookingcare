@@ -180,7 +180,8 @@ const TableManageUserSchedule = ({
   );
 
   const statusList = [
-    { name: "Lịch hẹn mới", color: "#90caf9" },
+    { name: "Lịch hẹn mới", color: "#bdbdbd" },
+    { name: "Đã xác nhận", color: "#90caf9" },
     { name: "Đang khám", color: "#e6ee9c" },
     { name: "Hoàn thành", color: "#1de9b6" },
     { name: "Đã hủy", color: "#ff9100" },

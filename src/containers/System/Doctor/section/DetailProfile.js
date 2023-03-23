@@ -15,8 +15,16 @@ import {
 } from "@mui/material";
 import CKEditorFieldBasic from "../../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../../components/ButtonComponent";
+const CONST_GENDER = [
+  { id: "M", name: "Nam" },
+  { id: "F", name: "Nữ" },
+];
 
 export const PatientProfile = ({ patient }) => {
+  console.log(
+    "🚀 ~ file: DetailProfile.js:24 ~ PatientProfile ~ patient:",
+    patient
+  );
   return (
     <Card>
       <CardHeader title="Thông tin bệnh nhân" />
@@ -36,10 +44,18 @@ export const PatientProfile = ({ patient }) => {
               {patient?.phone ? patient.phone : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
+              Giới tính:&nbsp;
+              {CONST_GENDER.map((e) => {
+                if (e.id === patient?.gender) return e.name;
+              })}
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
               Ngày sinh:&nbsp;
+              {patient?.dayOfBirth ? patient.dayOfBirth : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
               Lý do khám:&nbsp;
+              {patient?.reason ? patient.reason : ""}
             </Typography>
           </Grid>
         </Grid>
@@ -126,7 +142,7 @@ export const PacketProfile = ({ packet }) => {
 };
 
 export const ScheduleProfile = ({ time, status, setStatus, handleSave }) => {
-  const statusList = ["Lịch hẹn mới", "Đang khám", "Hoàn thành", "Đã hủy"];
+  const statusList = ["Lịch hẹn mới","Đã xác nhận", "Đang khám", "Hoàn thành", "Đã hủy"];
   const handleChange = (event) => {
     const {
       target: { value },
