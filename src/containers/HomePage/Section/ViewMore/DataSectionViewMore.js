@@ -37,7 +37,7 @@ const DataSectionViewMore = ({
     setData([]);
     if (location.pathname.includes("clinic"))
       setData(
-        listSpecialty.map((e) => ({
+        listClinic.map((e) => ({
           id: e._id,
           name: e.name,
           image: e.image.url,
@@ -45,7 +45,7 @@ const DataSectionViewMore = ({
       );
     else
       setData(
-        listClinic.map((e) => ({
+        listSpecialty.map((e) => ({
           id: e._id,
           name: e.name,
           image: e.image.url,
@@ -54,7 +54,8 @@ const DataSectionViewMore = ({
   }, [listSpecialty, listClinic]);
 
   const clickDetailSpecialty = (id) => {
-    navigate(`/specialty/${id}`);
+    if (location.pathname.includes("clinic")) navigate(`/clinic/${id}`);
+    else navigate(`/specialty/${id}`);
   };
 
   const navigate = useNavigate();
