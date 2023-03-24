@@ -5,7 +5,6 @@ import HomePage from "../containers/HomePage/HomePage";
 import DetailDoctor from "../containers/Patient/Doctor/DetailDoctor";
 import DetailSpecialty from "../containers/Patient/Specialty/DetailSpecialty";
 import DetailClinic from "../containers/Patient/Clinic/DetailClinic";
-import VerifyEmail from "../containers/HomePage/VerifyEmail";
 import TableSpecialtyClinic from "../containers/Patient/Clinic/TableSpecialtyClinic";
 import RenderList from "../containers/Patient/Common/RenderList";
 import DetailHandbook from "../containers/Patient/Handbook/DetailHandbook";
@@ -28,6 +27,7 @@ const PatientRoute = () => {
         <Route path={path.SPECIALTY} element={<DetailSpecialty />} />
         <Route path={path.CLINIC} element={<DetailClinic />} />
         <Route path={path.DETAILDOCTOR} element={<DetailDoctor />} />
+        <Route path={path.HANDBOOK} element={<DetailHandbook />} />
         {/* <Route
           path={path.TABLE_CLINIC_SPECIALTY}
           element={TableSpecialtyClinic}

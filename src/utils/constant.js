@@ -5,12 +5,11 @@ export const path = {
   MANAGER: "/manager/*",
   LOGIN: "/login",
   LOG_OUT: "/logout",
-  HANDBOOK: "/handbook",
   // DOCTOR: "/doctor/:id",
+  HANDBOOK: "/handbook/:id",
   SPECIALTY: "/specialty/:id",
   CLINIC: "clinic/:id",
   DETAILDOCTOR: "detail-doctor/:id",
-  // HANDBOOK: "/handbook/:id",
   VERIFY_BOOKING: "/verify-booking",
   TABLE_CLINIC_SPECIALTY: "/table-clinic-specialty/:id",
   CLINIC_SPECIALTY:

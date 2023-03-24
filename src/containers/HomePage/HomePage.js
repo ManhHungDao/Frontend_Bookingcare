@@ -19,6 +19,7 @@ import hinh3 from "../../assets/young-asia.jpg";
 import hinh4 from "../../assets/waist-UP.jpg";
 import Contact from "./Section/Contact";
 import DoctorSection from "./Section/DoctorSection.js";
+import HandbookSection from "./Section/HandbookSection";
 
 const HomePage = ({
   listClinic,
@@ -27,10 +28,13 @@ const HomePage = ({
   getListSpecialtyHome,
   listUser,
   getListUserHome,
+  listHandbook,
+  getAllHandbookHome,
 }) => {
   const [clinics, setClinics] = useState([]);
   const [specialties, setSpecialties] = useState([]);
   const [users, setUsers] = useState([]);
+  const [handbooks, setHandbooks] = useState([]);
   const [slide, setSlide] = useState("");
   const [showNav, setShowNav] = useState("");
   const isMobile = useIsMobile();
@@ -39,6 +43,7 @@ const HomePage = ({
     getListClinicHome();
     getListSpecialtyHome();
     getListUserHome();
+    getAllHandbookHome();
   }, []);
   useEffect(() => {
     if (listClinic && listClinic.length > 0)
@@ -75,7 +80,18 @@ const HomePage = ({
     else {
       setUsers([]);
     }
-  }, [listClinic, listSpecialty, listUser]);
+    if (listHandbook && listHandbook.length > 0)
+      setHandbooks(
+        listHandbook.map((e) => ({
+          id: e._id,
+          name: e.name,
+          image: e.image.url,
+        }))
+      );
+    else {
+      setHandbooks([]);
+    }
+  }, [listClinic, listSpecialty, listUser, listHandbook]);
 
   useEffect(() => {
     if (isMobile) {
@@ -136,6 +152,13 @@ const HomePage = ({
         navigation={showNav}
         linkItem="detail-doctor"
       />
+      <HandbookSection
+        data={handbooks}
+        titleSection={"Cẩm nang"}
+        slidesPerView={slide}
+        navigation={showNav}
+        linkItem="handbook"
+      />
       <About />
       <Footer />
       <Contact />
@@ -147,12 +170,15 @@ const mapStateToProps = (state) => {
     listClinic: state.patient.listClinic,
     listSpecialty: state.patient.listSpecialty,
     listUser: state.patient.listUser,
+    listHandbook: state.patient.listHandbook,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getListUserHome: () => dispatch(actions.getListUserHomePatientAction()),
+    getAllHandbookHome: () =>
+      dispatch(actions.getAllHandbookHomePatientAction()),
     getListClinicHome: () => dispatch(actions.getListClinicHomePatientAction()),
     getListSpecialtyHome: () =>
       dispatch(actions.getListSpecialtyHomePatientAction()),

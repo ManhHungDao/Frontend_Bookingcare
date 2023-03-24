@@ -1,17 +1,16 @@
 /* eslint-disable no-lone-blocks */
 import actionTypes from "./actionTypes";
-
 import {
   getSingleClinic,
   getAllClinic,
   createClinic,
   getAllClinicHomePatient,
 } from "../../services/clinicService";
-
 import {
   getPopularHomePatient,
   getSingleSpecialty,
 } from "../../services/specialtySerivce";
+import { getAllHandbookHomePatient,getSingleHandbook } from "../../services/handbookService";
 import { getAllUserHomePatient } from "../../services/userService";
 import { createUserBookingSchedule } from "../../services/scheduleService";
 import { loadingToggleAction } from "./adminActions";
@@ -151,6 +150,50 @@ export const createUserBookingScheduleAction = (data) => {
         type: actionTypes.CREATE_SCHEDULE_PATIENT_FAILED,
       });
       toast.error("Khởi tạo lịch khám thất bại");
+    }
+  };
+};
+
+// HANBOOK
+
+export const getAllHandbookHomePatientAction = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getAllHandbookHomePatient();
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.GET_LIST_HANDBOOK_HOME_SUCCEED,
+          data: res.handbooks,
+        });
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_LIST_HANDBOOK_HOME_FAILED,
+      });
+    }
+  };
+};
+
+export const getSingleHandbookAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getSingleHandbook(id);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.GET_SINGLE_HANDBOOK_SUCCEED,
+          data: res.handbook,
+        });
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_SINGLE_HANDBOOK_FAILED,
+      });
     }
   };
 };

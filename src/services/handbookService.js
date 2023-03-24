@@ -13,8 +13,17 @@ const getAllHandbook = (data) => {
 const deleteHandbook = (id) => {
   return axios.delete(`/api/delete-handbook?id=${id}`);
 };
+
 const updateHandbook = (id, data) => {
   return axios.put(`/api/update-handbook?id=${id}`, data);
 };
 
-export { createHandbook, getAllHandbook, deleteHandbook, updateHandbook };
+const getAllHandbookHomePatient = () => {
+  return axios.get(`/api/get-all-home-handbook`);
+};
+
+const getSingleHandbook = (id)=>{
+  return axios.get(`/api/get-single-handbook?id=${id}`);
+
+}
+export { createHandbook, getAllHandbook, deleteHandbook, updateHandbook ,getAllHandbookHomePatient,getSingleHandbook};

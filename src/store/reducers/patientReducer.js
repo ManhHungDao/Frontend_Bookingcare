@@ -3,8 +3,10 @@ const initialState = {
   listClinic: [],
   listSpecialty: [],
   listUser: [],
+  listHandbook: [],
   clinic: {},
   specialty: {},
+  handbook: {},
 };
 
 const patientReducer = (state = initialState, action) => {
@@ -58,6 +60,28 @@ const patientReducer = (state = initialState, action) => {
     }
     case actionTypes.PATIENT_GET_LIST_USER_FAILED: {
       state.listUser = [];
+      return {
+        ...state,
+      };
+    }
+
+    // HANDBOOK
+    case actionTypes.GET_LIST_HANDBOOK_HOME_SUCCEED: {
+      state.listHandbook = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_LIST_HANDBOOK_HOME_FAILED: {
+      state.listHandbook = [];
+      return {
+        ...state,
+      };
+    }
+    case actionTypes.GET_SINGLE_HANDBOOK_SUCCEED: {
+      state.handbook = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_SINGLE_HANDBOOK_FAILED: {
+      state.handbook = {};
       return {
         ...state,
       };

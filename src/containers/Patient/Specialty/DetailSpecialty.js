@@ -49,7 +49,7 @@ const DetailSpecialty = ({
 
   const styles = {
     backgroundImage: `url(${specialty?.image?.url ? specialty.image.url : ""})`,
-  backgroundSize: "cover",
+    backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center center",
   };
@@ -84,7 +84,6 @@ const DetailSpecialty = ({
                 }}
               />
             </Stack>
-         
           </Container>
         </Stack>
       </Stack>
