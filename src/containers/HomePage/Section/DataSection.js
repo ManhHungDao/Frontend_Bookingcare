@@ -7,21 +7,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Container } from "@mui/material";
 
-const DataSection = ({
-  data,
-  titleSection,
-  nameBtn,
-  linkViewMore,
-  linkItem,
-  slidesPerView,
-  navigation,
-}) => {
+const DataSection = ({ data, titleSection, nameBtn, linkItem }) => {
   const navigate = useNavigate();
   const handleClickItem = (id) => {
     navigate(`${linkItem}/${id}`);
   };
   const handleClickViewMore = () => {
-    // history.push("/path_to_redirect");
+    navigate(`/viewmore/${linkItem}`);
   };
 
   const settings = {

@@ -16,6 +16,8 @@ export const path = {
     "/detail-clinic-specialty/clinicId=:clinicId/specialtyId=:specialtyId",
   RENDER_LIST: "/render-list/:type",
   LIST_POST_HANDBOOK: "/list-post-handbook/:id",
+  VIEWMORE_SPECIALTY: "/viewmore/specialty",
+  VIEWMORE_CLINIC: "/viewmore/clinic",
 };
 
 export const languages = {

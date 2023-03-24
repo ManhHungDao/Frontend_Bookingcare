@@ -36,7 +36,7 @@ const BookingModal = ({
   open,
   setOpen,
   image,
-  nameDcctor,
+  nameDoctor,
   timeBooking,
   codeTime,
   dateBooking,
@@ -113,7 +113,7 @@ const BookingModal = ({
         address: address.detail,
       },
     };
-    createUserBookingSchedule(data)
+    createUserBookingSchedule(data);
   };
   const handleClose = () => {
     setErrors("");
@@ -156,14 +156,14 @@ const BookingModal = ({
                   display: { xs: "none", sm: "block" },
                 }}
                 image={image}
-                alt={"dasdsa"}
+                alt={nameDoctor ? nameDoctor : ""}
               />
               <CardContent>
                 <Typography variant="subtitle1" color="primary">
                   ĐẶT LỊCH KHÁM
                 </Typography>
                 <Typography component="h2" variant="h5">
-                  {nameDcctor}
+                  {nameDoctor}
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary">
                   {codeTime &&

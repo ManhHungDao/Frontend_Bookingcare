@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import _ from "lodash";
@@ -8,7 +8,6 @@ import Footer from "./Section/Footer";
 import * as actions from "../../store/actions";
 import DataSection from "./Section/DataSection.js";
 import "./HomePage.scss";
-import { useEffect } from "react";
 import useIsMobile from "../../components/useScreen/useIsMobile.js";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";

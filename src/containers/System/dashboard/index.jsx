@@ -30,28 +30,28 @@ const Dashboard = ({ getAllCountAction, count }) => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={6} lg={3}>
           <StatBox
-            title={data?.clinic ? data.clinic : ""}
+            title={data?.clinic ? data.clinic : "0"}
             subtitle="Cơ sở khám"
             img={iconsHospital}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={3}>
           <StatBox
-            title={data?.specialty ? data.specialty : ""}
+            title={data?.specialty ? data.specialty : "0"}
             subtitle="Chuyên khoa"
             img={iconSpecialty}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
           <StatBox
-            title={data?.user ? data.user : ""}
+            title={data?.user ? data.user : "0"}
             subtitle="Bác sĩ"
             img={iconDoctor}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
           <StatBox
-            title={data?.handbook ? data.handbook : ""}
+            title={data?.handbook ? data.handbook : "0"}
             subtitle="Bài viết"
             img={iconDocument}
           />

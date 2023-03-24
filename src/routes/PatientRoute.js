@@ -5,13 +5,9 @@ import HomePage from "../containers/HomePage/HomePage";
 import DetailDoctor from "../containers/Patient/Doctor/DetailDoctor";
 import DetailSpecialty from "../containers/Patient/Specialty/DetailSpecialty";
 import DetailClinic from "../containers/Patient/Clinic/DetailClinic";
-import TableSpecialtyClinic from "../containers/Patient/Clinic/TableSpecialtyClinic";
-import RenderList from "../containers/Patient/Common/RenderList";
 import DetailHandbook from "../containers/Patient/Handbook/DetailHandbook";
-import ListPostHandbook from "../containers/Patient/Handbook/ListPostHandbook";
-import ViewAllHandbook from "../containers/Patient/Handbook/ViewAllHandbook";
-import Packet from "../containers/Patient/Packet/Packet";
-import Detail_packet from "../containers/Patient/Packet/Detail_packet";
+import DataSectionViewMore from "../containers/HomePage/Section/ViewMore/DataSectionViewMore";
+
 const PatientRoute = () => {
   return (
     <>
@@ -28,6 +24,8 @@ const PatientRoute = () => {
         <Route path={path.CLINIC} element={<DetailClinic />} />
         <Route path={path.DETAILDOCTOR} element={<DetailDoctor />} />
         <Route path={path.HANDBOOK} element={<DetailHandbook />} />
+        <Route path={path.VIEWMORE_SPECIALTY} element={<DataSectionViewMore />} />
+        <Route path={path.VIEWMORE_CLINIC} element={<DataSectionViewMore />} />
         {/* <Route
           path={path.TABLE_CLINIC_SPECIALTY}
           element={TableSpecialtyClinic}

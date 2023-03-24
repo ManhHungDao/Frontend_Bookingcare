@@ -3,18 +3,11 @@ import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import { Box, Grid, TextField } from "@mui/material";
 import Header from "../../../components/Header.jsx";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Radio from "@mui/material/Radio";
 import UpLoadAvatar from "../../../components/UpLoadAvatar";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 import InputSelect from "../../../components/Input/InputSelect";
 import ButtonComponent from "../../../components/ButtonComponent";
+import useIsTablet from "../../../components/useScreen/useIsTablet";
 
 const AddHandbook = ({
   getListClinicAction,
@@ -37,6 +30,7 @@ const AddHandbook = ({
   const [previewImgUrl, setPreviewImgUrl] = useState("");
   const [dataClinic, setDataClinic] = useState([]);
   const [dataSpecialty, setDataSpecialty] = useState([]);
+  const smScreen = useIsTablet();
 
   useEffect(() => {
     getListClinicAction();
@@ -188,6 +182,9 @@ const AddHandbook = ({
               >
                 <UpLoadAvatar
                   content="Tải ảnh"
+                  borderRadius="5px"
+                  preHeight={smScreen ? "150px" : "200px"}
+                  preWidth={smScreen ? "250px" : "390px"}
                   setImg={setImage}
                   previewImgUrl={previewImgUrl}
                   setPreviewImgUrl={setPreviewImgUrl}

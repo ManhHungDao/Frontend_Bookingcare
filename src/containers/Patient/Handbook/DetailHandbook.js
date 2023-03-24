@@ -11,6 +11,7 @@ import Footer from "../../HomePage/Section/Footer";
 import SubHeader from "../../HomePage/Section/SubHeader";
 import { useParams } from "react-router-dom";
 import useIsTablet from "../../../components/useScreen/useIsTablet";
+import BackToTop from "../../../components/BackToTop ";
 import {
   Box,
   Container,
@@ -61,10 +62,6 @@ const DetailHandbook = ({ getSingleHandbook, handbook }) => {
           </div>
         </Stack>
       )}
-      <Stack className="introduce-handbook">
-        <Container></Container>
-      </Stack>
-      <Divider />
       <Stack className="detail-handbook" sx={{ backgroundColor: "#efefef" }}>
         <Container
           className="detail-handbook--detail"
@@ -86,10 +83,13 @@ const DetailHandbook = ({ getSingleHandbook, handbook }) => {
             className="detail"
             dangerouslySetInnerHTML={{ __html: data?.detail }}
           ></span>
+         {/*  bài viết liên quan */}
+         
         </Container>
       </Stack>
       <Divider />
       <Footer />
+      <BackToTop/>
     </>
   );
 };

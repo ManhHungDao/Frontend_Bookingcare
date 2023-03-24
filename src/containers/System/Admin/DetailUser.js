@@ -77,7 +77,10 @@ const DetailUser = ({
       setName(user.name);
       setPhone(user.phone);
       setAddress(user.address);
-      setGender(CONST_GENDER.filter((e) => e.value === user.gender).shift());
+      CONST_GENDER.map((e) => {
+        if (e.value === user.gender) setGender(e);
+      });
+      setPreviewImgUrl("");
       setImage(user?.image ? user.image : "");
       setDate(user.dateOfBirth);
       setClinic({
@@ -146,7 +149,7 @@ const DetailUser = ({
   }, [allcodes, listClinic]);
 
   const handleClose = () => {
-    setPreviewImgUrl('')
+    setPreviewImgUrl("");
     setOpen(false);
     setEmail("");
     setName("");
@@ -225,7 +228,7 @@ const DetailUser = ({
       email,
       name,
       phone,
-      gender: gender.value ? gender.value : null,
+      gender: gender?.value ? gender.value : null,
       address,
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
       detail: {

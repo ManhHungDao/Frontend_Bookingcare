@@ -19,6 +19,11 @@ import AutocompleteAddress from "../../../../components/Input/AutocompleteAddres
 import CKEditorFieldBasic from "../../../../components/Ckeditor/CKEditorFieldBasic";
 import { useEffect, useState } from "react";
 
+const CONST_GENDER = [
+  { id: "M", name: "Nam" },
+  { id: "F", name: "Nữ" },
+];
+
 export const AccountProfileDetails = ({
   email,
   setEmail,
@@ -73,7 +78,7 @@ export const AccountProfileDetails = ({
                   label="Giới tính"
                   value={gender}
                   onChange={setGender}
-                  data={dataSelect.filter((e) => e.type === "GENDER")}
+                  data={CONST_GENDER}
                   isError={errors?.gender ? true : false}
                   errorText={errors?.gender ? errors.gender : ""}
                   name="Giới tính"
