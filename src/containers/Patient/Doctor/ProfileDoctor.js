@@ -19,10 +19,10 @@ import { languages } from "../../../utils";
 import _ from "lodash";
 import BookingModal from "./Modal/BookingModal";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
+import { getSingleUserService } from "../../../services/userService";
 
 const ProfileDoctor = ({
   id,
-  getSingleUser,
   user,
   language,
   getSingleUserSchedule,
@@ -44,7 +44,13 @@ const ProfileDoctor = ({
 
   useEffect(() => {
     allDay();
-    getSingleUser(id);
+    const getData = async () => {
+      const res = await getSingleUserService(id);
+      if (res && res.success) {
+        setData(res.user);
+      }
+    };
+    getData();
     fetchAllcode();
   }, []);
 
@@ -301,7 +307,6 @@ const ProfileDoctor = ({
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    user: state.admin.user,
     userSchedule: state.admin.schedule,
     allcodes: state.admin.allcodes,
     isSuccess: state.app.isSuccess,
@@ -310,7 +315,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getSingleUser: (id) => dispatch(actions.getSingleUserAction(id)),
     getSingleUserSchedule: (id, date) =>
       dispatch(actions.getSingleUserScheduleAction(id, date)),
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),

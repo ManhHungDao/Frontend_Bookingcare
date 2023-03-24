@@ -9,10 +9,11 @@ import _ from "lodash";
 import Select from "react-select";
 import SubHeader from "../../HomePage/Section/SubHeader";
 import "./DetailSpecialty.scss";
+import { getSingleSpecialty } from "../../../services/specialtySerivce";
 
 const DetailSpecialty = ({
   specialty,
-  getSingleSpecialty,
+  // getSingleSpecialty,
   fetchProvinceCode,
   provinceCode,
 }) => {
@@ -22,30 +23,14 @@ const DetailSpecialty = ({
   const [selectProvince, setSelectProvince] = useState("");
 
   useEffect(() => {
-    if (id) getSingleSpecialty(id);
-    const data = {
-      page: 1,
-      size: 9999,
-      filter: "PROVINCE",
+    const getData = async () => {
+      const res = await getSingleSpecialty(id);
+      if (res && res.success) {
+        setData(res.specialty);
+      }
     };
-    fetchProvinceCode(data);
+    getData();
   }, []);
-
-  // useEffect(() => {
-
-  // }, [selectProvince]);
-
-  useEffect(() => {
-    let list = [{ value: "All", label: "Toàn quốc" }];
-    if (provinceCode.list && provinceCode.list.length > 0) {
-      list = [
-        ...list,
-        ...provinceCode.list.map((e) => ({ value: e._id, label: e.valueVI })),
-      ];
-    }
-    setListProvince(list);
-    if (!_.isEmpty(specialty)) setData(specialty);
-  }, [provinceCode, specialty]);
 
   const styles = {
     backgroundImage: `url(${specialty?.image?.url ? specialty.image.url : ""})`,

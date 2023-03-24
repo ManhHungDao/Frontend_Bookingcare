@@ -8,19 +8,21 @@ import useIsMobile from "../../../components/useScreen/useIsMobile";
 import _ from "lodash";
 import SubHeader from "../../HomePage/Section/SubHeader";
 import ProfileDoctor from "./ProfileDoctor";
-const DetailDoctor = ({ getSingleUser, user }) => {
+import { getSingleUserService } from "../../../services/userService";
+
+const DetailDoctor = ({}) => {
   const { id } = useParams();
   const [data, setData] = useState("");
 
   useEffect(() => {
-    if (id) getSingleUser(id);
+    const getData = async () => {
+      const res = await getSingleUserService(id);
+      if (res && res.success) {
+        setData(res.clinic);
+      }
+    };
+    getData();
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      setData(user);
-    }
-  }, [user]);
 
   return (
     <>
@@ -48,13 +50,11 @@ const DetailDoctor = ({ getSingleUser, user }) => {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    user: state.admin.user,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getSingleUser: (id) => dispatch(actions.getSingleUserAction(id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DetailDoctor);

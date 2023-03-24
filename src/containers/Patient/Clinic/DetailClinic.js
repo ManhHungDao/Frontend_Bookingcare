@@ -15,6 +15,9 @@ import useIsMobile from "../../../components/useScreen/useIsMobile";
 // import Header from "../../HomePage/Section/Header";
 import SubHeader from "../../HomePage/Section/SubHeader";
 import { pageViewCount } from "../../../services/clinicService";
+import { useLocation } from "react-router-dom";
+import { getSingleClinic } from "../../../services/clinicService";
+
 import {
   Card,
   CardActions,
@@ -25,22 +28,29 @@ import {
 import BackToTop from "../../../components/BackToTop ";
 import "./style.scss";
 
-const DetailClinic = ({ clinic, getSingleClinic, language }) => {
+const DetailClinic = ({ language }) => {
+  const location = useLocation();
   const [data, setData] = useState({});
   const { id } = useParams();
   const smScreen = useIsMobile();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    if (id) {
-      getSingleClinic(id);
-      pageViewCount(id);
-    }
+    const getData = async () => {
+      const res = await getSingleClinic(id);
+      if (res && res.success) {
+        setData(res.clinic);
+      }
+    };
+    getData();
+
+    pageViewCount(id);
   }, []);
 
   useEffect(() => {
-    if (!_.isEmpty(clinic)) setData(clinic);
-  }, [clinic]);
+    setData("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location]);
+
   return (
     <>
       <SubHeader />
@@ -119,13 +129,10 @@ const DetailClinic = ({ clinic, getSingleClinic, language }) => {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    clinic: state.patient.clinic,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    getSingleClinic: (id) => dispatch(actions.getSingleClinicPatientAction(id)),
-  };
+  return {};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DetailClinic);
