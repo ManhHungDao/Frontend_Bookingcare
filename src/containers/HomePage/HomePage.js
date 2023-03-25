@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import _ from "lodash";
 import HomeHeader from "./Section/Header.js";
-import About from "./Section/About.js";
 import Footer from "./Section/Footer";
 import * as actions from "../../store/actions";
 import DataSection from "./Section/DataSection.js";
@@ -158,7 +157,6 @@ const HomePage = ({
         navigation={showNav}
         linkItem="handbook"
       />
-      <About />
       <Footer />
       <Contact />
     </>
@@ -175,12 +173,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListUserHome: () => dispatch(actions.getListUserHomePatientAction()),
+    getListUserHome: () => dispatch(actions.getListUserHomePatientAction("")),
     getAllHandbookHome: () =>
       dispatch(actions.getAllHandbookHomePatientAction()),
     getListClinicHome: () => dispatch(actions.getListClinicHomePatientAction()),
     getListSpecialtyHome: () =>
-      dispatch(actions.getListSpecialtyHomePatientAction()),
+      dispatch(actions.getListSpecialtyHomePatientAction('')),
   };
 };
 

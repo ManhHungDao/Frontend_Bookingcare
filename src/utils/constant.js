@@ -18,6 +18,7 @@ export const path = {
   LIST_POST_HANDBOOK: "/list-post-handbook/:id",
   VIEWMORE_SPECIALTY: "/viewmore/specialty",
   VIEWMORE_CLINIC: "/viewmore/clinic",
+  VIEWMORE_DOCTOR:"/viewmore/doctor"
 };
 
 export const languages = {

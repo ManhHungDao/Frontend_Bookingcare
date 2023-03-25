@@ -21,7 +21,7 @@ const DoctorSection = ({
     navigate(`${linkItem}/${id}`);
   };
   const handleClickViewMore = () => {
-    // history.push("/path_to_redirect");
+    navigate('/viewmore/doctor')
   };
 
   const settings = {

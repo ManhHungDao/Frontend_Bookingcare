@@ -8,7 +8,10 @@ import {
   getPopularHomePatient,
   getSingleSpecialty,
 } from "../../services/specialtySerivce";
-import { getAllHandbookHomePatient,getSingleHandbook } from "../../services/handbookService";
+import {
+  getAllHandbookHomePatient,
+  getSingleHandbook,
+} from "../../services/handbookService";
 import { getAllUserHomePatient } from "../../services/userService";
 import { createUserBookingSchedule } from "../../services/scheduleService";
 import { loadingToggleAction } from "./adminActions";
@@ -65,11 +68,11 @@ export const getListClinicHomePatientAction = () => {
 
 // SPECIALTY
 
-export const getListSpecialtyHomePatientAction = () => {
+export const getListSpecialtyHomePatientAction = (name) => {
   return async (dispatch, getState) => {
     try {
       // dispatch(loadingToggleAction(true));
-      const res = await getPopularHomePatient();
+      const res = await getPopularHomePatient(name);
       if (res && res.success) {
         // dispatch(loadingToggleAction(false));
         dispatch({
@@ -108,11 +111,11 @@ export const getSingleSpecialtyPatientAction = (id) => {
 };
 
 // USER
-export const getListUserHomePatientAction = () => {
+export const getListUserHomePatientAction = (name) => {
   return async (dispatch, getState) => {
     try {
       // dispatch(loadingToggleAction(true));
-      const res = await getAllUserHomePatient();
+      const res = await getAllUserHomePatient(name);
       if (res && res.success) {
         // dispatch(loadingToggleAction(false));
         dispatch({

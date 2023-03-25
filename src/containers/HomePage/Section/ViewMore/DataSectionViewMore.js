@@ -4,6 +4,7 @@ import * as actions from "../../../../store/actions";
 import _ from "lodash";
 // import useIsMobile from "../../../components/useScreen/useIsMobile.js";
 import { useNavigate, useLocation } from "react-router-dom";
+import { FormattedMessage } from "react-intl";
 import {
   Box,
   CardContent,
@@ -18,24 +19,29 @@ const DataSectionViewMore = ({
   listSpecialty,
   getListClinicHome,
   listClinic,
+  language,
 }) => {
   const location = useLocation();
   const [data, setData] = useState([]);
   const [title, setTitle] = useState("");
+  const [isClinic, setIsClinic] = useState(false);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     if (location.pathname.includes("clinic")) {
       getListClinicHome();
-      setTitle("Cơ sở khám bệnh");
+      setTitle("Cơ sở y tế nổi bật");
+      setIsClinic(true);
     } else {
-      getListSpecialtyHome();
-      setTitle("Chuyên khoa");
+      getListSpecialtyHome("");
+      setTitle("Chuyên khoa phổ biến");
     }
   }, [location]);
 
   useEffect(() => {
     setData([]);
-    if (location.pathname.includes("clinic"))
+    if (isClinic === true)
       setData(
         listClinic.map((e) => ({
           id: e._id,
@@ -54,37 +60,76 @@ const DataSectionViewMore = ({
   }, [listSpecialty, listClinic]);
 
   const clickDetailSpecialty = (id) => {
-    if (location.pathname.includes("clinic")) navigate(`/clinic/${id}`);
+    if (isClinic === true) navigate(`/clinic/${id}`);
     else navigate(`/specialty/${id}`);
   };
-
+  const handleEnterSearch = (e) => {
+    if (e.which === 13) {
+      getListSpecialtyHome(filter);
+    }
+  };
   const navigate = useNavigate();
   const styles = {
-    height: "50px",
-    zIndex: 2000,
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    overflowY: " scroll",
-    boxShadow: `rgba(0, 0, 0, 0.45) 0px 25px 20px -20px`,
-    display: "flex",
-    alignItems: "center",
-    overflow: "hidden",
-    backgroundColor: "#fff",
+    header: {
+      height: "50px",
+      zIndex: 10,
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      overflowY: " scroll",
+      boxShadow: `rgba(0, 0, 0, 0.45) 0px 25px 20px -20px`,
+      display: "flex",
+      alignItems: "center",
+      backgroundColor: "#fff",
+    },
+    search: {
+      marginTop: "50px",
+      height: "30px",
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      overflowY: " scroll",
+      backgroundColor: "#eee",
+      display: "flex",
+      alignItems: "center",
+    },
+    input: {
+      width: "100%",
+      height: "24px",
+      borderRadius: 15,
+      paddingLeft: "15px",
+      fontSize: "12px",
+      border: "1px solid #ddd",
+      outline: "none",
+    },
   };
   return (
     <>
-      <Box style={styles} p={2}>
+      <Box style={styles.header} p={2}>
         <Typography
           sx={{ fontSize: 16, cursor: "pointer" }}
           onClick={() => navigate(-1)}
         >
           <i className="fas fa-long-arrow-alt-left icon-goback"></i>
-          <span style={{ fontSize: 16, marginLeft: 5 }}> {title}</span>
+          <span style={{ fontSize: 16, marginLeft: 5 }}>
+            {/* <FormattedMessage id="home-header.sub-doctor" /> */}
+            {title}
+          </span>
         </Typography>
       </Box>
-      <Box mt={"50px"}>
+      {!isClinic && (
+        <Box style={styles.search} p={2}>
+          <input
+            style={styles.input}
+            placeholder={"Tìm kiếm"}
+            onChange={(e) => setFilter(e.target.value)}
+            onKeyPress={(e) => handleEnterSearch(e)}
+          />
+        </Box>
+      )}
+      <Box mt={isClinic === true ? "50px" : "80px"}>
         {data &&
           data.length > 0 &&
           data.map((e) => (
@@ -93,7 +138,7 @@ const DataSectionViewMore = ({
               sx={{
                 display: "flex",
                 // justifyContent: "flex",
-                alignItems: "center",
+                // alignItems: "center",
                 p: 2,
                 cursor: "pointer",
                 borderRadius: 0,
@@ -113,7 +158,14 @@ const DataSectionViewMore = ({
                 image={e.image ? e.image : ""}
                 alt={e.name}
               />
-              <CardContent>{e.name ? e.name : ""}</CardContent>
+              <CardContent
+                sx={{
+                  padding: 0,
+                  paddingLeft: 2,
+                }}
+              >
+                {e.name ? e.name : ""}
+              </CardContent>
               <Divider />
             </Card>
           ))}
@@ -126,19 +178,15 @@ const mapStateToProps = (state) => {
   return {
     listClinic: state.patient.listClinic,
     listSpecialty: state.patient.listSpecialty,
-    listUser: state.patient.listUser,
-    listHandbook: state.patient.listHandbook,
+    language: state.app.language,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListUserHome: () => dispatch(actions.getListUserHomePatientAction()),
-    getAllHandbookHome: () =>
-      dispatch(actions.getAllHandbookHomePatientAction()),
     getListClinicHome: () => dispatch(actions.getListClinicHomePatientAction()),
-    getListSpecialtyHome: () =>
-      dispatch(actions.getListSpecialtyHomePatientAction()),
+    getListSpecialtyHome: (name) =>
+      dispatch(actions.getListSpecialtyHomePatientAction(name)),
   };
 };
 

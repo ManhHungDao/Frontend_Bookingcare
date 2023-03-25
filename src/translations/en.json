@@ -9,12 +9,13 @@
     "fee": "Health check package",
     "check-health": "General health check package",
     "support": "Support",
-    "contact":"Contact",
+    "contact": "Contact",
     "welcome": "Welcome ",
     "sub-specialty": "Specialty",
     "sub-packet": "General examination package",
     "sub-clinic": "Hospitals, clinics",
-    "sub-doctor": "Doctors"
+    "sub-doctor": "Doctors",
+    "search-doctors": "Search doctor"
   },
   "banner": {
     "main-title": "MEDICAL PLATFORM",
@@ -71,8 +72,8 @@
     "delete": "Delete",
     "add": "Add",
     "cancel": "Cancel",
-    "male":"Male",
-    "female":"Female"
+    "male": "Male",
+    "female": "Female"
   },
   "homepage": {
     "outstanding-doctor": "Outstanding Doctor",

@@ -7,6 +7,7 @@ import DetailSpecialty from "../containers/Patient/Specialty/DetailSpecialty";
 import DetailClinic from "../containers/Patient/Clinic/DetailClinic";
 import DetailHandbook from "../containers/Patient/Handbook/DetailHandbook";
 import DataSectionViewMore from "../containers/HomePage/Section/ViewMore/DataSectionViewMore";
+import DoctorViewMore from "../containers/HomePage/Section/ViewMore/DoctorViewMore";
 
 const PatientRoute = () => {
   return (
@@ -26,6 +27,7 @@ const PatientRoute = () => {
         <Route path={path.HANDBOOK} element={<DetailHandbook />} />
         <Route path={path.VIEWMORE_SPECIALTY} element={<DataSectionViewMore />} />
         <Route path={path.VIEWMORE_CLINIC} element={<DataSectionViewMore />} />
+        <Route path={path.VIEWMORE_DOCTOR} element={<DoctorViewMore />} />
         {/* <Route
           path={path.TABLE_CLINIC_SPECIALTY}
           element={TableSpecialtyClinic}

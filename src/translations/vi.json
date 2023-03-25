@@ -14,7 +14,8 @@
     "sub-specialty": "Chuyên khoa",
     "sub-packet": "Gói khám tổng quát",
     "sub-clinic": "Bệnh viện, phòng khám",
-    "sub-doctor": "Bác sĩ"
+    "sub-doctor": "Bác sĩ",
+    "search-doctors":"Tìm kiếm bác sĩ"
   },
   "banner": {
     "main-title": "NỀN TẢNG Y TẾ",

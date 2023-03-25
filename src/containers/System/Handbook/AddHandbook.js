@@ -249,7 +249,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getListClinicHomePatientAction()),
     clearStatus: () => dispatch(actions.clearStatus()),
     getListSpecialtyACtion: () =>
-      dispatch(actions.getListSpecialtyHomePatientAction()),
+      dispatch(actions.getListSpecialtyHomePatientAction("")),
     getSpecialtyByClinicIdAction: (id) =>
       dispatch(actions.getSpecialtyByClinicIdAction(id)),
   };

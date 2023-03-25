@@ -41,7 +41,7 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
                 cursor: "pointer",
               }}
             >
-              <i className="fas fa-bars" style={{fontSize:20}}></i>
+              <i className="fas fa-bars" style={{ fontSize: 20 }}></i>
               <div className="header-logo" onClick={returnHome}></div>
             </Grid>
             {!smScreen && (
@@ -55,7 +55,7 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
                 <div
                   className="child-content"
                   onClick={() => {
-                    this.renderListSelect("specialty");
+                    navigate(`/viewmore/specialty`);
                   }}
                 >
                   <div>
@@ -70,7 +70,7 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
                 <div
                   className="child-content"
                   onClick={() => {
-                    this.renderListSelect("clinic");
+                    navigate(`/viewmore/clinic`);
                   }}
                 >
                   <div>
@@ -85,7 +85,7 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
                 <div
                   className="child-content"
                   onClick={() => {
-                    this.renderListSelect("doctor");
+                    navigate(`/viewmore/doctor`);
                   }}
                 >
                   <div>

@@ -26,8 +26,8 @@ const updateSpecialty = (id, data) => {
   return axios.put(`/api/update-specialty?id=${id}`, data);
 };
 
-const getPopularHomePatient = (a) => {
-  return axios.get(`/api/get-popular-spacialty-home`);
+const getPopularHomePatient = (filter) => {
+  return axios.get(`/api/get-popular-spacialty-home?filter=${filter}`);
 };
 
 export {

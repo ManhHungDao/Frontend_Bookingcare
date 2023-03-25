@@ -38,8 +38,8 @@ const getAllCountDashboard = () => {
   return axios.get(`/api/get-all-count`);
 };
 
-const getAllUserHomePatient = () => {
-  return axios.get(`/api/get-all-user-home`);
+const getAllUserHomePatient = (name) => {
+  return axios.get(`/api/get-all-user-home?filter=${name}`);
 };
 
 export {
