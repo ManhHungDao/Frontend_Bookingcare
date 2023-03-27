@@ -24,7 +24,6 @@ const DataSectionViewMore = ({
   const location = useLocation();
   const [data, setData] = useState([]);
   const [title, setTitle] = useState("");
-  const [isClinic, setIsClinic] = useState(false);
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
@@ -32,7 +31,6 @@ const DataSectionViewMore = ({
     if (location.pathname.includes("clinic")) {
       getListClinicHome();
       setTitle("Cơ sở y tế nổi bật");
-      setIsClinic(true);
     } else {
       getListSpecialtyHome("");
       setTitle("Chuyên khoa phổ biến");
@@ -41,7 +39,7 @@ const DataSectionViewMore = ({
 
   useEffect(() => {
     setData([]);
-    if (isClinic === true)
+    if (location.pathname.includes("clinic"))
       setData(
         listClinic.map((e) => ({
           id: e._id,
@@ -60,7 +58,7 @@ const DataSectionViewMore = ({
   }, [listSpecialty, listClinic]);
 
   const clickDetailSpecialty = (id) => {
-    if (isClinic === true) navigate(`/clinic/${id}`);
+    if (location.pathname.includes("clinic")) navigate(`/clinic/${id}`);
     else navigate(`/specialty/${id}`);
   };
   const handleEnterSearch = (e) => {
@@ -119,7 +117,7 @@ const DataSectionViewMore = ({
           </span>
         </Typography>
       </Box>
-      {!isClinic && (
+      {!location.pathname.includes("clinic") && (
         <Box style={styles.search} p={2}>
           <input
             style={styles.input}
@@ -129,7 +127,7 @@ const DataSectionViewMore = ({
           />
         </Box>
       )}
-      <Box mt={isClinic === true ? "50px" : "80px"}>
+      <Box mt={location.pathname.includes("clinic") ? "50px" : "80px"}>
         {data &&
           data.length > 0 &&
           data.map((e) => (

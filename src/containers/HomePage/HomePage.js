@@ -113,8 +113,8 @@ const HomePage = ({
   return (
     <>
       <HomeHeader isShowBanner={true} />
-      {/* <div className="home-header-container__slider">
-        <Slider {...settings}>
+      <div className="home-header-container__slider">
+        {/* <Slider {...settings}>
           <div>
             <img className="" src={hinh1} />
           </div>
@@ -127,8 +127,8 @@ const HomePage = ({
           <div>
             <img className="" src={hinh4} />
           </div>
-        </Slider>
-      </div> */}
+        </Slider> */}
+      </div>
       <DataSection
         data={specialties}
         titleSection={<FormattedMessage id="homepage.specialty-popular" />}

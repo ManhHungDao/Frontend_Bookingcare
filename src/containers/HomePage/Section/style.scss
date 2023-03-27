@@ -63,8 +63,13 @@
 
 // header
 .home-header-container {
-  position: sticky;
+  .menu-mobile {
+    display: none;
+  }
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   height: 60px;
   background-color: #fff;
   z-index: 100;
@@ -79,16 +84,12 @@
     margin-bottom: 10px;
   }
 
-  .subs-title {
+  .child-content {
     cursor: pointer;
-    font-weight: lighter;
-    font-size: 10px;
-  }
-
-  .icon-support {
-    font-size: 25px;
-    color: #45c3d2;
-    padding: 0 5px;
+    .subs-title {
+      font-weight: lighter;
+      font-size: 10px;
+    }
   }
 
   .lang-vi,
@@ -370,6 +371,9 @@
   }
 }
 @media screen and (max-width: 768px) {
+  .menu-mobile {
+    display: block !important;
+  }
   .section-data {
     .container__header--title {
       font-size: 16px;

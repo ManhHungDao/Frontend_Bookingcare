@@ -1,6 +1,15 @@
 .render-detail {
   .detail {
-    .image_resized {
+    h2 {
+      font-weight: bold;
+      color: rgb(51, 122, 183);
+      font-size: 18px;
+    }
+    h3,
+    h4 {
+      font-size: 18px;
+    }
+    img {
       width: 100% !important;
       max-width: 622px;
     }
@@ -8,18 +17,10 @@
       width: 100% !important;
       display: flex;
       justify-content: center;
-      img {
-        width: 100% !important;
-        max-width: 622px;
-      }
     }
-  }
-  strong {
-    display: "flex" !important;
-    justify-content: center;
-    img {
-      width: 100% !important;
-      max-width: 622px !important;
+    table {
+      display: flex;
+      justify-content: center;
     }
   }
 }

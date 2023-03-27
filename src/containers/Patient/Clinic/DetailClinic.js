@@ -17,6 +17,7 @@ import SubHeader from "../../HomePage/Section/SubHeader";
 import { pageViewCount } from "../../../services/clinicService";
 import { useLocation } from "react-router-dom";
 import { getSingleClinic } from "../../../services/clinicService";
+import './style.scss'
 
 import {
   Card,
