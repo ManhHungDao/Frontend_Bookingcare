@@ -100,7 +100,7 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
                 <div
                   className="child-content"
                   onClick={() => {
-                    this.renderListSelect("packet");
+                    // this.renderListSelect("packet");
                   }}
                 >
                   <div>

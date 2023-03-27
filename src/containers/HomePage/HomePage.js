@@ -11,10 +11,9 @@ import useIsMobile from "../../components/useScreen/useIsMobile.js";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import hinh1 from "../../assets/asian-medical.jpg";
 import hinh2 from "../../assets/discussing.jpg";
 import hinh3 from "../../assets/young-asia.jpg";
-import hinh4 from "../../assets/waist-UP.jpg";
+import hinh4 from "../../assets/portrait.jpg";
 import Contact from "./Section/Contact";
 import DoctorSection from "./Section/DoctorSection.js";
 import HandbookSection from "./Section/HandbookSection";
@@ -114,9 +113,9 @@ const HomePage = ({
     <>
       <HomeHeader isShowBanner={true} />
       <div className="home-header-container__slider">
-        {/* <Slider {...settings}>
+        <Slider {...settings}>
           <div>
-            <img className="" src={hinh1} />
+            <img className="" src={hinh4} />
           </div>
           <div>
             <img className="" src={hinh2} />
@@ -124,10 +123,7 @@ const HomePage = ({
           <div>
             <img className="" src={hinh3} />
           </div>
-          <div>
-            <img className="" src={hinh4} />
-          </div>
-        </Slider> */}
+        </Slider>
       </div>
       <DataSection
         data={specialties}
@@ -178,7 +174,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getAllHandbookHomePatientAction()),
     getListClinicHome: () => dispatch(actions.getListClinicHomePatientAction()),
     getListSpecialtyHome: () =>
-      dispatch(actions.getListSpecialtyHomePatientAction('')),
+      dispatch(actions.getListSpecialtyHomePatientAction("")),
   };
 };
 
