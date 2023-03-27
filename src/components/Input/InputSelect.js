@@ -12,6 +12,7 @@ const InputSelect = ({
   minWidth,
   name,
   onChange,
+  isDisabled
 }) => {
   const [list, setList] = useState([]);
   useEffect(() => {
@@ -25,6 +26,7 @@ const InputSelect = ({
       >
         <Select
           className={`react-select-container ${isError ? "select-error" : ""}`}
+          isDisabled={isDisabled}
           value={value}
           onChange={onChange}
           options={list}

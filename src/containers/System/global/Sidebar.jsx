@@ -315,6 +315,14 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
+               <Item
+                title="Gói khám"
+                to="/admin/manage-code-packet"
+                icon={<ShieldOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
             </SubMenu>
 
             <LogOut

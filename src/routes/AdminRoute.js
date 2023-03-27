@@ -36,15 +36,12 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
             <Route path="reset-password" element={<ResetPassword />} />
             <Route path="add-user" element={<AddNewUser />} />
             <Route path="manage-user" element={<TableManageUser />} />
+            <Route path="add-user-schedule" element={<ManageUserSchedule />} />
             <Route
-              path="add-user-schedule"
-              element={<ManageUserSchedule />}
-            />
-             <Route
               path="manage-user-schedule"
               element={<TableManageUserSchedule />}
             />
-           
+
             <Route path="add-clinic" element={<AddClinic />} />
             <Route path="manage-clinic" element={<TableManageClinic />} />
             <Route path="add-packet" element={<AddPacket />} />
@@ -53,11 +50,10 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
               path="add-packet-schedule"
               element={<ManagePacketSchedule />}
             />
-             <Route
+            <Route
               path="manage-packet-schedule"
               element={<TableManagePacketSchedule />}
             />
-
 
             <Route path="add-specialty" element={<AddSpecialty />} />
             <Route path="manage-specialty" element={<TableManageSpecialty />} />
@@ -66,6 +62,7 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
             <Route path="manage-code-province" element={<ManageCode />} />
             <Route path="manage-code-time" element={<ManageCode />} />
             <Route path="manage-code-specialty" element={<ManageCode />} />
+            <Route path="manage-code-packet" element={<ManageCode />} />
             <Route path="add-handbook" element={<AddHandbook />} />
             <Route path="manage-handbook" element={<TableManageHandbook />} />
 

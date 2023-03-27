@@ -22,6 +22,7 @@ const PacketDetail = ({
   setPayment,
   introduce,
   setIntroduce,
+  type,
 }) => {
   return (
     <>
@@ -30,7 +31,7 @@ const PacketDetail = ({
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
             <Grid container spacing={3}>
-              <Grid xs={12} md={6}>
+              <Grid xs={12} md={8}>
                 <TextField
                   id="outlined-required"
                   label="Phòng khám"
@@ -41,7 +42,18 @@ const PacketDetail = ({
                   }}
                 />
               </Grid>
-              <Grid xs={12} md={6}>
+              <Grid xs={12} md={4}>
+                <TextField
+                  id="outlined-required"
+                  label="Loại"
+                  fullWidth
+                  value={type}
+                  inputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid xs={12} md={4}>
                 <TextField
                   id="outlined-required"
                   label="Chuyên khoa"
@@ -52,7 +64,7 @@ const PacketDetail = ({
                   }}
                 />
               </Grid>
-              <Grid xs={12} md={6}>
+              <Grid xs={12} md={4}>
                 <InputSelect
                   label="Chọn phương thức thanh toán"
                   value={payment}
@@ -63,7 +75,7 @@ const PacketDetail = ({
                   name="Chọn phương thức thanh toán"
                 />
               </Grid>
-              <Grid xs={12} md={6}>
+              <Grid xs={12} md={4}>
                 <InputSelect
                   label="Chọn giá (VNĐ)"
                   value={price}

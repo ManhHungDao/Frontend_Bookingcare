@@ -37,6 +37,7 @@ const DetailPacket = ({
   const [price, setPrice] = useState("");
   const [payment, setPayment] = useState("");
   const [specialty, setSpecialty] = useState("");
+  const [type, setType] = useState("");
   const [clinic, setClinic] = useState("");
 
   const [errors, setErrors] = useState({});
@@ -66,7 +67,8 @@ const DetailPacket = ({
         label: packet?.payment.name ? packet.payment.name : "",
       });
       setClinic(packet?.clinic.name ? packet.clinic.name : "");
-      setSpecialty(packet?.specialty.name ? packet.specialty.name : "");
+      setType(packet?.type?.typeCode?.name);
+      setSpecialty(packet?.type?.specialty?.name);
     }
   }, [packet]);
 
@@ -94,6 +96,16 @@ const DetailPacket = ({
       return;
     }
     let data = {
+      type: {
+        typeCode: {
+          id: type.value ? type.value : null,
+          name: type.label ? type.label : null,
+        },
+        specialty: {
+          id: specialty.value ? specialty.value : null,
+          name: specialty.label ? specialty.label : null,
+        },
+      },
       detail,
       price: {
         id: price.value ? price.value : null,
@@ -130,7 +142,7 @@ const DetailPacket = ({
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
-    height: enableEdit ? "80vh" : "fit-detail",
+    height: enableEdit ? "80vh" : "fit-content",
     maxHeight: "80vh",
     overflowY: "scroll",
     top: 0,
@@ -189,6 +201,7 @@ const DetailPacket = ({
                           name={name}
                           setName={setName}
                           clinic={clinic}
+                          setSpecialty={setSpecialty}
                           specialty={specialty}
                           price={price}
                           setPrice={setPrice}
@@ -196,6 +209,8 @@ const DetailPacket = ({
                           setPayment={setPayment}
                           introduce={introduce}
                           setIntroduce={setIntroduce}
+                          type={type}
+                          setType={setType}
                           errors={errors}
                           dataSelect={dataSelect}
                         />

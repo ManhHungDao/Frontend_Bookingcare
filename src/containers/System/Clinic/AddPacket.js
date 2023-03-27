@@ -29,12 +29,11 @@ const AddPacket = ({
   const [introduce, setIntroduce] = useState("");
   const [price, setPrice] = useState("");
   const [payment, setPayment] = useState("");
-
+  const [type, setType] = useState("");
   const [errors, setErrors] = useState("");
   const [clinic, setClinic] = useState("");
   const [specialty, setSpecialty] = useState("");
   const [listClinicSelect, setListClinicSelect] = useState([]);
-  const [listSpecialtySelect, setListSpecialtySelect] = useState([]);
   const [dataSelect, setDataSelect] = useState([]);
 
   useEffect(() => {
@@ -53,6 +52,7 @@ const AddPacket = ({
       setIntroduce("");
       setContent("");
       setPreviewImgUrl("");
+      setType("");
       setErrors({});
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -72,18 +72,6 @@ const AddPacket = ({
     );
   }, [listClinic, allcodes]);
 
-  useEffect(() => {
-    setSpecialty("");
-    if (!_.isEmpty(clinic)) getSpecialtyByClinicId(clinic.value);
-  }, [clinic]);
-
-  useEffect(() => {
-    if (listSpecialtyInClinic && listSpecialtyInClinic.length > 0)
-      setListSpecialtySelect(
-        listSpecialtyInClinic.map((e) => ({ id: e.key, name: e.name }))
-      );
-  }, [listSpecialtyInClinic]);
-
   const checkValidate = () => {
     let errors = {};
     if (!introduce) errors.introduce = "Giới thiệu không được bỏ trống";
@@ -93,6 +81,9 @@ const AddPacket = ({
     if (!image) errors.image = "Chưa tải hình ảnh";
     if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
     if (!price) errors.price = "Chưa chọn giá";
+    if (!type) errors.type = "Chưa chọn loại gói khám";
+    if (!specialty) errors.specialty = "Chưa chọn chuyên khoa";
+
     return errors;
   };
   const isValid = (errors) => {
@@ -114,6 +105,10 @@ const AddPacket = ({
       clinic: {
         id: clinic.value ? clinic.value : null,
         name: clinic.label ? clinic.label : null,
+      },
+      type: {
+        id: type.value ? type.value : null,
+        name: type.label ? type.label : null,
       },
       specialty: {
         id: specialty.value ? specialty.value : null,
@@ -139,29 +134,37 @@ const AddPacket = ({
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={8}>
                 <InputSelect
                   value={clinic}
                   onChange={setClinic}
                   data={listClinicSelect}
                   name="Chọn phòng khám"
-                  isError={errors.selectClinic ? true : false}
-                  errorText={errors.selectClinic ? errors.selectClinic : ""}
+                  isError={errors.clinic ? true : false}
+                  errorText={errors.clinic ? errors.clinic : ""}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={4}>
+                <InputSelect
+                  value={type}
+                  onChange={setType}
+                  data={dataSelect.filter((e) => e.type === "PACKET")}
+                  name="Chọn loại gói"
+                  isError={errors.type ? true : false}
+                  errorText={errors.type ? errors.type : ""}
+                />
+              </Grid>
+              <Grid item xs={12} md={4}>
                 <InputSelect
                   value={specialty}
                   onChange={setSpecialty}
-                  data={listSpecialtySelect}
+                  data={dataSelect.filter((e) => e.type === "SPECIALTY")}
                   name="Chọn chuyên khoa"
-                  isError={errors.selectSpecialty ? true : false}
-                  errorText={
-                    errors.selectSpecialty ? errors.selectSpecialty : ""
-                  }
+                  isError={errors.specialty ? true : false}
+                  errorText={errors.specialty ? errors.specialty : ""}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={4}>
                 <InputSelect
                   label="Chọn giá (VNĐ)"
                   value={price}
@@ -172,7 +175,7 @@ const AddPacket = ({
                   name="Chọn giá (VNĐ)"
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={4}>
                 <InputSelect
                   label="Chọn phương thức thanh toán"
                   value={payment}

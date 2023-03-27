@@ -240,7 +240,7 @@ const ManagePacketSchedule = ({
   };
   const handleEnterSearch = (e) => {
     if (e.which === 13) {
-      handleClickSearch();
+    handleClickSearch();
     }
   };
   const handleClickSearch = () => {
@@ -256,7 +256,7 @@ const ManagePacketSchedule = ({
 
   const checkValidate = () => {
     let errors = {};
-    if (!note) errors.note = "Ghi chú không được bỏ trống";
+    // if (!note) errors.note = "Ghi chú không được bỏ trống";
     if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
     if (!price) errors.price = "Chưa chọn giá";
     let activeTime = timeSchedule.filter((e) => e.active === true);
@@ -492,7 +492,7 @@ const ManagePacketSchedule = ({
                   multiline
                   maxRows={4}
                   fullWidth
-                  required
+                  // required
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   error={errors.note ? true : false}

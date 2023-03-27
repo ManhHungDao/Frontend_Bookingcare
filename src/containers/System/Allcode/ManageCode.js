@@ -40,6 +40,8 @@ const ManageCode = ({
       setType("SPECIALTY");
     } else if (path.includes("payment")) {
       setType("PAYMENT");
+    } else if (path.includes("packet")) {
+      setType("PACKET");
     }
   };
 
@@ -54,8 +56,8 @@ const ManageCode = ({
   useEffect(() => {
     if (allcodeType.list && allcodeType.list.length > 0) {
       setData(allcodeType.list);
-    }else{
-      setData([])
+    } else {
+      setData([]);
     }
   }, [allcodeType]);
   useEffect(() => {
