@@ -80,7 +80,8 @@ const TableManagePacketSchedule = ({
   useEffect(() => {
     if (isSuccess !== null) {
       if (isSuccess === true) {
-        fetchDataAPI(page + 1, rowsPerPage);
+        const clinicId = selectClinic?.value ? selectClinic.value : "";
+        fetchDataAPI(page + 1, rowsPerPage, clinicId);
         setOpen(false);
       }
       clearStatus();
@@ -158,12 +159,14 @@ const TableManagePacketSchedule = ({
   );
 
   const statusList = [
-    { name: "Lịch hẹn mới", color: "#90caf9" },
+    { name: "Lịch hẹn mới", color: "#bdbdbd" },
+    { name: "Đã xác nhận", color: "#90caf9" },
     { name: "Đang khám", color: "#e6ee9c" },
     { name: "Hoàn thành", color: "#1de9b6" },
     { name: "Đã hủy", color: "#ff9100" },
   ];
   const TableColumn = (props) => {
+    const [openRow, setOpenRow] = useState(false);
     const { schedule, packet, detail } = props;
     let id,
       name = "";
@@ -179,7 +182,6 @@ const TableManagePacketSchedule = ({
       specialty = id.specialty;
       image = id.image;
     }
-    const [openRow, setOpenRow] = useState(false);
     const dataPacket = {
       id: packet?.id?._id,
       name,

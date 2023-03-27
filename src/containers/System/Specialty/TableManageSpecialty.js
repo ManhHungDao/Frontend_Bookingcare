@@ -75,8 +75,10 @@ const TableManageSpecialty = ({
   useEffect(() => {
     if (isSuccess !== null) {
       if (isSuccess === true) {
+        const clinicId = selectClinic?.value ? selectClinic.value : "";
+        const searchValue = search ? search : "";
+        fetchDataAPI(page + 1, rowsPerPage, clinicId, searchValue);
         setOpen(false);
-        fetchDataAPI(page + 1, rowsPerPage);
         setSpecialtyEdit("");
         setSpecialtyDelete("");
         setEnableEdit(false);

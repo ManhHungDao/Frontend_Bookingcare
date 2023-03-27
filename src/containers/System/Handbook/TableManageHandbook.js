@@ -45,7 +45,6 @@ const TableManageHandbook = ({
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [listSelectClinic, setListSelectClinic] = useState([]);
   const [selectClinic, setSelectClinic] = useState("");
-
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -80,9 +79,11 @@ const TableManageHandbook = ({
   useEffect(() => {
     if (isSuccess !== null) {
       if (isSuccess === true) {
+        const clinicId = selectClinic?.value ? selectClinic.value : "";
+        const searchValue = search ? search : "";
+        fetchDataAPI(page + 1, rowsPerPage, clinicId, searchValue);
         setOpen(false);
         setEnableEdit(false);
-        fetchDataAPI(page + 1, rowsPerPage, "");
       }
       setOpenConfirmModal(false);
       clearStatus();

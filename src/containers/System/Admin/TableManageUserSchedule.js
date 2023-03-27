@@ -84,7 +84,9 @@ const TableManageUserSchedule = ({
   useEffect(() => {
     if (isSuccess !== null) {
       if (isSuccess === true) {
-        fetchDataAPI(page + 1, rowsPerPage);
+        const clinicId = selectClinic?.value ? selectClinic.value : "";
+        const searchValue = search ? search : "";
+        fetchDataAPI(page + 1, rowsPerPage, clinicId, searchValue);
         setOpen(false);
       }
       clearStatus();
@@ -187,6 +189,7 @@ const TableManageUserSchedule = ({
     { name: "Đã hủy", color: "#ff9100" },
   ];
   const TableColumn = (props) => {
+    const [openRow, setOpenRow] = useState(false);
     const { doctor, schedule } = props;
     let id,
       name = "";
@@ -208,7 +211,6 @@ const TableManageUserSchedule = ({
       specialty = detail.specialty;
       clinic = detail.clinic;
     }
-    const [openRow, setOpenRow] = useState(false);
     const dataDoctor = {
       id: doctor?.id?._id,
       name,

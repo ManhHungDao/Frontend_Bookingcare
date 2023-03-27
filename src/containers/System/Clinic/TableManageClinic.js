@@ -78,7 +78,8 @@ const TableManageClinic = ({
       if (isSuccess === true) {
         setOpen(false);
         setEnableEdit(false);
-        fetchDataAPI(page + 1, rowsPerPage, "");
+        const searchValue = search ? search : "";
+        fetchDataAPI(page + 1, rowsPerPage, searchValue);
       }
       setOpenConfirmModal(false);
       clearStatus();

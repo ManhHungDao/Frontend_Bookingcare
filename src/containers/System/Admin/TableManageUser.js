@@ -63,7 +63,9 @@ const TableManageUser = (props) => {
   useEffect(() => {
     if (props.isSuccess !== null) {
       if (props.isSuccess === true) {
-        fetchDataAPI(page + 1, rowsPerPage);
+        const clinicId = selectClinic?.value ? selectClinic.value : "";
+        const searchValue = search ? search : "";
+        fetchDataAPI(page + 1, rowsPerPage, clinicId, searchValue);
         setOpen(false);
         setEnableEdit(false);
       }
