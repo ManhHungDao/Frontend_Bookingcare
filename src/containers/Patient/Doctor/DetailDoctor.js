@@ -9,6 +9,7 @@ import _ from "lodash";
 import SubHeader from "../../HomePage/Section/SubHeader";
 import ProfileDoctor from "./ProfileDoctor";
 import { getSingleUserService } from "../../../services/userService";
+import "./style.scss";
 
 const DetailDoctor = ({}) => {
   const { id } = useParams();
@@ -18,12 +19,11 @@ const DetailDoctor = ({}) => {
     const getData = async () => {
       const res = await getSingleUserService(id);
       if (res && res.success) {
-        setData(res.clinic);
+        setData(res.user);
       }
     };
     getData();
   }, []);
-
   return (
     <>
       <SubHeader />
@@ -33,8 +33,11 @@ const DetailDoctor = ({}) => {
         </Container>
       </Stack>
       <Divider />
-      <Stack className="detail-doctor" sx={{ backgroundColor: "#efefef" }}>
-        <Container className="detail-doctor--detail">
+      <Stack
+        className="detail-doctor"
+        sx={{ backgroundColor: "#efefef", p: 2 }}
+      >
+        <Container>
           <span
             className="detail"
             dangerouslySetInnerHTML={{ __html: data?.detail?.detail }}
@@ -54,7 +57,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-  };
+  return {};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DetailDoctor);

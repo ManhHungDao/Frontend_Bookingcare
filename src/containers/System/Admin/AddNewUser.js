@@ -155,7 +155,7 @@ const AddNewUser = ({
       errors.phone = "Số điện thoại không hợp lệ";
     if (!content) errors.content = "Chi tiết không được bỏ trống";
     if (!introduce) errors.introduce = "Mô tả không được bỏ trống";
-    if (!note) errors.note = "Ghi chú không được bỏ trống";
+    // if (!note) errors.note = "Ghi chú không được bỏ trống";
     if (!position) errors.position = "Chưa chọn vị trí";
     if (!payment) errors.payment = "Chưa chọn phương thức thanh toán";
     if (!price) errors.price = "Chưa chọn giá";
@@ -442,7 +442,6 @@ const AddNewUser = ({
               id="outlined-multiline-flexible"
               label="Ghi chú"
               multiline
-              required
               maxRows={4}
               fullWidth
               onChange={(e) => setNote(e.target.value)}

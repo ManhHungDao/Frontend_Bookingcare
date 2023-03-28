@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import { useEffect, useState } from "react";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography, Divider } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -15,7 +15,6 @@ import BallotOutlinedIcon from "@mui/icons-material/BallotOutlined";
 import { useDispatch } from "react-redux";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
-import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
 import BookmarksOutlinedIcon from "@mui/icons-material/BookmarksOutlined";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
@@ -29,7 +28,9 @@ import PlaylistAddCircleOutlinedIcon from "@mui/icons-material/PlaylistAddCircle
 import VaccinesOutlinedIcon from "@mui/icons-material/VaccinesOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
-import Divider from "@mui/material/Divider";
+import EarbudsIcon from "@mui/icons-material/Earbuds";
+import LocalMallIcon from '@mui/icons-material/LocalMall';
+
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
   const handleSelected = () => {
@@ -310,15 +311,15 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               <Item
                 title="Chuyên khoa"
                 to="/admin/manage-code-specialty"
-                icon={<ShieldOutlinedIcon />}
+                icon={<EarbudsIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
-               <Item
+              <Item
                 title="Gói khám"
                 to="/admin/manage-code-packet"
-                icon={<ShieldOutlinedIcon />}
+                icon={<LocalMallIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}

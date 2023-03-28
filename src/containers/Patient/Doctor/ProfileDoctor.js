@@ -20,17 +20,14 @@ import _ from "lodash";
 import BookingModal from "./Modal/BookingModal";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 import { getSingleUserService } from "../../../services/userService";
+import { getSingleUserSchedule } from "../../../services/scheduleService";
 
 const ProfileDoctor = ({
   id,
   user,
   language,
-  getSingleUserSchedule,
-  userSchedule,
   fetchAllcode,
   allcodes,
-  clearStatus,
-  isSuccess,
 }) => {
   const [data, setData] = useState("");
   const [allday, setAllday] = useState([]);
@@ -42,28 +39,21 @@ const ProfileDoctor = ({
   const [openConfirm, setOpenConfirm] = useState(false);
   // data user booking
 
-  useEffect(() => {
-    allDay();
-    const getData = async () => {
-      const res = await getSingleUserService(id);
-      if (res && res.success) {
-        setData(res.user);
-      }
-    };
-    getData();
-    fetchAllcode();
-  }, []);
+  const getDataUser = async () => {
+    let res = await getSingleUserService(id);
+    if (res && res.success) {
+      setData(res.user);
+    } else {
+      setData("");
+    }
+  };
 
   useEffect(() => {
-    if (isSuccess !== null) {
-      if (isSuccess === true) {
-        setOpen(false);
-        setOpenConfirm(true);
-        // chuyển thời gian đã có người chọn thành không thể chọn : active - true / false
-      }
-      clearStatus();
-    }
-  }, [isSuccess]);
+    allDay();
+
+    getDataUser();
+    fetchAllcode();
+  }, []);
 
   useEffect(() => {
     allDay();
@@ -88,19 +78,19 @@ const ProfileDoctor = ({
     }
   }, [user]);
 
-  useEffect(() => {
-    setTimeSchedule("");
-    getSingleUserSchedule(id, date / 1000);
-  }, [date]);
-
-  useEffect(() => {
-    const { schedule } = userSchedule;
-    if (!_.isEmpty(userSchedule)) {
+  const getDataSchedule = async () => {
+    let res = await getSingleUserSchedule(id, date / 1000);
+    if (res && res.success) {
+      let { schedule } = res?.schedule;
       if (schedule && schedule.length > 0) {
         setTimeSchedule(schedule);
       }
     }
-  }, [userSchedule]);
+  };
+
+  useEffect(() => {
+    getDataSchedule();
+  }, [date]);
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -292,6 +282,7 @@ const ProfileDoctor = ({
         codeTime={codeTime}
         priceBooking={data?.detail?.price?.name}
         doctorId={id}
+        setOpenConfirm={setOpenConfirm}
       />
       <ConfirmModal
         open={openConfirm}
@@ -307,18 +298,13 @@ const ProfileDoctor = ({
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    userSchedule: state.admin.schedule,
     allcodes: state.admin.allcodes,
-    isSuccess: state.app.isSuccess,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getSingleUserSchedule: (id, date) =>
-      dispatch(actions.getSingleUserScheduleAction(id, date)),
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
-    clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileDoctor);

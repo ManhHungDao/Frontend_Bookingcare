@@ -43,6 +43,9 @@ const BookingModal = ({
   priceBooking,
   createUserBookingSchedule,
   doctorId,
+  isSuccess,
+  clearStatus,
+  setOpenConfirm,
 }) => {
   const mobiScreen = useIsMobile();
   const [date, setDate] = useState(dayjs(new Date()));
@@ -115,18 +118,28 @@ const BookingModal = ({
     };
     createUserBookingSchedule(data);
   };
+  useEffect(() => {
+    if (isSuccess !== null) {
+      if (isSuccess === true) {
+        setErrors("");
+        setEmail("");
+        setPhone("");
+        setName("");
+        setAddress({
+          detail: "",
+          province: "",
+        });
+        setGender("");
+        setReason("");
+        setDate(dayjs(new Date()));
+        setOpen(false);
+        setOpenConfirm(true);
+      }
+      clearStatus();
+    }
+  }, [isSuccess]);
+
   const handleClose = () => {
-    setErrors("");
-    setEmail("");
-    setPhone("");
-    setName("");
-    setAddress({
-      detail: "",
-      province: "",
-    });
-    setGender("");
-    setReason("");
-    setDate(dayjs(new Date()));
     setOpen(false);
   };
   return (
@@ -380,13 +393,16 @@ const BookingModal = ({
 };
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    isSuccess: state.app.isSuccess,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     createUserBookingSchedule: (data) =>
       dispatch(actions.createUserBookingScheduleAction(data)),
+    clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
 
