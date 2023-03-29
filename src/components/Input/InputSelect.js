@@ -12,7 +12,8 @@ const InputSelect = ({
   minWidth,
   name,
   onChange,
-  isDisabled
+  isDisabled,
+  bgcolor,
 }) => {
   const [list, setList] = useState([]);
   useEffect(() => {
@@ -22,7 +23,10 @@ const InputSelect = ({
     <>
       <FormControl
         error={isError}
-        sx={{ minWidth: minWidth ? minWidth : "100%" }}
+        sx={{
+          minWidth: minWidth ? minWidth : "100%",
+          bgcolor: bgcolor ? bgcolor : "transparent",
+        }}
       >
         <Select
           className={`react-select-container ${isError ? "select-error" : ""}`}

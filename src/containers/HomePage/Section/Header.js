@@ -47,7 +47,11 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
                 onClick={handleClick}
               ></i>
 
-              <div className="header-logo" onClick={returnHome}></div>
+              <div
+                className="header-logo"
+                style={{ cursor: "pointer" }}
+                onClick={returnHome}
+              ></div>
             </Grid>
             {!smScreen && (
               <Grid
@@ -111,7 +115,7 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
                 <div
                   className="child-content"
                   onClick={() => {
-                    // this.renderListSelect("packet");
+                    navigate(`/packet`);
                   }}
                 >
                   <div>
