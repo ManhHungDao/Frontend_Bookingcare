@@ -10,6 +10,7 @@ import {
   Typography,
   NativeSelect,
   Divider,
+  Link,
 } from "@mui/material";
 import useIsMobile from "../../../components/useScreen/useIsMobile";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
@@ -21,22 +22,20 @@ import BookingModal from "./Modal/BookingModal";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 import { getSingleUserService } from "../../../services/userService";
 import { getSingleUserSchedule } from "../../../services/scheduleService";
+import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 
-const ProfileDoctor = ({
-  id,
-  user,
-  language,
-  fetchAllcode,
-  allcodes,
-}) => {
+const ProfileDoctor = ({ id, user, language, fetchAllcode, allcodes }) => {
   const [data, setData] = useState("");
   const [allday, setAllday] = useState([]);
-  const [date, setDate] = useState(moment(new Date()).startOf("day").valueOf());
+  const [date, setDate] = useState(
+    moment(new Date()).add(1, "days").startOf("day").valueOf()
+  );
   const [codeTime, setCodeTime] = useState([]);
   const [timeSchedule, setTimeSchedule] = useState([]);
   const [open, setOpen] = useState(false);
   const [timeBooking, setTimeBooking] = useState("");
   const [openConfirm, setOpenConfirm] = useState(false);
+  const [note, setNote] = useState("");
   // data user booking
 
   const getDataUser = async () => {
@@ -85,6 +84,7 @@ const ProfileDoctor = ({
       if (schedule && schedule.length > 0) {
         setTimeSchedule(schedule);
       }
+      setNote(res?.schedule?.detail?.note);
     }
   };
 
@@ -98,17 +98,11 @@ const ProfileDoctor = ({
 
   const allDay = () => {
     let allDays = [];
-    for (let i = 0; i < 7; i++) {
+    for (let i = 1; i < 8; i++) {
       let object = {};
       if (language === languages.VI) {
-        if (i === 0) {
-          const ddMM = moment(new Date()).format("DD/MM");
-          const name = "Hôm nay - " + ddMM;
-          object.name = name;
-        } else {
-          const name = moment(new Date()).add(i, "days").format("dddd - DD/MM");
-          object.name = capitalizeFirstLetter(name);
-        }
+        const name = moment(new Date()).add(i, "days").format("dddd - DD/MM");
+        object.name = capitalizeFirstLetter(name);
       } else {
         if (i === 0) {
           const ddMM = moment(new Date()).format("DD/MM");
@@ -170,7 +164,7 @@ const ProfileDoctor = ({
                 name: "age",
                 id: "uncontrolled-native",
               }}
-              sx={{ color: "#0288d1", fontWeight: 600 }}
+              sx={{ color: "#1976d2", fontWeight: 600 }}
               onChange={(event) => setDate(event.target.value)}
             >
               {allday &&
@@ -188,41 +182,55 @@ const ProfileDoctor = ({
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-              <Box
-                // sx={{
-                //   display: "grid",
-                //   gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
-                //   gap: 1,
-                // }}
-                sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}
-              >
-                {timeSchedule &&
-                  timeSchedule.length > 0 &&
-                  timeSchedule.map((e) => (
-                    <Box
-                      p={1}
-                      key={e.id}
-                      variant={"contained"}
-                      onClick={() => handleClickTime(e.time)}
-                      sx={{
-                        backgroundColor: "#ffeb3b",
-                        ":hover": {
-                          bgcolor: "rgb(151, 200, 240)",
-                        },
-                        borderRadius: "4px",
-                        textAlign: "center",
-                        minWidth: "100px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {codeTime &&
-                        codeTime.length > 0 &&
-                        codeTime.map((i) => {
-                          if (i.id === e.time) return i.name;
-                        })}
-                    </Box>
-                  ))}
-              </Box>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={12}>
+                  <Box
+                    // sx={{
+                    //   display: "grid",
+                    //   gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
+                    //   gap: 1,
+                    // }}
+                    sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}
+                  >
+                    {timeSchedule &&
+                      timeSchedule.length > 0 &&
+                      timeSchedule.map((e) => (
+                        <Box
+                          p={1}
+                          key={e.id}
+                          variant={"contained"}
+                          onClick={() => handleClickTime(e.time)}
+                          sx={{
+                            backgroundColor: "#ffeb3b",
+                            ":hover": {
+                              bgcolor: "rgb(151, 200, 240)",
+                            },
+                            borderRadius: "4px",
+                            textAlign: "center",
+                            minWidth: "100px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {codeTime &&
+                            codeTime.length > 0 &&
+                            codeTime.map((i) => {
+                              if (i.id === e.time) return i.name;
+                            })}
+                        </Box>
+                      ))}
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <Divider />
+                  <Typography color="#a94442" variant="subtitle2" p={1}>
+                    {note && (
+                      <>
+                        <LocalFireDepartmentIcon color="#a94442" /> {note}
+                      </>
+                    )}
+                  </Typography>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid
               item
@@ -238,7 +246,12 @@ const ProfileDoctor = ({
               <Typography>
                 <b>
                   Phòng khám:&nbsp;
-                  {data?.detail?.clinic?.name ? data.detail.clinic.name : ""}
+                  <Link
+                    href={`/clinic/${data?.detail?.clinic?.id}`}
+                    underline="hover"
+                  >
+                    {data?.detail?.clinic?.name ? data.detail.clinic.name : ""}
+                  </Link>
                 </b>
               </Typography>
               <Divider />

@@ -101,7 +101,22 @@
     }
   }
 }
-
+.leftbar {
+  .child-content {
+    cursor: pointer;
+    width: 100%;
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+  }
+  .nav-1,
+  .nav-2,
+  .nav-3,
+  .nav-4 {
+    &:hover {
+      background-color: #b8edf3;
+    }
+  }
+}
 //sub header
 .sub-header {
   .icon-goback {
@@ -252,6 +267,15 @@
   .slick-next {
     display: none !important;
   }
+  // .header-bar {
+  //   flex-direction: column !important;
+  //   position: fixed;
+  //   top: 60px;
+  //   left: 0;
+  //   padding: 20px;
+  //   background-color: #fff;
+  //   gap: 60px;
+  // }
 }
 
 @media screen and (max-width: 576px) {

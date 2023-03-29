@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { languages } from "../../../utils";
@@ -8,18 +8,21 @@ import { Grid, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./style.scss";
 import useIsTablet from "../../../components/useScreen/useIsTablet.js";
+import SwipeableTemporaryDrawer from "./LeftBar";
 
 const HomeHeader = ({ changLanguageAppRedux, language }) => {
   const smScreen = useIsTablet();
   const navigate = useNavigate();
-
+  const [open, setOpen] = useState(false);
   const changeLanguage = (language) => {
     changLanguageAppRedux(language);
   };
   const returnHome = () => {
     navigate(`/`);
   };
-
+  const handleClick = () => {
+    setOpen(true);
+  };
   return (
     <>
       <div className="home-header-container d-flex align-items-center">
@@ -37,15 +40,18 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
               display={"flex"}
               justifyContent={"flex-start"}
               alignItems={"center"}
-              sx={{
-                cursor: "pointer",
-              }}
             >
-              <i className="fas fa-bars menu-mobile" style={{ fontSize: 20 }}></i>
+              <i
+                className="fas fa-bars menu-mobile"
+                style={{ fontSize: 20, zIndex: 100000 }}
+                onClick={handleClick}
+              ></i>
+
               <div className="header-logo" onClick={returnHome}></div>
             </Grid>
             {!smScreen && (
               <Grid
+                className="header-bar"
                 item
                 md={6}
                 display={"flex"}
@@ -56,6 +62,11 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
                   className="child-content"
                   onClick={() => {
                     navigate(`/viewmore/specialty`);
+                  }}
+                  style={{
+                    ":hover": {
+                      bgcolor: "rgb(151, 200, 240)",
+                    },
                   }}
                 >
                   <div>
@@ -143,6 +154,7 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
           </Grid>
         </div>
       </div>
+      <SwipeableTemporaryDrawer show={open} setOpen={setOpen} />
     </>
   );
 };
