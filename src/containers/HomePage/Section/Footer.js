@@ -4,13 +4,20 @@ import { connect } from "react-redux";
 import "./style.scss";
 import { Container } from "@mui/material";
 import useIsMobile from "../../../components/useScreen/useIsMobile";
+import { useNavigate } from "react-router-dom";
+
 const HomeFooter = () => {
   const smScreen = useIsMobile();
+  const navigate = useNavigate();
   return (
     <div className="footer-container">
       <Container sx={{ display: "flex", justifyContent: "space-between" }}>
         <div className="company-info">
-          <div className="lg"></div>
+          <div
+            className="lg"
+            onClick={() => navigate("/")}
+            style={{ cursor: "pointer" }}
+          ></div>
           <div className="address">
             <p>Công ty Cổ phần Công nghệ HealthCare</p>
             <p>

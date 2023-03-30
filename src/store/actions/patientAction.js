@@ -14,6 +14,8 @@ import {
 } from "../../services/handbookService";
 import { getAllUserHomePatient } from "../../services/userService";
 import { createUserBookingSchedule } from "../../services/scheduleService";
+import { getAllPacket } from "../../services/packetService";
+
 import { loadingToggleAction } from "./adminActions";
 import { toast } from "react-toastify";
 
@@ -194,6 +196,32 @@ export const getSingleHandbookAction = (id) => {
       // dispatch(loadingToggleAction(false));
       dispatch({
         type: actionTypes.GET_SINGLE_HANDBOOK_FAILED,
+      });
+    }
+  };
+};
+
+// PACKET
+
+export const getAllPacketPatientHomeAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      // dispatch(loadingToggleAction(true));
+      const res = await getAllPacket(data);
+      if (res && res.success) {
+        // dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.GET_ALL_PACKET_HOME_SUCCESS,
+          data: {
+            list: res.packets,
+            count: res.count,
+          },
+        });
+      }
+    } catch (error) {
+      // dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_ALL_PACKET_HOME_FAILED,
       });
     }
   };

@@ -4,6 +4,7 @@ const initialState = {
   listSpecialty: [],
   listUser: [],
   listHandbook: [],
+  listPacket: [],
   clinic: {},
   specialty: {},
   handbook: {},
@@ -82,6 +83,17 @@ const patientReducer = (state = initialState, action) => {
     }
     case actionTypes.GET_SINGLE_HANDBOOK_FAILED: {
       state.handbook = {};
+      return {
+        ...state,
+      };
+    }
+    //PACKET
+    case actionTypes.GET_ALL_PACKET_HOME_SUCCESS: {
+      state.listPacket = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_ALL_PACKET_HOME_FAILED: {
+      state.listPacket = [];
       return {
         ...state,
       };

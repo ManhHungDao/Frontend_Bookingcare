@@ -21,10 +21,6 @@ const CONST_GENDER = [
 ];
 
 export const PatientProfile = ({ patient }) => {
-  console.log(
-    "🚀 ~ file: DetailProfile.js:24 ~ PatientProfile ~ patient:",
-    patient
-  );
   return (
     <Card>
       <CardHeader title="Thông tin bệnh nhân" />
