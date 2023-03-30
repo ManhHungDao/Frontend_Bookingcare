@@ -55,6 +55,7 @@ const ManagePacketSchedule = ({
   deleteSchedule,
   getAllPacket,
   allcodes,
+  loadingToggleAction,
 }) => {
   const [image, setImage] = useState("");
   const [clinic, setClinic] = useState("");
@@ -139,6 +140,7 @@ const ManagePacketSchedule = ({
     }
   }, [listPacket, allcodes]);
   const fetchDataSchedule = async (id, date) => {
+    loadingToggleAction(true);
     const res = await getSinglePacketSchedule(id, date);
     if (res && res.success === true) {
       const data = res.schedule;
@@ -163,6 +165,7 @@ const ManagePacketSchedule = ({
           return e;
         });
         setTimeSchedule(list);
+        loadingToggleAction(false);
       }
     } else if (res.success === false) {
       setNote(packetEdit?.detail?.note ? packetEdit.detail.note : "");
@@ -174,6 +177,7 @@ const ManagePacketSchedule = ({
         value: packetEdit?.price?.id ? packetEdit.price.id : "",
         label: packetEdit?.price?.name ? packetEdit.price.name : "",
       });
+      loadingToggleAction(false);
     }
   };
   useEffect(() => {
@@ -644,6 +648,8 @@ const mapDispatchToProps = (dispatch) => {
     upsertSchedule: (data) => dispatch(actions.upsertScheduleAction(data)),
     clearStatus: () => dispatch(actions.clearStatus()),
     getAllPacket: (data) => dispatch(actions.getAllPacketAction(data)),
+    loadingToggleAction: (status) =>
+      dispatch(actions.loadingToggleAction(status)),
   };
 };
 export default connect(
