@@ -35,8 +35,6 @@ const CONST_GENDER = [
 const BookingModal = ({
   open,
   setOpen,
-  image,
-  dataName,
   codeTime,
   dataBooking,
   createUserBookingSchedule,
@@ -99,7 +97,7 @@ const BookingModal = ({
       return;
     }
     const data = {
-      doctorId:dataBooking.doctorId,
+      doctorId: dataBooking.doctorId,
       packetId: dataBooking.packetId,
       time: dataBooking.timeBooking,
       date: dataBooking.dateBooking,
@@ -165,15 +163,15 @@ const BookingModal = ({
                   height: 100,
                   display: { xs: "none", sm: "block" },
                 }}
-                image={image}
-                alt={dataName ? dataName : ""}
+                image={dataBooking.imgDoctor}
+                alt={dataBooking.nameDoctor}
               />
               <CardContent>
                 <Typography variant="subtitle1" color="primary">
                   ĐẶT LỊCH KHÁM
                 </Typography>
                 <Typography component="h2" variant="h5">
-                  {dataName}
+                  {dataBooking.nameDoctor || ""}
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary">
                   {codeTime &&
@@ -182,7 +180,9 @@ const BookingModal = ({
                       if (i.id === dataBooking.timeBooking) return i.name;
                     })}
                   &nbsp; - &nbsp;
-                  {moment.unix(dataBooking.dateBooking).format("dddd - DD/MM/YYYY")}
+                  {moment
+                    .unix(dataBooking.dateBooking)
+                    .format("dddd - DD/MM/YYYY")}
                 </Typography>
               </CardContent>
             </Stack>
@@ -313,7 +313,7 @@ const BookingModal = ({
                         Giá khám
                       </Typography>
                       <Typography variant="subtitle2" p={1}>
-                        {dataBooking.priceBooking}
+                        {dataBooking.priceDoctor}
                       </Typography>
                     </Stack>
                     <Stack
@@ -340,7 +340,7 @@ const BookingModal = ({
                         Tổng cộng
                       </Typography>
                       <Typography variant="subtitle2" color={"error"} p={1}>
-                        {dataBooking.priceBooking}
+                        {dataBooking.priceDoctor}
                       </Typography>
                     </Stack>
                   </Box>
