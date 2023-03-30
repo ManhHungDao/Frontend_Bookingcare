@@ -55,17 +55,39 @@
         width: 196px;
         font-weight: bold;
         text-align: center;
-        font-size: 16px;
+        font-size: 13px;
       }
     }
   }
 }
-
+// .homepacket__packet__mobile {
+//   border: none !important;
+//   .container__body {
+//     &--item {
+//       width: 250px !important;
+//       img {
+//         width: 250px !important;
+//         height: 150px !important;
+//         border: 2px solid #eee;
+//         border-radius: 4px;
+//       }
+//       &--title {
+//         width: 250px !important;
+//         font-weight: bold;
+//         text-align: center;
+//         font-size: 13px;
+//       }
+//     }
+//   }
+// }
 @media screen and (max-width: 768px) {
-  .container__body--item--title {
-    font-weight: 400 !important;
-    font-size: 12px;
-    width: 176px !important;
+  // .homepacket__packet__mobile,
+  .homepacket__clinic {
+    .container__body--item--title {
+      font-weight: 400 !important;
+      font-size: 12px !important;
+      width: 176px ;
+    }
   }
   .homepacket__packet {
     .container__body {

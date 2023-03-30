@@ -18,7 +18,7 @@ import localization from "moment/locale/vi";
 import moment from "moment";
 import { languages } from "../../../utils";
 import _ from "lodash";
-import BookingModal from "./Modal/BookingModal";
+import BookingModal from "../Schedule/Booking/BookingModal";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 import { getSingleUserService } from "../../../services/userService";
 import { getSingleUserSchedule } from "../../../services/scheduleService";
@@ -126,7 +126,13 @@ const ProfileDoctor = ({ id, user, language, fetchAllcode, allcodes }) => {
     setOpen(true);
   };
   const handleConfirm = () => setOpenConfirm(false);
-
+  const dataBooking = {
+    doctorId: id,
+    packetId: null,
+    timeBooking: timeBooking,
+    dateBooking: date / 1000,
+    priceBooking: data?.detail?.price?.name,
+  };
   return (
     <>
       <Box
@@ -289,12 +295,9 @@ const ProfileDoctor = ({ id, user, language, fetchAllcode, allcodes }) => {
         open={open}
         setOpen={setOpen}
         image={data?.image?.url ? data.image.url : ""}
-        nameDoctor={`${data?.detail?.position?.name} ${data?.name}`}
-        timeBooking={timeBooking}
-        dateBooking={date / 1000}
+        dataName={`${data?.detail?.position?.name} ${data?.name}`}
         codeTime={codeTime}
-        priceBooking={data?.detail?.price?.name}
-        doctorId={id}
+        dataBooking={dataBooking}
         setOpenConfirm={setOpenConfirm}
       />
       <ConfirmModal

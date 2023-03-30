@@ -36,13 +36,10 @@ const BookingModal = ({
   open,
   setOpen,
   image,
-  nameDoctor,
-  timeBooking,
+  dataName,
   codeTime,
-  dateBooking,
-  priceBooking,
+  dataBooking,
   createUserBookingSchedule,
-  doctorId,
   isSuccess,
   clearStatus,
   setOpenConfirm,
@@ -102,10 +99,10 @@ const BookingModal = ({
       return;
     }
     const data = {
-      doctorId,
-      packetId: null,
-      time: timeBooking,
-      date: dateBooking,
+      doctorId:dataBooking.doctorId,
+      packetId: dataBooking.packetId,
+      time: dataBooking.timeBooking,
+      date: dataBooking.dateBooking,
       patient: {
         date: dayjs(date).format("YYYY-MM-DD"),
         name,
@@ -169,23 +166,23 @@ const BookingModal = ({
                   display: { xs: "none", sm: "block" },
                 }}
                 image={image}
-                alt={nameDoctor ? nameDoctor : ""}
+                alt={dataName ? dataName : ""}
               />
               <CardContent>
                 <Typography variant="subtitle1" color="primary">
                   ĐẶT LỊCH KHÁM
                 </Typography>
                 <Typography component="h2" variant="h5">
-                  {nameDoctor}
+                  {dataName}
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary">
                   {codeTime &&
                     codeTime.length > 0 &&
                     codeTime.map((i) => {
-                      if (i.id === timeBooking) return i.name;
+                      if (i.id === dataBooking.timeBooking) return i.name;
                     })}
                   &nbsp; - &nbsp;
-                  {moment.unix(dateBooking).format("dddd - DD/MM/YYYY")}
+                  {moment.unix(dataBooking.dateBooking).format("dddd - DD/MM/YYYY")}
                 </Typography>
               </CardContent>
             </Stack>
@@ -316,7 +313,7 @@ const BookingModal = ({
                         Giá khám
                       </Typography>
                       <Typography variant="subtitle2" p={1}>
-                        {priceBooking}
+                        {dataBooking.priceBooking}
                       </Typography>
                     </Stack>
                     <Stack
@@ -343,7 +340,7 @@ const BookingModal = ({
                         Tổng cộng
                       </Typography>
                       <Typography variant="subtitle2" color={"error"} p={1}>
-                        {priceBooking}
+                        {dataBooking.priceBooking}
                       </Typography>
                     </Stack>
                   </Box>

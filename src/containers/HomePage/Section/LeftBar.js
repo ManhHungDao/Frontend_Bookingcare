@@ -25,16 +25,6 @@ export default function TemporaryDrawer({ show, setOpen }) {
     setState({ ...state, ["left"]: show });
   }, [show]);
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-    setOpen(false);
-  };
-
   return (
     <>
       {smScreen && (
@@ -105,7 +95,7 @@ export default function TemporaryDrawer({ show, setOpen }) {
               <div
                 className="child-content nav-4"
                 onClick={() => {
-                  // this.renderListSelect("packet");
+                  navigate(`/packet`);
                 }}
               >
                 <div>

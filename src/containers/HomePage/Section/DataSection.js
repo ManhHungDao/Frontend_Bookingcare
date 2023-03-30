@@ -35,7 +35,7 @@ const DataSection = ({ data, titleSection, nameBtn, linkItem }) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          initialSlide: 2,
+          // initialSlide: 2,
         },
       },
       {

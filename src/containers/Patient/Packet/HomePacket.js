@@ -134,7 +134,6 @@ const HomePacket = ({
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          initialSlide: 2,
         },
       },
       {
@@ -142,6 +141,23 @@ const HomePacket = ({
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+  const settingSlidePacket = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 4,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
         },
       },
     ],
@@ -219,6 +235,7 @@ const HomePacket = ({
                   sx={{
                     marginLeft: 2,
                   }}
+                  onClick={handleClickReset}
                 >
                   <CachedIcon />
                 </IconButton>
