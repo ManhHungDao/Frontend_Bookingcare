@@ -43,6 +43,7 @@ import CachedIcon from "@mui/icons-material/Cached";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
+import { getSingleUserSchedule } from "../../../services/scheduleService";
 const tomorrow = dayjs().add(1, "day");
 
 const ManageUserSchedule = ({
@@ -53,8 +54,6 @@ const ManageUserSchedule = ({
   isSuccess,
   clearStatus,
   upsertSchedule,
-  getSingleUserSchedule,
-  userSchedule,
   deleteSchedule,
 }) => {
   const [image, setImage] = useState("");
@@ -137,6 +136,46 @@ const ManageUserSchedule = ({
       );
     }
   }, [listUser, allcodes]);
+  const fetchDataSchedule = async (id, date) => {
+    const res = await getSingleUserSchedule(id, date);
+    if (res && res.success === true) {
+      const data = res.schedule;
+      const { detail, schedule } = data;
+      setNote(data?.detail?.note ? data.detail.note : "");
+      setPayment({
+        value: detail?.payment?.id ? detail.payment.id : "",
+        label: detail?.payment?.name ? detail.payment.name : "",
+      });
+      setPrice({
+        value: detail?.price?.id ? detail.price.id : "",
+        label: detail?.price?.name ? detail.price.name : "",
+      });
+      if (schedule && schedule.length > 0) {
+        let list = timeSchedule.map((e) => {
+          schedule.map((item) => {
+            if (item.time === e.id) {
+              e.active = true;
+            }
+            return e;
+          });
+          return e;
+        });
+        setTimeSchedule(list);
+      }
+    } else if (res.success === false) {
+      setNote(userEdit?.detail?.note ? userEdit.detail.note : "");
+      setPayment({
+        value: userEdit?.detail?.payment?.id ? userEdit?.detail.payment.id : "",
+        label: userEdit?.detail?.payment?.name
+          ? userEdit?.detail.payment.name
+          : "",
+      });
+      setPrice({
+        value: userEdit?.detail?.price?.id ? userEdit?.detail.price.id : "",
+        label: userEdit?.detail?.price?.name ? userEdit?.detail.price.name : "",
+      });
+    }
+  };
   useEffect(() => {
     // set data when click eidt user in table
     setErrors({});
@@ -152,18 +191,8 @@ const ManageUserSchedule = ({
       setClinic(detail?.clinic?.name ? detail.clinic.name : "");
       setSpecialty(detail?.specialty?.name ? detail.specialty.name : "");
       setPosition(detail?.position?.name ? detail.position.name : "");
-      setPayment({
-        value: detail?.payment?.id ? detail.payment.id : "",
-        label: detail?.payment?.name ? detail.payment.name : "",
-      });
-      setPrice({
-        value: detail?.price?.id ? detail.price.id : "",
-        label: detail?.price?.name ? detail.price.name : "",
-      });
       setName(name ? name : "");
-      setNote(detail?.note ? detail.note : "");
-
-      getSingleUserSchedule(_id, dayjs(date).unix());
+      fetchDataSchedule(_id, dayjs(date).unix());
     }
   }, [userEdit]);
 
@@ -175,37 +204,9 @@ const ManageUserSchedule = ({
           return item;
         })
       );
-      getSingleUserSchedule(userEdit._id, dayjs(date).unix());
+      fetchDataSchedule(userEdit._id, dayjs(date).unix());
     }
   }, [date]);
-
-  useEffect(() => {
-    const { detail, schedule, date } = userSchedule;
-    if (!_.isEmpty(userSchedule)) {
-      if (userSchedule?.packet?.id !== null) return;
-      setNote(detail?.note ? detail.note : note);
-      setPayment({
-        value: detail?.payment?.id ? detail.payment.id : payment.value,
-        label: detail?.payment?.name ? detail.payment.name : payment.label,
-      });
-      setPrice({
-        value: detail?.price?.id ? detail.price.id : price.value,
-        label: detail?.price?.name ? detail.price.name : price.label,
-      });
-      if (schedule && schedule.length > 0) {
-        let list = timeSchedule.map((e) => {
-          schedule.map((item) => {
-            if (item.time === e.id) {
-              e.active = true;
-            }
-            return e;
-          });
-          return e;
-        });
-        setTimeSchedule(list);
-      }
-    }
-  }, [userSchedule]);
 
   const fetchDataAPI = (page, size, clinicId = "", filter = "") => {
     const data = {
@@ -641,7 +642,6 @@ const mapStateToProps = (state) => {
     user: state.admin.user,
     listUser: state.admin.users,
     allcodes: state.admin.allcodes,
-    userSchedule: state.admin.schedule,
     isSuccess: state.app.isSuccess,
   };
 };
@@ -653,8 +653,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.deleteScheduleAction(id, date)),
     getAllUserAction: (data) => dispatch(actions.getAllUserAction(data)),
     upsertSchedule: (data) => dispatch(actions.upsertScheduleAction(data)),
-    getSingleUserSchedule: (id, date) =>
-      dispatch(actions.getSingleUserScheduleAction(id, date)),
     clearStatus: () => dispatch(actions.clearStatus()),
   };
 };

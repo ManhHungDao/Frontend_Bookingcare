@@ -43,6 +43,7 @@ import CachedIcon from "@mui/icons-material/Cached";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
+import { getSinglePacketSchedule } from "../../../services/scheduleService";
 const tomorrow = dayjs().add(1, "day");
 
 const ManagePacketSchedule = ({
@@ -51,11 +52,9 @@ const ManagePacketSchedule = ({
   isSuccess,
   clearStatus,
   upsertSchedule,
-  getSinglePacketSchedule,
   deleteSchedule,
   getAllPacket,
   allcodes,
-  packetSchedule,
 }) => {
   const [image, setImage] = useState("");
   const [clinic, setClinic] = useState("");
@@ -64,7 +63,6 @@ const ManagePacketSchedule = ({
   const [note, setNote] = useState("");
   const [price, setPrice] = useState("");
   const [payment, setPayment] = useState("");
-
   const [packets, setPackets] = useState([]);
   const [date, setDate] = useState(
     dayjs(new Date(tomorrow).setHours(0, 0, 0)).format("D MMMM YYYY")
@@ -106,6 +104,7 @@ const ManagePacketSchedule = ({
     }
     clearStatus();
   }, [isSuccess]);
+
   useEffect(() => {
     if (listPacket.list && listPacket.list.length > 0) {
       setPackets(
@@ -139,6 +138,44 @@ const ManagePacketSchedule = ({
       );
     }
   }, [listPacket, allcodes]);
+  const fetchDataSchedule = async (id, date) => {
+    const res = await getSinglePacketSchedule(id, date);
+    if (res && res.success === true) {
+      const data = res.schedule;
+      const { detail, schedule } = data;
+      setNote(detail?.note ? detail.note : "");
+      setPayment({
+        value: detail?.payment?.id ? detail.payment.id : "",
+        label: detail?.payment?.name ? detail.payment.name : "",
+      });
+      setPrice({
+        value: detail?.price?.id ? detail.price.id : "",
+        label: detail?.price?.name ? detail.price.name : "",
+      });
+      if (schedule && schedule.length > 0) {
+        let list = timeSchedule.map((e) => {
+          schedule.map((item) => {
+            if (item.time === e.id) {
+              e.active = true;
+            }
+            return e;
+          });
+          return e;
+        });
+        setTimeSchedule(list);
+      }
+    } else if (res.success === false) {
+      setNote(packetEdit?.detail?.note ? packetEdit.detail.note : "");
+      setPayment({
+        value: packetEdit?.payment?.id ? packetEdit.payment.id : "",
+        label: packetEdit?.payment?.name ? packetEdit.payment.name : "",
+      });
+      setPrice({
+        value: packetEdit?.price?.id ? packetEdit.price.id : "",
+        label: packetEdit?.price?.name ? packetEdit.price.name : "",
+      });
+    }
+  };
   useEffect(() => {
     setErrors({});
     setTimeSchedule(
@@ -153,18 +190,9 @@ const ManagePacketSchedule = ({
       setImage(image ? image : "");
       setClinic(clinic?.name ? clinic.name : "");
       setSpecialty(specialty?.name ? specialty.name : "");
-      setPrice({
-        value: price?.id ? price.id : "",
-        label: price?.name ? price.name : "",
-      });
-      setPayment({
-        value: payment?.id ? payment.id : "",
-        label: payment?.name ? payment.name : "",
-      });
       setName(name ? name : "");
-      setNote(note ? note : "");
 
-      getSinglePacketSchedule(_id, dayjs(date).unix());
+      fetchDataSchedule(_id, dayjs(date).unix());
     }
   }, [packetEdit]);
 
@@ -176,37 +204,10 @@ const ManagePacketSchedule = ({
           return item;
         })
       );
-      getSinglePacketSchedule(packetEdit._id, dayjs(date).unix());
+      fetchDataSchedule(packetEdit._id, dayjs(date).unix());
     }
   }, [date]);
 
-  useEffect(() => {
-    const { detail, schedule, date } = packetSchedule;
-    if (!_.isEmpty(packetSchedule)) {
-      if (packetSchedule?.packet?.id === null) return;
-      setNote(detail?.note ? detail.note : note ? note : "");
-      setPayment({
-        value: detail?.payment?.id ? detail.payment.id : payment.value,
-        label: detail?.payment?.name ? detail.payment.name : payment.label,
-      });
-      setPrice({
-        value: detail?.price?.id ? detail.price.id : price.value,
-        label: detail?.price?.name ? detail.price.name : price.label,
-      });
-      if (schedule && schedule.length > 0) {
-        let list = timeSchedule.map((e) => {
-          schedule.map((item) => {
-            if (item.time === e.id) {
-              e.active = true;
-            }
-            return e;
-          });
-          return e;
-        });
-        setTimeSchedule(list);
-      }
-    }
-  }, [packetSchedule]);
   const fetchDataAPI = (page, size, clinicId = "", filter = "") => {
     const data = {
       page,
@@ -631,7 +632,6 @@ const mapStateToProps = (state) => {
   return {
     allcodes: state.admin.allcodes,
     isSuccess: state.app.isSuccess,
-    packetSchedule: state.admin.schedule,
     listPacket: state.admin.listPacket,
   };
 };
@@ -642,8 +642,6 @@ const mapDispatchToProps = (dispatch) => {
     deleteSchedule: (id, date) =>
       dispatch(actions.deleteScheduleAction(id, date)),
     upsertSchedule: (data) => dispatch(actions.upsertScheduleAction(data)),
-    getSinglePacketSchedule: (id, date) =>
-      dispatch(actions.getSinglePacketScheduleAction(id, date)),
     clearStatus: () => dispatch(actions.clearStatus()),
     getAllPacket: (data) => dispatch(actions.getAllPacketAction(data)),
   };
