@@ -7,11 +7,10 @@ import { Box, Container, Grid, Stack, Divider } from "@mui/material";
 import useIsMobile from "../../../components/useScreen/useIsMobile";
 import _ from "lodash";
 import SubHeader from "../../HomePage/Section/SubHeader";
-import ProfileDoctor from "./ProfileDoctor";
 import { getSinglePacket } from "../../../services/packetService";
-import "./style.scss";
+import ProfilePacket from "./ProfilePacket";
 
-const DetiailPacket = ({}) => {
+const DetailPacket = ({}) => {
   const { id } = useParams();
   const [data, setData] = useState("");
 
@@ -19,7 +18,7 @@ const DetiailPacket = ({}) => {
     const getData = async () => {
       const res = await getSinglePacket(id);
       if (res && res.success) {
-        setData(res.user);
+        setData(res.packet);
       }
     };
     getData();
@@ -29,7 +28,7 @@ const DetiailPacket = ({}) => {
       <SubHeader />
       <Stack className="introduce-doctor">
         <Container>
-          {/* <ProfileDoctor id={id} /> */}
+          <ProfilePacket id={id} />
         </Container>
       </Stack>
       <Divider />
@@ -40,7 +39,7 @@ const DetiailPacket = ({}) => {
         <Container>
           <span
             className="detail"
-            dangerouslySetInnerHTML={{ __html: data?.detail?.detail }}
+            dangerouslySetInnerHTML={{ __html: data?.detail }}
           ></span>
         </Container>
       </Stack>
@@ -59,4 +58,4 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {};
 };
-export default connect(mapStateToProps, mapDispatchToProps)(DetiailPacket);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailPacket);

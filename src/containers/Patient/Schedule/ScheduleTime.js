@@ -93,8 +93,8 @@ const ScheduleTime = ({
     dateBooking: date / 1000,
     // lấy data từ booking
     priceDoctor: price,
-    nameDoctor: data.nameDoctor,
-    imgDoctor: data.imgDoctor,
+    nameData: data.nameData,
+    imgData: data.imgData,
   };
   return (
     <>
@@ -162,7 +162,7 @@ const ScheduleTime = ({
             </Box>
           </Grid>
           <Grid item xs={12} md={12}>
-            <Divider />
+            {timeSchedule && note && <Divider />}
             <Typography color="#a94442" variant="subtitle2" p={1}>
               {note && (
                 <>

@@ -163,15 +163,15 @@ const BookingModal = ({
                   height: 100,
                   display: { xs: "none", sm: "block" },
                 }}
-                image={dataBooking.imgDoctor}
-                alt={dataBooking.nameDoctor}
+                image={dataBooking.imgData}
+                alt={dataBooking.nameData}
               />
-              <CardContent>
+              <CardContent sx={{ maxWidth: 500 }}>
                 <Typography variant="subtitle1" color="primary">
                   ĐẶT LỊCH KHÁM
                 </Typography>
                 <Typography component="h2" variant="h5">
-                  {dataBooking.nameDoctor || ""}
+                  {dataBooking.nameData || ""}
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary">
                   {codeTime &&

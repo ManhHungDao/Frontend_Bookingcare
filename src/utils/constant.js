@@ -10,7 +10,8 @@ export const path = {
   HANDBOOK: "/handbook/:id",
   SPECIALTY: "/specialty/:id",
   CLINIC: "clinic/:id",
-  DETAILDOCTOR: "detail-doctor/:id",
+  DETAIL_PACKET: "packet/:id",
+  DETAIL_DOCTOR: "detail-doctor/:id",
   VERIFY_BOOKING: "/verify-booking",
   TABLE_CLINIC_SPECIALTY: "/table-clinic-specialty/:id",
   CLINIC_SPECIALTY:

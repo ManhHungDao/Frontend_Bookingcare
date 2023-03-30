@@ -78,9 +78,13 @@ const ManagePacketSchedule = ({
   const [errors, setErrors] = useState({});
   const [timeSchedule, setTimeSchedule] = useState([]);
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
     fetchDataAPI(1, rowsPerPage);
     fetchAllcode();
+    setNote("");
+    setPrice("");
+    setOpen("");
   }, []);
 
   useEffect(() => {
@@ -144,7 +148,7 @@ const ManagePacketSchedule = ({
       })
     );
     if (!_.isEmpty(packetEdit)) {
-      const { clinic, specialty, payment, price, image, name, _id } =
+      const { clinic, specialty, payment, price, image, name, _id, note } =
         packetEdit;
       setImage(image ? image : "");
       setClinic(clinic?.name ? clinic.name : "");
@@ -179,7 +183,8 @@ const ManagePacketSchedule = ({
   useEffect(() => {
     const { detail, schedule, date } = packetSchedule;
     if (!_.isEmpty(packetSchedule)) {
-      setNote(detail?.note ? detail.note : note);
+      if (packetSchedule?.packet?.id === null) return;
+      setNote(detail?.note ? detail.note : note ? note : "");
       setPayment({
         value: detail?.payment?.id ? detail.payment.id : payment.value,
         label: detail?.payment?.name ? detail.payment.name : payment.label,
@@ -240,7 +245,7 @@ const ManagePacketSchedule = ({
   };
   const handleEnterSearch = (e) => {
     if (e.which === 13) {
-    handleClickSearch();
+      handleClickSearch();
     }
   };
   const handleClickSearch = () => {
@@ -321,12 +326,12 @@ const ManagePacketSchedule = ({
     <TableRow className="table__clinic--header">
       <StyledTableCell>Tên gói khám</StyledTableCell>
       <StyledTableCell>Cơ sở</StyledTableCell>
-      <StyledTableCell>Chuyên khoa</StyledTableCell>
+      <StyledTableCell>Loại</StyledTableCell>
       <StyledTableCell></StyledTableCell>
     </TableRow>
   );
   const TableColumn = (props) => {
-    const { clinic, specialty, name, image } = props;
+    const { clinic, specialty, name, image, type } = props;
     return (
       <>
         <TableRow>
@@ -348,9 +353,7 @@ const ManagePacketSchedule = ({
             </Typography>
           </TableCell>
           <TableCell>
-            <Typography variant="">
-              {specialty?.name ? specialty.name : ""}
-            </Typography>
+            <Typography variant="">{type?.typeCode?.name || ""}</Typography>
           </TableCell>
           <TableCell>
             <Tooltip title="Chỉnh sửa">

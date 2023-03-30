@@ -4,14 +4,14 @@ import * as actions from "../../../store/actions";
 import { Box, Stack, Avatar, Typography, Grid } from "@mui/material";
 import useIsMobile from "../../../components/useScreen/useIsMobile";
 import _ from "lodash";
-import { getSingleUserService } from "../../../services/userService";
-import { getSingleUserSchedule } from "../../../services/scheduleService";
+import { getSinglePacketSchedule } from "../../../services/scheduleService";
+import { getSinglePacket } from "../../../services/packetService";
 import ScheduleTime from "../Schedule/ScheduleTime";
 import DetailSchuleBooking from "../Schedule/DetailSchuleBooking";
 import localization from "moment/locale/vi";
 import moment from "moment";
 
-const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
+const ProfilePacket = ({ id, language, fetchAllcode, allcodes }) => {
   const [data, setData] = useState("");
   const [note, setNote] = useState("");
   const [price, setPrice] = useState("");
@@ -22,7 +22,7 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
   const [timeSchedule, setTimeSchedule] = useState([]);
 
   const getDataSchedule = async () => {
-    let res = await getSingleUserSchedule(id, date / 1000);
+    let res = await getSinglePacketSchedule(id, date / 1000);
     if (res && res.success === true) {
       if (res?.schedule?.schedule && res.schedule.schedule.length > 0) {
         setTimeSchedule(res.schedule.schedule);
@@ -44,9 +44,9 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
   // data user booking
 
   const getDataUser = async () => {
-    let res = await getSingleUserService(id);
+    let res = await getSinglePacket(id);
     if (res && res.success) {
-      setData(res.user);
+      setData(res.packet);
     } else {
       setData("");
     }
@@ -58,8 +58,8 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
   }, []);
 
   const dataToSchedule = {
-    idDoctor: id,
-    idPacket: null,
+    idDoctor: null,
+    idPacket: id,
     nameData: data?.name,
     imgData: data?.image?.url,
   };
@@ -81,13 +81,12 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
           />
           <Stack display={"flex"} gap={1}>
             <Typography variant="h5" sx={{ fontWeight: 600 }}>
-              {data?.detail?.position?.name ? data.detail.position.name : ""}
               <span style={{ textTransform: "capitalize" }}>
                 &nbsp; {data?.name ? data.name : ""}
               </span>
             </Typography>
             <Typography variant="subtitle2" sx={{ opacity: "0.7" }}>
-              {data?.detail?.introduce ? data.detail.introduce : ""}
+              {data?.introduce ? data.introduce : ""}
             </Typography>
           </Stack>
         </Stack>
@@ -106,7 +105,7 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <DetailSchuleBooking
-              clinic={data?.detail?.clinic}
+              clinic={data?.clinic}
               price={price?.name}
               payment={payment?.name}
             />
@@ -127,4 +126,4 @@ const mapDispatchToProps = (dispatch) => {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileDoctor);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePacket);

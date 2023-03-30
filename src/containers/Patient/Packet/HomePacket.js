@@ -109,6 +109,9 @@ const HomePacket = ({
   const handleClickViewMoreClinic = () => {
     navigate("/viewmore/clinic");
   };
+  const handleClickDetailPacket = (id) => {
+    navigate(`/packet/${id}`);
+  };
   const styles = {
     backgroundImage: `url(${bgpacket})`,
     backgroundSize: "cover",
@@ -141,23 +144,6 @@ const HomePacket = ({
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-        },
-      },
-    ],
-  };
-  const settingSlidePacket = {
-    infinite: true,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 4,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          initialSlide: 1,
         },
       },
     ],
@@ -335,7 +321,7 @@ const HomePacket = ({
                   packets.map((e, index) => (
                     <div
                       className="container__body--item"
-                      //   onClick={() => handleClickDetailPacket(e.id)}
+                      onClick={() => handleClickDetailPacket(e.id)}
                     >
                       <img src={e.image} alt={e.name} />
                       <div className="container__body--item--title">
@@ -375,7 +361,7 @@ const HomePacket = ({
                       >
                         <div
                           className="container__body--item"
-                          //   onClick={() => handleClickDetailClinic(e.value)}
+                          onClick={() => handleClickDetailPacket(e.id)}
                         >
                           <img src={e.image} alt={e.name} />
                           <div className="container__body--item--title">

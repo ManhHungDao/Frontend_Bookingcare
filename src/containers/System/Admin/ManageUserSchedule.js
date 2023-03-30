@@ -182,6 +182,7 @@ const ManageUserSchedule = ({
   useEffect(() => {
     const { detail, schedule, date } = userSchedule;
     if (!_.isEmpty(userSchedule)) {
+      if (userSchedule?.packet?.id !== null) return;
       setNote(detail?.note ? detail.note : note);
       setPayment({
         value: detail?.payment?.id ? detail.payment.id : payment.value,
