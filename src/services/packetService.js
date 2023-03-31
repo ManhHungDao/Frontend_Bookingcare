@@ -14,7 +14,7 @@ const updatePacket = (id,data) => {
 };
 const getAllPacket = (data) => {
   return axios.get(
-    `/api/get-all-packet?page=${data.page}&clinicId=${data.clinicId}&filter=${data.filter}&size=${data.size}`
+    `/api/get-all-packet?page=${data.page}&clinicId=${data.clinicId}&filter=${data.filter}&size=${data.size}&type=${data.type}`
   );
 };
 

@@ -116,6 +116,7 @@ const TableManagePacket = ({
       size,
       clinicId,
       filter,
+      type: "",
     };
     getAllPacket(data);
   };

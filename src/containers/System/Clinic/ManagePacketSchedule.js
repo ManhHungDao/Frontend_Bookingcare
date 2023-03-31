@@ -218,6 +218,7 @@ const ManagePacketSchedule = ({
       size,
       clinicId,
       filter,
+      type: "",
     };
     getAllPacket(data);
   };

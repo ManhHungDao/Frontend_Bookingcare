@@ -12,6 +12,7 @@ import {
   Container,
   Divider,
 } from "@mui/material";
+import Pagination from "@mui/material/Pagination";
 import * as actions from "../../../store/actions";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -42,29 +43,43 @@ const HomePacket = ({
   const smsScreen = useIsTablet();
   const mobiScreen = useIsMobile();
   const navigate = useNavigate();
-
   const [search, setSearch] = useState("");
   const [packets, setPackets] = useState("");
   const [clinics, setClinics] = useState([]);
   const [typePackets, setTypePackets] = useState("");
   const [filterClinic, setFilterClinic] = useState("");
   const [filterPacker, setFilterPacker] = useState("");
+  const [size, setSize] = useState(8);
+  const [page, setPage] = useState(1);
+  const [countItem, setCountItem] = useState(0);
+
+  const fetchDataPacket = (page, size, filter, clinicId, type) => {
+    const dateFetchPacket = {
+      page,
+      size,
+      filter,
+      clinicId,
+      type,
+    };
+    // localStorage.removeItem("localPacket");
+    // localStorage.setItem("localPacket", JSON.stringify(dateFetchPacket));
+    getAllPacket(dateFetchPacket);
+  };
 
   useEffect(() => {
     getListClinicHome();
-    const dateFetchClinic = {
+    const dataFetchClinic = {
       page: 1,
       size: 10,
       filter: "PACKET",
     };
-    fetchTypePacketCode(dateFetchClinic);
-    const dateFetchPacket = {
-      page: 1,
-      size: 8,
-      filter: "",
-      clinicId: "",
-    };
-    getAllPacket(dateFetchPacket);
+    fetchTypePacketCode(dataFetchClinic);
+    // const localPacket = JSON.parse(localStorage.getItem("localPacket"));
+    // if (localPacket) {
+    //   setPage(localPacket?.page);
+    //   fetchDataPacket({ localPacket });
+    // } else fetchDataPacket(page, size, "", "", "");
+    fetchDataPacket(page, size, "", "", "");
   }, []);
 
   useEffect(() => {
@@ -81,6 +96,9 @@ const HomePacket = ({
         name: e.valueVI,
       }))
     );
+  }, [listClinic, typePacket]);
+
+  useEffect(() => {
     setPackets(
       listPacket?.list?.map((e) => ({
         id: e._id,
@@ -89,19 +107,32 @@ const HomePacket = ({
         price: e.price.name || "",
       }))
     );
-  }, [listClinic, typePacket, listPacket]);
+    setCountItem(listPacket?.count);
+  }, [listPacket]);
+
   const handleClickReset = () => {
+    if (!filterClinic && !filterPacker && !search) return;
+    fetchDataPacket(1, size, "", "", "");
     setFilterClinic("");
     setFilterPacker("");
     setSearch("");
+    setPage(1);
   };
   const handleChange = (event, type) => {
+    setSearch("");
+    setPage(1);
+    const clinicId = filterClinic ? [filterClinic] : "";
+    const typePacket = filterPacker ? [filterPacker] : "";
     const {
       target: { value },
     } = event;
-    if (type === "clinic")
+    if (type === "clinic") {
       setFilterClinic(typeof value === "string" ? value.split(",") : value);
-    else setFilterPacker(typeof value === "string" ? value.split(",") : value);
+      fetchDataPacket(1, size, "", value, typePacket);
+    } else {
+      setFilterPacker(typeof value === "string" ? value.split(",") : value);
+      fetchDataPacket(1, size, "", clinicId, value);
+    }
   };
   const handleClickDetailClinic = (id) => {
     navigate(`/clinic/${id}`);
@@ -112,6 +143,20 @@ const HomePacket = ({
   const handleClickDetailPacket = (id) => {
     navigate(`/packet/${id}`);
   };
+  const handleSearchPacket = () => {
+    if (!search) return;
+    setFilterClinic("");
+    setFilterPacker("");
+    setPage(1);
+    fetchDataPacket(1, size, search, "", "");
+  };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+    const clinicId = filterClinic ? [filterClinic] : "";
+    const type = filterPacker ? [filterPacker] : "";
+    fetchDataPacket(newPage, size, search, clinicId, type);
+  };
+
   const styles = {
     backgroundImage: `url(${bgpacket})`,
     backgroundSize: "cover",
@@ -206,6 +251,7 @@ const HomePacket = ({
                           textTransform: "capitalize",
                           padding: "3px 5px",
                         }}
+                        onClick={handleSearchPacket}
                       >
                         Tìm kiếm
                       </Button>
@@ -307,12 +353,12 @@ const HomePacket = ({
             >
               <div className="container__header d-flex justify-content-between align-items-center mb-2">
                 <div className="container__header--title">Gói nổi bật</div>
-                <div
+                {/* <div
                   className="container__header--btn"
                   //   onClick={() => handleClickViewMore()}
                 >
                   <FormattedMessage id="homepage.more-info" />
-                </div>
+                </div> */}
               </div>
               <Divider />
               <div className="container__body mt-5">
@@ -333,6 +379,18 @@ const HomePacket = ({
                     </div>
                   ))}
               </div>
+              <Stack mt={3}>
+                {countItem > 8 && (
+                  <span className="d-flex justify-content-center">
+                    <Pagination
+                      count={Math.ceil(countItem / 8)}
+                      color="primary"
+                      onChange={handleChangePage}
+                      defaultPage={page}
+                    />
+                  </span>
+                )}
+              </Stack>
             </div>
           )}
           {mobiScreen && (
@@ -342,12 +400,12 @@ const HomePacket = ({
             >
               <div className="container__header d-flex justify-content-between align-items-center mb-2">
                 <div className="container__header--title">Gói nổi bật</div>
-                <div
+                {/* <div
                   className="container__header--btn"
                   //   onClick={() => handleClickViewMoreClinic()}
                 >
                   <FormattedMessage id="homepage.more-info" />
-                </div>
+                </div> */}
               </div>
               <Divider />
               <div className="container__body mt-5">
