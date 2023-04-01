@@ -149,6 +149,12 @@ export const createUserBookingScheduleAction = (data) => {
           type: actionTypes.CREATE_SCHEDULE_PATIENT_SUCCESS,
         });
         // toast.success("Khởi tạo lịch khám thành công");
+      } else {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.CREATE_SCHEDULE_PATIENT_FAILED,
+        });
+        toast.error("Khởi tạo lịch khám thất bại");
       }
     } catch (error) {
       dispatch(loadingToggleAction(false));

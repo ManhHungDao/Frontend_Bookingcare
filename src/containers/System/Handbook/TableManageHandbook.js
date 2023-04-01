@@ -27,13 +27,13 @@ import Select from "react-select";
 import Detailhandbook from "./Detailhandbook";
 
 const TableManageHandbook = ({
-  getListClinicAction,
-  listClinic,
   getAllHandbookAction,
   listHandbook,
   isSuccess,
   clearStatus,
   deleteHandbook,
+  getAllSpecialtyInHandbook,
+  listSpecialtyInHandbook,
 }) => {
   const [list, setList] = useState([]);
   const [open, setOpen] = useState(false);
@@ -43,20 +43,19 @@ const TableManageHandbook = ({
   const [handbookEdit, setHandbookEdit] = useState({});
   const [handbookDelete, setHandbookDelete] = useState({});
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
-  const [listSelectClinic, setListSelectClinic] = useState([]);
-  const [selectClinic, setSelectClinic] = useState("");
+  const [listSelectSpecialty, setListSelectSpecialty] = useState([]);
+  const [selectSpecialty, setSelectSpecialty] = useState("");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetchDataAPI(1, rowsPerPage);
-    getListClinicAction();
+    getAllSpecialtyInHandbook();
   }, []);
 
   useEffect(() => {
-    if (listClinic && listClinic.length > 0)
-      setListSelectClinic(
-        listClinic.map((e) => ({
-          value: e._id,
+    if (listSpecialtyInHandbook && listSpecialtyInHandbook.length > 0)
+    setListSelectSpecialty(
+        listSpecialtyInHandbook.map((e) => ({
+          value: e.id,
           label: e.name,
         }))
       );
@@ -74,14 +73,14 @@ const TableManageHandbook = ({
     } else {
       setList([]);
     }
-  }, [listClinic, listHandbook]);
+  }, [listSpecialtyInHandbook, listHandbook]);
 
   useEffect(() => {
     if (isSuccess !== null) {
       if (isSuccess === true) {
-        const clinicId = selectClinic?.value ? selectClinic.value : "";
+        const specialtyId = selectSpecialty?.value ? selectSpecialty.value : "";
         const searchValue = search ? search : "";
-        fetchDataAPI(page + 1, rowsPerPage, clinicId, searchValue);
+        fetchDataAPI(page + 1, rowsPerPage, specialtyId, searchValue);
         setOpen(false);
         setEnableEdit(false);
       }
@@ -91,18 +90,18 @@ const TableManageHandbook = ({
   }, [isSuccess]);
 
   useEffect(() => {
-    if (selectClinic === "") return;
+    if (selectSpecialty === "") return;
     setSearch("");
     setPage(0);
-    const clinicId = selectClinic.value;
-    fetchDataAPI(1, rowsPerPage, clinicId, "");
-  }, [selectClinic]);
+    const specialtyId = selectSpecialty.value;
+    fetchDataAPI(1, rowsPerPage, specialtyId, "");
+  }, [selectSpecialty]);
 
-  const fetchDataAPI = (page, size, clinicId = "", filter = "") => {
+  const fetchDataAPI = (page, size, specialtyId = "", filter = "") => {
     const data = {
       page,
       size,
-      clinicId,
+      specialtyId,
       filter,
     };
     getAllHandbookAction(data);
@@ -114,14 +113,14 @@ const TableManageHandbook = ({
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    const clinicId = selectClinic.value ? selectClinic.value : "";
-    fetchDataAPI(newPage + 1, rowsPerPage, clinicId, search);
+    const specialtyId = selectSpecialty.value ? selectSpecialty.value : "";
+    fetchDataAPI(newPage + 1, rowsPerPage, specialtyId, search);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
-    const clinicId = selectClinic.value ? selectClinic.value : "";
-    fetchDataAPI(page + 1, +event.target.value, clinicId, search);
+    const specialtyId = selectSpecialty.value ? selectSpecialty.value : "";
+    fetchDataAPI(page + 1, +event.target.value, specialtyId, search);
   };
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -147,7 +146,7 @@ const TableManageHandbook = ({
     setHandbookDelete(data);
   };
   const handelClickEmpty = () => {
-    setSelectClinic("");
+    setSelectSpecialty("");
     setSearch("");
     setPage(0);
     setRowsPerPage(10);
@@ -232,10 +231,10 @@ const TableManageHandbook = ({
               <Grid item xs={12} md={3}>
                 <Select
                   className={`react-select-container`}
-                  value={selectClinic}
-                  onChange={(e) => setSelectClinic(e)}
-                  options={listSelectClinic}
-                  placeholder="Lọc theo cơ sở"
+                  value={selectSpecialty}
+                  onChange={(e) => setSelectSpecialty(e)}
+                  options={listSelectSpecialty}
+                  placeholder="Lọc theo chuyên khoa"
                   menuPortalTarget={document.body}
                   styles={{
                     menuPortal: (base) => ({
@@ -308,6 +307,7 @@ const mapStateToProps = (state) => {
   return {
     listClinic: state.patient.listClinic,
     listHandbook: state.admin.listHandbook,
+    listSpecialtyInHandbook: state.admin.listSpecialtyInHandbook,
     isSuccess: state.app.isSuccess,
   };
 };
@@ -320,6 +320,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getAllHandbookAction(data)),
     clearStatus: () => dispatch(actions.clearStatus()),
     deleteHandbook: (id) => dispatch(actions.deleteHandbookAction(id)),
+    getAllSpecialtyInHandbook: () =>
+      dispatch(actions.getAllSpecialtyInHandbookAction()),
   };
 };
 

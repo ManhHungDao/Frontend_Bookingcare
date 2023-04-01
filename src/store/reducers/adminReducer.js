@@ -13,6 +13,7 @@ const initialState = {
   schedule: {},
   listPacket: [],
   schedules: [],
+  listSpecialtyInHandbook: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -98,6 +99,15 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         listHandbook: [],
+      };
+    }
+    case actionTypes.GET_LIST_SPECIALTY_IN_HANDBOOK_SUCCEED: {
+      return { ...state, listSpecialtyInHandbook: action.data };
+    }
+    case actionTypes.GET_LIST_SPECIALTY_IN_HANDBOOK_FAILED: {
+      return {
+        ...state,
+        listSpecialtyInHandbook: [],
       };
     }
     // SCHEDULE

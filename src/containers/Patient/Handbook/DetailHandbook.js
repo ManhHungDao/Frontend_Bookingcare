@@ -26,6 +26,7 @@ const DetailHandbook = ({ getSingleHandbook, handbook }) => {
   const [data, setData] = useState("");
   const smsScreen = useIsTablet();
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     getSingleHandbook(id);
   }, []);
 
@@ -64,7 +65,7 @@ const DetailHandbook = ({ getSingleHandbook, handbook }) => {
       )}
       <Stack className="detail-handbook" sx={{ backgroundColor: "#efefef" }}>
         <Container
-          className="detail-handbook--detail"
+          className="render-detail"
           sx={{ backgroundColor: "#fff" }}
         >
           <span

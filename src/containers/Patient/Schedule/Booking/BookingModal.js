@@ -116,7 +116,15 @@ const BookingModal = ({
   };
 
   const confirmEmail = `
-  <h2 style="text-align:center;"><strong>XÁC NHẬN ĐẶT LỊCH KHÁM</strong></h2><p>Xin chào ${name},</p><p>Cảm ơn bạn đã sử dụng dịch vụ tại website chúng tôi, để xác nhận đặt lịch khám bạn vui lòng click <a href="http://localhost:3000/confirm-booking?date=${dataBooking.dateBooking}&time=${dataBooking.timeBooking}&doctorId=${dataBooking.doctorId}&packetId=${dataBooking.packetId}">vào đây</a> để xác nhận lịch khám.</p><p>Xin cảm ơn.</p><p>&nbsp;</p>`;
+  <h2 style="text-align:center;"><strong>XÁC NHẬN ĐẶT LỊCH KHÁM</strong></h2><p>Xin chào ${name},</p>
+  <p>Cảm ơn bạn đã sử dụng dịch vụ tại website chúng tôi, để xác nhận đặt lịch khám bạn vui lòng chọn <a href="http://localhost:3000/confirm-booking?date=${dataBooking.dateBooking}&time=${dataBooking.timeBooking}&doctorId=${dataBooking.doctorId}&packetId=${dataBooking.packetId}&email=${email}">Xác Nhận</a> để xác nhận lịch khám.</p>
+  <p>Nếu bạn muốn thay đổi lịch khám, có thể hủy lịch khám bằng cách liên hệ trực tiếp cho quản trị viên hoặc chọn <a href="http://localhost:3000/confirm-booking?date=${
+    dataBooking.dateBooking
+  }&time=${dataBooking.timeBooking}&doctorId=${dataBooking.doctorId}&packetId=${
+    dataBooking.packetId
+  }&email=${email}&cancel=${true}">Hủy Lịch</a> để xác nhận hủy lịch khám.</p>
+  <p>Xin cảm ơn.</p>
+  <p>&nbsp;</p>`;
   // to, subject, html
   useEffect(() => {
     if (isSuccess !== null) {
@@ -147,6 +155,7 @@ const BookingModal = ({
   }, [isSuccess]);
 
   const handleClose = () => {
+    setErrors("");
     setOpen(false);
   };
   return (

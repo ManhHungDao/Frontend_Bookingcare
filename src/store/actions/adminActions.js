@@ -34,6 +34,7 @@ import {
   getAllHandbook,
   deleteHandbook,
   updateHandbook,
+  getAllSpecialtyInHandbook,
 } from "../../services/handbookService";
 import {
   upsertSchedule,
@@ -42,7 +43,8 @@ import {
   sentMailPatient,
   getScheduleUserByDate,
   updateStatus,
-  getSchedulePacketByDate,getSinglePacketSchedule
+  getSchedulePacketByDate,
+  getSinglePacketSchedule,
 } from "../../services/scheduleService";
 
 import {
@@ -606,6 +608,27 @@ export const updateHandbookAction = (id, data) => {
         type: actionTypes.UPDATE_FAILED,
       });
       toast.error("Cập nhập cẩm nang thất bại");
+    }
+  };
+};
+
+export const getAllSpecialtyInHandbookAction = (id, data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getAllSpecialtyInHandbook(id, data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.GET_LIST_SPECIALTY_IN_HANDBOOK_SUCCEED,
+          data: res.list,
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_LIST_SPECIALTY_IN_HANDBOOK_FAILED,
+      });
     }
   };
 };

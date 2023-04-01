@@ -138,7 +138,14 @@ export const PacketProfile = ({ packet }) => {
 };
 
 export const ScheduleProfile = ({ time, status, setStatus, handleSave }) => {
-  const statusList = ["Lịch hẹn mới","Đã xác nhận", "Đang khám", "Hoàn thành", "Đã hủy"];
+  const statusList = [
+    "Lịch hẹn mới",
+    "Chờ xác nhận",
+    "Đã xác nhận",
+    "Đang khám",
+    "Hoàn thành",
+    "Đã hủy",
+  ];
   const handleChange = (event) => {
     const {
       target: { value },

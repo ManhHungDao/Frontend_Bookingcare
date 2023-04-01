@@ -6,7 +6,7 @@ const createHandbook = (data) => {
 
 const getAllHandbook = (data) => {
   return axios.get(
-    `/api/get-all-handbook?page=${data.page}&clinicId=${data.clinicId}&filter=${data.filter}&size=${data.size}`
+    `/api/get-all-handbook?page=${data.page}&specialtyId=${data.specialtyId}&filter=${data.filter}&size=${data.size}`
   );
 };
 
@@ -22,8 +22,20 @@ const getAllHandbookHomePatient = () => {
   return axios.get(`/api/get-all-home-handbook`);
 };
 
-const getSingleHandbook = (id)=>{
+const getSingleHandbook = (id) => {
   return axios.get(`/api/get-single-handbook?id=${id}`);
+};
 
-}
-export { createHandbook, getAllHandbook, deleteHandbook, updateHandbook ,getAllHandbookHomePatient,getSingleHandbook};
+const getAllSpecialtyInHandbook = () => {
+  return axios.get(`/api/get-all-specialty-handbook`);
+};
+
+export {
+  createHandbook,
+  getAllHandbook,
+  deleteHandbook,
+  updateHandbook,
+  getAllHandbookHomePatient,
+  getSingleHandbook,
+  getAllSpecialtyInHandbook,
+};
