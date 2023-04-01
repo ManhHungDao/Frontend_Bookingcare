@@ -49,6 +49,7 @@ const TableManageHandbook = ({
 
   useEffect(() => {
     getAllSpecialtyInHandbook();
+    fetchDataAPI(1, rowsPerPage);
   }, []);
 
   useEffect(() => {

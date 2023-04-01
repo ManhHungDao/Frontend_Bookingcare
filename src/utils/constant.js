@@ -4,10 +4,8 @@ export const path = {
   DOCTOR: "/doctor/*",
   MANAGER: "/manager/*",
   PACKET: "/packet/*",
-  LOGIN: "/login",
-  LOG_OUT: "/logout",
-  // DOCTOR: "/doctor/:id",
-  HANDBOOK: "/handbook/:id",
+  HANDBOOK: "/handbook/*",
+  DETAIL_HANDBOOK: "/handbook/:id",
   SPECIALTY: "/specialty/:id",
   CLINIC: "clinic/:id",
   DETAIL_PACKET: "packet/:id",
@@ -16,6 +14,9 @@ export const path = {
   VIEWMORE_SPECIALTY: "/viewmore/specialty",
   VIEWMORE_CLINIC: "/viewmore/clinic",
   VIEWMORE_DOCTOR: "/viewmore/doctor",
+
+  LOGIN: "/login",
+  LOG_OUT: "/logout",
 };
 
 export const languages = {

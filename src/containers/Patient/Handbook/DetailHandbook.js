@@ -6,7 +6,7 @@ import "./DetailHandbook.scss";
 import { toast } from "react-toastify";
 // import ListNameHandbook from "./ListNameHandbook";
 // import RelatedHandbook from "./RelatedHandbook";
-import { getDetailHandbook } from "../../../services/userService";
+import { getSingleHandbook } from "../../../services/handbookService";
 import Footer from "../../HomePage/Section/Footer";
 import SubHeader from "../../HomePage/Section/SubHeader";
 import { useParams } from "react-router-dom";
@@ -21,20 +21,25 @@ import {
   Typography,
 } from "@mui/material";
 
-const DetailHandbook = ({ getSingleHandbook, handbook }) => {
+const DetailHandbook = ({ loadingToggleAction }) => {
   const { id } = useParams();
   const [data, setData] = useState("");
   const smsScreen = useIsTablet();
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    getSingleHandbook(id);
-  }, []);
+
+  const fetchData = async () => {
+    // loadingToggleAction(true);
+    const res = await getSingleHandbook(id);
+    if (res && res.success) {
+      setData(res.handbook);
+      // loadingToggleAction(false);
+    }
+    // loadingToggleAction(false);
+  };
 
   useEffect(() => {
-    if (handbook) {
-      setData(handbook);
-    }
-  }, [handbook]);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    fetchData();
+  }, []);
 
   const styles = {
     backgroundImage: `url(${data?.image?.url ? data.image.url : ""})`,
@@ -66,7 +71,7 @@ const DetailHandbook = ({ getSingleHandbook, handbook }) => {
       <Stack className="detail-handbook" sx={{ backgroundColor: "#efefef" }}>
         <Container
           className="render-detail"
-          sx={{ backgroundColor: "#fff" }}
+          sx={{ backgroundColor: "#fff", pt: 3 }}
         >
           <span
             className="detail"
@@ -84,13 +89,12 @@ const DetailHandbook = ({ getSingleHandbook, handbook }) => {
             className="detail"
             dangerouslySetInnerHTML={{ __html: data?.detail }}
           ></span>
-         {/*  bài viết liên quan */}
-         
+          {/*  bài viết liên quan */}
         </Container>
       </Stack>
       <Divider />
       <Footer />
-      <BackToTop/>
+      <BackToTop />
     </>
   );
 };
@@ -98,13 +102,12 @@ const DetailHandbook = ({ getSingleHandbook, handbook }) => {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    handbook: state.patient.handbook,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getSingleHandbook: (id) => dispatch(actions.getSingleHandbookAction(id)),
+    loadingToggleAction: (id) => dispatch(actions.loadingToggleAction(id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DetailHandbook);

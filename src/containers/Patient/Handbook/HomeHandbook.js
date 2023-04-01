@@ -19,7 +19,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import HomeHeader from "../../HomePage/Section/Header";
-import bgpacket from "../../../assets/bg-packet.jpg";
+import document from "../../../assets/document.jpg";
 import useIsTablet from "../../../components/useScreen/useIsTablet";
 import useIsMobile from "../../../components/useScreen/useIsMobile";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -28,138 +28,101 @@ import CachedIcon from "@mui/icons-material/Cached";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../HomePage/Section/Footer";
 import Slider from "react-slick";
+import BackToTop from '../../../components/BackToTop '
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./HomePacket.scss";
-
-const HomePacket = ({
-  listClinic,
-  getListClinicHome,
-  fetchTypePacketCode,
-  typePacket,
-  listPacket,
-  getAllPacket,
+import './HomeHandbook.scss'
+const HomeHandbook = ({
+  listHandbook,
+  getAllSpecialtyInHandbook,
+  listSpecialtyInHandbook,
+  getAllHandbookAction,
 }) => {
   const smsScreen = useIsTablet();
   const mobiScreen = useIsMobile();
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const [packets, setPackets] = useState("");
-  const [clinics, setClinics] = useState([]);
-  const [typePackets, setTypePackets] = useState("");
-  const [filterClinic, setFilterClinic] = useState("");
-  const [filterPacker, setFilterPacker] = useState("");
-  const [size, setSize] = useState(8);
+  const [specialties, setSpecialties] = useState("");
+  const [filterSpecialty, setFilterSpecialty] = useState("");
+  const [size, setSize] = useState(16);
   const [page, setPage] = useState(1);
+  const [handbooks, setHandbooks] = useState([]);
   const [countItem, setCountItem] = useState(0);
 
-  const fetchDataPacket = (page, size, filter, clinicId, type) => {
+  const fetchDataPacket = (page, size, filter, specialtyId) => {
     const dateFetchPacket = {
       page,
       size,
       filter,
-      clinicId,
-      type,
+      specialtyId,
     };
-    // localStorage.removeItem("localPacket");
-    // localStorage.setItem("localPacket", JSON.stringify(dateFetchPacket));
-    getAllPacket(dateFetchPacket);
+    getAllHandbookAction(dateFetchPacket);
   };
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    getListClinicHome();
-    const dataFetchClinic = {
-      page: 1,
-      size: 10,
-      filter: "PACKET",
-    };
-    fetchTypePacketCode(dataFetchClinic);
-    // const localPacket = JSON.parse(localStorage.getItem("localPacket"));
-    // if (localPacket) {
-    //   setPage(localPacket?.page);
-    //   fetchDataPacket({ localPacket });
-    // } else fetchDataPacket(page, size, "", "", "");
-    fetchDataPacket(page, size, "", "", "");
+    fetchDataPacket(page, size, "", "");
+    getAllSpecialtyInHandbook();
   }, []);
 
   useEffect(() => {
-    setClinics(
-      listClinic.map((e) => ({
-        value: e._id,
+    setSpecialties(
+      listSpecialtyInHandbook.map((e) => ({
+        value: e.id,
         name: e.name,
-        image: e.image.url,
       }))
     );
-    setTypePackets(
-      typePacket?.list?.map((e) => ({
-        value: e._id,
-        name: e.valueVI,
-      }))
-    );
-  }, [listClinic, typePacket]);
+  }, [listSpecialtyInHandbook]);
 
   useEffect(() => {
-    setPackets(
-      listPacket?.list?.map((e) => ({
+    setHandbooks(
+      listHandbook?.list?.map((e) => ({
         id: e._id,
         name: e.name || "",
         image: e.image.url || "",
-        price: e.price.name || "",
       }))
     );
-    setCountItem(listPacket?.count);
-  }, [listPacket]);
+    setCountItem(listHandbook?.count);
+  }, [listHandbook]);
 
   const handleClickReset = () => {
-    if (!filterClinic && !filterPacker && !search) return;
-    fetchDataPacket(1, size, "", "", "");
-    setFilterClinic("");
-    setFilterPacker("");
+    if (!filterSpecialty && !search) return;
+    fetchDataPacket(1, size, "", "");
+    setFilterSpecialty("");
     setSearch("");
     setPage(1);
   };
   const handleChange = (event, type) => {
     setSearch("");
     setPage(1);
-    const clinicId = filterClinic ? [filterClinic] : "";
-    const typePacket = filterPacker ? [filterPacker] : "";
     const {
       target: { value },
     } = event;
-    if (type === "clinic") {
-      setFilterClinic(typeof value === "string" ? value.split(",") : value);
-      fetchDataPacket(1, size, "", value, typePacket);
-    } else {
-      setFilterPacker(typeof value === "string" ? value.split(",") : value);
-      fetchDataPacket(1, size, "", clinicId, value);
-    }
+    setFilterSpecialty(typeof value === "string" ? value.split(",") : value);
+    fetchDataPacket(1, size, "", value);
   };
-  const handleClickDetailClinic = (id) => {
-    navigate(`/clinic/${id}`);
+  const handleClickDetailSpecialty = (id) => {
+    navigate(`/specialty/${id}`);
   };
-  const handleClickViewMoreClinic = () => {
-    navigate("/viewmore/clinic");
+  const handleClickViewMoreSpecialty = () => {
+    navigate("/viewmore/specialty");
   };
-  const handleClickDetailPacket = (id) => {
-    navigate(`/packet/${id}`);
+  const handleClickDetailHandbook = (id) => {
+    navigate(`/handbook/${id}`);
   };
-  const handleSearchPacket = () => {
+  const handleSearchHandbook = () => {
     if (!search) return;
-    setFilterClinic("");
-    setFilterPacker("");
+    setFilterSpecialty("");
     setPage(1);
     fetchDataPacket(1, size, search, "", "");
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    const clinicId = filterClinic ? [filterClinic] : "";
-    const type = filterPacker ? [filterPacker] : "";
-    fetchDataPacket(newPage, size, search, clinicId, type);
+    const type = filterSpecialty ? [filterSpecialty] : "";
+    fetchDataPacket(newPage, size, search, type);
   };
 
   const styles = {
-    backgroundImage: `url(${bgpacket})`,
+    backgroundImage: `url(${document})`,
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center center",
@@ -212,7 +175,7 @@ const HomePacket = ({
               textShadow: `3px 4px 7px rgba(81,67,21,0.8)`,
             }}
           >
-            <b>GÓI KHÁM TỔNG HỢP</b>
+            <b>CẨM NANG TỔNG HỢP</b>
           </Typography>
           <Box
             sx={{
@@ -239,7 +202,7 @@ const HomePacket = ({
                     bgcolor: "#fff",
                     borderRadius: 2,
                   }}
-                  placeholder="TÌm kiếm tên gói khám"
+                  placeholder="TÌm kiếm tên cẩm nang"
                   onChange={(e) => setSearch(e.target.value)}
                   value={search}
                   endAdornment={
@@ -252,7 +215,7 @@ const HomePacket = ({
                           textTransform: "capitalize",
                           padding: "3px 5px",
                         }}
-                        onClick={handleSearchPacket}
+                        onClick={handleSearchHandbook}
                       >
                         Tìm kiếm
                       </Button>
@@ -289,38 +252,17 @@ const HomePacket = ({
                 }}
                 size="small"
               >
-                <InputLabel id="demo-select-small">Loại gói khám</InputLabel>
+                <InputLabel id="demo-select-small">Chuyên khoa</InputLabel>
                 <Select
                   labelId="demo-select-small"
                   id="demo-select-small"
-                  value={filterPacker}
-                  label="Loại gói khám"
-                  onChange={(e) => handleChange(e, "packet")}
+                  value={filterSpecialty}
+                  label="Chuyên khoa"
+                  onChange={(e) => handleChange(e)}
                 >
-                  {typePackets &&
-                    typePackets.length > 0 &&
-                    typePackets.map((e) => (
-                      <MenuItem key={e.value || ""} value={e.value || ""}>
-                        {e.name || ""}
-                      </MenuItem>
-                    ))}
-                </Select>
-              </FormControl>
-              <FormControl
-                sx={{ minWidth: 160, bgcolor: "#fff", borderRadius: 2 }}
-                size="small"
-              >
-                <InputLabel id="demo-select-small">Phòng khám</InputLabel>
-                <Select
-                  labelId="demo-select-small"
-                  id="demo-select-small"
-                  value={filterClinic}
-                  label="Phòng khám"
-                  onChange={(e) => handleChange(e, "clinic")}
-                >
-                  {clinics &&
-                    clinics.length > 0 &&
-                    clinics.map((e) => (
+                  {specialties &&
+                    specialties.length > 0 &&
+                    specialties.map((e) => (
                       <MenuItem key={e.value || ""} value={e.value || ""}>
                         {e.name || ""}
                       </MenuItem>
@@ -349,11 +291,11 @@ const HomePacket = ({
         <Container>
           {!mobiScreen && (
             <div
-              className="section-data homepacket__packet"
+              className="section-data homepacket__packet homepacket__handbook"
               style={{ border: "none", padding: 0 }}
             >
               <div className="container__header d-flex justify-content-between align-items-center mb-2">
-                <div className="container__header--title">Gói nổi bật</div>
+                <div className="container__header--title">Cẩm nang nổi bật</div>
                 {/* <div
                   className="container__header--btn"
                   //   onClick={() => handleClickViewMore()}
@@ -363,28 +305,25 @@ const HomePacket = ({
               </div>
               <Divider />
               <div className="container__body mt-5">
-                {packets &&
-                  packets.length > 0 &&
-                  packets.map((e, index) => (
+                {handbooks &&
+                  handbooks.length > 0 &&
+                  handbooks.map((e, index) => (
                     <div
                       className="container__body--item"
-                      onClick={() => handleClickDetailPacket(e.id)}
+                      onClick={() => handleClickDetailHandbook(e.id)}
                     >
                       <img src={e.image} alt={e.name} />
                       <div className="container__body--item--title">
                         {e.name}
                       </div>
-                      <div className="container__body--item--price">
-                        <span>Giá:</span> <span>{e.price}</span>
-                      </div>
                     </div>
                   ))}
               </div>
               <Stack mt={3}>
-                {countItem > 8 && (
-                  <span className="d-flex justify-content-center">
+                {countItem > 16 && (
+                  <span className="d-flex justify-content-center m-2">
                     <Pagination
-                      count={Math.ceil(countItem / 8)}
+                      count={Math.ceil(countItem / 16)}
                       color="primary"
                       onChange={handleChangePage}
                       defaultPage={page}
@@ -396,14 +335,14 @@ const HomePacket = ({
           )}
           {mobiScreen && (
             <div
-              className="section-data homepacket__clinic mt-5"
+              className="section-data HomeHandbook__clinic mt-5"
               style={{ borderTop: "none", padding: 0, backgroundColor: "#fff" }}
             >
               <div className="container__header d-flex justify-content-between align-items-center mb-2">
                 <div className="container__header--title">Gói nổi bật</div>
                 {/* <div
                   className="container__header--btn"
-                  //   onClick={() => handleClickViewMoreClinic()}
+                  //   onClick={() => handleClickViewMoreSpecialty()}
                 >
                   <FormattedMessage id="homepage.more-info" />
                 </div> */}
@@ -411,16 +350,16 @@ const HomePacket = ({
               <Divider />
               <div className="container__body mt-5">
                 <Slider {...settings}>
-                  {packets &&
-                    packets.length > 0 &&
-                    packets.map((e, index) => (
+                  {handbooks &&
+                    handbooks.length > 0 &&
+                    handbooks.map((e, index) => (
                       <div
                         key={index}
                         className="d-flex justify-content-center"
                       >
                         <div
                           className="container__body--item"
-                          onClick={() => handleClickDetailPacket(e.id)}
+                          onClick={() => handleClickDetailHandbook(e.id)}
                         >
                           <img src={e.image} alt={e.name} />
                           <div className="container__body--item--title">
@@ -433,44 +372,10 @@ const HomePacket = ({
               </div>
             </div>
           )}
-          {/* phân chia gói khám và cơ sở y tế */}
-          <div
-            className="section-data homepacket__clinic mt-5"
-            style={{ borderTop: "none", padding: 0, backgroundColor: "#fff" }}
-          >
-            <div className="container__header d-flex justify-content-between align-items-center mb-2">
-              <div className="container__header--title">Cơ sở y tế</div>
-              <div
-                className="container__header--btn"
-                onClick={() => handleClickViewMoreClinic()}
-              >
-                <FormattedMessage id="homepage.more-info" />
-              </div>
-            </div>
-            <Divider />
-            <div className="container__body mt-5">
-              <Slider {...settings}>
-                {clinics &&
-                  clinics.length > 0 &&
-                  clinics.map((e, index) => (
-                    <div key={index} className="d-flex justify-content-center">
-                      <div
-                        className="container__body--item"
-                        onClick={() => handleClickDetailClinic(e.value)}
-                      >
-                        <img src={e.image} alt={e.name} />
-                        <div className="container__body--item--title">
-                          {e.name}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-              </Slider>
-            </div>
-          </div>
         </Container>
       </Box>
       <Footer />
+      <BackToTop/>
     </>
   );
 };
@@ -478,19 +383,23 @@ const HomePacket = ({
 const mapStateToProps = (state) => {
   return {
     listPacket: state.patient.listPacket,
-    listClinic: state.patient.listClinic,
     typePacket: state.admin.allcodeType,
+    listSpecialtyInHandbook: state.admin.listSpecialtyInHandbook,
+    listHandbook: state.admin.listHandbook,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListClinicHome: () => dispatch(actions.getListClinicHomePatientAction()),
     fetchTypePacketCode: (type) =>
       dispatch(actions.fetchAllcodeByTypeAction(type)),
     getAllPacket: (data) =>
       dispatch(actions.getAllPacketPatientHomeAction(data)),
+    getAllSpecialtyInHandbook: () =>
+      dispatch(actions.getAllSpecialtyInHandbookAction()),
+    getAllHandbookAction: (data) =>
+      dispatch(actions.getAllHandbookAction(data)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePacket);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeHandbook);

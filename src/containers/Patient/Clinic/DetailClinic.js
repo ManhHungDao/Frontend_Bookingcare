@@ -17,7 +17,7 @@ import SubHeader from "../../HomePage/Section/SubHeader";
 import { pageViewCount } from "../../../services/clinicService";
 import { useLocation } from "react-router-dom";
 import { getSingleClinic } from "../../../services/clinicService";
-import './style.scss'
+import "./style.scss";
 
 import {
   Card,
@@ -29,21 +29,24 @@ import {
 import BackToTop from "../../../components/BackToTop ";
 import "./style.scss";
 
-const DetailClinic = ({ language }) => {
+const DetailClinic = ({ language, loadingToggleAction }) => {
   const location = useLocation();
   const [data, setData] = useState({});
   const { id } = useParams();
   const smScreen = useIsMobile();
 
-  useEffect(() => {
-    const getData = async () => {
-      const res = await getSingleClinic(id);
-      if (res && res.success) {
-        setData(res.clinic);
-      }
-    };
-    getData();
+  const getData = async () => {
+    // loadingToggleAction(true);
+    const res = await getSingleClinic(id);
+    if (res && res.success) {
+      setData(res.clinic);
+      // loadingToggleAction(false);
+    }
+    // loadingToggleAction(false);
+  };
 
+  useEffect(() => {
+    getData();
     pageViewCount(id);
   }, []);
 
@@ -134,6 +137,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    loadingToggleAction: (id) => dispatch(actions.loadingToggleAction(id)),
+  };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DetailClinic);

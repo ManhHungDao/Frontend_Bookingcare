@@ -21,7 +21,7 @@ const HandbookSection = ({
     navigate(`${linkItem}/${id}`);
   };
   const handleClickViewMore = () => {
-    // history.push("/path_to_redirect");
+    navigate(`${linkItem}`);
   };
 
   const settings = {

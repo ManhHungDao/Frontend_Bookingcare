@@ -11,6 +11,7 @@ import DoctorViewMore from "../containers/HomePage/Section/ViewMore/DoctorViewMo
 import HomePacket from "../containers/Patient/Packet/HomePacket";
 import DetailPacket from "../containers/Patient/Packet/DetailPacket";
 import PatientConfirmBooking from "../containers/Patient/Schedule/Booking/PatientConfirmBooking";
+import HomeHandbook from "../containers/Patient/Handbook/HomeHandbook";
 
 const PatientRoute = () => {
   return (
@@ -21,7 +22,8 @@ const PatientRoute = () => {
         <Route path={path.SPECIALTY} element={<DetailSpecialty />} />
         <Route path={path.CLINIC} element={<DetailClinic />} />
         <Route path={path.DETAIL_DOCTOR} element={<DetailDoctor />} />
-        <Route path={path.HANDBOOK} element={<DetailHandbook />} />
+        <Route path={path.HANDBOOK} element={<HomeHandbook />} />
+        <Route path={path.DETAIL_HANDBOOK} element={<DetailHandbook />} />
         <Route
           path={path.VIEWMORE_SPECIALTY}
           element={<DataSectionViewMore />}
