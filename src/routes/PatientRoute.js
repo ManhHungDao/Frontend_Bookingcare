@@ -10,6 +10,7 @@ import DataSectionViewMore from "../containers/HomePage/Section/ViewMore/DataSec
 import DoctorViewMore from "../containers/HomePage/Section/ViewMore/DoctorViewMore";
 import HomePacket from "../containers/Patient/Packet/HomePacket";
 import DetailPacket from "../containers/Patient/Packet/DetailPacket";
+import PatientConfirmBooking from "../containers/Patient/Schedule/Booking/PatientConfirmBooking";
 
 const PatientRoute = () => {
   return (
@@ -17,12 +18,6 @@ const PatientRoute = () => {
       <Routes>
         <Route index element={<HomePage />} />
         <Route path={path.HOMEPAGE} element={<HomePage />} />
-        {/* <Route path={"/render-list/packet"} element={Packet} />
-        <Route path={"/detail-packet/:id"} element={Detail_packet} /> */}
-        {/* <Route path={path.DOCTOR} element={DetailDoctor} />
-        <Route path={path.HANDBOOK} element={ViewAllHandbook} />
-        <Route path={path.HANDBOOK} element={DetailHandbook} />
-      <Route path={path.VERIFY_BOOKING} element={VerifyEmail} /> */}
         <Route path={path.SPECIALTY} element={<DetailSpecialty />} />
         <Route path={path.CLINIC} element={<DetailClinic />} />
         <Route path={path.DETAIL_DOCTOR} element={<DetailDoctor />} />
@@ -35,14 +30,11 @@ const PatientRoute = () => {
         <Route path={path.VIEWMORE_DOCTOR} element={<DoctorViewMore />} />
         <Route path={path.PACKET} element={<HomePacket />} />
         <Route path={path.DETAIL_PACKET} element={<DetailPacket />} />
-
-        {/* <Route
-          path={path.TABLE_CLINIC_SPECIALTY}
-          element={TableSpecialtyClinic}
+        <Route
+          path={path.CONFIRM_BOOKING}
+          element={<PatientConfirmBooking />}
         />
-        <Route path={path.CLINIC_SPECIALTY} element={DetailClinic} />
-        <Route path={path.RENDER_LIST} element={RenderList} />
-        <Route path={path.LIST_POST_HANDBOOK} element={ListPostHandbook} /> */}
+
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
     </>

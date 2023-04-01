@@ -37,8 +37,13 @@ const deleteSchedule = (id, date) => {
 };
 
 const createUserBookingSchedule = (data) => {
-  return axios.put(`/api/create-user-booking-schedule`,data);
+  return axios.put(`/api/create-user-booking-schedule`, data);
 };
+
+const patientConfirmBooking = (data) => {
+  return axios.put(`/api/patient-confirm-booking`, data);
+};
+
 export {
   upsertSchedule,
   getSingleUserSchedule,
@@ -46,5 +51,8 @@ export {
   sentMailPatient,
   getScheduleUserByDate,
   updateStatus,
-  getSchedulePacketByDate,getSinglePacketSchedule,createUserBookingSchedule
+  getSchedulePacketByDate,
+  getSinglePacketSchedule,
+  createUserBookingSchedule,
+  patientConfirmBooking,
 };

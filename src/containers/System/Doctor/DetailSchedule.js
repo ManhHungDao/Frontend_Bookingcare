@@ -86,7 +86,7 @@ const DetailSchedule = ({
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
-    height: "80vh",
+    height: "fit-content",
     maxHeight: "80vh",
     overflowY: "scroll",
     top: 0,
@@ -190,18 +190,22 @@ const DetailSchedule = ({
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item xs={12} md={12}>
-                  <ResponseDetail
-                    status={status}
-                    setStatus={setStatus}
-                    content={content}
-                    setContent={setContent}
-                    handleSave={handleSendMail}
-                    title={title}
-                    setTitle={setTitle}
-                    errors={errors}
-                  />
-                </Grid>
+                {status === "Đã hủy" || status === "Hoàn thành" ? (
+                  <Grid item xs={12} md={12}>
+                    <ResponseDetail
+                      status={status}
+                      setStatus={setStatus}
+                      content={content}
+                      setContent={setContent}
+                      handleSave={handleSendMail}
+                      title={title}
+                      setTitle={setTitle}
+                      errors={errors}
+                    />
+                  </Grid>
+                ) : (
+                  ""
+                )}
               </Grid>
             </Stack>
           </Container>

@@ -12,12 +12,7 @@ export const path = {
   CLINIC: "clinic/:id",
   DETAIL_PACKET: "packet/:id",
   DETAIL_DOCTOR: "detail-doctor/:id",
-  VERIFY_BOOKING: "/verify-booking",
-  TABLE_CLINIC_SPECIALTY: "/table-clinic-specialty/:id",
-  CLINIC_SPECIALTY:
-    "/detail-clinic-specialty/clinicId=:clinicId/specialtyId=:specialtyId",
-  RENDER_LIST: "/render-list/:type",
-  LIST_POST_HANDBOOK: "/list-post-handbook/:id",
+  CONFIRM_BOOKING: "/confirm-booking",
   VIEWMORE_SPECIALTY: "/viewmore/specialty",
   VIEWMORE_CLINIC: "/viewmore/clinic",
   VIEWMORE_DOCTOR: "/viewmore/doctor",

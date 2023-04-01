@@ -34,7 +34,8 @@ const TodaySchedule = ({
   toDaySchedule,
   getSingleUserSchedule,
   fetchAllcode,
-  allcodes,clearStatus
+  allcodes,
+  clearStatus,
 }) => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);

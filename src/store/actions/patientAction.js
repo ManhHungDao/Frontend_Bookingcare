@@ -13,7 +13,10 @@ import {
   getSingleHandbook,
 } from "../../services/handbookService";
 import { getAllUserHomePatient } from "../../services/userService";
-import { createUserBookingSchedule } from "../../services/scheduleService";
+import {
+  createUserBookingSchedule,
+  sentMailPatient,
+} from "../../services/scheduleService";
 import { getAllPacket } from "../../services/packetService";
 
 import { loadingToggleAction } from "./adminActions";
@@ -145,7 +148,7 @@ export const createUserBookingScheduleAction = (data) => {
         dispatch({
           type: actionTypes.CREATE_SCHEDULE_PATIENT_SUCCESS,
         });
-        toast.success("Khởi tạo lịch khám thành công");
+        // toast.success("Khởi tạo lịch khám thành công");
       }
     } catch (error) {
       dispatch(loadingToggleAction(false));
@@ -223,6 +226,23 @@ export const getAllPacketPatientHomeAction = (data) => {
       dispatch({
         type: actionTypes.GET_ALL_PACKET_HOME_FAILED,
       });
+    }
+  };
+};
+
+// EMAIL
+
+export const sentMailConfirmAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await sentMailPatient(data);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      toast.error("Gửi thư thất bại");
     }
   };
 };

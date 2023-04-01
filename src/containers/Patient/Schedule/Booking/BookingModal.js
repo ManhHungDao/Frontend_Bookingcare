@@ -41,6 +41,7 @@ const BookingModal = ({
   isSuccess,
   clearStatus,
   setOpenConfirm,
+  sentMail,
 }) => {
   const mobiScreen = useIsMobile();
   const [date, setDate] = useState(dayjs(new Date()));
@@ -113,9 +114,20 @@ const BookingModal = ({
     };
     createUserBookingSchedule(data);
   };
+
+  const confirmEmail = `
+  <h2 style="text-align:center;"><strong>XÁC NHẬN ĐẶT LỊCH KHÁM</strong></h2><p>Xin chào ${name},</p><p>Cảm ơn bạn đã sử dụng dịch vụ tại website chúng tôi, để xác nhận đặt lịch khám bạn vui lòng click <a href="http://localhost:3000/confirm-booking?date=${dataBooking.dateBooking}&time=${dataBooking.timeBooking}&doctorId=${dataBooking.doctorId}&packetId=${dataBooking.packetId}">vào đây</a> để xác nhận lịch khám.</p><p>Xin cảm ơn.</p><p>&nbsp;</p>`;
+  // to, subject, html
   useEffect(() => {
     if (isSuccess !== null) {
       if (isSuccess === true) {
+        const mail = {
+          to: email,
+          subject: "Xác nhận đặt lịch khám",
+          html: confirmEmail,
+        };
+        sentMail(mail);
+        // sent email confirm to patient
         setErrors("");
         setEmail("");
         setPhone("");
@@ -399,6 +411,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createUserBookingSchedule: (data) =>
       dispatch(actions.createUserBookingScheduleAction(data)),
+    sentMail: (data) => dispatch(actions.sentMailConfirmAction(data)),
     clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
