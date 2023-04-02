@@ -327,7 +327,7 @@ const HomeHandbook = ({
                       count={Math.ceil(countItem / 16)}
                       color="primary"
                       onChange={handleChangePage}
-                      defaultPage={page}
+                      page={page}
                     />
                   </span>
                 )}

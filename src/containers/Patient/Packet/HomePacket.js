@@ -387,7 +387,7 @@ const HomePacket = ({
                       count={Math.ceil(countItem / 8)}
                       color="primary"
                       onChange={handleChangePage}
-                      defaultPage={page}
+                      page={page}
                     />
                   </span>
                 )}

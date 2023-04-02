@@ -10,6 +10,7 @@ import ScheduleTime from "../Schedule/ScheduleTime";
 import DetailSchuleBooking from "../Schedule/DetailSchuleBooking";
 import localization from "moment/locale/vi";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePacket = ({ id, language, fetchAllcode, allcodes }) => {
   const [data, setData] = useState("");
@@ -20,6 +21,7 @@ const ProfilePacket = ({ id, language, fetchAllcode, allcodes }) => {
     moment(new Date()).add(1, "days").startOf("day").valueOf()
   );
   const [timeSchedule, setTimeSchedule] = useState([]);
+  const navigate = useNavigate();
 
   const getDataSchedule = async () => {
     let res = await getSinglePacketSchedule(id, date / 1000);
@@ -39,11 +41,12 @@ const ProfilePacket = ({ id, language, fetchAllcode, allcodes }) => {
   };
 
   useEffect(() => {
-    getDataSchedule();
+    const temp = moment(new Date()).add(1, "days").startOf("day").valueOf();
+    if (date !== temp) getDataSchedule();
   }, [date]);
   // data user booking
 
-  const getDataUser = async () => {
+  const getDataPacket = async () => {
     let res = await getSinglePacket(id);
     if (res && res.success) {
       setData(res.packet);
@@ -53,7 +56,11 @@ const ProfilePacket = ({ id, language, fetchAllcode, allcodes }) => {
   };
 
   useEffect(() => {
-    getDataUser();
+    getDataPacket();
+    getDataSchedule();
+  }, [id]);
+
+  useEffect(() => {
     fetchAllcode();
   }, []);
 

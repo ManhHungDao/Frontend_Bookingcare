@@ -135,10 +135,10 @@ const ScheduleTime = ({
             <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
               {timeSchedule &&
                 timeSchedule.length > 0 &&
-                timeSchedule.map((e) => (
+                timeSchedule.map((e, i) => (
                   <Box
                     p={1}
-                    key={e.id}
+                    key={i}
                     variant={"contained"}
                     onClick={() => handleClickTime(e.time)}
                     sx={{
