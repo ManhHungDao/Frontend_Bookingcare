@@ -11,8 +11,9 @@ const ProfileDoctor = ({ clinic, payment, price }) => {
       gap={1}
       direction="column"
       sx={{
-        paddingLeft: 2,
-        borderLeft: "1px solid #ddd",
+        paddingLeft: { lg: 2, md: 0 },
+        borderLeft: { lg: "1px solid #ddd", md: "none" },
+        maxWidth: "fit-content",
       }}
     >
       <Typography>

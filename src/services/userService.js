@@ -42,6 +42,12 @@ const getAllUserHomePatient = (name) => {
   return axios.get(`/api/get-all-user-home?filter=${name}`);
 };
 
+const getAllUserBySpecialtyHome = (data) => {
+  return axios.get(
+    `/api/get-user-by-specialty-home?page=${data.page}&size=${data.size}&id=${data.id}`
+  );
+};
+
 export {
   changePasswordApiService,
   updateUserService,
@@ -53,4 +59,5 @@ export {
   resetPasswordApiService,
   getAllCountDashboard,
   getAllUserHomePatient,
+  getAllUserBySpecialtyHome,
 };

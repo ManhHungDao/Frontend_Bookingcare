@@ -28,15 +28,16 @@ import CachedIcon from "@mui/icons-material/Cached";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../HomePage/Section/Footer";
 import Slider from "react-slick";
-import BackToTop from '../../../components/BackToTop '
+import BackToTop from "../../../components/BackToTop ";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import './HomeHandbook.scss'
+import "./HomeHandbook.scss";
 const HomeHandbook = ({
   listHandbook,
   getAllSpecialtyInHandbook,
   listSpecialtyInHandbook,
   getAllHandbookAction,
+  loadingToggleAction,
 }) => {
   const smsScreen = useIsTablet();
   const mobiScreen = useIsMobile();
@@ -375,7 +376,7 @@ const HomeHandbook = ({
         </Container>
       </Box>
       <Footer />
-      <BackToTop/>
+      <BackToTop />
     </>
   );
 };
@@ -399,6 +400,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getAllSpecialtyInHandbookAction()),
     getAllHandbookAction: (data) =>
       dispatch(actions.getAllHandbookAction(data)),
+    loadingToggleAction: (status) =>
+      dispatch(actions.loadingToggleAction(status)),
   };
 };
 

@@ -9,6 +9,7 @@ import { getSingleUserSchedule } from "../../../services/scheduleService";
 import ScheduleTime from "../Schedule/ScheduleTime";
 import DetailSchuleBooking from "../Schedule/DetailSchuleBooking";
 import localization from "moment/locale/vi";
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
 const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
@@ -20,6 +21,7 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
     moment(new Date()).add(1, "days").startOf("day").valueOf()
   );
   const [timeSchedule, setTimeSchedule] = useState([]);
+  const navigate = useNavigate();
 
   const getDataSchedule = async () => {
     let res = await getSingleUserSchedule(id, date / 1000);
@@ -43,7 +45,17 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
   };
 
   useEffect(() => {
+    fetchAllcode();
+  }, []);
+
+  useEffect(() => {
+    getDataUser();
     getDataSchedule();
+  }, [id]);
+
+  useEffect(() => {
+    const temp = moment(new Date()).add(1, "days").startOf("day").valueOf();
+    if (date !== temp) getDataSchedule();
   }, [date]);
   // data user booking
 
@@ -55,11 +67,6 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
       setData("");
     }
   };
-
-  useEffect(() => {
-    getDataUser();
-    fetchAllcode();
-  }, []);
 
   const dataToSchedule = {
     idDoctor: id,
@@ -75,29 +82,39 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
           display: "flex",
           gap: 1,
           flexDirection: "column",
+          bgcolor: "transparent",
+          borderRadius: 4,
         }}
       >
         <Stack display="flex" gap={1} direction="row">
           <Avatar
             alt={data?.name ? data.name : ""}
             src={data?.image?.url ? data.image.url : ""}
-            sx={{ width: 100, height: 100 }}
+            sx={{ width: 100, height: 100, cursor: "pointer" }}
+            onClick={() => navigate(`/detail-doctor/${id}`)}
           />
           <Stack display={"flex"} gap={1}>
-            <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            <Typography
+              variant="h5"
+              sx={{ fontWeight: 600, cursor: "pointer" }}
+              onClick={() => navigate(`/detail-doctor/${id}`)}
+            >
               {data?.detail?.position?.name ? data.detail.position.name : ""}
               <span style={{ textTransform: "capitalize" }}>
                 &nbsp; {data?.name ? data.name : ""}
               </span>
             </Typography>
-            <Typography variant="subtitle2" sx={{ opacity: "0.7" }}>
+            <Typography
+              variant="subtitle2"
+              sx={{ opacity: "0.7", maxWidth: 500 }}
+            >
               {data?.detail?.introduce ? data.detail.introduce : ""}
             </Typography>
           </Stack>
         </Stack>
         {/* render time booking */}
         <Grid container spacing={2} display="flex" alignItems={"center"}>
-          <Grid item xs={12} md={6}>
+          <Grid item sm={12} md={6}>
             <ScheduleTime
               data={dataToSchedule}
               price={price?.name}
@@ -108,7 +125,7 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
               timeSchedule={timeSchedule}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item sm={12} md={6}>
             <DetailSchuleBooking
               clinic={data?.detail?.clinic}
               price={price?.name}

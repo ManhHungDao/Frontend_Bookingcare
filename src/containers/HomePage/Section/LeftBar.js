@@ -107,6 +107,22 @@ export default function TemporaryDrawer({ show, setOpen }) {
                   <FormattedMessage id="home-header.check-health" />
                 </span>
               </div>
+              <div
+                className="child-content nav-5"
+                onClick={() => {
+                  navigate(`/handbook`);
+                }}
+              >
+                <div>
+                  <b className="header-title">
+                    Cẩm Nang
+                  </b>
+                </div>
+                <span className="subs-title">
+                  Bài viết y tế
+                </span>
+              </div>
+              
             </div>
           </Box>
         </Drawer>
