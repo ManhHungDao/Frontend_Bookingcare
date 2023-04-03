@@ -26,18 +26,19 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import CachedIcon from "@mui/icons-material/Cached";
 import { useNavigate } from "react-router-dom";
+import { getAllHandbook} from '../../../services/handbookService.js'
 import Footer from "../../HomePage/Section/Footer";
 import Slider from "react-slick";
 import BackToTop from "../../../components/BackToTop ";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./style.scss";
+
 const HomeHandbook = ({
   listHandbook,
   getAllSpecialtyInHandbook,
   listSpecialtyInHandbook,
   getAllHandbookAction,
-  loadingToggleAction,
 }) => {
   const smsScreen = useIsTablet();
   const mobiScreen = useIsMobile();
@@ -50,18 +51,18 @@ const HomeHandbook = ({
   const [handbooks, setHandbooks] = useState([]);
   const [countItem, setCountItem] = useState(0);
 
-  const fetchDataPacket = (page, size, filter, specialtyId) => {
-    const dateFetchPacket = {
+  const getDataHandbook = (page, size, filter, specialtyId) => {
+    const dataFetchPacket = {
       page,
       size,
       filter,
       specialtyId,
     };
-    getAllHandbookAction(dateFetchPacket);
+    getAllHandbookAction(dataFetchPacket);
   };
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    fetchDataPacket(page, size, "", "");
+    getDataHandbook(page, size, "", "");
     getAllSpecialtyInHandbook();
   }, []);
 
@@ -87,7 +88,7 @@ const HomeHandbook = ({
 
   const handleClickReset = () => {
     if (!filterSpecialty && !search) return;
-    fetchDataPacket(1, size, "", "");
+    getDataHandbook(1, size, "", "");
     setFilterSpecialty("");
     setSearch("");
     setPage(1);
@@ -99,13 +100,7 @@ const HomeHandbook = ({
       target: { value },
     } = event;
     setFilterSpecialty(typeof value === "string" ? value.split(",") : value);
-    fetchDataPacket(1, size, "", value);
-  };
-  const handleClickDetailSpecialty = (id) => {
-    navigate(`/specialty/${id}`);
-  };
-  const handleClickViewMoreSpecialty = () => {
-    navigate("/viewmore/specialty");
+    getDataHandbook(1, size, "", value);
   };
   const handleClickDetailHandbook = (id) => {
     navigate(`/handbook/${id}`);
@@ -114,12 +109,12 @@ const HomeHandbook = ({
     if (!search) return;
     setFilterSpecialty("");
     setPage(1);
-    fetchDataPacket(1, size, search, "", "");
+    getDataHandbook(1, size, search, "", "");
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     const type = filterSpecialty ? [filterSpecialty] : "";
-    fetchDataPacket(newPage, size, search, type);
+    getDataHandbook(newPage, size, search, type);
   };
 
   const styles = {
@@ -383,10 +378,8 @@ const HomeHandbook = ({
 
 const mapStateToProps = (state) => {
   return {
-    listPacket: state.patient.listPacket,
-    typePacket: state.admin.allcodeType,
     listSpecialtyInHandbook: state.admin.listSpecialtyInHandbook,
-    listHandbook: state.admin.listHandbook,
+    listHandbook: state.patient.listHandbook,
   };
 };
 
@@ -394,12 +387,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchTypePacketCode: (type) =>
       dispatch(actions.fetchAllcodeByTypeAction(type)),
-    getAllPacket: (data) =>
-      dispatch(actions.getAllPacketPatientHomeAction(data)),
     getAllSpecialtyInHandbook: () =>
       dispatch(actions.getAllSpecialtyInHandbookAction()),
     getAllHandbookAction: (data) =>
-      dispatch(actions.getAllHandbookAction(data)),
+      dispatch(actions.getAllHandbookHomePatientAction(data)),
     loadingToggleAction: (status) =>
       dispatch(actions.loadingToggleAction(status)),
   };

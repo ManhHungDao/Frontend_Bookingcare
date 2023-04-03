@@ -168,16 +168,20 @@ export const createUserBookingScheduleAction = (data) => {
 
 // HANBOOK
 
-export const getAllHandbookHomePatientAction = () => {
+export const getAllHandbookHomePatientAction = (data) => {
   return async (dispatch, getState) => {
     try {
       // dispatch(loadingToggleAction(true));
-      const res = await getAllHandbookHomePatient();
+      const res = await getAllHandbookHomePatient(data);
       if (res && res.success) {
         // dispatch(loadingToggleAction(false));
+        console.log('check res',res.handbooks);
         dispatch({
           type: actionTypes.GET_LIST_HANDBOOK_HOME_SUCCEED,
-          data: res.handbooks,
+          data: {
+            list: res.handbooks,
+            count: res.count,
+          },
         });
       }
     } catch (error) {

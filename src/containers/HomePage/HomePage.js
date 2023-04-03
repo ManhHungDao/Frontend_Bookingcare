@@ -40,7 +40,12 @@ const HomePage = ({
     getListClinicHome();
     getListSpecialtyHome();
     getListUserHome();
-    getAllHandbookHome();
+    getAllHandbookHome({
+      page: 1,
+      size: 20,
+      specialtyId: "",
+      filter: "",
+    });
   }, []);
   useEffect(() => {
     if (listClinic && listClinic.length > 0)
@@ -77,9 +82,9 @@ const HomePage = ({
     else {
       setUsers([]);
     }
-    if (listHandbook && listHandbook.length > 0)
+    if (listHandbook?.list && listHandbook.list.length > 0)
       setHandbooks(
-        listHandbook.map((e) => ({
+        listHandbook.list.map((e) => ({
           id: e._id,
           name: e.name,
           image: e.image.url,
@@ -170,8 +175,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getListUserHome: () => dispatch(actions.getListUserHomePatientAction("")),
-    getAllHandbookHome: () =>
-      dispatch(actions.getAllHandbookHomePatientAction()),
+    getAllHandbookHome: (data) =>
+      dispatch(actions.getAllHandbookHomePatientAction(data)),
     getListClinicHome: () => dispatch(actions.getListClinicHomePatientAction()),
     getListSpecialtyHome: () =>
       dispatch(actions.getListSpecialtyHomePatientAction("")),

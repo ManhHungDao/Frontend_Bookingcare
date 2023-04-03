@@ -18,8 +18,8 @@ const updateHandbook = (id, data) => {
   return axios.put(`/api/update-handbook?id=${id}`, data);
 };
 
-const getAllHandbookHomePatient = () => {
-  return axios.get(`/api/get-all-home-handbook`);
+const getAllHandbookHomePatient = (data) => {
+  return axios.get(`/api/get-all-home-handbook?page=${data.page}&specialtyId=${data.specialtyId}&filter=${data.filter}&size=${data.size}`);
 };
 
 const getSingleHandbook = (id) => {
