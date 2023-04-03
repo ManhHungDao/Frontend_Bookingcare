@@ -31,7 +31,7 @@ import Slider from "react-slick";
 import BackToTop from "../../../components/BackToTop ";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./HomeHandbook.scss";
+import "./style.scss";
 const HomeHandbook = ({
   listHandbook,
   getAllSpecialtyInHandbook,

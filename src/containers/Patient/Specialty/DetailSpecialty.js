@@ -153,12 +153,14 @@ const DetailSpecialty = ({
             </Box>
             <Stack>
               <span className="d-flex justify-content-center mb-3">
-                <Pagination
-                  count={Math.ceil(count / 4)}
-                  color="primary"
-                  onChange={handleChangePage}
-                  defaultPage={page}
-                />
+                {count > 4 && (
+                  <Pagination
+                    count={Math.ceil(count / 4)}
+                    color="primary"
+                    onChange={handleChangePage}
+                    defaultPage={page}
+                  />
+                )}
               </span>
             </Stack>
           </Container>

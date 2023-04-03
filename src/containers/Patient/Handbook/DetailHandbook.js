@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import { languages } from "../../../utils";
-import "./DetailHandbook.scss";
+import "./style.scss";
 import { toast } from "react-toastify";
 // import ListNameHandbook from "./ListNameHandbook";
 // import RelatedHandbook from "./RelatedHandbook";
@@ -20,6 +20,7 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
+import RelatedHandbook from "./RelatedHandbook";
 
 const DetailHandbook = ({ loadingToggleAction }) => {
   const { id } = useParams();
@@ -39,7 +40,7 @@ const DetailHandbook = ({ loadingToggleAction }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     fetchData();
-  }, []);
+  }, [id]);
 
   const styles = {
     backgroundImage: `url(${data?.image?.url ? data.image.url : ""})`,
@@ -68,10 +69,10 @@ const DetailHandbook = ({ loadingToggleAction }) => {
           </div>
         </Stack>
       )}
-      <Stack className="detail-handbook" sx={{ backgroundColor: "#efefef" }}>
+      <Stack className="detail-handbook" sx={{ backgroundColor: "#fff" }}>
         <Container
           className="render-detail"
-          sx={{ backgroundColor: "#fff", pt: 3 }}
+          sx={{ backgroundColor: "#FCFAF6", pt: 3 }}
         >
           <span
             className="detail"
@@ -89,10 +90,19 @@ const DetailHandbook = ({ loadingToggleAction }) => {
             className="detail"
             dangerouslySetInnerHTML={{ __html: data?.detail }}
           ></span>
-          {/*  bài viết liên quan */}
+        </Container>
+        <Container sx={{ padding: " 0px !important " }}>
+          <Divider sx={{ borderBottomWidth: "5px" }} />
+          <Stack>
+            {data && (
+              <RelatedHandbook
+                specialtyId={data?.specialty?.id}
+                handbookId={id}
+              />
+            )}
+          </Stack>
         </Container>
       </Stack>
-      <Divider />
       <Footer />
       <BackToTop />
     </>

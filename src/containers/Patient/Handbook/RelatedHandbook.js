@@ -1,90 +1,74 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { FormattedMessage } from "react-intl";
-import { toast } from "react-toastify";
-import { withRouter } from "react-router-dom";
-import { getRelatedHandbook } from "../../../services/userService";
+import React, { useEffect, useState } from "react";
+import { Box, Divider, Stack, Typography } from "@mui/material";
+import { getRelatedHandbook } from "../../../services/handbookService";
+import { useNavigate } from "react-router-dom";
+import "./style.scss";
+const RelatedHandbook = ({ specialtyId, handbookId }) => {
+  const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
-class RelatedHandbook extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      relatedHandBook: [],
+  const fetchData = async () => {
+    const data = {
+      page: 1,
+      size: 5,
+      specialtyId,
     };
-  }
+    const res = await getRelatedHandbook(data);
+    if (res && res.success) {
+      setData(
+        res?.handbooks
+          .map((e) => ({
+            id: e._id,
+            image: e.image.url,
+            name: e.name,
+          }))
+          .filter((e) => e.id !== handbookId)
+      );
+    }
+  };
 
-  async componentDidMount() {
-    this.getRelatedhandbook(this.props.handbookId);
-  }
-  async componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.handbookId !== prevProps.handbookId) {
-      this.getRelatedhandbook(this.props.handbookId);
-    }
-    if (this.props.hideId !== prevProps.hideId) {
-      this.getRelatedhandbook(this.props.handbookId);
-    }
-  }
-  getRelatedhandbook = async (id) => {
-    const res = await getRelatedHandbook(id);
-    if (res && res.errCode === 0) {
-      let data = res.data;
-      if (this.props.hideId)
-        data = data.filter((s) => s.id !== this.props.hideId);
-      this.setState({
-        relatedHandBook: data,
-      });
-    } else {
-      toast.error("Get Related Handbook Failed");
-    }
+  useEffect(() => {
+    fetchData();
+  }, [specialtyId, handbookId]);
+
+  const handleClickItem = (id) => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    navigate(`/handbook/${id}`);
   };
-  handleCLickRelatedhandbook = (id) => {
-    this.props.history.push(`/detail-handbook/${id}`);
-  };
-  render() {
-    const { relatedHandBook } = this.state;
-    return (
-      <div className="handbook-related container">
-        <ul className="list-handbook-related">
-          {this.props.isShowHeader && (
-            <h1 className="title-related">
-              <FormattedMessage id="admin.manage-handbook.related_post" />
-            </h1>
-          )}
-          {relatedHandBook &&
-            relatedHandBook.length > 0 &&
-            relatedHandBook.map((item, index) => {
-              return (
-                <li
-                  className="handbook-related_item"
-                  key={index}
-                  onClick={() => this.handleCLickRelatedhandbook(item.id)}
+  return (
+    <>
+      {/* sx={{padding:"5px 20px"}} */}
+      <Box p={3} sx={{ bgcolor: "#FCFAF6" }}>
+        <Typography
+          variant="h4"
+          color="#5D5D5D"
+          sx={{
+            fontSize: { xs: "18px", lg: "24px" },
+            fontWeight: "bold",
+            padding: { lg: 2 },
+            paddingBottom: 2,
+          }}
+        >
+          Bài viết liên quan
+        </Typography>
+        <Stack className="realted--container__body">
+          {data &&
+            data.length > 0 &&
+            data.map((e, index) => (
+              <div key={index} className="d-flex justify-content-center">
+                <div
+                  className="container__body--item"
+                  onClick={() => handleClickItem(e.id)}
                 >
-                  <div
-                    className="item-image"
-                    style={{ backgroundImage: `url(${item.image})` }}
-                  ></div>
-                  {/* <img className="item-image" src={item.image} /> */}
-                  <h4 className="item-title">{item.title ? item.title : ""}</h4>
-                </li>
-              );
-            })}
-        </ul>
-        <hr className="seperate-section" />
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    language: state.app.language,
-  };
+                  <img src={e.image} alt={e.name} />
+                  <div className="container__body--item--title">{e.name}</div>
+                </div>
+              </div>
+            ))}
+        </Stack>
+      </Box>
+    </>
+  );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
-
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(RelatedHandbook)
-);
+export default RelatedHandbook;

@@ -30,6 +30,12 @@ const getAllSpecialtyInHandbook = () => {
   return axios.get(`/api/get-all-specialty-handbook`);
 };
 
+const getRelatedHandbook = (data) => {
+  return axios.get(
+    `/api/get-related-handbook?page=${data.page}&specialtyId=${data.specialtyId}&size=${data.size}`
+  );
+};
+
 export {
   createHandbook,
   getAllHandbook,
@@ -38,4 +44,5 @@ export {
   getAllHandbookHomePatient,
   getSingleHandbook,
   getAllSpecialtyInHandbook,
+  getRelatedHandbook,
 };
