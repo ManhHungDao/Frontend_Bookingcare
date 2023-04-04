@@ -71,7 +71,7 @@ const HomePacket = ({
     getListClinicHome();
     const dataFetchClinic = {
       page: 1,
-      size: 10,
+      size: 999,
       filter: "PACKET",
     };
     fetchTypePacketCode(dataFetchClinic);
@@ -479,7 +479,7 @@ const mapStateToProps = (state) => {
   return {
     listPacket: state.patient.listPacket,
     listClinic: state.patient.listClinic,
-    typePacket: state.admin.allcodeType,
+    typePacket: state.patient.allcodeType,
   };
 };
 
@@ -487,7 +487,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getListClinicHome: () => dispatch(actions.getListClinicHomePatientAction()),
     fetchTypePacketCode: (type) =>
-      dispatch(actions.fetchAllcodeByTypeAction(type)),
+      dispatch(actions.fetchAllcodeByTypeHomeAction(type)),
     getAllPacket: (data) =>
       dispatch(actions.getAllPacketPatientHomeAction(data)),
   };

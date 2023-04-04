@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Box, Stack, Pagination } from "@mui/material";
-import ProfileDoctor from "../../Doctor/ProfileDoctor";
 import { connect } from "react-redux";
 import * as actions from "../../../../store/actions";
 import { getAllPacket } from "../../../../services/packetService";
 import ProfilePacket from "../../Packet/ProfilePacket";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
-const PacketList = ({ id }) => {
+const PacketList = ({ id, fetchTypePacketCode, typePacket }) => {
   const [packets, setPackets] = useState([]);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
   const [count, setCount] = useState(1);
+  const [typePackets, setTypePackets] = useState("");
+  const [filterPacker, setFilterPacker] = useState("");
+
   const fetchDataAPI = async (page, size, type) => {
     const data = {
       page,
@@ -31,14 +37,39 @@ const PacketList = ({ id }) => {
       setCount(res?.count);
     }
   };
+
   useEffect(() => {
     fetchDataAPI(page, size, "");
+    fetchTypePacketCode({
+      page: 1,
+      size: 999,
+      filter: "PACKET",
+    });
   }, []);
+
+  useEffect(() => {
+    setTypePackets(
+      typePacket?.list?.map((e) => ({
+        value: e._id,
+        name: e.valueVI,
+      }))
+    );
+  }, [typePacket]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     fetchDataAPI(newPage, size, "");
   };
+
+  const handleChange = (event, type) => {
+    setPage(1);
+    const {
+      target: { value },
+    } = event;
+    setFilterPacker(typeof value === "string" ? value.split(",") : value);
+    fetchDataAPI(1, size, value);
+  };
+
   return (
     <Box
       sx={{
@@ -46,16 +77,47 @@ const PacketList = ({ id }) => {
         mb: 3,
       }}
     >
+      <Stack
+        display="flex"
+        justifyContent="flex-center"
+        alignItems="center"
+        direction={"row"}
+        gap={1}
+      >
+        <FormControl
+          sx={{
+            minWidth: 160,
+            bgcolor: "#fff",
+            borderRadius: 2,
+          }}
+          size="small"
+        >
+          <InputLabel id="demo-select-small">Loại gói khám</InputLabel>
+          <Select
+            labelId="demo-select-small"
+            id="demo-select-small"
+            value={filterPacker}
+            label="Loại gói khám"
+            onChange={(e) => handleChange(e)}
+          >
+            {typePackets &&
+              typePackets.length > 0 &&
+              typePackets.map((e) => (
+                <MenuItem key={e.value || ""} value={e.value || ""}>
+                  {e.name || ""}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+      </Stack>
       {packets &&
         packets.map((e, i) => (
           <div
             key={e + i + ""}
             style={{
               backgroundColor: "#fff",
-              padding: "10px",
               borderRadius: "4px",
               margin: "10px 0",
-              paddingBottom: 0,
             }}
           >
             <Stack
@@ -66,9 +128,9 @@ const PacketList = ({ id }) => {
               }}
             >
               <Stack
-                // sx={{
-                //   marginLeft: { sm: 0, lg: "140px" },
-                // }}
+              // sx={{
+              //   marginLeft: { sm: 0, lg: "140px" },
+              // }}
               >
                 <ProfilePacket id={e.id} />
               </Stack>
@@ -94,10 +156,14 @@ const PacketList = ({ id }) => {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    typePacket: state.patient.allcodeType,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    fetchTypePacketCode: (type) =>
+      dispatch(actions.fetchAllcodeByTypeHomeAction(type)),
+  };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(PacketList);

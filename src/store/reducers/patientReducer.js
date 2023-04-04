@@ -8,6 +8,8 @@ const initialState = {
   clinic: {},
   specialty: {},
   handbook: {},
+  allcodeType: [],
+  listSpecialtyInClinic: [],
 };
 
 const patientReducer = (state = initialState, action) => {
@@ -34,6 +36,15 @@ const patientReducer = (state = initialState, action) => {
       };
     }
     // SPECIALTY
+    case actionTypes.GET_LIST_CLINIC_BYID_HOME_SUCCEED: {
+      return { ...state, listSpecialtyInClinic: action.data };
+    }
+    case actionTypes.GET_LIST_CLINIC_BYID_HOME_FAILED: {
+      return {
+        ...state,
+        listSpecialtyInClinic: [],
+      };
+    }
     case actionTypes.PATIENT_GET_LIST_SPECIALTY_SUCCEED: {
       state.listSpecialty = action.data;
       return { ...state };
@@ -98,7 +109,17 @@ const patientReducer = (state = initialState, action) => {
         ...state,
       };
     }
-
+    // ALLCODE
+    case actionTypes.FETCH_ALLCODE_TYPE_PATIENT_SUCCESS: {
+      state.allcodeType = action.data;
+      return { ...state };
+    }
+    case actionTypes.FETCH_ALLCODE_TYPE_PATIENT_FAILED: {
+      state.allcodeType = [];
+      return {
+        ...state,
+      };
+    }
     default:
       return state;
   }

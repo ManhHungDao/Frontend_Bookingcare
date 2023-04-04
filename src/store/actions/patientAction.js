@@ -7,6 +7,7 @@ import {
 import {
   getPopularHomePatient,
   getSingleSpecialty,
+  getClinicById,
 } from "../../services/specialtySerivce";
 import {
   getAllHandbookHomePatient,
@@ -18,7 +19,7 @@ import {
   sentMailPatient,
 } from "../../services/scheduleService";
 import { getAllPacket } from "../../services/packetService";
-
+import { getAllCodeByType } from "../../services/allcodeService";
 import { loadingToggleAction } from "./adminActions";
 import { toast } from "react-toastify";
 
@@ -72,6 +73,44 @@ export const getListClinicHomePatientAction = () => {
 };
 
 // SPECIALTY
+export const getSpecialtyByClinicIdHomeAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await getClinicById(id);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.GET_LIST_CLINIC_BYID_HOME_SUCCEED,
+          data: res.specialties,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.GET_LIST_CLINIC_BYID_HOME_FAILED,
+      });
+    }
+  };
+};
+
+export const fetchAllcodeByTypeHomeAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await getAllCodeByType(data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.FETCH_ALLCODE_TYPE_PATIENT_SUCCESS,
+          data: {
+            list: res.allcodes,
+            count: res.count,
+          },
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.FETCH_ALLCODE_TYPE_PATIENT_FAILED,
+      });
+    }
+  };
+};
 
 export const getListSpecialtyHomePatientAction = (name) => {
   return async (dispatch, getState) => {
@@ -175,7 +214,7 @@ export const getAllHandbookHomePatientAction = (data) => {
       const res = await getAllHandbookHomePatient(data);
       if (res && res.success) {
         // dispatch(loadingToggleAction(false));
-        console.log('check res',res.handbooks);
+        console.log("check res", res.handbooks);
         dispatch({
           type: actionTypes.GET_LIST_HANDBOOK_HOME_SUCCEED,
           data: {

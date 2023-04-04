@@ -14,7 +14,7 @@ const AddHandbook = ({
   isSuccess,
   listClinic,
   listSpecialty,
-  getListSpecialtyACtion,
+  fetchAllcodeByTypeAction,
   createHandbookAction,
   clearStatus,
   getSpecialtyByClinicIdAction,
@@ -34,18 +34,19 @@ const AddHandbook = ({
 
   useEffect(() => {
     getListClinicAction();
-    getListSpecialtyACtion();
+    fetchAllcodeByTypeAction({ page: 1, size: 999, filter: "SPECIALTY" });
+    // getListSpecialtyACtion();
   }, []);
 
   useEffect(() => {
     if (isSuccess === true) {
       clearStatus();
       // set lại data ban đầu, lấy danh sách chuyên khoa phổ biến
-      if (listSpecialty && listSpecialty.length > 0)
+      if (listSpecialty && listSpecialty.count > 0)
         setDataSpecialty(
-          listSpecialty.map((e) => ({
-            id: e.key,
-            name: e.name,
+          listSpecialty.list.map((e) => ({
+            id: e._id,
+            name: e.valueVI,
           }))
         );
       setSelectSpecialty("");
@@ -69,11 +70,11 @@ const AddHandbook = ({
         }))
       );
 
-    if (listSpecialty && listSpecialty.length > 0)
+    if (listSpecialty && listSpecialty.count > 0)
       setDataSpecialty(
-        listSpecialty.map((e) => ({
-          id: e.key,
-          name: e.name,
+        listSpecialty.list.map((e) => ({
+          id: e._id,
+          name: e.valueVI,
         }))
       );
   }, [listSpecialty, listClinic]);
@@ -236,7 +237,7 @@ const mapStateToProps = (state) => {
   return {
     isSuccess: state.app.isSuccess,
     listClinic: state.patient.listClinic,
-    listSpecialty: state.patient.listSpecialty,
+    listSpecialty: state.admin.allcodeType,
     listSpecialtyInClinic: state.admin.listSpecialtyInClinic,
   };
 };
@@ -252,6 +253,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getListSpecialtyHomePatientAction("")),
     getSpecialtyByClinicIdAction: (id) =>
       dispatch(actions.getSpecialtyByClinicIdAction(id)),
+    fetchAllcodeByTypeAction: (data) =>
+      dispatch(actions.fetchAllcodeByTypeAction(data)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddHandbook);
