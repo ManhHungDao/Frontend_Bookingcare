@@ -18,6 +18,7 @@ import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
 import ButtonComponent from "../../../components/ButtonComponent";
+import { useRef } from "react";
 const tomorrow = dayjs().add(1, "day");
 
 const ManageSchedule = ({
@@ -42,6 +43,7 @@ const ManageSchedule = ({
   useEffect(() => {
     fetchAllcode();
     getSingleUser(userInfo._id);
+    getSingleUserSchedule(userInfo._id, dayjs(date).unix());
   }, []);
 
   useEffect(() => {
@@ -50,53 +52,50 @@ const ManageSchedule = ({
 
   useEffect(() => {
     if (isSuccess === true) {
-      setDate(
-        dayjs(new Date(tomorrow).setHours(0, 0, 0)).format("D MMMM YYYY")
-      );
+      // setDate(
+      //   dayjs(new Date(tomorrow).setHours(0, 0, 0)).format("D MMMM YYYY")
+      // );
     }
     clearStatus();
   }, [isSuccess]);
-  useEffect(() => {
-    if (allcodes && allcodes.length > 0) {
-      setTimeSchedule(
-        allcodes
-          .filter((e) => e.type === "TIME")
-          .map((e) => ({
-            id: e._id,
-            name: e.valueVI,
-            active: false,
-          }))
-      );
-    }
-  }, [allcodes]);
 
   useEffect(() => {
-    setTimeSchedule(
-      timeSchedule.map((item) => {
-        item.active = false;
-        return item;
-      })
-    );
-    getSingleUserSchedule(userInfo._id, dayjs(date).unix());
-  }, [date]);
+    if (_.isEmpty(allcodes)) return;
+    const list = allcodes
+      .filter((e) => e.type === "TIME")
+      .map((e) => ({
+        id: e._id,
+        name: e.valueVI,
+        active: false,
+      }));
 
-  useEffect(() => {
     const { schedule } = userSchedule;
-    if (!_.isEmpty(userSchedule)) {
-      if (schedule && schedule.length > 0) {
-        let list = timeSchedule.map((e) => {
-          schedule.map((item) => {
-            if (item.time === e.id) {
-              e.active = true;
-            }
-            return e;
-          });
-          return e;
-        });
-        setTimeSchedule(list);
-      }
-    }
-  }, [userSchedule]);
+    if (_.isEmpty(schedule)) return;
+    const listTimeActive = list.map((e) => {
+      schedule.map((item) => {
+        if (item.time === e.id) {
+          e.active = true;
+        }
+        return e;
+      });
+      return e;
+    });
+    setTimeSchedule(listTimeActive);
+  }, [allcodes, userSchedule]);
+
+  const handleChangeDate = (date) => {
+    setTimeSchedule(
+      allcodes
+        .filter((e) => e.type === "TIME")
+        .map((e) => ({
+          id: e._id,
+          name: e.valueVI,
+          active: false,
+        }))
+    );
+    setDate(dayjs(new Date(date).setHours(0, 0, 0)));
+    getSingleUserSchedule(userInfo._id, dayjs(date).unix());
+  };
 
   const checkValidate = () => {
     let errors = {};
@@ -170,7 +169,7 @@ const ManageSchedule = ({
                     displayStaticWrapperAs="desktop"
                     value={date}
                     onChange={(newValue) => {
-                      setDate(dayjs(new Date(newValue).setHours(0, 0, 0)));
+                      handleChangeDate(newValue);
                     }}
                     renderInput={(params) => <TextField {...params} />}
                   />

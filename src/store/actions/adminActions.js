@@ -667,6 +667,10 @@ export const getSingleUserScheduleAction = (id, date) => {
           data: res.schedule,
         });
         // dispatch(loadingToggleAction(false));
+      } else {
+        dispatch({
+          type: actionTypes.GET_SCHEDULE_FAILED,
+        });
       }
     } catch (error) {
       // dispatch(loadingToggleAction(false));
