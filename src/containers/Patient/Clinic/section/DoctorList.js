@@ -12,7 +12,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const DoctorList = ({ id, getSpecialty, listSpecialty }) => {
+const DoctorList = ({
+  id,
+  getSpecialty,
+  listSpecialty,
+  loadingToggleAction,
+}) => {
   const [doctors, setDoctors] = useState([]);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
@@ -27,8 +32,8 @@ const DoctorList = ({ id, getSpecialty, listSpecialty }) => {
       filter,
       clinicId: id,
     };
+    loadingToggleAction(true);
     const res = await getAllUserService(data);
-
     if (res && res.success) {
       setDoctors(
         res?.users.map((i) => {
@@ -39,6 +44,7 @@ const DoctorList = ({ id, getSpecialty, listSpecialty }) => {
       );
       setCount(res?.count);
     }
+    loadingToggleAction(false);
   };
 
   const fetchDataBySpecialtyAPI = async (page, size, id) => {
@@ -47,8 +53,8 @@ const DoctorList = ({ id, getSpecialty, listSpecialty }) => {
       size,
       id,
     };
+    loadingToggleAction(true);
     const res = await getAllUserBySpecialtyHome(data);
-
     if (res && res.success) {
       setDoctors(
         res?.users.map((i) => {
@@ -59,6 +65,7 @@ const DoctorList = ({ id, getSpecialty, listSpecialty }) => {
       );
       setCount(res?.count);
     }
+    loadingToggleAction(false);
   };
 
   useEffect(() => {
@@ -152,10 +159,10 @@ const DoctorList = ({ id, getSpecialty, listSpecialty }) => {
           </div>
         ))}
       <Stack mt={3}>
-        {count > 5 && (
+        {count > size && (
           <span className="d-flex justify-content-center">
             <Pagination
-              count={Math.ceil(count / 5)}
+              count={Math.ceil(count / size)}
               color="primary"
               onChange={handleChangePage}
               page={page}
@@ -178,6 +185,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getSpecialty: (id) =>
       dispatch(actions.getSpecialtyByClinicIdHomeAction(id)),
+    loadingToggleAction: (status) =>
+      dispatch(actions.loadingToggleAction(status)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorList);

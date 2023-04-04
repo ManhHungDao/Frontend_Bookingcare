@@ -48,6 +48,12 @@ const getAllUserBySpecialtyHome = (data) => {
   );
 };
 
+const getAllDoctorByProvince = (data) => {
+  return axios.get(
+    `/api/get-user-by-province-home?page=${data.page}&size=${data.size}&id=${data.id}&province=${data.province}`
+  );
+};
+
 export {
   changePasswordApiService,
   updateUserService,
@@ -60,4 +66,5 @@ export {
   getAllCountDashboard,
   getAllUserHomePatient,
   getAllUserBySpecialtyHome,
+  getAllDoctorByProvince,
 };

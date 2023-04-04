@@ -381,10 +381,10 @@ const HomePacket = ({
                   ))}
               </div>
               <Stack mt={3}>
-                {countItem > 8 && (
+                {countItem > size && (
                   <span className="d-flex justify-content-center">
                     <Pagination
-                      count={Math.ceil(countItem / 8)}
+                      count={Math.ceil(countItem / size)}
                       color="primary"
                       onChange={handleChangePage}
                       page={page}

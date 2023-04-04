@@ -30,6 +30,10 @@ const deleteClinc = (id) => {
   return axios.delete(`/api/delete-clinic?id=${id}`);
 };
 
+const getAllSpecialtyClinic = () => {
+  return axios.get(`/api/get-all-privince-clinic`);
+};
+
 export {
   deleteClinc,
   getSingleClinic,
@@ -38,4 +42,5 @@ export {
   getAllClinicHomePatient,
   pageViewCount,
   updateClinic,
+  getAllSpecialtyClinic,
 };

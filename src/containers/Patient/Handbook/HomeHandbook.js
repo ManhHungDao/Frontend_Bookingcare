@@ -316,10 +316,10 @@ const HomeHandbook = ({
                   ))}
               </div>
               <Stack mt={3}>
-                {countItem > 16 && (
+                {countItem > size && (
                   <span className="d-flex justify-content-center m-2">
                     <Pagination
-                      count={Math.ceil(countItem / 16)}
+                      count={Math.ceil(countItem / size)}
                       color="primary"
                       onChange={handleChangePage}
                       page={page}

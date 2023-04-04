@@ -9,7 +9,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const PacketList = ({ id, fetchTypePacketCode, typePacket }) => {
+const PacketList = ({
+  id,
+  fetchTypePacketCode,
+  typePacket,
+  loadingToggleAction,
+}) => {
   const [packets, setPackets] = useState([]);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
@@ -25,6 +30,7 @@ const PacketList = ({ id, fetchTypePacketCode, typePacket }) => {
       clinicId: id,
       type,
     };
+    loadingToggleAction(true);
     const res = await getAllPacket(data);
     if (res && res.success) {
       setPackets(
@@ -36,6 +42,7 @@ const PacketList = ({ id, fetchTypePacketCode, typePacket }) => {
       );
       setCount(res?.count);
     }
+    loadingToggleAction(false);
   };
 
   useEffect(() => {
@@ -138,10 +145,10 @@ const PacketList = ({ id, fetchTypePacketCode, typePacket }) => {
           </div>
         ))}
       <Stack mt={3}>
-        {count > 5 && (
+        {count > size && (
           <span className="d-flex justify-content-center">
             <Pagination
-              count={Math.ceil(count / 5)}
+              count={Math.ceil(count / size)}
               color="primary"
               onChange={handleChangePage}
               page={page}
@@ -164,6 +171,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchTypePacketCode: (type) =>
       dispatch(actions.fetchAllcodeByTypeHomeAction(type)),
+    loadingToggleAction: (status) =>
+      dispatch(actions.loadingToggleAction(status)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(PacketList);

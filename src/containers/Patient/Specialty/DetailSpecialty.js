@@ -11,22 +11,23 @@ import {
   Divider,
   Pagination,
 } from "@mui/material";
-import useIsMobile from "../../../components/useScreen/useIsMobile";
 import _ from "lodash";
-import Select from "react-select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import SubHeader from "../../HomePage/Section/SubHeader";
 import "./DetailSpecialty.scss";
 import { getSingleSpecialty } from "../../../services/specialtySerivce";
-import { getAllUserBySpecialtyHome } from "../../../services/userService";
+import {
+  getAllUserBySpecialtyHome,
+  getAllDoctorByProvince,
+} from "../../../services/userService";
+import { getAllSpecialtyClinic } from "../../../services/clinicService";
+
 import ProfileDoctor from "../Doctor/ProfileDoctor";
 
-const DetailSpecialty = ({
-  specialty,
-  // getSingleSpecialty,
-  fetchProvinceCode,
-  provinceCode,
-  loadingToggleAction,
-}) => {
+const DetailSpecialty = ({ specialty, loadingToggleAction }) => {
   const { id } = useParams();
   const [data, setData] = useState("");
   const [listProvince, setListProvince] = useState([]);
@@ -36,6 +37,32 @@ const DetailSpecialty = ({
   const [page, setPage] = useState(1);
   const [doctors, setDoctors] = useState([]);
   const [count, setCount] = useState(1);
+
+  const getDataDoctorByProvince = async (page, size, province) => {
+    loadingToggleAction(true);
+    let res = await getAllDoctorByProvince({
+      page,
+      size,
+      id: idSpecialty,
+      province,
+    });
+    if (res && res.success) {
+      setDoctors(
+        res.users.map((e) => ({
+          id: e._id,
+        }))
+      );
+      setCount(res.count);
+    }
+    loadingToggleAction(false);
+  };
+
+  const getDataProvince = async () => {
+    let res = await getAllSpecialtyClinic();
+    if (res && res.success) {
+      setListProvince(res.list.map((e) => e._id));
+    }
+  };
 
   const getDataSpecialty = async () => {
     try {
@@ -84,13 +111,24 @@ const DetailSpecialty = ({
 
   useEffect(() => {
     getDataSpecialty();
+    getDataProvince();
   }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    getDataDocTor(newPage, size);
+    if (!selectProvince) getDataDocTor(newPage, size);
+    else {
+      getDataDoctorByProvince(newPage, size, [selectProvince]);
+    }
   };
-
+  const handleChange = (event, type) => {
+    setPage(1);
+    const {
+      target: { value },
+    } = event;
+    setSelectProvince(typeof value === "string" ? value.split(",") : value);
+    getDataDoctorByProvince(1, size, value);
+  };
   const styles = {
     backgroundImage: `url(${specialty?.image?.url ? specialty.image.url : ""})`,
     backgroundSize: "cover",
@@ -113,20 +151,37 @@ const DetailSpecialty = ({
         </Stack>
         <Stack sx={{ backgroundColor: "#eee" }}>
           <Container>
-            <Stack mt={1} sx={{ width: 120, maxWidth: 180 }}>
-              <Select
-                value={selectProvince}
-                onChange={setSelectProvince}
-                options={listProvince}
-                placeholder="Toàn quốc"
-                menuPortalTarget={document.body}
-                styles={{
-                  menuPortal: (base) => ({
-                    ...base,
-                    zIndex: 9999,
-                  }),
+            <Stack
+              display="flex"
+              justifyContent="flex-center"
+              alignItems="center"
+              direction={"row"}
+              gap={1}
+              mt={2}
+            >
+              <FormControl
+                sx={{
+                  minWidth: 160,
+                  bgcolor: "#fff",
+                  borderRadius: 2,
                 }}
-              />
+                size="small"
+              >
+                <InputLabel id="demo-simple-select-label">Thành phố</InputLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  value={selectProvince}
+                  label="Thành phố"
+                  onChange={(e) => handleChange(e)}
+                >
+                  {listProvince.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Stack>
             <Box m={0}>
               {doctors &&
@@ -153,9 +208,9 @@ const DetailSpecialty = ({
             </Box>
             <Stack>
               <span className="d-flex justify-content-center mb-3">
-                {count > 4 && (
+                {count > size && (
                   <Pagination
-                    count={Math.ceil(count / 4)}
+                    count={Math.ceil(count / size)}
                     color="primary"
                     onChange={handleChangePage}
                     defaultPage={page}
@@ -175,7 +230,6 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     specialty: state.patient.specialty,
-    provinceCode: state.admin.allcodeType,
   };
 };
 
@@ -183,9 +237,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getSingleSpecialty: (id) =>
       dispatch(actions.getSingleSpecialtyPatientAction(id)),
-    fetchProvinceCode: (type) =>
-      dispatch(actions.fetchAllcodeByTypeAction(type)),
-    loadingToggleAction: (id) => dispatch(actions.loadingToggleAction(id)),
+    loadingToggleAction: (status) => dispatch(actions.loadingToggleAction(status)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DetailSpecialty);
