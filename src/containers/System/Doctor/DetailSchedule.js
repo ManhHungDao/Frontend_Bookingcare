@@ -186,6 +186,10 @@ const DetailSchedule = ({
                         dataTime={dataTime}
                         setStatus={setStatus}
                         handleSave={handleUploadStatus}
+                        enable={
+                          dayjs(new Date().setHours(0, 0, 0)).unix() ===
+                          dayjs(date).unix()
+                        }
                       />
                     </Grid>
                   </Grid>

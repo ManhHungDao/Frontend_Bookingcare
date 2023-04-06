@@ -137,7 +137,13 @@ export const PacketProfile = ({ packet }) => {
   );
 };
 
-export const ScheduleProfile = ({ time, status, setStatus, handleSave }) => {
+export const ScheduleProfile = ({
+  time,
+  status,
+  setStatus,
+  handleSave,
+  enable,
+}) => {
   const statusList = [
     "Lịch hẹn mới",
     "Chờ xác nhận",
@@ -166,7 +172,11 @@ export const ScheduleProfile = ({ time, status, setStatus, handleSave }) => {
             <Box sx={{ minWidth: 120 }}>
               <FormControl
                 fullWidth
-                disabled={status === "Đã hủy" || status === "Hoàn thành"}
+                disabled={
+                  status === "Đã hủy" ||
+                  status === "Hoàn thành" ||
+                  enable === false
+                }
               >
                 <InputLabel id="demo-simple-select-label">
                   Trạng trái
