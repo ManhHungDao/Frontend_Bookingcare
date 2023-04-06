@@ -79,7 +79,7 @@ const ManageUserSchedule = ({
   const [errors, setErrors] = useState({});
   const [timeSchedule, setTimeSchedule] = useState([]);
   const [open, setOpen] = useState(false);
-
+  const [scheduleData, setScheduleData] = useState("");
   useEffect(() => {
     fetchDataAPI(1, rowsPerPage);
     fetchAllcode();
@@ -144,13 +144,14 @@ const ManageUserSchedule = ({
       );
     }
   }, [listUser, allcodes]);
-  console.log(users);
+
   const fetchDataSchedule = async (id, date) => {
     loadingToggleAction(true);
     const res = await getSingleUserSchedule(id, date);
     if (res && res.success === true) {
       const data = res.schedule;
       const { detail, schedule } = data;
+      setScheduleData(schedule);
       setNote(data?.detail?.note ? data.detail.note : "");
       setPayment({
         value: detail?.payment?.id ? detail.payment.id : "",
@@ -284,7 +285,19 @@ const ManageUserSchedule = ({
     let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
     return count === 0;
   };
+  const enableClick = (time) => {
+    if (_.isEmpty(scheduleData)) return true;
+    const [existed] = scheduleData.filter((e) => e.time === time);
+    if (existed)
+      if (existed?.status !== "Đã hủy" && existed?.status !== "Lịch hẹn mới") {
+        toast.error("Đã có bệnh nhân đặt lịch");
+        return false;
+      }
+    return true;
+  };
+
   const handleClickTime = (e) => {
+    if (enableClick(e.id) === false) return;
     let copy = timeSchedule;
     copy = copy.map((item) => {
       if (item.id === e.id) {
@@ -294,6 +307,7 @@ const ManageUserSchedule = ({
     });
     setTimeSchedule(copy);
   };
+
   const handleSave = () => {
     if (_.isEmpty(userEdit)) {
       toast.error("Chưa chọn bác sĩ");
@@ -308,6 +322,29 @@ const ManageUserSchedule = ({
     let listTime = timeSchedule
       .filter((e) => e.active === true)
       .map((e) => ({ time: e.id }));
+    listTime = listTime.map((e) => {
+      let temp = "";
+      if (!_.isEmpty(scheduleData))
+        [temp] = scheduleData?.filter((i) => i.time === e.time);
+      return _.isEmpty(temp)
+        ? {
+            comment: "",
+            rating: "",
+            status: "Lịch hẹn mới",
+            time: e.time,
+            user: {
+              address: "",
+              dayOfBirth: "",
+              email: "",
+              gender: "",
+              name: "",
+              phone: "",
+              reason: "",
+            },
+          }
+        : { ...temp };
+    });
+
     let { id, detail } = userEdit;
     let priceUpdate,
       paymentUpdate = "";

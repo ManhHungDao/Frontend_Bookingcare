@@ -142,7 +142,7 @@ export const ScheduleProfile = ({
   status,
   setStatus,
   handleSave,
-  enable,
+  isDisable,
 }) => {
   const statusList = [
     "Lịch hẹn mới",
@@ -175,7 +175,7 @@ export const ScheduleProfile = ({
                 disabled={
                   status === "Đã hủy" ||
                   status === "Hoàn thành" ||
-                  enable === false
+                  isDisable === true
                 }
               >
                 <InputLabel id="demo-simple-select-label">

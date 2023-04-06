@@ -15,6 +15,7 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import CachedIcon from "@mui/icons-material/Cached";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
 import Header from "../../../components/Header.jsx";
@@ -72,6 +73,7 @@ const TodaySchedule = ({
     if (allcodes && allcodes.length > 0)
       setDataTime(allcodes.filter((e) => e.type === "TIME"));
   }, [toDaySchedule, allcodes]);
+  
   const handleClickView = (data) => {
     const doctor = {
       id: userInfo._id,
@@ -92,7 +94,9 @@ const TodaySchedule = ({
       minWidth: 170,
     },
   }));
-
+  const handelClickEmpty = () => {
+    getSingleUserSchedule(userInfo._id, dayjs(date).unix());
+  };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
       <StyledTableCell>Thời gian</StyledTableCell>
@@ -105,9 +109,11 @@ const TodaySchedule = ({
   );
 
   const statusList = [
-    { name: "Lịch hẹn mới", color: "#90caf9" },
+    { name: "Lịch hẹn mới", color: "#80d8ff" },
+    { name: "Chờ xác nhận", color: "#78909c" },
+    { name: "Đã xác nhận", color: "#26a69a" },
     { name: "Đang khám", color: "#e6ee9c" },
-    { name: "Hoàn thành", color: "#1de9b6" },
+    { name: "Hoàn thành", color: "#00e676" },
     { name: "Đã hủy", color: "#ff9100" },
   ];
 
@@ -178,6 +184,13 @@ const TodaySchedule = ({
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12} md={3} display="flex" alignItems="center">
+                <Tooltip title="Làm mới">
+                  <IconButton onClick={() => handelClickEmpty()}>
+                    <CachedIcon />
+                  </IconButton>
+                </Tooltip>
               </Grid>
             </Grid>
           </Box>

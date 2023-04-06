@@ -27,7 +27,11 @@ const ProfilePacket = ({ id, language, fetchAllcode, allcodes }) => {
     let res = await getSinglePacketSchedule(id, date / 1000);
     if (res && res.success === true) {
       if (res?.schedule?.schedule && res.schedule.schedule.length > 0) {
-        setTimeSchedule(res.schedule.schedule);
+        setTimeSchedule(
+          res.schedule.schedule.filter(
+            (e) => e.status === "Lịch hẹn mới" || e.status === "Đã hủy"
+          )
+        );
       }
       setNote(res?.schedule?.detail?.note);
       setPrice(res?.schedule?.detail?.price);

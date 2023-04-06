@@ -18,7 +18,7 @@ import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
 import ButtonComponent from "../../../components/ButtonComponent";
-import { useRef } from "react";
+import { toast } from "react-toastify";
 const tomorrow = dayjs().add(1, "day");
 
 const ManageSchedule = ({
@@ -108,7 +108,24 @@ const ManageSchedule = ({
     let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
     return count === 0;
   };
+
+  const enableClick = (id) => {
+    if (_.isEmpty(userSchedule)) return true;
+    const { schedule } = userSchedule;
+    const [existed] = schedule.filter((e) => e.time === id);
+
+    if (existed)
+      if (existed?.status !== "Đã hủy" && existed?.status !== "Lịch hẹn mới") {
+        toast.error("Đã có bệnh nhân đặt lịch");
+        return false;
+      }
+
+    return true;
+  };
+
   const handleClickTime = (e) => {
+    // kiểm tra nút khi chọn
+    if (enableClick(e.id) === false) return;
     let copy = timeSchedule;
     copy = copy.map((item) => {
       if (item.id === e.id) {
@@ -128,6 +145,29 @@ const ManageSchedule = ({
     let listTime = timeSchedule
       .filter((e) => e.active === true)
       .map((e) => ({ time: e.id }));
+    const { schedule } = userSchedule;
+    listTime = listTime.map((e) => {
+      let temp = "";
+      if (!_.isEmpty(schedule))
+        [temp] = schedule?.filter((i) => i.time === e.time);
+      return _.isEmpty(temp)
+        ? {
+            comment: "",
+            rating: "",
+            status: "Lịch hẹn mới",
+            time: e.time,
+            user: {
+              address: "",
+              dayOfBirth: "",
+              email: "",
+              gender: "",
+              name: "",
+              phone: "",
+              reason: "",
+            },
+          }
+        : { ...temp };
+    });
     const { detail } = dataUser;
     const { price, payment, note } = detail;
     const data = {
@@ -175,7 +215,7 @@ const ManageSchedule = ({
                   />
                 </LocalizationProvider>
               </Grid>
-
+            
               <Grid item xs={12} md={12}>
                 <Card
                   sx={{

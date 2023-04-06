@@ -214,7 +214,6 @@ export const getAllHandbookHomePatientAction = (data) => {
       const res = await getAllHandbookHomePatient(data);
       if (res && res.success) {
         // dispatch(loadingToggleAction(false));
-        console.log("check res", res.handbooks);
         dispatch({
           type: actionTypes.GET_LIST_HANDBOOK_HOME_SUCCEED,
           data: {
@@ -288,6 +287,9 @@ export const sentMailConfirmAction = (data) => {
       const res = await sentMailPatient(data);
       if (res && res.success) {
         dispatch(loadingToggleAction(false));
+      } else {
+        dispatch(loadingToggleAction(false));
+        toast.error("Gửi thư thất bại");
       }
     } catch (error) {
       dispatch(loadingToggleAction(false));

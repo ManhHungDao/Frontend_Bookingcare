@@ -9,7 +9,6 @@ import {
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import Header from "../../../components/Header";
-import ButtonComponent from "../../../components/ButtonComponent";
 import _ from "lodash";
 import {
   PatientProfile,
@@ -186,9 +185,10 @@ const DetailSchedule = ({
                         dataTime={dataTime}
                         setStatus={setStatus}
                         handleSave={handleUploadStatus}
-                        enable={
-                          dayjs(new Date().setHours(0, 0, 0)).unix() ===
-                          dayjs(date).unix()
+                        isDisable={
+                          dayjs(date).unix() <
+                          dayjs(new Date().setHours(0, 0, 0)).unix() 
+                         
                         }
                       />
                     </Grid>
