@@ -18,12 +18,11 @@ import {
   DoctorProfile,
 } from "./section/DetailProfile";
 import dayjs from "dayjs";
+import { emailCancel } from "../../../data/emailCancel";
 
 const DetailSchedule = ({
   open,
   setOpen,
-  isSuccess,
-  clearStatus,
   data,
   dataTime,
   sentMail,
@@ -37,39 +36,21 @@ const DetailSchedule = ({
   const [title, setTitle] = useState("");
   const [errors, setErrors] = useState("");
 
-  let mailCancel = `<h2 style="text-align:center;"><strong>THÔNG TIN HỦY LỊCH KHÁM</strong></h2><p>Xin chào ${
-    patient?.name ? patient.name : ""
-  },</p><p>Chúng tôi rất lấy làm tiếc khi phải thông báo đến bạn lịch khám vào lúc ${
-    time ? time : ""
-  } ngày ${
-    date ? date : ""
-  } đã bị hủy vì một số lý do nhất định.</p><p>Mong bạn có thể lựa chọn một lịch khám mới phù hợp hơn.</p><p>Xin cảm ơn.</p><p>&nbsp;</p>`;
-
   let mailDrescription = `<h2 style="text-align:center;"><strong>THÔNG TIN ĐƠN THUỐC</strong></h2><p>Xin chào  ${
     patient?.name ? patient.name : ""
   },</p><p>Cảm ơn bạn đã sử dụng dịch vụ khám bệnh tại đơn vị chúng tôi.</p><p>Sau đây là đơn thuốc của bạn</p><figure class="table" style="width:98.65%;"><table class="ck-table-resized"><colgroup><col style="width:38.11%;"><col style="width:12.08%;"><col style="width:49.81%;"></colgroup><tbody><tr><td>Tên thuốc</td><td>Số lượng</td><td>Liều dùng</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></figure><p>Xin cảm ơn.</p>`;
+
   useEffect(() => {
     setStatus(data.status);
     setPatient(data.user);
     let time = dataTime.find((e) => e._id === data.time);
     setTime(time?.valueVI);
   }, [data]);
-
-  useEffect(() => {
-    if (isSuccess && isSuccess === true) {
-      setTitle("");
-      setContent("");
-      clearStatus();
-      setOpen(false);
-    }
-  }, [isSuccess]);
+  console.log("🚀 ~ file: DetailSchedule.js:49 ~ data:", data);
 
   useEffect(() => {
     if (title) {
-      if (title[0] === "Thông tin hủy lịch") setContent(mailCancel);
-      else {
-        setContent(mailDrescription);
-      }
+      setContent(mailDrescription);
     }
   }, [title]);
 
@@ -114,6 +95,37 @@ const DetailSchedule = ({
       packetId: data?.packet?.id ? data.packet.id : null,
     };
     updateStatusSchedule(dataSend);
+    if (status[0] === "Đã hủy" && !_.isElement(patient)) {
+      let dataEmail = "";
+      data?.doctor
+        ? (dataEmail = {
+            time: time ? time : "",
+            date: date ? dayjs(new Date(date)).format("DD/MM/YYYY") : "",
+            doctorName: data?.doctor?.name ? data?.doctor?.name : "",
+            packetName: "",
+            clinic: data.doctor.clinic.name ? data.doctor.clinic.name : "",
+            specialty: data.doctor.specialty.name
+              ? data.doctor.specialty.name
+              : "",
+          })
+        : (dataEmail = {
+            time: time ? time : "",
+            date: date ? dayjs(new Date(date)).format("DD/MM/YYYY") : "",
+            doctorName: "",
+            packetName: data?.packet?.name ? data?.packet?.name : "",
+            clinic: data?.packet?.clinic?.name
+              ? data?.packet?.clinic?.name
+              : "",
+            specialty: data?.packet?.specialty ? data?.packet?.specialty : "",
+          });
+      const emailCancelHtml = emailCancel(patient.name, dataEmail);
+      const dataSendMail = {
+        to: patient.email,
+        subject: "Thông báo hủy lịch khám",
+        html: emailCancelHtml,
+      };
+      sentMail(dataSendMail);
+    }
   };
   const handleSendMail = () => {
     const errors = checkValidate();
@@ -187,9 +199,13 @@ const DetailSchedule = ({
                         handleSave={handleUploadStatus}
                         isDisable={
                           dayjs(date).unix() <
-                          dayjs(new Date().setHours(0, 0, 0)).unix() 
-                         
+                          dayjs(new Date().setHours(0, 0, 0)).unix()
                         }
+                        isFuture={
+                          dayjs(date).unix() >
+                          dayjs(new Date().setHours(0, 0, 0)).unix()
+                        }
+                        hasUser={patient?.email === "" ? false : true}
                       />
                     </Grid>
                   </Grid>

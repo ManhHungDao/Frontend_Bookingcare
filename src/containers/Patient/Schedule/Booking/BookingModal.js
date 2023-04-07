@@ -116,21 +116,6 @@ const BookingModal = ({
     createUserBookingSchedule(data);
   };
 
-  const confirmEmail = `
-  <h2 style="text-align:center;"><strong>XÁC NHẬN ĐẶT LỊCH KHÁM</strong></h2><p>Xin chào ${name},</p>
-  <p>Cảm ơn bạn đã sử dụng dịch vụ tại website chúng tôi, để xác nhận đặt lịch khám bạn vui lòng chọn <a href="http://localhost:3000/confirm-booking?date=${
-    dataBooking.dateBooking
-  }&time=${dataBooking.timeBooking}&doctorId=${dataBooking.doctorId}&packetId=${
-    dataBooking.packetId
-  }&email=${email}">Xác Nhận</a> để xác nhận lịch khám.</p>
-  <p>Nếu bạn muốn thay đổi lịch khám, có thể hủy lịch khám bằng cách liên hệ trực tiếp cho quản trị viên hoặc chọn <a href="http://localhost:3000/confirm-booking?date=${
-    dataBooking.dateBooking
-  }&time=${dataBooking.timeBooking}&doctorId=${dataBooking.doctorId}&packetId=${
-    dataBooking.packetId
-  }&email=${email}&cancel=${true}">Hủy Lịch</a> để xác nhận hủy lịch khám.</p>
-  <p>Xin cảm ơn.</p>
-  <p>&nbsp;</p>`;
-  // to, subject, html
   useEffect(() => {
     if (isSuccess !== null) {
       if (isSuccess === true) {
@@ -138,7 +123,6 @@ const BookingModal = ({
 
         // chỉnh sửa thông tin gửi trong email
         const [time] = codeTime.filter((i) => i.id === dataBooking.timeBooking);
-        console.log("🚀 ~ file: BookingModal.js:139 ~ useEffect ~ time:", time);
         const date = moment.unix(dataBooking.dateBooking).format("DD/MM/YYYY");
         const data = {
           time: time.name ? time.name : "",

@@ -143,15 +143,35 @@ export const ScheduleProfile = ({
   setStatus,
   handleSave,
   isDisable,
+  isFuture,
+  hasUser,
 }) => {
-  const statusList = [
-    "Lịch hẹn mới",
-    "Chờ xác nhận",
-    "Đã xác nhận",
-    "Đang khám",
-    "Hoàn thành",
-    "Đã hủy",
-  ];
+  let statusList = [];
+  if (hasUser === false) statusList = ["Lịch hẹn mới"];
+  // else if (isFuture && hasUser === false) {
+  //   statusList = ["Lịch hẹn mới"];
+  // } 
+  else if (isFuture && hasUser === true) {
+    statusList = ["Chờ xác nhận", "Đã xác nhận", "Đã hủy"];
+  } else if (hasUser === true) {
+    statusList = [
+      "Chờ xác nhận",
+      "Đã xác nhận",
+      "Đang khám",
+      "Hoàn thành",
+      "Đã hủy",
+    ];
+  }
+  // const statusList = isFuture
+  //   ? ["Lịch hẹn mới", "Chờ xác nhận", "Đã hủy"]
+  //   : [
+  //       "Lịch hẹn mới",
+  //       "Chờ xác nhận",
+  //       "Đã xác nhận",
+  //       "Đang khám",
+  //       "Hoàn thành",
+  //       "Đã hủy",
+  //     ];
   const handleChange = (event) => {
     const {
       target: { value },
@@ -228,7 +248,7 @@ export const ResponseDetail = ({
   setTitle,
   errors,
 }) => {
-  const titleList = ["Đơn thuốc", "Thông tin hủy lịch"];
+  const titleList = ["Đơn thuốc", "Nhắc nhở sau khám"];
   const handleChange = (event) => {
     const {
       target: { value },
