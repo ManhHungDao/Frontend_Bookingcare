@@ -68,6 +68,8 @@ const ManageSchedule = ({
         name: e.valueVI,
         active: false,
       }));
+      // khởi tạo list time khi chạy
+    setTimeSchedule(list);
 
     const { schedule } = userSchedule;
     if (_.isEmpty(schedule)) return;
@@ -100,7 +102,7 @@ const ManageSchedule = ({
   const checkValidate = () => {
     let errors = {};
     let activeTime = timeSchedule.filter((e) => e.active === true);
-    if (activeTime.length <= 0) errors.time = "Chưa chọn thời gian khám";
+    // if (activeTime.length <= 0) errors.time = "Chưa chọn thời gian khám";
     return errors;
   };
   const isValid = (errors) => {
@@ -173,7 +175,7 @@ const ManageSchedule = ({
     const data = {
       doctor: {
         id: userInfo._id,
-        name: userInfo._name,
+        name: userInfo.name,
       },
       packet: {
         id: null,
@@ -215,7 +217,7 @@ const ManageSchedule = ({
                   />
                 </LocalizationProvider>
               </Grid>
-            
+
               <Grid item xs={12} md={12}>
                 <Card
                   sx={{

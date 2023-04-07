@@ -73,6 +73,8 @@ const ProfilePacket = ({ id, language, fetchAllcode, allcodes }) => {
     idPacket: id,
     nameData: data?.name,
     imgData: data?.image?.url,
+    clinic: data?.clinic?.name,
+    specialty: data?.type?.specialty?.name,
   };
   return (
     <>

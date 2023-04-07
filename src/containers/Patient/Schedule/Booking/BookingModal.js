@@ -28,6 +28,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import localization from "moment/locale/vi";
 import moment from "moment";
+import { emailConfirm } from "../../../../data/emailConfirm";
 const CONST_GENDER = [
   { id: "M", name: "Nam" },
   { id: "F", name: "Nữ" },
@@ -134,11 +135,31 @@ const BookingModal = ({
     if (isSuccess !== null) {
       if (isSuccess === true) {
         if (!email) return;
-        console.log('vao day');
+
+        // chỉnh sửa thông tin gửi trong email
+        const [time] = codeTime.filter((i) => i.id === dataBooking.timeBooking);
+        console.log("🚀 ~ file: BookingModal.js:139 ~ useEffect ~ time:", time);
+        const date = moment.unix(dataBooking.dateBooking).format("DD/MM/YYYY");
+        const data = {
+          time: time.name ? time.name : "",
+          date: date ? date : "",
+          doctorName: dataBooking.doctorId === null ? "" : dataBooking.nameData,
+          packetName: dataBooking.packetId === null ? "" : dataBooking.nameData,
+          clinic: dataBooking.clinic ? dataBooking.clinic : "",
+          specialty: dataBooking.specialty ? dataBooking.specialty : "",
+          linkAccept: `http://localhost:3000/confirm-booking?date=${dataBooking.dateBooking}&time=${dataBooking.timeBooking}&doctorId=${dataBooking.doctorId}&packetId=${dataBooking.packetId}&email=${email}`,
+          linkCancel: `http://localhost:3000/confirm-booking?date=${
+            dataBooking.dateBooking
+          }&time=${dataBooking.timeBooking}&doctorId=${
+            dataBooking.doctorId
+          }&packetId=${dataBooking.packetId}&email=${email}&cancel=${true}`,
+        };
+
+        const emailConfirmHTML = emailConfirm(name, data);
         const mail = {
           to: email,
           subject: "Xác nhận đặt lịch khám",
-          html: confirmEmail,
+          html: emailConfirmHTML,
         };
         sentMail(mail);
         // sent email confirm to patient

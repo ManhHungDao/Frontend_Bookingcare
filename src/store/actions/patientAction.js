@@ -292,6 +292,7 @@ export const sentMailConfirmAction = (data) => {
         toast.error("Gửi thư thất bại");
       }
     } catch (error) {
+      console.log("🚀 ~ file: patientAction.js:295 ~ return ~ error:", error)
       dispatch(loadingToggleAction(false));
       toast.error("Gửi thư thất bại");
     }

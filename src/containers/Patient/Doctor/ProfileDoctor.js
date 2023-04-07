@@ -73,6 +73,8 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
     idPacket: null,
     nameData: data?.name,
     imgData: data?.image?.url,
+    clinic: data?.detail?.clinic?.name,
+    specialty: data?.detail?.specialty?.name,
   };
   return (
     <>

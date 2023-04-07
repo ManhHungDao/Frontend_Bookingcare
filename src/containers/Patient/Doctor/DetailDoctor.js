@@ -3,7 +3,14 @@ import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import Footer from "../../HomePage/Section/Footer";
 import { useParams } from "react-router-dom";
-import { Box, Container, Grid, Stack, Divider } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  Stack,
+  Divider,
+  Typography,
+} from "@mui/material";
 import useIsMobile from "../../../components/useScreen/useIsMobile";
 import _ from "lodash";
 import SubHeader from "../../HomePage/Section/SubHeader";
@@ -42,6 +49,14 @@ const DetailDoctor = ({}) => {
             className="detail"
             dangerouslySetInnerHTML={{ __html: data?.detail?.detail }}
           ></span>
+        </Container>
+      </Stack>
+      <Divider />
+      <Stack sx={{ backgroundColor: "#efefef", p: 2 }}>
+        <Container>
+          <Typography variant="h5" sx={{ fontSize: 18 }}>
+            <b>Phản hồi của bệnh nhân sau khi đi khám</b>
+          </Typography>
         </Container>
       </Stack>
       <Divider />

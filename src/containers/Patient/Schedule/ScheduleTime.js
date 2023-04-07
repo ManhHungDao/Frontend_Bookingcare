@@ -95,6 +95,8 @@ const ScheduleTime = ({
     priceDoctor: price,
     nameData: data.nameData,
     imgData: data.imgData,
+    clinic: data.clinic,
+    specialty: data.specialty,
   };
   return (
     <>
