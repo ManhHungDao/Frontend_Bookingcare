@@ -19,6 +19,7 @@ import {
 } from "./section/DetailProfile";
 import dayjs from "dayjs";
 import { emailCancel } from "../../../data/emailCancel";
+import { emailDesciption } from "../../../data/emailDescription";
 
 const DetailSchedule = ({
   open,
@@ -36,17 +37,18 @@ const DetailSchedule = ({
   const [title, setTitle] = useState("");
   const [errors, setErrors] = useState("");
 
-  let mailDrescription = `<h2 style="text-align:center;"><strong>THÔNG TIN ĐƠN THUỐC</strong></h2><p>Xin chào  ${
-    patient?.name ? patient.name : ""
-  },</p><p>Cảm ơn bạn đã sử dụng dịch vụ khám bệnh tại đơn vị chúng tôi.</p><p>Sau đây là đơn thuốc của bạn</p><figure class="table" style="width:98.65%;"><table class="ck-table-resized"><colgroup><col style="width:38.11%;"><col style="width:12.08%;"><col style="width:49.81%;"></colgroup><tbody><tr><td>Tên thuốc</td><td>Số lượng</td><td>Liều dùng</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></figure><p>Xin cảm ơn.</p>`;
+  let mailDrescription = `<figure class="table" style="width:98.65%;"><table class="ck-table-resized"><colgroup><col style="width:38.11%;"><col style="width:12.08%;"><col style="width:49.81%;"></colgroup><tbody><tr><td>Tên thuốc</td><td>Số lượng</td><td>Liều dùng</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+  <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+  </tbody></table></figure>`;
 
   useEffect(() => {
+    setTitle('')
+    setContent('')
     setStatus(data.status);
     setPatient(data.user);
     let time = dataTime.find((e) => e._id === data.time);
     setTime(time?.valueVI);
   }, [data]);
-  console.log("🚀 ~ file: DetailSchedule.js:49 ~ data:", data);
 
   useEffect(() => {
     if (title) {
@@ -86,6 +88,29 @@ const DetailSchedule = ({
     let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
     return count === 0;
   };
+
+  const dataSentEmail = () => {
+    return data?.doctor
+      ? {
+          time: time ? time : "",
+          date: date ? dayjs(new Date(date)).format("DD/MM/YYYY") : "",
+          doctorName: data?.doctor?.name ? data?.doctor?.name : "",
+          packetName: "",
+          clinic: data.doctor.clinic.name ? data.doctor.clinic.name : "",
+          specialty: data.doctor.specialty.name
+            ? data.doctor.specialty.name
+            : "",
+        }
+      : {
+          time: time ? time : "",
+          date: date ? dayjs(new Date(date)).format("DD/MM/YYYY") : "",
+          doctorName: "",
+          packetName: data?.packet?.name ? data?.packet?.name : "",
+          clinic: data?.packet?.clinic?.name ? data?.packet?.clinic?.name : "",
+          specialty: data?.packet?.specialty ? data?.packet?.specialty : "",
+        };
+  };
+
   const handleUploadStatus = () => {
     let dataSend = {
       status: _.isArray(status) ? status[0] : status,
@@ -95,29 +120,9 @@ const DetailSchedule = ({
       packetId: data?.packet?.id ? data.packet.id : null,
     };
     updateStatusSchedule(dataSend);
+
     if (status[0] === "Đã hủy" && !_.isElement(patient)) {
-      let dataEmail = "";
-      data?.doctor
-        ? (dataEmail = {
-            time: time ? time : "",
-            date: date ? dayjs(new Date(date)).format("DD/MM/YYYY") : "",
-            doctorName: data?.doctor?.name ? data?.doctor?.name : "",
-            packetName: "",
-            clinic: data.doctor.clinic.name ? data.doctor.clinic.name : "",
-            specialty: data.doctor.specialty.name
-              ? data.doctor.specialty.name
-              : "",
-          })
-        : (dataEmail = {
-            time: time ? time : "",
-            date: date ? dayjs(new Date(date)).format("DD/MM/YYYY") : "",
-            doctorName: "",
-            packetName: data?.packet?.name ? data?.packet?.name : "",
-            clinic: data?.packet?.clinic?.name
-              ? data?.packet?.clinic?.name
-              : "",
-            specialty: data?.packet?.specialty ? data?.packet?.specialty : "",
-          });
+      const dataEmail = dataSentEmail();
       const emailCancelHtml = emailCancel(patient.name, dataEmail);
       const dataSendMail = {
         to: patient.email,
@@ -134,12 +139,19 @@ const DetailSchedule = ({
       setErrors(errors);
       return;
     }
-    const data = {
+
+    const dataEmail = dataSentEmail();
+    const emailDescriptionHTML = emailDesciption(
+      patient.name,
+      dataEmail,
+      content
+    );
+    const dataSentMail = {
       to: patient?.email ? patient.email : "",
       subject: title[0],
-      html: content,
+      html: emailDescriptionHTML,
     };
-    sentMail(data);
+    sentMail(dataSentMail);
   };
 
   return (
@@ -210,7 +222,7 @@ const DetailSchedule = ({
                     </Grid>
                   </Grid>
                 </Grid>
-                {status === "Đã hủy" || status === "Hoàn thành" ? (
+                {status === "Hoàn thành" ? (
                   <Grid item xs={12} md={12}>
                     <ResponseDetail
                       status={status}

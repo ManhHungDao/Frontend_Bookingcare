@@ -1,6 +1,6 @@
-export const emailDesciprtion = () => {
+export const emailDesciption = (name, dataBooking, content) => {
   return `
-    <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
 <head>
@@ -254,26 +254,103 @@ export const emailDesciprtion = () => {
                             <td style="overflow-wrap:break-word;word-break:break-word;padding:33px 55px;font-family:'Cabin',sans-serif;" align="left">
 
                               <div style="line-height: 160%; text-align: center; word-wrap: break-word;">
-                                <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 22px; line-height: 35.2px;">Chào, </span></p>
+                                <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 22px; line-height: 35.2px;">Chào, ${name}</span></p>
                                 <p style="line-height: 160%; text-align: justify;">Chúng tôi xin gửi đơn thuốc liên quan đến đơn khám bệnh của bạn. Dưới đây là các chi tiết khám bệnh:</p>
                                 <p style="line-height: 160%; text-align: justify;"> </p>
-                                <p style="line-height: 160%; text-align: justify;">Ngày khám bệnh: [ngày khám bệnh]</p>
-                                <p style="line-height: 160%; text-align: justify;">Giờ khám bệnh: [giờ khám bệnh]</p>
-                                <p style="line-height: 160%; text-align: justify;">Bác sĩ khám bệnh: [tên bác sĩ]</p>
-                                <p style="line-height: 160%; text-align: justify;">Phòng khám: [tên phòng khám]</p>
-                                <p style="line-height: 160%; text-align: justify;">Địa chỉ phòng khám: [địa chỉ phòng khám]</p>
+                                <p style="line-height: 160%; text-align: justify;">Ngày khám bệnh: ${dataBooking.date}</p>
+                                <p style="line-height: 160%; text-align: justify;">Giờ khám bệnh: ${dataBooking.time}</p>
+                                <p style="line-height: 160%; text-align: justify;">Bác sĩ khám bệnh: ${dataBooking.doctorName}</p>
+                                <p style="line-height: 160%; text-align: justify;">Gói khám bệnh: ${dataBooking.packetName}</p>
+                                <p style="line-height: 160%; text-align: justify;">Phòng khám: ${dataBooking.clinic}</p>
+                                <p style="line-height: 160%; text-align: justify;">Chuyên khoa: ${dataBooking.specialty}</p>
                                 <p style="line-height: 160%; text-align: justify;"> </p>
-                                <p style="line-height: 160%; text-align: justify;">Sau khi bác sĩ đã đưa ra đánh giá và chẩn đoán sau cuộc khám bệnh trực tuyến của bạn, chúng tôi xin gửi đến bạn đơn thuốc chi tiết như sau:</p>
-                                <p style="line-height: 160%; text-align: justify;"> </p>
-                                <p style="line-height: 160%; text-align: justify;">Xin lưu ý rằng đơn thuốc trên chỉ dành riêng cho bạn và không được chia sẻ hoặc sử dụng cho người khác. Chúng tôi khuyến khích bạn tuân thủ đúng liều lượng, tần suất và cách dùng của từng loại thuốc theo hướng dẫn của bác
+                                <p style="line-height: 160%; text-align: justify;">Sau khi bác sĩ đã đưa ra đánh giá và chẩn đoán sau cuộc khám bệnh trực tiếp của bạn, chúng tôi xin gửi đến bạn đơn thuốc chi tiết như sau:</p>
+                              </div>
+
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <!--[if (!mso)&(!IE)]><!-->
+                    </div>
+                    <!--<![endif]-->
+                  </div>
+                </div>
+                <!--[if (mso)|(IE)]></td><![endif]-->
+                <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="u-row-container" style="padding: 0px;background-color: transparent">
+            <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
+              <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+                <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: transparent;"><![endif]-->
+
+                <!--[if (mso)|(IE)]><td align="center" width="600" style="background-color: #ffffff;width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
+                <div class="u-col u-col-100" style="max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;">
+                  <div style="background-color: #ffffff;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                    <!--[if (!mso)&(!IE)]><!-->
+                    <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                      <!--<![endif]-->
+
+                      <table style="font-family:'Cabin',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                        <tbody>
+                          <tr>
+                            <td style="overflow-wrap:break-word;word-break:break-word;padding:33px 55px;font-family:'Cabin',sans-serif;" align="left">
+
+                              <div style="line-height: 140%; text-align: center; word-wrap: break-word;">
+                                <p style="line-height: 140%;">${content}</p>
+                              </div>
+
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <!--[if (!mso)&(!IE)]><!-->
+                    </div>
+                    <!--<![endif]-->
+                  </div>
+                </div>
+                <!--[if (mso)|(IE)]></td><![endif]-->
+                <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="u-row-container" style="padding: 0px;background-color: transparent">
+            <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
+              <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+                <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: transparent;"><![endif]-->
+
+                <!--[if (mso)|(IE)]><td align="center" width="600" style="background-color: #ffffff;width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
+                <div class="u-col u-col-100" style="max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;">
+                  <div style="background-color: #ffffff;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                    <!--[if (!mso)&(!IE)]><!-->
+                    <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                      <!--<![endif]-->
+
+                      <table style="font-family:'Cabin',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                        <tbody>
+                          <tr>
+                            <td style="overflow-wrap:break-word;word-break:break-word;padding:33px 55px;font-family:'Cabin',sans-serif;" align="left">
+
+                              <div style="line-height: 140%; text-align: justify; word-wrap: break-word;">
+                                <p style="line-height: 140%;">Xin lưu ý rằng đơn thuốc trên chỉ dành riêng cho bạn và không được chia sẻ hoặc sử dụng cho người khác. Chúng tôi khuyến khích bạn tuân thủ đúng liều lượng, tần suất và cách dùng của từng loại thuốc theo hướng dẫn của bác
                                   sĩ. Nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào liên quan đến đơn thuốc này, xin vui lòng liên hệ với bác sĩ của bạn hoặc nhân viên y tế để được giải đáp.</p>
-                                <p style="line-height: 160%; text-align: justify;"> </p>
-                                <p style="line-height: 160%; text-align: justify;">Chúng tôi cũng muốn nhắc lại về tầm quan trọng của việc tuân thủ chỉ định và đồng hành cùng bác sĩ trong quá trình điều trị. Nếu bạn gặp bất kỳ dấu hiệu bất thường hoặc có vấn đề gì liên quan đến sức khỏe của bạn trong
+                                <p style="line-height: 140%;"> </p>
+                                <p style="line-height: 140%;">Chúng tôi cũng muốn nhắc lại về tầm quan trọng của việc tuân thủ chỉ định và đồng hành cùng bác sĩ trong quá trình điều trị. Nếu bạn gặp bất kỳ dấu hiệu bất thường hoặc có vấn đề gì liên quan đến sức khỏe của bạn trong
                                   quá trình sử dụng thuốc, xin vui lòng liên hệ với bác sĩ của bạn ngay lập tức để được tư vấn và hỗ trợ.</p>
-                                <p style="line-height: 160%; text-align: justify;"> </p>
-                                <p style="line-height: 160%; text-align: justify;">Chúng tôi hy vọng đơn thuốc này sẽ hỗ trợ bạn trong quá trình điều trị và khôi phục sức khỏe. Nếu bạn cần thêm thông tin hoặc có câu hỏi, xin vui lòng liên hệ với chúng tôi qua số điện thoại hoặc qua email.</p>
-                                <p style="line-height: 160%; text-align: justify;"> </p>
-                                <p style="line-height: 160%; text-align: justify;">Xin chân thành cảm ơn.</p>
+                                <p style="line-height: 140%;"> </p>
+                                <p style="line-height: 140%;">Chúng tôi hy vọng đơn thuốc này sẽ hỗ trợ bạn trong quá trình điều trị và khôi phục sức khỏe. Nếu bạn cần thêm thông tin hoặc có câu hỏi, xin vui lòng liên hệ với chúng tôi qua số điện thoại hoặc qua email.</p>
+                                <p style="line-height: 140%;"> </p>
+                                <p style="line-height: 140%;">Xin chân thành cảm ơn.</p>
                               </div>
 
                             </td>
@@ -392,6 +469,5 @@ export const emailDesciprtion = () => {
 </body>
 
 </html>
-    
-    `;
+  `;
 };
