@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Box, Typography, Stack, Button } from "@mui/material";
+import { Container, Box, Typography, Stack, Button, Card } from "@mui/material";
 import HomeHeader from "../../HomePage/Section/Header";
 import HomeFooter from "../../HomePage/Section/Footer";
 import Rating from "@mui/material/Rating";
@@ -12,11 +12,17 @@ import {
   patientUpdateFeedback,
   patientCheckAllowUpdateFeedback,
 } from "../../../services/scheduleService";
+import CardActionArea from "@mui/material/CardActionArea";
+import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
+import localization from "moment/locale/vi";
+import moment from "moment";
 
 const Feedback = () => {
   const [message, setMessage] = useState("");
   const [value, setValue] = useState(3);
   const [allow, setAllow] = useState(false);
+  const [information, setInformation] = useState("");
   const [searchParams] = useSearchParams();
   let data = {
     doctorId: searchParams.get("doctorId"),
@@ -34,6 +40,7 @@ const Feedback = () => {
         setAllow(false);
       } else if (res && res.success === true) {
         setAllow(true);
+        setInformation(res.information);
       } else if (!res) {
         toast.error("Đã có lỗi xảy ra");
       }
@@ -57,7 +64,7 @@ const Feedback = () => {
     const dataSent = { ...data, rating: value, comment: message };
     const res = await patientUpdateFeedback(dataSent);
     if (res && res.success) {
-      setAllow(true);
+      setAllow(false);
       return;
     }
     toast.error("Đã có lỗi xảy ra");
@@ -66,14 +73,7 @@ const Feedback = () => {
   return (
     <>
       <HomeHeader />
-      <Box
-        sx={{
-          width: "100%",
-          height: "77%",
-          display: "grid",
-          placeItems: "center",
-        }}
-      >
+      <Box>
         {allow === false ? (
           <Stack
             sx={{
@@ -83,6 +83,8 @@ const Feedback = () => {
               alignItems: "center",
               gap: 5,
               p: 3,
+              width: "100%",
+              minHeight: "700px",
             }}
           >
             <Typography
@@ -104,10 +106,13 @@ const Feedback = () => {
           </Stack>
         ) : (
           <Container>
-            <Stack spacing={1}>
+            <Stack>
               <Typography
                 variant="h4"
-                sx={{ fontWeight: "bold", marginBottom: "20px" }}
+                sx={{
+                  fontWeight: "bold",
+                  margin: "85px 0",
+                }}
               >
                 Phản hồi người dùng
               </Typography>
@@ -116,7 +121,51 @@ const Feedback = () => {
               đánh giá.
             </Typography> */}
             </Stack>
-            <Stack spacing={1}>
+            <Stack spacing={2}>
+              <Stack>
+                <Card sx={{ display: "flex" }}>
+                  <CardContent sx={{ flex: 1 }}>
+                    <Typography component="h2" variant="h5" mb={2}>
+                      Thông tin khám bệnh
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      Thời gian khám:{} &nbsp;
+                      {moment.unix(information.date).format("DD/MM/YYYY")}
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      Bác sĩ: {information?.doctor?.name}
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      Gói khám: {information?.packet?.name}
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      Phòng khám:
+                      {information?.doctor?.id
+                        ? information?.doctor?.id?.detail?.clinic?.name
+                        : "tên cua packet"}
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      Chuyên khoa:{" "}
+                      {information?.doctor?.id
+                        ? information?.doctor?.id?.detail?.specialty?.name
+                        : "tên cua packet"}
+                    </Typography>
+                  </CardContent>
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      width: 160,
+                      display: { xs: "none", sm: "block" },
+                    }}
+                    image={
+                      information?.doctor?.id
+                        ? information?.doctor?.id?.image?.url
+                        : "hinh cua packet"
+                    }
+                    alt={"imange"}
+                  />
+                </Card>
+              </Stack>
               <Stack
                 spacing={1}
                 display={"flex"}
@@ -124,7 +173,7 @@ const Feedback = () => {
                 direction={"row"}
               >
                 <Typography variant="subtitle1" sx={{ marginTop: "5px" }}>
-                  Mức độ hài lòng:{" "}
+                  Mức độ hài lòng
                 </Typography>
                 <Rating
                   size="large"
@@ -152,7 +201,11 @@ const Feedback = () => {
               <Button
                 variant="contained"
                 endIcon={<SendIcon />}
-                sx={{ width: "fit-content", marginLeft: "auto !important" }}
+                sx={{
+                  width: "fit-content",
+                  marginLeft: "auto !important",
+                  marginBottom: "20px !important",
+                }}
                 onClick={handleClickSent}
               >
                 Gửi
