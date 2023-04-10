@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import useIsTablet from "../../../components/useScreen/useIsTablet.js";
 import "./style.scss";
 
-export default function TemporaryDrawer({ show, setOpen }) {
+export default function TemporaryDrawer({ show, setOpen ,direction}) {
   const navigate = useNavigate();
   const smScreen = useIsTablet();
 
@@ -27,106 +27,99 @@ export default function TemporaryDrawer({ show, setOpen }) {
 
   return (
     <>
-      {smScreen && (
-        <Drawer
-          anchor={"left"}
-          open={state["left"]}
-          onClose={() => {
+      <Drawer
+        anchor={direction}
+        open={state["left"]}
+        onClose={() => {
+          setOpen(false);
+        }}
+      >
+        <Box
+          sx={{ width: 250 }}
+          role="presentation"
+          onClick={() => {
             setOpen(false);
           }}
+          onKeyDown={() => {
+            setOpen(false);
+          }}
+          className="leftbar"
         >
-          <Box
-            sx={{ width: 250 }}
-            role="presentation"
-            onClick={() => {
-              setOpen(false);
-            }}
-            onKeyDown={() => {
-              setOpen(false);
-            }}
-            className="leftbar"
-          >
-            <div className="d-flex flex-column justify-content-center align-items-start">
-              <div
-                className="child-content nav-1"
-                onClick={() => {
-                  navigate(`/viewmore/clinic`);
-                }}
-              >
-                <div>
-                  <b className="header-title">
-                    <FormattedMessage id="home-header.specialty" />
-                  </b>
-                </div>
-                <span className="subs-title">
-                  <FormattedMessage id="home-header.search-doctor" />
-                </span>
+          <div className="d-flex flex-column justify-content-center align-items-start">
+            <div
+              className="child-content nav-1"
+              onClick={() => {
+                navigate(`/viewmore/clinic`);
+              }}
+            >
+              <div>
+                <b className="header-title">
+                  <FormattedMessage id="home-header.specialty" />
+                </b>
               </div>
-              <div
-                className="child-content nav-2"
-                onClick={() => {
-                  navigate(`/viewmore/clinic`);
-                }}
-              >
-                <div>
-                  <b className="header-title">
-                    <FormattedMessage id="home-header.health-facility" />
-                  </b>
-                </div>
-                <span className="subs-title">
-                  <FormattedMessage id="home-header.select-room" />
-                </span>
-              </div>
-              <div
-                className="child-content nav-3"
-                onClick={() => {
-                  navigate(`/viewmore/doctor`);
-                }}
-              >
-                <div>
-                  <b className="header-title">
-                    <FormattedMessage id="home-header.doctor" />
-                  </b>
-                </div>
-                <span className="subs-title">
-                  <FormattedMessage id="home-header.select-doctor" />
-                </span>
-              </div>
-              <div
-                className="child-content nav-4"
-                onClick={() => {
-                  navigate(`/packet`);
-                }}
-              >
-                <div>
-                  <b className="header-title">
-                    <FormattedMessage id="home-header.fee" />
-                  </b>
-                </div>
-                <span className="subs-title">
-                  <FormattedMessage id="home-header.check-health" />
-                </span>
-              </div>
-              <div
-                className="child-content nav-5"
-                onClick={() => {
-                  navigate(`/handbook`);
-                }}
-              >
-                <div>
-                  <b className="header-title">
-                    Cẩm Nang
-                  </b>
-                </div>
-                <span className="subs-title">
-                  Bài viết y tế
-                </span>
-              </div>
-              
+              <span className="subs-title">
+                <FormattedMessage id="home-header.search-doctor" />
+              </span>
             </div>
-          </Box>
-        </Drawer>
-      )}
+            <div
+              className="child-content nav-2"
+              onClick={() => {
+                navigate(`/viewmore/clinic`);
+              }}
+            >
+              <div>
+                <b className="header-title">
+                  <FormattedMessage id="home-header.health-facility" />
+                </b>
+              </div>
+              <span className="subs-title">
+                <FormattedMessage id="home-header.select-room" />
+              </span>
+            </div>
+            <div
+              className="child-content nav-3"
+              onClick={() => {
+                navigate(`/viewmore/doctor`);
+              }}
+            >
+              <div>
+                <b className="header-title">
+                  <FormattedMessage id="home-header.doctor" />
+                </b>
+              </div>
+              <span className="subs-title">
+                <FormattedMessage id="home-header.select-doctor" />
+              </span>
+            </div>
+            <div
+              className="child-content nav-4"
+              onClick={() => {
+                navigate(`/packet`);
+              }}
+            >
+              <div>
+                <b className="header-title">
+                  <FormattedMessage id="home-header.fee" />
+                </b>
+              </div>
+              <span className="subs-title">
+                <FormattedMessage id="home-header.check-health" />
+              </span>
+            </div>
+            <div
+              className="child-content nav-5"
+              onClick={() => {
+                navigate(`/handbook`);
+              }}
+            >
+              <div>
+                <b className="header-title">Cẩm Nang</b>
+              </div>
+              <span className="subs-title">Bài viết y tế</span>
+            </div>
+          </div>
+        </Box>
+      </Drawer>
     </>
   );
 }

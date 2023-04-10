@@ -61,11 +61,12 @@ const DataSectionViewMore = ({
     if (location.pathname.includes("clinic")) navigate(`/clinic/${id}`);
     else navigate(`/specialty/${id}`);
   };
-  const handleEnterSearch = (e) => {
-    if (e.which === 13) {
-      getListSpecialtyHome(filter);
-    }
-  };
+  // const handleEnterSearch = (e) => {
+  //   if (e.which === 13) {
+  //     getListSpecialtyHome(filter);
+  //   }
+  // };
+  const handleChange = (e) => getListSpecialtyHome(e.target.value);
   const navigate = useNavigate();
   const styles = {
     header: {
@@ -122,8 +123,8 @@ const DataSectionViewMore = ({
           <input
             style={styles.input}
             placeholder={"Tìm kiếm"}
-            onChange={(e) => setFilter(e.target.value)}
-            onKeyPress={(e) => handleEnterSearch(e)}
+            onChange={(e) => handleChange(e)}
+            // onKeyPress={(e) => handleEnterSearch(e)}
           />
         </Box>
       )}

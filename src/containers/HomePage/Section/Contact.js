@@ -4,14 +4,14 @@ import SpeedDialAction from "@mui/material/SpeedDialAction";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import MailIcon from "@mui/icons-material/Mail";
 import ForumIcon from "@mui/icons-material/Forum";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
+import PhoneIcon from "@mui/icons-material/Phone";
 
 const actions = [
   // { icon: <SaveIcon />, name: "Save" },
-  { icon: <SmartToyIcon />, name: "BotChat" },
-  { icon: <MailIcon />, name: "Email" },
+  { icon: <PhoneIcon />, name: "Tư vấn hỗ trợ" },
+  { icon: <MailIcon />, name: "Email phản hồi" },
   { icon: <FacebookIcon />, name: "Facebook" },
 ];
 
@@ -57,7 +57,11 @@ const Contact = ({ language }) => {
   return (
     <SpeedDial
       ariaLabel="SpeedDial tooltip example"
-      sx={{ position: "fixed", bottom: 30, right: 30 }}
+      sx={{
+        position: "fixed",
+        bottom: 30,
+        right: 30,
+      }}
       icon={<ForumIcon />}
       onClose={handleClose}
       onOpen={handleOpen}
@@ -70,6 +74,13 @@ const Contact = ({ language }) => {
           tooltipTitle={action.name}
           tooltipOpen
           onClick={() => handleClick(action.name)}
+          sx={{
+            ".MuiSpeedDialAction-staticTooltipLabel": {
+              minWidth: "150px",
+              height: 30,
+              textAlign: "center",
+            },
+          }}
         />
       ))}
     </SpeedDial>

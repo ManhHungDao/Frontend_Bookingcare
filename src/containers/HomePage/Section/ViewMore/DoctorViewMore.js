@@ -37,11 +37,12 @@ const DoctorViewMore = ({ getListUserHome, listUser, language }) => {
   const clickDetialDoctor = (id) => {
     navigate(`/detail-doctor/${id}`);
   };
-  const handleEnterSearch = (e) => {
-    if (e.which === 13) {
-      getListUserHome(filter);
-    }
-  };
+  // const handleEnterSearch = (e) => {
+  //   if (e.which === 13) {
+  //     getListUserHome(filter);
+  //   }
+  // };
+  const handleChange = (e) => getListUserHome(e.target.value);
   const styles = {
     header: {
       height: "50px",
@@ -96,8 +97,8 @@ const DoctorViewMore = ({ getListUserHome, listUser, language }) => {
         <input
           style={styles.input}
           placeholder={language === "vi" ? "Tìm kiếm" : "Search doctor"}
-          onChange={(e) => setFilter(e.target.value)}
-          onKeyPress={(e) => handleEnterSearch(e)}
+          onChange={(e) => handleChange(e)}
+          // onKeyPress={(e) => handleEnterSearch(e)}
         />
       </Box>
       <Box mt={"80px"}>

@@ -30,7 +30,7 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
           <Grid
             container
             display={"flex"}
-            justifyContent={"space-between"}
+            justifyContent={"start"}
             alignItems={"center"}
           >
             <Grid
@@ -129,7 +129,7 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
                 </div>
               </Grid>
             )}
-            <Grid
+            {/* <Grid
               item
               sm={6}
               md={3}
@@ -154,11 +154,11 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
               >
                 <span onClick={() => changeLanguage(languages.EN)}>EN</span>
               </div>
-            </Grid>
+            </Grid> */}
           </Grid>
         </div>
       </div>
-      <SwipeableTemporaryDrawer show={open} setOpen={setOpen} />
+      <SwipeableTemporaryDrawer direction="left" show={open} setOpen={setOpen} />
     </>
   );
 };
