@@ -42,8 +42,8 @@ const DetailSchedule = ({
   </tbody></table></figure>`;
 
   useEffect(() => {
-    setTitle('')
-    setContent('')
+    setTitle("");
+    setContent("");
     setStatus(data.status);
     setPatient(data.user);
     let time = dataTime.find((e) => e._id === data.time);
@@ -100,6 +100,11 @@ const DetailSchedule = ({
           specialty: data.doctor.specialty.name
             ? data.doctor.specialty.name
             : "",
+          linkFeedBack: `http://localhost:3000/feedback?date=${
+            data ? dayjs(date).unix() : ""
+          }&time=${data?.time ? data.time : ""}&doctorId=${
+            data?.doctor?.id ? data.doctor.id : ""
+          }&packetId=${data?.packet?.id ? data.packet.id : ""}`,
         }
       : {
           time: time ? time : "",
@@ -108,6 +113,11 @@ const DetailSchedule = ({
           packetName: data?.packet?.name ? data?.packet?.name : "",
           clinic: data?.packet?.clinic?.name ? data?.packet?.clinic?.name : "",
           specialty: data?.packet?.specialty ? data?.packet?.specialty : "",
+          linkFeedBack: `http://localhost:3000/feedback?date=${
+            data ? dayjs(date).unix() : ""
+          }&time=${data?.time ? data.time : ""}&doctorId=${
+            data?.doctor?.id ? data.doctor.id : ""
+          }&packetId=${data?.packet?.id ? data.packet.id : ""}`,
         };
   };
 

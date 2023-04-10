@@ -14,6 +14,7 @@ export const path = {
   VIEWMORE_SPECIALTY: "/viewmore/specialty",
   VIEWMORE_CLINIC: "/viewmore/clinic",
   VIEWMORE_DOCTOR: "/viewmore/doctor",
+  FEEDBACK:'/feedback',
 
   LOGIN: "/login",
   LOG_OUT: "/logout",

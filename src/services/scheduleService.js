@@ -44,6 +44,20 @@ const patientConfirmBooking = (data) => {
   return axios.put(`/api/patient-confirm-booking`, data);
 };
 
+const patientUpdateFeedback = (data) => {
+  return axios.put(`/api/patient-feedback`, data);
+};
+
+const patientCheckAllowUpdateFeedback = (data) => {
+  return axios.get(`/api/check-patient-feedback`, {
+    params: {
+      date: data.date,
+      time: data.time,
+      doctorId: data.doctorId,
+      packetId: data.packetId,
+    },
+  });
+};
 export {
   upsertSchedule,
   getSingleUserSchedule,
@@ -55,4 +69,6 @@ export {
   getSinglePacketSchedule,
   createUserBookingSchedule,
   patientConfirmBooking,
+  patientUpdateFeedback,
+  patientCheckAllowUpdateFeedback,
 };
