@@ -13,6 +13,8 @@ import DetailPacket from "../containers/Patient/Packet/DetailPacket";
 import PatientConfirmBooking from "../containers/Patient/Schedule/Booking/PatientConfirmBooking";
 import HomeHandbook from "../containers/Patient/Handbook/HomeHandbook";
 import Feedback from "../containers/Patient/Feedback/Feedback";
+import PatientLogin from "../containers/Patient/Auth/Login";
+import PatientRegister from "../containers/Patient/Auth/Register";
 
 const PatientRoute = () => {
   return (
@@ -37,10 +39,10 @@ const PatientRoute = () => {
           path={path.CONFIRM_BOOKING}
           element={<PatientConfirmBooking />}
         />
-        <Route
-          path={path.FEEDBACK}
-          element={<Feedback />}
-        />
+        <Route path={path.FEEDBACK} element={<Feedback />} />
+        {/* manager account patient */}
+        <Route path={path.PATIENT_LOGIN} element={<PatientLogin />} />
+        <Route path={path.PATIENT_REGISTER} element={<PatientRegister />} />
 
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>

@@ -14,10 +14,14 @@ export const path = {
   VIEWMORE_SPECIALTY: "/viewmore/specialty",
   VIEWMORE_CLINIC: "/viewmore/clinic",
   VIEWMORE_DOCTOR: "/viewmore/doctor",
-  FEEDBACK:'/feedback',
+  FEEDBACK: "/feedback",
 
   LOGIN: "/login",
   LOG_OUT: "/logout",
+
+  PATIENT_LOGIN: "/patient/login",
+  PATIENT_REGISTER: "/patient/register",
+  PATIENT_LOGOUT: "/patient/logout",
 };
 
 export const languages = {

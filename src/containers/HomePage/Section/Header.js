@@ -14,15 +14,14 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
   const smScreen = useIsTablet();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const changeLanguage = (language) => {
-    changLanguageAppRedux(language);
-  };
+
   const returnHome = () => {
     navigate(`/`);
   };
   const handleClick = () => {
     setOpen(true);
   };
+
   return (
     <>
       <div className="home-header-container d-flex align-items-center">
@@ -129,36 +128,38 @@ const HomeHeader = ({ changLanguageAppRedux, language }) => {
                 </div>
               </Grid>
             )}
-            {/* <Grid
+            <Grid
               item
               sm={6}
               md={3}
               display={"flex"}
               justifyContent={"flex-end"}
-              sx={{
-                fontWeight: "bold",
-                gap: "10px",
-              }}
             >
-              <div
-                className={
-                  language === languages.VI ? "lang-vi active" : "lang-vi"
-                }
-              >
-                <span onClick={() => changeLanguage(languages.VI)}>VN</span>
+              <div>
+                <span
+                  className="lang-vi"
+                  onClick={() => navigate("/patient/register")}
+                >
+                  Đăng Kí
+                </span>
               </div>
-              <div
-                className={
-                  language === languages.EN ? "lang-en active" : "lang-en"
-                }
-              >
-                <span onClick={() => changeLanguage(languages.EN)}>EN</span>
+              <div>
+                <span
+                  className="lang-en"
+                  onClick={() => navigate("/patient/login")}
+                >
+                  Đăng Nhập
+                </span>
               </div>
-            </Grid> */}
+            </Grid>
           </Grid>
         </div>
       </div>
-      <SwipeableTemporaryDrawer direction="left" show={open} setOpen={setOpen} />
+      <SwipeableTemporaryDrawer
+        direction="left"
+        show={open}
+        setOpen={setOpen}
+      />
     </>
   );
 };

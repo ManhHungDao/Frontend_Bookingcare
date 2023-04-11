@@ -66,6 +66,8 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
             <Route path="add-handbook" element={<AddHandbook />} />
             <Route path="manage-handbook" element={<TableManageHandbook />} />
 
+
+
             {/* <Route
                   path="/manage-detail-clinic"
                   element={<ManageDetailClinic />}

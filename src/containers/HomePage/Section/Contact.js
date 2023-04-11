@@ -7,6 +7,7 @@ import ForumIcon from "@mui/icons-material/Forum";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import PhoneIcon from "@mui/icons-material/Phone";
+import { useNavigate } from "react-router-dom";
 
 const actions = [
   // { icon: <SaveIcon />, name: "Save" },
@@ -16,7 +17,6 @@ const actions = [
 ];
 
 function sendEmail(lang) {
-  console.log("🚀 ~ file: Contact.js:19 ~ sendEmail ~ lang:", lang);
   const email = "healthycare@gmail.com";
   const subject = `${
     lang === "vi"
@@ -43,14 +43,15 @@ function openFacebook() {
 
 const Contact = ({ language }) => {
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleClick = (name) => {
-    if (name === "Email") sendEmail(language);
+    if (name === "Email phản hồi") sendEmail(language);
     if (name === "Facebook") openFacebook();
-    if (name === "BotChat") {
-      if (language === "vi") toast.info("Tính năng đang phát triển");
-      else toast.info("This feature is buiding.");
+    if (name === "Tư vấn hỗ trợ") {
+      navigate("tel:0964367332");
     }
   };
 
