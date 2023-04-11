@@ -101,28 +101,28 @@ function PatientRegister() {
     generateRandomString();
   }, []);
   const handleNextStepOne = () => {
-    // if (
-    //   !name ||
-    //   !email ||
-    //   !address.detail ||
-    //   !phone ||
-    //   !password ||
-    //   !confirmPassword
-    // ) {
-    //   toast.warning("Bạn cần điền đầy đủ thông tin");
-    //   return;
-    // }
-    // if (!validator.isMobilePhone(phone)) {
-    //   toast.warning("Số điện thoại không hợp lệ");
-    //   return;
-    // }
-    // if (!validator.isEmail(email)) {
-    //   toast.warning("Email không hợp lệ");
-    //   return;
-    // }
+    if (
+      !name ||
+      !email ||
+      !address.detail ||
+      !phone ||
+      !password ||
+      !confirmPassword
+    ) {
+      toast.warning("Bạn cần điền đầy đủ thông tin");
+      return;
+    }
+    if (!validator.isMobilePhone(phone)) {
+      toast.warning("Số điện thoại không hợp lệ");
+      return;
+    }
+    if (!validator.isEmail(email)) {
+      toast.warning("Email không hợp lệ");
+      return;
+    }
 
     // gửi email chứa mã xác nhận
-    // const emailConfirmHTML = emailConfirm(code,name, email);
+    // const emailConfirmHTML = emailRegister(code,name, email);
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -379,10 +379,10 @@ function PatientRegister() {
                 >
                   <Button
                     variant="contained"
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/patient/login")}
                     sx={{ width: "fit-content" }}
                   >
-                    Về trang chủ
+                    Đăng Nhập
                   </Button>
                 </Stack>
               </>

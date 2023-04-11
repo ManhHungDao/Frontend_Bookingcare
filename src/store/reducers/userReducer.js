@@ -6,11 +6,13 @@ const initialState = {
   changPassSuccess: false,
   resetPassSuccess: false,
   count: {},
+  patientInfo: null,
+  isPatientLoggedIn: false,
 };
 
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.USER_LOGIN_SUCCESS:
+    case actionTypes.ADMIN_LOGIN_SUCCESS:
       return {
         ...state,
         isLoggedIn: true,
@@ -22,11 +24,29 @@ const appReducer = (state = initialState, action) => {
         isLoggedIn: false,
         userInfo: null,
       };
+    case actionTypes.PATIENT_LOGIN_SUCCESS:
+      return {
+        ...state,
+        isPatientLoggedIn: true,
+        patientInfo: action.userInfo,
+      };
+    case actionTypes.PATIENT_LOGIN_FAIL:
+      return {
+        ...state,
+        isPatientLoggedIn: false,
+        patientInfo: null,
+      };
     case actionTypes.PROCESS_LOGOUT:
       return {
         ...state,
         isLoggedIn: false,
         userInfo: null,
+      };
+    case actionTypes.PATIENT_PROCESS_LOGOUT:
+      return {
+        ...state,
+        isPatientLoggedIn: false,
+        patientInfo: null,
       };
     case actionTypes.CHANGE_PASSWORD_SUCCESS:
       return {

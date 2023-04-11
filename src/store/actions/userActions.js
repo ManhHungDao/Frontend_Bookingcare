@@ -9,21 +9,22 @@ import {
 import { loadingToggleAction } from "./adminActions";
 import { toast } from "react-toastify";
 
-export const addUserSuccess = () => ({
-  type: actionTypes.ADD_USER_SUCCESS,
-});
-
-export const userLoginSuccess = (userInfo) => ({
-  type: actionTypes.USER_LOGIN_SUCCESS,
+export const adminLoginSuccess = (userInfo) => ({
+  type: actionTypes.ADMIN_LOGIN_SUCCESS,
   userInfo: userInfo,
 });
-export const userLoginFail = () => ({
-  type: actionTypes.USER_LOGIN_FAIL,
+export const adminLoginFail = () => ({
+  type: actionTypes.ADMIN_LOGIN_FAIL,
 });
 
 export const processLogout = () => ({
   type: actionTypes.PROCESS_LOGOUT,
 });
+
+export const processPatientLogout = () => ({
+  type: actionTypes.PATIENT_PROCESS_LOGOUT,
+});
+
 
 export const clearUserStatus = () => ({
   type: actionTypes.CLEAR_USER_STATUS,
@@ -36,9 +37,10 @@ export const loginAction = (email, password) => {
       const res = await loginApiService(email, password);
       if (res && res.success) {
         dispatch(loadingToggleAction(false));
-        dispatch(userLoginSuccess(res.user));
+        dispatch(adminLoginSuccess(res.user));
       }
     } catch (error) {
+      dispatch(adminLoginFail());
       dispatch(loadingToggleAction(false));
       toast.error("Đăng nhập thất bại, kiểm tra lại thông tin!");
     }
@@ -98,6 +100,27 @@ export const getAllCountAction = () => {
     } catch (error) {
       dispatch(loadingToggleAction(false));
       toast.error(error.response.data.errMessage);
+    }
+  };
+};
+
+export const patientLoginAction = (email, password) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await loginApiService(email, password);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.PATIENT_LOGIN_SUCCESS,
+          patientInfo: res.patient,
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.PATIENT_LOGIN_FAIL,
+      });
+      toast.error("Đăng nhập thất bại, kiểm tra lại thông tin!");
     }
   };
 };
