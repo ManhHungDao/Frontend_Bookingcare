@@ -27,6 +27,7 @@ import HomeHandbook from "../containers/Patient/Handbook/HomeHandbook";
 import Feedback from "../containers/Patient/Feedback/Feedback";
 import PatientLogin from "../containers/Patient/Auth/Login";
 import PatientRegister from "../containers/Patient/Auth/Register";
+import ForgotPassword from "../containers/Patient/Auth/ForgotPassword";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -76,8 +77,12 @@ class App extends Component {
                 element={<PatientConfirmBooking />}
               />
               <Route path={path.FEEDBACK} element={<Feedback />} />
+
+
+              
               {/* manager account patient */}
               <Route path={path.LOGIN} element={<PatientLogin />} />
+              <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword />} />
               <Route
                 path={path.RESGISTER}
                 element={<PatientRegister />}

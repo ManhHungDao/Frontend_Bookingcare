@@ -21,6 +21,7 @@ export const path = {
   LOGIN: "/login",
   RESGISTER: "/register",
   LOG_OUT: "/logout",
+  FORGOT_PASSWORD: "/forgot-password",
 };
 
 export const languages = {
