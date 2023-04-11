@@ -38,6 +38,8 @@ import StepLabel from "@mui/material/StepLabel";
 import successImg from "../../../assets/verified.png";
 import validator from "validator";
 import { toast } from "react-toastify";
+import { emailRegister } from "../../../data/emailRegister";
+import { useEffect } from "react";
 
 function Copyright(props) {
   return (
@@ -70,7 +72,7 @@ function PatientRegister() {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
-
+  const [code, setCode] = useState("");
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [errors, setErrors] = useState({});
@@ -81,31 +83,53 @@ function PatientRegister() {
     event.preventDefault();
   };
 
+  const generateRandomString = () => {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    const length = 8;
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters[randomIndex];
+    }
+
+    setCode(result);
+  };
+
+  useEffect(() => {
+    generateRandomString();
+  }, []);
   const handleNextStepOne = () => {
-    if (
-      !name ||
-      !email ||
-      !address.detail ||
-      !phone ||
-      !password ||
-      !confirmPassword
-    ) {
-      toast.warning("Bạn cần điền đầy đủ thông tin");
-      return;
-    }
-    if (!validator.isMobilePhone(phone)) {
-      toast.warning("Số điện thoại không hợp lệ");
-      return;
-    }
-    if (!validator.isEmail(email)) {
-      toast.warning("Email không hợp lệ");
-      return;
-    }
+    // if (
+    //   !name ||
+    //   !email ||
+    //   !address.detail ||
+    //   !phone ||
+    //   !password ||
+    //   !confirmPassword
+    // ) {
+    //   toast.warning("Bạn cần điền đầy đủ thông tin");
+    //   return;
+    // }
+    // if (!validator.isMobilePhone(phone)) {
+    //   toast.warning("Số điện thoại không hợp lệ");
+    //   return;
+    // }
+    // if (!validator.isEmail(email)) {
+    //   toast.warning("Email không hợp lệ");
+    //   return;
+    // }
+
+    // gửi email chứa mã xác nhận
+    // const emailConfirmHTML = emailConfirm(code,name, email);
+
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (code === confirmEmail)
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
