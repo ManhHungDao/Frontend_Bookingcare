@@ -2,6 +2,7 @@ export const path = {
   HOME: "/*",
   ADMIN: "/admin/*",
   DOCTOR: "/doctor/*",
+  PATIENT: "/patient/*",
   MANAGER: "/manager/*",
   PACKET: "/packet/*",
   HANDBOOK: "/handbook/*",
@@ -16,12 +17,10 @@ export const path = {
   VIEWMORE_DOCTOR: "/viewmore/doctor",
   FEEDBACK: "/feedback",
 
+  SYSTEM_LOGIN: "/system-login",
   LOGIN: "/login",
+  RESGISTER: "/register",
   LOG_OUT: "/logout",
-
-  PATIENT_LOGIN: "/patient/login",
-  PATIENT_REGISTER: "/patient/register",
-  PATIENT_LOGOUT: "/patient/logout",
 };
 
 export const languages = {

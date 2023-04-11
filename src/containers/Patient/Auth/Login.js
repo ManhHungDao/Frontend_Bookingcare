@@ -129,7 +129,7 @@ function PatientLogin() {
                 <Grid item>
                   <Typography
                     variant="subtitle2"
-                    onClick={() => navigate("/patient/register")}
+                    onClick={() => navigate("/register")}
                     sx={{ cursor: "pointer" }}
                     color={"primary"}
                   >

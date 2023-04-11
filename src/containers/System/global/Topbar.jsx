@@ -28,6 +28,10 @@ const Topbar = ({ processLogout }) => {
     dispatch({ type: actions.SET_MENU, data: "" });
     navigate("/admin/reset-password");
   };
+  const handleLogout = () => {
+    navigate("/system-login");
+    processLogout();
+  };
   return (
     <Box display="flex" justifyContent="flex-end" p={2}>
       <Button
@@ -49,7 +53,7 @@ const Topbar = ({ processLogout }) => {
         }}
       >
         <MenuItem onClick={handleChangePass}>Đổi mật khẩu</MenuItem>
-        <MenuItem onClick={processLogout}>Thoát</MenuItem>
+        <MenuItem onClick={handleLogout}>Thoát</MenuItem>
       </Menu>
     </Box>
   );

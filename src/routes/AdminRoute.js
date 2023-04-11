@@ -66,28 +66,7 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
             <Route path="add-handbook" element={<AddHandbook />} />
             <Route path="manage-handbook" element={<TableManageHandbook />} />
 
-
-
-            {/* <Route
-                  path="/manage-detail-clinic"
-                  element={<ManageDetailClinic />}
-                />
-               
-               
-                <Route
-                  path="/manage-detail-handbook"
-                  element={ManageDetailHandbook}
-                />
-                <Route
-                  path="/packet_examination"
-                  element={Packet_examination}
-                /> */}
             <Route path="*" element={<Navigate replace to="/admin" />} />
-            {/* {isLoggedIn ? (
-                  <Route path="*" element={<Navigate replace to="/admin" />} />
-                ) : (
-                  <Route path="*" element={<Navigate replace to="/login" />} />
-                )} */}
           </Routes>
         </main>
       </div>

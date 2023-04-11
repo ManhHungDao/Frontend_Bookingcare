@@ -174,7 +174,7 @@ const HomeHeader = ({ processLogout, isLoggedIn }) => {
                   <div>
                     <span
                       className="lang-vi"
-                      onClick={() => navigate("/patient/register")}
+                      onClick={() => navigate("/register")}
                     >
                       Đăng Kí
                     </span>
@@ -182,7 +182,7 @@ const HomeHeader = ({ processLogout, isLoggedIn }) => {
                   <div>
                     <span
                       className="lang-en"
-                      onClick={() => navigate("/patient/login")}
+                      onClick={() => navigate("/login")}
                     >
                       Đăng Nhập
                     </span>

@@ -379,7 +379,7 @@ function PatientRegister() {
                 >
                   <Button
                     variant="contained"
-                    onClick={() => navigate("/patient/login")}
+                    onClick={() => navigate("/login")}
                     sx={{ width: "fit-content" }}
                   >
                     Đăng Nhập

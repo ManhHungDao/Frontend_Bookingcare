@@ -200,7 +200,7 @@ const ManagerSideBar = ({ userInfo, menuOpen, processLogout }) => {
 
             <LogOut
               title="Thoát"
-              to="/login"
+              to="/system-login"
               icon={<LogoutIcon />}
               isCollapsed={isCollapsed}
               processLogout={processLogout}
