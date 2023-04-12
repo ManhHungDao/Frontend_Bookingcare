@@ -185,7 +185,7 @@ const AddSpecialty = ({
 
 const mapStateToProps = (state) => {
   return {
-    listClinic: state.patient.listClinic,
+    listClinic: state.client.listClinic,
     isSuccess: state.app.isSuccess,
     allcodeType: state.admin.allcodeType,
   };

@@ -163,7 +163,7 @@ const PacketList = ({
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    typePacket: state.patient.allcodeType,
+    typePacket: state.client.allcodeType,
   };
 };
 

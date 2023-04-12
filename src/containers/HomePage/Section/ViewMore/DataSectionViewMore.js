@@ -175,8 +175,8 @@ const DataSectionViewMore = ({
 
 const mapStateToProps = (state) => {
   return {
-    listClinic: state.patient.listClinic,
-    listSpecialty: state.patient.listSpecialty,
+    listClinic: state.client.listClinic,
+    listSpecialty: state.client.listSpecialty,
     language: state.app.language,
   };
 };

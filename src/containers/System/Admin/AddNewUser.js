@@ -210,7 +210,7 @@ const AddNewUser = ({
       note,
       detail: content,
     };
-  createNewUser(dataUser)
+    createNewUser(dataUser);
   };
   return (
     <>
@@ -479,7 +479,7 @@ const mapStateToProps = (state) => {
     language: state.app.language,
     allcodes: state.admin.allcodes,
     isSuccess: state.app.isSuccess,
-    listClinic: state.patient.listClinic,
+    listClinic: state.client.listClinic,
     listSpecialtyInClinic: state.admin.listSpecialtyInClinic,
   };
 };

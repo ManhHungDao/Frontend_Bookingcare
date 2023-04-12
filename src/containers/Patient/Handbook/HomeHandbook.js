@@ -26,7 +26,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import CachedIcon from "@mui/icons-material/Cached";
 import { useNavigate } from "react-router-dom";
-import { getAllHandbook} from '../../../services/handbookService.js'
+import { getAllHandbook } from "../../../services/handbookService.js";
 import Footer from "../../HomePage/Section/Footer";
 import Slider from "react-slick";
 import BackToTop from "../../../components/BackToTop ";
@@ -379,7 +379,7 @@ const HomeHandbook = ({
 const mapStateToProps = (state) => {
   return {
     listSpecialtyInHandbook: state.admin.listSpecialtyInHandbook,
-    listHandbook: state.patient.listHandbook,
+    listHandbook: state.client.listHandbook,
   };
 };
 

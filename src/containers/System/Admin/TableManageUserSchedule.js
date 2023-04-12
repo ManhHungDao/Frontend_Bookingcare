@@ -451,7 +451,7 @@ const mapStateToProps = (state) => {
   return {
     scheduleUser: state.admin.schedules,
     isSuccess: state.app.isSuccess,
-    listClinic: state.patient.listClinic,
+    listClinic: state.client.listClinic,
     allcodes: state.admin.allcodes,
   };
 };

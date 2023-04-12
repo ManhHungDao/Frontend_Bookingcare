@@ -236,7 +236,7 @@ const AddHandbook = ({
 const mapStateToProps = (state) => {
   return {
     isSuccess: state.app.isSuccess,
-    listClinic: state.patient.listClinic,
+    listClinic: state.client.listClinic,
     listSpecialty: state.admin.allcodeType,
     listSpecialtyInClinic: state.admin.listSpecialtyInClinic,
   };

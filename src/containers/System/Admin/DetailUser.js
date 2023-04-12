@@ -381,7 +381,7 @@ const DetailUser = ({
 
 const mapStateToProps = (state) => {
   return {
-    listClinic: state.patient.listClinic,
+    listClinic: state.client.listClinic,
     allcodes: state.admin.allcodes,
     listSpecialtyInClinic: state.admin.listSpecialtyInClinic,
   };

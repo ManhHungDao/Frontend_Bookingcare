@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 export const AuthRoute = ({ children, isLoggedIn }) => {
-  return isLoggedIn ? children : <Navigate to="/login" />;
+  return isLoggedIn ? children : <Navigate to="/system-login" />;
 };
 
 const mapStateToProps = (state) => ({

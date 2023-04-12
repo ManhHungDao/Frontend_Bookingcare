@@ -477,9 +477,9 @@ const HomePacket = ({
 
 const mapStateToProps = (state) => {
   return {
-    listPacket: state.patient.listPacket,
-    listClinic: state.patient.listClinic,
-    typePacket: state.patient.allcodeType,
+    listPacket: state.client.listPacket,
+    listClinic: state.client.listClinic,
+    typePacket: state.client.allcodeType,
   };
 };
 

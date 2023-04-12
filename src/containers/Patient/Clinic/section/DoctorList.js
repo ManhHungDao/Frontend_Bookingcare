@@ -177,7 +177,7 @@ const DoctorList = ({
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    listSpecialty: state.patient.listSpecialtyInClinic,
+    listSpecialty: state.client.listSpecialtyInClinic,
   };
 };
 

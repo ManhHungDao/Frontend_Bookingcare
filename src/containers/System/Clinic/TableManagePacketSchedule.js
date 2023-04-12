@@ -400,7 +400,7 @@ const mapStateToProps = (state) => {
   return {
     schedulePacket: state.admin.schedules,
     isSuccess: state.app.isSuccess,
-    listClinic: state.patient.listClinic,
+    listClinic: state.client.listClinic,
     allcodes: state.admin.allcodes,
   };
 };

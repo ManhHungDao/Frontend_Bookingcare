@@ -229,7 +229,7 @@ const DetailSpecialty = ({ specialty, loadingToggleAction }) => {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
-    specialty: state.patient.specialty,
+    specialty: state.client.specialty,
   };
 };
 
@@ -237,7 +237,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getSingleSpecialty: (id) =>
       dispatch(actions.getSingleSpecialtyPatientAction(id)),
-    loadingToggleAction: (status) => dispatch(actions.loadingToggleAction(status)),
+    loadingToggleAction: (status) =>
+      dispatch(actions.loadingToggleAction(status)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DetailSpecialty);

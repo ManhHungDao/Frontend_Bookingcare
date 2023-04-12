@@ -251,7 +251,7 @@ const DetailHandbook = ({
 const mapStateToProps = (state) => {
   return {
     listSpecialtyInClinic: state.admin.listSpecialtyInClinic,
-    listSpecialty: state.patient.listSpecialty,
+    listSpecialty: state.client.listSpecialty,
   };
 };
 

@@ -12,7 +12,7 @@ const initialState = {
   listSpecialtyInClinic: [],
 };
 
-const patientReducer = (state = initialState, action) => {
+const clientReducer = (state = initialState, action) => {
   switch (action.type) {
     // CLINIC
     case actionTypes.PATIENT_GET_LIST_CLINIC_SUCCEED: {
@@ -125,4 +125,4 @@ const patientReducer = (state = initialState, action) => {
   }
 };
 
-export default patientReducer;
+export default clientReducer;

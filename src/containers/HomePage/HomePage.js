@@ -165,10 +165,10 @@ const HomePage = ({
 };
 const mapStateToProps = (state) => {
   return {
-    listClinic: state.patient.listClinic,
-    listSpecialty: state.patient.listSpecialty,
-    listUser: state.patient.listUser,
-    listHandbook: state.patient.listHandbook,
+    listClinic: state.client.listClinic,
+    listSpecialty: state.client.listSpecialty,
+    listUser: state.client.listUser,
+    listHandbook: state.client.listHandbook,
   };
 };
 

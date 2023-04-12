@@ -320,7 +320,7 @@ const mapStateToProps = (state) => {
   return {
     listSpecialty: state.admin.listSpecialty,
     isSuccess: state.app.isSuccess,
-    listClinic: state.patient.listClinic,
+    listClinic: state.client.listClinic,
   };
 };
 

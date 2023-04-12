@@ -153,7 +153,7 @@ const DoctorViewMore = ({ getListUserHome, listUser, language }) => {
 
 const mapStateToProps = (state) => {
   return {
-    listUser: state.patient.listUser,
+    listUser: state.client.listUser,
     language: state.app.language,
   };
 };

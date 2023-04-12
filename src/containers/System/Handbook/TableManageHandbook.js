@@ -54,7 +54,7 @@ const TableManageHandbook = ({
 
   useEffect(() => {
     if (listSpecialtyInHandbook && listSpecialtyInHandbook.length > 0)
-    setListSelectSpecialty(
+      setListSelectSpecialty(
         listSpecialtyInHandbook.map((e) => ({
           value: e.id,
           label: e.name,
@@ -306,7 +306,7 @@ const TableManageHandbook = ({
 
 const mapStateToProps = (state) => {
   return {
-    listClinic: state.patient.listClinic,
+    listClinic: state.client.listClinic,
     listHandbook: state.admin.listHandbook,
     listSpecialtyInHandbook: state.admin.listSpecialtyInHandbook,
     isSuccess: state.app.isSuccess,

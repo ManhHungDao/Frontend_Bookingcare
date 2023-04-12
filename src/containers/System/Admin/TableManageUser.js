@@ -342,7 +342,7 @@ const mapStateToProps = (state) => {
     users: state.admin.users,
     isSuccess: state.app.isSuccess,
     userInfo: state.user.userInfo,
-    listClinic: state.patient.listClinic,
+    listClinic: state.client.listClinic,
   };
 };
 

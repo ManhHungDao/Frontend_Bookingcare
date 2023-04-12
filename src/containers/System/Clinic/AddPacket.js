@@ -257,7 +257,7 @@ const mapStateToProps = (state) => {
   return {
     isSuccess: state.app.isSuccess,
     allcodes: state.admin.allcodes,
-    listClinic: state.patient.listClinic,
+    listClinic: state.client.listClinic,
     listSpecialtyInClinic: state.admin.listSpecialtyInClinic,
   };
 };

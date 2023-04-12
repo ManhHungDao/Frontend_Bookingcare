@@ -319,7 +319,7 @@ const mapStateToProps = (state) => {
   return {
     listPacket: state.admin.listPacket,
     isSuccess: state.app.isSuccess,
-    listClinic: state.patient.listClinic,
+    listClinic: state.client.listClinic,
   };
 };
 
