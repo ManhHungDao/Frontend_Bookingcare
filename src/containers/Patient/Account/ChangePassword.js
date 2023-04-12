@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from "react";
 import HomeHeader from "../../HomePage/Section/Header";
 import HomeFooter from "../../HomePage/Section/Footer";
-import {
-  Container,
-  Box,
-  TextField,
-  CardContent,
-  Grid,
-  Button,
-} from "@mui/material";
+import { Container, Box, TextField, Grid, Button } from "@mui/material";
 import Header from "../../../components/Header";
-import { Card } from "reactstrap";
 import { toast } from "react-toastify";
+import { connect } from "react-redux";
+import * as actions from "../../../store/actions";
 
-const ChangePassword = () => {
+const ChangePassword = ({
+  changePasswordAccount,
+  patientInfo,
+  changPassSuccess,
+  clearUserStatus,
+}) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  
+  useEffect(() => {
+    if (changPassSuccess === true) {
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      clearUserStatus();
+    }
+  }, [changPassSuccess]);
 
   const handleUpdate = () => {
     if (!oldPassword || !newPassword || !confirmPassword) {
@@ -31,7 +39,8 @@ const ChangePassword = () => {
       toast.warning("Xác nhận mật khẩu chưa chính xác");
       return;
     }
-    toast.success("Cập nhập mật khẩu thành công");
+    const email = patientInfo?.email;
+    changePasswordAccount(email, oldPassword, newPassword);
   };
   return (
     <>
@@ -93,5 +102,17 @@ const ChangePassword = () => {
     </>
   );
 };
-
-export default ChangePassword;
+const mapStateToProps = (state) => {
+  return {
+    changPassSuccess: state.user.changPassSuccess,
+    patientInfo: state.patient.patientInfo,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changePasswordAccount: (email, oldPass, newPass) =>
+      dispatch(actions.changePasswordAccountAction(email, oldPass, newPass)),
+    clearUserStatus: () => dispatch(actions.clearUserStatus()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);

@@ -4,6 +4,7 @@ import {
   patientLogin,
   getInforAccount,
   updateInforAccount,
+  patientChangePassword,
 } from "../../services/patientService";
 
 import { loadingToggleAction } from "./adminActions";
@@ -37,7 +38,6 @@ export const patientLoginAction = (email, password) => {
   };
 };
 
-
 export const updateInforAccountAction = (id, data) => {
   return async (dispatch, getState) => {
     try {
@@ -53,6 +53,28 @@ export const updateInforAccountAction = (id, data) => {
     } catch (error) {
       dispatch(loadingToggleAction(false));
       toast.error("Cập nhập thông tin thất bại");
+    }
+  };
+};
+
+export const changePasswordAccountAction = (email, oldPass, newPass) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await patientChangePassword(email, oldPass, newPass);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.CHANGE_PASSWORD_SUCCESS,
+        });
+        toast.success("Cập nhập mật khẩu thành công");
+      } else {
+        dispatch(loadingToggleAction(false));
+        toast.error("Cập nhập mật khẩu thất bại");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      toast.error(error.response.data.errMessage);
     }
   };
 };
