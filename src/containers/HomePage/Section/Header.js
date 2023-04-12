@@ -204,7 +204,7 @@ const HomeHeader = ({ processLogout, isLoggedIn }) => {
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.user.isPatientLoggedIn,
+    isLoggedIn: state.patient.isPatientLoggedIn,
     language: state.app.language,
   };
 };

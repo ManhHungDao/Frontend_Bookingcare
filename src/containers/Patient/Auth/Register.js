@@ -25,6 +25,8 @@ import {
   CardMedia,
   CardContent,
   Stack,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { InputLabel, OutlinedInput, IconButton } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -33,43 +35,45 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import InputSelect from "../../../components/Input/InputSelect";
 import StepLabel from "@mui/material/StepLabel";
 import successImg from "../../../assets/verified.png";
 import validator from "validator";
 import { toast } from "react-toastify";
 import { emailRegister } from "../../../data/emailRegister";
 import { useEffect } from "react";
-
-const CONST_GENDER = [
-  { id: "M", name: "Nam" },
-  { id: "F", name: "Nữ" },
-];
+import {
+  sentMailConfirm,
+  registerAccount,
+} from "../../../services/patientService";
 
 const steps = ["Điền thông tin", "Xác nhận email", "Hoàn thành"];
 
-function PatientRegister() {
+function PatientRegister({ loadingToggleAction }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState({ detail: "", province: "" });
-  const [gender, setGender] = useState({ label: "Nam", value: "M" });
+  const [gender, setGender] = useState("M");
   const [date, setDate] = useState(dayjs(new Date()));
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
-  const [confirmEmail, setConfirmEmail] = useState("");
+  const [confirmCode, setConfirmCode] = useState("");
   const [code, setCode] = useState("");
   const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
-  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
+  const sendMail = async (mail) => {
+    let res = await sentMailConfirm(mail);
+    if (!res || res.success === false) {
+      toast.warning("Gửi thư xác nhận thất bại");
+      return;
+    }
+  };
   const generateRandomString = () => {
     const characters =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -107,16 +111,50 @@ function PatientRegister() {
       toast.warning("Email không hợp lệ");
       return;
     }
-
+    if (password.length < 8) {
+      toast.warning("Mật khẩu ít nhất 8 tí tự");
+      return;
+    }
+    if (password !== confirmPassword) {
+      toast.warning("Xác nhận mật khẩu chưa chính xác");
+      return;
+    }
     // gửi email chứa mã xác nhận
-    // const emailConfirmHTML = emailRegister(code,name, email);
-
+    const emailHTML = emailRegister(code, name, email);
+    const mail = {
+      to: email,
+      subject: "Mã xác nhận tạo tài khoản",
+      html: emailHTML,
+    };
+    sendMail(mail);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const handleNext = () => {
-    if (code === confirmEmail)
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  const handleNext = async () => {
+    try {
+      loadingToggleAction(true);
+      if (code === confirmCode) {
+        let res = await registerAccount({
+          name,
+          email,
+          password,
+          address,
+          gender,
+          phone,
+          dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
+        });
+        if (res && res.success) {
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+          loadingToggleAction(false);
+        } else {
+          toast.error("Tạo tài khoản thất bại!");
+          loadingToggleAction(false);
+        }
+      }
+    } catch (error) {
+      toast.error("Tạo tài khoản thất bại!");
+      loadingToggleAction(false);
+    }
   };
 
   const handleBack = () => {
@@ -236,15 +274,22 @@ function PatientRegister() {
                     </LocalizationProvider>
                   </Grid>
                   <Grid item xs={12} sm={6} md={6}>
-                    <InputSelect
-                      label="Giới tính"
-                      value={gender}
-                      onChange={setGender}
-                      data={CONST_GENDER}
-                      isError={errors?.gender ? true : false}
-                      errorText={errors?.gender ? errors.gender : ""}
-                      name="Giới tính"
-                    />
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-autowidth-label">
+                        Giới tính
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-autowidth-label"
+                        id="demo-simple-select-autowidth"
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
+                        label="Giới tính"
+                        fullWidth
+                      >
+                        <MenuItem value={"M"}>Nam</MenuItem>
+                        <MenuItem value={"F"}>Nữ</MenuItem>
+                      </Select>
+                    </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
                     <AutocompleteAddress
@@ -321,8 +366,8 @@ function PatientRegister() {
                   fullWidth
                   label="Mã xác nhận email"
                   type="text"
-                  value={confirmEmail}
-                  onChange={(e) => setConfirmEmail(e.target.value)}
+                  value={confirmCode}
+                  onChange={(e) => setConfirmCode(e.target.value)}
                 />
                 <Grid container spacing={2} sx={{ mt: 1, mb: 2 }}>
                   <Grid item xs={4} sm={4} md={4}>
@@ -395,8 +440,15 @@ function PatientRegister() {
   );
 }
 
-const mapStateToProps = (state) => {};
+const mapStateToProps = (state) => {
+  return {};
+};
 
-const mapDispatchToProps = (dispatch) => {};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadingToggleAction: (status) =>
+      dispatch(actions.loadingToggleAction(status)),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PatientRegister);

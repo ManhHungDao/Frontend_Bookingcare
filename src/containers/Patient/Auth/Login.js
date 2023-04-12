@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import Avatar from "@mui/material/Avatar";
@@ -9,27 +9,28 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import logo from "../../../assets/logo.png";
-import ForgotPassword from "./ForgotPassword";
 import { Stack } from "@mui/material";
 
-
-function PatientLogin() {
+const PatientLogin = ({ LoginAction, patientInfo, isPatientLoggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const onClick = () => {
-    // loginAction(email, password);
+  const onClickLogin = () => {
+    LoginAction(email, password);
   };
   const handleEnter = (e) => {
     if (e.which === 13) {
-      onClick();
+      onClickLogin();
     }
   };
+
+  useEffect(() => {
+    if (isPatientLoggedIn === true) navigate("/");
+  }, [isPatientLoggedIn]);
 
   return (
     <>
@@ -97,7 +98,12 @@ function PatientLogin() {
                 onKeyPress={(e) => handleEnter(e)}
               />
 
-              <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <Button
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={() => onClickLogin()}
+              >
                 Đăng Nhập
               </Button>
               <Grid container>
@@ -143,10 +149,19 @@ function PatientLogin() {
       </Grid>
     </>
   );
-}
+};
 
-const mapStateToProps = (state) => {};
+const mapStateToProps = (state) => {
+  return {
+    patientInfo: state.patient.patientInfo,
+    isPatientLoggedIn: state.patient.isPatientLoggedIn,
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {};
-
+const mapDispatchToProps = (dispatch) => {
+  return {
+    LoginAction: (email, password) =>
+      dispatch(actions.patientLoginAction(email, password)),
+  };
+};
 export default connect(mapStateToProps, mapDispatchToProps)(PatientLogin);

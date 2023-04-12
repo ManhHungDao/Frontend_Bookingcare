@@ -6,8 +6,8 @@ const initialState = {
   changPassSuccess: false,
   resetPassSuccess: false,
   count: {},
-  patientInfo: null,
-  isPatientLoggedIn: false,
+  // patientInfo: null,
+  // isPatientLoggedIn: false,
 };
 
 const appReducer = (state = initialState, action) => {
@@ -24,30 +24,30 @@ const appReducer = (state = initialState, action) => {
         isLoggedIn: false,
         userInfo: null,
       };
-    case actionTypes.PATIENT_LOGIN_SUCCESS:
-      return {
-        ...state,
-        isPatientLoggedIn: true,
-        patientInfo: action.userInfo,
-      };
-    case actionTypes.PATIENT_LOGIN_FAIL:
-      return {
-        ...state,
-        isPatientLoggedIn: false,
-        patientInfo: null,
-      };
+    // case actionTypes.PATIENT_LOGIN_SUCCESS:
+    //   return {
+    //     ...state,
+    //     isPatientLoggedIn: true,
+    //     patientInfo: action.userInfo,
+    //   };
+    // case actionTypes.PATIENT_LOGIN_FAIL:
+    //   return {
+    //     ...state,
+    //     isPatientLoggedIn: false,
+    //     patientInfo: null,
+    //   };
     case actionTypes.PROCESS_LOGOUT:
       return {
         ...state,
         isLoggedIn: false,
         userInfo: null,
       };
-    case actionTypes.PATIENT_PROCESS_LOGOUT:
-      return {
-        ...state,
-        isPatientLoggedIn: false,
-        patientInfo: null,
-      };
+    // case actionTypes.PATIENT_PROCESS_LOGOUT:
+    //   return {
+    //     ...state,
+    //     isPatientLoggedIn: false,
+    //     patientInfo: null,
+    //   };
     case actionTypes.CHANGE_PASSWORD_SUCCESS:
       return {
         ...state,
