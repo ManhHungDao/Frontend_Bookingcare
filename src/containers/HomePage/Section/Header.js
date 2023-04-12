@@ -179,13 +179,14 @@ const HomeHeader = ({ processLogout, isLoggedIn }) => {
                     <MenuItem onClick={() => handleClickMenuItem()}>
                       Đơn đặt lịch
                     </MenuItem>
+                   */}
                     <MenuItem
                       onClick={() =>
                         handleClickMenuItem("/patient/change-password")
                       }
                     >
                       Đổi mật khẩu
-                    </MenuItem> */}
+                    </MenuItem>
                     <MenuItem onClick={processLogout}>Thoát</MenuItem>
                   </Menu>
                 </>

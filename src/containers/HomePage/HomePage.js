@@ -37,15 +37,15 @@ const HomePage = ({
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    getListClinicHome();
-    getListSpecialtyHome();
-    getListUserHome();
-    getAllHandbookHome({
-      page: 1,
-      size: 20,
-      specialtyId: "",
-      filter: "",
-    });
+    // getListClinicHome();
+    // getListSpecialtyHome();
+    // getListUserHome();
+    // getAllHandbookHome({
+    //   page: 1,
+    //   size: 20,
+    //   specialtyId: "",
+    //   filter: "",
+    // });
   }, []);
   useEffect(() => {
     if (listClinic && listClinic.length > 0)

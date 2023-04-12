@@ -27,10 +27,20 @@ const patientChangePassword = (email, oldPassword, newPassword) => {
   });
 };
 
+const getInforAccount = (id) => {
+  return axios.get(`/api/get-infor-account?id=${id}`);
+};
+
+const updateInforAccount = (id, data) => {
+  return axios.put(`/api/update-infor-account?id=${id}`, data);
+};
+
 export {
   registerAccount,
   sentMail,
   patientLogin,
   patientChangePassword,
   patientResetPassword,
+  getInforAccount,
+  updateInforAccount,
 };

@@ -1,6 +1,10 @@
 import actionTypes from "./actionTypes";
 
-import { patientLogin } from "../../services/patientService";
+import {
+  patientLogin,
+  getInforAccount,
+  updateInforAccount,
+} from "../../services/patientService";
 
 import { loadingToggleAction } from "./adminActions";
 import { toast } from "react-toastify";
@@ -33,4 +37,23 @@ export const patientLoginAction = (email, password) => {
   };
 };
 
+
+export const updateInforAccountAction = (id, data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await updateInforAccount(id, data);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        toast.success("Cập nhập thông tin thành công");
+      } else {
+        dispatch(loadingToggleAction(false));
+        toast.error("Cập nhập thông tin thất bại");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      toast.error("Cập nhập thông tin thất bại");
+    }
+  };
+};
 // cần thay đổi api

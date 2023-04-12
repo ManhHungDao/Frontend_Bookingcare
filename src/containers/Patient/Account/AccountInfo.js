@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import HomeHeader from "../../HomePage/Section/Header";
 import HomeFooter from "../../HomePage/Section/Footer";
+import { connect } from "react-redux";
+import * as actions from "../../../store/actions";
 import {
   Box,
   Button,
@@ -20,20 +22,66 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AutocompleteAddress from "../../../components/Input/AutocompleteAddress";
 import { toast } from "react-toastify";
+import validator from "validator";
+import { getInforAccount } from "../../../services/patientService";
 
-const AccountInfo = () => {
+const AccountInfo = ({
+  patientInfo,
+  updateInforAccount,
+  loadingToggleAction,
+}) => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState({ detail: "", province: "" });
   const [gender, setGender] = useState("M");
   const [date, setDate] = useState(dayjs(new Date()));
   const [name, setName] = useState("");
 
-  useEffect(() => {}, []);
+  const getDataAccount = async () => {
+    try {
+      loadingToggleAction(true);
+      let res = await getInforAccount(patientInfo._id);
+      if (res && res.success) {
+        const patient = res.patient;
+        setEmail(patient?.email);
+        setPhone(patient?.phone);
+        setGender(patient?.gender);
+        setDate(patient?.date);
+        setAddress({
+          detail: patient?.address?.detail,
+          province: patient?.address?.province,
+        });
+        setName(patient.name);
+        loadingToggleAction(false);
+      }
+      loadingToggleAction(false);
+    } catch (error) {
+      loadingToggleAction(false);
+    }
+  };
+
+  useEffect(() => {
+    getDataAccount();
+  }, []);
 
   const handleUpdate = () => {
-    toast.success("Cập nhập mật khẩu thành công");
+    if (!name || !address.detail || !phone) {
+      toast.warning("Bạn cần điền đầy đủ thông tin");
+      return;
+    }
+    if (!validator.isMobilePhone(phone)) {
+      toast.warning("Số điện thoại không hợp lệ");
+      return;
+    }
+
+    updateInforAccount(patientInfo._id, {
+      email,
+      name,
+      gender,
+      phone,
+      address,
+      dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
+    });
   };
 
   return (
@@ -56,6 +104,16 @@ const AccountInfo = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
               <TextField
+                disabled
+                fullWidth
+                id="email"
+                label="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
                 required
                 id="outlined-required"
                 label="Số điện thoại"
@@ -69,6 +127,7 @@ const AccountInfo = () => {
                 }}
               />
             </Grid>
+
             <Grid item xs={12} sm={6} md={6}>
               <LocalizationProvider
                 dateAdapter={AdapterDayjs}
@@ -87,7 +146,7 @@ const AccountInfo = () => {
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={12} sm={6} md={6}>
+            <Grid item xs={12} sm={4} md={4}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-autowidth-label">
                   Giới tính
@@ -105,31 +164,10 @@ const AccountInfo = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={12} md={12}>
+            <Grid item xs={12} sm={8} md={8}>
               <AutocompleteAddress setAddress={setAddress} address={address} />
             </Grid>
-            <Grid item xs={12} sm={12} md={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Mật khẩu"
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Grid>
+
             <Grid
               item
               xs={12}
@@ -148,5 +186,17 @@ const AccountInfo = () => {
     </>
   );
 };
-
-export default AccountInfo;
+const mapStateToProps = (state) => {
+  return {
+    patientInfo: state.patient.patientInfo,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateInforAccount: (id, data) =>
+      dispatch(actions.updateInforAccountAction(id, data)),
+    loadingToggleAction: (status) =>
+      dispatch(actions.loadingToggleAction(status)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(AccountInfo);
