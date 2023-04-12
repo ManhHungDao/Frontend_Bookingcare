@@ -175,7 +175,6 @@ function ForgotPassword() {
                           fullWidth
                           id="email"
                           label="Mã xác nhận"
-                          autoFocus
                           value={email}
                           onChange={(e) => setConfirmCode(e.target.value)}
                         />

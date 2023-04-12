@@ -199,6 +199,7 @@ function PatientRegister() {
                       fullWidth
                       onChange={(e) => setName(e.target.value)}
                       value={name}
+                      autoFocus
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={6}>
@@ -257,7 +258,6 @@ function PatientRegister() {
                       fullWidth
                       id="email"
                       label="Email"
-                      autoFocus
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
