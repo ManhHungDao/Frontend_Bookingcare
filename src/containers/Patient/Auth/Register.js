@@ -41,10 +41,7 @@ import validator from "validator";
 import { toast } from "react-toastify";
 import { emailRegister } from "../../../data/emailRegister";
 import { useEffect } from "react";
-import {
-  sentMailConfirm,
-  registerAccount,
-} from "../../../services/patientService";
+import { sentMail, registerAccount } from "../../../services/patientService";
 
 const steps = ["Điền thông tin", "Xác nhận email", "Hoàn thành"];
 
@@ -68,10 +65,13 @@ function PatientRegister({ loadingToggleAction }) {
     event.preventDefault();
   };
   const sendMail = async (mail) => {
-    let res = await sentMailConfirm(mail);
-    if (!res || res.success === false) {
+    try {
+      let res = await sentMail(mail);
+      if (!res || res.success === false) {
+        toast.warning("Gửi thư xác nhận thất bại");
+      }
+    } catch (error) {
       toast.warning("Gửi thư xác nhận thất bại");
-      return;
     }
   };
   const generateRandomString = () => {
@@ -150,9 +150,14 @@ function PatientRegister({ loadingToggleAction }) {
           toast.error("Tạo tài khoản thất bại!");
           loadingToggleAction(false);
         }
+      } else {
+        loadingToggleAction(false);
+        toast.warning("Mã xác nhận chưa đúng");
       }
     } catch (error) {
-      toast.error("Tạo tài khoản thất bại!");
+      if (error.response.data.error.code === 11000)
+        toast.error("Email đã tồn tại");
+      else toast.error("Tạo tài khoản thất bại!");
       loadingToggleAction(false);
     }
   };

@@ -12,30 +12,25 @@ import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import logo from "../../../assets/logo.png";
-import {
-  FormControl,
-  Stepper,
-  Step,
-  StepButton,
-  CardMedia,
-  CardContent,
-  Stack,
-} from "@mui/material";
+import { FormControl, Stepper, Step, CardMedia, Stack } from "@mui/material";
 import { InputLabel, OutlinedInput, IconButton } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import StepLabel from "@mui/material/StepLabel";
 import successImg from "../../../assets/verified.png";
-import validator from "validator";
 import { toast } from "react-toastify";
-import { emailRegister } from "../../../data/emailRegister";
 import { useEffect } from "react";
-import SendIcon from "@mui/icons-material/Send";
+import { emailForgotPass } from "../../../data/emailForgotPass";
+import {
+  sentMail,
+  patientChangePassword,
+  patientResetPassword,
+} from "../../../services/patientService";
 
 const steps = ["Xác nhận email", "Cập nhập mật khẩu", "Hoàn thành"];
 
-function ForgotPassword() {
+const ForgotPassword = ({ loadingToggleAction }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -73,17 +68,46 @@ function ForgotPassword() {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const handleNextStep = () =>
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  const handleNextStep = async () => {
+    try {
+      if (password === confirmPassword) {
+        loadingToggleAction(true);
+        let res = await patientResetPassword(email, password);
+        if (res && res.success) {
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        } else {
+          toast.error("Không thể cập nhập mật khẩu");
+        }
+        loadingToggleAction(false);
+      } else {
+        toast.warning("Xác nhận mật khẩu chưa đúng");
+      }
+    } catch (error) {
+      loadingToggleAction(false);
+      toast.error("Không thể cập nhập mật khẩu");
+    }
   };
 
-  // step :
+  const sendMail = async (mail) => {
+    try {
+      let res = await sentMail(mail);
+      if (!res || res.success === false) {
+        toast.warning("Gửi thư xác nhận thất bại");
+      }
+    } catch (error) {
+      toast.warning("Gửi thư xác nhận thất bại");
+    }
+  };
+
   const handleGetCode = () => {
     setIsDisabled(true);
-    // gọi api gửi mã
+    const emailHTML = emailForgotPass(code);
+    const mail = {
+      to: email,
+      subject: "Mã xác nhận quên mật khẩu",
+      html: emailHTML,
+    };
+    sendMail(mail);
   };
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
@@ -152,17 +176,6 @@ function ForgotPassword() {
               <>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email"
-                      autoFocus
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
                     <Grid
                       container
                       spacing={2}
@@ -172,11 +185,12 @@ function ForgotPassword() {
                       <Grid item xs={9} sm={9} md={9}>
                         <TextField
                           required
+                          autoFocus
                           fullWidth
                           id="email"
-                          label="Mã xác nhận"
+                          label="Email"
                           value={email}
-                          onChange={(e) => setConfirmCode(e.target.value)}
+                          onChange={(e) => setEmail(e.target.value)}
                         />
                       </Grid>
                       <Grid item xs={3} sm={3} md={3}>
@@ -185,10 +199,20 @@ function ForgotPassword() {
                           onClick={handleGetCode}
                           disabled={isDisabled}
                         >
-                          {isDisabled ? "Đã gửi" : "Lấy mã"}
+                          {isDisabled ? "Đã gửi" : "Gửi mã"}
                         </Button>
                       </Grid>
                     </Grid>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="email"
+                      label="Mã xác nhận"
+                      value={confirmCode}
+                      onChange={(e) => setConfirmCode(e.target.value)}
+                    />
                   </Grid>
                 </Grid>
 
@@ -206,43 +230,42 @@ function ForgotPassword() {
               <>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="email"
-                      label="Mã xác nhận"
-                      autoFocus
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
+                    <Grid item xs={12} sm={12} md={12}>
+                      <FormControl fullWidth required variant="outlined">
+                        <InputLabel>Mật khẩu mới</InputLabel>
+                        <OutlinedInput
+                          type={showPassword ? "text" : "password"}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          label="Mật khẩu mới"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                      </FormControl>
+                    </Grid>
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
                     <FormControl fullWidth required variant="outlined">
-                      <InputLabel htmlFor="outlined-adornment-password">
-                        Mật khẩu
-                      </InputLabel>
+                      <InputLabel>Xác nhận mật khẩu</InputLabel>
                       <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showPassword ? "text" : "password"}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                            >
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        label="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                        label="Xác nhận mật khẩu"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                       />
                     </FormControl>
                   </Grid>
@@ -312,10 +335,16 @@ function ForgotPassword() {
       </Grid>
     </Grid>
   );
-}
+};
+const mapStateToProps = (state) => {
+  return {};
+};
 
-const mapStateToProps = (state) => {};
-
-const mapDispatchToProps = (dispatch) => {};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadingToggleAction: (status) =>
+      dispatch(actions.loadingToggleAction(status)),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);
