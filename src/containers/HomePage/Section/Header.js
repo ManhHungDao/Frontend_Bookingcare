@@ -31,7 +31,10 @@ const HomeHeader = ({ processLogout, isLoggedIn }) => {
   const handleClick = () => {
     setOpen(true);
   };
-
+  const handleClickMenuItem = (link) => {
+    setOpen(false);
+    navigate(link);
+  };
   return (
     <>
       <div className="home-header-container d-flex align-items-center">
@@ -165,7 +168,24 @@ const HomeHeader = ({ processLogout, isLoggedIn }) => {
                       "aria-labelledby": "basic-button",
                     }}
                   >
-                    <MenuItem>Đổi mật khẩu</MenuItem>
+                    <MenuItem
+                      onClick={() => handleClickMenuItem("/patient/account")}
+                    >
+                      Thông tin cá nhân
+                    </MenuItem>
+                    {/* <MenuItem onClick={() => handleClickMenuItem()}>
+                      Đơn đã khám
+                    </MenuItem>
+                    <MenuItem onClick={() => handleClickMenuItem()}>
+                      Đơn đặt lịch
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() =>
+                        handleClickMenuItem("/patient/change-password")
+                      }
+                    >
+                      Đổi mật khẩu
+                    </MenuItem> */}
                     <MenuItem onClick={processLogout}>Thoát</MenuItem>
                   </Menu>
                 </>

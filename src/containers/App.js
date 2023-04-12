@@ -11,7 +11,8 @@ import DoctorRoute from "../routes/DoctorRoute";
 import PatientRoute from "../routes/PatientRoute";
 import ManagerRoute from "../routes/ManagerRoute";
 import Loading from "../components/Loading";
-import AuthRoute from "../hoc/AuthRoute";
+import SystemAuthRoute from "../hoc/SystemAuthRoute";
+import PatienAuthtRoute from "../hoc/PatienAuthtRoute";
 //
 import HomePage from "../containers/HomePage/HomePage";
 import DetailDoctor from "../containers/Patient/Doctor/DetailDoctor";
@@ -78,42 +79,43 @@ class App extends Component {
               />
               <Route path={path.FEEDBACK} element={<Feedback />} />
 
-
-              
               {/* manager account patient */}
               <Route path={path.LOGIN} element={<PatientLogin />} />
               <Route path={path.FORGOT_PASSWORD} element={<ForgotPassword />} />
-              <Route
-                path={path.RESGISTER}
-                element={<PatientRegister />}
-              />
+              <Route path={path.RESGISTER} element={<PatientRegister />} />
 
               {/* route control */}
               <Route path={path.SYSTEM_LOGIN} element={<Login />} />
-              {/* <Route path={path.LOGIN} element={<Login />} /> */}
-              <Route path={path.PATIENT} element={<PatientRoute />} />
+              <Route
+                path={path.PATIENT}
+                element={
+                  <PatienAuthtRoute>
+                    <PatientRoute />
+                  </PatienAuthtRoute>
+                }
+              />
               <Route
                 path={path.ADMIN}
                 element={
-                  <AuthRoute>
+                  <SystemAuthRoute>
                     <AdminRoute />
-                  </AuthRoute>
+                  </SystemAuthRoute>
                 }
               />
               <Route
                 path={path.DOCTOR}
                 element={
-                  <AuthRoute>
+                  <SystemAuthRoute>
                     <DoctorRoute />
-                  </AuthRoute>
+                  </SystemAuthRoute>
                 }
               />
               <Route
                 path={path.MANAGER}
                 element={
-                  <AuthRoute>
+                  <SystemAuthRoute>
                     <ManagerRoute />
-                  </AuthRoute>
+                  </SystemAuthRoute>
                 }
               />
             </Routes>

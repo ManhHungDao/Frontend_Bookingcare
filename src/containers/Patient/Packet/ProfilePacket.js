@@ -90,10 +90,15 @@ const ProfilePacket = ({ id, language, fetchAllcode, allcodes }) => {
           <Avatar
             alt={data?.name ? data.name : ""}
             src={data?.image?.url ? data.image.url : ""}
-            sx={{ width: 100, height: 100 }}
+            sx={{ width: 100, height: 100, cursor: "pointer" }}
+            onClick={() => navigate(`/packet/${id}`)}
           />
           <Stack display={"flex"} gap={1}>
-            <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            <Typography
+              variant="h5"
+              sx={{ fontWeight: 600, cursor: "pointer" }}
+              onClick={() => navigate(`/packet/${id}`)}
+            >
               <span style={{ textTransform: "capitalize" }}>
                 &nbsp; {data?.name ? data.name : ""}
               </span>
