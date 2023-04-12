@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -21,17 +20,14 @@ import {
   FormControl,
   Stepper,
   Step,
-  StepButton,
+  FormControlLabel,
   CardMedia,
-  CardContent,
+  FormGroup,
   Stack,
   Select,
   MenuItem,
 } from "@mui/material";
-import { InputLabel, OutlinedInput, IconButton } from "@mui/material";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { InputLabel } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -57,6 +53,8 @@ function PatientRegister({ loadingToggleAction }) {
   const [name, setName] = useState("");
   const [confirmCode, setConfirmCode] = useState("");
   const [code, setCode] = useState("");
+  const [checked, setChecked] = useState(false);
+
   const [activeStep, setActiveStep] = React.useState(0);
   const navigate = useNavigate();
 
@@ -119,6 +117,10 @@ function PatientRegister({ loadingToggleAction }) {
       toast.warning("Xác nhận mật khẩu chưa chính xác");
       return;
     }
+    if (checked === false) {
+      toast.warning("Vui lòng xác nhận đồng ý điều khoản");
+      return;
+    }
     // gửi email chứa mã xác nhận
     const emailHTML = emailRegister(code, name, email);
     const mail = {
@@ -165,8 +167,6 @@ function PatientRegister({ loadingToggleAction }) {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
-  // step :
 
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
@@ -313,34 +313,16 @@ function PatientRegister({ loadingToggleAction }) {
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
-                    <FormControl fullWidth required variant="outlined">
-                      <InputLabel htmlFor="outlined-adornment-password">
-                        Mật khẩu
-                      </InputLabel>
-                      <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showPassword ? "text" : "password"}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                            >
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        label="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                    </FormControl>
+                    <TextField
+                      required
+                      fullWidth
+                      name="password"
+                      label="Mật khẩu"
+                      type="password"
+                      id="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
                     <TextField
@@ -353,7 +335,18 @@ function PatientRegister({ loadingToggleAction }) {
                     />
                   </Grid>
                 </Grid>
-
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={checked}
+                        onChange={(e) => setChecked(e.target.checked)}
+                        inputProps={{ "aria-label": "controlled" }}
+                      />
+                    }
+                    label="Tôi đồng ý với mọi điều khoản dược đưa ra."
+                  />
+                </FormGroup>
                 <Button
                   fullWidth
                   variant="contained"

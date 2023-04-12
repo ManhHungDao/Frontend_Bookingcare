@@ -71,6 +71,10 @@ const ForgotPassword = ({ loadingToggleAction }) => {
   const handleNextStep = async () => {
     try {
       if (password === confirmPassword) {
+        if (password.length < 8) {
+          toast.warning("Mật khẩu ít nhất 8 tí tự");
+          return;
+        }
         loadingToggleAction(true);
         let res = await patientResetPassword(email, password);
         if (res && res.success) {
@@ -235,22 +239,6 @@ const ForgotPassword = ({ loadingToggleAction }) => {
                         <InputLabel>Mật khẩu mới</InputLabel>
                         <OutlinedInput
                           type={showPassword ? "text" : "password"}
-                          endAdornment={
-                            <InputAdornment position="end">
-                              <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                                edge="end"
-                              >
-                                {showPassword ? (
-                                  <VisibilityOff />
-                                ) : (
-                                  <Visibility />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
-                          }
                           label="Mật khẩu mới"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
