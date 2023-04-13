@@ -5,7 +5,6 @@ import HomeHeader from "../../HomePage/Section/Header";
 import HomeFooter from "../../HomePage/Section/Footer";
 import Header from "../../../components/Header";
 import {
-  Grid,
   Box,
   Paper,
   Table,
@@ -13,12 +12,14 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
   IconButton,
   Tooltip,
   TextField,
   Container,
+  Stack,
+  Unstable_Grid2 as Grid,
+  Modal,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import { styled } from "@mui/material/styles";
@@ -30,8 +31,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import _ from "lodash";
-import DetailBooking from "./DetailBooking/DetailBooking";
-
+import { getDetailSchedule } from "../../../services/scheduleService";
+import {
+  ScheduleProfile,
+  DetailExam,
+  PatientProfile,
+} from "./section/DetailProfile";
 const ManageBooking = ({
   allcodeType,
   fetchAllcodeByType,
@@ -40,13 +45,34 @@ const ManageBooking = ({
   patientInfo,
   isSuccess,
   clearStatus,
+  updateStatusSchedule,
+  loadingToggleAction,
 }) => {
   const [date, setDate] = useState(
     dayjs(new Date().setHours(0, 0, 0)).format("D MMMM YYYY")
   );
   const [list, setList] = useState([]);
   const [open, setOpen] = useState(false);
-  const [dataView, setDataView] = useState("");
+  const [timeText, setTimeText] = useState("");
+  const [detailSchedule, setDetailSchedule] = useState("");
+  const [status, setStatus] = useState();
+
+  const fetchDataDetailSchedule = async (id, time) => {
+    try {
+      loadingToggleAction(true);
+      let res = await getDetailSchedule(id, time);
+      if (res && res.success) {
+        setDetailSchedule(res.schedule);
+        setStatus(res.schedule.schedule.status);
+        loadingToggleAction(false);
+        // foarmat data to component
+      } else {
+        loadingToggleAction(false);
+      }
+    } catch (error) {
+      loadingToggleAction(false);
+    }
+  };
 
   const fetchData = (date) => {
     const data = {
@@ -67,6 +93,9 @@ const ManageBooking = ({
 
   useEffect(() => {
     if (isSuccess === true) {
+      // let value = _.isArray(status) ? status[0] : status;
+      // setStatus(value);
+      setStatus("");
       setOpen(false);
       fetchData(dayjs(date).unix());
     }
@@ -90,10 +119,25 @@ const ManageBooking = ({
   };
 
   const handleClickView = (props) => {
-    setDataView(props);
+    let [time] = allcodeType.list.filter((i) => i._id === props.schedule.time);
+    setTimeText(time.valueVI);
+    fetchDataDetailSchedule(props._id, props.schedule.time);
     setOpen(true);
   };
-
+  const handleUploadStatus = () => {
+    if (!detailSchedule) return;
+    const [doctor] = detailSchedule.doctor;
+    const [packet] = detailSchedule.packet;
+    let value = _.isArray(status) ? status[0] : status;
+    let dataSend = {
+      status: value,
+      date: detailSchedule.date,
+      time: detailSchedule.schedule.time,
+      doctorId: doctor?._id ? doctor?._id : null,
+      packetId: packet?._id ? packet?._id : null,
+    };
+    updateStatusSchedule(dataSend);
+  };
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#64b9e5",
@@ -171,6 +215,22 @@ const ManageBooking = ({
       </>
     );
   };
+
+  const style = {
+    position: "absolute",
+    width: "90%",
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+    height: "fit-content",
+    maxHeight: "80vh",
+    overflowY: "scroll",
+    top: 0,
+    bottom: 0,
+    margin: "auto",
+    left: 0,
+    right: 0,
+  };
   return (
     <>
       <HomeHeader />
@@ -238,19 +298,43 @@ const ManageBooking = ({
           </TableContainer>
         </Container>
       </Box>
-      {dataView && (
-        <DetailBooking
+      {detailSchedule && open === true && (
+        <Modal
           open={open}
-          setOpen={setOpen}
-          id={dataView._id}
-          time={dataView.schedule.time}
-          textTime={
-            allcodeType.list.length > 0 &&
-            allcodeType.list.map((i) => {
-              if (i._id === dataView.schedule.time) return i.valueVI;
-            })
-          }
-        />
+          onClose={() => setOpen(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Box m="20px">
+              <Header title="Chi tiết lịch khám" />
+            </Box>
+            <Container maxWidth="lg">
+              <Stack>
+                {detailSchedule && (
+                  <>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} md={4}>
+                        <PatientProfile data={detailSchedule} />
+                      </Grid>
+                      <Grid item xs={12} md={4}>
+                        <DetailExam data={detailSchedule} />
+                      </Grid>
+                      <Grid item xs={12} md={4}>
+                        <ScheduleProfile
+                          status={status}
+                          time={timeText}
+                          setStatus={setStatus}
+                          handleSave={handleUploadStatus}
+                        />
+                      </Grid>
+                    </Grid>
+                  </>
+                )}
+              </Stack>
+            </Container>
+          </Box>
+        </Modal>
       )}
       <HomeFooter />
     </>
@@ -272,6 +356,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.fetchAllcodeByTypeHomeAction(data)),
     getAllBookingByEmail: (data) =>
       dispatch(actions.getAllBookingByEmailAction(data)),
+    sentMail: (data) => dispatch(actions.sentMailAction(data)),
+    updateStatusSchedule: (data) =>
+      dispatch(actions.updateStatusScheduleAction(data)),
+    loadingToggleAction: (status) =>
+      dispatch(actions.loadingToggleAction(status)),
+
     clearStatus: () => dispatch(actions.clearStatus()),
   };
 };

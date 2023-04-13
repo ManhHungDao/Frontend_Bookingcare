@@ -12,8 +12,9 @@ import {
   CardHeader,
   OutlinedInput,
 } from "@mui/material";
-import ButtonComponent from "../../../../../components/ButtonComponent";
+import ButtonComponent from "../../../../components/ButtonComponent";
 import dayjs from "dayjs";
+import _ from "lodash";
 
 export const PatientProfile = ({ data }) => {
   const user = data.schedule.user;
@@ -120,9 +121,10 @@ export const ScheduleProfile = ({ time, status, setStatus, handleSave }) => {
   if (status === "Chờ xác nhận") {
     statusList = ["Chờ xác nhận", "Đã xác nhận", "Đã hủy"];
   }
-  //   if (status === "Đã xác nhận") {
-  //     statusList = ["Đã hủy"];
-  //   }
+  if (_.isArray(status))
+    if (["Chờ xác nhận", "Đã xác nhận", "Đã hủy"].includes(status[0]))
+      statusList = ["Chờ xác nhận", "Đã xác nhận", "Đã hủy"];
+
   const handleChange = (event) => {
     const {
       target: { value },
@@ -141,7 +143,10 @@ export const ScheduleProfile = ({ time, status, setStatus, handleSave }) => {
           </Grid>
           <Grid item xs={12} md={6} lg={6}>
             <Box sx={{ minWidth: 120 }}>
-              <FormControl fullWidth disabled={status !== "Chờ xác nhận"}>
+              <FormControl
+                fullWidth
+                disabled={status === "Đã xác nhận" || status === "Đã hủy"}
+              >
                 <InputLabel id="demo-simple-select-label">
                   Trạng trái
                 </InputLabel>
@@ -170,7 +175,7 @@ export const ScheduleProfile = ({ time, status, setStatus, handleSave }) => {
             justifyContent="flex-end"
           >
             <ButtonComponent
-              disabled={status !== "Chờ xác nhận"}
+              disabled={status === "Đã xác nhận" || status === "Đã hủy"}
               content="Lưu"
               handleClick={handleSave}
               bgcolor="#94e2cd"

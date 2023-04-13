@@ -20,6 +20,7 @@ const ConfirmModal = ({
   confirmFunc,
   cancelFunc,
   type,
+  isShowTitle,
 }) => {
   const style = {
     position: "absolute",
@@ -41,9 +42,12 @@ const ConfirmModal = ({
         aria-describedby="modal-modal-description"
       >
         <Card sx={style}>
-          <CardHeader title={title} />
+          {isShowTitle === false ? <></> : <CardHeader title={title} />}
           <CardContent>
-            <Typography id="modal-modal-description" align="center">
+            <Typography
+              id="modal-modal-description"
+              align={isShowTitle === false ? "none" : "center"}
+            >
               {content}
             </Typography>
           </CardContent>

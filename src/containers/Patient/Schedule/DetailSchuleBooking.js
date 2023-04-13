@@ -4,7 +4,7 @@ import * as actions from "../../../store/actions";
 import { Box, Stack, Typography, Divider, Grid, Link } from "@mui/material";
 import _ from "lodash";
 
-const ProfileDoctor = ({ clinic, payment, price }) => {
+const DetailSchuleBooking = ({ clinic, payment, price }) => {
   return (
     <Stack
       display="flex"
@@ -66,4 +66,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchAllcode: () => dispatch(actions.fetchAllcodeAction()),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileDoctor);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DetailSchuleBooking);

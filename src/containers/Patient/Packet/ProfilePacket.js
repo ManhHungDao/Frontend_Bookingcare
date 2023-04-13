@@ -21,6 +21,8 @@ const ProfilePacket = ({ id, language, fetchAllcode, allcodes }) => {
     moment(new Date()).add(1, "days").startOf("day").valueOf()
   );
   const [timeSchedule, setTimeSchedule] = useState([]);
+  // tải lại lịch khám sau khi có người đặt
+  const [reLoad, setReLoad] = useState(false);
   const navigate = useNavigate();
 
   const getDataSchedule = async () => {
@@ -43,6 +45,12 @@ const ProfilePacket = ({ id, language, fetchAllcode, allcodes }) => {
       setPayment("");
     }
   };
+
+  useEffect(() => {
+    if (reLoad === false) return;
+    getDataSchedule();
+    setReLoad(false);
+  }, [reLoad]);
 
   useEffect(() => {
     const temp = moment(new Date()).add(1, "days").startOf("day").valueOf();
@@ -119,6 +127,7 @@ const ProfilePacket = ({ id, language, fetchAllcode, allcodes }) => {
               setDate={setDate}
               allcodes={allcodes}
               timeSchedule={timeSchedule}
+              setReLoad={setReLoad}
             />
           </Grid>
           <Grid item xs={12} md={6}>

@@ -32,6 +32,7 @@ const ScheduleTime = ({
   date,
   setDate,
   isLoggedIn,
+  setReLoad,
 }) => {
   const [allday, setAllday] = useState([]);
   const [codeTime, setCodeTime] = useState([]);
@@ -39,6 +40,7 @@ const ScheduleTime = ({
   const [timeBooking, setTimeBooking] = useState("");
   const [openConfirm, setOpenConfirm] = useState(false);
   const [openRequied, setOpenRequied] = useState(false);
+
   // data user booking
 
   useEffect(() => {
@@ -190,6 +192,7 @@ const ScheduleTime = ({
         codeTime={codeTime}
         dataBooking={dataBooking}
         setOpenConfirm={setOpenConfirm}
+        setReLoad={setReLoad}
       />
       <ConfirmModal
         open={openConfirm}
@@ -198,6 +201,7 @@ const ScheduleTime = ({
         content={`Vui lòng để ý điện thoại hoặc email để bộ phận chăm sóc khách hàng có thể liên hệ thông tin đến bạn. Xin cảm ơn`}
         type="CONFIRM"
         confirmFunc={handleConfirm}
+        isShowTitle={false}
       />
       <ModalRequiredLogin open={openRequied} setOpen={setOpenRequied} />
     </>

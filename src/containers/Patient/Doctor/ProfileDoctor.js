@@ -21,6 +21,8 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
     moment(new Date()).add(1, "days").startOf("day").valueOf()
   );
   const [timeSchedule, setTimeSchedule] = useState([]);
+  // tải lại lịch khám sau khi có người đặt
+  const [reLoad, setReLoad] = useState(false);
   const navigate = useNavigate();
 
   const getDataSchedule = async () => {
@@ -47,6 +49,12 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
   useEffect(() => {
     fetchAllcode();
   }, []);
+
+  useEffect(() => {
+    if (reLoad === false) return;
+    getDataSchedule();
+    setReLoad(false);
+  }, [reLoad]);
 
   useEffect(() => {
     getDataUser();
@@ -125,6 +133,7 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
               setDate={setDate}
               allcodes={allcodes}
               timeSchedule={timeSchedule}
+              setReLoad={setReLoad}
             />
           </Grid>
           <Grid item sm={12} md={6}>

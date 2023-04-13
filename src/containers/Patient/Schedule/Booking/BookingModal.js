@@ -43,6 +43,7 @@ const BookingModal = ({
   clearStatus,
   setOpenConfirm,
   sentMail,
+  setReLoad,
 }) => {
   const mobiScreen = useIsMobile();
   const [date, setDate] = useState(dayjs(new Date()));
@@ -160,6 +161,7 @@ const BookingModal = ({
         setDate(dayjs(new Date()));
         setOpen(false);
         setOpenConfirm(true);
+        setReLoad(true);
       }
       clearStatus();
     }
