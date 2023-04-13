@@ -46,7 +46,7 @@ const AccountInfo = ({
         setEmail(patient?.email);
         setPhone(patient?.phone);
         setGender(patient?.gender);
-        setDate(patient?.date);
+        setDate(patient?.dateOfBirth);
         setAddress({
           detail: patient?.address?.detail,
           province: patient?.address?.province,
@@ -87,7 +87,13 @@ const AccountInfo = ({
   return (
     <>
       <HomeHeader />
-      <Box sx={{ mt: "65px", p: 3 }}>
+      <Box
+        sx={{
+          p: 3,
+          paddingTop: "85px",
+          minHeight: `calc(100vh - 225px)`,
+        }}
+      >
         <Container>
           <Header title="Thông tin cá nhân" />
           <Grid container spacing={2}>

@@ -159,7 +159,7 @@ const TableManageUser = (props) => {
   };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
-      <StyledTableCell>Người dùng</StyledTableCell>
+      <StyledTableCell>Bác sĩ</StyledTableCell>
       <StyledTableCell>Email</StyledTableCell>
       <StyledTableCell>Số điện thoại</StyledTableCell>
       <StyledTableCell>Địa chỉ</StyledTableCell>
@@ -230,7 +230,7 @@ const TableManageUser = (props) => {
     <>
       <Box m="20px">
         <Header
-          title="Danh sách người dùng"
+          title="Danh sách bác sĩ"
           subtitle="Quản lý thành viên"
           titleBtn="Thêm mới"
           isShowBtn={true}
@@ -327,7 +327,7 @@ const TableManageUser = (props) => {
         <ConfirmModal
           open={openConfirmModal}
           setOpen={setOpenConfirmModal}
-          title="Xóa người dùng"
+          title="Xóa bác sĩ"
           content={`${userDelete?.name ? userDelete.name : ""}`}
           type="DELETE"
           confirmFunc={handleDeleteUser}

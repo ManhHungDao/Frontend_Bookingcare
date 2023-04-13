@@ -270,7 +270,7 @@ const DetailUser = ({
         <Box sx={style}>
           <Box m="20px">
             <Header
-              title="Chi tiết người dùng"
+              title="Chi tiết bác sĩ"
               isShowSwitch={roleId !== "R0" ? true : false}
               titleSwich={"Chỉnh sửa"}
               isChecked={enableEdit}

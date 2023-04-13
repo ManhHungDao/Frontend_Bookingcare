@@ -16,7 +16,7 @@ const ChangePassword = ({
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  
+
   useEffect(() => {
     if (changPassSuccess === true) {
       setOldPassword("");
@@ -45,7 +45,13 @@ const ChangePassword = ({
   return (
     <>
       <HomeHeader />
-      <Box sx={{ mt: "65px", p: 3 }}>
+      <Box
+        sx={{
+          p: 3,
+          paddingTop: "85px",
+          minHeight: `calc(100vh - 225px)`,
+        }}
+      >
         <Container>
           <Header title="đổi mật khẩu" />
           <Grid container display="flex" justifyContent={"center"}>

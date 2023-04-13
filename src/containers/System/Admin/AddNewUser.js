@@ -215,7 +215,7 @@ const AddNewUser = ({
   return (
     <>
       <Box m="20px">
-        <Header title="Thêm Mới Người Dùng" />
+        <Header title="Thêm Mới Bác Sĩ" />
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <Grid container spacing={2}>

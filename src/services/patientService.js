@@ -35,6 +35,12 @@ const updateInforAccount = (id, data) => {
   return axios.put(`/api/update-infor-account?id=${id}`, data);
 };
 
+const getAllBookingByEmail = (data) => {
+  return axios.get(
+    `/api/get-schedule-by-email?email=${data.email}&date=${data.date}`
+  );
+};
+
 export {
   registerAccount,
   sentMail,
@@ -43,4 +49,5 @@ export {
   patientResetPassword,
   getInforAccount,
   updateInforAccount,
+  getAllBookingByEmail,
 };

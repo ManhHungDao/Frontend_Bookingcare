@@ -104,17 +104,15 @@ const FormData = ({
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
       <StyledTableCell>Loại</StyledTableCell>
-      <StyledTableCell>Tên tiếng anh</StyledTableCell>
-      <StyledTableCell>Tên tiếng việt</StyledTableCell>
+      <StyledTableCell>Giá trị</StyledTableCell>
       <StyledTableCell></StyledTableCell>
     </TableRow>
   );
   const TableColumn = (props) => {
-    const { id, valueEN, valueVI, type } = props;
+    const { id, valueVI, type } = props;
     return (
       <TableRow>
         <TableCell>{type ? type : "-"}</TableCell>
-        <TableCell>{valueEN ? valueEN : "-"}</TableCell>
         <TableCell>{valueVI ? valueVI : "-"}</TableCell>
         <TableCell>
           <Tooltip title="Chỉnh sửa">
@@ -155,15 +153,7 @@ const FormData = ({
                 value={valueVI}
               />
             </Grid>
-            <Grid item xs={12} md={12}>
-              <TextField
-                id="outlined-required"
-                label="Tên tiếng anh"
-                fullWidth
-                onChange={(e) => setValueEN(e.target.value)}
-                value={valueEN}
-              />
-            </Grid>
+
             <Grid item xs={12} md={6}>
               <TextField
                 id="outlined-required"

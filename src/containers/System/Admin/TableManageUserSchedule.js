@@ -174,7 +174,7 @@ const TableManageUserSchedule = ({
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
       <StyledTableCell></StyledTableCell>
-      <StyledTableCell>Người dùng</StyledTableCell>
+      <StyledTableCell>Bác sĩ</StyledTableCell>
       <StyledTableCell>Email</StyledTableCell>
       <StyledTableCell>Cơ sở</StyledTableCell>
       <StyledTableCell>Chuyên khoa</StyledTableCell>
@@ -332,7 +332,7 @@ const TableManageUserSchedule = ({
   return (
     <>
       <Box m="20px">
-        <Header title="danh sách lịch khám người dùng" />
+        <Header title="danh sách lịch khám bác sĩ" />
         <Box m="20px 0 0 0">
           <Box m="0 0 7px 0">
             <Grid container spacing={2}>

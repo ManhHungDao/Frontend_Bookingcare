@@ -2,7 +2,7 @@ import actionTypes from "./actionTypes";
 
 import {
   patientLogin,
-  getInforAccount,
+  getAllBookingByEmail,
   updateInforAccount,
   patientChangePassword,
 } from "../../services/patientService";
@@ -78,4 +78,29 @@ export const changePasswordAccountAction = (email, oldPass, newPass) => {
     }
   };
 };
-// cần thay đổi api
+
+export const getAllBookingByEmailAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getAllBookingByEmail(data);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.GET_ALL_BOOKING_BY_EMAIL_SUCCEED,
+          data: res.schedule,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.GET_ALL_BOOKING_BY_EMAIL_FAILED,
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.GET_ALL_BOOKING_BY_EMAIL_FAILED,
+      });
+      dispatch(loadingToggleAction(false));
+    }
+  };
+};

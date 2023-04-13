@@ -142,7 +142,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               icon={<PermIdentityOutlinedIcon />}
             >
               <Item
-                title="Thêm người dùng"
+                title="Thêm bác sĩ"
                 to="/admin/add-user"
                 icon={<PersonAddAltIcon />}
                 selected={selected}
@@ -150,7 +150,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
               <Item
-                title="Danh sách người dùng"
+                title="Danh sách bác sĩ"
                 to="/admin/manage-user"
                 icon={<PeopleOutlinedIcon />}
                 selected={selected}
@@ -167,7 +167,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 setSelected={setSelected}
               />
               <Item
-                title="Lịch khám người dùng"
+                title="Lịch khám bác sĩ"
                 to="/admin/manage-user-schedule"
                 icon={<PendingActionsIcon />}
                 selected={selected}
