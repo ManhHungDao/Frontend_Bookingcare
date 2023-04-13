@@ -58,6 +58,11 @@ const patientCheckAllowUpdateFeedback = (data) => {
     },
   });
 };
+
+const getDetailSchedule = (id, time) => {
+  return axios.get(`/api/get-detail-schedule?id=${id}&time=${time}`);
+};
+
 export {
   upsertSchedule,
   getSingleUserSchedule,
@@ -71,4 +76,5 @@ export {
   patientConfirmBooking,
   patientUpdateFeedback,
   patientCheckAllowUpdateFeedback,
+  getDetailSchedule,
 };

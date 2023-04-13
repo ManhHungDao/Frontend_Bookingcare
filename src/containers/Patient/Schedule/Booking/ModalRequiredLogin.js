@@ -30,9 +30,9 @@ export default function ModalRequiredLogin({ open, setOpen }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          {/* <Typography id="modal-modal-title" variant="h6" component="h2">
             Thông báo
-          </Typography>
+          </Typography> */}
           <Typography id="modal-modal-description" sx={{ m: 2 }}>
             Bạn cần đăng nhập để có thể đặt lịch khám
           </Typography>

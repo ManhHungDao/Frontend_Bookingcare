@@ -30,6 +30,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import _ from "lodash";
+import DetailBooking from "./DetailBooking/DetailBooking";
 
 const ManageBooking = ({
   allcodeType,
@@ -37,11 +38,15 @@ const ManageBooking = ({
   getAllBookingByEmail,
   listBookingByEmail,
   patientInfo,
+  isSuccess,
+  clearStatus,
 }) => {
   const [date, setDate] = useState(
     dayjs(new Date().setHours(0, 0, 0)).format("D MMMM YYYY")
   );
   const [list, setList] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [dataView, setDataView] = useState("");
 
   const fetchData = (date) => {
     const data = {
@@ -61,6 +66,14 @@ const ManageBooking = ({
   }, []);
 
   useEffect(() => {
+    if (isSuccess === true) {
+      setOpen(false);
+      fetchData(dayjs(date).unix());
+    }
+    clearStatus();
+  }, [isSuccess]);
+
+  useEffect(() => {
     if (!_.isEmpty(listBookingByEmail) && listBookingByEmail.length > 0)
       setList(listBookingByEmail);
     else {
@@ -71,9 +84,16 @@ const ManageBooking = ({
   useEffect(() => {
     fetchData(dayjs(date).unix());
   }, [date]);
+
   const handleRefresh = () => {
-    setDate(dayjs(new Date().setHours(0, 0, 0)));
+    fetchData(dayjs(date).unix());
   };
+
+  const handleClickView = (props) => {
+    setDataView(props);
+    setOpen(true);
+  };
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#64b9e5",
@@ -114,7 +134,7 @@ const ManageBooking = ({
             {allcodeType.list.length > 0 &&
               allcodeType.list.map((i) => {
                 if (i._id === schedule.time) return i.valueVI;
-              })}{" "}
+              })}
             - {dayjs.unix(date).format("DD/MM/YYYY")}
           </StyledTableCell>
           <StyledTableCell>
@@ -141,7 +161,7 @@ const ManageBooking = ({
             )}
           </StyledTableCell>
           <StyledTableCell>
-            <Tooltip title="Xem">
+            <Tooltip title="Xem" onClick={() => handleClickView(props)}>
               <IconButton>
                 <RemoveRedEyeRoundedIcon />
               </IconButton>
@@ -218,7 +238,20 @@ const ManageBooking = ({
           </TableContainer>
         </Container>
       </Box>
-
+      {dataView && (
+        <DetailBooking
+          open={open}
+          setOpen={setOpen}
+          id={dataView._id}
+          time={dataView.schedule.time}
+          textTime={
+            allcodeType.list.length > 0 &&
+            allcodeType.list.map((i) => {
+              if (i._id === dataView.schedule.time) return i.valueVI;
+            })
+          }
+        />
+      )}
       <HomeFooter />
     </>
   );
@@ -229,6 +262,7 @@ const mapStateToProps = (state) => {
     allcodeType: state.client.allcodeType,
     listBookingByEmail: state.patient.listBookingByEmail,
     patientInfo: state.patient.patientInfo,
+    isSuccess: state.app.isSuccess,
   };
 };
 
@@ -238,6 +272,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.fetchAllcodeByTypeHomeAction(data)),
     getAllBookingByEmail: (data) =>
       dispatch(actions.getAllBookingByEmailAction(data)),
+    clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ManageBooking);
