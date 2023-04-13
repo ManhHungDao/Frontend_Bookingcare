@@ -30,6 +30,9 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import localization from "moment/locale/vi";
 import moment from "moment";
 import { emailConfirm } from "../../../../data/emailConfirm";
+import { getInforAccount } from "../../../../services/patientService";
+import { toast } from "react-toastify";
+
 const CONST_GENDER = [
   { id: "M", name: "Nam" },
   { id: "F", name: "Nữ" },
@@ -45,10 +48,11 @@ const BookingModal = ({
   setOpenConfirm,
   sentMail,
   setReLoad,
+  patientInfo,
+  loadingToggleAction,
 }) => {
   const mobiScreen = useIsMobile();
   const [date, setDate] = useState(dayjs(new Date()));
-  const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState({
@@ -57,7 +61,7 @@ const BookingModal = ({
   });
   const [gender, setGender] = useState("");
   const [reason, setReason] = useState("");
-  const [typeBooking, setTypeBooking] = useState("A");
+  const [typeBooking, setTypeBooking] = useState("self");
   const [errors, setErrors] = useState({});
   const style = {
     position: "absolute",
@@ -76,16 +80,14 @@ const BookingModal = ({
   };
   const checkValidate = () => {
     let errors = {};
-    if (!email) errors.email = "Email không được bỏ trống";
-    if (!validator.isEmail(email)) {
-      errors.email = "Email không hợp lệ";
+    if (typeBooking === "family") {
+      if (!name) errors.name = "Tên không được bỏ trống";
+      if (!gender) errors.gender = "Chưa chọn giới tính";
+      if (!address.detail) errors.address = "Địa chỉ không được bỏ trống";
+      if (!phone) errors.phone = "Số điện thoại không được bỏ trống";
+      if (!validator.isMobilePhone(phone))
+        errors.phone = "Số điện thoại không hợp lệ";
     }
-    if (!name) errors.name = "Tên không được bỏ trống";
-    if (!gender) errors.gender = "Chưa chọn giới tính";
-    if (!address.detail) errors.address = "Địa chỉ không được bỏ trống";
-    if (!phone) errors.phone = "Số điện thoại không được bỏ trống";
-    if (!validator.isMobilePhone(phone))
-      errors.phone = "Số điện thoại không hợp lệ";
     if (!reason) errors.reason = "Mô tả không được bỏ trống";
     return errors;
   };
@@ -94,64 +96,93 @@ const BookingModal = ({
     let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
     return count === 0;
   };
-  const handleSave = () => {
-    const errors = checkValidate();
-    const checkValidInPut = isValid(errors);
-    if (!checkValidInPut) {
-      setErrors(errors);
-      return;
+  const handleSave = async () => {
+    try {
+      const errors = checkValidate();
+      const checkValidInPut = isValid(errors);
+      if (!checkValidInPut) {
+        setErrors(errors);
+        return;
+      }
+      console.log("vao day", typeBooking);
+      let dataSent = {
+        doctorId: dataBooking.doctorId,
+        packetId: dataBooking.packetId,
+        time: dataBooking.timeBooking,
+        date: dataBooking.dateBooking,
+      };
+      loadingToggleAction(true);
+      if (typeBooking === "self") {
+        let res = await getInforAccount(patientInfo._id);
+        if (res && res.success) {
+          const infor = res.patient;
+          dataSent = {
+            ...dataSent,
+            patient: {
+              date: infor.dateOfBirth,
+              name: infor.name,
+              email: infor.email,
+              gender: infor.gender,
+              phone: infor.phone,
+              reason,
+              address: infor.address.detail,
+            },
+          };
+        }
+      } else {
+        dataSent = {
+          ...dataSent,
+          patient: {
+            date: dayjs(date).format("YYYY-MM-DD"),
+            name,
+            email: patientInfo.email,
+            gender: gender.value,
+            phone,
+            reason,
+            address: address.detail,
+          },
+        };
+      }
+      createUserBookingSchedule(dataSent);
+      loadingToggleAction(false);
+    } catch (error) {
+      loadingToggleAction(false);
     }
-    const data = {
-      doctorId: dataBooking.doctorId,
-      packetId: dataBooking.packetId,
-      time: dataBooking.timeBooking,
-      date: dataBooking.dateBooking,
-      patient: {
-        date: dayjs(date).format("YYYY-MM-DD"),
-        name,
-        email,
-        gender: gender.value,
-        phone,
-        reason,
-        address: address.detail,
-      },
-    };
-    createUserBookingSchedule(data);
   };
 
   useEffect(() => {
     if (isSuccess !== null) {
       if (isSuccess === true) {
-        if (!email) return;
-
+        // if (!email) return;
+        // cấu hình gửi thư xác nhận đặt lịch khám
         // chỉnh sửa thông tin gửi trong email
-        const [time] = codeTime.filter((i) => i.id === dataBooking.timeBooking);
-        const date = moment.unix(dataBooking.dateBooking).format("DD/MM/YYYY");
-        const data = {
-          time: time.name ? time.name : "",
-          date: date ? date : "",
-          doctorName: dataBooking.doctorId === null ? "" : dataBooking.nameData,
-          packetName: dataBooking.packetId === null ? "" : dataBooking.nameData,
-          clinic: dataBooking.clinic ? dataBooking.clinic : "",
-          specialty: dataBooking.specialty ? dataBooking.specialty : "",
-          linkAccept: `http://localhost:3000/confirm-booking?date=${dataBooking.dateBooking}&time=${dataBooking.timeBooking}&doctorId=${dataBooking.doctorId}&packetId=${dataBooking.packetId}&email=${email}`,
-          linkCancel: `http://localhost:3000/confirm-booking?date=${
-            dataBooking.dateBooking
-          }&time=${dataBooking.timeBooking}&doctorId=${
-            dataBooking.doctorId
-          }&packetId=${dataBooking.packetId}&email=${email}&cancel=${true}`,
-        };
+        // const [time] = codeTime.filter((i) => i.id === dataBooking.timeBooking);
+        // const date = moment.unix(dataBooking.dateBooking).format("DD/MM/YYYY");
+        // const data = {
+        //   time: time.name ? time.name : "",
+        //   date: date ? date : "",
+        //   doctorName: dataBooking.doctorId === null ? "" : dataBooking.nameData,
+        //   packetName: dataBooking.packetId === null ? "" : dataBooking.nameData,
+        //   clinic: dataBooking.clinic ? dataBooking.clinic : "",
+        //   specialty: dataBooking.specialty ? dataBooking.specialty : "",
+        //   linkAccept: `http://localhost:3000/confirm-booking?date=${dataBooking.dateBooking}&time=${dataBooking.timeBooking}&doctorId=${dataBooking.doctorId}&packetId=${dataBooking.packetId}&email=${email}`,
+        //   linkCancel: `http://localhost:3000/confirm-booking?date=${
+        //     dataBooking.dateBooking
+        //   }&time=${dataBooking.timeBooking}&doctorId=${
+        //     dataBooking.doctorId
+        //   }&packetId=${dataBooking.packetId}&email=${email}&cancel=${true}`,
+        // };
 
-        const emailConfirmHTML = emailConfirm(name, data);
-        const mail = {
-          to: email,
-          subject: "Xác nhận đặt lịch khám",
-          html: emailConfirmHTML,
-        };
-        sentMail(mail);
+        // const emailConfirmHTML = emailConfirm(name, data);
+        // const mail = {
+        //   to: email,
+        //   subject: "Xác nhận đặt lịch khám",
+        //   html: emailConfirmHTML,
+        // };
+        // sentMail(mail);
+
         // sent email confirm to patient
         setErrors("");
-        setEmail("");
         setPhone("");
         setName("");
         setAddress({
@@ -164,6 +195,7 @@ const BookingModal = ({
         setOpen(false);
         setOpenConfirm(true);
         setReLoad(true);
+        clearStatus();
       }
       clearStatus();
     }
@@ -252,7 +284,7 @@ const BookingModal = ({
                   <FormControl>
                     <div>
                       <Radio
-                        {...controlProps("A")}
+                        {...controlProps("self")}
                         color="primary"
                         sx={{
                           "& .MuiSvgIcon-root": {
@@ -262,7 +294,7 @@ const BookingModal = ({
                       />
                       Đặt cho mình
                       <Radio
-                        {...controlProps("B")}
+                        {...controlProps("family")}
                         color="primary"
                         sx={{
                           "& .MuiSvgIcon-root": {
@@ -274,7 +306,7 @@ const BookingModal = ({
                     </div>
                   </FormControl>
                 </Grid>
-                {typeBooking === "B" && (
+                {typeBooking === "family" && (
                   <>
                     {/* <Grid xs={12} md={6}>
                       <TextField
@@ -426,7 +458,7 @@ const BookingModal = ({
                     </Stack>
                   </Box>
                 </Grid>
-                {typeBooking === "B" && (
+                {typeBooking === "family" && (
                   <Grid item xs={12} md={12}>
                     <Box
                       p={1}
@@ -475,6 +507,7 @@ const BookingModal = ({
 const mapStateToProps = (state) => {
   return {
     isSuccess: state.app.isSuccess,
+    patientInfo: state.patient.patientInfo,
   };
 };
 
@@ -484,6 +517,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.createUserBookingScheduleAction(data)),
     sentMail: (data) => dispatch(actions.sentMailConfirmAction(data)),
     clearStatus: () => dispatch(actions.clearStatus()),
+    loadingToggleAction: (status) =>
+      dispatch(actions.loadingToggleAction(status)),
   };
 };
 

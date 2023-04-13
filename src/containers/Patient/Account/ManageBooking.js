@@ -83,12 +83,11 @@ const ManageBooking = ({
   };
 
   useEffect(() => {
-    if (_.isEmpty(allcodeType))
-      fetchAllcodeByType({
-        page: 1,
-        size: 999,
-        filter: "TIME",
-      });
+    fetchAllcodeByType({
+      page: 1,
+      size: 999,
+      filter: "TIME",
+    });
   }, []);
 
   useEffect(() => {
