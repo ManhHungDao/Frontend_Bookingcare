@@ -29,7 +29,8 @@ const PatientLogin = ({ LoginAction, patientInfo, isPatientLoggedIn }) => {
   };
 
   useEffect(() => {
-    if (isPatientLoggedIn === true) navigate("/");
+    // if (isPatientLoggedIn === true) navigate("/");
+    if (isPatientLoggedIn === true) navigate(-1);
   }, [isPatientLoggedIn]);
 
   return (

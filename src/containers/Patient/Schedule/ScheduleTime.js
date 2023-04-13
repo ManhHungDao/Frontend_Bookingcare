@@ -19,6 +19,8 @@ import BookingModal from "../Schedule/Booking/BookingModal";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 import { getSingleUserSchedule } from "../../../services/scheduleService";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
+import { toast } from "react-toastify";
+import ModalRequiredLogin from "./Booking/ModalRequiredLogin";
 
 const ScheduleTime = ({
   language,
@@ -29,12 +31,14 @@ const ScheduleTime = ({
   timeSchedule,
   date,
   setDate,
+  isLoggedIn,
 }) => {
   const [allday, setAllday] = useState([]);
   const [codeTime, setCodeTime] = useState([]);
   const [open, setOpen] = useState(false);
   const [timeBooking, setTimeBooking] = useState("");
   const [openConfirm, setOpenConfirm] = useState(false);
+  const [openRequied, setOpenRequied] = useState(false);
   // data user booking
 
   useEffect(() => {
@@ -82,6 +86,10 @@ const ScheduleTime = ({
   };
 
   const handleClickTime = (time) => {
+    if (isLoggedIn === false) {
+      setOpenRequied(true);
+      return;
+    }
     setTimeBooking(time);
     setOpen(true);
   };
@@ -191,12 +199,14 @@ const ScheduleTime = ({
         type="CONFIRM"
         confirmFunc={handleConfirm}
       />
+      <ModalRequiredLogin open={openRequied} setOpen={setOpenRequied} />
     </>
   );
 };
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    isLoggedIn: state.patient.isPatientLoggedIn,
     allcodes: state.admin.allcodes,
   };
 };

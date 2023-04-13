@@ -302,7 +302,7 @@ const TableManageUser = (props) => {
           </TableContainer>
           {users && (
             <TablePagination
-              rowsPerPageOptions={[10, 15, 25]}
+              rowsPerPageOptions={[10, 25, 50]}
               component="div"
               count={parseInt(props.users?.count ? props.users.count : 0)}
               rowsPerPage={rowsPerPage}

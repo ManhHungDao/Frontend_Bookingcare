@@ -422,7 +422,7 @@ const TableManageUserSchedule = ({
           </TableContainer>
           {scheduleUser && (
             <TablePagination
-              rowsPerPageOptions={[10, 15, 25]}
+              rowsPerPageOptions={[10, 25, 50]}
               component="div"
               count={parseInt(scheduleUser?.count ? scheduleUser.count : 0)}
               rowsPerPage={rowsPerPage}

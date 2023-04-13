@@ -229,7 +229,7 @@ const TableManageClinic = ({
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[10, 15, 25]}
+            rowsPerPageOptions={[10, 25, 50]}
             component="div"
             count={parseInt(listClinic?.count ? listClinic.count : 0)}
             rowsPerPage={rowsPerPage}

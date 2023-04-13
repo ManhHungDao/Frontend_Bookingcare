@@ -648,7 +648,7 @@ const ManageUserSchedule = ({
 
             {users && (
               <TablePagination
-                rowsPerPageOptions={[10, 15, 25]}
+                rowsPerPageOptions={[10, 25, 50]}
                 component="div"
                 count={parseInt(listUser?.count ? listUser.count : 0)}
                 rowsPerPage={rowsPerPage}

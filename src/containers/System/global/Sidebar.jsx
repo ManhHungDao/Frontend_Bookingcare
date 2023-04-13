@@ -142,15 +142,6 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               icon={<PermIdentityOutlinedIcon />}
             >
               <Item
-                title="Danh sách người dùng"
-                to="/admin/manage-account-patient"
-                icon={<PeopleOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Divider />
-              <Item
                 title="Thêm bác sĩ"
                 to="/admin/add-user"
                 icon={<PersonAddAltIcon />}
@@ -179,6 +170,15 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 title="Lịch khám bác sĩ"
                 to="/admin/manage-user-schedule"
                 icon={<PendingActionsIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+              <Divider />
+              <Item
+                title="Danh sách người dùng"
+                to="/admin/manage-account-patient"
+                icon={<PeopleOutlinedIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}

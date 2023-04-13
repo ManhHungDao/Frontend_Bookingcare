@@ -634,7 +634,7 @@ const ManagePacketSchedule = ({
 
             {packets && (
               <TablePagination
-                rowsPerPageOptions={[10, 15, 25]}
+                rowsPerPageOptions={[10, 25, 50]}
                 component="div"
                 count={parseInt(listPacket?.count ? listPacket.count : 0)}
                 rowsPerPage={rowsPerPage}

@@ -188,7 +188,7 @@ const FormData = ({
           </TableContainer>
           {data && (
             <TablePagination
-              rowsPerPageOptions={[10, 15, 25]}
+              rowsPerPageOptions={[10, 25, 50]}
               component="div"
               count={parseInt(count ? count : 0)}
               rowsPerPage={rowsPerPage}
