@@ -29,7 +29,7 @@ import VaccinesOutlinedIcon from "@mui/icons-material/VaccinesOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
 import EarbudsIcon from "@mui/icons-material/Earbuds";
-import LocalMallIcon from '@mui/icons-material/LocalMall';
+import LocalMallIcon from "@mui/icons-material/LocalMall";
 
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
@@ -141,6 +141,15 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               title={isCollapsed ? "" : "Người dùng"}
               icon={<PermIdentityOutlinedIcon />}
             >
+              <Item
+                title="Danh sách người dùng"
+                to="/admin/manage-account-patient"
+                icon={<PeopleOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+              <Divider />
               <Item
                 title="Thêm bác sĩ"
                 to="/admin/add-user"

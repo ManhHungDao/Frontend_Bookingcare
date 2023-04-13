@@ -20,6 +20,7 @@ import ManagePacketSchedule from "../containers/System/Clinic/ManagePacketSchedu
 import AddPacket from "../containers/System/Clinic/AddPacket";
 import TableManagePacket from "../containers/System/Clinic/TableManagePacket";
 import TableManagePacketSchedule from "../containers/System/Clinic/TableManagePacketSchedule";
+import TableManageAccountPatient from "../containers/System/Admin/TableManageAccountPatient";
 import { CssBaseline } from "@mui/material";
 import "./style.css";
 const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
@@ -34,6 +35,10 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
           <Routes>
             <Route index element={<Dashboard />} />
             <Route path="reset-password" element={<ResetPassword />} />
+            <Route
+              path="manage-account-patient"
+              element={<TableManageAccountPatient />}
+            />
             <Route path="add-user" element={<AddNewUser />} />
             <Route path="manage-user" element={<TableManageUser />} />
             <Route path="add-user-schedule" element={<ManageUserSchedule />} />

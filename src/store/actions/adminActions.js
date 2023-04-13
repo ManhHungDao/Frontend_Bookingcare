@@ -45,7 +45,6 @@ import {
   updateStatus,
   getSchedulePacketByDate,
   getSinglePacketSchedule,
-  
 } from "../../services/scheduleService";
 
 import {
@@ -55,6 +54,8 @@ import {
   updatePacket,
   getAllPacket,
 } from "../../services/packetService";
+
+import { getAllAccountPatient } from "../../services/patientService";
 
 import { toast } from "react-toastify";
 
@@ -907,6 +908,33 @@ export const updatePacketAction = (id, data) => {
         type: actionTypes.UPDATE_FAILED,
       });
       toast.error("Cập nhập gói khám thất bại");
+    }
+  };
+};
+
+// ACCOUNT PATIENT
+
+export const getAllAccountPatientAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getAllAccountPatient(data);
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.GET_ALL_ACCOUNT_PATIENT_SUCCESS,
+          data: {
+            list: res.users,
+            count: res.count,
+          },
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_ALL_ACCOUNT_PATIENT_FAILED,
+      });
+      toast.error("Lấy danh sách thất bại");
     }
   };
 };

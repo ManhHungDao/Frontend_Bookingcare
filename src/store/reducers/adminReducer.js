@@ -14,6 +14,7 @@ const initialState = {
   listPacket: [],
   schedules: [],
   listSpecialtyInHandbook: [],
+  listAccountPatient: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -139,6 +140,18 @@ const adminReducer = (state = initialState, action) => {
         listPacket: [],
       };
     }
+
+    // ACOUNT PATIENT
+    case actionTypes.GET_ALL_ACCOUNT_PATIENT_SUCCESS: {
+      return { ...state, listAccountPatient: action.data };
+    }
+    case actionTypes.GET_ALL_ACCOUNT_PATIENT_FAILED: {
+      return {
+        ...state,
+        listAccountPatient: [],
+      };
+    }
+
     default:
       return state;
   }

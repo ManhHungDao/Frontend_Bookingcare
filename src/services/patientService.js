@@ -40,6 +40,15 @@ const getAllBookingByEmail = (data) => {
     `/api/get-schedule-by-email?email=${data.email}&date=${data.date}`
   );
 };
+const getAllAccountPatient = (data) => {
+  return axios.get(
+    `/api/get-all-account-patient?page=${data.page}&size=${data.size}&filter=${data.filter}`
+  );
+};
+
+const deleteAccountPatient = (id) => {
+  return axios.delete(`/api/delete-account-patient?id=${id}`);
+};
 
 export {
   registerAccount,
@@ -50,4 +59,6 @@ export {
   getInforAccount,
   updateInforAccount,
   getAllBookingByEmail,
+  getAllAccountPatient,
+  deleteAccountPatient,
 };
