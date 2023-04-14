@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import HomeHeader from "../../HomePage/Section/Header";
@@ -56,6 +56,7 @@ const ManageBooking = ({
   const [timeText, setTimeText] = useState("");
   const [detailSchedule, setDetailSchedule] = useState("");
   const [status, setStatus] = useState();
+  const curStatus = useRef();
 
   const fetchDataDetailSchedule = async (id, time) => {
     try {
@@ -64,6 +65,7 @@ const ManageBooking = ({
       if (res && res.success) {
         setDetailSchedule(res.schedule);
         setStatus(res.schedule.schedule.status);
+        curStatus.current = res.schedule.schedule.status;
         loadingToggleAction(false);
         // foarmat data to component
       } else {
@@ -89,6 +91,11 @@ const ManageBooking = ({
       filter: "TIME",
     });
   }, []);
+
+  // useEffect(() => {
+  //   if (curStatus.current !== "Chờ xác nhận" && !status) return;
+  //   handleUploadStatus();
+  // }, [status]);
 
   useEffect(() => {
     if (isSuccess === true) {
@@ -123,11 +130,11 @@ const ManageBooking = ({
     fetchDataDetailSchedule(props._id, props.schedule.time);
     setOpen(true);
   };
-  const handleUploadStatus = () => {
+  const handleUploadStatus = (status) => {
     if (!detailSchedule) return;
     const [doctor] = detailSchedule.doctor;
     const [packet] = detailSchedule.packet;
-    let value = _.isArray(status) ? status[0] : status;
+    let value = status;
     let dataSend = {
       status: value,
       date: detailSchedule.date,
@@ -174,7 +181,7 @@ const ManageBooking = ({
           <StyledTableCell>{doctor?.name ? doctor.name : "-"}</StyledTableCell>
           <StyledTableCell>{packet?.name ? packet.name : "-"}</StyledTableCell>
           <StyledTableCell>
-            {allcodeType.list.length > 0 &&
+            {allcodeType?.list?.length > 0 &&
               allcodeType.list.map((i) => {
                 if (i._id === schedule.time) return i.valueVI;
               })}
@@ -244,7 +251,7 @@ const ManageBooking = ({
           <Header title="quản lý lịch khám" />
           <Box mb={"7px"}>
             <Grid container spacing={2}>
-              <Grid item xs={12} md={3}>
+              <Grid item sm={4} xs={6} md={3}>
                 <LocalizationProvider
                   dateAdapter={AdapterDayjs}
                   adapterLocale="vi"
@@ -261,7 +268,7 @@ const ManageBooking = ({
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item sm={6} md={3} display="flex" alignItems="center">
+              <Grid item xs={4} md={3} display="flex" alignItems="center">
                 <Tooltip title="Làm mới">
                   <IconButton
                     onClick={() => {
@@ -317,7 +324,10 @@ const ManageBooking = ({
                         <PatientProfile data={detailSchedule} />
                       </Grid>
                       <Grid item xs={12} md={4}>
-                        <DetailExam data={detailSchedule} />
+                        <DetailExam
+                          data={detailSchedule}
+                          enableFeeback={status === "Hoàn thành" ? true : false}
+                        />
                       </Grid>
                       <Grid item xs={12} md={4}>
                         <ScheduleProfile

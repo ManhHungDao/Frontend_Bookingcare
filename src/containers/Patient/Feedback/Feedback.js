@@ -151,19 +151,37 @@ const Feedback = () => {
                         : "tên cua packet"}
                     </Typography>
                   </CardContent>
-                  <CardMedia
-                    component="img"
-                    sx={{
-                      width: 160,
-                      display: { xs: "none", sm: "block" },
-                    }}
-                    image={
-                      information?.doctor?.id
-                        ? information?.doctor?.id?.image?.url
-                        : "hinh cua packet"
-                    }
-                    alt={"imange"}
-                  />
+                  {information?.doctor?.id ? (
+                    <CardMedia
+                      component="img"
+                      sx={{
+                        width: 160,
+                        display: { xs: "none", sm: "block" },
+                        borderRadius: "4px",
+                      }}
+                      image={
+                        information?.doctor?.id
+                          ? information?.doctor?.id?.image?.url
+                          : ""
+                      }
+                      alt={"imange"}
+                    />
+                  ) : (
+                    <CardMedia
+                      component="img"
+                      sx={{
+                        width: 360,
+                        display: { xs: "none", sm: "block" },
+                        borderRadius: "4px",
+                      }}
+                      image={
+                        information?.packet?.id
+                          ? information?.packet?.id?.image?.url
+                          : ""
+                      }
+                      alt={"imange"}
+                    />
+                  )}
                 </Card>
               </Stack>
               <Stack

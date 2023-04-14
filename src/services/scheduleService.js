@@ -63,6 +63,13 @@ const getDetailSchedule = (id, time) => {
   return axios.get(`/api/get-detail-schedule?id=${id}&time=${time}`);
 };
 
+const getAllPatientByDoctor = (id) => {
+  return axios.get(`/api/get-patient-comment-by-doctor?id=${id}`);
+};
+const getAllPatientByPacket = (id) => {
+  return axios.get(`/api/get-patient-comment-by-packet?id=${id}`);
+};
+
 export {
   upsertSchedule,
   getSingleUserSchedule,
@@ -77,4 +84,6 @@ export {
   patientUpdateFeedback,
   patientCheckAllowUpdateFeedback,
   getDetailSchedule,
+  getAllPatientByDoctor,
+  getAllPatientByPacket,
 };

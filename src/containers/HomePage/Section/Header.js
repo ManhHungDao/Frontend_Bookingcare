@@ -42,7 +42,7 @@ const HomeHeader = ({ processLogout, isLoggedIn }) => {
           <Grid
             container
             display={"flex"}
-            justifyContent={"start"}
+            justifyContent={"space-between"}
             alignItems={"center"}
           >
             <Grid

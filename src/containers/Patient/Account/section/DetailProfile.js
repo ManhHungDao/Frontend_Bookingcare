@@ -11,8 +11,9 @@ import {
   Grid,
   CardHeader,
   OutlinedInput,
+  Button,
+  TextField,
 } from "@mui/material";
-import ButtonComponent from "../../../../components/ButtonComponent";
 import dayjs from "dayjs";
 import _ from "lodash";
 
@@ -57,9 +58,19 @@ export const PatientProfile = ({ data }) => {
   );
 };
 
-export const DetailExam = ({ data }) => {
+export const DetailExam = ({ data, enableFeeback }) => {
   const [doctor] = data.doctor;
   const [packet] = data.packet;
+
+  let setLink = {
+    date: data.date ? data.date : "",
+    time: data.schedule.time ? data.schedule.time : "",
+    packetId: data?.packet[0]?._id ? data.packet[0]._id : "",
+    doctorId: data?.doctor[0]?._id ? data.doctor[0]._id : "",
+  };
+
+  let link = `http://localhost:3000/feedback?date=${setLink.date}&time=${setLink.time}&doctorId=${setLink.doctorId}&packetId=${setLink.packetId}`;
+
   return (
     <Card>
       <CardHeader title="Thông tin khám" />
@@ -102,6 +113,16 @@ export const DetailExam = ({ data }) => {
               Ghi chú:&nbsp;
               {data?.detail?.note ? data?.detail?.note : ""}
             </Typography>
+            <span className="d-flex justify-content-end">
+              {enableFeeback && (
+                <Button
+                  variant="contained"
+                  onClick={() => window.open(link, "_blank")}
+                >
+                  Đánh giá
+                </Button>
+              )}
+            </span>
           </Grid>
         </Grid>
       </CardContent>
@@ -109,28 +130,7 @@ export const DetailExam = ({ data }) => {
   );
 };
 
-export const ScheduleProfile = ({ time, status, setStatus, handleSave }) => {
-  let statusList = [
-    "Chờ xác nhận",
-    "Đã xác nhận",
-    "Đang khám",
-    "Hoàn thành",
-    "Đã hủy",
-  ];
-
-  if (status === "Chờ xác nhận") {
-    statusList = ["Chờ xác nhận", "Đã xác nhận", "Đã hủy"];
-  }
-  if (_.isArray(status))
-    if (["Chờ xác nhận", "Đã xác nhận", "Đã hủy"].includes(status[0]))
-      statusList = ["Chờ xác nhận", "Đã xác nhận", "Đã hủy"];
-
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setStatus(typeof value === "string" ? value.split(",") : value);
-  };
+export const ScheduleProfile = ({ time, status, handleSave }) => {
   return (
     <Card>
       <CardHeader title="Thông tin lịch khám" />
@@ -141,49 +141,41 @@ export const ScheduleProfile = ({ time, status, setStatus, handleSave }) => {
               Thời gian:&nbsp;{time}
             </Typography>
           </Grid>
-          <Grid item xs={12} md={6} lg={6}>
-            <Box sx={{ minWidth: 120 }}>
-              <FormControl
-                fullWidth
-                disabled={status === "Đã xác nhận" || status === "Đã hủy"}
+
+          {status === "Chờ xác nhận" ? (
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={12}
+              display="flex"
+              justifyContent="space-evenly"
+            >
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => handleSave("Đã hủy")}
               >
-                <InputLabel id="demo-simple-select-label">
-                  Trạng trái
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={status}
-                  onChange={handleChange}
-                  input={<OutlinedInput label="Trạng trái" />}
-                >
-                  {statusList.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      {name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={12}
-            lg={12}
-            display="flex"
-            justifyContent="flex-end"
-          >
-            <ButtonComponent
-              disabled={status === "Đã xác nhận" || status === "Đã hủy"}
-              content="Lưu"
-              handleClick={handleSave}
-              bgcolor="#94e2cd"
-              color="#141414"
-              hoverBgColor="#1e5245"
-              hoverColor="#fff"
-            />
-          </Grid>
+                Hủy lịch
+              </Button>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => handleSave("Đã xác nhận")}
+              >
+                Xác nhận khám
+              </Button>
+            </Grid>
+          ) : (
+            <Grid item xs={12} md={6} lg={6}>
+              <TextField
+                id="outlined-basic"
+                label="Trạng thái"
+                variant="outlined"
+                value={status}
+              />
+            </Grid>
+          )}
         </Grid>
       </CardContent>
     </Card>

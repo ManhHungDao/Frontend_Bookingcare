@@ -46,6 +46,7 @@ const HomePage = ({
       specialtyId: "",
       filter: "",
     });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
   useEffect(() => {
     if (listClinic && listClinic.length > 0)
