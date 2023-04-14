@@ -185,7 +185,7 @@ const ManageBooking = ({
               allcodeType.list.map((i) => {
                 if (i._id === schedule.time) return i.valueVI;
               })}
-            - {dayjs.unix(date).format("DD/MM/YYYY")}
+            &nbsp;- {dayjs.unix(date).format("DD/MM/YYYY")}
           </StyledTableCell>
           <StyledTableCell>
             {schedule?.status && (

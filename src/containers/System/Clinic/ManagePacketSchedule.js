@@ -170,6 +170,7 @@ const ManagePacketSchedule = ({
         loadingToggleAction(false);
       }
     } else if (res.success === false) {
+      setScheduleData([]);
       setNote(packetEdit?.detail?.note ? packetEdit.detail.note : "");
       setPayment({
         value: packetEdit?.payment?.id ? packetEdit.payment.id : "",

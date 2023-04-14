@@ -104,7 +104,6 @@ const BookingModal = ({
         setErrors(errors);
         return;
       }
-      console.log("vao day", typeBooking);
       let dataSent = {
         doctorId: dataBooking.doctorId,
         packetId: dataBooking.packetId,

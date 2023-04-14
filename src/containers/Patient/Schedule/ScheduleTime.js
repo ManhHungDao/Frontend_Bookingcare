@@ -108,6 +108,17 @@ const ScheduleTime = ({
     clinic: data.clinic,
     specialty: data.specialty,
   };
+
+  const listRender = () => {
+    let emptyList = [];
+    codeTime.map((e) => {
+      timeSchedule.map((i) => {
+        if (i.time === e.id) emptyList.push(e);
+      });
+    });
+    return emptyList;
+  };
+
   return (
     <>
       <Box
@@ -145,32 +156,37 @@ const ScheduleTime = ({
         <Grid container spacing={2}>
           <Grid item xs={12} md={12}>
             <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-              {timeSchedule &&
-                timeSchedule.length > 0 &&
-                timeSchedule.map((e, i) => (
-                  <Box
-                    p={1}
-                    key={i}
-                    variant={"contained"}
-                    onClick={() => handleClickTime(e.time)}
-                    sx={{
-                      backgroundColor: "#ffeb3b",
-                      ":hover": {
-                        bgcolor: "rgb(151, 200, 240)",
-                      },
-                      borderRadius: "4px",
-                      textAlign: "center",
-                      minWidth: "100px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {codeTime &&
-                      codeTime.length > 0 &&
-                      codeTime.map((i) => {
-                        if (i.id === e.time) return i.name;
-                      })}
-                  </Box>
-                ))}
+              {timeSchedule.length > 0 &&
+                codeTime.length > 0 &&
+                codeTime.map((e) => {
+                  timeSchedule.map((i) => {
+                    if (i.time === e.id) e.show = true;
+                    return e;
+                  });
+                  if (e.show === true)
+                    return (
+                      <>
+                        <Box
+                          p={1}
+                          key={e.id}
+                          variant={"contained"}
+                          onClick={() => handleClickTime(e.id)}
+                          sx={{
+                            backgroundColor: "#ffeb3b",
+                            ":hover": {
+                              bgcolor: "rgb(151, 200, 240)",
+                            },
+                            borderRadius: "4px",
+                            textAlign: "center",
+                            minWidth: "100px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {e.name}
+                        </Box>
+                      </>
+                    );
+                })}
             </Box>
           </Grid>
           <Grid item xs={12} md={12}>

@@ -175,6 +175,7 @@ const ManageUserSchedule = ({
       }
       loadingToggleAction(false);
     } else if (res.success === false) {
+      setScheduleData([]);
       setNote(userEdit?.note ? userEdit.note : "");
       setPayment({
         value: userEdit?.payment?.id ? userEdit?.payment.id : "",
