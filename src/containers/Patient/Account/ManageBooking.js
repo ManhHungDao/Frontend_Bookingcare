@@ -92,15 +92,8 @@ const ManageBooking = ({
     });
   }, []);
 
-  // useEffect(() => {
-  //   if (curStatus.current !== "Chờ xác nhận" && !status) return;
-  //   handleUploadStatus();
-  // }, [status]);
-
   useEffect(() => {
     if (isSuccess === true) {
-      // let value = _.isArray(status) ? status[0] : status;
-      // setStatus(value);
       setStatus("");
       setOpen(false);
       fetchData(dayjs(date).unix());

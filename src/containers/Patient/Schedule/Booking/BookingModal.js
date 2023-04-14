@@ -31,6 +31,8 @@ import localization from "moment/locale/vi";
 import moment from "moment";
 import { emailConfirm } from "../../../../data/emailConfirm";
 import { getInforAccount } from "../../../../services/patientService";
+import { createUserBookingSchedule } from "../../../../services/scheduleService";
+
 import { toast } from "react-toastify";
 
 const CONST_GENDER = [
@@ -42,7 +44,6 @@ const BookingModal = ({
   setOpen,
   codeTime,
   dataBooking,
-  createUserBookingSchedule,
   isSuccess,
   clearStatus,
   setOpenConfirm,
@@ -142,45 +143,9 @@ const BookingModal = ({
           },
         };
       }
-      createUserBookingSchedule(dataSent);
-      loadingToggleAction(false);
-    } catch (error) {
-      loadingToggleAction(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isSuccess !== null) {
-      if (isSuccess === true) {
-        // if (!email) return;
-        // cấu hình gửi thư xác nhận đặt lịch khám
-        // chỉnh sửa thông tin gửi trong email
-        // const [time] = codeTime.filter((i) => i.id === dataBooking.timeBooking);
-        // const date = moment.unix(dataBooking.dateBooking).format("DD/MM/YYYY");
-        // const data = {
-        //   time: time.name ? time.name : "",
-        //   date: date ? date : "",
-        //   doctorName: dataBooking.doctorId === null ? "" : dataBooking.nameData,
-        //   packetName: dataBooking.packetId === null ? "" : dataBooking.nameData,
-        //   clinic: dataBooking.clinic ? dataBooking.clinic : "",
-        //   specialty: dataBooking.specialty ? dataBooking.specialty : "",
-        //   linkAccept: `http://localhost:3000/confirm-booking?date=${dataBooking.dateBooking}&time=${dataBooking.timeBooking}&doctorId=${dataBooking.doctorId}&packetId=${dataBooking.packetId}&email=${email}`,
-        //   linkCancel: `http://localhost:3000/confirm-booking?date=${
-        //     dataBooking.dateBooking
-        //   }&time=${dataBooking.timeBooking}&doctorId=${
-        //     dataBooking.doctorId
-        //   }&packetId=${dataBooking.packetId}&email=${email}&cancel=${true}`,
-        // };
-
-        // const emailConfirmHTML = emailConfirm(name, data);
-        // const mail = {
-        //   to: email,
-        //   subject: "Xác nhận đặt lịch khám",
-        //   html: emailConfirmHTML,
-        // };
-        // sentMail(mail);
-
-        // sent email confirm to patient
+      // createUserBookingSchedule(dataSent);
+      let resCreate = await createUserBookingSchedule(dataSent);
+      if (resCreate.success === true) {
         setErrors("");
         setPhone("");
         setName("");
@@ -194,11 +159,69 @@ const BookingModal = ({
         setOpen(false);
         setOpenConfirm(true);
         setReLoad(true);
-        clearStatus();
+      } else {
+        toast.error("Khởi tạo lịch khám thất bại");
       }
-      clearStatus();
+      loadingToggleAction(false);
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: BookingModal.js:169 ~ handleSave ~ error:",
+        error
+      );
+      loadingToggleAction(false);
     }
-  }, [isSuccess]);
+  };
+
+  // useEffect(() => {
+  //   if (isSuccess !== null) {
+  //     if (isSuccess === true) {
+  //       if (!reason) return;
+  //       // cấu hình gửi thư xác nhận đặt lịch khám
+  //       // chỉnh sửa thông tin gửi trong email
+  //       // const [time] = codeTime.filter((i) => i.id === dataBooking.timeBooking);
+  //       // const date = moment.unix(dataBooking.dateBooking).format("DD/MM/YYYY");
+  //       // const data = {
+  //       //   time: time.name ? time.name : "",
+  //       //   date: date ? date : "",
+  //       //   doctorName: dataBooking.doctorId === null ? "" : dataBooking.nameData,
+  //       //   packetName: dataBooking.packetId === null ? "" : dataBooking.nameData,
+  //       //   clinic: dataBooking.clinic ? dataBooking.clinic : "",
+  //       //   specialty: dataBooking.specialty ? dataBooking.specialty : "",
+  //       //   linkAccept: `http://localhost:3000/confirm-booking?date=${dataBooking.dateBooking}&time=${dataBooking.timeBooking}&doctorId=${dataBooking.doctorId}&packetId=${dataBooking.packetId}&email=${email}`,
+  //       //   linkCancel: `http://localhost:3000/confirm-booking?date=${
+  //       //     dataBooking.dateBooking
+  //       //   }&time=${dataBooking.timeBooking}&doctorId=${
+  //       //     dataBooking.doctorId
+  //       //   }&packetId=${dataBooking.packetId}&email=${email}&cancel=${true}`,
+  //       // };
+
+  //       // const emailConfirmHTML = emailConfirm(name, data);
+  //       // const mail = {
+  //       //   to: email,
+  //       //   subject: "Xác nhận đặt lịch khám",
+  //       //   html: emailConfirmHTML,
+  //       // };
+  //       // sentMail(mail);
+
+  //       // sent email confirm to patient
+  //       setErrors("");
+  //       setPhone("");
+  //       setName("");
+  //       setAddress({
+  //         detail: "",
+  //         province: "",
+  //       });
+  //       setGender("");
+  //       setReason("");
+  //       setDate(dayjs(new Date()));
+  //       setOpen(false);
+  //       setOpenConfirm(true);
+  //       setReLoad(true);
+  //       clearStatus();
+  //     }
+  //     clearStatus();
+  //   }
+  // }, [isSuccess]);
 
   const handleClose = () => {
     setErrors("");
@@ -512,8 +535,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createUserBookingSchedule: (data) =>
-      dispatch(actions.createUserBookingScheduleAction(data)),
     sentMail: (data) => dispatch(actions.sentMailConfirmAction(data)),
     clearStatus: () => dispatch(actions.clearStatus()),
     loadingToggleAction: (status) =>

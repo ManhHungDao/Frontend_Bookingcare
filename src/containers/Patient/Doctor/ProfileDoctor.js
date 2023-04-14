@@ -39,7 +39,7 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
       setPrice(res?.schedule?.detail?.price);
       setPayment(res?.schedule?.detail?.payment);
     } else {
-      setTimeSchedule("");
+      setTimeSchedule([]);
       setPrice("");
       setNote("");
       setPayment("");

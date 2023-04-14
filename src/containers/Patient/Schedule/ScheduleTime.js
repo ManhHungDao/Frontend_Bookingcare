@@ -28,11 +28,11 @@ const ScheduleTime = ({
   data,
   price,
   note,
-  timeSchedule,
   date,
   setDate,
   isLoggedIn,
   setReLoad,
+  timeSchedule,
 }) => {
   const [allday, setAllday] = useState([]);
   const [codeTime, setCodeTime] = useState([]);
@@ -41,11 +41,21 @@ const ScheduleTime = ({
   const [openConfirm, setOpenConfirm] = useState(false);
   const [openRequied, setOpenRequied] = useState(false);
 
-  // data user booking
-
   useEffect(() => {
     allDay();
-  }, [language]);
+  }, []);
+
+  useEffect(() => {
+    // reset list time
+    if (codeTime.length <= 0) return;
+    setCodeTime(
+      codeTime.map((e) => ({
+        id: e.id,
+        name: e.name,
+        show: false,
+      }))
+    );
+  }, [timeSchedule]);
 
   useEffect(() => {
     setCodeTime(
@@ -107,16 +117,6 @@ const ScheduleTime = ({
     imgData: data.imgData,
     clinic: data.clinic,
     specialty: data.specialty,
-  };
-
-  const listRender = () => {
-    let emptyList = [];
-    codeTime.map((e) => {
-      timeSchedule.map((i) => {
-        if (i.time === e.id) emptyList.push(e);
-      });
-    });
-    return emptyList;
   };
 
   return (

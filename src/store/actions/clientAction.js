@@ -176,34 +176,6 @@ export const getListUserHomePatientAction = (name) => {
   };
 };
 
-// SCHEDULE
-export const createUserBookingScheduleAction = (data) => {
-  return async (dispatch, getState) => {
-    try {
-      // dispatch(loadingToggleAction(true));
-      const res = await createUserBookingSchedule(data);
-      if (res && res.success) {
-        // dispatch(loadingToggleAction(false));
-        dispatch({
-          type: actionTypes.CREATE_SCHEDULE_PATIENT_SUCCESS,
-        });
-        // toast.success("Khởi tạo lịch khám thành công");
-      } else {
-        // dispatch(loadingToggleAction(false));
-        dispatch({
-          type: actionTypes.CREATE_SCHEDULE_PATIENT_FAILED,
-        });
-        toast.error("Khởi tạo lịch khám thất bại");
-      }
-    } catch (error) {
-      // dispatch(loadingToggleAction(false));
-      dispatch({
-        type: actionTypes.CREATE_SCHEDULE_PATIENT_FAILED,
-      });
-      toast.error("Khởi tạo lịch khám thất bại");
-    }
-  };
-};
 
 // HANBOOK
 
