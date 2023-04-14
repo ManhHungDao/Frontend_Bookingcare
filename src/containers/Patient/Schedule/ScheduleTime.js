@@ -21,6 +21,7 @@ import { getSingleUserSchedule } from "../../../services/scheduleService";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { toast } from "react-toastify";
 import ModalRequiredLogin from "./Booking/ModalRequiredLogin";
+import { getAllBookingByEmail } from "../../../services/patientService";
 
 const ScheduleTime = ({
   language,
@@ -33,6 +34,7 @@ const ScheduleTime = ({
   isLoggedIn,
   setReLoad,
   timeSchedule,
+  patientInfo,
 }) => {
   const [allday, setAllday] = useState([]);
   const [codeTime, setCodeTime] = useState([]);
@@ -97,11 +99,29 @@ const ScheduleTime = ({
     setAllday(allDays);
   };
 
-  const handleClickTime = (time) => {
+  const handleClickTime = async (time) => {
     if (isLoggedIn === false) {
       setOpenRequied(true);
       return;
     }
+    let flag = false;
+    let res = await getAllBookingByEmail({
+      email: patientInfo.email,
+      date: date / 1000,
+    });
+    if (res && res.success) {
+      const list = res.schedule;
+      list.map((e) => {
+        if (e.schedule.time === time && e.schedule.status !== "Đã hủy") {
+          flag = true;
+        }
+      });
+    }
+    if (flag === true) {
+      toast.error("Trong giờ đã có lịch khám");
+      return;
+    }
+
     setTimeBooking(time);
     setOpen(true);
   };
@@ -225,8 +245,8 @@ const ScheduleTime = ({
 };
 const mapStateToProps = (state) => {
   return {
-    language: state.app.language,
     isLoggedIn: state.patient.isPatientLoggedIn,
+    patientInfo: state.patient.patientInfo,
     allcodes: state.admin.allcodes,
   };
 };
