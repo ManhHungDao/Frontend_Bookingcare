@@ -134,14 +134,14 @@ const DoctorSideBar = ({ userInfo, menuOpen, processLogout }) => {
               isCollapsed={isCollapsed}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="Bệnh nhân"
               to="/doctor/manage-patient"
               icon={<AccessibleOutlinedIcon />}
               selected={selected}
               isCollapsed={isCollapsed}
               setSelected={setSelected}
-            />
+            /> */}
 
             <LogOut
               title="Thoát"

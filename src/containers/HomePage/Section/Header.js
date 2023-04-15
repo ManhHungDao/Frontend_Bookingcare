@@ -173,9 +173,6 @@ const HomeHeader = ({ processLogout, isLoggedIn }) => {
                     >
                       Thông tin cá nhân
                     </MenuItem>
-                    <MenuItem onClick={() => handleClickMenuItem()}>
-                      Đơn đã khám
-                    </MenuItem>
                     <MenuItem
                       onClick={() => handleClickMenuItem("/patient/booking")}
                     >

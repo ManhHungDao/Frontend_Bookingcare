@@ -4,6 +4,7 @@ const initialState = {
   patientInfo: null,
   isPatientLoggedIn: false,
   listBookingByEmail: [],
+  prescription: {},
 };
 
 const patientReducer = (state = initialState, action) => {
@@ -36,6 +37,18 @@ const patientReducer = (state = initialState, action) => {
         ...state,
         listBookingByEmail: [],
       };
+
+    case actionTypes.GET_PRESCRTIPTION_PATIENT_SUCCEED:
+      return {
+        ...state,
+        prescription: action.data,
+      };
+    case actionTypes.GET_PRESCRTIPTION_PATIENT_FAILED:
+      return {
+        ...state,
+        prescription: {},
+      };
+
     default:
       return state;
   }

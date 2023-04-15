@@ -1,21 +1,37 @@
 /* eslint-disable default-case */
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { FormattedMessage } from "react-intl";
-import { languages } from "../../../utils";
+import * as actions from "../../../store/actions";
 import { changLanguageApp } from "../../../store/actions";
 import { useNavigate } from "react-router-dom";
-import { Container, Stack, Grid, Divider, Box } from "@mui/material";
+import {
+  Container,
+  Stack,
+  Grid,
+  Divider,
+  Box,
+  MenuItem,
+  Menu,
+  Button,
+} from "@mui/material";
 import SwipeableTemporaryDrawer from "../Section/LeftBar";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 
-const SubHeader = ({ language, changLanguageAppRedux }) => {
+const SubHeader = ({ isLoggedIn, processLogout }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openMenu = Boolean(anchorEl);
 
-  const changeLanguage = (language) => {
-    changLanguageAppRedux(language);
+  const handleClickMenuItem = (link) => {
+    navigate(link);
   };
-
+  const handleClickBtn = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const handleClick = () => {
     setOpen(true);
   };
@@ -44,22 +60,47 @@ const SubHeader = ({ language, changLanguageAppRedux }) => {
                 divider={<Divider orientation="vertical" flexItem />}
                 className="select-container"
               >
-                {/* <div className="d-flex justify-content-center gap-2 change-lang">
-                  <div
-                    className={
-                      language === languages.VI ? "lang-vi active" : "lang-vi"
-                    }
-                  >
-                    <span onClick={() => changeLanguage(languages.VI)}>VN</span>
-                  </div>
-                  <div
-                    className={
-                      language === languages.EN ? "lang-en active" : "lang-en"
-                    }
-                  >
-                    <span onClick={() => changeLanguage(languages.EN)}>EN</span>
-                  </div>
-                </div> */}
+                {isLoggedIn === true && (
+                  <>
+                    <Button
+                      id="basic-button"
+                      aria-controls={openMenu ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={openMenu ? "true" : undefined}
+                      onClick={handleClickBtn}
+                    >
+                      <PersonRoundedIcon sx={{ fontSize: 25, color: "#fff" }} />
+                    </Button>
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={openMenu}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                      }}
+                    >
+                      <MenuItem
+                        onClick={() => handleClickMenuItem("/patient/account")}
+                      >
+                        Thông tin cá nhân
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => handleClickMenuItem("/patient/booking")}
+                      >
+                        Đơn đặt lịch
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() =>
+                          handleClickMenuItem("/patient/change-password")
+                        }
+                      >
+                        Đổi mật khẩu
+                      </MenuItem>
+                      <MenuItem onClick={processLogout}>Thoát</MenuItem>
+                    </Menu>
+                  </>
+                )}
                 <i
                   className="fas fa-bars menu-mobile"
                   style={{ fontSize: 20, cursor: "pointer" }}
@@ -81,7 +122,7 @@ const SubHeader = ({ language, changLanguageAppRedux }) => {
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.user.isLoggedIn,
+    isLoggedIn: state.patient.isPatientLoggedIn,
     language: state.app.language,
   };
 };
@@ -89,6 +130,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     changLanguageAppRedux: (language) => dispatch(changLanguageApp(language)),
+    processLogout: () => dispatch(actions.processPatientLogout()),
   };
 };
 

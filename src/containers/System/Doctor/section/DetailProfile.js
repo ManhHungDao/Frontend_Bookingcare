@@ -150,7 +150,7 @@ export const ScheduleProfile = ({
   if (hasUser === false) statusList = ["Lịch hẹn mới"];
   // else if (isFuture && hasUser === false) {
   //   statusList = ["Lịch hẹn mới"];
-  // } 
+  // }
   else if (isFuture && hasUser === true) {
     statusList = ["Chờ xác nhận", "Đã xác nhận", "Đã hủy"];
   } else if (hasUser === true) {
@@ -248,7 +248,8 @@ export const ResponseDetail = ({
   setTitle,
   errors,
 }) => {
-  const titleList = ["Đơn thuốc", "Nhắc nhở sau khám"];
+  // const titleList = ["Đơn thuốc", "Nhắc nhở sau khám"];
+  const titleList = ["Đơn thuốc"];
   const handleChange = (event) => {
     const {
       target: { value },

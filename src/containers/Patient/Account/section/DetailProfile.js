@@ -13,9 +13,11 @@ import {
   OutlinedInput,
   Button,
   TextField,
+  Stack,
 } from "@mui/material";
 import dayjs from "dayjs";
 import _ from "lodash";
+import "./style.scss";
 
 export const PatientProfile = ({ data }) => {
   const user = data.schedule.user;
@@ -177,6 +179,20 @@ export const ScheduleProfile = ({ time, status, handleSave }) => {
             </Grid>
           )}
         </Grid>
+      </CardContent>
+    </Card>
+  );
+};
+
+export const DetailPrescription = (detail) => {
+  return (
+    <Card>
+      <CardHeader title="Thông tin đơn thuốc" />
+      <CardContent className="render__prescrtiption">
+        <span
+          className="render__prescrtiption--detail"
+          dangerouslySetInnerHTML={{ __html: detail.detail }}
+        ></span>
       </CardContent>
     </Card>
   );

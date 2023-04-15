@@ -50,10 +50,11 @@ import {
 import {
   createPacketService,
   deletePacket,
-  getSinglePacket,
   updatePacket,
   getAllPacket,
 } from "../../services/packetService";
+
+import { createPrescription } from "../../services/prescriptionService";
 
 import { getAllAccountPatient } from "../../services/patientService";
 
@@ -935,6 +936,24 @@ export const getAllAccountPatientAction = (data) => {
         type: actionTypes.GET_ALL_ACCOUNT_PATIENT_FAILED,
       });
       toast.error("Lấy danh sách thất bại");
+    }
+  };
+};
+
+// PRESCRIPTION
+
+export const createPrescriptionAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await createPrescription(data);
+      if (!res) {
+        toast.error("Cập nhập đơn thuốc tài khoản thất bại");
+      }
+      dispatch(loadingToggleAction(false));
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      toast.error("Cập nhập đơn thuốc tài khoản thất bại");
     }
   };
 };

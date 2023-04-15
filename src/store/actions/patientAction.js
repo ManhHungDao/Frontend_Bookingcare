@@ -7,6 +7,8 @@ import {
   patientChangePassword,
 } from "../../services/patientService";
 
+import { getSinglePrescription } from "../../services/prescriptionService";
+
 import { loadingToggleAction } from "./adminActions";
 import { toast } from "react-toastify";
 
@@ -99,6 +101,32 @@ export const getAllBookingByEmailAction = (data) => {
     } catch (error) {
       dispatch({
         type: actionTypes.GET_ALL_BOOKING_BY_EMAIL_FAILED,
+      });
+      dispatch(loadingToggleAction(false));
+    }
+  };
+};
+
+export const getSinglePrescriptionAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getSinglePrescription(id);
+      if (res.success === true) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.GET_PRESCRTIPTION_PATIENT_SUCCEED,
+          data: res.prescription,
+        });
+      } else if (res.success === false) {
+        dispatch({
+          type: actionTypes.GET_PRESCRTIPTION_PATIENT_FAILED,
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.GET_PRESCRTIPTION_PATIENT_FAILED,
       });
       dispatch(loadingToggleAction(false));
     }

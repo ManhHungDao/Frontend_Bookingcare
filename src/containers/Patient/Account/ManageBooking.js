@@ -36,6 +36,7 @@ import {
   ScheduleProfile,
   DetailExam,
   PatientProfile,
+  DetailPrescription,
 } from "./section/DetailProfile";
 const ManageBooking = ({
   allcodeType,
@@ -47,6 +48,8 @@ const ManageBooking = ({
   clearStatus,
   updateStatusSchedule,
   loadingToggleAction,
+  getSinglePrescription,
+  prescription,
 }) => {
   const [date, setDate] = useState(
     dayjs(new Date().setHours(0, 0, 0)).format("D MMMM YYYY")
@@ -56,6 +59,7 @@ const ManageBooking = ({
   const [timeText, setTimeText] = useState("");
   const [detailSchedule, setDetailSchedule] = useState("");
   const [status, setStatus] = useState();
+  const [detailPrescrtiption, setDetailPrescrtiption] = useState("");
   const curStatus = useRef();
 
   const fetchDataDetailSchedule = async (id, time) => {
@@ -91,6 +95,15 @@ const ManageBooking = ({
       filter: "TIME",
     });
   }, []);
+
+  useEffect(() => {
+    if (status !== "Hoàn thành") return;
+    getSinglePrescription(detailSchedule.schedule._id);
+  }, [status]);
+
+  useEffect(() => {
+    setDetailPrescrtiption(prescription.detail);
+  }, [prescription]);
 
   useEffect(() => {
     if (isSuccess === true) {
@@ -136,6 +149,11 @@ const ManageBooking = ({
       packetId: packet?._id ? packet?._id : null,
     };
     updateStatusSchedule(dataSend);
+  };
+  const handleCloseModal = () => {
+    setStatus("");
+    setDetailPrescrtiption("");
+    setOpen(false);
   };
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -300,7 +318,7 @@ const ManageBooking = ({
       {detailSchedule && open === true && (
         <Modal
           open={open}
-          onClose={() => setOpen(false)}
+          onClose={handleCloseModal}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -330,6 +348,11 @@ const ManageBooking = ({
                           handleSave={handleUploadStatus}
                         />
                       </Grid>
+                      {prescription && (
+                        <Grid item xs={12} md={12}>
+                          <DetailPrescription detail={detailPrescrtiption} />
+                        </Grid>
+                      )}
                     </Grid>
                   </>
                 )}
@@ -348,6 +371,7 @@ const mapStateToProps = (state) => {
     allcodeType: state.client.allcodeType,
     listBookingByEmail: state.patient.listBookingByEmail,
     patientInfo: state.patient.patientInfo,
+    prescription: state.patient.prescription,
     isSuccess: state.app.isSuccess,
   };
 };
@@ -363,7 +387,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.updateStatusScheduleAction(data)),
     loadingToggleAction: (status) =>
       dispatch(actions.loadingToggleAction(status)),
-
+    getSinglePrescription: (id) =>
+      dispatch(actions.getSinglePrescriptionAction(id)),
     clearStatus: () => dispatch(actions.clearStatus()),
   };
 };

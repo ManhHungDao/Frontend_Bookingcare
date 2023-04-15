@@ -29,6 +29,7 @@ const DetailSchedule = ({
   sentMail,
   date,
   updateStatusSchedule,
+  createPrescription,
 }) => {
   const [status, setStatus] = useState();
   const [patient, setPatient] = useState("");
@@ -162,6 +163,10 @@ const DetailSchedule = ({
       html: emailDescriptionHTML,
     };
     sentMail(dataSentMail);
+    createPrescription({
+      scheduleId: data._id,
+      detail: content,
+    });
   };
 
   return (
@@ -265,6 +270,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     sentMail: (data) => dispatch(actions.sentMailAction(data)),
+    createPrescription: (data) =>
+      dispatch(actions.createPrescriptionAction(data)),
     updateStatusSchedule: (data) =>
       dispatch(actions.updateStatusScheduleAction(data)),
     clearStatus: () => dispatch(actions.clearStatus()),
