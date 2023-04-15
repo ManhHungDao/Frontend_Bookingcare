@@ -5,6 +5,9 @@ import {
   Stack,
   Unstable_Grid2 as Grid,
   Modal,
+  Card,
+  CardHeader,
+  CardContent,
 } from "@mui/material";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
@@ -30,6 +33,8 @@ const DetailSchedule = ({
   date,
   updateStatusSchedule,
   createPrescription,
+  getSinglePrescription,
+  prescription,
 }) => {
   const [status, setStatus] = useState();
   const [patient, setPatient] = useState("");
@@ -57,6 +62,10 @@ const DetailSchedule = ({
     }
   }, [title]);
 
+  useEffect(() => {
+    if (status !== "Hoàn thành") return;
+    getSinglePrescription(data._id);
+  }, [status]);
   const handleClose = () => {
     setOpen(false);
     setErrors("");
@@ -237,7 +246,22 @@ const DetailSchedule = ({
                     </Grid>
                   </Grid>
                 </Grid>
-                {status === "Hoàn thành" ? (
+                {status === "Hoàn thành" && prescription && (
+                  <Grid item xs={12} md={12}>
+                    <Card>
+                      <CardHeader title="Thông tin đơn thuốc" />
+                      <CardContent className="render__prescrtiption">
+                        <span
+                          className="render__prescrtiption--detail"
+                          dangerouslySetInnerHTML={{
+                            __html: prescription.detail,
+                          }}
+                        ></span>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                )}
+                {status === "Hoàn thành" && (
                   <Grid item xs={12} md={12}>
                     <ResponseDetail
                       status={status}
@@ -250,8 +274,6 @@ const DetailSchedule = ({
                       errors={errors}
                     />
                   </Grid>
-                ) : (
-                  ""
                 )}
               </Grid>
             </Stack>
@@ -264,6 +286,7 @@ const DetailSchedule = ({
 const mapStateToProps = (state) => {
   return {
     isSuccess: state.app.isSuccess,
+    prescription: state.patient.prescription,
   };
 };
 
@@ -275,6 +298,8 @@ const mapDispatchToProps = (dispatch) => {
     updateStatusSchedule: (data) =>
       dispatch(actions.updateStatusScheduleAction(data)),
     clearStatus: () => dispatch(actions.clearStatus()),
+    getSinglePrescription: (id) =>
+      dispatch(actions.getSinglePrescriptionAction(id)),
   };
 };
 
