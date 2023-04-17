@@ -176,7 +176,6 @@ export const getListUserHomePatientAction = (name) => {
   };
 };
 
-
 // HANBOOK
 
 export const getAllHandbookHomePatientAction = (data) => {
@@ -229,10 +228,10 @@ export const getSingleHandbookAction = (id) => {
 export const getAllPacketPatientHomeAction = (data) => {
   return async (dispatch, getState) => {
     try {
-      // dispatch(loadingToggleAction(true));
+      dispatch(loadingToggleAction(true));
       const res = await getAllPacket(data);
       if (res && res.success) {
-        // dispatch(loadingToggleAction(false));
+        dispatch(loadingToggleAction(false));
         dispatch({
           type: actionTypes.GET_ALL_PACKET_HOME_SUCCESS,
           data: {
@@ -242,7 +241,7 @@ export const getAllPacketPatientHomeAction = (data) => {
         });
       }
     } catch (error) {
-      // dispatch(loadingToggleAction(false));
+      dispatch(loadingToggleAction(false));
       dispatch({
         type: actionTypes.GET_ALL_PACKET_HOME_FAILED,
       });

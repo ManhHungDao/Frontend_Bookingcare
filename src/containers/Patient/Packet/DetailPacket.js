@@ -22,7 +22,7 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import dayjs from "dayjs";
 import BackToTop from "../../../components/BackToTop ";
 
-const DetailPacket = ({}) => {
+const DetailPacket = ({ loadingToggleAction }) => {
   const { id } = useParams();
   const [data, setData] = useState("");
   const [feedback, setFeedback] = useState([]);
@@ -40,11 +40,13 @@ const DetailPacket = ({}) => {
     }
   };
   useEffect(() => {
+    loadingToggleAction(true);
     const getData = async () => {
       const res = await getSinglePacket(id);
       if (res && res.success) {
         setData(res.packet);
       }
+      loadingToggleAction(false);
     };
     getData();
     getDataFeedback();
@@ -135,6 +137,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    loadingToggleAction: (id) => dispatch(actions.loadingToggleAction(id)),
+  };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DetailPacket);

@@ -33,6 +33,10 @@ const AccountInfo = ({
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState({ detail: "", province: "" });
+  const [coordinates, setCoordinates] = useState({
+    lat: null,
+    lng: null,
+  });
   const [gender, setGender] = useState("M");
   const [date, setDate] = useState(dayjs(new Date()));
   const [name, setName] = useState("");
@@ -79,7 +83,12 @@ const AccountInfo = ({
       name,
       gender,
       phone,
-      address,
+      address: {
+        province: address.province ? address.province : null,
+        detail: address.detail ? address.detail : null,
+        lat: coordinates.lat,
+        lng: coordinates.lng,
+      },
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
     });
   };
@@ -171,7 +180,11 @@ const AccountInfo = ({
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={8} md={8}>
-              <AutocompleteAddress setAddress={setAddress} address={address} />
+              <AutocompleteAddress
+                setAddress={setAddress}
+                address={address}
+                setCoordinates={setCoordinates}
+              />
             </Grid>
 
             <Grid

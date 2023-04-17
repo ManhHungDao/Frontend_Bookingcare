@@ -66,11 +66,13 @@ const DetailSchedule = ({
     if (status !== "Hoàn thành") return;
     getSinglePrescription(data._id);
   }, [status]);
+
   const handleClose = () => {
     setOpen(false);
     setErrors("");
     setTitle("");
     setContent("");
+    setStatus("");
   };
   const style = {
     position: "absolute",

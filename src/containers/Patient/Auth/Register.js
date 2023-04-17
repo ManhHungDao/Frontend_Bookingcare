@@ -47,6 +47,10 @@ function PatientRegister({ loadingToggleAction }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState({ detail: "", province: "" });
+  const [coordinates, setCoordinates] = useState({
+    lat: null,
+    lng: null,
+  });
   const [gender, setGender] = useState("M");
   const [date, setDate] = useState(dayjs(new Date()));
   const [showPassword, setShowPassword] = useState(false);
@@ -140,7 +144,12 @@ function PatientRegister({ loadingToggleAction }) {
           name,
           email,
           password,
-          address,
+          address: {
+            province: address.province ? address.province : null,
+            detail: address.detail ? address.detail : null,
+            lat: coordinates.lat,
+            lng: coordinates.lng,
+          },
           gender,
           phone,
           dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
@@ -299,6 +308,7 @@ function PatientRegister({ loadingToggleAction }) {
                   <Grid item xs={12} sm={12} md={12}>
                     <AutocompleteAddress
                       setAddress={setAddress}
+                      setCoordinates={setCoordinates}
                       address={address}
                     />
                   </Grid>

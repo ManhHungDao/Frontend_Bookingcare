@@ -78,21 +78,8 @@ const ScheduleTime = ({
     let allDays = [];
     for (let i = 1; i < 8; i++) {
       let object = {};
-      if (language === languages.VI) {
-        const name = moment(new Date()).add(i, "days").format("dddd - DD/MM");
-        object.name = capitalizeFirstLetter(name);
-      } else {
-        if (i === 0) {
-          const ddMM = moment(new Date()).format("DD/MM");
-          const name = "Today - " + ddMM;
-          object.name = name;
-        } else {
-          object.name = moment(new Date())
-            .add(i, "days")
-            .locale("en")
-            .format("ddd - DD/MM");
-        }
-      }
+      const name = moment(new Date()).add(i, "days").format("dddd - DD/MM");
+      object.name = capitalizeFirstLetter(name);
       object.value = moment(new Date()).add(i, "days").startOf("day").valueOf();
       allDays.push(object);
     }

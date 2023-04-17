@@ -37,7 +37,7 @@ const updateInforAccount = (id, data) => {
 
 const getAllBookingByEmail = (data) => {
   return axios.get(
-    `/api/get-schedule-by-email?email=${data.email}&date=${data.date}`
+    `/api/get-schedule-by-email?email=${data.email}&date=${data.date}&page=${data.page}&size=${data.size}`
   );
 };
 const getAllAccountPatient = (data) => {

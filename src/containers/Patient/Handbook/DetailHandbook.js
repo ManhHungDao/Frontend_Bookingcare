@@ -28,13 +28,13 @@ const DetailHandbook = ({ loadingToggleAction }) => {
   const smsScreen = useIsTablet();
 
   const fetchData = async () => {
-    // loadingToggleAction(true);
+    loadingToggleAction(true);
     const res = await getSingleHandbook(id);
     if (res && res.success) {
       setData(res.handbook);
-      // loadingToggleAction(false);
+      loadingToggleAction(false);
     }
-    // loadingToggleAction(false);
+    loadingToggleAction(false);
   };
 
   useEffect(() => {

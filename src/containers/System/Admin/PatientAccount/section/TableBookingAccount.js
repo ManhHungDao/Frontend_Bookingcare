@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
-import HomeHeader from "../../HomePage/Section/Header";
-import HomeFooter from "../../HomePage/Section/Footer";
-import Header from "../../../components/Header";
+import * as actions from "../../../../../store/actions";
+import Header from "../../../../../components/Header";
 import {
   Box,
   Paper,
@@ -20,6 +18,7 @@ import {
   Stack,
   Unstable_Grid2 as Grid,
   Modal,
+  TablePagination,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
 import { styled } from "@mui/material/styles";
@@ -31,34 +30,29 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import _ from "lodash";
-import { getDetailSchedule } from "../../../services/scheduleService";
-import {
-  ScheduleProfile,
-  DetailExam,
-  PatientProfile,
-  DetailPrescription,
-} from "./section/DetailProfile";
-const ManageBooking = ({
+import { getDetailSchedule } from "../../../../../services/scheduleService";
+
+const TableBookingAccount = ({
   allcodeType,
   fetchAllcodeByType,
   getAllBookingByEmail,
   listBookingByEmail,
-  patientInfo,
   isSuccess,
   clearStatus,
-  updateStatusSchedule,
   loadingToggleAction,
   getSinglePrescription,
   prescription,
+  data,
 }) => {
-  const [date, setDate] = useState(
-    dayjs(new Date().setHours(0, 0, 0)).format("D MMMM YYYY")
-  );
+  const [date, setDate] = useState(null);
   const [list, setList] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [timeText, setTimeText] = useState("");
   const [detailSchedule, setDetailSchedule] = useState("");
   const [status, setStatus] = useState();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const [open, setOpen] = useState(false);
+  const [timeText, setTimeText] = useState("");
   const [detailPrescrtiption, setDetailPrescrtiption] = useState("");
   const curStatus = useRef();
 
@@ -80,14 +74,14 @@ const ManageBooking = ({
     }
   };
 
-  const fetchData = (date) => {
-    const data = {
-      email: patientInfo.email,
+  const fetchData = (date, page, size) => {
+    const dataSent = {
+      email: data?.email,
       date,
-      page: 1,
-      size: 999,
+      page,
+      size,
     };
-    getAllBookingByEmail(data);
+    getAllBookingByEmail(dataSent);
   };
 
   useEffect(() => {
@@ -111,7 +105,7 @@ const ManageBooking = ({
     if (isSuccess === true) {
       setStatus("");
       setOpen(false);
-      fetchData(dayjs(date).unix());
+      fetchData(dayjs(date).unix(), page + 1, rowsPerPage);
     }
     clearStatus();
   }, [isSuccess]);
@@ -125,11 +119,32 @@ const ManageBooking = ({
   }, [listBookingByEmail]);
 
   useEffect(() => {
-    fetchData(dayjs(date).unix());
+    setPage(0);
+    setRowsPerPage(10);
+    if (date) fetchData(dayjs(date).unix(), page + 1, rowsPerPage);
+    else {
+      fetchData("", page + 1, rowsPerPage);
+    }
   }, [date]);
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+    if (date) fetchData(dayjs(date).unix(), newPage + 1, rowsPerPage);
+    else {
+      fetchData("", newPage + 1, rowsPerPage);
+    }
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    if (date) fetchData(dayjs(date).unix(), page + 1, +event.target.value);
+    else {
+      fetchData("", page + 1, +event.target.value);
+    }
+  };
+
   const handleRefresh = () => {
-    fetchData(dayjs(date).unix());
+    setDate(null);
   };
 
   const handleClickView = (props) => {
@@ -138,20 +153,7 @@ const ManageBooking = ({
     fetchDataDetailSchedule(props._id, props.schedule.time);
     setOpen(true);
   };
-  const handleUploadStatus = (status) => {
-    if (!detailSchedule) return;
-    const [doctor] = detailSchedule.doctor;
-    const [packet] = detailSchedule.packet;
-    let value = status;
-    let dataSend = {
-      status: value,
-      date: detailSchedule.date,
-      time: detailSchedule.schedule.time,
-      doctorId: doctor?._id ? doctor?._id : null,
-      packetId: packet?._id ? packet?._id : null,
-    };
-    updateStatusSchedule(dataSend);
-  };
+
   const handleCloseModal = () => {
     setStatus("");
     setDetailPrescrtiption("");
@@ -159,7 +161,7 @@ const ManageBooking = ({
   };
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#64b9e5",
+      backgroundColor: "#ddd",
       color: "black",
     },
     [`&.${tableCellClasses.body}`]: {
@@ -235,135 +237,70 @@ const ManageBooking = ({
     );
   };
 
-  const style = {
-    position: "absolute",
-    width: "90%",
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 4,
-    height: "fit-content",
-    maxHeight: "80vh",
-    overflowY: "scroll",
-    top: 0,
-    bottom: 0,
-    margin: "auto",
-    left: 0,
-    right: 0,
-  };
   return (
     <>
-      <HomeHeader />
-      <Box
-        sx={{
-          p: 3,
-          paddingTop: "85px",
-          minHeight: `calc(100vh - 225px)`,
-        }}
-      >
-        <Container>
-          <Header title="quản lý lịch khám" />
-          <Box mb={"7px"}>
-            <Grid container spacing={2}>
-              <Grid item sm={4} xs={6} md={3}>
-                <LocalizationProvider
-                  dateAdapter={AdapterDayjs}
-                  adapterLocale="vi"
-                >
-                  <DatePicker
-                    label="Ngày"
-                    openTo="day"
-                    views={["year", "month", "day"]}
-                    value={date}
-                    onChange={(newValue) => {
-                      setDate(dayjs(new Date(newValue).setHours(0, 0, 0)));
-                    }}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={4} md={3} display="flex" alignItems="center">
-                <Tooltip title="Làm mới">
-                  <IconButton
-                    onClick={() => {
-                      handleRefresh();
-                    }}
-                  >
-                    <CachedIcon />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-            </Grid>
-          </Box>
-          <TableContainer component={Paper} sx={{ maxHeight: 560 }}>
-            <Table
-              sx={{ minWidth: 650 }}
-              size="small"
-              aria-label="simple table"
-              stickyHeader
-            >
-              <TableHead>
-                <TableRowName />
-              </TableHead>
-              <TableBody>
-                {list &&
-                  list.length > 0 &&
-                  list.map((e, i) => (
-                    <React.Fragment key={i}>
-                      <TableColumn {...e} />
-                    </React.Fragment>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Container>
+      <Box m="0 0 7px 0">
+        <Grid container spacing={2}>
+          <Grid item sm={4} xs={6} md={3}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="vi">
+              <DatePicker
+                label="Ngày"
+                openTo="day"
+                views={["year", "month", "day"]}
+                value={date}
+                onChange={(newValue) => {
+                  setDate(dayjs(new Date(newValue).setHours(0, 0, 0)));
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={4} md={3} display="flex" alignItems="center">
+            <Tooltip title="Làm mới">
+              <IconButton
+                onClick={() => {
+                  handleRefresh();
+                }}
+              >
+                <CachedIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
       </Box>
-      {detailSchedule && open === true && (
-        <Modal
-          open={open}
-          onClose={handleCloseModal}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
+      <TableContainer component={Paper} sx={{ maxHeight: 560 }}>
+        <Table
+          sx={{ minWidth: 650 }}
+          size="small"
+          aria-label="simple table"
+          stickyHeader
         >
-          <Box sx={style}>
-            <Box m="20px">
-              <Header title="Chi tiết lịch khám" />
-            </Box>
-            <Container maxWidth="lg">
-              <Stack>
-                {detailSchedule && (
-                  <>
-                    <Grid container spacing={3}>
-                      <Grid item xs={12} md={4}>
-                        <PatientProfile data={detailSchedule} />
-                      </Grid>
-                      <Grid item xs={12} md={4}>
-                        <DetailExam
-                          data={detailSchedule}
-                          enableFeeback={status === "Hoàn thành" ? true : false}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={4}>
-                        <ScheduleProfile
-                          status={status}
-                          time={timeText}
-                          setStatus={setStatus}
-                          handleSave={handleUploadStatus}
-                        />
-                      </Grid>
-                      {prescription && (
-                        <Grid item xs={12} md={12}>
-                          <DetailPrescription detail={detailPrescrtiption} />
-                        </Grid>
-                      )}
-                    </Grid>
-                  </>
-                )}
-              </Stack>
-            </Container>
-          </Box>
-        </Modal>
-      )}
-      <HomeFooter />
+          <TableHead>
+            <TableRowName />
+          </TableHead>
+          <TableBody>
+            {list &&
+              list.length > 0 &&
+              list.map((e, i) => (
+                <React.Fragment key={i}>
+                  <TableColumn {...e} />
+                </React.Fragment>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 50]}
+        component="div"
+        count={
+          listBookingByEmail.count ? parseInt(listBookingByEmail.count) : 0
+        }
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        className="table__user--pagination"
+      />
     </>
   );
 };
@@ -372,7 +309,6 @@ const mapStateToProps = (state) => {
   return {
     allcodeType: state.client.allcodeType,
     listBookingByEmail: state.patient.listBookingByEmail,
-    patientInfo: state.patient.patientInfo,
     prescription: state.patient.prescription,
     isSuccess: state.app.isSuccess,
   };
@@ -394,4 +330,7 @@ const mapDispatchToProps = (dispatch) => {
     clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ManageBooking);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TableBookingAccount);

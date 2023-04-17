@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
+import * as actions from "../../../../store/actions";
 import {
   Box,
   Paper,
@@ -23,16 +23,17 @@ import CachedIcon from "@mui/icons-material/Cached";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
-import Header from "../../../components/Header.jsx";
+import Header from "../../../../components/Header.jsx";
 import _ from "lodash";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
-import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
-import "./Style.scss";
+import ConfirmModal from "../../../../components/confirmModal/ConfirmModal";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
-import { deleteAccountPatient } from "../../../services/patientService";
+import { deleteAccountPatient } from "../../../../services/patientService";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const TableManageAccountPatient = ({
   getAllAccountPatient,
@@ -43,14 +44,12 @@ const TableManageAccountPatient = ({
   const [list, setList] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const [open, setOpen] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
-  const [userEdit, setUserEdit] = useState({});
   const [accountDelete, setUserDelete] = useState({});
-
   const [search, setSearch] = useState("");
-  const [enableEdit, setEnableEdit] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -122,8 +121,8 @@ const TableManageAccountPatient = ({
   };
 
   const hadnleClickView = (data) => {
-    setUserEdit(data);
-    setOpen(true);
+    dispatch({ type: actions.SET_MENU, data: "Chi tiết tài khoản" });
+    navigate("/admin/detail-account-patient", { state: { data } });
   };
   const handelClickDelete = (user) => {
     setOpenConfirmModal(true);

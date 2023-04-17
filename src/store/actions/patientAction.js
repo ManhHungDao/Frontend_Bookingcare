@@ -90,7 +90,7 @@ export const getAllBookingByEmailAction = (data) => {
         dispatch(loadingToggleAction(false));
         dispatch({
           type: actionTypes.GET_ALL_BOOKING_BY_EMAIL_SUCCEED,
-          data: res.schedule,
+          data: { list: res.schedule, count: res.count },
         });
       } else {
         dispatch({

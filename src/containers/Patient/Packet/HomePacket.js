@@ -39,6 +39,7 @@ const HomePacket = ({
   typePacket,
   listPacket,
   getAllPacket,
+  loadingToggleAction,
 }) => {
   const smsScreen = useIsTablet();
   const mobiScreen = useIsMobile();
@@ -490,6 +491,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.fetchAllcodeByTypeHomeAction(type)),
     getAllPacket: (data) =>
       dispatch(actions.getAllPacketPatientHomeAction(data)),
+    loadingToggleAction: (id) => dispatch(actions.loadingToggleAction(id)),
   };
 };
 

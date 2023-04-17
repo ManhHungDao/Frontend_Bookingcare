@@ -20,7 +20,8 @@ import ManagePacketSchedule from "../containers/System/Clinic/ManagePacketSchedu
 import AddPacket from "../containers/System/Clinic/AddPacket";
 import TableManagePacket from "../containers/System/Clinic/TableManagePacket";
 import TableManagePacketSchedule from "../containers/System/Clinic/TableManagePacketSchedule";
-import TableManageAccountPatient from "../containers/System/Admin/TableManageAccountPatient";
+import TableManageAccountPatient from "../containers/System/Admin/PatientAccount/TableManageAccountPatient";
+import DetailAccount from "../containers/System/Admin/PatientAccount/DetailAccount";
 import { CssBaseline } from "@mui/material";
 import "./style.css";
 const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
@@ -39,6 +40,7 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
               path="manage-account-patient"
               element={<TableManageAccountPatient />}
             />
+            <Route path="detail-account-patient" element={<DetailAccount />} />
             <Route path="add-user" element={<AddNewUser />} />
             <Route path="manage-user" element={<TableManageUser />} />
             <Route path="add-user-schedule" element={<ManageUserSchedule />} />
