@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../../../store/actions";
-import Header from "../../../../../components/Header";
 import {
   Box,
   Paper,
@@ -14,10 +13,7 @@ import {
   IconButton,
   Tooltip,
   TextField,
-  Container,
-  Stack,
   Unstable_Grid2 as Grid,
-  Modal,
   TablePagination,
 } from "@mui/material";
 import { tableCellClasses } from "@mui/material/TableCell";
@@ -30,7 +26,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import _ from "lodash";
-import { getDetailSchedule } from "../../../../../services/scheduleService";
+import ModalDetailBooking from "./ModalDetailBooking";
 
 const TableBookingAccount = ({
   allcodeType,
@@ -39,40 +35,17 @@ const TableBookingAccount = ({
   listBookingByEmail,
   isSuccess,
   clearStatus,
-  loadingToggleAction,
-  getSinglePrescription,
-  prescription,
   data,
 }) => {
   const [date, setDate] = useState(null);
   const [list, setList] = useState([]);
-  const [detailSchedule, setDetailSchedule] = useState("");
-  const [status, setStatus] = useState();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
+  const [dataSentDetail, setDataSentDetail] = useState({
+    id: "",
+    time: "",
+  });
   const [open, setOpen] = useState(false);
-  const [timeText, setTimeText] = useState("");
-  const [detailPrescrtiption, setDetailPrescrtiption] = useState("");
-  const curStatus = useRef();
-
-  const fetchDataDetailSchedule = async (id, time) => {
-    try {
-      loadingToggleAction(true);
-      let res = await getDetailSchedule(id, time);
-      if (res && res.success) {
-        setDetailSchedule(res.schedule);
-        setStatus(res.schedule.schedule.status);
-        curStatus.current = res.schedule.schedule.status;
-        loadingToggleAction(false);
-        // foarmat data to component
-      } else {
-        loadingToggleAction(false);
-      }
-    } catch (error) {
-      loadingToggleAction(false);
-    }
-  };
 
   const fetchData = (date, page, size) => {
     const dataSent = {
@@ -93,17 +66,7 @@ const TableBookingAccount = ({
   }, []);
 
   useEffect(() => {
-    if (status !== "Hoàn thành") return;
-    getSinglePrescription(detailSchedule.schedule._id);
-  }, [status]);
-
-  useEffect(() => {
-    setDetailPrescrtiption(prescription.detail);
-  }, [prescription]);
-
-  useEffect(() => {
     if (isSuccess === true) {
-      setStatus("");
       setOpen(false);
       fetchData(dayjs(date).unix(), page + 1, rowsPerPage);
     }
@@ -146,19 +109,14 @@ const TableBookingAccount = ({
   const handleRefresh = () => {
     setDate(null);
   };
-
   const handleClickView = (props) => {
-    let [time] = allcodeType.list.filter((i) => i._id === props.schedule.time);
-    setTimeText(time.valueVI);
-    fetchDataDetailSchedule(props._id, props.schedule.time);
+    setDataSentDetail({
+      id: props._id,
+      time: props.schedule.time,
+    });
     setOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setStatus("");
-    setDetailPrescrtiption("");
-    setOpen(false);
-  };
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#ddd",
@@ -189,7 +147,7 @@ const TableBookingAccount = ({
     </TableRow>
   );
   const TableColumn = (props) => {
-    const { id, doctor, packet, date, schedule } = props;
+    const { doctor, packet, date, schedule } = props;
     return (
       <>
         <TableRow>
@@ -300,6 +258,11 @@ const TableBookingAccount = ({
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
         className="table__user--pagination"
+      />
+      <ModalDetailBooking
+        open={open}
+        setOpen={setOpen}
+        dataFetch={dataSentDetail}
       />
     </>
   );

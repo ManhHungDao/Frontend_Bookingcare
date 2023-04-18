@@ -14,13 +14,13 @@ const DetailAccount = () => {
     <>
       {!data ? (
         <Box m="20px">
-          <Header title="Chi tiết lịch khám" />
+          <Header title="Chi tiết đặt khám" />
         </Box>
       ) : (
         <Box m="20px">
-          <Header title="Chi tiết lịch khám" />
+          <Header title="Chi tiết đặt khám" />
           <Grid container spacing={2}>
-            <Grid item xs={6} md={4}>
+            <Grid item xs={12} md={4}>
               <ProfileAccount data={data} />
             </Grid>
             <Grid item xs={12} md={8}>
