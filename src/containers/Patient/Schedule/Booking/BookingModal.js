@@ -89,7 +89,7 @@ const BookingModal = ({
       if (!validator.isMobilePhone(phone))
         errors.phone = "Số điện thoại không hợp lệ";
     }
-    if (!reason) errors.reason = "Mô tả không được bỏ trống";
+    // if (!reason) errors.reason = "Mô tả không được bỏ trống";
     return errors;
   };
   const isValid = (errors) => {

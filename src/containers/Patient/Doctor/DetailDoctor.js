@@ -22,12 +22,13 @@ import dayjs from "dayjs";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import BackToTop from "../../../components/BackToTop ";
 import "./style.scss";
-const DetailDoctor = ({}) => {
+const DetailDoctor = ({ loadingToggleAction }) => {
   const { id } = useParams();
   const [data, setData] = useState("");
   const [feedback, setFeedback] = useState([]);
 
   const getDataFeedback = async () => {
+    loadingToggleAction(true);
     const res = await getAllPatientByDoctor(id);
     if (res && res.success) {
       let data = res.patient.map((e) => ({
@@ -38,6 +39,7 @@ const DetailDoctor = ({}) => {
       }));
       setFeedback(data);
     }
+    loadingToggleAction(false);
   };
 
   useEffect(() => {
@@ -136,6 +138,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    loadingToggleAction: (id) => dispatch(actions.loadingToggleAction(id)),
+  };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DetailDoctor);

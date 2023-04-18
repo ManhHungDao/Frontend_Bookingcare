@@ -16,7 +16,7 @@ import { Stack } from "@mui/material";
 
 const PatientLogin = ({ LoginAction, patientInfo, isPatientLoggedIn }) => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("123456789");
   const navigate = useNavigate();
 
   const onClickLogin = () => {
