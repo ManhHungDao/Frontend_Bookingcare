@@ -246,8 +246,13 @@ const ManageUserSchedule = ({
     },
   }));
   const handleDeleteSchedule = () => {
-    if (!_.isEmpty(userDelete) && !_.isEmpty(userDelete._id))
-      deleteSchedule(userDelete._id, dayjs(date).unix());
+    if (!userDelete) return;
+    const data = {
+      doctorId: userDelete.id,
+      date: dayjs(date).unix(),
+      packetId: "",
+    };
+    deleteSchedule(data);
   };
   const handelClickDelete = (user) => {
     setOpen(true);

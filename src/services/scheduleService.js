@@ -32,8 +32,10 @@ const getSchedulePacketByDate = (data) => {
   );
 };
 
-const deleteSchedule = (id, date) => {
-  return axios.delete(`/api/delete-schedule?id=${id}&date=${date}`);
+const deleteSchedule = (data) => {
+  return axios.delete(
+    `/api/delete-schedule?doctorId=${data.doctorId}&packetId=${data.packetId}&date=${data.date}`
+  );
 };
 
 const createUserBookingSchedule = (data) => {

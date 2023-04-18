@@ -71,6 +71,7 @@ const ModalDetailBooking = ({
   }, [prescription]);
   const handleOnClose = () => {
     setDetailPrescrtiption("");
+    detailSchedule("");
     setOpen(false);
   };
   const [doctor] = detailSchedule?.doctor ? detailSchedule?.doctor : [];

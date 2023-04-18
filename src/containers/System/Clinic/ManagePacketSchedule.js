@@ -242,9 +242,15 @@ const ManagePacketSchedule = ({
     },
   }));
   const handleDeleteSchedule = () => {
-    if (!_.isEmpty(packetDelete) && !_.isEmpty(packetDelete._id))
-      deleteSchedule(packetDelete._id, dayjs(date).unix());
+    if (!packetDelete) return;
+    const data = {
+      doctorId: "",
+      date: dayjs(date).unix(),
+      packetId: packetDelete.id,
+    };
+    deleteSchedule(data);
   };
+
   const handelClickDelete = (user) => {
     setOpen(true);
     setPacketDelete(user);
