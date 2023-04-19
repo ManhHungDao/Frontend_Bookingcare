@@ -10,6 +10,7 @@ const initialState = {
   handbook: {},
   allcodeType: [],
   listSpecialtyInClinic: [],
+  listDoctor: [],
 };
 
 const clientReducer = (state = initialState, action) => {
@@ -72,6 +73,19 @@ const clientReducer = (state = initialState, action) => {
     }
     case actionTypes.PATIENT_GET_LIST_USER_FAILED: {
       state.listUser = [];
+      return {
+        ...state,
+      };
+    }
+
+    case actionTypes.GET_OUT_STANDING_DOCTOR_SUCCEED:
+    case actionTypes.GET_SUGGEST_DOCTOR_SUCCEED: {
+      state.listDoctor = action.data;
+      return { ...state };
+    }
+    case actionTypes.GET_OUT_STANDING_DOCTOR_FAILED:
+    case actionTypes.GET_SUGGEST_DOCTOR_FAILED: {
+      state.listDoctor = [];
       return {
         ...state,
       };

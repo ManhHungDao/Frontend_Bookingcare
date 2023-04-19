@@ -17,9 +17,7 @@ import {
 const DataSectionViewMore = ({
   getListSpecialtyHome,
   listSpecialty,
-  getListClinicHome,
   listClinic,
-  language,
 }) => {
   const location = useLocation();
   const [data, setData] = useState([]);
@@ -29,7 +27,6 @@ const DataSectionViewMore = ({
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (location.pathname.includes("clinic")) {
-      getListClinicHome();
       setTitle("Cơ sở y tế nổi bật");
     } else {
       getListSpecialtyHome("");
@@ -183,7 +180,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListClinicHome: () => dispatch(actions.getListClinicHomePatientAction()),
     getListSpecialtyHome: (name) =>
       dispatch(actions.getListSpecialtyHomePatientAction(name)),
   };

@@ -23,15 +23,14 @@ const HomePage = ({
   getListClinicHome,
   listSpecialty,
   getListSpecialtyHome,
-  listUser,
-  getListUserHome,
+  listDoctor,
+  getOutStandingDoctor,
   listHandbook,
   getAllHandbookHome,
   isLoggedIn,
   getSuggestClinicPatient,
   patientInfo,
   getSuggestDoctorRecent,
-  suggestDoctor,
 }) => {
   const [clinics, setClinics] = useState([]);
   const [specialties, setSpecialties] = useState([]);
@@ -42,9 +41,7 @@ const HomePage = ({
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // getListClinicHome();
     getListSpecialtyHome();
-    // getListUserHome();
     getAllHandbookHome({
       page: 1,
       size: 20,
@@ -60,7 +57,7 @@ const HomePage = ({
       getSuggestDoctorRecent(patientInfo.email);
     } else {
       getListClinicHome();
-      getListUserHome();
+      getOutStandingDoctor();
     }
   }, [isLoggedIn, patientInfo]);
 
@@ -103,9 +100,9 @@ const HomePage = ({
   }, [listClinic, listSpecialty, listHandbook]);
 
   useEffect(() => {
-    if (listUser.length > 0)
+    if (listDoctor.length > 0)
       setUsers(
-        listUser.map((e) => ({
+        listDoctor.map((e) => ({
           ...e,
           id: e._id,
           name: e.name,
@@ -115,7 +112,7 @@ const HomePage = ({
     else {
       setUsers([]);
     }
-  }, [listUser]);
+  }, [listDoctor]);
 
   // useEffect(() => {
   //   if (listClinic && listClinic.length > 0)
@@ -188,13 +185,7 @@ const HomePage = ({
       />
       <DoctorSection
         data={users}
-        titleSection={
-          isLoggedIn ? (
-            "Bác sĩ gợi ý"
-          ) : (
-            <FormattedMessage id="homepage.outstanding-doctor" />
-          )
-        }
+        titleSection={isLoggedIn ? "Bác sĩ gợi ý" : "Bác sĩ nổi bật gần đây"}
         slidesPerView={slide}
         navigation={showNav}
         linkItem="detail-doctor"
@@ -213,19 +204,17 @@ const HomePage = ({
 };
 const mapStateToProps = (state) => {
   return {
-    suggestDoctor: state.patient.suggestDoctor,
     patientInfo: state.patient.patientInfo,
     isLoggedIn: state.patient.isPatientLoggedIn,
     listClinic: state.client.listClinic,
     listSpecialty: state.client.listSpecialty,
-    listUser: state.client.listUser,
+    listDoctor: state.client.listDoctor,
     listHandbook: state.client.listHandbook,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListUserHome: () => dispatch(actions.getListUserHomePatientAction("")),
     getAllHandbookHome: (data) =>
       dispatch(actions.getAllHandbookHomePatientAction(data)),
     getListClinicHome: () => dispatch(actions.getListClinicHomePatientAction()),
@@ -235,6 +224,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getSuggestClinicPatientAction(id)),
     getSuggestDoctorRecent: (email) =>
       dispatch(actions.getSuggestDoctorRecentAction(email)),
+    getOutStandingDoctor: () => dispatch(actions.getOutStandingDoctorAction()),
   };
 };
 

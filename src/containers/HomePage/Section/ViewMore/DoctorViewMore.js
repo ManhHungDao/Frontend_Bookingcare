@@ -14,24 +14,42 @@ import {
   Divider,
 } from "@mui/material";
 
-const DoctorViewMore = ({ getListUserHome, listUser, language }) => {
+const DoctorViewMore = ({
+  getListUserHome,
+  listUser,
+  listDoctor,
+  getOutStandingDoctor,
+}) => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState("");
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    getListUserHome("");
+    getOutStandingDoctor();
   }, []);
 
   useEffect(() => {
-    setData(
-      listUser.map((e) => ({
-        ...e,
-        id: e._id,
-        name: e.name,
-        image: e.image.url,
-      }))
-    );
+    if (listDoctor.length > 0)
+      setData(
+        listDoctor.map((e) => ({
+          ...e,
+          id: e._id,
+          name: e.name,
+          image: e.image.url,
+        }))
+      );
+  }, [listDoctor]);
+
+  useEffect(() => {
+    if (listUser && listUser.length > 0)
+      setData(
+        listUser.map((e) => ({
+          ...e,
+          id: e._id,
+          name: e.name,
+          image: e.image.url,
+        }))
+      );
   }, [listUser]);
 
   const clickDetialDoctor = (id) => {
@@ -42,7 +60,23 @@ const DoctorViewMore = ({ getListUserHome, listUser, language }) => {
   //     getListUserHome(filter);
   //   }
   // };
-  const handleChange = (e) => getListUserHome(e.target.value);
+  useEffect(() => {
+    if (filter === "") {
+      setData(
+        listDoctor.map((e) => ({
+          ...e,
+          id: e._id,
+          name: e.name,
+          image: e.image.url,
+        }))
+      );
+    }
+  }, [filter]);
+
+  const handleChange = (e) => {
+    getListUserHome(e.target.value);
+    setFilter(e.target.value);
+  };
   const styles = {
     header: {
       height: "50px",
@@ -96,7 +130,7 @@ const DoctorViewMore = ({ getListUserHome, listUser, language }) => {
       <Box style={styles.search} p={2}>
         <input
           style={styles.input}
-          placeholder={language === "vi" ? "Tìm kiếm" : "Search doctor"}
+          placeholder="Tìm kiếm"
           onChange={(e) => handleChange(e)}
           // onKeyPress={(e) => handleEnterSearch(e)}
         />
@@ -154,7 +188,7 @@ const DoctorViewMore = ({ getListUserHome, listUser, language }) => {
 const mapStateToProps = (state) => {
   return {
     listUser: state.client.listUser,
-    language: state.app.language,
+    listDoctor: state.client.listDoctor,
   };
 };
 
@@ -162,6 +196,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getListUserHome: (name) =>
       dispatch(actions.getListUserHomePatientAction(name)),
+    getOutStandingDoctor: (email) =>
+      dispatch(actions.getOutStandingDoctorAction(email)),
   };
 };
 

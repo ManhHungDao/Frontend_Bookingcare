@@ -6,9 +6,11 @@ import {
   updateInforAccount,
   patientChangePassword,
 } from "../../services/patientService";
-import { getAllUserHomePatient } from "../../services/userService";
 
-import { getSuggestDoctorRecent } from "../../services/patientService";
+import {
+  getSuggestDoctorRecent,
+  getOutStandingDoctor,
+} from "../../services/patientService";
 
 import { getSinglePrescription } from "../../services/prescriptionService";
 
@@ -144,18 +146,44 @@ export const getSuggestDoctorRecentAction = (email) => {
       if (res.success === true) {
         // dispatch(loadingToggleAction(false));
         dispatch({
-          type: actionTypes.PATIENT_GET_LIST_USER_SUCCEED,
+          type: actionTypes.GET_SUGGEST_DOCTOR_SUCCEED,
           data: res.doctorsRecent,
         });
       } else if (res.success === false) {
         dispatch({
-          type: actionTypes.PATIENT_GET_LIST_USER_FAILED,
+          type: actionTypes.GET_SUGGEST_DOCTOR_FAILED,
         });
         // dispatch(loadingToggleAction(false));
       }
     } catch (error) {
       dispatch({
-        type: actionTypes.PATIENT_GET_LIST_USER_FAILED,
+        type: actionTypes.GET_SUGGEST_DOCTOR_FAILED,
+      });
+      // dispatch(loadingToggleAction(false));
+    }
+  };
+};
+
+export const getOutStandingDoctorAction = () => {
+  return async (dispatch, getState) => {
+    try {
+      // dispatch(loadingToggleAction(true));
+      const res = await getOutStandingDoctor();
+      if (res.success === true) {
+        // dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.GET_OUT_STANDING_DOCTOR_SUCCEED,
+          data: res.outStandingDoctor,
+        });
+      } else if (res.success === false) {
+        dispatch({
+          type: actionTypes.GET_OUT_STANDING_DOCTOR_FAILED,
+        });
+        // dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.GET_OUT_STANDING_DOCTOR_FAILED,
       });
       // dispatch(loadingToggleAction(false));
     }

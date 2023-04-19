@@ -54,6 +54,10 @@ const getSuggestDoctorRecent = (email) => {
   return axios.get(`/api/suggest-doctor-recent?email=${email}`);
 };
 
+const getOutStandingDoctor = () => {
+  return axios.get(`/api/get-outstading-doctor`);
+};
+
 export {
   registerAccount,
   sentMail,
@@ -66,4 +70,5 @@ export {
   getAllAccountPatient,
   deleteAccountPatient,
   getSuggestDoctorRecent,
+  getOutStandingDoctor,
 };
