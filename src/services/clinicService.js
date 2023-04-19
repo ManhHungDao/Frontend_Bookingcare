@@ -18,6 +18,10 @@ const getAllClinicHomePatient = () => {
   return axios.get(`/api/get-all-clinic-home`);
 };
 
+const getSuggestClinicPatient = (id) => {
+  return axios.get(`/api/suggest-nearest-clinic-home?id=${id}`);
+};
+
 const pageViewCount = (id) => {
   return axios.post(`/api/increment-view-count?id=${id}`);
 };
@@ -43,4 +47,5 @@ export {
   pageViewCount,
   updateClinic,
   getAllSpecialtyClinic,
+  getSuggestClinicPatient,
 };

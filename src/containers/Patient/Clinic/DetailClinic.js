@@ -46,13 +46,17 @@ const DetailClinic = ({ language, loadingToggleAction }) => {
   };
 
   const getData = async () => {
-    // loadingToggleAction(true);
-    const res = await getSingleClinic(id);
-    if (res && res.success) {
-      setData(res.clinic);
-      // loadingToggleAction(false);
+    try {
+      loadingToggleAction(true);
+      const res = await getSingleClinic(id);
+      if (res && res.success) {
+        setData(res.clinic);
+        loadingToggleAction(false);
+      }
+      loadingToggleAction(false);
+    } catch (error) {
+      loadingToggleAction(false);
     }
-    // loadingToggleAction(false);
   };
 
   useEffect(() => {

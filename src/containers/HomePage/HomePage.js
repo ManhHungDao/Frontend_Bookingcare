@@ -27,6 +27,9 @@ const HomePage = ({
   getListUserHome,
   listHandbook,
   getAllHandbookHome,
+  isLoggedIn,
+  getSuggestClinicPatient,
+  patientInfo,
 }) => {
   const [clinics, setClinics] = useState([]);
   const [specialties, setSpecialties] = useState([]);
@@ -37,7 +40,7 @@ const HomePage = ({
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    getListClinicHome();
+    // getListClinicHome();
     getListSpecialtyHome();
     getListUserHome();
     getAllHandbookHome({
@@ -48,6 +51,15 @@ const HomePage = ({
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      getSuggestClinicPatient(patientInfo._id);
+    } else {
+      getListClinicHome();
+    }
+  }, [isLoggedIn, patientInfo]);
+
   useEffect(() => {
     if (listClinic && listClinic.length > 0)
       setClinics(
@@ -95,6 +107,20 @@ const HomePage = ({
       setHandbooks([]);
     }
   }, [listClinic, listSpecialty, listUser, listHandbook]);
+
+  useEffect(() => {
+    if (listClinic && listClinic.length > 0)
+      setClinics(
+        listClinic.map((e) => ({
+          id: e._id,
+          name: e.name,
+          image: e.image.url,
+        }))
+      );
+    else {
+      setClinics([]);
+    }
+  }, [listClinic]);
 
   useEffect(() => {
     if (isMobile) {
@@ -166,6 +192,8 @@ const HomePage = ({
 };
 const mapStateToProps = (state) => {
   return {
+    patientInfo: state.patient.patientInfo,
+    isLoggedIn: state.patient.isPatientLoggedIn,
     listClinic: state.client.listClinic,
     listSpecialty: state.client.listSpecialty,
     listUser: state.client.listUser,
@@ -181,6 +209,8 @@ const mapDispatchToProps = (dispatch) => {
     getListClinicHome: () => dispatch(actions.getListClinicHomePatientAction()),
     getListSpecialtyHome: () =>
       dispatch(actions.getListSpecialtyHomePatientAction("")),
+    getSuggestClinicPatient: (id) =>
+      dispatch(actions.getSuggestClinicPatientAction(id)),
   };
 };
 

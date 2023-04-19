@@ -3,6 +3,7 @@ import actionTypes from "./actionTypes";
 import {
   getSingleClinic,
   getAllClinicHomePatient,
+  getSuggestClinicPatient,
 } from "../../services/clinicService";
 import {
   getPopularHomePatient,
@@ -24,6 +25,33 @@ import { loadingToggleAction } from "./adminActions";
 import { toast } from "react-toastify";
 
 // CLINIC
+export const getSuggestClinicPatientAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      {
+        // dispatch(loadingToggleAction(true));
+        const res = await getSuggestClinicPatient(id);
+        if (res && res.success) {
+          dispatch({
+            type: actionTypes.PATIENT_GET_LIST_CLINIC_SUCCEED,
+            data: res.nearestClinics,
+          });
+          // dispatch(loadingToggleAction(false));
+        } else {
+          dispatch({
+            type: actionTypes.PATIENT_GET_LIST_CLINIC_FAILED,
+          });
+          // dispatch(loadingToggleAction(false));
+        }
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.PATIENT_GET_LIST_CLINIC_FAILED,
+      });
+    }
+  };
+};
+
 export const getSingleClinicPatientAction = (id) => {
   return async (dispatch, getState) => {
     try {
