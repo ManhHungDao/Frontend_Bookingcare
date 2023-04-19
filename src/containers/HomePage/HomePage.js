@@ -30,6 +30,8 @@ const HomePage = ({
   isLoggedIn,
   getSuggestClinicPatient,
   patientInfo,
+  getSuggestDoctorRecent,
+  suggestDoctor,
 }) => {
   const [clinics, setClinics] = useState([]);
   const [specialties, setSpecialties] = useState([]);
@@ -42,7 +44,7 @@ const HomePage = ({
   useEffect(() => {
     // getListClinicHome();
     getListSpecialtyHome();
-    getListUserHome();
+    // getListUserHome();
     getAllHandbookHome({
       page: 1,
       size: 20,
@@ -55,23 +57,14 @@ const HomePage = ({
   useEffect(() => {
     if (isLoggedIn) {
       getSuggestClinicPatient(patientInfo._id);
+      getSuggestDoctorRecent(patientInfo.email);
     } else {
       getListClinicHome();
+      getListUserHome();
     }
   }, [isLoggedIn, patientInfo]);
 
   useEffect(() => {
-    if (listClinic && listClinic.length > 0)
-      setClinics(
-        listClinic.map((e) => ({
-          id: e._id,
-          name: e.name,
-          image: e.image.url,
-        }))
-      );
-    else {
-      setClinics([]);
-    }
     if (listSpecialty && listSpecialty.length > 0)
       setSpecialties(
         listSpecialty.map((e) => ({
@@ -83,18 +76,7 @@ const HomePage = ({
     else {
       setSpecialties([]);
     }
-    if (listUser && listUser.length > 0)
-      setUsers(
-        listUser.map((e) => ({
-          ...e,
-          id: e._id,
-          name: e.name,
-          image: e.image.url,
-        }))
-      );
-    else {
-      setUsers([]);
-    }
+
     if (listHandbook?.list && listHandbook.list.length > 0)
       setHandbooks(
         listHandbook.list.map((e) => ({
@@ -106,9 +88,7 @@ const HomePage = ({
     else {
       setHandbooks([]);
     }
-  }, [listClinic, listSpecialty, listUser, listHandbook]);
 
-  useEffect(() => {
     if (listClinic && listClinic.length > 0)
       setClinics(
         listClinic.map((e) => ({
@@ -120,7 +100,36 @@ const HomePage = ({
     else {
       setClinics([]);
     }
-  }, [listClinic]);
+  }, [listClinic, listSpecialty, listHandbook]);
+
+  useEffect(() => {
+    if (listUser.length > 0)
+      setUsers(
+        listUser.map((e) => ({
+          ...e,
+          id: e._id,
+          name: e.name,
+          image: e.image.url,
+        }))
+      );
+    else {
+      setUsers([]);
+    }
+  }, [listUser]);
+
+  // useEffect(() => {
+  //   if (listClinic && listClinic.length > 0)
+  //     setClinics(
+  //       listClinic.map((e) => ({
+  //         id: e._id,
+  //         name: e.name,
+  //         image: e.image.url,
+  //       }))
+  //     );
+  //   else {
+  //     setClinics([]);
+  //   }
+  // }, [listClinic]);
 
   useEffect(() => {
     if (isMobile) {
@@ -166,14 +175,26 @@ const HomePage = ({
       />
       <DataSection
         data={clinics}
-        titleSection={<FormattedMessage id="homepage.clinic-popular" />}
+        titleSection={
+          isLoggedIn ? (
+            "Cơ sở y tế gần nhất"
+          ) : (
+            <FormattedMessage id="homepage.clinic-popular" />
+          )
+        }
         slidesPerView={slide}
         navigation={showNav}
         linkItem="clinic"
       />
       <DoctorSection
         data={users}
-        titleSection={<FormattedMessage id="homepage.outstanding-doctor" />}
+        titleSection={
+          isLoggedIn ? (
+            "Bác sĩ gợi ý"
+          ) : (
+            <FormattedMessage id="homepage.outstanding-doctor" />
+          )
+        }
         slidesPerView={slide}
         navigation={showNav}
         linkItem="detail-doctor"
@@ -192,6 +213,7 @@ const HomePage = ({
 };
 const mapStateToProps = (state) => {
   return {
+    suggestDoctor: state.patient.suggestDoctor,
     patientInfo: state.patient.patientInfo,
     isLoggedIn: state.patient.isPatientLoggedIn,
     listClinic: state.client.listClinic,
@@ -211,6 +233,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.getListSpecialtyHomePatientAction("")),
     getSuggestClinicPatient: (id) =>
       dispatch(actions.getSuggestClinicPatientAction(id)),
+    getSuggestDoctorRecent: (email) =>
+      dispatch(actions.getSuggestDoctorRecentAction(email)),
   };
 };
 

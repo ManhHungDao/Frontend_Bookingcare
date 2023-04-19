@@ -6,6 +6,9 @@ import {
   updateInforAccount,
   patientChangePassword,
 } from "../../services/patientService";
+import { getAllUserHomePatient } from "../../services/userService";
+
+import { getSuggestDoctorRecent } from "../../services/patientService";
 
 import { getSinglePrescription } from "../../services/prescriptionService";
 
@@ -129,6 +132,32 @@ export const getSinglePrescriptionAction = (id) => {
         type: actionTypes.GET_PRESCRTIPTION_PATIENT_FAILED,
       });
       dispatch(loadingToggleAction(false));
+    }
+  };
+};
+
+export const getSuggestDoctorRecentAction = (email) => {
+  return async (dispatch, getState) => {
+    try {
+      // dispatch(loadingToggleAction(true));
+      const res = await getSuggestDoctorRecent(email);
+      if (res.success === true) {
+        // dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.PATIENT_GET_LIST_USER_SUCCEED,
+          data: res.doctorsRecent,
+        });
+      } else if (res.success === false) {
+        dispatch({
+          type: actionTypes.PATIENT_GET_LIST_USER_FAILED,
+        });
+        // dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.PATIENT_GET_LIST_USER_FAILED,
+      });
+      // dispatch(loadingToggleAction(false));
     }
   };
 };

@@ -50,6 +50,10 @@ const deleteAccountPatient = (id) => {
   return axios.delete(`/api/delete-account-patient?id=${id}`);
 };
 
+const getSuggestDoctorRecent = (email) => {
+  return axios.get(`/api/suggest-doctor-recent?email=${email}`);
+};
+
 export {
   registerAccount,
   sentMail,
@@ -61,4 +65,5 @@ export {
   getAllBookingByEmail,
   getAllAccountPatient,
   deleteAccountPatient,
+  getSuggestDoctorRecent,
 };
