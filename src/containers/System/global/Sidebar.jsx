@@ -141,7 +141,7 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               isCollapsed={isCollapsed}
             />
             <SubMenu
-              title={isCollapsed ? "" : "Bệnh nhân"}
+              title={isCollapsed ? "" : "Người dùng"}
               icon={<AccountBoxOutlinedIcon />}
             >
               <Item

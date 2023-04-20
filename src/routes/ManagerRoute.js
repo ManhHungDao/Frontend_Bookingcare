@@ -12,6 +12,8 @@ import ManagePacketSchedule from "../containers/System/Clinic/ManagePacketSchedu
 import AddPacket from "../containers/System/Clinic/AddPacket";
 import TableManagePacket from "../containers/System/Clinic/TableManagePacket";
 import { CssBaseline } from "@mui/material";
+import TableManagePacketSchedule from "../containers/System/Clinic/TableManagePacketSchedule";
+import TableManageUserSchedule from "../containers/System/Admin/TableManageUserSchedule";
 import "./style.css";
 const ManagerRoute = ({ systemMenuPath, isLoggedIn }) => {
   const [isSidebar, setIsSidebar] = React.useState(true);
@@ -25,15 +27,20 @@ const ManagerRoute = ({ systemMenuPath, isLoggedIn }) => {
           <Routes>
             <Route index element={<Dashboard />} />
             <Route path="reset-password" element={<ResetPassword />} />
+            <Route path="add-user-schedule" element={<ManageUserSchedule />} />
             <Route
               path="manage-user-schedule"
-              element={<ManageUserSchedule />}
+              element={<TableManageUserSchedule />}
             />
             <Route path="add-packet" element={<AddPacket />} />
             <Route path="manage-packet" element={<TableManagePacket />} />
             <Route
               path="add-packet-schedule"
               element={<ManagePacketSchedule />}
+            />
+            <Route
+              path="manage-packet-schedule"
+              element={<TableManagePacketSchedule />}
             />
             <Route path="add-handbook" element={<AddHandbook />} />
             <Route path="manage-handbook" element={<TableManageHandbook />} />

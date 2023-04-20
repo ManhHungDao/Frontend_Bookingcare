@@ -7,7 +7,8 @@ import iconsHospital from "../../../assets/icon-dashboard/hospital.png";
 import iconDoctor from "../../../assets/icon-dashboard/doctor.png";
 import iconSpecialty from "../../../assets/icon-dashboard/specialty.png";
 import iconDocument from "../../../assets/icon-dashboard/document.png";
-import { useEffect ,useState} from "react";
+import iconUser from "../../../assets/icon-dashboard/user.png";
+import { useEffect, useState } from "react";
 
 const Dashboard = ({ getAllCountAction, count }) => {
   const [data, setData] = useState({});
@@ -51,12 +52,11 @@ const Dashboard = ({ getAllCountAction, count }) => {
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
           <StatBox
-            title={data?.handbook ? data.handbook : "0"}
-            subtitle="Bài viết"
-            img={iconDocument}
+            title={data?.patient ? data.patient : "0"}
+            subtitle="Người dùng"
+            img={iconUser}
           />
         </Grid>
-        
       </Grid>
     </Box>
   );

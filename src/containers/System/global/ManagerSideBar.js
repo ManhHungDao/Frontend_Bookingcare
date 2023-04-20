@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import { useEffect, useState } from "react";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Divider, IconButton, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -15,9 +15,10 @@ import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBook
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import PlaylistAddCircleOutlinedIcon from "@mui/icons-material/PlaylistAddCircleOutlined";
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AccessibleIcon from "@mui/icons-material/Accessible";
-import AddBoxIcon from '@mui/icons-material/AddBox';
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
@@ -130,17 +131,34 @@ const ManagerSideBar = ({ userInfo, menuOpen, processLogout }) => {
               icon={<CalendarMonthIcon />}
             >
               <Item
-                title="Quản lý lịch khám"
+                title="Thêm lịch bác sĩ"
+                to="/manager/add-user-schedule"
+                icon={<AddCircleOutlineOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Lịch khám bác sĩ"
                 to="/manager/manage-user-schedule"
                 icon={<PendingActionsIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
               />
+              <Divider />
               <Item
-                title="Bệnh nhân"
-                to="/manager/manage-patient"
-                icon={<AccessibleIcon />}
+                title="Thêm lịch gói khám"
+                to="/manager/add-packet-schedule"
+                icon={<LibraryBooksIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+              <Item
+                title="Lịch khám các gói"
+                to="/manager/manage-packet-schedule"
+                icon={<PendingActionsIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
@@ -162,14 +180,6 @@ const ManagerSideBar = ({ userInfo, menuOpen, processLogout }) => {
                 title="Danh sách gói khám"
                 to="/manager/manage-packet"
                 icon={<MenuOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Quản lý gói khám"
-                to="/manager/manage-packet-schedule"
-                icon={<LibraryBooksIcon />}
                 selected={selected}
                 isCollapsed={isCollapsed}
                 setSelected={setSelected}
