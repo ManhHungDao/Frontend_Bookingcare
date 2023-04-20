@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
-import { Box, Stack, Typography, Divider, Grid, Link } from "@mui/material";
+import { Box, Stack, Typography, Divider, Grid } from "@mui/material";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 
 const DetailSchuleBooking = ({ clinic, payment, price }) => {
   return (
@@ -19,7 +20,7 @@ const DetailSchuleBooking = ({ clinic, payment, price }) => {
       <Typography>
         <b>
           Phòng khám:&nbsp;
-          <Link href={`/clinic/${clinic?.id}`} underline="hover">
+          <Link to={`/clinic/${clinic?.id}`} style={{ textDecoration: "none" }}>
             {clinic?.name}
           </Link>
         </b>

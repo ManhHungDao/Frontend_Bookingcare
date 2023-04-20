@@ -65,7 +65,6 @@ const DetailClinic = ({ language, loadingToggleAction }) => {
   }, []);
 
   useEffect(() => {
-    setData("");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location]);
 
