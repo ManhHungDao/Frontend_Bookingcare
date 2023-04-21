@@ -54,7 +54,10 @@ import {
   getAllPacket,
 } from "../../services/packetService";
 
-import { createPrescription } from "../../services/prescriptionService";
+import {
+  createPrescription,
+  getSinglePrescription,
+} from "../../services/prescriptionService";
 
 import { getAllAccountPatient } from "../../services/patientService";
 
@@ -954,6 +957,32 @@ export const createPrescriptionAction = (data) => {
     } catch (error) {
       dispatch(loadingToggleAction(false));
       toast.error("Cập nhập đơn thuốc tài khoản thất bại");
+    }
+  };
+};
+
+export const getSinglePrescriptionAdminAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getSinglePrescription(id);
+      if (res.success === true) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.GET_PRESCRTIPTION_ADMIN_SUCCEED,
+          data: res.prescription,
+        });
+      } else if (res.success === false) {
+        dispatch({
+          type: actionTypes.GET_PRESCRTIPTION_ADMIN_FAILED,
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.GET_PRESCRTIPTION_ADMIN_FAILED,
+      });
+      dispatch(loadingToggleAction(false));
     }
   };
 };

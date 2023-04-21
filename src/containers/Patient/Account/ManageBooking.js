@@ -350,7 +350,7 @@ const ManageBooking = ({
                           handleSave={handleUploadStatus}
                         />
                       </Grid>
-                      {prescription && (
+                      {!_.isEmpty(prescription) && (
                         <Grid item xs={12} md={12}>
                           <DetailPrescription detail={detailPrescrtiption} />
                         </Grid>

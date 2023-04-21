@@ -248,7 +248,7 @@ const DetailSchedule = ({
                     </Grid>
                   </Grid>
                 </Grid>
-                {status === "Hoàn thành" && prescription && (
+                {status === "Hoàn thành" && !_.isEmpty(prescription) && (
                   <Grid item xs={12} md={12}>
                     <Card>
                       <CardHeader title="Thông tin đơn thuốc" />
@@ -288,7 +288,7 @@ const DetailSchedule = ({
 const mapStateToProps = (state) => {
   return {
     isSuccess: state.app.isSuccess,
-    prescription: state.patient.prescription,
+    prescription: state.admin.prescription,
   };
 };
 
@@ -301,7 +301,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.updateStatusScheduleAction(data)),
     clearStatus: () => dispatch(actions.clearStatus()),
     getSinglePrescription: (id) =>
-      dispatch(actions.getSinglePrescriptionAction(id)),
+      dispatch(actions.getSinglePrescriptionAdminAction(id)),
   };
 };
 

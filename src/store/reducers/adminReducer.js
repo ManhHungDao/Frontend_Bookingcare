@@ -15,6 +15,7 @@ const initialState = {
   schedules: [],
   listSpecialtyInHandbook: [],
   listAccountPatient: [],
+  prescription: {},
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -149,6 +150,17 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         listAccountPatient: [],
+      };
+    }
+
+    // PRESCRIPTION
+    case actionTypes.GET_PRESCRTIPTION_ADMIN_SUCCEED: {
+      return { ...state, prescription: action.data };
+    }
+    case actionTypes.GET_PRESCRTIPTION_ADMIN_FAILED: {
+      return {
+        ...state,
+        prescription: {},
       };
     }
 

@@ -248,8 +248,7 @@ export const ResponseDetail = ({
   setTitle,
   errors,
 }) => {
-  // const titleList = ["Đơn thuốc", "Nhắc nhở sau khám"];
-  const titleList = ["Đơn thuốc"];
+  const titleList = ["Kết quả khám", "Đơn thuốc"];
   const handleChange = (event) => {
     const {
       target: { value },

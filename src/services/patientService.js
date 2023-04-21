@@ -58,6 +58,10 @@ const getOutStandingDoctor = () => {
   return axios.get(`/api/get-outstading-doctor`);
 };
 
+const checkEmailExisted = (email) => {
+  return axios.get(`/api/check-email-existed?email=${email}`);
+};
+
 export {
   registerAccount,
   sentMail,
@@ -71,4 +75,5 @@ export {
   deleteAccountPatient,
   getSuggestDoctorRecent,
   getOutStandingDoctor,
+  checkEmailExisted,
 };

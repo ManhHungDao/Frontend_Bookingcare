@@ -14,9 +14,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import logo from "../../../assets/logo.png";
 import { FormControl, Stepper, Step, CardMedia, Stack } from "@mui/material";
 import { InputLabel, OutlinedInput, IconButton } from "@mui/material";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import StepLabel from "@mui/material/StepLabel";
 import successImg from "../../../assets/verified.png";
 import { toast } from "react-toastify";
@@ -24,7 +21,7 @@ import { useEffect } from "react";
 import { emailForgotPass } from "../../../data/emailForgotPass";
 import {
   sentMail,
-  patientChangePassword,
+  checkEmailExisted,
   patientResetPassword,
 } from "../../../services/patientService";
 
@@ -40,28 +37,33 @@ const ForgotPassword = ({ loadingToggleAction }) => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [confirmCode, setConfirmCode] = useState("");
   const navigate = useNavigate();
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
 
-  const generateRandomString = () => {
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let result = "";
-    const length = 8;
+  // const generateRandomString = async () => {
+  //   try {
+  //     const res = checkEmailExisted(email);
+  //     if (res && res.existed === false) {
+  //       toast.warning("Email không tồn tại");
+  //       return;
+  //     }
+  //     const characters =
+  //       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  //     let result = "";
+  //     const length = 8;
 
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters[randomIndex];
-    }
+  //     for (let i = 0; i < length; i++) {
+  //       const randomIndex = Math.floor(Math.random() * characters.length);
+  //       result += characters[randomIndex];
+  //     }
 
-    setCode(result);
-  };
+  //     setCode(result);
+  //   } catch (error) {
+  //     toast.error("Đã có lỗi xảy ra");
+  //   }
+  // };
 
-  useEffect(() => {
-    generateRandomString();
-  }, []);
+  // useEffect(() => {
+  //   generateRandomString();
+  // }, []);
 
   const handleNext = () => {
     if (code === confirmCode)
@@ -103,9 +105,30 @@ const ForgotPassword = ({ loadingToggleAction }) => {
     }
   };
 
-  const handleGetCode = () => {
+  const handleGetCode = async () => {
+    //
+    const res = await checkEmailExisted(email);
+    if (res.existed === false) {
+      toast.warning("Email không tồn tại");
+      return;
+    } else if (!res) {
+      toast.error("Đã xảy ra lỗi");
+      return;
+    }
+
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    const length = 8;
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters[randomIndex];
+    }
+    //
+    setCode(result);
     setIsDisabled(true);
-    const emailHTML = emailForgotPass(code);
+    const emailHTML = emailForgotPass(result);
     const mail = {
       to: email,
       subject: "Mã xác nhận quên mật khẩu",

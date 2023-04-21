@@ -53,8 +53,8 @@ function PatientRegister({ loadingToggleAction }) {
   });
   const [gender, setGender] = useState("M");
   const [date, setDate] = useState(dayjs(new Date()));
-  const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
+  const [insurance, setInsurance] = useState("");
   const [confirmCode, setConfirmCode] = useState("");
   const [code, setCode] = useState("");
   const [checked, setChecked] = useState(false);
@@ -62,10 +62,6 @@ function PatientRegister({ loadingToggleAction }) {
   const [activeStep, setActiveStep] = React.useState(0);
   const navigate = useNavigate();
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
   const sendMail = async (mail) => {
     try {
       let res = await sentMail(mail);
@@ -342,6 +338,14 @@ function PatientRegister({ loadingToggleAction }) {
                       type="password"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <TextField
+                      fullWidth
+                      label="Mã số bảo hiểm"
+                      value={insurance}
+                      onChange={(e) => setInsurance(e.target.value)}
                     />
                   </Grid>
                 </Grid>
