@@ -138,14 +138,7 @@ export const emailDesciption = (name, dataBooking, content) => {
                             <td style="overflow-wrap:break-word;word-break:break-word;padding:20px;font-family:'Cabin',sans-serif;" align="left">
 
                               <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                                <tr>
-                                  <td style="padding-right: 0px;padding-left: 0px;" align="center">
-                                    <a href="http://localhost:3000/" target="_blank">
-                                      <img align="center" border="0" src="https://assets.unlayer.com/projects/151828/1680834699088-logo.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 32%;max-width: 179.2px;"
-                                        width="179.2" />
-                                    </a>
-                                  </td>
-                                </tr>
+                               
                               </table>
 
                             </td>
@@ -184,14 +177,7 @@ export const emailDesciption = (name, dataBooking, content) => {
                             <td style="overflow-wrap:break-word;word-break:break-word;padding:40px 10px 10px;font-family:'Cabin',sans-serif;" align="left">
 
                               <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                                <tr>
-                                  <td style="padding-right: 0px;padding-left: 0px;" align="center">
-
-                                    <img align="center" border="0" src="https://cdn.templates.unlayer.com/assets/1597218650916-xxxxc.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 26%;max-width: 150.8px;"
-                                      width="150.8" />
-
-                                  </td>
-                                </tr>
+                              
                               </table>
 
                             </td>
@@ -491,13 +477,7 @@ export const emailDesciption = (name, dataBooking, content) => {
                                   <!--[if (mso)|(IE)]><td width="32" style="width:32px; padding-right: 17px;" valign="top"><![endif]-->
                                   <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 17px">
                                     <tbody>
-                                      <tr style="vertical-align: top">
-                                        <td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-                                          <a href="https://facebook.com/" title="Facebook" target="_blank">
-                                            <img src="https://cdn.tools.unlayer.com/social/icons/circle-black/facebook.png" alt="Facebook" title="Facebook" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
-                                          </a>
-                                        </td>
-                                      </tr>
+                                     
                                     </tbody>
                                   </table>
                                   <!--[if (mso)|(IE)]></td><![endif]-->
@@ -505,13 +485,7 @@ export const emailDesciption = (name, dataBooking, content) => {
                                   <!--[if (mso)|(IE)]><td width="32" style="width:32px; padding-right: 0px;" valign="top"><![endif]-->
                                   <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 0px">
                                     <tbody>
-                                      <tr style="vertical-align: top">
-                                        <td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-                                          <a href="https://email.com/" title="Email" target="_blank">
-                                            <img src="https://cdn.tools.unlayer.com/social/icons/circle-black/email.png" alt="Email" title="Email" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
-                                          </a>
-                                        </td>
-                                      </tr>
+                                      
                                     </tbody>
                                   </table>
                                   <!--[if (mso)|(IE)]></td><![endif]-->
