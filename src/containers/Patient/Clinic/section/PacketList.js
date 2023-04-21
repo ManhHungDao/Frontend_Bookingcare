@@ -30,7 +30,7 @@ const PacketList = ({
       clinicId: id,
       type,
     };
-    loadingToggleAction(true);
+    // loadingToggleAction(true);
     const res = await getAllPacket(data);
     if (res && res.success) {
       setPackets(
@@ -42,7 +42,7 @@ const PacketList = ({
       );
       setCount(res?.count);
     }
-    loadingToggleAction(false);
+    // loadingToggleAction(false);
   };
 
   useEffect(() => {

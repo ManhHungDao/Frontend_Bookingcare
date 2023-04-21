@@ -32,7 +32,7 @@ const DoctorList = ({
       filter,
       clinicId: id,
     };
-    loadingToggleAction(true);
+    // loadingToggleAction(true);
     const res = await getAllUserService(data);
     if (res && res.success) {
       setDoctors(
@@ -44,7 +44,7 @@ const DoctorList = ({
       );
       setCount(res?.count);
     }
-    loadingToggleAction(false);
+    // loadingToggleAction(false);
   };
 
   const fetchDataBySpecialtyAPI = async (page, size, id) => {

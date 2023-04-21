@@ -28,7 +28,7 @@ const DetailDoctor = ({ loadingToggleAction }) => {
   const [feedback, setFeedback] = useState([]);
 
   const getDataFeedback = async () => {
-    loadingToggleAction(true);
+    // loadingToggleAction(true);
     const res = await getAllPatientByDoctor(id);
     if (res && res.success) {
       let data = res.patient.map((e) => ({
@@ -39,7 +39,7 @@ const DetailDoctor = ({ loadingToggleAction }) => {
       }));
       setFeedback(data);
     }
-    loadingToggleAction(false);
+    // loadingToggleAction(false);
   };
 
   useEffect(() => {

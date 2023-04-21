@@ -39,7 +39,7 @@ const DetailSpecialty = ({ specialty, loadingToggleAction }) => {
   const [count, setCount] = useState(1);
 
   const getDataDoctorByProvince = async (page, size, province) => {
-    loadingToggleAction(true);
+    // loadingToggleAction(true);
     let res = await getAllDoctorByProvince({
       page,
       size,
@@ -54,7 +54,7 @@ const DetailSpecialty = ({ specialty, loadingToggleAction }) => {
       );
       setCount(res.count);
     }
-    loadingToggleAction(false);
+    // loadingToggleAction(false);
   };
 
   const getDataProvince = async () => {
@@ -66,7 +66,7 @@ const DetailSpecialty = ({ specialty, loadingToggleAction }) => {
 
   const getDataSpecialty = async () => {
     try {
-      loadingToggleAction(true);
+      // loadingToggleAction(true);
       let res = await getSingleSpecialty(id);
       if (res && res.success) {
         let idSpecialty = res.specialty.key;
@@ -88,15 +88,15 @@ const DetailSpecialty = ({ specialty, loadingToggleAction }) => {
           setCount(resSpe.count);
         }
       }
-      loadingToggleAction(false);
+      // loadingToggleAction(false);
     } catch (error) {
-      loadingToggleAction(false);
+      // loadingToggleAction(false);
       console.log("🚀 ~ error:", error);
     }
   };
 
   const getDataDocTor = async (page, size) => {
-    loadingToggleAction(true);
+    // loadingToggleAction(true);
     let res = await getAllUserBySpecialtyHome({ page, size, id: idSpecialty });
     if (res && res.success) {
       setDoctors(
@@ -106,7 +106,7 @@ const DetailSpecialty = ({ specialty, loadingToggleAction }) => {
       );
       setCount(res.count);
     }
-    loadingToggleAction(false);
+    // loadingToggleAction(false);
   };
 
   useEffect(() => {
