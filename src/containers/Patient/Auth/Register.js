@@ -149,6 +149,7 @@ function PatientRegister({ loadingToggleAction }) {
           gender,
           phone,
           dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
+          insurance,
         });
         if (res && res.success) {
           setActiveStep((prevActiveStep) => prevActiveStep + 1);

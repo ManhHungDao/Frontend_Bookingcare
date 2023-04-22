@@ -40,6 +40,7 @@ const AccountInfo = ({
   const [gender, setGender] = useState("M");
   const [date, setDate] = useState(dayjs(new Date()));
   const [name, setName] = useState("");
+  const [insurance, setInsurance] = useState("");
 
   const getDataAccount = async () => {
     try {
@@ -56,6 +57,7 @@ const AccountInfo = ({
           province: patient?.address?.province,
         });
         setName(patient.name);
+        setInsurance(patient.insurance);
         loadingToggleAction(false);
       }
       loadingToggleAction(false);
@@ -90,6 +92,7 @@ const AccountInfo = ({
         lng: coordinates.lng,
       },
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
+      insurance,
     });
   };
 
@@ -127,7 +130,7 @@ const AccountInfo = ({
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={6}>
+            <Grid item xs={12} sm={4} md={4}>
               <TextField
                 required
                 id="outlined-required"
@@ -143,7 +146,7 @@ const AccountInfo = ({
               />
             </Grid>
 
-            <Grid item xs={12} sm={6} md={6}>
+            <Grid item xs={12} sm={4} md={4}>
               <LocalizationProvider
                 dateAdapter={AdapterDayjs}
                 adapterLocale="vi"
@@ -178,6 +181,14 @@ const AccountInfo = ({
                   <MenuItem value={"F"}>Nữ</MenuItem>
                 </Select>
               </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={4} md={4}>
+              <TextField
+                fullWidth
+                label="Mã số bảo hiểm"
+                value={insurance}
+                onChange={(e) => setInsurance(e.target.value)}
+              />
             </Grid>
             <Grid item xs={12} sm={8} md={8}>
               <AutocompleteAddress
