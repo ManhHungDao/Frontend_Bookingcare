@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import CKEditorFieldBasic from "../../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../../components/ButtonComponent";
+import RecentMedicalHistory from "./RecentMedicalHistory";
 import { useEffect } from "react";
 const CONST_GENDER = [
   { id: "M", name: "Nam" },
@@ -51,9 +52,26 @@ export const PatientProfile = ({ patient }) => {
               {patient?.dayOfBirth ? patient.dayOfBirth : ""}
             </Typography>
             <Typography gutterBottom variant="subtitle1">
+              Mã số bảo hiểm:&nbsp;
+              {patient?.insurance ? patient.insurance : ""}
+            </Typography>
+            <Typography gutterBottom variant="subtitle1">
               Lý do khám:&nbsp;
               {patient?.reason ? patient.reason : ""}
             </Typography>
+
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={12}
+              display="flex"
+              justifyContent="flex-end"
+            >
+              <RecentMedicalHistory
+                email={patient?.email ? patient.email : ""}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </CardContent>

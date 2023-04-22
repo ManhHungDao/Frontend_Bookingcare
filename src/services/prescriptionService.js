@@ -8,4 +8,8 @@ const getSinglePrescription = (id) => {
   return axios.get(`/api/get-single-prescription?id=${id}`);
 };
 
-export { createPrescription, getSinglePrescription };
+const getRecentMedicalHistory = (email) => {
+  return axios.get(`/api/get-list-result-recent?email=${email}`);
+};
+
+export { createPrescription, getSinglePrescription, getRecentMedicalHistory };

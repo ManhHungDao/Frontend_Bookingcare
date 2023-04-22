@@ -16,6 +16,7 @@ const initialState = {
   listSpecialtyInHandbook: [],
   listAccountPatient: [],
   prescription: {},
+  listRecentMedicalHistory: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -161,6 +162,15 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         prescription: {},
+      };
+    }
+    case actionTypes.GET_RECENT_MEDICAL_HISTORY_ADMIN_SUCCEED: {
+      return { ...state, listRecentMedicalHistory: action.data };
+    }
+    case actionTypes.GET_RECENT_MEDICAL_HISTORY_ADMIN_FAILED: {
+      return {
+        ...state,
+        listRecentMedicalHistory: [],
       };
     }
 

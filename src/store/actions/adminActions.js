@@ -57,6 +57,7 @@ import {
 import {
   createPrescription,
   getSinglePrescription,
+  getRecentMedicalHistory,
 } from "../../services/prescriptionService";
 
 import { getAllAccountPatient } from "../../services/patientService";
@@ -981,6 +982,32 @@ export const getSinglePrescriptionAdminAction = (id) => {
     } catch (error) {
       dispatch({
         type: actionTypes.GET_PRESCRTIPTION_ADMIN_FAILED,
+      });
+      dispatch(loadingToggleAction(false));
+    }
+  };
+};
+
+export const getRecentMedicalHistoryAction = (email) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getRecentMedicalHistory(email);
+      if (res.success === true) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.GET_RECENT_MEDICAL_HISTORY_ADMIN_SUCCEED,
+          data: res.listResult,
+        });
+      } else if (res.success === false) {
+        dispatch({
+          type: actionTypes.GET_RECENT_MEDICAL_HISTORY_ADMIN_FAILED,
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.GET_RECENT_MEDICAL_HISTORY_ADMIN_FAILED,
       });
       dispatch(loadingToggleAction(false));
     }

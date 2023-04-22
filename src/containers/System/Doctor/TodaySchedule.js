@@ -75,6 +75,10 @@ const TodaySchedule = ({
   }, [toDaySchedule, allcodes]);
 
   const handleClickView = (data) => {
+    console.log(
+      "🚀 ~ file: TodaySchedule.js:78 ~ handleClickView ~ data:",
+      data
+    );
     const doctor = {
       id: userInfo._id,
       email: userInfo.email,

@@ -62,6 +62,7 @@ const BookingModal = ({
   });
   const [gender, setGender] = useState("");
   const [reason, setReason] = useState("");
+  const [insurance, setInsurance] = useState("");
   const [typeBooking, setTypeBooking] = useState("self");
   const [errors, setErrors] = useState({});
   const style = {
@@ -124,6 +125,7 @@ const BookingModal = ({
               email: infor.email,
               gender: infor.gender,
               phone: infor.phone,
+              insurance: infor.insurance,
               reason,
               address: infor.address.detail,
             },
@@ -138,6 +140,7 @@ const BookingModal = ({
             email: patientInfo.email,
             gender: gender.value,
             phone,
+            insurance,
             reason,
             address: address.detail,
           },
@@ -155,6 +158,7 @@ const BookingModal = ({
         });
         setGender("");
         setReason("");
+        setInsurance("");
         setDate(dayjs(new Date()));
         setOpen(false);
         setOpenConfirm(true);
@@ -342,7 +346,7 @@ const BookingModal = ({
                         helperText={errors.email}
                       />
                     </Grid> */}
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={4}>
                       <TextField
                         fullWidth
                         label="Tên"
@@ -354,7 +358,7 @@ const BookingModal = ({
                         helperText={errors.name}
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={4}>
                       <TextField
                         required
                         id="outlined-required"
@@ -371,18 +375,7 @@ const BookingModal = ({
                         }}
                       />
                     </Grid>
-                    <Grid xs={6} md={3}>
-                      <InputSelect
-                        label="Giới tính"
-                        value={gender}
-                        onChange={setGender}
-                        data={CONST_GENDER}
-                        isError={errors?.gender ? true : false}
-                        errorText={errors?.gender ? errors.gender : ""}
-                        name="Giới tính"
-                      />
-                    </Grid>
-                    <Grid xs={6} md={3}>
+                    <Grid xs={6} md={4}>
                       <LocalizationProvider
                         dateAdapter={AdapterDayjs}
                         adapterLocale="vi"
@@ -400,7 +393,27 @@ const BookingModal = ({
                         />
                       </LocalizationProvider>
                     </Grid>
-                    <Grid xs={12} md={6}>
+                    <Grid xs={6} md={4}>
+                      <InputSelect
+                        label="Giới tính"
+                        value={gender}
+                        onChange={setGender}
+                        data={CONST_GENDER}
+                        isError={errors?.gender ? true : false}
+                        errorText={errors?.gender ? errors.gender : ""}
+                        name="Giới tính"
+                      />
+                    </Grid>
+
+                    <Grid item xs={6} md={4}>
+                      <TextField
+                        fullWidth
+                        label="Mã số bảo hiểm"
+                        value={insurance}
+                        onChange={(e) => setInsurance(e.target.value)}
+                      />
+                    </Grid>
+                    <Grid xs={12} md={4}>
                       <AutocompleteAddress
                         isErr={errors?.address ? true : false}
                         errName={errors?.address ? errors?.address : ""}
