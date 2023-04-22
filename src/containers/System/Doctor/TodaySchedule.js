@@ -124,7 +124,7 @@ const TodaySchedule = ({
         <TableRow>
           <TableCell>
             {dataTime.map((e) => {
-              if (e._id === time) return e.valueEN;
+              if (e._id === time) return e.valueVI;
             })}
           </TableCell>
           <TableCell>{user?.name ? user.name : ""}</TableCell>
