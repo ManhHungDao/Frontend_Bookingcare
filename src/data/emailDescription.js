@@ -1,4 +1,4 @@
-export const emailDesciption = (name, dataBooking, content) => {
+export const emailDesciption = (name, dataBooking, prescription, result) => {
   return `
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -256,6 +256,8 @@ export const emailDesciption = (name, dataBooking, content) => {
                                 <p style="line-height: 160%; text-align: justify;">Phòng khám: ${dataBooking.clinic}</p>
                                 <p style="line-height: 160%; text-align: justify;">Chuyên khoa: ${dataBooking.specialty}</p>
                                 <p style="line-height: 160%; text-align: justify;"> </p>
+                                <p style="line-height: 160%; text-align: justify;">Kết quả sau khi kiểm tra, chuẩn đoán: </p>${result}
+                                <p></p>
                                 <p style="line-height: 160%; text-align: justify;">Sau khi bác sĩ đã đưa ra đánh giá và chẩn đoán sau cuộc khám bệnh trực tiếp của bạn, chúng tôi xin gửi đến bạn đơn thuốc chi tiết như sau:</p>
                               </div>
 
@@ -295,7 +297,7 @@ export const emailDesciption = (name, dataBooking, content) => {
                             <td style="overflow-wrap:break-word;word-break:break-word;padding:33px 55px;font-family:'Cabin',sans-serif;" align="left">
 
                               <div style="line-height: 140%; text-align: center; word-wrap: break-word;">
-                                <p style="line-height: 140%;">${content}</p>
+                                <p style="line-height: 140%;">${prescription}</p>
                               </div>
 
                             </td>

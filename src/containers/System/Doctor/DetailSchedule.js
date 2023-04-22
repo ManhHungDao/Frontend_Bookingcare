@@ -24,6 +24,10 @@ import dayjs from "dayjs";
 import { emailCancel } from "../../../data/emailCancel";
 import { emailDesciption } from "../../../data/emailDescription";
 
+const mailDrescription = `<figure class="table" style="width:98.65%;"><table class="ck-table-resized"><colgroup><col style="width:38.11%;"><col style="width:12.08%;"><col style="width:49.81%;"></colgroup><tbody><tr><td>Tên thuốc</td><td>Số lượng</td><td>Liều dùng</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</tbody></table></figure>`;
+
 const DetailSchedule = ({
   open,
   setOpen,
@@ -35,21 +39,35 @@ const DetailSchedule = ({
   createPrescription,
   getSinglePrescription,
   prescription,
+  isSuccess,
+  clearStatus,
 }) => {
   const [status, setStatus] = useState();
   const [patient, setPatient] = useState("");
   const [time, setTime] = useState("");
-  const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [errors, setErrors] = useState("");
-
-  let mailDrescription = `<figure class="table" style="width:98.65%;"><table class="ck-table-resized"><colgroup><col style="width:38.11%;"><col style="width:12.08%;"><col style="width:49.81%;"></colgroup><tbody><tr><td>Tên thuốc</td><td>Số lượng</td><td>Liều dùng</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-  <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-  </tbody></table></figure>`;
+  const [result, setResult] = useState("");
+  const [detailPrescription, setDetailPrescription] =
+    useState(mailDrescription);
 
   useEffect(() => {
-    setTitle("");
-    setContent("");
+    if (isSuccess !== null) {
+      if (isSuccess === true) {
+        setTitle("");
+        setDetailPrescription("");
+        setResult("");
+        setStatus("");
+        setOpen(false);
+      }
+      clearStatus();
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    // setTitle("");
+    // setDetailPrescription("");
+    // setResult("");
     setStatus(data.status);
     setPatient(data.user);
     let time = dataTime.find((e) => e._id === data.time);
@@ -57,10 +75,18 @@ const DetailSchedule = ({
   }, [data]);
 
   useEffect(() => {
-    if (title) {
-      setContent(mailDrescription);
-    }
-  }, [title]);
+    if (!prescription) return;
+    setDetailPrescription(
+      prescription?.detail ? prescription.detail : mailDrescription
+    );
+    setResult(prescription?.result ? prescription.result : "");
+  }, [prescription]);
+
+  // useEffect(() => {
+  //   if (!title) return;
+  //   if (title[0] === "Đơn thuốc" && !detailPrescription)
+  //     setDetailPrescription(mailDrescription);
+  // }, [title]);
 
   useEffect(() => {
     if (status !== "Hoàn thành") return;
@@ -71,7 +97,7 @@ const DetailSchedule = ({
     setOpen(false);
     setErrors("");
     setTitle("");
-    setContent("");
+    setDetailPrescription(mailDrescription);
     setStatus("");
   };
   const style = {
@@ -92,7 +118,8 @@ const DetailSchedule = ({
   const checkValidate = () => {
     let errors = {};
     if (!title) errors.title = "Chưa chọn tiêu đề thư";
-    if (!content) errors.content = "Chưa có nội dung thư";
+    if (!detailPrescription || !result)
+      errors.content = "Chưa có kết quả hoặc chi tiết đơn thuốc";
     return errors;
   };
   const isValid = (errors) => {
@@ -100,37 +127,28 @@ const DetailSchedule = ({
     let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
     return count === 0;
   };
-
   const dataSentEmail = () => {
-    return data?.doctor
-      ? {
-          time: time ? time : "",
-          date: date ? dayjs(new Date(date)).format("DD/MM/YYYY") : "",
-          doctorName: data?.doctor?.name ? data?.doctor?.name : "",
-          packetName: "",
-          clinic: data.doctor.clinic.name ? data.doctor.clinic.name : "",
-          specialty: data.doctor.specialty.name
-            ? data.doctor.specialty.name
-            : "",
-          linkFeedBack: `http://localhost:3000/feedback?date=${
-            data ? dayjs(date).unix() : ""
-          }&time=${data?.time ? data.time : ""}&doctorId=${
-            data?.doctor?.id ? data.doctor.id : ""
-          }&packetId=${data?.packet?.id ? data.packet.id : ""}`,
-        }
-      : {
-          time: time ? time : "",
-          date: date ? dayjs(new Date(date)).format("DD/MM/YYYY") : "",
-          doctorName: "",
-          packetName: data?.packet?.name ? data?.packet?.name : "",
-          clinic: data?.packet?.clinic?.name ? data?.packet?.clinic?.name : "",
-          specialty: data?.packet?.specialty ? data?.packet?.specialty : "",
-          linkFeedBack: `http://localhost:3000/feedback?date=${
-            data ? dayjs(date).unix() : ""
-          }&time=${data?.time ? data.time : ""}&doctorId=${
-            data?.doctor?.id ? data.doctor.id : ""
-          }&packetId=${data?.packet?.id ? data.packet.id : ""}`,
-        };
+    return {
+      time: time ? time : "",
+      date: date ? dayjs(new Date(date)).format("DD/MM/YYYY") : "",
+      doctorName: data?.doctor?.name ? data?.doctor?.name : "",
+      packetName: data?.packet?.name ? data?.packet?.name : "",
+      clinic: data.doctor.clinic.name
+        ? data.doctor.clinic.name
+        : data?.packet?.clinic?.name
+        ? data?.packet?.clinic?.name
+        : "",
+      specialty: data.doctor.specialty.name
+        ? data.doctor.specialty.name
+        : data?.packet?.specialty
+        ? data?.packet?.specialty
+        : "",
+      linkFeedBack: `http://localhost:3000/feedback?date=${
+        data ? dayjs(date).unix() : ""
+      }&time=${data?.time ? data.time : ""}&doctorId=${
+        data?.doctor?.id ? data.doctor.id : ""
+      }&packetId=${data?.packet?.id ? data.packet.id : ""}`,
+    };
   };
 
   const handleUploadStatus = () => {
@@ -161,12 +179,12 @@ const DetailSchedule = ({
       setErrors(errors);
       return;
     }
-
     const dataEmail = dataSentEmail();
     const emailDescriptionHTML = emailDesciption(
       patient.name,
       dataEmail,
-      content
+      detailPrescription,
+      result
     );
     const dataSentMail = {
       to: patient?.email ? patient.email : "",
@@ -176,7 +194,8 @@ const DetailSchedule = ({
     sentMail(dataSentMail);
     createPrescription({
       scheduleId: data._id,
-      detail: content,
+      detail: detailPrescription,
+      result,
     });
   };
 
@@ -249,27 +268,52 @@ const DetailSchedule = ({
                   </Grid>
                 </Grid>
                 {status === "Hoàn thành" && !_.isEmpty(prescription) && (
-                  <Grid item xs={12} md={12}>
-                    <Card>
-                      <CardHeader title="Thông tin đơn thuốc" />
-                      <CardContent className="render__prescrtiption">
-                        <span
-                          className="render__prescrtiption--detail"
-                          dangerouslySetInnerHTML={{
-                            __html: prescription.detail,
-                          }}
-                        ></span>
-                      </CardContent>
-                    </Card>
-                  </Grid>
+                  <>
+                    <Grid item xs={12} md={12} xl={6}>
+                      <Card>
+                        <CardHeader title="Kế quả khám" />
+                        <CardContent className="render__prescrtiption">
+                          <span
+                            className="render__prescrtiption--detail"
+                            dangerouslySetInnerHTML={{
+                              __html: prescription.result,
+                            }}
+                          ></span>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                    <Grid item xs={12} md={12} xl={6}>
+                      <Card>
+                        <CardHeader title="Thông tin đơn thuốc" />
+                        <CardContent className="render__prescrtiption">
+                          <span
+                            className="render__prescrtiption--detail"
+                            dangerouslySetInnerHTML={{
+                              __html: prescription.detail,
+                            }}
+                          ></span>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  </>
                 )}
                 {status === "Hoàn thành" && (
                   <Grid item xs={12} md={12}>
                     <ResponseDetail
                       status={status}
                       setStatus={setStatus}
-                      content={content}
-                      setContent={setContent}
+                      content={
+                        !title
+                          ? ""
+                          : title[0] === "Đơn thuốc"
+                          ? detailPrescription
+                          : result
+                      }
+                      setContent={
+                        title[0] === "Đơn thuốc"
+                          ? setDetailPrescription
+                          : setResult
+                      }
                       handleSave={handleSendMail}
                       title={title}
                       setTitle={setTitle}

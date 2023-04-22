@@ -146,7 +146,7 @@ const ModalDetailBooking = ({
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item sx={12} md={6}>
+            <Grid item xs={12} md={12} xl={6} sx={{ width: "100%" }}>
               <Card>
                 <CardHeader title="Thông tin sau khám" />
                 <CardContent>
@@ -216,19 +216,34 @@ const ModalDetailBooking = ({
               </Card>
             </Grid>
             {detailPrescrtiption && (
-              <Grid item sx={12} md={12}>
-                <Card>
-                  <CardHeader title="Đơn thuốc" />
-                  <CardContent className="render__prescrtiption">
-                    <span
-                      className="render__prescrtiption--detail"
-                      dangerouslySetInnerHTML={{
-                        __html: detailPrescrtiption,
-                      }}
-                    ></span>
-                  </CardContent>
-                </Card>
-              </Grid>
+              <>
+                <Grid item xs={12} md={12} xl={6}>
+                  <Card>
+                    <CardHeader title="Kết quả khám" />
+                    <CardContent className="render__prescrtiption">
+                      <span
+                        className="render__prescrtiption--detail"
+                        dangerouslySetInnerHTML={{
+                          __html: detailPrescrtiption,
+                        }}
+                      ></span>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} md={12} xl={6}>
+                  <Card>
+                    <CardHeader title="Đơn thuốc" />
+                    <CardContent className="render__prescrtiption">
+                      <span
+                        className="render__prescrtiption--detail"
+                        dangerouslySetInnerHTML={{
+                          __html: detailPrescrtiption,
+                        }}
+                      ></span>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </>
             )}
           </Grid>
         </Box>

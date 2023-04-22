@@ -51,15 +51,15 @@ const TodaySchedule = ({
     fetchAllcode();
     dispatch({ type: "GET_SCHEDULE_FAILED" });
   }, []);
-  useEffect(() => {
-    if (isSuccess !== null) {
-      if (isSuccess === true) {
-        getSingleUserSchedule(userInfo._id, dayjs(date).unix());
-        setOpen(false);
-      }
-      clearStatus();
-    }
-  }, [isSuccess]);
+  // useEffect(() => {
+  //   if (isSuccess !== null) {
+  //     if (isSuccess === true) {
+  //       getSingleUserSchedule(userInfo._id, dayjs(date).unix());
+  //       setOpen(false);
+  //     }
+  //     clearStatus();
+  //   }
+  // }, [isSuccess]);
   useEffect(() => {
     getSingleUserSchedule(userInfo._id, dayjs(date).unix());
   }, [date]);
@@ -73,7 +73,7 @@ const TodaySchedule = ({
     if (allcodes && allcodes.length > 0)
       setDataTime(allcodes.filter((e) => e.type === "TIME"));
   }, [toDaySchedule, allcodes]);
-  
+
   const handleClickView = (data) => {
     const doctor = {
       id: userInfo._id,

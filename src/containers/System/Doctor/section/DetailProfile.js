@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Card,
@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import CKEditorFieldBasic from "../../../../components/Ckeditor/CKEditorFieldBasic";
 import ButtonComponent from "../../../../components/ButtonComponent";
+import { useEffect } from "react";
 const CONST_GENDER = [
   { id: "M", name: "Nam" },
   { id: "F", name: "Nữ" },
@@ -248,6 +249,12 @@ export const ResponseDetail = ({
   setTitle,
   errors,
 }) => {
+  const [value, setValue] = useState("");
+
+  useEffect(() => {
+    setValue(content);
+  }, [content]);
+
   const titleList = ["Kết quả khám", "Đơn thuốc"];
   const handleChange = (event) => {
     const {
@@ -255,7 +262,9 @@ export const ResponseDetail = ({
     } = event;
     setTitle(typeof value === "string" ? value.split(",") : value);
   };
-
+  const handleChangedValue = (data) => {
+    setContent(data);
+  };
   return (
     <Card>
       <CardHeader title="Thông tin phản hồi" />
@@ -289,8 +298,8 @@ export const ResponseDetail = ({
           <Grid item xs={12} md={12}>
             <CKEditorFieldBasic
               title="Chi tiết phản hồi"
-              value={content}
-              onChange={setContent}
+              value={value}
+              onChange={handleChangedValue}
               isError={errors.content ? true : false}
               errorText={errors.content}
             />
