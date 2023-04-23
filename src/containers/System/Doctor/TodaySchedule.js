@@ -51,15 +51,13 @@ const TodaySchedule = ({
     fetchAllcode();
     dispatch({ type: "GET_SCHEDULE_FAILED" });
   }, []);
-  // useEffect(() => {
-  //   if (isSuccess !== null) {
-  //     if (isSuccess === true) {
-  //       getSingleUserSchedule(userInfo._id, dayjs(date).unix());
-  //       setOpen(false);
-  //     }
-  //     clearStatus();
-  //   }
-  // }, [isSuccess]);
+
+  useEffect(() => {
+    if (open === false) {
+      getSingleUserSchedule(userInfo._id, dayjs(date).unix());
+      setOpen(false);
+    }
+  }, [open]);
   useEffect(() => {
     getSingleUserSchedule(userInfo._id, dayjs(date).unix());
   }, [date]);

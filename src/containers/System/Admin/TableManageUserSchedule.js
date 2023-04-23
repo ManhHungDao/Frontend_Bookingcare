@@ -81,17 +81,13 @@ const TableManageUserSchedule = ({
       setDataTime(allcodes.filter((e) => e.type === "TIME"));
   }, [allcodes]);
 
-  // useEffect(() => {
-  //   if (isSuccess !== null) {
-  //     if (isSuccess === true) {
-  //       const clinicId = selectClinic?.value ? selectClinic.value : "";
-  //       const searchValue = search ? search : "";
-  //       fetchDataAPI(page + 1, rowsPerPage, clinicId, searchValue);
-  //       setOpen(false);
-  //     }
-  //     clearStatus();
-  //   }
-  // }, [isSuccess]);
+  useEffect(() => {
+    if (open === false) {
+      const clinicId = selectClinic?.value ? selectClinic.value : "";
+      const searchValue = search ? search : "";
+      fetchDataAPI(page + 1, rowsPerPage, clinicId, searchValue);
+    }
+  }, [open]);
   useEffect(() => {
     if (scheduleUser.list && scheduleUser.list.length > 0) {
       setData(scheduleUser.list);
