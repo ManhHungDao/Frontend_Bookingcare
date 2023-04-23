@@ -17,12 +17,25 @@ import iconUser from "../../../assets/icon-dashboard/user.png";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import { useEffect, useState } from "react";
 import ModalReport from "./modalReport";
+import { getAllLocationClinic } from "../../../services/userService";
+import GoogleMaps from "../../../components/maps/GoogleMaps";
 
 const Dashboard = ({ getAllCountAction, count }) => {
   const [data, setData] = useState({});
   const [open, setOpen] = useState(false);
+  const [listLocation, setListLocation] = useState([]);
+  const [zoom, setZoom] = useState(1);
+  const [selected, setSelected] = useState([10.7578712, 106.6595379]);
+  const getAllClinicLocation = async () => {
+    const res = await getAllLocationClinic();
+    if (res && res.success) {
+      setListLocation(res.list);
+    }
+  };
+
   useEffect(() => {
     getAllCountAction();
+    getAllClinicLocation();
   }, []);
 
   useEffect(() => {
@@ -72,13 +85,7 @@ const Dashboard = ({ getAllCountAction, count }) => {
               img={iconsHospital}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={3}>
-            <StatBox
-              title={data?.specialty ? data.specialty : "0"}
-              subtitle="Chuyên khoa"
-              img={iconSpecialty}
-            />
-          </Grid>
+
           <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
             <StatBox
               title={data?.user ? data.user : "0"}
@@ -92,6 +99,32 @@ const Dashboard = ({ getAllCountAction, count }) => {
               subtitle="Người dùng"
               img={iconUser}
             />
+          </Grid>
+          <Grid item xs={12} sm={12} md={6} lg={3}>
+            <StatBox
+              title={data?.schedule ? data.schedule : "0"}
+              subtitle="Khám thành công"
+              img={iconSpecialty}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <Stack
+              className="contact_map_body"
+              sx={{
+                width: "100%",
+                height: { xs: 500, lg: 700 },
+              }}
+            >
+              {listLocation.length > 0 && (
+                <GoogleMaps
+                  load={true}
+                  zoom={zoom}
+                  center={selected}
+                  idSelect={""}
+                  data={listLocation}
+                />
+              )}
+            </Stack>
           </Grid>
         </Grid>
       </Box>

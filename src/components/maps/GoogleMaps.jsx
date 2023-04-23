@@ -31,31 +31,48 @@ const AnyReactComponent = ({ text, id, selectd, lat, lng, phones }) => {
   );
 };
 
-export default class GoogleMaps extends Component {
-  static propTypes = {
-    center: PropTypes.array,
-    zoom: PropTypes.number,
-    greatPlaceCoords: PropTypes.any,
-  };
-
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
+function GoogleMaps(props) {
+  return (
+    <>
       <GoogleMap
-        apiKey={"AIzaSyBVjJC0YfitZBQ16t7fnPvK7R8nvFY9CN0"} // set if you need stats etc ...
-        center={this.props.center}
-        zoom={this.props.zoom}
+        apiKey={"AIzaSyBVjJC0YfitZBQ16t7fnPvK7R8nvFY9CN0"}
+        center={props.center}
+        zoom={props.zoom}
         hoverDistance={40 / 2}
       >
-        <AnyReactComponent
-          lat={this.props.lat}
-          lng={this.props.long}
-          text={this.props.name}
-        />
+        {props.data &&
+          props.data.map((item, index) => {
+            return (
+              <AnyReactComponent
+                key={index}
+                selectd={
+                  props.idSelect !== "" ? item.id === props.idSelect : true
+                }
+                lat={item?.lat}
+                lng={item?.long}
+                text={item?.name}
+              />
+            );
+          })}
+        {!props.data && (
+          <AnyReactComponent
+            lat={props.lat}
+            lng={props.long}
+            text={props.name}
+          />
+        )}
       </GoogleMap>
-    );
-  }
+    </>
+  );
 }
+
+GoogleMaps.propTypes = {
+  center: PropTypes.array,
+  zoom: PropTypes.number,
+  greatPlaceCoords: PropTypes.any,
+  lat: PropTypes.number,
+  long: PropTypes.number,
+  name: PropTypes.string,
+};
+
+export default GoogleMaps;

@@ -53,7 +53,7 @@ const getAllDoctorByProvince = (data) => {
     `/api/get-user-by-province-home?page=${data.page}&size=${data.size}&id=${data.id}&province=${data.province}`
   );
 };
-
+// dashboard
 const getAllPatientAccount = () => {
   return axios.get(`/api/get-all-patient-account`);
 };
@@ -62,6 +62,9 @@ const getAllDoctorAccount = () => {
 };
 const getAllMedicalHistory = () => {
   return axios.get(`/api/get-all-medical-history`);
+};
+const getAllLocationClinic = () => {
+  return axios.get(`/api/get-all-locaiton-clinic`);
 };
 
 export {
@@ -80,4 +83,5 @@ export {
   getAllUserHomePatient,
   getAllUserBySpecialtyHome,
   getAllDoctorByProvince,
+  getAllLocationClinic,
 };
