@@ -12,9 +12,9 @@ const AnyReactComponent = ({ text, id, selectd, lat, lng, phones }) => {
   return (
     <div
       className="google_map"
-      style={{
-        position: "relative",
-      }}
+      // style={{
+      //   position: "relative",
+      // }}
     >
       <div className="hint">
         <div
@@ -48,8 +48,8 @@ function GoogleMaps(props) {
                 selectd={
                   props.idSelect !== "" ? item.id === props.idSelect : true
                 }
-                lat={item?.lat}
-                lng={item?.long}
+                lat={item?.address.lat}
+                lng={item?.address.lng}
                 text={item?.name}
               />
             );

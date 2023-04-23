@@ -24,8 +24,9 @@ const Dashboard = ({ getAllCountAction, count }) => {
   const [data, setData] = useState({});
   const [open, setOpen] = useState(false);
   const [listLocation, setListLocation] = useState([]);
-  const [zoom, setZoom] = useState(1);
-  const [selected, setSelected] = useState([10.7578712, 106.6595379]);
+  const [zoom, setZoom] = useState(15);
+  const [selected, setSelected] = useState([21.0161926, 105.8486047]);
+  // '21.0161926', lng: '105.8486047'
   const getAllClinicLocation = async () => {
     const res = await getAllLocationClinic();
     if (res && res.success) {
@@ -112,7 +113,7 @@ const Dashboard = ({ getAllCountAction, count }) => {
               className="contact_map_body"
               sx={{
                 width: "100%",
-                height: { xs: 500, lg: 700 },
+                height: { xs: 500, lg: 650 },
               }}
             >
               {listLocation.length > 0 && (
