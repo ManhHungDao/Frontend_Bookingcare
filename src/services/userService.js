@@ -54,7 +54,20 @@ const getAllDoctorByProvince = (data) => {
   );
 };
 
+const getAllPatientAccount = () => {
+  return axios.get(`/api/get-all-patient-account`);
+};
+const getAllDoctorAccount = () => {
+  return axios.get(`/api/get-all-doctor-account`);
+};
+const getAllMedicalHistory = () => {
+  return axios.get(`/api/get-all-medical-history`);
+};
+
 export {
+  getAllPatientAccount,
+  getAllDoctorAccount,
+  getAllMedicalHistory,
   changePasswordApiService,
   updateUserService,
   getSingleUserService,

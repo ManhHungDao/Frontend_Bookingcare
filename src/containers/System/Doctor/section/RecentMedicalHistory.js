@@ -31,7 +31,6 @@ const RecentMedicalHistory = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState("");
-  console.log("🚀 ~ file: RecentMedicalHistory.js:33 ~ data:", data);
 
   useEffect(() => {
     getRecentMedicalHistoryn(email);
