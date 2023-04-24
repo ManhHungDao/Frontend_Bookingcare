@@ -22,6 +22,7 @@ import TableManagePacket from "../containers/System/Clinic/TableManagePacket";
 import TableManagePacketSchedule from "../containers/System/Clinic/TableManagePacketSchedule";
 import TableManageAccountPatient from "../containers/System/Admin/PatientAccount/TableManageAccountPatient";
 import DetailAccount from "../containers/System/Admin/PatientAccount/DetailAccount";
+import ManageRole from "../containers/System/Allcode/ManageRole";
 import { CssBaseline } from "@mui/material";
 import "./style.css";
 const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
@@ -64,6 +65,7 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
 
             <Route path="add-specialty" element={<AddSpecialty />} />
             <Route path="manage-specialty" element={<TableManageSpecialty />} />
+            <Route path="manage-role" element={<ManageRole />} />
             <Route path="manage-code-price" element={<ManageCode />} />
             <Route path="manage-code-payment" element={<ManageCode />} />
             <Route path="manage-code-province" element={<ManageCode />} />

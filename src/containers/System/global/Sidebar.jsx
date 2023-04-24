@@ -33,6 +33,7 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import SwitchAccountOutlinedIcon from "@mui/icons-material/SwitchAccountOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
@@ -300,6 +301,14 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               title={isCollapsed ? "" : "Tác vụ"}
               icon={<AppRegistrationIcon />}
             >
+              <Item
+                title="Cấp quyền"
+                to="/admin/manage-role"
+                icon={<ManageAccountsOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
               <Item
                 title="Giá dịch vụ"
                 to="/admin/manage-code-price"

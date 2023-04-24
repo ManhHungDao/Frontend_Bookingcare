@@ -39,6 +39,7 @@ const DetailUser = ({
   enableEdit,
   setEnableEdit,
 }) => {
+  console.log("🚀 ~ file: DetailUser.js:42 ~ user:", user);
   //infomation doctor
   const [roleId, setRoleId] = useState("");
   const [email, setEmail] = useState("");

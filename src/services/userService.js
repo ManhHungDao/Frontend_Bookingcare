@@ -67,6 +67,10 @@ const getAllLocationClinic = () => {
   return axios.get(`/api/get-all-locaiton-clinic`);
 };
 
+const getRoleUser = () => {
+  return axios.get(`/api/get-role-user`);
+};
+
 export {
   getAllPatientAccount,
   getAllDoctorAccount,
@@ -84,4 +88,5 @@ export {
   getAllUserBySpecialtyHome,
   getAllDoctorByProvince,
   getAllLocationClinic,
+  getRoleUser,
 };
