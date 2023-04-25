@@ -6,6 +6,7 @@ const initialState = {
   changPassSuccess: false,
   resetPassSuccess: false,
   count: {},
+  accountPermission: [],
   // patientInfo: null,
   // isPatientLoggedIn: false,
 };
@@ -36,11 +37,22 @@ const appReducer = (state = initialState, action) => {
     //     isPatientLoggedIn: false,
     //     patientInfo: null,
     //   };
+    case actionTypes.GET_PERMISSION_LOGIN_SUCCESS:
+      return {
+        ...state,
+        accountPermission: action.data,
+      };
+    case actionTypes.GET_PERMISSION_LOGIN_FAIL:
+      return {
+        ...state,
+        accountPermission: [],
+      };
     case actionTypes.PROCESS_LOGOUT:
       return {
         ...state,
         isLoggedIn: false,
         userInfo: null,
+        accountPermission: [],
       };
     // case actionTypes.PATIENT_PROCESS_LOGOUT:
     //   return {

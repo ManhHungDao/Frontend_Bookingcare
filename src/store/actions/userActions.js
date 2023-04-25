@@ -4,6 +4,7 @@ import {
   resetPasswordApiService,
   changePasswordApiService,
   getAllCountDashboard,
+  getRoleUser,
 } from "../../services/userService";
 
 import { loadingToggleAction } from "./adminActions";
@@ -35,9 +36,21 @@ export const loginAction = (email, password) => {
       dispatch(loadingToggleAction(true));
       const res = await loginApiService(email, password);
       if (res && res.success) {
+        // dispatch(loadingToggleAction(false));
+        // dispatch(adminLoginSuccess(res.user));
+        dispatch({
+          type: actionTypes.ADMIN_LOGIN_SUCCESS,
+          userInfo: res.user,
+        });
+        const getPermission = await getRoleUser(res.user._id);
+        if (getPermission && getPermission.success)
+          dispatch({
+            type: actionTypes.GET_PERMISSION_LOGIN_SUCCESS,
+            data: getPermission.permissions,
+          });
         dispatch(loadingToggleAction(false));
-        dispatch(adminLoginSuccess(res.user));
       }
+      dispatch(loadingToggleAction(false));
     } catch (error) {
       dispatch(adminLoginFail());
       dispatch(loadingToggleAction(false));
