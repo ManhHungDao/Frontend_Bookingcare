@@ -6,6 +6,7 @@ import {
   getAllUserService,
   getSingleUserService,
   deleteUserService,
+  getAllManager,
 } from "../../services/userService";
 import {
   updateClinic,
@@ -181,6 +182,28 @@ export const deleteAllCodeAction = (id) => {
 };
 
 // USER ACTION
+export const getAllManagerAction = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getAllManager();
+      if (res && res.success) {
+        dispatch({
+          type: actionTypes.GET_ALL_MANAGER_SUCCEED,
+          data: res.managers,
+        });
+        dispatch(loadingToggleAction(false));
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_ALL_MANAGER_FAILED,
+      });
+      toast.error("lấy danh sách thất bại");
+    }
+  };
+};
+
 export const createNewUserAction = (data) => {
   return async (dispatch, getState) => {
     try {

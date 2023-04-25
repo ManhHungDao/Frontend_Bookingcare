@@ -67,8 +67,8 @@ const getAllLocationClinic = () => {
   return axios.get(`/api/get-all-locaiton-clinic`);
 };
 
-const getRoleUser = () => {
-  return axios.get(`/api/get-role-user`);
+const getAllManager = () => {
+  return axios.get(`/api/get-all-manager`);
 };
 
 export {
@@ -88,5 +88,5 @@ export {
   getAllUserBySpecialtyHome,
   getAllDoctorByProvince,
   getAllLocationClinic,
-  getRoleUser,
+  getAllManager,
 };

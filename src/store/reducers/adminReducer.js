@@ -17,6 +17,7 @@ const initialState = {
   listAccountPatient: [],
   prescription: {},
   listRecentMedicalHistory: [],
+  listManagers: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -55,6 +56,16 @@ const adminReducer = (state = initialState, action) => {
     }
     case actionTypes.GET_USER_FAILED: {
       return { ...state, user: {} };
+    }
+
+    case actionTypes.GET_ALL_MANAGER_SUCCEED: {
+      return {
+        ...state,
+        listManagers: action.data,
+      };
+    }
+    case actionTypes.GET_ALL_MANAGER_FAILED: {
+      return { ...state, listManagers: [] };
     }
     // CLINIC
     case actionTypes.GET_LIST_CLINIC_SUCCEED: {
