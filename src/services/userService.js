@@ -71,7 +71,17 @@ const getAllManager = () => {
   return axios.get(`/api/get-all-manager`);
 };
 
+const upsertRoleUser = (data) => {
+  return axios.put(`/api/upsert-role-user`, data);
+};
+
+const getRoleUser = (id) => {
+  return axios.get(`/api/get-role-user?id=${id}`);
+};
+
 export {
+  upsertRoleUser,
+  getRoleUser,
   getAllPatientAccount,
   getAllDoctorAccount,
   getAllMedicalHistory,

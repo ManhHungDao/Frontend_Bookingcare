@@ -18,6 +18,7 @@ const initialState = {
   prescription: {},
   listRecentMedicalHistory: [],
   listManagers: [],
+  userPermissions: "",
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -66,6 +67,15 @@ const adminReducer = (state = initialState, action) => {
     }
     case actionTypes.GET_ALL_MANAGER_FAILED: {
       return { ...state, listManagers: [] };
+    }
+    case actionTypes.GET_ROLE_USER_SUCCESS: {
+      return {
+        ...state,
+        userPermissions: action.data,
+      };
+    }
+    case actionTypes.GET_ROLE_USER_FAIL: {
+      return { ...state, userPermissions: [] };
     }
     // CLINIC
     case actionTypes.GET_LIST_CLINIC_SUCCEED: {

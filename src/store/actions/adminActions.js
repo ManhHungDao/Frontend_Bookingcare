@@ -7,6 +7,8 @@ import {
   getSingleUserService,
   deleteUserService,
   getAllManager,
+  upsertRoleUser,
+  getRoleUser,
 } from "../../services/userService";
 import {
   updateClinic,
@@ -182,6 +184,47 @@ export const deleteAllCodeAction = (id) => {
 };
 
 // USER ACTION
+
+export const upsertRoleUserAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await upsertRoleUser(data);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.UPDATE_SUCCESS,
+        });
+        toast.success("Cập nhập quyền thành công");
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      toast.error("Đã xảy ra lỗi");
+    }
+  };
+};
+
+export const getRoleUserAction = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getRoleUser(id);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.GET_ROLE_USER_SUCCESS,
+          data: res.permissions,
+        });
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.GET_ROLE_USER_FAIL,
+      });
+    }
+  };
+};
+
 export const getAllManagerAction = () => {
   return async (dispatch, getState) => {
     try {

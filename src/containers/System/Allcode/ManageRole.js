@@ -53,7 +53,15 @@ const typeMember = [
   { value: "R2", name: "Manager" },
   { value: "R3", name: "Doctor" },
 ];
-const ManageRole = ({ listManagers, getAllManagerAction }) => {
+const ManageRole = ({
+  listManagers,
+  getAllManagerAction,
+  upsertRoleUserAction,
+  clearStatus,
+  isSuccess,
+  userPermissions,
+  getRoleUserAction,
+}) => {
   const [data, setData] = useState("");
   const [userGroup, setUserGroup] = useState("");
   const [user, setUser] = useState(null);
@@ -63,7 +71,6 @@ const ManageRole = ({ listManagers, getAllManagerAction }) => {
   const [openSpecialty, setOpenSpecialty] = useState(false);
   const [openHandbook, setOpenHandbook] = useState(false);
   const [openCode, setOpenCode] = useState(false);
-  // const [checked, setChecked] = useState([0]);
   const [checkedPatient, setCheckedPatient] = useState([]);
   const [checkedUser, setCheckedUser] = useState([]);
   const [checkedClinic, setCheckedClinic] = useState([]);
@@ -71,9 +78,33 @@ const ManageRole = ({ listManagers, getAllManagerAction }) => {
   const [checkedHandbook, setCheckedHandbook] = useState([]);
   const [checkedCode, setCheckedCode] = useState([]);
 
+  const resetState = () => {
+    setCheckedPatient([]);
+    setCheckedUser([]);
+    setCheckedClinic([]);
+    setCheckedSpecialty([]);
+    setCheckedHandbook([]);
+    setCheckedCode([]);
+    setOpenPatient(false);
+    setOpenUser(false);
+    setOpenCLinic(false);
+    setOpenSpecialty(false);
+    setOpenHandbook(false);
+    setOpenCode(false);
+  };
+
   useEffect(() => {
     getAllManagerAction();
   }, []);
+
+  useEffect(() => {
+    if (isSuccess === true) {
+      setUserGroup("");
+      setUser(null);
+      resetState();
+    }
+    clearStatus();
+  }, [isSuccess]);
 
   useEffect(() => {
     if (listManagers.length > 0)
@@ -84,6 +115,30 @@ const ManageRole = ({ listManagers, getAllManagerAction }) => {
         }))
       );
   }, [listManagers]);
+
+  useEffect(() => {
+    resetState();
+    if (user !== null) {
+      getRoleUserAction(user.id);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (userPermissions.length > 0) {
+      setCheckedPatient(userPermissions.filter((e) => e.includes("patient")));
+      setCheckedUser(userPermissions.filter((e) => e.includes("user")));
+      setCheckedClinic(
+        userPermissions.filter(
+          (e) => e.includes("clinic") || e.includes("packet")
+        )
+      );
+      setCheckedSpecialty(
+        userPermissions.filter((e) => e.includes("specialty"))
+      );
+      setCheckedHandbook(userPermissions.filter((e) => e.includes("handbook")));
+      setCheckedCode(userPermissions.filter((e) => e.includes("code")));
+    }
+  }, [userPermissions]);
 
   const handleToggle = (value, name) => () => {
     if (name === "patient") {
@@ -168,7 +223,10 @@ const ManageRole = ({ listManagers, getAllManagerAction }) => {
       ...checkedHandbook,
       ...checkedCode,
     ];
-    console.log("permissions:", permissions);
+    upsertRoleUserAction({
+      userId: user.id,
+      permissions,
+    });
   };
 
   const defaultProps = {
@@ -654,12 +712,18 @@ const ManageRole = ({ listManagers, getAllManagerAction }) => {
 const mapStateToProps = (state) => {
   return {
     listManagers: state.admin.listManagers,
+    userPermissions: state.admin.userPermissions,
+    isSuccess: state.app.isSuccess,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllManagerAction: () => dispatch(actions.getAllManagerAction()),
+    upsertRoleUserAction: (data) =>
+      dispatch(actions.upsertRoleUserAction(data)),
+    getRoleUserAction: (id) => dispatch(actions.getRoleUserAction(id)),
+    clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
 

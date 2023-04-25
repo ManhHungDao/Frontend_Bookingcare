@@ -25,7 +25,6 @@ export const processPatientLogout = () => ({
   type: actionTypes.PATIENT_PROCESS_LOGOUT,
 });
 
-
 export const clearUserStatus = () => ({
   type: actionTypes.CLEAR_USER_STATUS,
 });
@@ -103,4 +102,3 @@ export const getAllCountAction = () => {
     }
   };
 };
-
