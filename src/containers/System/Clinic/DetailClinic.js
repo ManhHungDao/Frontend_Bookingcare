@@ -17,6 +17,8 @@ import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic"
 import _ from "lodash";
 import ClinicProfile from "./Section/ClinicProfile";
 import { ClinicDetail } from "./Section/clinic-details";
+import { scopes } from "../../../utils";
+import PermissionsGate from "../../../hoc/PermissionsGate";
 import "./style.scss";
 
 const DetailClinic = ({
@@ -224,14 +226,16 @@ const DetailClinic = ({
                 </Grid>
                 <Grid display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
                   {enableEdit && (
-                    <ButtonComponent
-                      content="Lưu"
-                      handleClick={handleSave}
-                      bgcolor="#94e2cd"
-                      color="#141414"
-                      hoverBgColor="#1e5245"
-                      hoverColor="#fff"
-                    />
+                    <PermissionsGate scopes={[scopes.CLINIC_UPDATE]}>
+                      <ButtonComponent
+                        content="Lưu"
+                        handleClick={handleSave}
+                        bgcolor="#94e2cd"
+                        color="#141414"
+                        hoverBgColor="#1e5245"
+                        hoverColor="#fff"
+                      />
+                    </PermissionsGate>
                   )}
                 </Grid>
               </Stack>

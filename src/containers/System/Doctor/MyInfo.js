@@ -26,7 +26,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const MyInfo = ({ userInfo, user, getSingleUserAction }) => {
   const [data, setData] = useState("");
-  console.log("🚀 ~ file: MyInfo.js:19 ~ MyInfo ~ data:", data);
 
   useEffect(() => {
     getSingleUserAction(userInfo._id);

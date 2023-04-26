@@ -191,14 +191,16 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 />
                 <PermissionsGate scopes={[scopes.USER_SCHEDULE_ACCESS]}>
                   <Divider />
-                  <Item
-                    title="Thêm lịch khám"
-                    to="/admin/add-user-schedule"
-                    icon={<AddCircleOutlineOutlinedIcon />}
-                    selected={selected}
-                    isCollapsed={isCollapsed}
-                    setSelected={setSelected}
-                  />
+                  <PermissionsGate scopes={[scopes.USER_SCHEDULE_ADD]}>
+                    <Item
+                      title="Thêm lịch khám"
+                      to="/admin/add-user-schedule"
+                      icon={<AddCircleOutlineOutlinedIcon />}
+                      selected={selected}
+                      isCollapsed={isCollapsed}
+                      setSelected={setSelected}
+                    />
+                  </PermissionsGate>
                   <Item
                     title="Lịch khám bác sĩ"
                     to="/admin/manage-user-schedule"
@@ -210,168 +212,189 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 </PermissionsGate>
               </SubMenu>
             </PermissionsGate>
-            <SubMenu
-              title={isCollapsed ? "" : "Phòng khám"}
-              icon={<HomeWorkOutlinedIcon />}
-            >
-              <Item
-                title="Thêm phòng khám"
-                to="/admin/add-clinic"
-                icon={<AddHomeOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Danh sách phòng khám"
-                to="/admin/manage-clinic"
-                icon={<BallotOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Divider />
-              <Item
-                title="Thêm gói khám"
-                to="/admin/add-packet"
-                icon={<PlaylistAddCircleOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Danh sách gói khám"
-                to="/admin/manage-packet"
-                icon={<MenuOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Divider />
-              <Item
-                title="Thêm lịch gói khám"
-                to="/admin/add-packet-schedule"
-                icon={<AddCircleOutlineOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Lịch khám các gói"
-                to="/admin/manage-packet-schedule"
-                icon={<PendingActionsIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-            </SubMenu>
-            <SubMenu
-              title={isCollapsed ? "" : "Chuyên khoa"}
-              icon={<VaccinesOutlinedIcon />}
-            >
-              <Item
-                title="Thêm chuyên khoa"
-                to="/admin/add-specialty"
-                icon={<AddCircleOutlineOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Danh sách chuyên khoa"
-                to="/admin/manage-specialty"
-                icon={<ListAltOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-            </SubMenu>
-            <SubMenu
-              title={isCollapsed ? "" : "Cẩm nang"}
-              icon={<BookmarksOutlinedIcon />}
-            >
-              <Item
-                title="Thêm cẩm nang"
-                to="/admin/add-handbook"
-                icon={<BookmarkAddOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Danh sách cẩm nang"
-                to="/admin/manage-handbook"
-                icon={<CollectionsBookmarkOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-            </SubMenu>
-            <SubMenu
-              title={isCollapsed ? "" : "Tác vụ"}
-              icon={<AppRegistrationIcon />}
-            >
-              {userInfo.roleId === "R1" ||
-                (userInfo.roleId === "R0" && (
+            <PermissionsGate scopes={[scopes.CLINIC_ACCESS]}>
+              <SubMenu
+                title={isCollapsed ? "" : "Phòng khám"}
+                icon={<HomeWorkOutlinedIcon />}
+              >
+                <PermissionsGate scopes={[scopes.CLINIC_ADD]}>
                   <Item
-                    title="Cấp quyền"
-                    to="/admin/manage-role"
-                    icon={<ManageAccountsOutlinedIcon />}
+                    title="Thêm phòng khám"
+                    to="/admin/add-clinic"
+                    icon={<AddHomeOutlinedIcon />}
                     selected={selected}
                     isCollapsed={isCollapsed}
                     setSelected={setSelected}
                   />
-                ))}
+                </PermissionsGate>
 
-              <Item
-                title="Giá dịch vụ"
-                to="/admin/manage-code-price"
-                icon={<AttachMoneyIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Phương thức"
-                to="/admin/manage-code-payment"
-                icon={<CreditCardIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Thành phố"
-                to="/admin/manage-code-province"
-                icon={<ApartmentOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Thời gian"
-                to="/admin/manage-code-time"
-                icon={<AccessAlarmIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Chuyên khoa"
-                to="/admin/manage-code-specialty"
-                icon={<EarbudsIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Gói khám"
-                to="/admin/manage-code-packet"
-                icon={<LocalMallIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-            </SubMenu>
+                <Item
+                  title="Danh sách phòng khám"
+                  to="/admin/manage-clinic"
+                  icon={<BallotOutlinedIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+                <Divider />
+                <PermissionsGate scopes={[scopes.PACKET_ADD]}>
+                  <Item
+                    title="Thêm gói khám"
+                    to="/admin/add-packet"
+                    icon={<PlaylistAddCircleOutlinedIcon />}
+                    selected={selected}
+                    isCollapsed={isCollapsed}
+                    setSelected={setSelected}
+                  />
+                </PermissionsGate>
+                <Item
+                  title="Danh sách gói khám"
+                  to="/admin/manage-packet"
+                  icon={<MenuOutlinedIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+                <PermissionsGate scopes={[scopes.PACKET_SCHEDULE_ACCESS]}>
+                  <PermissionsGate scopes={[scopes.PACKET_SCHEDULE_ADD]}>
+                    <Divider />
+                    <Item
+                      title="Thêm lịch gói khám"
+                      to="/admin/add-packet-schedule"
+                      icon={<AddCircleOutlineOutlinedIcon />}
+                      selected={selected}
+                      isCollapsed={isCollapsed}
+                      setSelected={setSelected}
+                    />
+                  </PermissionsGate>
+
+                  <Item
+                    title="Lịch khám các gói"
+                    to="/admin/manage-packet-schedule"
+                    icon={<PendingActionsIcon />}
+                    selected={selected}
+                    isCollapsed={isCollapsed}
+                    setSelected={setSelected}
+                  />
+                </PermissionsGate>
+              </SubMenu>
+            </PermissionsGate>
+
+            <PermissionsGate scopes={[scopes.SPECIALTY_ACCESS]}>
+              <SubMenu
+                title={isCollapsed ? "" : "Chuyên khoa"}
+                icon={<VaccinesOutlinedIcon />}
+              >
+                <Item
+                  title="Thêm chuyên khoa"
+                  to="/admin/add-specialty"
+                  icon={<AddCircleOutlineOutlinedIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+                <Item
+                  title="Danh sách chuyên khoa"
+                  to="/admin/manage-specialty"
+                  icon={<ListAltOutlinedIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+              </SubMenu>
+            </PermissionsGate>
+
+            <PermissionsGate scopes={[scopes.HANDBOOK_ACCESS]}>
+              <SubMenu
+                title={isCollapsed ? "" : "Cẩm nang"}
+                icon={<BookmarksOutlinedIcon />}
+              >
+                <Item
+                  title="Thêm cẩm nang"
+                  to="/admin/add-handbook"
+                  icon={<BookmarkAddOutlinedIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+                <Item
+                  title="Danh sách cẩm nang"
+                  to="/admin/manage-handbook"
+                  icon={<CollectionsBookmarkOutlinedIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+              </SubMenu>
+            </PermissionsGate>
+
+            <PermissionsGate scopes={[scopes.CODE_ACCESS]}>
+              <SubMenu
+                title={isCollapsed ? "" : "Tác vụ"}
+                icon={<AppRegistrationIcon />}
+              >
+                {userInfo.roleId === "R1" ||
+                  (userInfo.roleId === "R0" && (
+                    <Item
+                      title="Cấp quyền"
+                      to="/admin/manage-role"
+                      icon={<ManageAccountsOutlinedIcon />}
+                      selected={selected}
+                      isCollapsed={isCollapsed}
+                      setSelected={setSelected}
+                    />
+                  ))}
+
+                <Item
+                  title="Giá dịch vụ"
+                  to="/admin/manage-code-price"
+                  icon={<AttachMoneyIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+                <Item
+                  title="Phương thức"
+                  to="/admin/manage-code-payment"
+                  icon={<CreditCardIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+                <Item
+                  title="Thành phố"
+                  to="/admin/manage-code-province"
+                  icon={<ApartmentOutlinedIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+                <Item
+                  title="Thời gian"
+                  to="/admin/manage-code-time"
+                  icon={<AccessAlarmIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+                <Item
+                  title="Chuyên khoa"
+                  to="/admin/manage-code-specialty"
+                  icon={<EarbudsIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+                <Item
+                  title="Gói khám"
+                  to="/admin/manage-code-packet"
+                  icon={<LocalMallIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+              </SubMenu>
+            </PermissionsGate>
 
             <LogOut
               title="Thoát"

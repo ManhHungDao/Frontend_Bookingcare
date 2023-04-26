@@ -25,7 +25,6 @@ const UpLoadAvatar = ({
   errorText,
   disableEdit,
 }) => {
-  console.log("🚀 ~ file: UpLoadAvatar.js:28 ~ image:", image);
   const [openPreImg, setOpenPreImg] = useState(false);
   // const [previewImgUrl, setPreviewImgUrl] = useState("");
   useEffect(() => {
