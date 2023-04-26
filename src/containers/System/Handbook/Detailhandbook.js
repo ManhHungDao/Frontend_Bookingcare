@@ -16,7 +16,8 @@ import ButtonComponent from "../../../components/ButtonComponent";
 import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic";
 import HandbookProfile from "./section/HandbookProfile";
 import { HandbookDetail } from "./section/HandbookDetail";
-
+import { scopes } from "../../../utils";
+import PermissionsGate from "../../../hoc/PermissionsGate";
 import _ from "lodash";
 
 const DetailHandbook = ({
@@ -230,14 +231,16 @@ const DetailHandbook = ({
                 </Grid>
                 <Grid display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
                   {enableEdit && (
-                    <ButtonComponent
-                      content="Lưu"
-                      handleClick={handleSave}
-                      bgcolor="#94e2cd"
-                      color="#141414"
-                      hoverBgColor="#1e5245"
-                      hoverColor="#fff"
-                    />
+                    <PermissionsGate scopes={[scopes.HANDBOOK_UPDATE]}>
+                      <ButtonComponent
+                        content="Lưu"
+                        handleClick={handleSave}
+                        bgcolor="#94e2cd"
+                        color="#141414"
+                        hoverBgColor="#1e5245"
+                        hoverColor="#fff"
+                      />
+                    </PermissionsGate>
                   )}
                 </Grid>
               </Stack>

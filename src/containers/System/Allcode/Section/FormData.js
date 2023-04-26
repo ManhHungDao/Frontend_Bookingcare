@@ -28,6 +28,8 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import CachedIcon from "@mui/icons-material/Cached";
 import _ from "lodash";
+import { scopes } from "../../../../utils";
+import PermissionsGate from "../../../../hoc/PermissionsGate";
 const FormData = ({
   data,
   type,
@@ -115,16 +117,20 @@ const FormData = ({
         <TableCell>{type ? type : "-"}</TableCell>
         <TableCell>{valueVI ? valueVI : "-"}</TableCell>
         <TableCell>
-          <Tooltip title="Chỉnh sửa">
-            <IconButton onClick={() => hadnleClickEdit(props)}>
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Xóa">
-            <IconButton onClick={() => handelClickDelete(props)}>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
+          <PermissionsGate scopes={[scopes.CODE_UPDATE]}>
+            <Tooltip title="Chỉnh sửa">
+              <IconButton onClick={() => hadnleClickEdit(props)}>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+          </PermissionsGate>
+          <PermissionsGate scopes={[scopes.CODE_DELETE]}>
+            <Tooltip title="Xóa">
+              <IconButton onClick={() => handelClickDelete(props)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </PermissionsGate>
         </TableCell>
       </TableRow>
     );
@@ -199,16 +205,18 @@ const FormData = ({
             />
           )}
         </Grid>
-        <Grid item xs={12} md={12} display="flex" justifyContent="flex-end">
-          <ButtonComponent
-            content="Lưu"
-            handleClick={handleSave}
-            bgcolor="#94e2cd"
-            color="#141414"
-            hoverBgColor="#1e5245"
-            hoverColor="#fff"
-          />
-        </Grid>
+        <PermissionsGate scopes={[scopes.CODE_ADD]}>
+          <Grid item xs={12} md={12} display="flex" justifyContent="flex-end">
+            <ButtonComponent
+              content="Lưu"
+              handleClick={handleSave}
+              bgcolor="#94e2cd"
+              color="#141414"
+              hoverBgColor="#1e5245"
+              hoverColor="#fff"
+            />
+          </Grid>
+        </PermissionsGate>
       </Grid>
       {deleteCode && (
         <ConfirmModal

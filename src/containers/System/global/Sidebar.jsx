@@ -285,14 +285,16 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 title={isCollapsed ? "" : "Chuyên khoa"}
                 icon={<VaccinesOutlinedIcon />}
               >
-                <Item
-                  title="Thêm chuyên khoa"
-                  to="/admin/add-specialty"
-                  icon={<AddCircleOutlineOutlinedIcon />}
-                  selected={selected}
-                  isCollapsed={isCollapsed}
-                  setSelected={setSelected}
-                />
+                <PermissionsGate scopes={[scopes.SPECIALTY_ADD]}>
+                  <Item
+                    title="Thêm chuyên khoa"
+                    to="/admin/add-specialty"
+                    icon={<AddCircleOutlineOutlinedIcon />}
+                    selected={selected}
+                    isCollapsed={isCollapsed}
+                    setSelected={setSelected}
+                  />
+                </PermissionsGate>
                 <Item
                   title="Danh sách chuyên khoa"
                   to="/admin/manage-specialty"
@@ -309,14 +311,16 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 title={isCollapsed ? "" : "Cẩm nang"}
                 icon={<BookmarksOutlinedIcon />}
               >
-                <Item
-                  title="Thêm cẩm nang"
-                  to="/admin/add-handbook"
-                  icon={<BookmarkAddOutlinedIcon />}
-                  selected={selected}
-                  isCollapsed={isCollapsed}
-                  setSelected={setSelected}
-                />
+                <PermissionsGate scopes={[scopes.HANDBOOK_ADD]}>
+                  <Item
+                    title="Thêm cẩm nang"
+                    to="/admin/add-handbook"
+                    icon={<BookmarkAddOutlinedIcon />}
+                    selected={selected}
+                    isCollapsed={isCollapsed}
+                    setSelected={setSelected}
+                  />
+                </PermissionsGate>
                 <Item
                   title="Danh sách cẩm nang"
                   to="/admin/manage-handbook"

@@ -25,7 +25,8 @@ import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
 import Select from "react-select";
 import Detailhandbook from "./Detailhandbook";
-
+import { scopes } from "../../../utils";
+import PermissionsGate from "../../../hoc/PermissionsGate";
 const TableManageHandbook = ({
   getAllHandbookAction,
   listHandbook,
@@ -182,16 +183,20 @@ const TableManageHandbook = ({
           <TableCell>{clinic?.name ? clinic.name : "-"}</TableCell>
           <TableCell>{specialty.name ? specialty.name : ""}</TableCell>
           <TableCell>
-            <Tooltip title="Xem">
-              <IconButton onClick={() => handleClickView(props)}>
-                <RemoveRedEyeRoundedIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Xóa">
-              <IconButton onClick={() => handelClickDelete(props)}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+            <PermissionsGate scopes={[scopes.HANDBOOK_VIEW]}>
+              <Tooltip title="Xem">
+                <IconButton onClick={() => handleClickView(props)}>
+                  <RemoveRedEyeRoundedIcon />
+                </IconButton>
+              </Tooltip>
+            </PermissionsGate>
+            <PermissionsGate scopes={[scopes.HANDBOOK_DELETE]}>
+              <Tooltip title="Xóa">
+                <IconButton onClick={() => handelClickDelete(props)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            </PermissionsGate>
           </TableCell>
         </TableRow>
       </>
