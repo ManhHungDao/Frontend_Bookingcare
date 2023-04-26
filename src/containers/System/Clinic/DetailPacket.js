@@ -17,6 +17,8 @@ import CKEditorFieldBasic from "../../../components/Ckeditor/CKEditorFieldBasic"
 import PacketDetail from "./Section/packet-detail";
 import _ from "lodash";
 import PacketProfile from "./Section/PacketProfile";
+import { scopes } from "../../../utils";
+import PermissionsGate from "../../../hoc/PermissionsGate";
 
 const DetailPacket = ({
   packet,
@@ -246,14 +248,16 @@ const DetailPacket = ({
                   md={12}
                 >
                   {enableEdit && (
-                    <ButtonComponent
-                      content="Lưu"
-                      handleClick={handleSave}
-                      bgcolor="#94e2cd"
-                      color="#141414"
-                      hoverBgColor="#1e5245"
-                      hoverColor="#fff"
-                    />
+                    <PermissionsGate scopes={[scopes.PACKET_UPDATE]}>
+                      <ButtonComponent
+                        content="Lưu"
+                        handleClick={handleSave}
+                        bgcolor="#94e2cd"
+                        color="#141414"
+                        hoverBgColor="#1e5245"
+                        hoverColor="#fff"
+                      />
+                    </PermissionsGate>
                   )}
                 </Grid>
               </Stack>

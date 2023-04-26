@@ -29,6 +29,8 @@ import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 import Select from "react-select";
 import DetailPacket from "./DetailPacket";
+import { scopes } from "../../../utils";
+import PermissionsGate from "../../../hoc/PermissionsGate";
 
 const TableManagePacket = ({
   isSuccess,
@@ -191,16 +193,20 @@ const TableManagePacket = ({
           <TableCell>{clinic.name}</TableCell>
           <TableCell>{price.name}</TableCell>
           <TableCell>
-            <Tooltip title="Xem">
-              <IconButton onClick={() => hadnleClickView(props)}>
-                <RemoveRedEyeRoundedIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Xóa">
-              <IconButton onClick={() => handelClickDelete(props)}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+            <PermissionsGate scopes={[scopes.PACKET_VIEW]}>
+              <Tooltip title="Xem">
+                <IconButton onClick={() => hadnleClickView(props)}>
+                  <RemoveRedEyeRoundedIcon />
+                </IconButton>
+              </Tooltip>
+            </PermissionsGate>
+            <PermissionsGate scopes={[scopes.PACKET_DELETE]}>
+              <Tooltip title="Xóa">
+                <IconButton onClick={() => handelClickDelete(props)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            </PermissionsGate>
           </TableCell>
         </TableRow>
       </>
