@@ -8,6 +8,7 @@ import DoctorSideBar from "../containers/System/global/DoctorSideBar";
 import ManageSchedule from "../containers/System/Doctor/ManageSchedule";
 import { CssBaseline } from "@mui/material";
 import TodaySchedule from "../containers/System/Doctor/TodaySchedule";
+import MyInfo from "../containers/System/Doctor/MyInfo";
 import "./style.css";
 
 const DoctorRoute = ({ systemMenuPath, isLoggedIn }) => {
@@ -21,6 +22,7 @@ const DoctorRoute = ({ systemMenuPath, isLoggedIn }) => {
           <Topbar setIsSidebar={setIsSidebar} />
           <Routes>
             <Route index element={<Dashboard />} />
+            <Route path="view-myinfo" element={<MyInfo />} />
             <Route path="reset-password" element={<ResetPassword />} />
             <Route path="schedule-today" element={<TodaySchedule />} />
             <Route path="manage-schedule" element={<ManageSchedule />} />

@@ -12,7 +12,7 @@ import * as actions from "../../../store/actions";
 import { connect, useDispatch } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
-const Topbar = ({ processLogout }) => {
+const Topbar = ({ processLogout, userInfo }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
@@ -28,6 +28,23 @@ const Topbar = ({ processLogout }) => {
     dispatch({ type: actions.SET_MENU, data: "" });
     navigate("/admin/reset-password");
   };
+  const handleChangeManageMySchedule = () => {
+    dispatch({ type: actions.SET_MENU, data: "" });
+    navigate("/admin/manage-my-schedule");
+  };
+  const handleViewMySchedule = () => {
+    dispatch({ type: actions.SET_MENU, data: "" });
+    navigate("/admin/view-my-schedule");
+  };
+  const handleViewMyInfo = () => {
+    dispatch({ type: actions.SET_MENU, data: "" });
+    navigate("/admin/view-myinfo");
+  };
+  const handleViewMyInfoDoctor = () => {
+    dispatch({ type: actions.SET_MENU, data: "" });
+    navigate("/doctor/view-myinfo");
+  };
+
   const handleLogout = () => {
     navigate("/system-login");
     processLogout();
@@ -52,6 +69,25 @@ const Topbar = ({ processLogout }) => {
           "aria-labelledby": "basic-button",
         }}
       >
+        {userInfo.roleId !== "R3" ? (
+          <>
+            <MenuItem onClick={handleViewMyInfo}>Thông tin cá nhân</MenuItem>
+
+            <MenuItem onClick={handleViewMySchedule}>
+              Lịch khám cá nhân
+            </MenuItem>
+            <MenuItem onClick={handleChangeManageMySchedule}>
+              Quản lý lịch khám
+            </MenuItem>
+          </>
+        ) : (
+          <>
+            <MenuItem onClick={handleViewMyInfoDoctor}>
+              Thông tin cá nhân
+            </MenuItem>
+          </>
+        )}
+
         <MenuItem onClick={handleChangePass}>Đổi mật khẩu</MenuItem>
         <MenuItem onClick={handleLogout}>Thoát</MenuItem>
       </Menu>

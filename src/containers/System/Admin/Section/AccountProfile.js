@@ -14,14 +14,14 @@ import {
 } from "@mui/material";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import UpLoadAvatar from "../../../../components/UpLoadAvatar";
 import EmailIcon from "@mui/icons-material/Email";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ConfirmModal from "../../../../components/confirmModal/ConfirmModal";
 import PersonIcon from "@mui/icons-material/Person";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import UpLoadAvatar from "../../../../components/UpLoadAvatar";
+import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
+import ConfirmModal from "../../../../components/confirmModal/ConfirmModal";
 import SetRole from "./SetRole";
 const role = [
   {

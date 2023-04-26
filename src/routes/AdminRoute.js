@@ -23,6 +23,9 @@ import TableManagePacketSchedule from "../containers/System/Clinic/TableManagePa
 import TableManageAccountPatient from "../containers/System/Admin/PatientAccount/TableManageAccountPatient";
 import DetailAccount from "../containers/System/Admin/PatientAccount/DetailAccount";
 import ManageRole from "../containers/System/Allcode/ManageRole";
+import TodaySchedule from "../containers/System/Doctor/TodaySchedule";
+import ManageSchedule from "../containers/System/Doctor/ManageSchedule";
+import MyInfo from "../containers/System/Doctor/MyInfo";
 import { CssBaseline } from "@mui/material";
 import "./style.css";
 const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
@@ -74,6 +77,12 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
             <Route path="manage-code-packet" element={<ManageCode />} />
             <Route path="add-handbook" element={<AddHandbook />} />
             <Route path="manage-handbook" element={<TableManageHandbook />} />
+
+            {/* route topbar */}
+
+            <Route path="view-myinfo" element={<MyInfo />} />
+            <Route path="view-my-schedule" element={<TodaySchedule />} />
+            <Route path="manage-my-schedule" element={<ManageSchedule />} />
 
             <Route path="*" element={<Navigate replace to="/admin" />} />
           </Routes>
