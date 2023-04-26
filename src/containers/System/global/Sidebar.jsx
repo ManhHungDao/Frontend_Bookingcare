@@ -34,6 +34,8 @@ import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import SwitchAccountOutlinedIcon from "@mui/icons-material/SwitchAccountOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
+import { scopes } from "../../../utils";
+import PermissionsGate from "../../../hoc/PermissionsGate";
 
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
@@ -141,65 +143,73 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               setSelected={setSelected}
               isCollapsed={isCollapsed}
             />
-            <SubMenu
-              title={isCollapsed ? "" : "Người dùng"}
-              icon={<AccountBoxOutlinedIcon />}
-            >
-              <Item
-                title="Danh sách tài khoản"
-                to="/admin/manage-account-patient"
-                icon={<SwitchAccountOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Chi tiết tài khoản"
-                to="/admin/detail-account-patient"
-                icon={<InfoOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-            </SubMenu>
-            <SubMenu
-              title={isCollapsed ? "" : "Bác sĩ"}
-              icon={<PermIdentityOutlinedIcon />}
-            >
-              <Item
-                title="Thêm bác sĩ"
-                to="/admin/add-user"
-                icon={<PersonAddAltIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Danh sách bác sĩ"
-                to="/admin/manage-user"
-                icon={<PeopleOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Divider />
-              <Item
-                title="Thêm lịch khám"
-                to="/admin/add-user-schedule"
-                icon={<AddCircleOutlineOutlinedIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Lịch khám bác sĩ"
-                to="/admin/manage-user-schedule"
-                icon={<PendingActionsIcon />}
-                selected={selected}
-                isCollapsed={isCollapsed}
-                setSelected={setSelected}
-              />
-            </SubMenu>
+            <PermissionsGate scopes={[scopes.PATIENT_ACCESS]}>
+              <SubMenu
+                title={isCollapsed ? "" : "Người dùng"}
+                icon={<AccountBoxOutlinedIcon />}
+              >
+                <Item
+                  title="Danh sách tài khoản"
+                  to="/admin/manage-account-patient"
+                  icon={<SwitchAccountOutlinedIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+                <Item
+                  title="Chi tiết tài khoản"
+                  to="/admin/detail-account-patient"
+                  icon={<InfoOutlinedIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+              </SubMenu>
+            </PermissionsGate>
+            <PermissionsGate scopes={[scopes.USER_ACCESS]}>
+              <SubMenu
+                title={isCollapsed ? "" : "Bác sĩ"}
+                icon={<PermIdentityOutlinedIcon />}
+              >
+                <PermissionsGate scopes={[scopes.USER_ADD]}>
+                  <Item
+                    title="Thêm bác sĩ"
+                    to="/admin/add-user"
+                    icon={<PersonAddAltIcon />}
+                    selected={selected}
+                    isCollapsed={isCollapsed}
+                    setSelected={setSelected}
+                  />
+                </PermissionsGate>
+                <Item
+                  title="Danh sách bác sĩ"
+                  to="/admin/manage-user"
+                  icon={<PeopleOutlinedIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+                <PermissionsGate scopes={[scopes.USER_SCHEDULE_ACCESS]}>
+                  <Divider />
+                  <Item
+                    title="Thêm lịch khám"
+                    to="/admin/add-user-schedule"
+                    icon={<AddCircleOutlineOutlinedIcon />}
+                    selected={selected}
+                    isCollapsed={isCollapsed}
+                    setSelected={setSelected}
+                  />
+                  <Item
+                    title="Lịch khám bác sĩ"
+                    to="/admin/manage-user-schedule"
+                    icon={<PendingActionsIcon />}
+                    selected={selected}
+                    isCollapsed={isCollapsed}
+                    setSelected={setSelected}
+                  />
+                </PermissionsGate>
+              </SubMenu>
+            </PermissionsGate>
             <SubMenu
               title={isCollapsed ? "" : "Phòng khám"}
               icon={<HomeWorkOutlinedIcon />}

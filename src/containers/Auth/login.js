@@ -38,12 +38,11 @@ const SignInSide = ({ loginAction, isLoggedIn, processLogout, userInfo }) => {
 
   useEffect(() => {
     if (userInfo && userInfo.roleId) {
-      if (userInfo.roleId === "R1" || userInfo.roleId === "R0")
-        return isLoggedIn === true ? navigate("/admin") : "";
-      if (userInfo.roleId === "R2")
-        return isLoggedIn === true ? navigate("/manager") : "";
       if (userInfo.roleId === "R3")
         return isLoggedIn === true ? navigate("/doctor") : "";
+      else {
+        return isLoggedIn === true ? navigate("/admin") : "";
+      }
     }
   }, [isLoggedIn, userInfo]);
 

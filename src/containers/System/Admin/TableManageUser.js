@@ -30,6 +30,8 @@ import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import DetailUser from "./DetailUser";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 import Select from "react-select";
+import { scopes } from "../../../utils";
+import PermissionsGate from "../../../hoc/PermissionsGate";
 import "./Style.scss";
 
 const TableManageUser = (props) => {
@@ -200,11 +202,13 @@ const TableManageUser = (props) => {
           </TableCell>
           {userInfo.roleId === "R2" ? (
             <TableCell>
-              <Tooltip title="Xem">
-                <IconButton onClick={() => hadnleClickView(props)}>
-                  <RemoveRedEyeRoundedIcon />
-                </IconButton>
-              </Tooltip>
+              <PermissionsGate scopes={[scopes.USER_VIEW]}>
+                <Tooltip title="Xem">
+                  <IconButton onClick={() => hadnleClickView(props)}>
+                    <RemoveRedEyeRoundedIcon />
+                  </IconButton>
+                </Tooltip>
+              </PermissionsGate>
             </TableCell>
           ) : (
             <TableCell>

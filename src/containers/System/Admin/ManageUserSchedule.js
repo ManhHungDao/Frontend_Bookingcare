@@ -44,7 +44,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import ConfirmModal from "../../../components/confirmModal/ConfirmModal";
 import { getSingleUserSchedule } from "../../../services/scheduleService";
-
+import { scopes } from "../../../utils";
+import PermissionsGate from "../../../hoc/PermissionsGate";
 const tomorrow = dayjs().add(1, "day");
 
 const ManageUserSchedule = ({
@@ -425,16 +426,20 @@ const ManageUserSchedule = ({
             </Typography>
           </TableCell>
           <TableCell>
-            <Tooltip title="Chỉnh sửa">
-              <IconButton onClick={() => setUserEdit(props)}>
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Xóa">
-              <IconButton onClick={() => handelClickDelete(props)}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+            <PermissionsGate scopes={[scopes.USER_SCHEDULE_UPDATE]}>
+              <Tooltip title="Chỉnh sửa">
+                <IconButton onClick={() => setUserEdit(props)}>
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+            </PermissionsGate>
+            <PermissionsGate scopes={[scopes.USER_SCHEDULE_DELETE]}>
+              <Tooltip title="Xóa">
+                <IconButton onClick={() => handelClickDelete(props)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            </PermissionsGate>
           </TableCell>
         </TableRow>
       </>
@@ -667,14 +672,16 @@ const ManageUserSchedule = ({
             {/*   bảng chọn người dùng */}
           </Grid>
           <Grid item xs={12} md={12} display="flex" justifyContent="flex-end">
-            <ButtonComponent
-              content="Lưu"
-              handleClick={handleSave}
-              bgcolor="#94e2cd"
-              color="#141414"
-              hoverBgColor="#1e5245"
-              hoverColor="#fff"
-            />
+            <PermissionsGate scopes={[scopes.USER_SCHEDULE_ADD]}>
+              <ButtonComponent
+                content="Lưu"
+                handleClick={handleSave}
+                bgcolor="#94e2cd"
+                color="#141414"
+                hoverBgColor="#1e5245"
+                hoverColor="#fff"
+              />
+            </PermissionsGate>
           </Grid>
         </Grid>
       </Box>

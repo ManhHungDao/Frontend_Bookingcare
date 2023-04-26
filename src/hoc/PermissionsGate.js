@@ -16,8 +16,7 @@ export const PermissionsGate = ({
   permissions,
   userInfo,
 }) => {
-  if (userInfo.roleId === "R1" || userInfo.roleId === "R0")
-    return <>{children}</>;
+  if (userInfo.roleId !== "R2") return <>{children}</>;
   const permissionGranted = hasPermission({ permissions, scopes });
 
   if (!permissionGranted) return <></>;

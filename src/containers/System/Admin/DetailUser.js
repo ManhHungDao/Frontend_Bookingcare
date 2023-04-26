@@ -20,7 +20,8 @@ import {
 import ButtonComponent from "../../../components/ButtonComponent";
 import _ from "lodash";
 import { useRef } from "react";
-
+import { scopes } from "../../../utils";
+import PermissionsGate from "../../../hoc/PermissionsGate";
 const CONST_GENDER = [
   { value: "M", label: "Nam" },
   { value: "F", label: "Nữ" },
@@ -360,14 +361,16 @@ const DetailUser = ({
                 </Grid>
                 {enableEdit && (
                   <Grid display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                    <ButtonComponent
-                      content="Lưu"
-                      handleClick={handleSave}
-                      bgcolor="#94e2cd"
-                      color="#141414"
-                      hoverBgColor="#1e5245"
-                      hoverColor="#fff"
-                    />
+                    <PermissionsGate scopes={[scopes.USER_UPDATE]}>
+                      <ButtonComponent
+                        content="Lưu"
+                        handleClick={handleSave}
+                        bgcolor="#94e2cd"
+                        color="#141414"
+                        hoverBgColor="#1e5245"
+                        hoverColor="#fff"
+                      />
+                    </PermissionsGate>
                   </Grid>
                 )}
               </Stack>

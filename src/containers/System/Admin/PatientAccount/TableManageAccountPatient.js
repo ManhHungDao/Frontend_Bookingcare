@@ -34,6 +34,8 @@ import { deleteAccountPatient } from "../../../../services/patientService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { scopes } from "../../../../utils";
+import PermissionsGate from "../../../../hoc/PermissionsGate";
 
 const TableManageAccountPatient = ({
   getAllAccountPatient,
@@ -172,16 +174,20 @@ const TableManageAccountPatient = ({
           <TableCell>{address?.detail ? address?.detail : ""}</TableCell>
 
           <TableCell>
-            <Tooltip title="Xem">
-              <IconButton onClick={() => hadnleClickView(props)}>
-                <RemoveRedEyeRoundedIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Xóa">
-              <IconButton onClick={() => handelClickDelete(props)}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+            <PermissionsGate scopes={[scopes.PATIENT_VIEW]}>
+              <Tooltip title="Xem">
+                <IconButton onClick={() => hadnleClickView(props)}>
+                  <RemoveRedEyeRoundedIcon />
+                </IconButton>
+              </Tooltip>
+            </PermissionsGate>
+            <PermissionsGate scopes={[scopes.PATIENT_DELETE]}>
+              <Tooltip title="Xóa">
+                <IconButton onClick={() => handelClickDelete(props)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            </PermissionsGate>
           </TableCell>
         </TableRow>
       </>

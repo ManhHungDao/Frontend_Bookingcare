@@ -37,7 +37,8 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
 import DetailSchedule from "../Doctor/DetailSchedule";
-
+import { scopes } from "../../../utils";
+import PermissionsGate from "../../../hoc/PermissionsGate";
 import "./Style.scss";
 
 const TableManageUserSchedule = ({
@@ -306,13 +307,17 @@ const TableManageUserSchedule = ({
                             })}
                           </TableCell>
                           <TableCell>
-                            <Tooltip title="Xem">
-                              <IconButton
-                                onClick={() => handleClickView(e, dataDoctor)}
-                              >
-                                <RemoveRedEyeRoundedIcon />
-                              </IconButton>
-                            </Tooltip>
+                            <PermissionsGate
+                              scopes={[scopes.USER_SCHEDULE_VIEW]}
+                            >
+                              <Tooltip title="Xem">
+                                <IconButton
+                                  onClick={() => handleClickView(e, dataDoctor)}
+                                >
+                                  <RemoveRedEyeRoundedIcon />
+                                </IconButton>
+                              </Tooltip>
+                            </PermissionsGate>
                           </TableCell>
                         </TableRow>
                       ))}

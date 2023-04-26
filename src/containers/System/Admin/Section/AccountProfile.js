@@ -23,6 +23,8 @@ import UpLoadAvatar from "../../../../components/UpLoadAvatar";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import ConfirmModal from "../../../../components/confirmModal/ConfirmModal";
 import SetRole from "./SetRole";
+import { scopes } from "../../../../utils";
+import PermissionsGate from "../../../../hoc/PermissionsGate";
 const role = [
   {
     id: "R0",
@@ -191,26 +193,28 @@ const AccountProfile = ({
         </CardContent>
         {enableEdit && (
           <>
-            <Divider />
-            <CardActions
-              sx={{
-                display: "flex",
-                gap: "5px",
-              }}
-            >
-              <Button
-                size="small"
-                variant="outlined"
-                onClick={() => setOpen(true)}
+            <PermissionsGate scopes={[scopes.USER_UPDATE]}>
+              <Divider />
+              <CardActions
                 sx={{
-                  pt: "6px",
-                  pb: "6px",
+                  display: "flex",
+                  gap: "5px",
                 }}
               >
-                Đặt lại mật khẩu
-              </Button>
-              <SetRole roleId={roleId} setRoleId={setRoleId} />
-            </CardActions>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => setOpen(true)}
+                  sx={{
+                    pt: "6px",
+                    pb: "6px",
+                  }}
+                >
+                  Đặt lại mật khẩu
+                </Button>
+                <SetRole roleId={roleId} setRoleId={setRoleId} />
+              </CardActions>
+            </PermissionsGate>
           </>
         )}
       </Card>
