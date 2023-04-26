@@ -20,7 +20,7 @@ import ModalReport from "./modalReport";
 import { getAllLocationClinic } from "../../../services/userService";
 import GoogleMaps from "../../../components/maps/GoogleMaps";
 
-const Dashboard = ({ getAllCountAction, count }) => {
+const Dashboard = ({ getAllCountAction, count, userInfo }) => {
   const [data, setData] = useState({});
   const [open, setOpen] = useState(false);
   const [listLocation, setListLocation] = useState([]);
@@ -57,26 +57,28 @@ const Dashboard = ({ getAllCountAction, count }) => {
           }}
         >
           <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
-
-          <Box sx={{ mb: 2 }}>
-            <Button
-              sx={{
-                backgroundColor: "#94e2cd",
-                color: "#141414",
-                fontSize: "14px",
-                fontWeight: "bold",
-                padding: "10px 20px",
-                ":hover": {
-                  bgcolor: "#1e5245",
-                  color: "#fff",
-                },
-              }}
-              onClick={() => setOpen(true)}
-            >
-              <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-              Tải báo cáo
-            </Button>
-          </Box>
+          {userInfo.roleId === "R1" ||
+            (userInfo.roleId === "R0" && (
+              <Box sx={{ mb: 2 }}>
+                <Button
+                  sx={{
+                    backgroundColor: "#94e2cd",
+                    color: "#141414",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    padding: "10px 20px",
+                    ":hover": {
+                      bgcolor: "#1e5245",
+                      color: "#fff",
+                    },
+                  }}
+                  onClick={() => setOpen(true)}
+                >
+                  <DownloadOutlinedIcon sx={{ mr: "10px" }} />
+                  Tải báo cáo
+                </Button>
+              </Box>
+            ))}
         </Stack>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={6} lg={3}>
@@ -137,6 +139,7 @@ const Dashboard = ({ getAllCountAction, count }) => {
 const mapStateToProps = (state) => ({
   isLoggedIn: state.user.isLoggedIn,
   count: state.user.count,
+  userInfo: state.user.userInfo,
 });
 
 const mapDispatchToProps = (dispatch) => {

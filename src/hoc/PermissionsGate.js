@@ -2,8 +2,6 @@ import { cloneElement } from "react";
 import { connect } from "react-redux";
 
 const hasPermission = ({ permissions, scopes }) => {
-  console.log("scopes:", scopes);
-  console.log(" permissions:", permissions);
   const scopesMap = {};
   scopes.forEach((scope) => {
     scopesMap[scope] = true;
@@ -12,9 +10,15 @@ const hasPermission = ({ permissions, scopes }) => {
   return permissions.some((permission) => scopesMap[permission]);
 };
 
-export const PermissionsGate = ({ children, scopes = [], permissions }) => {
+export const PermissionsGate = ({
+  children,
+  scopes = [],
+  permissions,
+  userInfo,
+}) => {
+  if (userInfo.roleId === "R1" || userInfo.roleId === "R0")
+    return <>{children}</>;
   const permissionGranted = hasPermission({ permissions, scopes });
-  console.log(" permissionGranted:", permissionGranted);
 
   if (!permissionGranted) return <></>;
 
@@ -23,6 +27,7 @@ export const PermissionsGate = ({ children, scopes = [], permissions }) => {
 
 const mapStateToProps = (state) => ({
   permissions: state.user.accountPermission,
+  userInfo: state.user.userInfo,
 });
 
 export default connect(mapStateToProps)(PermissionsGate);
