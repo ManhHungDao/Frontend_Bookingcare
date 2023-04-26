@@ -37,7 +37,8 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
 import DetailSchedule from "../Doctor/DetailSchedule";
-
+import { scopes } from "../../../utils";
+import PermissionsGate from "../../../hoc/PermissionsGate";
 const TableManagePacketSchedule = ({
   listClinic,
   getListClinicHomePatient,
@@ -279,13 +280,17 @@ const TableManagePacketSchedule = ({
                             })}
                           </TableCell>
                           <TableCell>
-                            <Tooltip title="Xem">
-                              <IconButton
-                                onClick={() => handleClickView(e, dataPacket)}
-                              >
-                                <RemoveRedEyeRoundedIcon />
-                              </IconButton>
-                            </Tooltip>
+                            <PermissionsGate
+                              scopes={[scopes.PACKET_SCHEDULE_VIEW]}
+                            >
+                              <Tooltip title="Xem">
+                                <IconButton
+                                  onClick={() => handleClickView(e, dataPacket)}
+                                >
+                                  <RemoveRedEyeRoundedIcon />
+                                </IconButton>
+                              </Tooltip>
+                            </PermissionsGate>
                           </TableCell>
                         </TableRow>
                       ))}
