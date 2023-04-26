@@ -120,12 +120,12 @@ export const scopes = {
 export const roles = {
   patient: [
     { value: scopes.PATIENT_ACCESS, name: "Truy cập người dùng" },
-    { value: scopes.PATIENT_VIEW, name: "Xem danh sách người dùng" },
+    { value: scopes.PATIENT_VIEW, name: "Xem người dùng" },
     { value: scopes.PATIENT_DELETE, name: "Xóa người dùng" },
   ],
   user: [
     { value: scopes.USER_ACCESS, name: "Truy cập bác sĩ" },
-    { value: scopes.USER_VIEW, name: "Xem danh sách bác sĩ" },
+    { value: scopes.USER_VIEW, name: "Xem bác sĩ" },
     { value: scopes.USER_ADD, name: "Thêm bác sĩ" },
     { value: scopes.USER_UPDATE, name: "Cập nhập bác sĩ" },
     { value: scopes.USER_DELETE, name: "Xóa bác sĩ" },
@@ -137,13 +137,13 @@ export const roles = {
   ],
   clinic: [
     { value: scopes.CLINIC_ACCESS, name: "Truy cập cơ sở" },
-    { value: scopes.CLINIC_VIEW, name: "Xem danh sách phòng khám" },
+    { value: scopes.CLINIC_VIEW, name: "Xem phòng khám" },
     { value: scopes.CLINIC_ADD, name: "Thêm phòng khám" },
     { value: scopes.CLINIC_UPDATE, name: "Cập nhập phòng khám" },
     { value: scopes.CLINIC_DELETE, name: "Xóa phòng khám" },
 
     { value: scopes.PACKET_ACCESS, name: "Truy cập gói khám" },
-    { value: scopes.PACKET_VIEW, name: "Xem danh sách gói khám" },
+    { value: scopes.PACKET_VIEW, name: "Xem gói khám" },
     { value: scopes.PACKET_ADD, name: "Thêm gói khám" },
     { value: scopes.PACKET_UPDATE, name: "Cập nhập gói khám" },
     { value: scopes.PACKET_DELETE, name: "Xóa gói khám" },
@@ -155,21 +155,21 @@ export const roles = {
   ],
   specialty: [
     { value: scopes.SPECIALTY_ACCESS, name: "Truy cập chuyên khoa" },
-    { value: scopes.SPECIALTY_VIEW, name: "Xem danh sách" },
+    { value: scopes.SPECIALTY_VIEW, name: "Xem chuyên khoa" },
     { value: scopes.SPECIALTY_ADD, name: "Thêm chuyên khoa" },
     { value: scopes.SPECIALTY_UPDATE, name: "Cập nhập chuyên khoa" },
     { value: scopes.SPECIALTY_DELETE, name: "Xóa chuyên khoa" },
   ],
   handbook: [
     { value: scopes.HANDBOOK_ACCESS, name: "Truy cập cẩm nang" },
-    { value: scopes.HANDBOOK_VIEW, name: "Xem danh sách" },
+    { value: scopes.HANDBOOK_VIEW, name: "Xem cẩm nang" },
     { value: scopes.HANDBOOK_ADD, name: "Thêm cẩm nang" },
     { value: scopes.HANDBOOK_UPDATE, name: "Cập nhập cẩm nang" },
     { value: scopes.HANDBOOK_DELETE, name: "Xóa cẩm nang" },
   ],
   code: [
     { value: scopes.CODE_ACCESS, name: "Truy cập mã" },
-    { value: scopes.CODE_VIEW, name: "Xem danh sách" },
+    { value: scopes.CODE_VIEW, name: "Xem mã" },
     { value: scopes.CODE_ADD, name: "Thêm mã" },
     { value: scopes.CODE_UPDATE, name: "Cập nhập mã" },
     { value: scopes.CODE_DELETE, name: "Xóa mã" },

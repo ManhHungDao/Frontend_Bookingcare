@@ -200,32 +200,22 @@ const TableManageUser = (props) => {
               {detail.specialty.name ? detail.specialty.name : ""}
             </Typography>
           </TableCell>
-          {userInfo.roleId === "R2" ? (
-            <TableCell>
-              <PermissionsGate scopes={[scopes.USER_VIEW]}>
-                <Tooltip title="Xem">
-                  <IconButton onClick={() => hadnleClickView(props)}>
-                    <RemoveRedEyeRoundedIcon />
-                  </IconButton>
-                </Tooltip>
-              </PermissionsGate>
-            </TableCell>
-          ) : (
-            <TableCell>
+          <TableCell>
+            <PermissionsGate scopes={[scopes.USER_VIEW]}>
               <Tooltip title="Xem">
                 <IconButton onClick={() => hadnleClickView(props)}>
                   <RemoveRedEyeRoundedIcon />
                 </IconButton>
               </Tooltip>
-              {roleId !== userInfo.roleId && (
-                <Tooltip title="Xóa">
-                  <IconButton onClick={() => handelClickDelete(props)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </Tooltip>
-              )}
-            </TableCell>
-          )}
+            </PermissionsGate>
+            <PermissionsGate scopes={[scopes.USER_DELETE]}>
+              <Tooltip title="Xóa">
+                <IconButton onClick={() => handelClickDelete(props)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            </PermissionsGate>
+          </TableCell>
         </TableRow>
       </>
     );
