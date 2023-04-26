@@ -181,14 +181,16 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                     setSelected={setSelected}
                   />
                 </PermissionsGate>
-                <Item
-                  title="Danh sách bác sĩ"
-                  to="/admin/manage-user"
-                  icon={<PeopleOutlinedIcon />}
-                  selected={selected}
-                  isCollapsed={isCollapsed}
-                  setSelected={setSelected}
-                />
+                <PermissionsGate scopes={[scopes.USER_VIEW]}>
+                  <Item
+                    title="Danh sách bác sĩ"
+                    to="/admin/manage-user"
+                    icon={<PeopleOutlinedIcon />}
+                    selected={selected}
+                    isCollapsed={isCollapsed}
+                    setSelected={setSelected}
+                  />
+                </PermissionsGate>
                 <PermissionsGate scopes={[scopes.USER_SCHEDULE_ACCESS]}>
                   <Divider />
                   <PermissionsGate scopes={[scopes.USER_SCHEDULE_ADD]}>
@@ -227,15 +229,16 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                     setSelected={setSelected}
                   />
                 </PermissionsGate>
-
-                <Item
-                  title="Danh sách phòng khám"
-                  to="/admin/manage-clinic"
-                  icon={<BallotOutlinedIcon />}
-                  selected={selected}
-                  isCollapsed={isCollapsed}
-                  setSelected={setSelected}
-                />
+                <PermissionsGate scopes={[scopes.CLINIC_VIEW]}>
+                  <Item
+                    title="Danh sách phòng khám"
+                    to="/admin/manage-clinic"
+                    icon={<BallotOutlinedIcon />}
+                    selected={selected}
+                    isCollapsed={isCollapsed}
+                    setSelected={setSelected}
+                  />
+                </PermissionsGate>
                 <Divider />
                 <PermissionsGate scopes={[scopes.PACKET_ADD]}>
                   <Item
@@ -247,14 +250,16 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                     setSelected={setSelected}
                   />
                 </PermissionsGate>
-                <Item
-                  title="Danh sách gói khám"
-                  to="/admin/manage-packet"
-                  icon={<MenuOutlinedIcon />}
-                  selected={selected}
-                  isCollapsed={isCollapsed}
-                  setSelected={setSelected}
-                />
+                <PermissionsGate scopes={[scopes.PACKET_VIEW]}>
+                  <Item
+                    title="Danh sách gói khám"
+                    to="/admin/manage-packet"
+                    icon={<MenuOutlinedIcon />}
+                    selected={selected}
+                    isCollapsed={isCollapsed}
+                    setSelected={setSelected}
+                  />
+                </PermissionsGate>
                 <PermissionsGate scopes={[scopes.PACKET_SCHEDULE_ACCESS]}>
                   <PermissionsGate scopes={[scopes.PACKET_SCHEDULE_ADD]}>
                     <Divider />
@@ -267,7 +272,6 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                       setSelected={setSelected}
                     />
                   </PermissionsGate>
-
                   <Item
                     title="Lịch khám các gói"
                     to="/admin/manage-packet-schedule"
@@ -295,14 +299,16 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                     setSelected={setSelected}
                   />
                 </PermissionsGate>
-                <Item
-                  title="Danh sách chuyên khoa"
-                  to="/admin/manage-specialty"
-                  icon={<ListAltOutlinedIcon />}
-                  selected={selected}
-                  isCollapsed={isCollapsed}
-                  setSelected={setSelected}
-                />
+                <PermissionsGate scopes={[scopes.SPECIALTY_VIEW]}>
+                  <Item
+                    title="Danh sách chuyên khoa"
+                    to="/admin/manage-specialty"
+                    icon={<ListAltOutlinedIcon />}
+                    selected={selected}
+                    isCollapsed={isCollapsed}
+                    setSelected={setSelected}
+                  />
+                </PermissionsGate>
               </SubMenu>
             </PermissionsGate>
 
@@ -321,14 +327,16 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                     setSelected={setSelected}
                   />
                 </PermissionsGate>
-                <Item
-                  title="Danh sách cẩm nang"
-                  to="/admin/manage-handbook"
-                  icon={<CollectionsBookmarkOutlinedIcon />}
-                  selected={selected}
-                  isCollapsed={isCollapsed}
-                  setSelected={setSelected}
-                />
+                <PermissionsGate scopes={[scopes.HANDBOOK_VIEW]}>
+                  <Item
+                    title="Danh sách cẩm nang"
+                    to="/admin/manage-handbook"
+                    icon={<CollectionsBookmarkOutlinedIcon />}
+                    selected={selected}
+                    isCollapsed={isCollapsed}
+                    setSelected={setSelected}
+                  />
+                </PermissionsGate>
               </SubMenu>
             </PermissionsGate>
 
