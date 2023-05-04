@@ -370,6 +370,7 @@ const ManagePacketSchedule = ({
       schedule: [...listTime],
       date: dayjs(date).unix(),
     };
+    console.log("~ packet:", data);
     upsertSchedule(data);
   };
   const TableRowName = () => (

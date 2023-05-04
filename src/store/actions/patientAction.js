@@ -90,6 +90,10 @@ export const getAllBookingByEmailAction = (data) => {
   return async (dispatch, getState) => {
     try {
       dispatch(loadingToggleAction(true));
+      // xóa mô tả đơn thuốc
+      dispatch({
+        type: actionTypes.GET_PRESCRTIPTION_PATIENT_FAILED,
+      });
       const res = await getAllBookingByEmail(data);
       if (res && res.success) {
         dispatch(loadingToggleAction(false));

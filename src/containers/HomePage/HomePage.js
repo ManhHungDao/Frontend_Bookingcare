@@ -106,7 +106,7 @@ const HomePage = ({
           ...e,
           id: e._id,
           name: e.name,
-          image: e.image.url,
+          image: e.image?.url,
         }))
       );
     else {

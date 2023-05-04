@@ -48,7 +48,6 @@ export const loginAction = (email, password) => {
             type: actionTypes.GET_PERMISSION_LOGIN_SUCCESS,
             data: getPermission.permissions,
           });
-        console.log("getPermission.permissions:", getPermission.permissions);
         dispatch(loadingToggleAction(false));
       }
       dispatch(loadingToggleAction(false));

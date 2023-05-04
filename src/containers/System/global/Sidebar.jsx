@@ -373,14 +373,14 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                   isCollapsed={isCollapsed}
                   setSelected={setSelected}
                 />
-                <Item
+                {/* <Item
                   title="Thành phố"
                   to="/admin/manage-code-province"
                   icon={<ApartmentOutlinedIcon />}
                   selected={selected}
                   isCollapsed={isCollapsed}
                   setSelected={setSelected}
-                />
+                /> */}
                 <Item
                   title="Thời gian"
                   to="/admin/manage-code-time"
