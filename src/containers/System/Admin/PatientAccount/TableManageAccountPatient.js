@@ -210,7 +210,7 @@ const TableManageAccountPatient = ({
               <Grid item xs={12} md={3}>
                 <FormControl sx={{ width: "100%" }} variant="outlined">
                   <OutlinedInput
-                    placeholder="Lọc theo tên"
+                    placeholder="Tìm kiếm tài khoản"
                     id="outlined-adornment-weight"
                     value={search}
                     onChange={(e) => handleOnChangeSearch(e)}

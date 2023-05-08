@@ -359,7 +359,7 @@ function PatientRegister({ loadingToggleAction }) {
                         inputProps={{ "aria-label": "controlled" }}
                       />
                     }
-                    label="Tôi đồng ý với mọi điều khoản dược đưa ra."
+                    label="Tôi đồng ý với mọi điều khoản được đưa ra."
                   />
                 </FormGroup>
                 <Button
