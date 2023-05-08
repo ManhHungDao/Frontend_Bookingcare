@@ -59,7 +59,6 @@ const ManageBooking = ({
   const [timeText, setTimeText] = useState("");
   const [detailSchedule, setDetailSchedule] = useState("");
   const [status, setStatus] = useState();
-  const [detailPrescrtiption, setDetailPrescrtiption] = useState("");
   const curStatus = useRef();
 
   const fetchDataDetailSchedule = async (id, time) => {
@@ -102,10 +101,6 @@ const ManageBooking = ({
     if (status !== "Hoàn thành") return;
     getSinglePrescription(detailSchedule.schedule._id);
   }, [status]);
-
-  useEffect(() => {
-    setDetailPrescrtiption(prescription.detail);
-  }, [prescription]);
 
   useEffect(() => {
     if (isSuccess === true) {
@@ -154,7 +149,6 @@ const ManageBooking = ({
   };
   const handleCloseModal = () => {
     setStatus("");
-    setDetailPrescrtiption("");
     setOpen(false);
   };
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -352,7 +346,7 @@ const ManageBooking = ({
                       </Grid>
                       {!_.isEmpty(prescription) && (
                         <Grid item xs={12} md={12}>
-                          <DetailPrescription detail={detailPrescrtiption} />
+                          <DetailPrescription detail={prescription} />
                         </Grid>
                       )}
                     </Grid>

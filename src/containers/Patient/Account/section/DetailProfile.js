@@ -79,14 +79,26 @@ export const DetailExam = ({ data, enableFeeback }) => {
       <CardContent>
         <Grid container spacing={3}>
           <Grid item xs={12} md={12} lg={12}>
-            <Typography gutterBottom variant="subtitle1">
-              Tên bác sĩ:&nbsp;
-              {doctor?.name ? doctor?.name : ""}
-            </Typography>
-            <Typography gutterBottom variant="subtitle1">
-              Tên gói khám:&nbsp;
-              {packet?.name ? packet?.name : ""}
-            </Typography>
+            {doctor?.name ? (
+              <>
+                <Typography gutterBottom variant="subtitle1">
+                  Tên bác sĩ:&nbsp;
+                  {doctor.name}
+                </Typography>
+              </>
+            ) : (
+              ""
+            )}
+            {packet?.name ? (
+              <>
+                <Typography gutterBottom variant="subtitle1">
+                  Tên gói khám:&nbsp;
+                  {packet.name}
+                </Typography>
+              </>
+            ) : (
+              ""
+            )}
             <Typography gutterBottom variant="subtitle1">
               Cơ sở:&nbsp;
               {doctor
@@ -184,16 +196,33 @@ export const ScheduleProfile = ({ time, status, handleSave }) => {
   );
 };
 
-export const DetailPrescription = (detail) => {
+export const DetailPrescription = ({ detail }) => {
   return (
-    <Card>
-      <CardHeader title="Thông tin đơn thuốc" />
-      <CardContent className="render__prescrtiption">
-        <span
-          className="render__prescrtiption--detail"
-          dangerouslySetInnerHTML={{ __html: detail.detail }}
-        ></span>
-      </CardContent>
-    </Card>
+    <>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardHeader title="Kết quả khám" />
+            <CardContent className="render__prescrtiption">
+              <span
+                className="render__prescrtiption--detail"
+                dangerouslySetInnerHTML={{ __html: detail.result }}
+              ></span>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <Card>
+            <CardHeader title="Thông tin đơn thuốc" />
+            <CardContent className="render__prescrtiption">
+              <span
+                className="render__prescrtiption--detail"
+                dangerouslySetInnerHTML={{ __html: detail.detail }}
+              ></span>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </>
   );
 };

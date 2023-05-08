@@ -15,6 +15,7 @@ import * as actions from "../../../../../store/actions";
 import { getDetailSchedule } from "../../../../../services/scheduleService";
 import dayjs from "dayjs";
 import Header from "../../../../../components/Header";
+import _ from "lodash";
 
 const style = {
   position: "absolute",
@@ -41,7 +42,7 @@ const ModalDetailBooking = ({
   prescription,
 }) => {
   const [detailSchedule, setDetailSchedule] = useState("");
-  const [detailPrescrtiption, setDetailPrescrtiption] = useState("");
+  const [resultExamMedical, setResultExamMedical] = useState("");
 
   const fetchDataDetailSchedule = async (id, time) => {
     try {
@@ -64,13 +65,13 @@ const ModalDetailBooking = ({
   }, [open]);
 
   useEffect(() => {
-    if (prescription) setDetailPrescrtiption(prescription.detail);
+    if (prescription) setResultExamMedical(prescription);
     else {
-      setDetailPrescrtiption("");
+      setResultExamMedical("");
     }
   }, [prescription]);
   const handleOnClose = () => {
-    setDetailPrescrtiption("");
+    setResultExamMedical("");
     setDetailSchedule("");
     setOpen(false);
   };
@@ -100,13 +101,26 @@ const ModalDetailBooking = ({
                 <CardHeader title="Thông tin đăng kí" />
                 <CardContent>
                   <Stack spacing={1}>
-                    <Typography variant="subtitle1">
-                      Bác sĩ:&nbsp;
-                      {doctor?.name ? doctor?.name : ""}
-                    </Typography>
-                    <Typography variant="subtitle1">
-                      Gói khám:&nbsp; {packet?.name ? packet?.name : ""}
-                    </Typography>{" "}
+                    {doctor?.name ? (
+                      <>
+                        <Typography gutterBottom variant="subtitle1">
+                          Tên bác sĩ:&nbsp;
+                          {doctor.name}
+                        </Typography>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                    {packet?.name ? (
+                      <>
+                        <Typography gutterBottom variant="subtitle1">
+                          Tên gói khám:&nbsp;
+                          {packet.name}
+                        </Typography>
+                      </>
+                    ) : (
+                      ""
+                    )}
                     <Typography variant="subtitle1">
                       Cơ sở:&nbsp;
                       {doctor
@@ -196,6 +210,7 @@ const ModalDetailBooking = ({
                               readOnly
                             />
                             <textarea
+                              readonly
                               rows="4"
                               cols="50"
                               //   maxLength={100}
@@ -215,7 +230,7 @@ const ModalDetailBooking = ({
                 </CardContent>
               </Card>
             </Grid>
-            {detailPrescrtiption && (
+            {!_.isEmpty(resultExamMedical) && (
               <>
                 <Grid item xs={12} md={12} xl={6}>
                   <Card>
@@ -224,7 +239,7 @@ const ModalDetailBooking = ({
                       <span
                         className="render__prescrtiption--detail"
                         dangerouslySetInnerHTML={{
-                          __html: detailPrescrtiption,
+                          __html: resultExamMedical.result,
                         }}
                       ></span>
                     </CardContent>
@@ -237,7 +252,7 @@ const ModalDetailBooking = ({
                       <span
                         className="render__prescrtiption--detail"
                         dangerouslySetInnerHTML={{
-                          __html: detailPrescrtiption,
+                          __html: resultExamMedical.detail,
                         }}
                       ></span>
                     </CardContent>
@@ -256,7 +271,7 @@ const mapStateToProps = (state) => {
   return {
     allcodeType: state.client.allcodeType,
     listBookingByEmail: state.patient.listBookingByEmail,
-    prescription: state.patient.prescription,
+    prescription: state.admin.prescription,
     isSuccess: state.app.isSuccess,
   };
 };
@@ -268,7 +283,7 @@ const mapDispatchToProps = (dispatch) => {
     loadingToggleAction: (status) =>
       dispatch(actions.loadingToggleAction(status)),
     getSinglePrescription: (id) =>
-      dispatch(actions.getSinglePrescriptionAction(id)),
+      dispatch(actions.getSinglePrescriptionAdminAction(id)),
     clearStatus: () => dispatch(actions.clearStatus()),
   };
 };
