@@ -38,6 +38,7 @@ import { toast } from "react-toastify";
 import { emailRegister } from "../../../data/emailRegister";
 import { useEffect } from "react";
 import { sentMail, registerAccount } from "../../../services/patientService";
+import Policie from "./Policie";
 
 const steps = ["Điền thông tin", "Xác nhận email", "Hoàn thành"];
 
@@ -58,7 +59,7 @@ function PatientRegister({ loadingToggleAction }) {
   const [confirmCode, setConfirmCode] = useState("");
   const [code, setCode] = useState("");
   const [checked, setChecked] = useState(false);
-
+  const [open, setOpen] = useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
   const navigate = useNavigate();
 
@@ -118,7 +119,7 @@ function PatientRegister({ loadingToggleAction }) {
       return;
     }
     if (checked === false) {
-      toast.warning("Vui lòng xác nhận đồng ý điều khoản");
+      toast.warning("Vui lòng đọc và xác nhận điều khoản");
       return;
     }
     // gửi email chứa mã xác nhận
@@ -175,281 +176,308 @@ function PatientRegister({ loadingToggleAction }) {
   };
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
-      <CssBaseline />
-      <Grid
-        item
-        xs={false}
-        sm={false}
-        md={7}
-        sx={{
-          backgroundImage: `url(${logo})`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center center",
-        }}
-      />
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        md={5}
-        component={Paper}
-        elevation={6}
-        square
-        // sx={{ display: "grid", placeSelf: "center" }}
-      >
-        <Box
+    <>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={false}
+          md={7}
           sx={{
-            my: 8,
-            mx: 4,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            backgroundImage: `url(${logo})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center center",
           }}
+        />
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+          // sx={{ display: "grid", placeSelf: "center" }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.primary" }}>
-            <AccountCircleIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Đăng Kí
-          </Typography>
-          <Box sx={{ width: "100%", my: 5 }}>
-            <Stepper activeStep={activeStep}>
-              {steps.map((label, index) => {
-                const stepProps = {};
-                const labelProps = {};
-                return (
-                  <Step key={label} {...stepProps}>
-                    <StepLabel {...labelProps}>{label}</StepLabel>
-                  </Step>
-                );
-              })}
-            </Stepper>
-            {activeStep === steps.length && (
-              <React.Fragment>
-                <Typography sx={{ mt: 2, mb: 1 }}>
-                  Bạn đã hoàn thành tạo tài khoản
-                </Typography>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Box sx={{ flex: "1 1 auto" }} />
-                </Box>
-              </React.Fragment>
-            )}
-          </Box>
-          <Box sx={{ mt: 3, width: { xs: "90%", md: "80%" } }}>
-            {activeStep === 0 && (
-              <>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField
-                      required
-                      id="outlined-required"
-                      label="Tên"
-                      fullWidth
-                      onChange={(e) => setName(e.target.value)}
-                      value={name}
-                      autoFocus
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField
-                      required
-                      id="outlined-required"
-                      label="Số điện thoại"
-                      fullWidth
-                      onChange={(e) => setPhone(e.target.value)}
-                      value={phone}
-                      onKeyPress={(event) => {
-                        if (!/[0-9]/.test(event.key)) {
-                          event.preventDefault();
-                        }
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <LocalizationProvider
-                      dateAdapter={AdapterDayjs}
-                      adapterLocale="vi"
-                    >
-                      <DatePicker
-                        disableFuture
-                        label="Ngày sinh"
-                        openTo="year"
-                        views={["year", "month", "day"]}
-                        value={date}
-                        onChange={(newValue) => {
-                          setDate(newValue);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <FormControl fullWidth>
-                      <InputLabel id="demo-simple-select-autowidth-label">
-                        Giới tính
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-autowidth-label"
-                        id="demo-simple-select-autowidth"
-                        value={gender}
-                        onChange={(e) => setGender(e.target.value)}
-                        label="Giới tính"
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.primary" }}>
+              <AccountCircleIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Đăng Kí
+            </Typography>
+            <Box sx={{ width: "100%", my: 5 }}>
+              <Stepper activeStep={activeStep}>
+                {steps.map((label, index) => {
+                  const stepProps = {};
+                  const labelProps = {};
+                  return (
+                    <Step key={label} {...stepProps}>
+                      <StepLabel {...labelProps}>{label}</StepLabel>
+                    </Step>
+                  );
+                })}
+              </Stepper>
+              {activeStep === steps.length && (
+                <React.Fragment>
+                  <Typography sx={{ mt: 2, mb: 1 }}>
+                    Bạn đã hoàn thành tạo tài khoản
+                  </Typography>
+                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                    <Box sx={{ flex: "1 1 auto" }} />
+                  </Box>
+                </React.Fragment>
+              )}
+            </Box>
+            <Box sx={{ mt: 3, width: { xs: "90%", md: "80%" } }}>
+              {activeStep === 0 && (
+                <>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6} md={6}>
+                      <TextField
+                        required
+                        id="outlined-required"
+                        label="Tên"
                         fullWidth
-                      >
-                        <MenuItem value={"M"}>Nam</MenuItem>
-                        <MenuItem value={"F"}>Nữ</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
-                    <AutocompleteAddress
-                      setAddress={setAddress}
-                      setCoordinates={setCoordinates}
-                      address={address}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      name="password"
-                      label="Mật khẩu"
-                      type="password"
-                      id="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      label="Xác nhận mật khẩu"
-                      type="password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
-                    <TextField
-                      fullWidth
-                      label="Mã số bảo hiểm"
-                      value={insurance}
-                      onChange={(e) => setInsurance(e.target.value)}
-                    />
-                  </Grid>
-                </Grid>
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={checked}
-                        onChange={(e) => setChecked(e.target.checked)}
-                        inputProps={{ "aria-label": "controlled" }}
+                        onChange={(e) => setName(e.target.value)}
+                        value={name}
+                        autoFocus
                       />
-                    }
-                    label="Tôi đồng ý với mọi điều khoản được đưa ra."
-                  />
-                </FormGroup>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  onClick={handleNextStepOne}
-                >
-                  Tiếp Tục
-                </Button>
-              </>
-            )}
-            {activeStep === 1 && (
-              <>
-                <TextField
-                  required
-                  fullWidth
-                  label="Mã xác nhận email"
-                  type="text"
-                  value={confirmCode}
-                  onChange={(e) => setConfirmCode(e.target.value)}
-                />
-                <Grid container spacing={2} sx={{ mt: 1, mb: 2 }}>
-                  <Grid item xs={4} sm={4} md={4}>
-                    <Button fullWidth variant="contained" onClick={handleBack}>
-                      Quay lại
-                    </Button>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6}>
+                      <TextField
+                        required
+                        id="outlined-required"
+                        label="Số điện thoại"
+                        fullWidth
+                        onChange={(e) => setPhone(e.target.value)}
+                        value={phone}
+                        onKeyPress={(event) => {
+                          if (!/[0-9]/.test(event.key)) {
+                            event.preventDefault();
+                          }
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6}>
+                      <LocalizationProvider
+                        dateAdapter={AdapterDayjs}
+                        adapterLocale="vi"
+                      >
+                        <DatePicker
+                          disableFuture
+                          label="Ngày sinh"
+                          openTo="year"
+                          views={["year", "month", "day"]}
+                          value={date}
+                          onChange={(newValue) => {
+                            setDate(newValue);
+                          }}
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </LocalizationProvider>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6}>
+                      <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-autowidth-label">
+                          Giới tính
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-autowidth-label"
+                          id="demo-simple-select-autowidth"
+                          value={gender}
+                          onChange={(e) => setGender(e.target.value)}
+                          label="Giới tính"
+                          fullWidth
+                        >
+                          <MenuItem value={"M"}>Nam</MenuItem>
+                          <MenuItem value={"F"}>Nữ</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12}>
+                      <AutocompleteAddress
+                        setAddress={setAddress}
+                        setCoordinates={setCoordinates}
+                        address={address}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12}>
+                      <TextField
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12}>
+                      <TextField
+                        required
+                        fullWidth
+                        name="password"
+                        label="Mật khẩu"
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12}>
+                      <TextField
+                        required
+                        fullWidth
+                        label="Xác nhận mật khẩu"
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12}>
+                      <TextField
+                        fullWidth
+                        label="Mã số bảo hiểm"
+                        value={insurance}
+                        onChange={(e) => setInsurance(e.target.value)}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item xs={8} sm={8} md={8}>
-                    <Button fullWidth variant="contained" onClick={handleNext}>
-                      Xác nhận
-                    </Button>
-                  </Grid>
-                </Grid>
-              </>
-            )}
-            {activeStep === 2 && (
-              <>
-                <Stack
-                  display={"flex"}
-                  direction={"row"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  gap={2}
-                >
-                  <Typography variant="h5">TẠO TÀI KHOẢN THÀNH CÔNG</Typography>
-                  <CardMedia
-                    component="img"
-                    sx={{
-                      borderRadius: "50%",
-                      width: 50,
-                    }}
-                    image={successImg}
-                    alt={"image"}
-                  />
-                </Stack>
-                <Stack
-                  display={"flex"}
-                  direction={"row"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                >
-                  <Button
-                    variant="contained"
-                    onClick={() => navigate("/login")}
-                    sx={{ width: "fit-content" }}
+                  {/* <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checked}
+                          onChange={(e) => setChecked(e.target.checked)}
+                          inputProps={{ "aria-label": "controlled" }}
+                        />
+                      }
+                      label="Tôi đồng ý với mọi điều khoản được đưa ra."
+                    />
+                  </FormGroup> */}
+                  <Typography
+                    color={"primary"}
+                    sx={{ cursor: "pointer", pt: 2 }}
+                    onClick={() => setOpen(true)}
                   >
-                    Đăng Nhập
+                    Đọc điều khoản
+                  </Typography>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    onClick={handleNextStepOne}
+                  >
+                    Tiếp Tục
                   </Button>
-                </Stack>
-              </>
-            )}
-            <Stack sx={{ mt: 5 }}>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                align="center"
-                sx={{ mt: 5, cursor: "pointer" }}
-                onClick={() => {
-                  navigate("/");
-                }}
-              >
-                HealthCare-
-                {new Date().getFullYear()}
-              </Typography>
-            </Stack>
+                </>
+              )}
+              {activeStep === 1 && (
+                <>
+                  <TextField
+                    required
+                    fullWidth
+                    label="Mã xác nhận email"
+                    type="text"
+                    value={confirmCode}
+                    onChange={(e) => setConfirmCode(e.target.value)}
+                  />
+                  <Grid container spacing={2} sx={{ mt: 1, mb: 2 }}>
+                    <Grid item xs={4} sm={4} md={4}>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={handleBack}
+                      >
+                        Quay lại
+                      </Button>
+                    </Grid>
+                    <Grid item xs={8} sm={8} md={8}>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={handleNext}
+                      >
+                        Xác nhận
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </>
+              )}
+              {activeStep === 2 && (
+                <>
+                  <Stack
+                    display={"flex"}
+                    direction={"row"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    gap={2}
+                  >
+                    <Typography variant="h5">
+                      TẠO TÀI KHOẢN THÀNH CÔNG
+                    </Typography>
+                    <CardMedia
+                      component="img"
+                      sx={{
+                        borderRadius: "50%",
+                        width: 50,
+                      }}
+                      image={successImg}
+                      alt={"image"}
+                    />
+                  </Stack>
+                  <Stack
+                    display={"flex"}
+                    direction={"row"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={() => navigate("/login")}
+                      sx={{ width: "fit-content" }}
+                    >
+                      Đăng Nhập
+                    </Button>
+                  </Stack>
+                </>
+              )}
+              <Stack sx={{ mt: 5 }}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  align="center"
+                  sx={{ mt: 5, cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  HealthCare-
+                  {new Date().getFullYear()}
+                </Typography>
+              </Stack>
+            </Box>
           </Box>
-        </Box>
+        </Grid>
       </Grid>
-    </Grid>
+      {open && (
+        <Policie
+          open={open}
+          setOpen={setOpen}
+          checked={checked}
+          setChecked={setChecked}
+        />
+      )}
+    </>
   );
 }
 
