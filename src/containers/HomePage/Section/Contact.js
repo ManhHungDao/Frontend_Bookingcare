@@ -13,7 +13,7 @@ const actions = [
   // { icon: <SaveIcon />, name: "Save" },
   { icon: <PhoneIcon />, name: "Tư vấn hỗ trợ" },
   { icon: <MailIcon />, name: "Email phản hồi" },
-  { icon: <FacebookIcon />, name: "Facebook" },
+  { icon: <FacebookIcon />, name: "Fanpage" },
 ];
 
 function sendEmail(lang) {
@@ -49,7 +49,7 @@ const Contact = ({ language }) => {
   const handleClose = () => setOpen(false);
   const handleClick = (name) => {
     if (name === "Email phản hồi") sendEmail(language);
-    if (name === "Facebook") openFacebook();
+    if (name === "Fanpage") openFacebook();
     if (name === "Tư vấn hỗ trợ") {
       navigate("tel:0964367332");
     }

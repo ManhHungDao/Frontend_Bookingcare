@@ -39,6 +39,7 @@ const RecentMedicalHistory = ({
   useEffect(() => {
     setData(
       listData.map((e) => ({
+        ...e,
         result: e.result,
         prescription: e.detail,
         createdAt: moment(e.createdAt).format("HH:mm - DD/MM/YYYY"),
@@ -81,6 +82,31 @@ const RecentMedicalHistory = ({
                         Thời gian {e.createdAt} - Cập nhập {e.updatedAt}
                       </Typography>
                       <Divider sx={{ margin: "10px 0" }} />
+                      {e.doctor && (
+                        <>
+                          <Typography
+                            sx={{ fontWeight: "bold", fontSize: "16px" }}
+                          >
+                            Bác sĩ: {e.doctor}
+                          </Typography>
+                        </>
+                      )}
+                      {e.packet && (
+                        <>
+                          <Typography
+                            sx={{ fontWeight: "bold", fontSize: "16px" }}
+                          >
+                            Gói khám: {e.packet}
+                          </Typography>
+                        </>
+                      )}
+
+                      <Typography sx={{ fontWeight: "bold", fontSize: "16px" }}>
+                        Cơ sở: {e.clinic} - Chuyên khoa: {e.specialty}
+                      </Typography>
+                      <Typography sx={{ fontWeight: "bold", fontSize: "16px" }}>
+                        Chuyên khoa: {e.specialty}
+                      </Typography>
                       <Typography sx={{ fontWeight: "bold", fontSize: "16px" }}>
                         Kết quả:
                       </Typography>
@@ -106,7 +132,7 @@ const RecentMedicalHistory = ({
               ))}
           </Grid>
 
-          <span className="d-flex justify-content-end">
+          <span className="d-flex justify-content-end mt-3">
             <Button
               onClick={handleClose}
               sx={{ marginLeft: "auto !important" }}

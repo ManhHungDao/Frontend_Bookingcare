@@ -194,6 +194,18 @@ const DetailSchedule = ({
     sentMail(dataSentMail);
     createPrescription({
       scheduleId: data._id,
+      doctor: data?.doctor?.name ? data?.doctor?.name : "",
+      packet: data?.packet?.name ? data?.packet?.name : "",
+      clinic: data.doctor.clinic.name
+        ? data.doctor.clinic.name
+        : data?.packet?.clinic?.name
+        ? data?.packet?.clinic?.name
+        : "",
+      specialty: data.doctor.specialty.name
+        ? data.doctor.specialty.name
+        : data?.packet?.specialty
+        ? data?.packet?.specialty
+        : "",
       detail: detailPrescription,
       result,
     });

@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import useIsTablet from "../../../components/useScreen/useIsTablet.js";
 import "./style.scss";
 
-export default function TemporaryDrawer({ show, setOpen ,direction}) {
+export default function TemporaryDrawer({ show, setOpen, direction }) {
   const navigate = useNavigate();
   const smScreen = useIsTablet();
 
@@ -49,7 +49,7 @@ export default function TemporaryDrawer({ show, setOpen ,direction}) {
             <div
               className="child-content nav-1"
               onClick={() => {
-                navigate(`/viewmore/clinic`);
+                navigate(`/viewmore/specialty`);
               }}
             >
               <div>

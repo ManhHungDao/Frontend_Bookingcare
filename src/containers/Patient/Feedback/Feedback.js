@@ -81,7 +81,7 @@ const Feedback = () => {
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
-              gap: 5,
+              gap: { xs: 1, md: 1, xl: 5 },
               p: 3,
               width: "100%",
               minHeight: "700px",
@@ -97,8 +97,8 @@ const Feedback = () => {
               component="img"
               sx={{
                 borderRadius: "50%",
-                width: { sm: 60, md: 100 },
-                height: { sm: 60, md: 100 },
+                width: { xs: "50px", md: 100 },
+                height: { xs: "50px", md: 100 },
               }}
               image={confirmImg}
               alt={"confirm image"}
