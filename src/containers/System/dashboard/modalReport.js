@@ -8,6 +8,7 @@ import {
   getAllPatientAccount,
   getAllDoctorAccount,
   getAllMedicalHistory,
+  statisticTimeBooking,
 } from "../../../services/userService";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
@@ -114,6 +115,27 @@ export default function ModalReport({ open, setOpen }) {
       toast.error("Đã xãy ra lỗi");
     }
   };
+
+  const handleExportTimeBooking = async () => {
+    try {
+      let data;
+      const res = await statisticTimeBooking();
+      if (res && res.success) {
+        data = res.list;
+      }
+      data = data.map((e) => ({
+        "Thời gian": e.time,
+        "Số lượng": e.count,
+        "Phần trăm": e.percent,
+      }));
+
+      exportToExcel(data, "statistic-timebooking");
+      setOpen(false);
+    } catch (error) {
+      toast.error("Đã xãy ra lỗi");
+    }
+  };
+
   return (
     <div>
       <Modal
@@ -154,6 +176,13 @@ export default function ModalReport({ open, setOpen }) {
                 }}
               >
                 Tài khoản bác sĩ
+              </Button>
+              <Button
+                onClick={() => {
+                  handleExportTimeBooking();
+                }}
+              >
+                Thống kê thời gian
               </Button>
             </ButtonGroup>
           </Box>

@@ -67,6 +67,10 @@ const getAllLocationClinic = () => {
   return axios.get(`/api/get-all-locaiton-clinic`);
 };
 
+const statisticTimeBooking = () => {
+  return axios.get(`/api/get-statistic-time`);
+};
+
 const getAllManager = () => {
   return axios.get(`/api/get-all-manager`);
 };
@@ -99,4 +103,5 @@ export {
   getAllDoctorByProvince,
   getAllLocationClinic,
   getAllManager,
+  statisticTimeBooking,
 };
