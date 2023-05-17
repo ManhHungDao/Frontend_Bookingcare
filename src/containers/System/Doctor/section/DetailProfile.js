@@ -59,19 +59,20 @@ export const PatientProfile = ({ patient }) => {
               Lý do khám:&nbsp;
               {patient?.reason ? patient.reason : ""}
             </Typography>
-
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              display="flex"
-              justifyContent="flex-end"
-            >
-              <RecentMedicalHistory
-                email={patient?.email ? patient.email : ""}
-              />
-            </Grid>
+            {patient?.name && (
+              <Grid
+                item
+                xs={12}
+                md={12}
+                lg={12}
+                display="flex"
+                justifyContent="flex-end"
+              >
+                <RecentMedicalHistory
+                  email={patient?.email ? patient.email : ""}
+                />
+              </Grid>
+            )}
           </Grid>
         </Grid>
       </CardContent>

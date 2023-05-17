@@ -119,6 +119,7 @@ const AddNewUser = ({
       setListSpecialtySelect(
         listSpecialtyInClinic.map((e) => ({ id: e.key, name: e.name }))
       );
+    else setListSpecialtySelect([]);
   }, [listSpecialtyInClinic]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
