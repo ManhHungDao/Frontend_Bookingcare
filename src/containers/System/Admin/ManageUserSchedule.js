@@ -217,7 +217,8 @@ const ManageUserSchedule = ({
           return item;
         })
       );
-      fetchDataSchedule(userEdit._id, dayjs(date).unix());
+      const id = userEdit._id || userEdit.id;
+      fetchDataSchedule(id, dayjs(date).unix());
     }
   }, [date]);
 

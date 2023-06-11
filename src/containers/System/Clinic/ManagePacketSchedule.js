@@ -211,7 +211,8 @@ const ManagePacketSchedule = ({
           return item;
         })
       );
-      fetchDataSchedule(packetEdit._id, dayjs(date).unix());
+      const id = packetEdit._id || packetEdit.id;
+      fetchDataSchedule(id, dayjs(date).unix());
     }
   }, [date]);
 

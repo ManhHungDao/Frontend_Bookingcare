@@ -44,7 +44,10 @@ const Topbar = ({ processLogout, userInfo }) => {
     dispatch({ type: actions.SET_MENU, data: "" });
     navigate("/doctor/view-myinfo");
   };
-
+  const handleDoctorChangePass = () => {
+    dispatch({ type: actions.SET_MENU, data: "" });
+    navigate("/doctor/reset-password");
+  };
   const handleLogout = () => {
     navigate("/system-login");
     processLogout();
@@ -79,16 +82,16 @@ const Topbar = ({ processLogout, userInfo }) => {
             <MenuItem onClick={handleChangeManageMySchedule}>
               Quản lý lịch khám
             </MenuItem>
+            <MenuItem onClick={handleChangePass}>Đổi mật khẩu</MenuItem>
           </>
         ) : (
           <>
             <MenuItem onClick={handleViewMyInfoDoctor}>
               Thông tin cá nhân
             </MenuItem>
+            <MenuItem onClick={handleDoctorChangePass}>Đổi mật khẩu</MenuItem>
           </>
         )}
-
-        <MenuItem onClick={handleChangePass}>Đổi mật khẩu</MenuItem>
         <MenuItem onClick={handleLogout}>Thoát</MenuItem>
       </Menu>
     </Box>

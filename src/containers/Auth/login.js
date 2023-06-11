@@ -34,6 +34,7 @@ const theme = createTheme();
 const SignInSide = ({ loginAction, isLoggedIn, processLogout, userInfo }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("123456Aa.");
+  // const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {

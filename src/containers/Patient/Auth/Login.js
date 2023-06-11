@@ -31,11 +31,12 @@ const PatientLogin = ({ LoginAction, patientInfo, isPatientLoggedIn }) => {
   useEffect(() => {
     // if (isPatientLoggedIn === true) navigate("/");
     if (isPatientLoggedIn === true) {
-      if (window.history.state && window.history.state.idx > 0) {
-        navigate(-1);
-      } else {
-        navigate("/", { replace: true });
-      }
+      // if (window.history.state && window.history.state.idx > 0) {
+      //   navigate(-1);
+      // } else {
+      //   navigate("/", { replace: true });
+      // }
+      navigate("/", { replace: true });
     }
   }, [isPatientLoggedIn]);
 
