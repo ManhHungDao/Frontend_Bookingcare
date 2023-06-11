@@ -13,10 +13,12 @@ const hasPermission = ({ permissions, scopes }) => {
 export const PermissionsGate = ({
   children,
   scopes = [],
-  permissions,
+  // permissions,
   userInfo,
 }) => {
   if (userInfo.roleId !== "R2") return <>{children}</>;
+  const data = localStorage.getItem("permissions");
+  const permissions = JSON.parse(data);
   const permissionGranted = hasPermission({ permissions, scopes });
 
   if (!permissionGranted) return <></>;

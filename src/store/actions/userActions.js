@@ -18,9 +18,14 @@ export const adminLoginFail = () => ({
   type: actionTypes.ADMIN_LOGIN_FAIL,
 });
 
-export const processLogout = () => ({
-  type: actionTypes.PROCESS_LOGOUT,
-});
+export const processLogout = () => {
+  return (dispatch, getState) => {
+    localStorage.setItem("permissions", JSON.stringify([]));
+    dispatch({
+      type: actionTypes.PROCESS_LOGOUT,
+    });
+  };
+};
 
 export const processPatientLogout = () => ({
   type: actionTypes.PATIENT_PROCESS_LOGOUT,
@@ -43,11 +48,16 @@ export const loginAction = (email, password) => {
           userInfo: res.user,
         });
         const getPermission = await getRoleUser(res.user._id);
-        if (getPermission && getPermission.success)
+        if (getPermission && getPermission.success) {
+          localStorage.setItem(
+            "permissions",
+            JSON.stringify(getPermission.permissions || [])
+          );
           dispatch({
             type: actionTypes.GET_PERMISSION_LOGIN_SUCCESS,
             data: getPermission.permissions,
           });
+        }
         dispatch(loadingToggleAction(false));
       }
       dispatch(loadingToggleAction(false));
