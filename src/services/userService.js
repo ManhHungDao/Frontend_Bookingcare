@@ -47,6 +47,11 @@ const getAllUserBySpecialtyHome = (data) => {
     `/api/get-user-by-specialty-home?page=${data.page}&size=${data.size}&id=${data.id}`
   );
 };
+const getAllDoctorBySpecialtyOfClinicHome = (data) => {
+  return axios.get(
+    `/api/get-user-by-specialty-clinic-home?page=${data.page}&size=${data.size}&clinicId=${data.clinicId}&specialtyId=${data.specialtyId}`
+  );
+};
 
 const getAllDoctorByProvince = (data) => {
   return axios.get(
@@ -104,4 +109,5 @@ export {
   getAllLocationClinic,
   getAllManager,
   statisticTimeBooking,
+  getAllDoctorBySpecialtyOfClinicHome,
 };

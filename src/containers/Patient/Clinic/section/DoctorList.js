@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import * as actions from "../../../../store/actions";
 import {
   getAllUserService,
-  getAllUserBySpecialtyHome,
+  getAllDoctorBySpecialtyOfClinicHome,
 } from "../../../../services/userService";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -47,14 +47,15 @@ const DoctorList = ({
     // loadingToggleAction(false);
   };
 
-  const fetchDataBySpecialtyAPI = async (page, size, id) => {
+  const fetchDataBySpecialtyAPI = async (page, size, specialtyId) => {
     const data = {
       page,
       size,
-      id,
+      specialtyId,
+      clinicId: id,
     };
     loadingToggleAction(true);
-    const res = await getAllUserBySpecialtyHome(data);
+    const res = await getAllDoctorBySpecialtyOfClinicHome(data);
     if (res && res.success) {
       setDoctors(
         res?.users.map((i) => {

@@ -17,13 +17,11 @@ const DetailSchuleBooking = ({ clinic, payment, price }) => {
         maxWidth: "fit-content",
       }}
     >
-      <Typography>
-        <b>
-          Phòng khám:&nbsp;
-          <Link to={`/clinic/${clinic?.id}`} style={{ textDecoration: "none" }}>
-            {clinic?.name}
-          </Link>
-        </b>
+      <Typography sx={{ fontWeight: "bold" }}>
+        Phòng khám:&nbsp;
+        <Link to={`/clinic/${clinic?.id}`} style={{ textDecoration: "none" }}>
+          {clinic?.name}
+        </Link>
       </Typography>
       <Divider />
       <Box
