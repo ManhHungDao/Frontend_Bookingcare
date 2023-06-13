@@ -185,7 +185,7 @@ const TableManageClinic = ({
           titleBtn="Thêm mới"
           isShowBtn={true}
           link="/admin/add-clinic"
-          activeMenu="Thêm Phòng Khám"
+          activeMenu="Thêm phòng khám"
         />
         <Box m="20px 0 0 0">
           <Box m="0 0 7px 0">

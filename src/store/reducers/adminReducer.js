@@ -19,6 +19,7 @@ const initialState = {
   listRecentMedicalHistory: [],
   listManagers: [],
   userPermissions: "",
+  assistants: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -76,6 +77,19 @@ const adminReducer = (state = initialState, action) => {
     }
     case actionTypes.GET_ROLE_USER_FAIL: {
       return { ...state, userPermissions: [] };
+    }
+    // ASSISTANT
+    case actionTypes.FETCH_ALL_ASSISTANT_SUCCEED: {
+      return {
+        ...state,
+        assistants: action.assistants,
+      };
+    }
+    case actionTypes.FETCH_ALL_ASSISTANT_FAILED: {
+      return {
+        ...state,
+        assistants: [],
+      };
     }
     // CLINIC
     case actionTypes.GET_LIST_CLINIC_SUCCEED: {

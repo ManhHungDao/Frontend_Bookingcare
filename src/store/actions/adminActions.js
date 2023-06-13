@@ -10,6 +10,8 @@ import {
   upsertRoleUser,
   getRoleUser,
 } from "../../services/userService";
+import { getAllAssistant } from "../../services/assistantService";
+
 import {
   updateClinic,
   getSingleClinic,
@@ -1076,6 +1078,33 @@ export const getRecentMedicalHistoryAction = (email) => {
         type: actionTypes.GET_RECENT_MEDICAL_HISTORY_ADMIN_FAILED,
       });
       dispatch(loadingToggleAction(false));
+    }
+  };
+};
+
+// ASSISTANT
+
+export const getAllAssistantAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadingToggleAction(true));
+      const res = await getAllAssistant(data);
+      if (res && res.success) {
+        dispatch(loadingToggleAction(false));
+        dispatch({
+          type: actionTypes.FETCH_ALL_ASSISTANT_SUCCEED,
+          assistants: {
+            list: res.assistants,
+            count: res.count,
+          },
+        });
+      }
+    } catch (error) {
+      dispatch(loadingToggleAction(false));
+      dispatch({
+        type: actionTypes.FETCH_ALL_ASSISTANT_FAILED,
+      });
+      toast.error("Lấy danh sách thất bại");
     }
   };
 };

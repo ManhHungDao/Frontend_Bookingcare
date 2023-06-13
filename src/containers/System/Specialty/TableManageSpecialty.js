@@ -211,7 +211,7 @@ const TableManageSpecialty = ({
           titleBtn="Thêm mới"
           isShowBtn={true}
           link="/admin/add-specialty"
-          activeMenu="Thêm Chuyên Khoa"
+          activeMenu="Thêm chuyên khoa"
         />
         <Box m="20px 0 0 0">
           <Box m="0 0 7px 0">

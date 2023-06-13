@@ -220,6 +220,7 @@ const TableManagePacket = ({
           titleBtn="Thêm mới"
           isShowBtn={true}
           link="/admin/add-packet"
+          activeMenu="Thêm gói khám"
         />
         <Box m="20px 0 0 0">
           <Box m="0 0 7px 0">
