@@ -28,6 +28,7 @@ import Feedback from "../containers/Patient/Feedback/Feedback";
 import PatientLogin from "../containers/Patient/Auth/Login";
 import PatientRegister from "../containers/Patient/Auth/Register";
 import ForgotPassword from "../containers/Patient/Auth/ForgotPassword";
+import AssistantRoute from "../routes/AssistantRoute";
 
 class App extends Component {
   handlePersistorState = () => {
@@ -106,6 +107,14 @@ class App extends Component {
                 element={
                   <SystemAuthRoute>
                     <DoctorRoute />
+                  </SystemAuthRoute>
+                }
+              />
+              <Route
+                path={path.ASSISTANT}
+                element={
+                  <SystemAuthRoute>
+                    <AssistantRoute />
                   </SystemAuthRoute>
                 }
               />

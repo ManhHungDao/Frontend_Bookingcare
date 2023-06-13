@@ -36,9 +36,8 @@ import { roles } from "../../../utils";
 import ButtonComponent from "../../../components/ButtonComponent";
 import { toast } from "react-toastify";
 const typeMember = [
-  { value: "R1", name: "Admin" },
   { value: "R2", name: "Manager" },
-  { value: "R3", name: "Doctor" },
+  { value: "R4", name: "Assistant" },
 ];
 const ManageRole = ({
   listManagers,

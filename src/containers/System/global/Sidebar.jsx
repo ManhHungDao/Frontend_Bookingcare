@@ -19,7 +19,6 @@ import BookmarksOutlinedIcon from "@mui/icons-material/BookmarksOutlined";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
-import ApartmentOutlinedIcon from "@mui/icons-material/ApartmentOutlined";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
@@ -30,8 +29,6 @@ import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOu
 import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
 import EarbudsIcon from "@mui/icons-material/Earbuds";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
-import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
-import SwitchAccountOutlinedIcon from "@mui/icons-material/SwitchAccountOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import { scopes } from "../../../utils";
@@ -146,12 +143,12 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
             <PermissionsGate scopes={[scopes.PATIENT_ACCESS]}>
               <SubMenu
                 title={isCollapsed ? "" : "Người dùng"}
-                icon={<AccountBoxOutlinedIcon />}
+                icon={<PermIdentityOutlinedIcon />}
               >
                 <Item
                   title="Danh sách tài khoản"
                   to="/admin/manage-account-patient"
-                  icon={<SwitchAccountOutlinedIcon />}
+                  icon={<PeopleOutlinedIcon />}
                   selected={selected}
                   isCollapsed={isCollapsed}
                   setSelected={setSelected}
@@ -171,7 +168,28 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 title={isCollapsed ? "" : "Bác sĩ"}
                 icon={<PermIdentityOutlinedIcon />}
               >
+                {/* <PermissionsGate scopes={[scopes.USER_ADD]}> */}
+                <Item
+                  title="Thêm trợ lý"
+                  to="/admin/add-assistant"
+                  icon={<PersonAddAltIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+                {/* </PermissionsGate> */}
+                {/* <PermissionsGate scopes={[scopes.USER_VIEW]}> */}
+                <Item
+                  title="Danh sách trợ lí"
+                  to="/admin/manage-assistant"
+                  icon={<PeopleOutlinedIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+                {/* </PermissionsGate> */}
                 <PermissionsGate scopes={[scopes.USER_ADD]}>
+                  <Divider />
                   <Item
                     title="Thêm bác sĩ"
                     to="/admin/add-user"

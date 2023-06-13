@@ -2,6 +2,7 @@ export const path = {
   HOME: "/*",
   ADMIN: "/admin/*",
   DOCTOR: "/doctor/*",
+  ASSISTANT: "/assistant/*",
   PATIENT: "/patient/*",
   MANAGER: "/manager/*",
   PACKET: "/packet/*",
