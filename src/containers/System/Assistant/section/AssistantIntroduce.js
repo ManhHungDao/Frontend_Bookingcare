@@ -12,18 +12,18 @@ import {
   Divider,
   Button,
 } from "@mui/material";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import PersonIcon from "@mui/icons-material/Person";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import UpLoadAvatar from "../../../../components/UpLoadAvatar";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import PermissionsGate from "../../../../hoc/PermissionsGate";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
-
+import { scopes } from "../../../../utils";
+import ConfirmModal from "../../../../components/confirmModal/ConfirmModal";
+import { resetPassword } from "../../../../services/assistantService";
+import { toast } from "react-toastify";
 const AssistantIntroduce = ({
   name,
   email,
@@ -40,6 +40,21 @@ const AssistantIntroduce = ({
   doctor,
   gender,
 }) => {
+  const [open, setOpen] = useState(false);
+
+  const handleConfirmResetPassword = async () => {
+    try {
+      const res = await resetPassword(email);
+      if (res && res.success) {
+        setOpen(false);
+        toast.success("Đặt lại mật khẩu thành công");
+      }
+      setOpen(false);
+      toast.error("Đặt lại mật khẩu thất bại");
+    } catch (error) {
+      toast.error("Đã có lỗi xảy ra");
+    }
+  };
   return (
     <>
       <Card>
@@ -82,7 +97,7 @@ const AssistantIntroduce = ({
                 </Typography>
               </Box>
             </Typography>
-            <Grid container spacing={2} display="flex" justifyContent="center">
+            <Grid container spacing={1} display="flex" justifyContent="center">
               <Grid item md={enableEdit ? 12 : 4} sm={12}>
                 <Box
                   sx={{
@@ -152,7 +167,42 @@ const AssistantIntroduce = ({
             </Grid>
           </Box>
         </CardContent>
+        {enableEdit && (
+          <>
+            <PermissionsGate scopes={[scopes.USER_UPDATE]}>
+              <Divider />
+              <CardActions
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                }}
+              >
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => setOpen(true)}
+                  sx={{
+                    pt: "6px",
+                    pb: "6px",
+                  }}
+                >
+                  Đặt lại mật khẩu
+                </Button>
+              </CardActions>
+            </PermissionsGate>
+          </>
+        )}
       </Card>
+      {open && (
+        <ConfirmModal
+          open={open}
+          setOpen={setOpen}
+          title="Xác nhận đặt lại mật khẩu người dùng"
+          content={`${name}`}
+          type="CONFIRM"
+          confirmFunc={handleConfirmResetPassword}
+        />
+      )}
     </>
   );
 };

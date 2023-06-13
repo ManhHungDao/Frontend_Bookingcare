@@ -54,6 +54,7 @@ const DetailAssistant = ({
   const [listClinicSelect, setListClinicSelect] = useState([]);
   const [listSpecialty, setListSpecialty] = useState([]);
   const [listDoctorSelect, setListDoctorSelect] = useState([]);
+
   const getDetailAssistant = async (id) => {
     try {
       const CONST_GENDER = [

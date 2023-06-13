@@ -17,9 +17,14 @@ const getSingleAssistant = (id) => {
   return axios.get(`/api/get-single-assistant?id=${id}`);
 };
 
+const resetPassword = (email) => {
+  return axios.patch(`/api/assistant-reset-password`, email);
+};
+
 export {
   createNewAssistant,
   getAllAssistant,
   deleteAssistant,
   getSingleAssistant,
+  resetPassword,
 };
