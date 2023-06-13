@@ -10,7 +10,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useDispatch } from "react-redux";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import AccessibleOutlinedIcon from "@mui/icons-material/AccessibleOutlined";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
@@ -134,14 +134,14 @@ const DoctorSideBar = ({ userInfo, menuOpen, processLogout }) => {
               isCollapsed={isCollapsed}
               setSelected={setSelected}
             />
-            {/* <Item
-              title="Bệnh nhân"
-              to="/doctor/manage-patient"
-              icon={<AccessibleOutlinedIcon />}
+            <Item
+              title="Cấp quyền trợ lý"
+              to="/doctor/manage-role-assistant"
+              icon={<ManageAccountsOutlinedIcon />}
               selected={selected}
               isCollapsed={isCollapsed}
               setSelected={setSelected}
-            /> */}
+            />
 
             <LogOut
               title="Thoát"

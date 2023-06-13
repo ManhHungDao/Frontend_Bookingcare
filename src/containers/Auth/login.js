@@ -41,9 +41,9 @@ const SignInSide = ({ loginAction, isLoggedIn, processLogout, userInfo }) => {
     if (userInfo && userInfo.roleId) {
       if (userInfo.roleId === "R3")
         return isLoggedIn === true ? navigate("/doctor") : "";
-      else {
-        return isLoggedIn === true ? navigate("/admin") : "";
-      }
+      else if (userInfo.roleId === "R4")
+        return isLoggedIn === true ? navigate("/assistant") : "";
+      else return isLoggedIn === true ? navigate("/admin") : "";
     }
   }, [isLoggedIn, userInfo]);
 

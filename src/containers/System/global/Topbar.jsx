@@ -48,6 +48,16 @@ const Topbar = ({ processLogout, userInfo }) => {
     dispatch({ type: actions.SET_MENU, data: "" });
     navigate("/doctor/reset-password");
   };
+
+  const handleViewMyInfoAssistant = () => {
+    dispatch({ type: actions.SET_MENU, data: "" });
+    navigate("/assistant/view-myinfo");
+  };
+  const handleAssistantChangePass = () => {
+    dispatch({ type: actions.SET_MENU, data: "" });
+    navigate("/assistant/reset-password");
+  };
+
   const handleLogout = () => {
     navigate("/system-login");
     processLogout();
@@ -72,7 +82,7 @@ const Topbar = ({ processLogout, userInfo }) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        {userInfo.roleId !== "R3" ? (
+        {/* {userInfo.roleId !== "R3" ? (
           <>
             <MenuItem onClick={handleViewMyInfo}>Thông tin cá nhân</MenuItem>
 
@@ -91,7 +101,26 @@ const Topbar = ({ processLogout, userInfo }) => {
             </MenuItem>
             <MenuItem onClick={handleDoctorChangePass}>Đổi mật khẩu</MenuItem>
           </>
+        )} */}
+        {userInfo.roleId === "R3" && (
+          <>
+            <MenuItem onClick={handleViewMyInfoDoctor}>
+              Thông tin cá nhân
+            </MenuItem>
+            <MenuItem onClick={handleDoctorChangePass}>Đổi mật khẩu</MenuItem>
+          </>
         )}
+        {userInfo.roleId === "R4" && (
+          <>
+            <MenuItem onClick={handleViewMyInfoAssistant}>
+              Thông tin cá nhân
+            </MenuItem>
+            <MenuItem onClick={handleAssistantChangePass}>
+              Đổi mật khẩu
+            </MenuItem>
+          </>
+        )}
+
         <MenuItem onClick={handleLogout}>Thoát</MenuItem>
       </Menu>
     </Box>

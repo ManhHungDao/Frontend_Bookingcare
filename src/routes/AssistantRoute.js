@@ -2,12 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Dashboard from "../containers/System/dashboard";
-import ResetPassword from "../containers/Auth/ResetPassword";
 import Topbar from "../containers/System/global/Topbar";
-import DoctorSideBar from "../containers/System/global/DoctorSideBar";
 import { CssBaseline } from "@mui/material";
-import MyInfo from "../containers/System/Doctor/MyInfo";
 import "./style.css";
+import AssistantSideBar from "../containers/System/global/AssistantSideBar";
+import AssistantInfo from "../containers/System/Assistant/topbar/AssistantInfo";
+import AssistantChangePassword from "../containers/System/Assistant/topbar/AssistantChangePassword";
 
 const AssistantRoute = ({ systemMenuPath, isLoggedIn }) => {
   const [isSidebar, setIsSidebar] = React.useState(true);
@@ -15,13 +15,18 @@ const AssistantRoute = ({ systemMenuPath, isLoggedIn }) => {
     <>
       <CssBaseline />
       <div className="app">
-        <DoctorSideBar isSidebar={isSidebar} />
+        <AssistantSideBar isSidebar={isSidebar} />
         <main className="content">
           <Topbar setIsSidebar={setIsSidebar} />
           <Routes>
             <Route index element={<Dashboard />} />
-            <Route path="view-myinfo" element={<MyInfo />} />
-            <Route path="reset-password" element={<ResetPassword />} />
+            <Route path="view-myinfo" element={<AssistantInfo />} />
+            <Route
+              path="reset-password"
+              element={<AssistantChangePassword />}
+            />
+            {/* <Route path="schedule-doctor-today" element={<TodaySchedule />} />
+            <Route path="manage-schedule-doctor" element={<ManageSchedule />} /> */}
             <Route path="*" element={<Navigate replace to="/assistant" />} />
           </Routes>
         </main>

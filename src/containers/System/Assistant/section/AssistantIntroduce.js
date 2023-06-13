@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../../store/actions";
-
 import {
   Box,
   Card,
@@ -44,13 +42,14 @@ const AssistantIntroduce = ({
 
   const handleConfirmResetPassword = async () => {
     try {
-      const res = await resetPassword(email);
+      const res = await resetPassword({ email });
       if (res && res.success) {
         setOpen(false);
         toast.success("Đặt lại mật khẩu thành công");
+      } else {
+        setOpen(false);
+        toast.error("Đặt lại mật khẩu thất bại");
       }
-      setOpen(false);
-      toast.error("Đặt lại mật khẩu thất bại");
     } catch (error) {
       toast.error("Đã có lỗi xảy ra");
     }

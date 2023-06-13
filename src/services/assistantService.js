@@ -21,10 +21,15 @@ const resetPassword = (email) => {
   return axios.patch(`/api/assistant-reset-password`, email);
 };
 
+const changePassword = (data) => {
+  return axios.patch("/api/assistant-change-password", data);
+};
+
 export {
   createNewAssistant,
   getAllAssistant,
   deleteAssistant,
   getSingleAssistant,
   resetPassword,
+  changePassword,
 };

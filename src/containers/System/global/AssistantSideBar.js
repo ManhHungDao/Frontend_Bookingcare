@@ -10,7 +10,6 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useDispatch } from "react-redux";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import AccessibleOutlinedIcon from "@mui/icons-material/AccessibleOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
@@ -119,8 +118,8 @@ const AssistantSideBar = ({ userInfo, menuOpen, processLogout }) => {
               isCollapsed={isCollapsed}
             />
             <Item
-              title="Lịch khám cá nhân"
-              to="/assistant/schedule-today"
+              title="Lịch khám bác sĩ"
+              to="/assistant/schedule-doctor-today"
               icon={<ArticleOutlinedIcon />}
               selected={selected}
               isCollapsed={isCollapsed}
@@ -128,20 +127,12 @@ const AssistantSideBar = ({ userInfo, menuOpen, processLogout }) => {
             />
             <Item
               title="Quản lý lịch khám"
-              to="/assistant/manage-schedule"
+              to="/assistant/manage-schedule-doctor"
               icon={<PendingActionsIcon />}
               selected={selected}
               isCollapsed={isCollapsed}
               setSelected={setSelected}
             />
-            {/* <Item
-              title="Bệnh nhân"
-              to="/assistant/manage-patient"
-              icon={<AccessibleOutlinedIcon />}
-              selected={selected}
-              isCollapsed={isCollapsed}
-              setSelected={setSelected}
-            /> */}
 
             <LogOut
               title="Thoát"

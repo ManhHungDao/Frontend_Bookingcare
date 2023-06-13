@@ -26,6 +26,7 @@ const DoctorRoute = ({ systemMenuPath, isLoggedIn }) => {
             <Route path="reset-password" element={<ResetPassword />} />
             <Route path="schedule-today" element={<TodaySchedule />} />
             <Route path="manage-schedule" element={<ManageSchedule />} />
+            {/* <Route path="manage-role-assistant" element={<ManageSchedule />} /> */}
             <Route path="*" element={<Navigate replace to="/doctor" />} />
           </Routes>
         </main>
