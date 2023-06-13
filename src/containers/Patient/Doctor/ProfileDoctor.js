@@ -35,6 +35,7 @@ const ProfileDoctor = ({ id, language, fetchAllcode, allcodes }) => {
           )
         );
       }
+      console.log("check detail", res?.schedule?.detail);
       setNote(res?.schedule?.detail?.note);
       setPrice(res?.schedule?.detail?.price);
       setPayment(res?.schedule?.detail?.payment);

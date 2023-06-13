@@ -345,17 +345,16 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 title={isCollapsed ? "" : "Tác vụ"}
                 icon={<AppRegistrationIcon />}
               >
-                {userInfo.roleId === "R1" ||
-                  (userInfo.roleId === "R0" && (
-                    <Item
-                      title="Cấp quyền"
-                      to="/admin/manage-role"
-                      icon={<ManageAccountsOutlinedIcon />}
-                      selected={selected}
-                      isCollapsed={isCollapsed}
-                      setSelected={setSelected}
-                    />
-                  ))}
+                {(userInfo.roleId === "R1" || userInfo.roleId === "R0") && (
+                  <Item
+                    title="Cấp quyền"
+                    to="/admin/manage-role"
+                    icon={<ManageAccountsOutlinedIcon />}
+                    selected={selected}
+                    isCollapsed={isCollapsed}
+                    setSelected={setSelected}
+                  />
+                )}
 
                 <Item
                   title="Giá dịch vụ"
