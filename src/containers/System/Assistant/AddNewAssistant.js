@@ -165,7 +165,10 @@ const AddNewAssistant = ({
       gender,
       address,
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
-      doctorId: doctor.value,
+      doctor: {
+        id: doctor.value,
+        name: doctor.label,
+      },
     };
     try {
       loadingToggleAction(true);
@@ -188,8 +191,12 @@ const AddNewAssistant = ({
         setPreviewImgUrl("");
         setErrors({});
         window.scrollTo({ top: 0, behavior: "smooth" });
-      } else toast.error("Tạo trợ lý thất bại");
-      loadingToggleAction(false);
+        toast.success("Tạo trợ lý thành công");
+        loadingToggleAction(false);
+      } else {
+        toast.error("Tạo trợ lý thất bại");
+        loadingToggleAction(false);
+      }
     } catch (error) {
       loadingToggleAction(false);
       if (error.response.data.error.code === 11000)
