@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions";
 import Header from "../../../components/Header";
@@ -55,6 +55,7 @@ const DetailAssistant = ({
   const [listClinicSelect, setListClinicSelect] = useState([]);
   const [listSpecialty, setListSpecialty] = useState([]);
   const [listDoctorSelect, setListDoctorSelect] = useState([]);
+  const defaultClinic = useRef("");
 
   const getDetailAssistant = async (id) => {
     try {
@@ -78,6 +79,7 @@ const DetailAssistant = ({
           value: assistant.doctor.id.detail.clinic.id,
           label: assistant.doctor.id.detail.clinic.name,
         });
+        defaultClinic.current = assistant.doctor.id.detail.clinic.id;
         setSpecialty({
           value: assistant.doctor.id.detail.specialty.id,
           label: assistant.doctor.id.detail.specialty.name,
@@ -109,6 +111,8 @@ const DetailAssistant = ({
     getSpecialtyByClinicIdAction(clinic.value);
     if (specialty && doctor) {
       setDoctor("");
+    }
+    if (defaultClinic.current !== clinic.value) {
       setSpecialty("");
     }
   }, [clinic]);
@@ -206,8 +210,8 @@ const DetailAssistant = ({
     if (!validator.isMobilePhone(phone))
       errors.phone = "Số điện thoại không hợp lệ";
     if (!clinic) errors.clinic = "Chưa chọn cơ sở";
-    if (!specialty) errors.specialty = "Chưa chọn khoa";
-    if (!doctor) errors.specialty = "Chưa chọn bác sĩ";
+    if (!specialty) errors.specialty = "Chưa chọn chuyên khoa";
+    if (!doctor) errors.doctor = "Chưa chọn bác sĩ";
     return errors;
   };
   const isValid = (errors) => {

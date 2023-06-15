@@ -58,7 +58,6 @@ const TableManageAssistant = (props) => {
 
   useEffect(() => {
     fetchDataAPI(1, rowsPerPage);
-    console.log("vao day");
   }, [enableEdit]);
 
   useEffect(() => {
