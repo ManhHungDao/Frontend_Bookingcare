@@ -244,7 +244,7 @@ export const getAllManagerAction = () => {
       dispatch({
         type: actionTypes.GET_ALL_MANAGER_FAILED,
       });
-      toast.error("lấy danh sách thất bại");
+      toast.error("Lấy danh sách thất bại");
     }
   };
 };

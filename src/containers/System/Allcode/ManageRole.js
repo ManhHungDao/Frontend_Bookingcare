@@ -35,6 +35,8 @@ import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import { roles } from "../../../utils";
 import ButtonComponent from "../../../components/ButtonComponent";
 import { toast } from "react-toastify";
+import ListComponent from "./List";
+
 const typeMember = [
   { value: "R2", name: "Manager" },
   { value: "R4", name: "Assistant" },
@@ -57,6 +59,7 @@ const ManageRole = ({
   const [openSpecialty, setOpenSpecialty] = useState(false);
   const [openHandbook, setOpenHandbook] = useState(false);
   const [openCode, setOpenCode] = useState(false);
+  const [openAssistant, setOpenAssistant] = useState(false);
   const [checkedPatient, setCheckedPatient] = useState([]);
   const [checkedUser, setCheckedUser] = useState([]);
   const [checkedClinic, setCheckedClinic] = useState([]);
@@ -77,6 +80,13 @@ const ManageRole = ({
     setOpenSpecialty(false);
     setOpenHandbook(false);
     setOpenCode(false);
+  };
+
+  const getAllAssistant = () => {
+    try {
+    } catch (error) {
+      toast.error("Lấy danh sách thất bại");
+    }
   };
 
   useEffect(() => {
@@ -197,22 +207,25 @@ const ManageRole = ({
   };
 
   const handleSave = () => {
-    if (!user) {
-      toast.error("Chưa chọn người dùng");
-      return;
+    if (userGroup === "R4") {
+    } else {
+      if (!user) {
+        toast.error("Chưa chọn người dùng");
+        return;
+      }
+      const permissions = [
+        ...checkedPatient,
+        ...checkedUser,
+        ...checkedClinic,
+        ...checkedSpecialty,
+        ...checkedHandbook,
+        ...checkedCode,
+      ];
+      upsertRoleUserAction({
+        userId: user.id,
+        permissions,
+      });
     }
-    const permissions = [
-      ...checkedPatient,
-      ...checkedUser,
-      ...checkedClinic,
-      ...checkedSpecialty,
-      ...checkedHandbook,
-      ...checkedCode,
-    ];
-    upsertRoleUserAction({
-      userId: user.id,
-      permissions,
-    });
   };
 
   const defaultProps = {
@@ -268,415 +281,88 @@ const ManageRole = ({
                   overflow: "auto",
                 }}
               >
-                <List
-                  sx={{
-                    width: "100%",
-                    maxWidth: 360,
-                    bgcolor: "background.paper",
-                  }}
-                  component="nav"
-                  aria-labelledby="nested-list-subheader"
-                >
-                  <ListItemButton onClick={() => setOpenPatient(!openPatient)}>
-                    <ListItemIcon>
-                      <AccountBoxOutlinedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Người dùng" />
-                    {openPatient ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
-                  <Collapse in={openPatient} timeout="auto" unmountOnExit>
-                    <List
-                      sx={{
-                        width: "100%",
-                        maxWidth: 360,
-                        bgcolor: "background.paper",
-                      }}
-                      disablePadding
-                    >
-                      {roles.patient.map((e) => {
-                        const labelId = `checkbox-list-label-${e.value}`;
-
-                        return (
-                          <ListItem
-                            key={e.value}
-                            // disablePadding
-                            sx={{ p: 0, pl: 3 }}
-                          >
-                            <ListItemButton
-                              role={undefined}
-                              onClick={handleToggle(e.value, "patient")}
-                              dense
-                              sx={{ height: "30px" }}
-                            >
-                              <ListItemIcon>
-                                <Checkbox
-                                  edge="start"
-                                  checked={
-                                    checkedPatient.indexOf(e.value) !== -1
-                                  }
-                                  tabIndex={-1}
-                                  disableRipple
-                                  inputProps={{ "aria-labelledby": labelId }}
-                                />
-                              </ListItemIcon>
-                              <ListItemText
-                                id={labelId}
-                                primary={`${e.name}`}
-                              />
-                            </ListItemButton>
-                          </ListItem>
-                        );
-                      })}
-                    </List>
-                  </Collapse>
-                </List>
-                {/* bác sĩ */}
-                <List
-                  sx={{
-                    width: "100%",
-                    maxWidth: 360,
-                    bgcolor: "background.paper",
-                  }}
-                  component="nav"
-                  aria-labelledby="nested-list-subheader"
-                >
-                  <ListItemButton onClick={() => setOpenUser(!openUser)}>
-                    <ListItemIcon>
-                      <PermIdentityOutlinedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Bác sĩ" />
-                    {openUser ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
-                  <Collapse in={openUser} timeout="auto" unmountOnExit>
-                    <List
-                      sx={{
-                        width: "100%",
-                        maxWidth: 360,
-                        bgcolor: "background.paper",
-                      }}
-                      disablePadding
-                    >
-                      {roles.user.map((e) => {
-                        const labelId = `checkbox-list-label-${e.value}`;
-
-                        return (
-                          <ListItem
-                            key={e.value}
-                            // disablePadding
-                            sx={{ p: 0, pl: 3 }}
-                          >
-                            <ListItemButton
-                              role={undefined}
-                              onClick={handleToggle(e.value, "user")}
-                              dense
-                              sx={{ height: "30px" }}
-                            >
-                              <ListItemIcon>
-                                <Checkbox
-                                  edge="start"
-                                  checked={checkedUser.indexOf(e.value) !== -1}
-                                  tabIndex={-1}
-                                  disableRipple
-                                  inputProps={{ "aria-labelledby": labelId }}
-                                />
-                              </ListItemIcon>
-                              <ListItemText
-                                id={labelId}
-                                primary={`${e.name}`}
-                              />
-                            </ListItemButton>
-                          </ListItem>
-                        );
-                      })}
-                    </List>
-                  </Collapse>
-                </List>
-                {/* phòng khám */}
-                <List
-                  sx={{
-                    width: "100%",
-                    maxWidth: 360,
-                    bgcolor: "background.paper",
-                  }}
-                  component="nav"
-                  aria-labelledby="nested-list-subheader"
-                >
-                  <ListItemButton onClick={() => setOpenCLinic(!openCLinic)}>
-                    <ListItemIcon>
-                      <HomeWorkOutlinedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Phòng khám" />
-                    {openCLinic ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
-                  <Collapse in={openCLinic} timeout="auto" unmountOnExit>
-                    {/* <List component="div" disablePadding>
-                      <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                          <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary="Starred" />
-                      </ListItemButton>
-                    </List> */}
-                    <List
-                      sx={{
-                        width: "100%",
-                        maxWidth: 360,
-                        bgcolor: "background.paper",
-                      }}
-                      disablePadding
-                    >
-                      {roles.clinic.map((e) => {
-                        const labelId = `checkbox-list-label-${e.value}`;
-
-                        return (
-                          <ListItem
-                            key={e.value}
-                            // disablePadding
-                            sx={{ p: 0, pl: 3 }}
-                          >
-                            <ListItemButton
-                              role={undefined}
-                              onClick={handleToggle(e.value, "clinic")}
-                              dense
-                              sx={{ height: "30px" }}
-                            >
-                              <ListItemIcon>
-                                <Checkbox
-                                  edge="start"
-                                  checked={
-                                    checkedClinic.indexOf(e.value) !== -1
-                                  }
-                                  tabIndex={-1}
-                                  disableRipple
-                                  inputProps={{ "aria-labelledby": labelId }}
-                                />
-                              </ListItemIcon>
-                              <ListItemText
-                                id={labelId}
-                                primary={`${e.name}`}
-                              />
-                            </ListItemButton>
-                          </ListItem>
-                        );
-                      })}
-                    </List>
-                  </Collapse>
-                </List>
-                {/* chuyên khoa */}
-                <List
-                  sx={{
-                    width: "100%",
-                    maxWidth: 360,
-                    bgcolor: "background.paper",
-                  }}
-                  component="nav"
-                  aria-labelledby="nested-list-subheader"
-                >
-                  <ListItemButton
-                    onClick={() => setOpenSpecialty(!openSpecialty)}
-                  >
-                    <ListItemIcon>
-                      <VaccinesOutlinedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Chuyên khoa" />
-                    {openSpecialty ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
-                  <Collapse in={openSpecialty} timeout="auto" unmountOnExit>
-                    {/* <List component="div" disablePadding>
-                      <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                          <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary="Starred" />
-                      </ListItemButton>
-                    </List> */}
-                    <List
-                      sx={{
-                        width: "100%",
-                        maxWidth: 360,
-                        bgcolor: "background.paper",
-                      }}
-                      disablePadding
-                    >
-                      {roles.specialty.map((e) => {
-                        const labelId = `checkbox-list-label-${e.value}`;
-
-                        return (
-                          <ListItem
-                            key={e.value}
-                            // disablePadding
-                            sx={{ p: 0, pl: 3 }}
-                          >
-                            <ListItemButton
-                              role={undefined}
-                              onClick={handleToggle(e.value, "specialty")}
-                              dense
-                              sx={{ height: "30px" }}
-                            >
-                              <ListItemIcon>
-                                <Checkbox
-                                  edge="start"
-                                  checked={
-                                    checkedSpecialty.indexOf(e.value) !== -1
-                                  }
-                                  tabIndex={-1}
-                                  disableRipple
-                                  inputProps={{ "aria-labelledby": labelId }}
-                                />
-                              </ListItemIcon>
-                              <ListItemText
-                                id={labelId}
-                                primary={`${e.name}`}
-                              />
-                            </ListItemButton>
-                          </ListItem>
-                        );
-                      })}
-                    </List>
-                  </Collapse>
-                </List>
-                {/* cẩm nang */}
-                <List
-                  sx={{
-                    width: "100%",
-                    maxWidth: 360,
-                    bgcolor: "background.paper",
-                  }}
-                  component="nav"
-                  aria-labelledby="nested-list-subheader"
-                >
-                  <ListItemButton
-                    onClick={() => setOpenHandbook(!openHandbook)}
-                  >
-                    <ListItemIcon>
-                      <BookmarksOutlinedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Cẩm nang" />
-                    {openHandbook ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
-                  <Collapse in={openHandbook} timeout="auto" unmountOnExit>
-                    {/* <List component="div" disablePadding>
-                      <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                          <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary="Starred" />
-                      </ListItemButton>
-                    </List> */}
-                    <List
-                      sx={{
-                        width: "100%",
-                        maxWidth: 360,
-                        bgcolor: "background.paper",
-                      }}
-                      disablePadding
-                    >
-                      {roles.handbook.map((e) => {
-                        const labelId = `checkbox-list-label-${e.value}`;
-
-                        return (
-                          <ListItem
-                            key={e.value}
-                            // disablePadding
-                            sx={{ p: 0, pl: 3 }}
-                          >
-                            <ListItemButton
-                              role={undefined}
-                              onClick={handleToggle(e.value, "handbook")}
-                              dense
-                              sx={{ height: "30px" }}
-                            >
-                              <ListItemIcon>
-                                <Checkbox
-                                  edge="start"
-                                  checked={
-                                    checkedHandbook.indexOf(e.value) !== -1
-                                  }
-                                  tabIndex={-1}
-                                  disableRipple
-                                  inputProps={{ "aria-labelledby": labelId }}
-                                />
-                              </ListItemIcon>
-                              <ListItemText
-                                id={labelId}
-                                primary={`${e.name}`}
-                              />
-                            </ListItemButton>
-                          </ListItem>
-                        );
-                      })}
-                    </List>
-                  </Collapse>
-                </List>
-                {/* tác vụ */}
-                <List
-                  sx={{
-                    width: "100%",
-                    maxWidth: 360,
-                    bgcolor: "background.paper",
-                  }}
-                  component="nav"
-                  aria-labelledby="nested-list-subheader"
-                >
-                  <ListItemButton onClick={() => setOpenCode(!openCode)}>
-                    <ListItemIcon>
-                      <AppRegistrationIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Tác vụ" />
-                    {openCode ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
-                  <Collapse in={openCode} timeout="auto" unmountOnExit>
-                    {/* <List component="div" disablePadding>
-                      <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                          <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary="Starred" />
-                      </ListItemButton>
-                    </List> */}
-                    <List
-                      sx={{
-                        width: "100%",
-                        maxWidth: 360,
-                        bgcolor: "background.paper",
-                      }}
-                      disablePadding
-                    >
-                      {roles.code.map((e) => {
-                        const labelId = `checkbox-list-label-${e.value}`;
-
-                        return (
-                          <ListItem
-                            key={e.value}
-                            // disablePadding
-                            sx={{ p: 0, pl: 3 }}
-                          >
-                            <ListItemButton
-                              role={undefined}
-                              onClick={handleToggle(e.value, "code")}
-                              dense
-                              sx={{ height: "30px" }}
-                            >
-                              <ListItemIcon>
-                                <Checkbox
-                                  edge="start"
-                                  checked={checkedCode.indexOf(e.value) !== -1}
-                                  tabIndex={-1}
-                                  disableRipple
-                                  inputProps={{ "aria-labelledby": labelId }}
-                                />
-                              </ListItemIcon>
-                              <ListItemText
-                                id={labelId}
-                                primary={`${e.name}`}
-                              />
-                            </ListItemButton>
-                          </ListItem>
-                        );
-                      })}
-                    </List>
-                  </Collapse>
-                </List>
+                {userGroup === "R4" ? (
+                  <>
+                    <ListComponent
+                      setOpen={setOpenAssistant}
+                      open={openAssistant}
+                      icon={<PermIdentityOutlinedIcon />}
+                      list={roles.assistant}
+                      handleToggle={handleToggle}
+                      toggleName="assistant"
+                      checked={checkedPatient}
+                      primaryName="Bác sĩ"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <ListComponent
+                      setOpen={setOpenPatient}
+                      open={openPatient}
+                      icon={<AccountBoxOutlinedIcon />}
+                      list={roles.patient}
+                      handleToggle={handleToggle}
+                      toggleName="patient"
+                      checked={checkedPatient}
+                      primaryName="Người dùng"
+                    />
+                    {/* bác sĩ */}
+                    <ListComponent
+                      setOpen={setOpenUser}
+                      open={openUser}
+                      icon={<PermIdentityOutlinedIcon />}
+                      list={roles.user}
+                      handleToggle={handleToggle}
+                      toggleName="user"
+                      checked={checkedUser}
+                      primaryName="Bác sĩ"
+                    />
+                    {/* phòng khám */}
+                    <ListComponent
+                      setOpen={setOpenCLinic}
+                      open={openCLinic}
+                      icon={<HomeWorkOutlinedIcon />}
+                      list={roles.clinic}
+                      handleToggle={handleToggle}
+                      toggleName="clinic"
+                      checked={checkedClinic}
+                      primaryName="Phòng khám"
+                    />
+                    {/* chuyên khoa */}
+                    <ListComponent
+                      setOpen={setOpenSpecialty}
+                      open={openSpecialty}
+                      icon={<VaccinesOutlinedIcon />}
+                      list={roles.specialty}
+                      handleToggle={handleToggle}
+                      toggleName="specialty"
+                      checked={checkedSpecialty}
+                      primaryName="Chuyên khoa"
+                    />
+                    {/* cẩm nang */}
+                    <ListComponent
+                      setOpen={setOpenHandbook}
+                      open={openHandbook}
+                      icon={<BookmarksOutlinedIcon />}
+                      list={roles.handbook}
+                      handleToggle={handleToggle}
+                      toggleName="handbook"
+                      checked={checkedHandbook}
+                      primaryName="Cẩm nang"
+                    />
+                    {/* tác vụ */}
+                    <ListComponent
+                      setOpen={setOpenCode}
+                      open={openCode}
+                      icon={<AppRegistrationIcon />}
+                      list={roles.code}
+                      handleToggle={handleToggle}
+                      toggleName="code"
+                      checked={checkedCode}
+                      primaryName="Tác vụ"
+                    />
+                  </>
+                )}
               </CardContent>
             </Card>
           </Grid>
