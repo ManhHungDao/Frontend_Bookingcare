@@ -120,6 +120,19 @@ const Topbar = ({ processLogout, userInfo }) => {
             </MenuItem>
           </>
         )}
+        {userInfo.roleId !== "R3" && userInfo.roleId !== "R4" && (
+          <>
+            <MenuItem onClick={handleViewMyInfo}>Thông tin cá nhân</MenuItem>
+
+            <MenuItem onClick={handleViewMySchedule}>
+              Lịch khám cá nhân
+            </MenuItem>
+            <MenuItem onClick={handleChangeManageMySchedule}>
+              Quản lý lịch khám
+            </MenuItem>
+            <MenuItem onClick={handleChangePass}>Đổi mật khẩu</MenuItem>
+          </>
+        )}
 
         <MenuItem onClick={handleLogout}>Thoát</MenuItem>
       </Menu>
