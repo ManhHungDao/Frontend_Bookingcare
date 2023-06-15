@@ -84,9 +84,8 @@ export const scopes = {
 
   ASSISTANT_SCHEDULE_ACCESS: "assistant.schedule.access",
   ASSISTANT_SCHEDULE_VIEW: "assistant.schedule.view",
-  ASSISTANT_SCHEDULE_ADD: "assistant.schedule.add",
   ASSISTANT_SCHEDULE_UPDATE: "assistant.schedule.update",
-  ASSISTANT_SCHEDULE_DELETE: "assistant.schedule.delete",
+  ASSISTANT_SCHEDULE_RESULT: "assistant.schedule.result",
 
   CLINIC_ACCESS: "clinic.access",
   CLINIC_VIEW: "clinic.view",
@@ -145,9 +144,8 @@ export const roles = {
   assistant: [
     { value: scopes.ASSISTANT_SCHEDULE_ACCESS, name: "Truy cập lịch khám" },
     { value: scopes.ASSISTANT_SCHEDULE_VIEW, name: "Xem lịch khám" },
-    { value: scopes.ASSISTANT_SCHEDULE_ADD, name: "Thêm lịch khám" },
     { value: scopes.ASSISTANT_SCHEDULE_UPDATE, name: "Cập nhập lịch khám" },
-    { value: scopes.ASSISTANT_SCHEDULE_DELETE, name: "Xóa lịch khám" },
+    { value: scopes.ASSISTANT_SCHEDULE_RESULT, name: "Cập nhập kết quả khám" },
   ],
   clinic: [
     { value: scopes.CLINIC_ACCESS, name: "Truy cập cơ sở" },

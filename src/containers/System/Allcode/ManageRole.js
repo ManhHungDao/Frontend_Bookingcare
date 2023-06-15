@@ -14,18 +14,9 @@ import {
   InputLabel,
   Select,
   CardContent,
-  ListItem,
   Card,
   CardHeader,
 } from "@mui/material";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import Checkbox from "@mui/material/Checkbox";
 import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 import BookmarksOutlinedIcon from "@mui/icons-material/BookmarksOutlined";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
@@ -49,10 +40,13 @@ const ManageRole = ({
   isSuccess,
   userPermissions,
   getRoleUserAction,
+  listAssistant,
+  getAllAssistantAction,
 }) => {
-  const [data, setData] = useState("");
+  const [data, setData] = useState([]);
   const [userGroup, setUserGroup] = useState("");
   const [user, setUser] = useState(null);
+  const [assistant, setAssistant] = useState(null);
   const [openPatient, setOpenPatient] = useState(false);
   const [openUser, setOpenUser] = useState(false);
   const [openCLinic, setOpenCLinic] = useState(false);
@@ -62,6 +56,7 @@ const ManageRole = ({
   const [openAssistant, setOpenAssistant] = useState(false);
   const [checkedPatient, setCheckedPatient] = useState([]);
   const [checkedUser, setCheckedUser] = useState([]);
+  const [checkedAssistant, setCheckedAssistant] = useState([]);
   const [checkedClinic, setCheckedClinic] = useState([]);
   const [checkedSpecialty, setCheckedSpecialty] = useState([]);
   const [checkedHandbook, setCheckedHandbook] = useState([]);
@@ -70,6 +65,7 @@ const ManageRole = ({
   const resetState = () => {
     setCheckedPatient([]);
     setCheckedUser([]);
+    setCheckedAssistant([]);
     setCheckedClinic([]);
     setCheckedSpecialty([]);
     setCheckedHandbook([]);
@@ -80,29 +76,37 @@ const ManageRole = ({
     setOpenSpecialty(false);
     setOpenHandbook(false);
     setOpenCode(false);
-  };
-
-  const getAllAssistant = () => {
-    try {
-    } catch (error) {
-      toast.error("Lấy danh sách thất bại");
-    }
+    setOpenAssistant(false);
   };
 
   useEffect(() => {
-    getAllManagerAction();
-  }, []);
+    if (!userGroup) return;
+    setUser(null);
+    setAssistant(null);
+    resetState();
+    if (userGroup === "R4") {
+      getAllAssistantAction({
+        page: 1,
+        size: 999,
+        filter: "",
+      });
+    } else getAllManagerAction();
+  }, [userGroup]);
 
   useEffect(() => {
     if (isSuccess === true) {
       setUserGroup("");
       setUser(null);
+      setAssistant(null);
+      setData([]);
       resetState();
     }
     clearStatus();
   }, [isSuccess]);
 
   useEffect(() => {
+    if (!userGroup) return;
+
     if (listManagers.length > 0)
       setData(
         listManagers.map((e) => ({
@@ -113,6 +117,17 @@ const ManageRole = ({
   }, [listManagers]);
 
   useEffect(() => {
+    if (!userGroup) return;
+    if (listAssistant.list.length > 0)
+      setData(
+        listAssistant.list.map((e) => ({
+          id: e._id,
+          name: e.name,
+        }))
+      );
+  }, [listAssistant]);
+
+  useEffect(() => {
     resetState();
     if (user !== null) {
       getRoleUserAction(user.id);
@@ -120,7 +135,18 @@ const ManageRole = ({
   }, [user]);
 
   useEffect(() => {
-    if (userPermissions.length > 0) {
+    resetState();
+    if (assistant !== null) {
+      getRoleUserAction(assistant.id);
+    }
+  }, [assistant]);
+
+  useEffect(() => {
+    if (userGroup === "R4") {
+      setCheckedAssistant(
+        userPermissions.filter((e) => e.includes("assistant"))
+      );
+    } else if (userPermissions.length > 0) {
       setCheckedPatient(userPermissions.filter((e) => e.includes("patient")));
       setCheckedUser(userPermissions.filter((e) => e.includes("user")));
       setCheckedClinic(
@@ -203,29 +229,38 @@ const ManageRole = ({
       }
 
       setCheckedCode(newChecked);
+    } else if (name === "assistant") {
+      const currentIndex = checkedAssistant.indexOf(value);
+      const newChecked = [...checkedAssistant];
+
+      if (currentIndex === -1) {
+        newChecked.push(value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
+
+      setCheckedAssistant(newChecked);
     }
   };
 
   const handleSave = () => {
-    if (userGroup === "R4") {
-    } else {
-      if (!user) {
-        toast.error("Chưa chọn người dùng");
-        return;
-      }
-      const permissions = [
-        ...checkedPatient,
-        ...checkedUser,
-        ...checkedClinic,
-        ...checkedSpecialty,
-        ...checkedHandbook,
-        ...checkedCode,
-      ];
-      upsertRoleUserAction({
-        userId: user.id,
-        permissions,
-      });
+    if (!user && !assistant) {
+      toast.error("Chưa chọn người dùng");
+      return;
     }
+    const permissions = [
+      ...checkedPatient,
+      ...checkedUser,
+      ...checkedClinic,
+      ...checkedSpecialty,
+      ...checkedHandbook,
+      ...checkedCode,
+      ...checkedAssistant,
+    ];
+    upsertRoleUserAction({
+      userId: userGroup === "R4" ? assistant.id : user.id,
+      permissions,
+    });
   };
 
   const defaultProps = {
@@ -259,18 +294,35 @@ const ManageRole = ({
             </FormControl>
           </Grid>
           <Grid item xs={4} md={2}>
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              onChange={(event, newValue) => {
-                setUser(newValue);
-              }}
-              value={user}
-              {...defaultProps}
-              renderInput={(params) => (
-                <TextField {...params} label="Người dùng" />
-              )}
-            />
+            {userGroup === "R4" ? (
+              <>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  onChange={(event, newValue) => {
+                    setAssistant(newValue);
+                  }}
+                  value={assistant}
+                  {...defaultProps}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Người dùng" />
+                  )}
+                />
+              </>
+            ) : (
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                onChange={(event, newValue) => {
+                  setUser(newValue);
+                }}
+                value={user}
+                {...defaultProps}
+                renderInput={(params) => (
+                  <TextField {...params} label="Người dùng" />
+                )}
+              />
+            )}
           </Grid>
           <Grid item xs={12} md={12} xl={4}>
             <Card>
@@ -290,7 +342,7 @@ const ManageRole = ({
                       list={roles.assistant}
                       handleToggle={handleToggle}
                       toggleName="assistant"
-                      checked={checkedPatient}
+                      checked={checkedAssistant}
                       primaryName="Bác sĩ"
                     />
                   </>
@@ -386,11 +438,14 @@ const mapStateToProps = (state) => {
     listManagers: state.admin.listManagers,
     userPermissions: state.admin.userPermissions,
     isSuccess: state.app.isSuccess,
+    listAssistant: state.admin.assistants,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getAllAssistantAction: (data) =>
+      dispatch(actions.getAllAssistantAction(data)),
     getAllManagerAction: () => dispatch(actions.getAllManagerAction()),
     upsertRoleUserAction: (data) =>
       dispatch(actions.upsertRoleUserAction(data)),

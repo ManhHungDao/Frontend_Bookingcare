@@ -11,6 +11,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useDispatch } from "react-redux";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import { scopes } from "../../../utils";
+import PermissionsGate from "../../../hoc/PermissionsGate";
 
 const Item = ({ title, to, icon, isCollapsed, selected, setSelected }) => {
   const dispatch = useDispatch();
@@ -117,22 +119,28 @@ const AssistantSideBar = ({ userInfo, menuOpen, processLogout }) => {
               setSelected={setSelected}
               isCollapsed={isCollapsed}
             />
-            <Item
-              title="Lịch khám bác sĩ"
-              to="/assistant/schedule-doctor-today"
-              icon={<ArticleOutlinedIcon />}
-              selected={selected}
-              isCollapsed={isCollapsed}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Quản lý lịch khám"
-              to="/assistant/manage-schedule-doctor"
-              icon={<PendingActionsIcon />}
-              selected={selected}
-              isCollapsed={isCollapsed}
-              setSelected={setSelected}
-            />
+            <PermissionsGate scopes={[scopes.ASSISTANT_SCHEDULE_ACCESS]}>
+              <PermissionsGate scopes={[scopes.ASSISTANT_SCHEDULE_VIEW]}>
+                <Item
+                  title="Lịch khám bác sĩ"
+                  to="/assistant/schedule-doctor-today"
+                  icon={<ArticleOutlinedIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+              </PermissionsGate>
+              <PermissionsGate scopes={[scopes.ASSISTANT_SCHEDULE_UPDATE]}>
+                <Item
+                  title="Quản lý lịch khám"
+                  to="/assistant/manage-schedule-doctor"
+                  icon={<PendingActionsIcon />}
+                  selected={selected}
+                  isCollapsed={isCollapsed}
+                  setSelected={setSelected}
+                />
+              </PermissionsGate>
+            </PermissionsGate>
 
             <LogOut
               title="Thoát"
