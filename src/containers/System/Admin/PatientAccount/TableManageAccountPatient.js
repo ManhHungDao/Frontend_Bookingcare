@@ -165,7 +165,7 @@ const TableManageAccountPatient = ({
       <>
         <TableRow>
           <TableCell>{email}</TableCell>
-          <TableCell>{name}</TableCell>
+          <TableCell style={{ textTransform: "capitalize" }}>{name}</TableCell>
           <TableCell>{gender === "M" ? "Nam" : "Nữ"}</TableCell>
           <TableCell>
             {dayjs(new Date(dateOfBirth)).format("DD/MM/YYYY")}

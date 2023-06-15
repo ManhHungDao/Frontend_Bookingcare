@@ -110,7 +110,6 @@ const DetailAssistant = ({
     if (specialty && doctor) {
       setDoctor("");
       setSpecialty("");
-      setListClinicSelect("");
     }
   }, [clinic]);
 
@@ -176,8 +175,6 @@ const DetailAssistant = ({
     setGender("");
     setImage("");
     setDate("");
-    setClinic("");
-    setSpecialty("");
     setImgUpdate("");
     setEnableEdit(false);
     setErrors({});

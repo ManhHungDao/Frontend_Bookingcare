@@ -184,7 +184,7 @@ const TableManageUser = (props) => {
               <div>
                 <img className="table__clinic--logo" src={image} alt={name} />
               </div>
-              <div> {name}</div>
+              <div style={{ textTransform: "capitalize" }}> {name}</div>
             </span>
           </TableCell>
           <TableCell>{email}</TableCell>
