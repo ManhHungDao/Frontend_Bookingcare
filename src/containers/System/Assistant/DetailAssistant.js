@@ -21,6 +21,7 @@ import PermissionsGate from "../../../hoc/PermissionsGate";
 import { toast } from "react-toastify";
 import AssistantIntroduce from "./section/AssistantIntroduce";
 import { getAllDoctorBySpecialtyOfClinicHome } from "../../../services/userService";
+import { updateAssistant } from "../../../services/assistantService";
 
 const DetailAssistant = ({
   id,
@@ -30,9 +31,9 @@ const DetailAssistant = ({
   getSpecialtyByClinicIdAction,
   open,
   setOpen,
-  updateUser,
   enableEdit,
   setEnableEdit,
+  loadingToggleAction,
 }) => {
   //infomation doctor
   const [email, setEmail] = useState("");
@@ -104,11 +105,40 @@ const DetailAssistant = ({
   }, [enableEdit]);
 
   useEffect(() => {
-    if (enableEdit === true) getSpecialtyByClinicIdAction(clinic.value);
-    // setSpecialty("");
-    // setDoctor("");
-    // setListDoctorSelect("");
-  }, [enableEdit, clinic]);
+    if (!clinic.value) return;
+    getSpecialtyByClinicIdAction(clinic.value);
+    if (specialty && doctor) {
+      setDoctor("");
+      setSpecialty("");
+      setListClinicSelect("");
+    }
+  }, [clinic]);
+
+  const fetchListDoctor = async (id) => {
+    const data = {
+      page: 1,
+      size: 999,
+      specialtyId: id,
+      clinicId: clinic ? clinic?.value : "",
+    };
+    const res = await getAllDoctorBySpecialtyOfClinicHome(data);
+    if (res && res.success) {
+      setListDoctorSelect(
+        res?.users.map((i) => {
+          return {
+            id: i._id || i.id,
+            name: i.name,
+          };
+        })
+      );
+    }
+  };
+  useEffect(() => {
+    if (!specialty.value || !clinic.value) return;
+    setDoctor("");
+    setListClinicSelect("");
+    fetchListDoctor(specialty.value);
+  }, [specialty]);
 
   useEffect(() => {
     setListSpecialty(
@@ -132,29 +162,6 @@ const DetailAssistant = ({
         })
       );
   }, [listClinic]);
-  const fetchListDoctor = async (id) => {
-    const data = {
-      page: 1,
-      size: 999,
-      specialtyId: id,
-      clinicId: clinic ? clinic?.value : "",
-    };
-    const res = await getAllDoctorBySpecialtyOfClinicHome(data);
-    if (res && res.success) {
-      setListDoctorSelect(
-        res?.users.map((i) => {
-          return {
-            id: i._id || i.id,
-            name: i.name,
-          };
-        })
-      );
-    }
-  };
-  useEffect(() => {
-    if (!specialty || !clinic) return;
-    fetchListDoctor(specialty.value);
-  }, [specialty]);
 
   const handleClose = () => {
     setPreviewImgUrl("");
@@ -211,7 +218,7 @@ const DetailAssistant = ({
     let count = keys.reduce((acc, curr) => (errors[curr] ? acc + 1 : acc), 0);
     return count === 0;
   };
-  const handleSave = () => {
+  const handleSave = async () => {
     const errors = checkValidate();
     const checkValidInPut = isValid(errors);
     if (!checkValidInPut) {
@@ -226,8 +233,45 @@ const DetailAssistant = ({
       gender: gender?.value ? gender.value : null,
       address,
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
+      doctor: {
+        id: doctor.value,
+        name: doctor.name,
+      },
     };
-    // updateUser(user.id, data);
+    try {
+      loadingToggleAction(true);
+      const res = await updateAssistant(id, data);
+      if (res && res.success) {
+        setEmail("");
+        setName("");
+        setPhone("");
+        setAddress("");
+        setImage("");
+        setDate("");
+        setClinic({
+          value: "",
+          label: "",
+        });
+        setSpecialty({
+          value: "",
+          label: "",
+        });
+        setDoctor({
+          value: "",
+          label: "",
+        });
+        setEnableEdit(false);
+        setOpen(false);
+        loadingToggleAction(false);
+        toast.success("Cập nhập thành công");
+      } else {
+        loadingToggleAction(false);
+        toast.error("Cập nhập thất bại");
+      }
+    } catch {
+      loadingToggleAction(false);
+      toast.error("Đã xảy ra lỗi");
+    }
   };
 
   return (
@@ -345,6 +389,7 @@ const mapDispatchToProps = (dispatch) => {
     getSpecialtyByClinicIdAction: (id) =>
       dispatch(actions.getSpecialtyByClinicIdAction(id)),
     updateUser: (id, data) => dispatch(actions.updateUserAction(id, data)),
+    loadingToggleAction: (id) => dispatch(actions.loadingToggleAction()),
   };
 };
 

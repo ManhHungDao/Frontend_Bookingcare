@@ -25,6 +25,10 @@ const changePassword = (data) => {
   return axios.patch("/api/assistant-change-password", data);
 };
 
+const updateAssistant = (id, data) => {
+  return axios.put(`/api/update-assistant?id=${id}`, data);
+};
+
 export {
   createNewAssistant,
   getAllAssistant,
@@ -32,4 +36,5 @@ export {
   getSingleAssistant,
   resetPassword,
   changePassword,
+  updateAssistant,
 };

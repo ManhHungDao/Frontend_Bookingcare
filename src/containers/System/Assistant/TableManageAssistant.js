@@ -58,7 +58,8 @@ const TableManageAssistant = (props) => {
 
   useEffect(() => {
     fetchDataAPI(1, rowsPerPage);
-  }, []);
+    console.log("vao day");
+  }, [enableEdit]);
 
   useEffect(() => {
     if (props.users.list && props.users.list.length > 0) {
@@ -183,7 +184,7 @@ const TableManageAssistant = (props) => {
                     alt=""
                   />
                 </div>
-                <div> {doctor.name}</div>
+                <div> {doctor.id.name}</div>
               </span>
             </Typography>
           </TableCell>
