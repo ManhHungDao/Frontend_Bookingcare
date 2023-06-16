@@ -10,6 +10,7 @@ import { CssBaseline } from "@mui/material";
 import TodaySchedule from "../containers/System/Doctor/TodaySchedule";
 import MyInfo from "../containers/System/Doctor/MyInfo";
 import "./style.css";
+import ManageRoleAssistant from "../containers/System/Doctor/ManageRoleAssistant";
 
 const DoctorRoute = ({ systemMenuPath, isLoggedIn }) => {
   const [isSidebar, setIsSidebar] = React.useState(true);
@@ -26,7 +27,10 @@ const DoctorRoute = ({ systemMenuPath, isLoggedIn }) => {
             <Route path="reset-password" element={<ResetPassword />} />
             <Route path="schedule-today" element={<TodaySchedule />} />
             <Route path="manage-schedule" element={<ManageSchedule />} />
-            {/* <Route path="manage-role-assistant" element={<ManageSchedule />} /> */}
+            <Route
+              path="manage-role-assistant"
+              element={<ManageRoleAssistant />}
+            />
             <Route path="*" element={<Navigate replace to="/doctor" />} />
           </Routes>
         </main>

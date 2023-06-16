@@ -142,6 +142,7 @@ const ManageRole = ({
   }, [assistant]);
 
   useEffect(() => {
+    if (!userPermissions) return;
     if (userGroup === "R4") {
       setCheckedAssistant(
         userPermissions.filter((e) => e.includes("assistant"))

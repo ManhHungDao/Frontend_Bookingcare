@@ -29,6 +29,10 @@ const updateAssistant = (id, data) => {
   return axios.put(`/api/update-assistant?id=${id}`, data);
 };
 
+const getAssistantsUnderDoctor = (id) => {
+  return axios.get(`/api/get-assistant-under-doctor?doctorId=${id}`);
+};
+
 export {
   createNewAssistant,
   getAllAssistant,
@@ -37,4 +41,5 @@ export {
   resetPassword,
   changePassword,
   updateAssistant,
+  getAssistantsUnderDoctor,
 };
