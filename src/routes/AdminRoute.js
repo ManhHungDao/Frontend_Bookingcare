@@ -30,6 +30,7 @@ import { CssBaseline } from "@mui/material";
 import "./style.css";
 import AddNewAssistant from "../containers/System/Assistant/AddNewAssistant";
 import TableManageAssistant from "../containers/System/Assistant/TableManageAssistant";
+import ManageRoleAssistant from "../containers/System/Doctor/ManageRoleAssistant";
 
 const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
   const [isSidebar, setIsSidebar] = React.useState(true);
@@ -92,6 +93,10 @@ const AdminRoute = ({ systemMenuPath, isLoggedIn }) => {
             {/* route manage assistant */}
             <Route path="add-assistant" element={<AddNewAssistant />} />
             <Route path="manage-assistant" element={<TableManageAssistant />} />
+            <Route
+              path="manage-role-assistant"
+              element={<ManageRoleAssistant />}
+            />
           </Routes>
         </main>
       </div>

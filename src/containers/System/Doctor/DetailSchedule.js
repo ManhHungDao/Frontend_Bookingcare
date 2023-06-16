@@ -41,6 +41,7 @@ const DetailSchedule = ({
   prescription,
   isSuccess,
   clearStatus,
+  userInfo,
 }) => {
   const [status, setStatus] = useState();
   const [patient, setPatient] = useState("");
@@ -330,6 +331,7 @@ const DetailSchedule = ({
                       title={title}
                       setTitle={setTitle}
                       errors={errors}
+                      checkRole={userInfo.roleId === "R4" ? true : false}
                     />
                   </Grid>
                 )}
@@ -345,6 +347,7 @@ const mapStateToProps = (state) => {
   return {
     isSuccess: state.app.isSuccess,
     prescription: state.admin.prescription,
+    userInfo: state.user.userInfo,
   };
 };
 

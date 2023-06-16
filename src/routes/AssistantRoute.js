@@ -8,6 +8,8 @@ import "./style.css";
 import AssistantSideBar from "../containers/System/global/AssistantSideBar";
 import AssistantInfo from "../containers/System/Assistant/topbar/AssistantInfo";
 import AssistantChangePassword from "../containers/System/Assistant/topbar/AssistantChangePassword";
+import AssistantTodaySchedule from "../containers/System/Assistant/AssistantTodaySchedule";
+import AssistantManageSchedule from "../containers/System/Assistant/AssistantManageSchedule";
 
 const AssistantRoute = ({ systemMenuPath, isLoggedIn }) => {
   const [isSidebar, setIsSidebar] = React.useState(true);
@@ -25,8 +27,14 @@ const AssistantRoute = ({ systemMenuPath, isLoggedIn }) => {
               path="reset-password"
               element={<AssistantChangePassword />}
             />
-            {/* <Route path="schedule-doctor-today" element={<TodaySchedule />} />
-            <Route path="manage-schedule-doctor" element={<ManageSchedule />} /> */}
+            <Route
+              path="schedule-doctor-today"
+              element={<AssistantTodaySchedule />}
+            />
+            <Route
+              path="manage-schedule-doctor"
+              element={<AssistantManageSchedule />}
+            />
             <Route path="*" element={<Navigate replace to="/assistant" />} />
           </Routes>
         </main>

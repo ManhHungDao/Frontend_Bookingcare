@@ -236,7 +236,7 @@ const DetailAssistant = ({
       dateOfBirth: dayjs(date).format("YYYY-MM-DD"),
       doctor: {
         id: doctor.value,
-        name: doctor.name,
+        name: doctor.label,
       },
     };
     try {

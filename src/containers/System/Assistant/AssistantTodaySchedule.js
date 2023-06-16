@@ -23,20 +23,21 @@ import _ from "lodash";
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded";
 import "dayjs/locale/vi";
 import dayjs from "dayjs";
-import DetailSchedule from "./DetailSchedule";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import DetailSchedule from "../Doctor/DetailSchedule";
 
-const TodaySchedule = ({
-  userInfo,
+const AssistantTodaySchedule = ({
   isSuccess,
   toDaySchedule,
   getSingleUserSchedule,
   fetchAllcode,
   allcodes,
   clearStatus,
+  assistantInfo,
 }) => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
@@ -54,12 +55,12 @@ const TodaySchedule = ({
 
   useEffect(() => {
     if (open === false) {
-      getSingleUserSchedule(userInfo._id, dayjs(date).unix());
+      getSingleUserSchedule(assistantInfo.doctor.id, dayjs(date).unix());
       setOpen(false);
     }
   }, [open]);
   useEffect(() => {
-    getSingleUserSchedule(userInfo._id, dayjs(date).unix());
+    getSingleUserSchedule(assistantInfo.doctor.id, dayjs(date).unix());
   }, [date]);
 
   useEffect(() => {
@@ -71,16 +72,17 @@ const TodaySchedule = ({
     if (allcodes && allcodes.length > 0)
       setDataTime(allcodes.filter((e) => e.type === "TIME"));
   }, [toDaySchedule, allcodes]);
-
+  console.log("🚀 toDaySchedule:", toDaySchedule);
   const handleClickView = (data) => {
     const doctor = {
-      id: userInfo._id,
-      email: userInfo.email,
-      name: userInfo.name,
+      id: assistantInfo.doctor.id,
+      email: toDaySchedule?.doctor?.id?.email,
+      name: assistantInfo.doctor.name,
       clinic: toDaySchedule?.doctor?.id?.detail?.clinic,
       specialty: toDaySchedule?.doctor?.id?.detail?.specialty,
       detail: toDaySchedule?.detail,
     };
+
     setDataEdit({ ...data, doctor });
     setOpen(true);
   };
@@ -93,7 +95,7 @@ const TodaySchedule = ({
     },
   }));
   const handelClickEmpty = () => {
-    getSingleUserSchedule(userInfo._id, dayjs(date).unix());
+    getSingleUserSchedule(assistantInfo.doctor.id, dayjs(date).unix());
   };
   const TableRowName = () => (
     <TableRow className="table__clinic--header">
@@ -229,7 +231,7 @@ const TodaySchedule = ({
 const mapStateToProps = (state) => {
   return {
     isSuccess: state.app.isSuccess,
-    userInfo: state.user.userInfo,
+    assistantInfo: state.user.userInfo,
     allcodes: state.admin.allcodes,
     toDaySchedule: state.admin.schedule,
   };
@@ -244,4 +246,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TodaySchedule);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AssistantTodaySchedule);

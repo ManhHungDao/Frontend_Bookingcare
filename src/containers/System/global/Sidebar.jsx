@@ -301,7 +301,6 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 </PermissionsGate>
               </SubMenu>
             </PermissionsGate>
-
             <PermissionsGate scopes={[scopes.SPECIALTY_ACCESS]}>
               <SubMenu
                 title={isCollapsed ? "" : "Chuyên khoa"}
@@ -329,7 +328,6 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 </PermissionsGate>
               </SubMenu>
             </PermissionsGate>
-
             <PermissionsGate scopes={[scopes.HANDBOOK_ACCESS]}>
               <SubMenu
                 title={isCollapsed ? "" : "Cẩm nang"}
@@ -357,7 +355,6 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
                 </PermissionsGate>
               </SubMenu>
             </PermissionsGate>
-
             <PermissionsGate scopes={[scopes.CODE_ACCESS]}>
               <SubMenu
                 title={isCollapsed ? "" : "Tác vụ"}
@@ -425,6 +422,16 @@ const Sidebar = ({ userInfo, menuOpen, processLogout }) => {
               </SubMenu>
             </PermissionsGate>
 
+            {userInfo.roleId === "R2" && (
+              <Item
+                title="Cấp quyền trợ lý"
+                to="/admin/manage-role-assistant"
+                icon={<ManageAccountsOutlinedIcon />}
+                selected={selected}
+                isCollapsed={isCollapsed}
+                setSelected={setSelected}
+              />
+            )}
             <LogOut
               title="Thoát"
               to="/system-login"

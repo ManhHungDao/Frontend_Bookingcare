@@ -17,6 +17,8 @@ import CKEditorFieldBasic from "../../../../components/Ckeditor/CKEditorFieldBas
 import ButtonComponent from "../../../../components/ButtonComponent";
 import RecentMedicalHistory from "./RecentMedicalHistory";
 import { useEffect } from "react";
+import { scopes } from "../../../../utils";
+import PermissionsGate from "../../../../hoc/PermissionsGate";
 const CONST_GENDER = [
   { id: "M", name: "Nam" },
   { id: "F", name: "Nữ" },
@@ -267,6 +269,7 @@ export const ResponseDetail = ({
   title,
   setTitle,
   errors,
+  checkRole,
 }) => {
   const [value, setValue] = useState("");
 
@@ -331,14 +334,27 @@ export const ResponseDetail = ({
             display="flex"
             justifyContent="flex-end"
           >
-            <ButtonComponent
-              content="Gửi"
-              handleClick={handleSave}
-              bgcolor="#94e2cd"
-              color="#141414"
-              hoverBgColor="#1e5245"
-              hoverColor="#fff"
-            />
+            {checkRole === true ? (
+              <PermissionsGate scopes={[scopes.ASSISTANT_SCHEDULE_RESULT]}>
+                <ButtonComponent
+                  content="Gửi"
+                  handleClick={handleSave}
+                  bgcolor="#94e2cd"
+                  color="#141414"
+                  hoverBgColor="#1e5245"
+                  hoverColor="#fff"
+                />
+              </PermissionsGate>
+            ) : (
+              <ButtonComponent
+                content="Gửi"
+                handleClick={handleSave}
+                bgcolor="#94e2cd"
+                color="#141414"
+                hoverBgColor="#1e5245"
+                hoverColor="#fff"
+              />
+            )}
           </Grid>
         </Grid>
       </CardContent>
